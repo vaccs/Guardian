@@ -14,6 +14,7 @@ void* smalloc(size_t size)
 	if (!ptr)
 	{
 		fprintf(stderr, "%s: malloc(size = %lu): %m\n", argv0, size);
+		exit(e_syscall_failed);
 	}
 	return ptr;
 }

@@ -27,8 +27,15 @@
 	#include <pwd.h>
 	
 	#include <memory/smalloc.h>
+	#include <memory/srealloc.h>
 	
 	#include <defines/argv0.h>
+	
+	#include <enums/error.h>
+	
+	struct pragma_once;
+	struct tokenizer;
+	
 #endif
 
 #ifdef DEBUGGING
