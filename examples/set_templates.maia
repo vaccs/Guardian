@@ -1,0 +1,15 @@
+
+(template set isUnique())
+	forEvery set: set[i] != set[j];
+
+(template set isAscending())
+	forEvery set: i < j implies set[i] < set[j];
+
+(template set isNonDescending())
+	forEvery set: i < j implies set[i] <= set[j];
+
+(template set isNonAscending())
+	forEvery set: i < j implies set[i] >= set[j];
+
+(template set isDescending())
+	forEvery set: i < j implies set[i] > set[j];

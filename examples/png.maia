@@ -1,0 +1,675 @@
+2
+PNGImage = s i g i h d r ( prePTLE | preIDAT | anyTime ) ∗ p l t e ?
+( postPLTE | preIDAT | anyTime ) ∗ i d a t+ anyTime∗ i e n d ;
+3
+4
+s i g = "\x89PNG\ r \n\x1A\n" ;
+5
+6
+prePTLE = chrm | gama | i c c p | s b i t | s r g b ;
+7
+8
+postPLTE = bkgd | h i s t | t r n s ;
+9
+10
+preIDAT = phys | s p l t ;
+11
+12
+anyTime = time | i t x t | t e x t | z t x t | o t h e r ;
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+i h d r = "\0\0\0\x0D" "IHDR" ihdrData ihdrCRC ;
+ihdrData = width h e i g h t bitDepth colourType
+compMethod f i l t e r M e t h o d i n t e r l a c e M e t h o d ;
+width = UnsignedBigEndianInt {4} ;
+h e i g h t = UnsignedBigEndianInt {4} ;
+bitDepth = BigEndianInt {1} ;
+colourType = BigEndianInt {1} ;
+compMethod = BigEndianInt {1} ;
+f i l t e r M e t h o d = BigEndianInt {1} ;
+i n t e r l a c e M e t h o d = BigEndianInt {1} ;
+24
+25
+26
+27
+28
+29
+30
+31
+32
+p l t e = p l t e L e n "PLTE" p l t e D a t a plteCRC ;
+p l t e L e n = UnsignedBigEndianInt {4} ;
+p l t e D a t a = p l t e E n t r y { p l t e L e n / 3} ;
+p l t e E n t r y = p l te R ed p l t e G r e e n p l t e B l u e ;
+p lt e Re d = BigEndianInt {1} ;
+p l t e G r e e n = BigEndianInt {1} ;
+p l t e B l u e = BigEndianInt {1} ;
+plteCRC = BigEndianInt {4} ;
+33
+34
+35
+36
+37
+i d a t = i d a t L e n "IDAT" i d a t D a t a idatCRC ;
+i d a t L e n = UnsignedBigEndianInt {4} ;
+idatData = . { idatLen } ;
+idatCRC = BigEndianInt {4} ;
+38
+39
+i e n d = "\0\0\0\0" "IEND" "\ xae \ x42 \ x60 \ x82 " ;
+40
+41
+42
+43
+44
+45
+46
+chrm = "\0\0\0\ x10 " "cHRM" chrmData chrmCRC ;
+chrmData = whiteX whiteY redX redY greenX greenY blueX blueY ;
+whiteX = UnsignedBigEndianInt {4} ;
+whiteY = UnsignedBigEndianInt {4} ;
+redX = UnsignedBigEndianInt {4} ;
+redY = UnsignedBigEndianInt {4} ;
+9447
+48
+49
+50
+51
+greenX = UnsignedBigEndianInt {4} ;
+greenY = UnsignedBigEndianInt {4} ;
+blueX = UnsignedBigEndianInt {4} ;
+blueY = UnsignedBigEndianInt {4} ;
+chrmCRC = BigEndianInt {4} ;
+52
+53
+54
+55
+gama = "\0\0\0\ x04 " "gAMA" gamaData gamaCRC ;
+gamaData = UnsignedBigEndianInt {4} ;
+gamaCRC = BigEndianInt {4} ;
+56
+57
+58
+59
+60
+i c c p = i c c p L e n "iCCP" i c c p D a t a iccpCRC ;
+i c c p L e n = UnsignedBigEndianInt {4} ;
+iccpData = . { iccpLen } ;
+iccpCRC = BigEndianInt {4} ;
+61
+62
+63
+64
+65
+s b i t = s b i t L e n "sBIT" s b i t D a t a sbitCRC ;
+s b i t L e n = UnsignedBigEndianInt {4} ;
+sbitData = .{ sbitLen } ;
+sbitCRC = BigEndianInt {4} ;
+66
+67
+68
+69
+70
+s r g b = "\0\0\0\ x01 " "sRGB" srgbData srgbCRC ;
+srgbData = s r g b R e n d e r I n t e n t ;
+s r g b R e n d e r I n t e n t = BigEndianInt {1} ;
+srgbCRC = BigEndianInt {4} ;
+71
+72
+73
+74
+75
+bkgd = bkgdLen "bKGD" bkgdData bkgdCRC ;
+bkgdLen = UnsignedBigEndianInt {4} ;
+bkgdData = . { bkgdLen } ;
+bkgdCRC = BigEndianInt {4} ;
+76
+77
+78
+79
+80
+h i s t = h i s t L e n "hIST" h i s t D a t a histCRC ;
+h i s t L e n = UnsignedBigEndianInt {4} ;
+histData = .{ histLen } ;
+histCRC = BigEndianInt {4} ;
+81
+82
+83
+84
+85
+t r n s = t r n s L e n "tRNS" t r n s D a t a trnsCRC ;
+t r n s L e n = UnsignedBigEndianInt {4} ;
+trnsData = . { trnsLen } ;
+trnsCRC = BigEndianInt {4} ;
+86
+87
+88
+89
+90
+91
+92
+phys = "\0\0\0\ x09 " "pHYs" physData physCRC ;
+physData = p i x e l s P e r U n i t X p i x e l s P e r U n i t Y u n i t S p e c i f i e r ;
+p i z e l s P e r U n i t X = UnsignedBigEndianInt {4} ;
+p i z e l s P e r U n i t Y = UnsignedBigEndianInt {4} ;
+u n i t S p e c i f i e r = BigEndianInt {1} ;
+physCRC = BigEndianInt {4} ;
+93
+94
+s p l t = s p l t L e n "sPLT" s p l t D a t a spltCRC ;
+9595
+96
+97
+s p l t L e n = UnsignedBigEndianInt {4} ;
+spltData = .{ spltLen } ;
+spltCRC = BigEndianInt {4} ;
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+time = "\0\0\0\ x07 " "tIME" timeData timeCRC ;
+timeData = y e a r month day hour minute s e c o n d ;
+y e a r = BigEndianInt {2} ;
+month = BigEndianInt {1} ;
+day = BigEndianInt {1} ;
+hour = BigEndianInt {1} ;
+minute = BigEndianInt {1} ;
+s e c o n d = BigEndianInt {1} ;
+timeCRC = BigEndianInt {4} ;
+108
+109
+110
+111
+112
+i t x t = i t x t L e n " iTXt " i t x t D a t a itxtCRC ;
+i t x t L e n = UnsignedBigEndianInt {4} ;
+itxtData = .{ itxtLen } ;
+itxtCRC = BigEndianInt {4} ;
+113
+114
+115
+116
+117
+t e x t = t e x t L e n "tEXt" te x tD a ta textCRC ;
+t e x t L e n = UnsignedBigEndianInt {4} ;
+t ex t Da t a = . { t e x t L e n } ;
+textCRC = BigEndianInt {4} ;
+118
+119
+120
+121
+122
+z t x t = z t x t L e n "zTXt" zt x tD a ta ztxtCRC ;
+z t x t L e n = UnsignedBigEndianInt {4} ;
+z tx t Da t a = . { z t x t L e n } ;
+ztxtCRC = BigEndianInt {4} ;
+123
+124
+125
+126
+127
+128
+o t h e r = oth er Len otherName otherData otherCRC ;
+ot he rLen = UnsignedBigEndianInt {4} ;
+otherName = [ a−zA−Z ] { 4 } ;
+otherData = . { o the rL en } ;
+otherCRC = BigEndianInt {4} ;
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+ihdr
+idat
+plte
+chrm
+gama
+iccp
+sbit
+srgb
+bkgd
+hist
+trns
+phys
+splt
+:
+:
+:
+:
+:
+:
+:
+:
+:
+:
+:
+:
+:
+ihdrCRC
+idatCRC
+plteCRC
+chrmCRC
+gamaCRC
+iccpCRC
+sbitCRC
+srgbCRC
+bkgdCRC
+histCRC
+trnsCRC
+physCRC
+spltCRC
+==
+==
+==
+==
+==
+==
+==
+==
+==
+==
+==
+==
+==
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+b l a c k b o x (CRC−32 ,
+96
+"IHDR"
+"IDAT"
+"PLTE"
+"cHRM"
+"gAMA"
+"iCCP"
+"sBIT"
+"sRGB"
+"bKGD"
+"hIST"
+"tRNS"
+"pHYs"
+"sPLT"
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+ihdrData )
+idatData )
+plteData )
+chrmData )
+gamaData )
+iccpData )
+sbitData )
+srgbData )
+bkgdData )
+histData )
+trnsData )
+physData )
+spltData )
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;143
+144
+145
+146
+147
+time :
+itxt :
+text :
+ztxt :
+other
+timeCRC == b l a c k b o x (CRC−32 , "tIME" . timeData ) ;
+itxtCRC == b l a c k b o x (CRC−32 , " iTXt " . i t x t D a t a ) ;
+textCRC == b l a c k b o x (CRC−32 , "tEXt" . t e xt D at a ) ;
+ztxtCRC == b l a c k b o x (CRC−32 , "zTXt" . z t xt D at a ) ;
+: otherCRC == b l a c k b o x (CRC−32 , otherName . otherData ) ;
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+:
+:
+:
+:
+:
+:
+:
+:
+:
+:
+count ( chrm )
+count ( gama )
+count ( i c c p )
+count ( s b i t )
+count ( s r g b )
+count ( bkgd )
+count ( h i s t )
+count ( t r n s )
+count ( phys )
+count ( time )
+<=
+<=
+<=
+<=
+<=
+<=
+<=
+<=
+<=
+<=
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+159
+160
+161
+PNGImage : count ( i c c p ) == 1 i m p l i e s count ( s r g b ) == 0 ;
+PNGImage : count ( s r g b ) == 1 i m p l i e s count ( i c c p ) == 0 ;
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+ihdr :
+ihdr :
+ihdr :
+ihdr :
+ihdr :
+ihdr :
+ihdr :
+( warn )
+( warn )
+width >= 1 and width <= 2^31 − 1 ;
+h e i g h t >= 1 and h e i g h t <= 2^31 − 1 ;
+bitDepth i n < 1 , 2 , 4 , 8 , 16 > ;
+colorType in < 0 , 2 , 3 , 4 , 6 > ;
+c o l o r T y p e i n < 2 , 4 , 6 > i m p l i e s bitDepth i n < 8 , 16 > ;
+c o l o r T y p e == 3 i m p l i e s bitDepth i n < 1 , 2 , 4 , 8 > ;
+compMethod == 0 ;
+i h d r : f i l t e r M e t h o d != 0 ;
+i h d r : not i n t e r l a c e M e t h o d i n < 0 , 1 > ;
+172
+173
+174
+175
+176
+PNGImage : colourType == 3 i m p l i e s count (PLTE) == 1 ;
+PNGImage : c o l o r T y p e i n < 0 , 4 > i m p l i e s count (PLTE) == 0 ;
+p l t e : p l t e L e n % 3 == 0 ;
+PNGImage : ( p l t e L e n / 3 ) <= 2 ^ bitDepth ;
+177
+178
+179
+180
+181
+sbit
+sbit
+sbit
+sbit
+:
+:
+:
+:
+colourType
+colourType
+colourType
+colourType
+==
+in
+==
+==
+0
+<
+4
+6
+implies sbitLen = 1 ;
+2 , 3 > implies sbitLen = 3 ;
+implies sbitLen = 2 ;
+implies sbitLen = 4 ;
+182
+183
+184
+185
+186
+187
+188
+189
+190
+srgb :
+( warn )
+( warn )
+( warn )
+( warn )
+( warn )
+( warn )
+( warn )
+srgbRenderIntent in < 0 , 1 ,
+PNGImage : count ( s r g b ) == 1
+PNGImage : count ( s r g b ) == 1
+PNGImage : count ( s r g b ) == 1
+PNGImage : count ( s r g b ) == 1
+PNGImage : count ( s r g b ) == 1
+PNGImage : count ( s r g b ) == 1
+PNGImage : count ( s r g b ) == 1
+97
+2, 3 >
+implies
+implies
+implies
+implies
+implies
+implies
+implies
+;
+count ( gama ) == 1 ;
+gamaData == 45455 ;
+count ( chrm ) == 1 ;
+whiteX = 31270 ;
+whiteY = 32900 ;
+redX = 64000 ;
+redY = 33000 ;191
+192
+193
+194
+( warn )
+( warn )
+( warn )
+( warn )
+PNGImage
+PNGImage
+PNGImage
+PNGImage
+:
+:
+:
+:
+count ( s r g b )
+count ( s r g b )
+count ( s r g b )
+count ( s r g b )
+==
+==
+==
+==
+1
+1
+1
+1
+implies
+implies
+implies
+implies
+greenX = 30000 ;
+greenY = 60000 ;
+blueX = 15000 ;
+blueY = 6000 ;
+195
+196
+197
+198
+bkgd : c o l o r T y p e i n < 0 , 4 > i m p l i e s bkgdLen == 2 ;
+bkgd : c o l o r T y p e i n < 2 , 6 > i m p l i e s bkdgLen == 6 ;
+bkgd : c o l o r T y p e == 3 i m p l i e s bkgdLen == 1 ;
+199
+200
+h i s t : h i s t L e n == p l t e L e n ;
+201
+202
+203
+204
+205
+t r n s : colourType ==
+t r n s : colourType ==
+t r n s : colourType ==
+PNGImage : c o l o r T y p e
+0 implies
+2 implies
+3 implies
+in < 4 , 6
+trnsLen = 2 ;
+trnsLen = 6 ;
+t r n s L e n <= p l t e L e n ;
+> i m p l i e s count ( t r n s ) == 0 ;
+206
+207
+208
+209
+phys : p i x e l s P e r U n i t X >= 1 and p i x e l s P e r U n i t X <= 2^31 − 1 ;
+phys : p i x e l s P e r U n i t Y >= 1 and p i x e l s P e r U n i t Y <= 2^31 − 1 ;
+phys : u n i t S p e c i f e r i n < 0 , 1 > ;
+210
+211
+212
+213
+214
+215
+216
+time
+time
+time
+time
+time
+time
+:
+:
+:
+:
+:
+:
+y e a r >= 1995 ;
+month i n [ 1 , 1 2 ] ;
+day i n [ 1 , 3 1 ] ;
+hour i n [ 0 , 2 3 ] ;
+minute i n [ 0 , 5 9 ] ;
+second in [ 0 , 6 0 ] ;
+217
+218
+219
+220
+221
+222
+o t h e r : not otherName i n < "IHDR" ,
+"cHRM" ,
+"sRGB" ,
+"pHYs" ,
+"tEXt " ,
+"PLTE" , "IDAT" ,
+"gAMA" , "iCCP " ,
+"bKGD" , "hIST " ,
+"sPLT " , "tIME " ,
+"zTXt" > ;
+"IEND" ,
+"sBIT " ,
+"tRNS" ,
+" iTXt " ,

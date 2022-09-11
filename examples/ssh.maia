@@ -1,0 +1,139 @@
+u s i n g " NetworkAddress . maia " ;
+2
+3
+SSHConfig = c o n f i g L i n e ∗ h o s t C o n f i g ∗ ;
+4
+5
+c o n f i g L i n e = ( comment | configKeyword ) Newline ;
+6
+7
+h o s t C o n f i g = h o s t Newline c o n f i g L i n e+ ;
+8
+9
+comment = "" | "#" . ∗ ;
+10
+11
+12
+13
+configKeyword = a d d r e s s F a m i l y | c i p h e r s | c o m p r e s s i o n |
+c o m p r e s s i o n L e v e l | hashKnownHosts | hostName |
+localForward ;
+14
+15
+s e p = WS+ | ( WS∗ "=" WS∗ ) ;
+16
+17
+WS = [ \ n\ t ] ;
+18
+19
+Newline = "\n" ;
+20
+21
+22
+23
+h o s t = [ hH ] [ oO ] [ sS ] [ tT ] s e p
+( hostOpt | ' " ' hostOpt ' " ' )
+( WS+ ( hostOpt | ' " ' hostOpt ' " ' ) ) ∗ ;
+24
+25
+hostOpt = p a t t e r n | "∗" ;
+26
+27
+p a t t e r n = [ a−zA−Z0 − 9 . ? ∗ ! ] + ;
+28
+29
+30
+31
+addressFamily =
+[ aA ] [ dD ] [ dD ] [ rR ] [ eE ] [ sS ] [ sS ] [ fF ] [ aA ] [mM] [ i I ] [ lL ] [ yY ] s e p
+( addrFamilyOpt | ' " ' addrFamilyOpt ' " ' ) ;
+32
+33
+addrFamilyOpt = " any " | " i n e t " | " i n e t 6 " ;
+34
+35
+36
+37
+c i p h e r s = [ cC ] [ i I ] [ pP ] [ hH ] [ eE ] [ rR ] [ sS ] s e p
+( ciphersOpt | ' " ' ciphersOpt ' " ' )
+(WS∗ " , " WS∗ ( c i p h e r s O p t | ' " ' c i p h e r s O p t ' " ' ) ) ∗ ;
+38
+39
+40
+41
+42
+c i p h e r s O p t = "3 des−cbc " | " aes128 −cbc " | " aes192 −cbc " |
+" aes256 −cbc " | " aes128 −c t r " | " aes192 −c t r " |
+" aes256 −c t r " | " a r c f o u r 1 2 8 " | " a r c f o u r 2 5 6 " |
+" a r c f o u r " | " b l o w f i s h −cbc " | " c a s t 1 2 8 −cbc " ;
+43
+44
+45
+c o m p r e s s i o n = [ cC ] [ oO ] [mM] [ pP ] [ rR ] [ eE ] [ sS ] [ sS ] [ i I ] [ oO ] [ nN ] s e p
+( compressionOpt | ' " ' compressionOpt ' " ' ) ;
+46
+10147
+compressionOpt = " y e s " | "no" ;
+48
+49
+50
+51
+compressionLevel =
+[ cC ] [ oO ] [mM] [ pP ] [ rR ] [ eE ] [ sS ] [ sS ] [ i I ] [ oO ] [ nN ] [ l L ] [ eE ] [ vV ] [ eE ] [ lL ] s e p
+( compLevel | ' " ' compLevel ' " ' ) ;
+52
+53
+compressionLevelOpt = StringPosDec ;
+54
+55
+56
+57
+hashKnownHosts =
+[ hH ] [ aA ] [ sS ] [ hH ] [ kK ] [ nN ] [ oO ] [wW] [ nN ] [ hH ] [ oO ] [ sS ] [ tT ] [ sS ] s e p
+( hashKnownHostsOpt | ' " ' hashKnownHostsOpt ' " ' ) ;
+58
+59
+hashKnownHostsOpt = " y e s " | "no" ;
+60
+61
+62
+hostName = [ hH ] [ oO ] [ sS ] [ tT ] [ nN ] [ aA ] [mM] [ eE ]
+s e p ( hostNameOpt | ' " ' hostNameOpt ' " ' ) ;
+63
+64
+hostNameOpt = IPv4 | IPv6 | ValidHostName ;
+65
+66
+67
+l o c a l F o r w a r d = [ lL ] [ oO ] [ cC ] [ aA ] [ lL ] [ fF ] [ oO ] [ rR ] [wW] [ aA ] [ rR ] [ dD ] s e p
+localForwardOpt ;
+68
+69
+70
+71
+localForwardOpt =
+( ( a d d r e s s " : " ) ? l o c a l P o r t WS a d d r e s s " : " h o s t P o r t ) |
+( ( IPv6 "/" ) ? l o c a l P o r t WS IPv6 "/" h o s t P o r t ) ;
+72
+73
+a d d r e s s = IPv4 | ValidHostName | " [ " IPv6 " ] " ;
+74
+75
+l o c a l P o r t = S t r i n g P o s D e c+ ;
+76
+77
+h o s t P o r t = S t r i n g P o s D e c+ ;
+78
+79
+c i p h e r s : c i p h e r s O p t [ i ] != c i p h e r s O p t [ j ] ;
+80
+81
+82
+c o m p r e s s i o n L e v e l O p t : c o m p r e s s i o n L e v e l O p t >= 1 and
+c o m p r e s s i o n L e v e l O p t <= 9 ;
+83
+84
+l o c a l P o r t : l o c a l P o r t >= 0 and l o c a l P o r t <= 65535 ;
+85
+86
+h o s t P o r t : h o s t P o r t >= 0 and h o s t P o r t <= 65535 ;

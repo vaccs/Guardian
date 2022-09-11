@@ -1,0 +1,18 @@
+
+CryptPassword = posixCrypt | glibcCrypt;
+
+posixCrypt = [a-zA-Z0-9./]{13};
+
+glibcCrypt = "$" id "$" salt "$" encrypted;
+
+id = "1" | "2a" | "5" | "6" ;
+
+salt = [a-zA-Z0-9./]{,16};
+
+encrypted = [a-zA-Z0-9./]+;
+
+glibcCrypt: id == "1" implies length(encrypted) == 22 ;
+glibcCrypt: id == "5" implies length(encrypted) == 43 ;
+glibcCrypt: id == "6" implies length(encrypted) == 86 ;
+
+

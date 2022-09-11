@@ -1,0 +1,14 @@
+2
+3
+u s i n g " P a s s w d F i l e . maia " on "/ e t c / passwd " ;
+u s i n g " ShadowFile . maia " on "/ e t c / shadow " ;
+u s i n g " GroupFile . maia " on "/ e t c / group " ;
+4
+5
+passwdRecord : password == ' x ' i m p l i e s name i n shadowRecord . name ;
+6
+7
+P a s s w d F i l e . g i d : g i d i n GroupFile . g i d ;
+8
+9
+GroupFile . userName : userName i n P a s s w d F i l e . name ;

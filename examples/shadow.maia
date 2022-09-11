@@ -1,0 +1,49 @@
+1
+2
+u s i n g " CryptPassword . maia " ;
+u s i n g " SetTemplates . maia " ;
+3
+4
+s h a d o w F i l e = ( shadowRecord Newline )+ ;
+5
+6
+7
+8
+9
+shadowRecord = name " : " password " : " lastPasswordChange " : "
+minimumPasswordAge " : " maximumPasswordAge " : "
+passwordWarningPeriod " : " p a s s w o r d I n a c t i v i t y P e r i o d " : "
+accountExpirationDate ":" reserved ;
+10
+11
+name = [ a−zA−Z_][ − a−zA−Z0−9_] { 0 , 3 1 } ;
+12
+13
+password = CryptPassword ;
+14
+15
+lastPasswordChange = S t r i n g P o s D e c ∗ ;
+16
+17
+minimumPasswordAge = S t r i n g P o s D e c ∗ ;
+18
+19
+maximumPasswordAge = S t r i n g P o s D e c ∗ ;
+20
+21
+passwordWarningPeriod = S t r i n g P o s D e c ∗ ;
+22
+23
+p a s s w o r d I n a c t i v i t y P e r i o d = StringPosDec ∗ ;
+24
+25
+accountExpirationDate = StringPosDec ∗ ;
+26
+27
+reserved = [^:\n] ∗ ;
+28
+29
+name i s U n i q u e ( ) ;
+30
+31
+Newline = "\n" ;
