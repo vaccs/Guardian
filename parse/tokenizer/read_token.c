@@ -31,25 +31,31 @@ static const enum state {
 	// tokens:
 	s_EOF,
 	
-	// identifer:
+	s_slash,
+	s_dollar,
+	s_colon,
+	s_vbar,
+	s_semicolon,
+	
+	s_directive,
 	s_identifier,
-	
-	// keywords:
-	s_using_,
-	
-	// literals:
+	s_character,
 	s_string,
 	
-	// start state:
 	s_start,
 	
-	// reading keywords:
-	s_u, s_us, s_usi, s_usin, s_using,
+	s_read_slash,
+	s_read_colon,
+	s_read_dollar,
+	s_read_vbar,
+	s_read_semicolon,
 	
-	// reading identifer:
+	s_reading_comment,
+	s_reading_directive,
+	
 	s_reading_identifier,
 	
-	// reading string literal:
+	s_reading_character1, s_reading_character2, s_reading_character3, s_reading_character4,
 	s_reading_string, s_read_string,
 	
 	number_of_states,
@@ -60,25 +66,46 @@ static const enum state {
 	[s_start]['\t'] = s_start,
 	[s_start]['\n'] = s_start,
 	
+	// comments:
+	[s_start]['/'] = s_read_slash,
+		[s_read_slash][ANY] = s_slash,
+		[s_read_slash]['/'] = s_reading_comment,
+			[s_reading_comment][ANY] = s_reading_comment,
+			[s_reading_comment]['\n'] = s_start,
+	
+	[s_start][':'] = s_read_colon,
+		[s_read_colon][ANY] = s_colon,
+	
+	[s_start]['|'] = s_read_vbar,
+		[s_read_vbar][ANY] = s_vbar,
+	
+	[s_start][';'] = s_read_semicolon,
+		[s_read_semicolon][ANY] = s_semicolon,
+	
+	[s_start]['$'] = s_read_dollar,
+		[s_read_dollar][ANY] = s_dollar,
+	
+	// directives:
+	[s_start]['%'] = s_reading_directive,
+		[s_reading_directive][    ANY    ] = s_directive,
+		[s_reading_directive]['a' ... 'z'] = s_reading_directive,
+		[s_reading_directive]['A' ... 'Z'] = s_reading_directive,
+	
 	// identifiers:
 	[s_start]['a' ... 'z'] = s_reading_identifier,
 	[s_start]['A' ... 'Z'] = s_reading_identifier,
 		[s_reading_identifier][ANY] = s_identifier,
+		[s_reading_identifier][    '_'    ] = s_reading_identifier,
 		[s_reading_identifier]['a' ... 'z'] = s_reading_identifier,
 		[s_reading_identifier]['A' ... 'Z'] = s_reading_identifier,
 	
-	// reading keywords:
-	[s_start]['u'] = s_u,
-		[s_u]['a' ... 'z'] = s_reading_identifier,
-		[s_u]['s'] = s_us,
-			[s_us]['a' ... 'z'] = s_reading_identifier,
-			[s_us]['i'] = s_usi,
-				[s_usi]['a' ... 'z'] = s_reading_identifier,
-				[s_usi]['n'] = s_usin,
-					[s_usin]['a' ... 'z'] = s_reading_identifier,
-					[s_usin]['g'] = s_using,
-						[s_using][ANY] = s_using_,
-						[s_using]['a' ... 'z'] = s_reading_identifier,
+	// character literal:
+	[s_start]['\''] = s_reading_character1,
+		[s_reading_character1][ANY] = s_reading_character2,
+			[s_reading_character2]['\''] = s_reading_character3,
+				[s_reading_character3][ANY] = s_character,
+		[s_reading_character1]['\\'] = s_reading_character4,
+			[s_reading_character4][ANY] = s_reading_character2,
 	
 	// string literal:
 	[s_start]['\"'] = s_reading_string,
@@ -110,21 +137,36 @@ void read_token(struct tokenizer* this)
 			read_char(this);
 	}
 	
+	dpvsn(this->tokenchars.chars, this->tokenchars.n);
+	
 	switch (state)
 	{
 		case s_error:
+		{
 			TODO;
 			break;
+		}
 		
-		case s_using_:
-			this->token = t_using;
+		case s_colon:
+			this->token = t_colon;
+			break;
+		
+		case s_vbar:
+			this->token = t_vbar;
+			break;
+		
+		case s_semicolon:
+			this->token = t_semicolon;
+			break;
+		
+		case s_directive:
+			append(this, 0);
+			this->token = t_directive;
 			break;
 		
 		void escapes()
 		{
 			ENTER;
-			
-			dpvsn(this->tokenchars.chars, this->tokenchars.n);
 			
 			char* s = this->tokenchars.chars;
 			
@@ -163,6 +205,11 @@ void read_token(struct tokenizer* this)
 			
 			EXIT;
 		}
+		
+		case s_character:
+			escapes();
+			this->token = t_character;
+			break;
 		
 		case s_string:
 			escapes();

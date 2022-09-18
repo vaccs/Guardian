@@ -5,6 +5,8 @@
 
 struct value* new_integer_value(int64_t value)
 {
+	TODO;
+	#if 0
 	struct type* type = new_integer_type();
 	
 	struct value* super = new_value(
@@ -15,5 +17,6 @@ struct value* new_integer_value(int64_t value)
 	this->value = value;
 	
 	TODO;
+	#endif
 }
 

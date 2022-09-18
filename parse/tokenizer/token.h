@@ -4,14 +4,26 @@ enum token
 	// tokens:
 	t_EOF,
 	
-	// identifer:
+	t_colon,
+	t_slash,
+	t_semicolon,
+	t_osquare,
+	t_oparen,
+	t_plus,
+	t_asterisk,
+	t_qmark,
+	t_ocurly,
+	t_vbar,
+	t_equals,
+	
 	t_identifier,
 	
-	// keywords:
-	t_using,
+	t_directive,
 	
-	// literals:
+	t_character,
 	t_string,
+	
+	t_enforcement_level,
 	
 	number_of_tokens,
 };

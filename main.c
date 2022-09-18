@@ -4,11 +4,18 @@
 
 #include <debug.h>
 
-#include "cmdln/flags.h"
-#include "cmdln/process.h"
-#include "cmdln/free.h"
+#include <cmdln/flags.h>
+#include <cmdln/process.h>
+#include <cmdln/free.h>
 
-#include "parse/mains.h"
+#include <named/grammar/compare.h>
+#include <named/grammar/free.h>
+
+#include <lex/new.h>
+
+#include <parse/mains.h>
+
+#include <set/expression/new.h>
 
 int main(int argc, char* const* argv)
 {
@@ -16,14 +23,16 @@ int main(int argc, char* const* argv)
 	
 	struct cmdln* flags = cmdln_process(argc, argv);
 	
-	TODO;
-	#if 0
-	struct avl_tree* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
+	struct lex* lex = new_lex();
+	
+	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	
 	struct expressionset* assertions = new_expressionset();
 	
-	mains_parse(flags->input_path);
+	mains_parse(lex, grammar, assertions, flags->input_path);
 	
+	TODO;
+	#if 0
 	// scope:
 		// needs push, pop, declare, lookup functions.
 		// also saves named_gegexes

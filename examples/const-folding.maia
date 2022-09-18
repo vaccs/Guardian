@@ -1,3 +1,4 @@
+
 (debug) true;
 (debug) false;
 (debug) 42;
@@ -5,9 +6,11 @@
 (debug) 042;
 (debug) 0x42;
 (debug) "abc";
-(debug) ("abc");
 (debug) {1, 2, 3];
+
+(debug) ("abc");
 (debug) (1, 2, 3);
+
 (debug) (int: 1, bool: 2, float: 3.14, char[]: "abc");
 (debug) ((1, 2), (3, 4));
 (debug) bool(true); bool(false);

@@ -9,12 +9,18 @@
 
 #include "pragma_once/lookup.h"
 
+#include "directives/skip.h"
+#include "directives/start.h"
 #include "directives/using.h"
 
+#include "read_grammar_rule.h"
 #include "recursive.h"
 
 void recursive_parse(
+	struct lex* lex,
+	struct scope* scope,
 	struct pragma_once* pragma_once,
+	struct expressionset* assertions,
 	int dirfd, int fd)
 {
 	ENTER;
@@ -29,19 +35,31 @@ void recursive_parse(
 		
 		read_char(tokenizer);
 		
-		TODO;
-		#if 0
-		read_token(tokenizer, root_machine);
+		read_token(tokenizer);
 		
 		while (tokenizer->token != t_EOF)
 		{
 			switch (tokenizer->token)
 			{
-				case t_using:
-				case t_start:
-				case t_skip:
+				case t_directive:
 				{
-					process_using_directive(pragma_once, dirfd, tokenizer);
+					if (strequals(tokenizer->tokenchars.chars, "%""skip"))
+					{
+						process_skip_directive(lex, tokenizer);
+					}
+					else if (strequals(tokenizer->tokenchars.chars, "%""start"))
+					{
+						TODO;
+					}
+					else if (strequals(tokenizer->tokenchars.chars, "%""using"))
+					{
+						// process_directive(pragma_once, dirfd, tokenizer);
+						TODO;
+					}
+					else
+					{
+						TODO;
+					}
 					break;
 				}
 				
@@ -50,40 +68,39 @@ void recursive_parse(
 				{
 					dpvs(tokenizer->tokenchars.chars);
 					
-					TODO;
-					#if 0
 					struct string* name = new_string_from_tokenchars(tokenizer);
 					
-					next_token(tokenizer, colon_oparen_or_equals_machine);
+					dpvs(name);
+					
+					read_token(tokenizer);
 					
 					switch (tokenizer->token)
 					{
-						case tk_colon:
-							read_grammar_rule();
+						case t_colon:
+						{
+							read_grammar_rule(tokenizer, scope, lex, name);
 							break;
+						}
 						
-						case tk_equals:
-							read_value_definition();
+						case t_equals:
+						{
+							TODO;
+/*							read_value_definition();*/
 							break;
+						}
 						
 						default:
 							TODO;
 							break;
 					}
 					
-					TODO;
-					
 					free_string(name);
-					#endif
 					
 					break;
 				}
 				
 				// assertion:
-				case t_require:
-				case t_warning:
-				case t_info:
-				case t_debug:
+				case t_enforcement_level:
 				{
 					TODO;
 					break;
@@ -94,7 +111,6 @@ void recursive_parse(
 					break;
 			}
 		}
-		#endif
 		
 		free_tokenizer(tokenizer);
 	}

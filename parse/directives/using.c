@@ -12,11 +12,14 @@
 
 void process_using_directive(
 	struct pragma_once* pragma_once,
+	struct expressionset* assertions,
 	int dirfd,
 	struct tokenizer* tokenizer)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(tokenizer->token == t_using);
 	
 	read_token(tokenizer);
@@ -37,6 +40,7 @@ void process_using_directive(
 	
 	recursive_parse(
 		/* pragma_once: */ pragma_once,
+		/* assertions: */ assertions,
 		/* dirfd: */ br.dirfd,
 		/* fd */ br.fd);
 	
@@ -44,6 +48,7 @@ void process_using_directive(
 		close(br.dirfd);
 	
 	close(br.fd);
+	#endif
 	
 	TODO;
 	

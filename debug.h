@@ -26,16 +26,34 @@
 	#include <time.h>
 	#include <pwd.h>
 	
+	struct pragma_once;
+	struct tokenizer;
+	struct expressionset;
+	struct scope;
+	struct regex;
+	struct ptrset;
+	struct quack;
+	struct lex;
+	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
 	
 	#include <defines/argv0.h>
 	
+	#include <macros/strequals.h>
+	
 	#include <enums/error.h>
+	#include <enums/token_kind.h>
 	
-	struct pragma_once;
-	struct tokenizer;
+	#include <avl/alloc_tree.h>
+	#include <avl/search.h>
+	#include <avl/insert.h>
+	#include <avl/free_tree.h>
+	#include <avl/delete.h>
 	
+	#include <string/struct.h>
+	#include <string/new.h>
+	#include <string/free.h>
 #endif
 
 #ifdef DEBUGGING
@@ -123,6 +141,7 @@
 		_Generic(str, \
 			char*:          real_dpvsn (#str, ( char  *) (str), len), \
 			const char*:    real_dpvsn (#str, ( char  *) (str), len), \
+			struct string*: real_dpvsn(#str, ((struct string*) (str))->chars, len), \
 			wchar_t*:       real_dpvwsn(#str, (wchar_t*) (str), len), \
 			const wchar_t*: real_dpvwsn(#str, (wchar_t*) (str), len), \
 			default:        real_dpvsn (#str, (   void*) (str), len)); \

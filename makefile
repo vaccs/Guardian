@@ -53,8 +53,8 @@ default: $(buildprefix)/maia
 
 ARGS += -v
 
-ARGS += -i ./examples/const-folding.maia
-#ARGS += -i ./examples/json.maia
+#ARGS += -i ./examples/const-folding.maia
+ARGS += -i ./examples/json.maia
 
 run: $(buildprefix)/maia
 	$< $(ARGS)
