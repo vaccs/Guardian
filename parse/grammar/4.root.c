@@ -13,9 +13,8 @@ struct gbundle read_grammar_root_expression(
 	
 	struct gbundle retval = read_grammar_union_expression(tokenizer, scope, lex);
 	
-	TODO;
-	
 	EXIT;
+	return retval;
 }
 
 

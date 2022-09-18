@@ -2,7 +2,9 @@
 #include <debug.h>
 
 #include <regex/set_kind.h>
+#include <regex/free.h>
 
+#include "token_to_id_node/struct.h"
 #include "token_to_id_node/new.h"
 
 #include "struct.h"
@@ -24,14 +26,11 @@ unsigned lex_add_token(
 	
 	if ((node = avl_search(this->token_to_id, &token)))
 	{
-		TODO;
-		#if 0
-		struct dfa_to_id_node* found = node->item;
+		struct token_to_id_node* found = node->item;
 		
 		free_regex(token);
 		
 		retval = found->id;
-		#endif
 	}
 	else
 	{

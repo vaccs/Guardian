@@ -34,6 +34,9 @@
 	struct ptrset;
 	struct quack;
 	struct lex;
+	struct structinfo;
+	struct unsignedset;
+	struct gegex;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>

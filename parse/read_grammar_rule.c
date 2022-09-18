@@ -1,6 +1,11 @@
 
 #include <debug.h>
 
+#include <gegex/struct.h>
+#include <gegex/nfa_to_dfa.h>
+#include <gegex/simplify_dfa.h>
+#include <gegex/free.h>
+
 #include "tokenizer/struct.h"
 #include "tokenizer/read_token.h"
 
@@ -20,10 +25,39 @@ void read_grammar_rule(
 	
 	read_token(tokenizer);
 	
-	struct gbundle bundle = read_grammar_root_expression(tokenizer, scope, lex);
+	struct gbundle nfa = read_grammar_root_expression(tokenizer, scope, lex);
 	
+	nfa.accepts->accepts = true;
+	
+	struct gegex* dfa = gegex_nfa_to_dfa(nfa.start);
+	
+	struct gegex* simp = gegex_simplify_dfa(dfa);
+	
+	// somehow combine all structinfos of this grammar...
 	TODO;
+	
+	// scope_declare_type(scope, name, structinfo);
+	TODO;
+	
+	// scope_declare_grammar(scope, name, simp_start);
+	TODO;
+	
+	free_gegex(dfa);
+	
+	free_gegex(nfa.start);
 	
 	EXIT;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

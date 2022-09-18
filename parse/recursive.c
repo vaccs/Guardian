@@ -43,15 +43,17 @@ void recursive_parse(
 			{
 				case t_directive:
 				{
-					if (strequals(tokenizer->tokenchars.chars, "%""skip"))
+					char* string = (void*) tokenizer->tokenchars.chars;
+					
+					if (strequals(string, "%""skip"))
 					{
 						process_skip_directive(lex, tokenizer);
 					}
-					else if (strequals(tokenizer->tokenchars.chars, "%""start"))
+					else if (strequals(string, "%""start"))
 					{
 						TODO;
 					}
-					else if (strequals(tokenizer->tokenchars.chars, "%""using"))
+					else if (strequals(string, "%""using"))
 					{
 						// process_directive(pragma_once, dirfd, tokenizer);
 						TODO;

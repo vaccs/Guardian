@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <gegex/add_lambda_transition.h>
+
+#include "../tokenizer/struct.h"
+
 #include "1.postfix.h"
 #include "2.juxtaposition.h"
 
@@ -11,11 +15,33 @@ struct gbundle read_grammar_juxtaposition_expression(
 {
 	ENTER;
 	
-	struct gbundle retval = read_grammar_postfix_expression(tokenizer, scope, lex);
+	struct gbundle left = read_grammar_postfix_expression(tokenizer, scope, lex);
 	
-	TODO;
+	again: switch (tokenizer->token)
+	{
+		case t_oparen:
+		case t_string:
+		case t_character:
+		{
+			struct gbundle right = read_grammar_postfix_expression(tokenizer, scope, lex);
+			
+			gegex_add_lambda_transition(left.accepts, right.start);
+			
+			left = (struct gbundle) {left.start, right.accepts};
+			goto again;
+		}
+		
+		case t_semicolon:
+		case t_cparen:
+			break;
+		
+		default:
+			TODO;
+			break;
+	}
 	
 	EXIT;
+	return left;
 }
 
 

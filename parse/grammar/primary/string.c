@@ -1,7 +1,25 @@
 
 #include <debug.h>
 
+#include <regex/new_from_string.h>
+#include <regex/nfa_to_dfa.h>
+#include <regex/free.h>
+
+#include <set/unsigned/new.h>
+#include <set/unsigned/add.h>
+#include <set/unsigned/free.h>
+
+#include <gegex/new.h>
+#include <gegex/add_transition.h>
+
+#include <lex/struct.h>
+#include <lex/add_token.h>
+
+#include <yacc/structinfo/new.h>
+#include <yacc/structinfo/free.h>
+
 #include "../../tokenizer/struct.h"
+#include "../../tokenizer/read_token.h"
 
 #include "string.h"
 
@@ -16,24 +34,30 @@ struct gbundle read_grammar_primary_string_expression(
 	
 	dpvsn(tokenizer->tokenchars.chars, tokenizer->tokenchars.n);
 	
-	TODO;
-	#if 0
-	struct regex* regex_start = regex_from_literal(
+	struct rbundle nfa = new_regex_from_string(
 		/* chars:  */ tokenizer->tokenchars.chars,
 		/* strlen: */ tokenizer->tokenchars.n);
 	
-	unsigned token_id = lex_add_token2(lex, regex_start, tk_literal);
+	struct regex* dfa = regex_nfa_to_dfa(nfa);
+	
+	unsigned token_id = lex_add_token(lex, dfa, tk_literal);
 	
 	dpv(token_id);
 	
+	struct gegex* start = new_gegex();
+	
+	struct gegex* end = new_gegex();
+	
 	struct structinfo* structinfo = new_structinfo(/* name: */ NULL);
 	
-	read_token(tokenizer, production_after_highest_machine);
+	read_token(tokenizer);
 	
 	while (false
 		|| tokenizer->token == t_hashtag_scalar
 		|| tokenizer->token == t_hashtag_array)
 	{
+		TODO;
+		#if 0
 		struct string* tag = new_string_from_tokenchars(tokenizer);
 		
 		switch (tokenizer->token)
@@ -54,11 +78,8 @@ struct gbundle read_grammar_primary_string_expression(
 		read_token(tokenizer, production_after_highest_machine);
 		
 		free_string(tag);
+		#endif
 	}
-	
-	struct gegex* gegex_start = new_gegex();
-	
-	struct gegex* gegex_end = new_gegex();
 	
 	struct unsignedset* whitespace = new_unsignedset();
 	
@@ -67,19 +88,24 @@ struct gbundle read_grammar_primary_string_expression(
 		unsignedset_add(whitespace, lex->whitespace_token_id);
 	}
 	
-	gegex_add_transition(gegex_start, token_id, whitespace, structinfo, gegex_end);
-	
-	#ifdef DOTOUT
-	gegex_dotout(gegex_start, gegex_end, __PRETTY_FUNCTION__);
-	#endif
+	gegex_add_transition(start, token_id, whitespace, structinfo, end);
 	
 	free_unsignedset(whitespace);
 	
 	free_structinfo(structinfo);
 	
-	EXIT;
-	return (struct gbundle) {gegex_start, gegex_end};
-	#endif
+	free_regex(nfa.start);
 	
 	EXIT;
+	return (struct gbundle) {start, end};
 }
+
+
+
+
+
+
+
+
+
+
