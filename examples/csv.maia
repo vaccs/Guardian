@@ -1,0 +1,21 @@
+
+
+$skip -> /' ' | '\t' | '\n'/;
+
+cell -> /[!',']+ | '\"' [!'\"']* '\"'/;
+
+row -> cell (',' cell)*;
+
+$start -> row+;
+
+// the number of cells of each row must be equal:
+all_equal = $list: len(list) > 0 implies all($e: e == list[0], list);
+all_equal(map($r: len(r.cell), row));
+
+// every cell along the diagonal must have the same length:
+all_equal(map($i: len(row[i].cell[i]), 0:len(row)));
+
+// all cells must have the same number of letters:
+all_equal(map($c: len(c[0]), row.cell));
+
+

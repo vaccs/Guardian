@@ -29,22 +29,62 @@ void recursive_parse(
 		
 		read_char(tokenizer);
 		
-		read_token(tokenizer);
+		TODO;
+		#if 0
+		read_token(tokenizer, root_machine);
 		
 		while (tokenizer->token != t_EOF)
 		{
 			switch (tokenizer->token)
 			{
 				case t_using:
+				case t_start:
+				case t_skip:
 				{
 					process_using_directive(pragma_once, dirfd, tokenizer);
 					break;
 				}
 				
+				// grammar rule or value-define?
 				case t_identifier:
 				{
 					dpvs(tokenizer->tokenchars.chars);
 					
+					TODO;
+					#if 0
+					struct string* name = new_string_from_tokenchars(tokenizer);
+					
+					next_token(tokenizer, colon_oparen_or_equals_machine);
+					
+					switch (tokenizer->token)
+					{
+						case tk_colon:
+							read_grammar_rule();
+							break;
+						
+						case tk_equals:
+							read_value_definition();
+							break;
+						
+						default:
+							TODO;
+							break;
+					}
+					
+					TODO;
+					
+					free_string(name);
+					#endif
+					
+					break;
+				}
+				
+				// assertion:
+				case t_require:
+				case t_warning:
+				case t_info:
+				case t_debug:
+				{
 					TODO;
 					break;
 				}
@@ -54,6 +94,7 @@ void recursive_parse(
 					break;
 			}
 		}
+		#endif
 		
 		free_tokenizer(tokenizer);
 	}

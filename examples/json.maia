@@ -1,0 +1,143 @@
+
+// builtin functions:
+	// all
+	// any
+	// map
+	// filter
+	// min
+	// max
+	// unique
+	// reduce
+	// zip
+	// call
+	// bool
+	// int
+	// float
+
+// expression operators:
+	// boolean literals, numeric literals, string literals, {set construction}, \
+		(tuple construction, ), parenthesis
+	// '$1 ($2, ...)`: function-call
+	// '$1 .field': field-access
+	// '$1:.field': element-wise field-access
+	// '$1 [index]': list-index
+	// '$1:[index]': element-wise list-index
+	// 'typeof' '(' expression ')'
+	// ' +': positive
+	// ':+': element-wise positive
+	// ' -': negative
+	// ':-': element-wise negative
+	// ' !': logical-not
+	// ':!': element-wise logical-not
+	// ' ~': bitwise-not
+	// ':~': element-wise bitwise-not
+	// '**': exponentiation
+	// ':**': element-wise equivalent
+	// ' *': multiplication, '/': division, '%': remainder
+	// ':*', ':/', ':%': element-wise equivalent
+	// ' +': addition or concatenation, '-' subtraction
+	// ':+': element-wise equivalent
+	// ' <<': leftbitshift, '>>': rightbitshift
+	// ':<<', ':>>': element-wise equivalent
+	// ' <': less-than, '<=': less-than-equal-to, '>': greater-than, '>=': greater-than-equal-to
+	// ':<', ':<=', ':>', ':>=': element-wise equivalent
+	// ' ==': equal-to, '!=': not-equal-to
+	// ':==', ':!=': element-wise equivalent
+	// ' &': bitwise-and
+	// ':&': element-wise equivalent
+	// ' ^': bitwise-xor
+	// ':^': element-wise equivalent
+	// ' |': bitwise-or
+	// ':|': element-wise equivalent
+	// ' &&': logical-and
+	// ':&&': element-wise equivalent
+	// ' ||': logical-or
+	// ':||': element-wise equivalent
+	// ' ?' & ':': ternary-conditional
+	// ':?' & '::': element-wise equivalent
+	// 'to': range operator (start to stop)
+	// "implies"-operator
+	// "iff"-operator
+
+// charset operators:
+	// character-literal, parenthesis
+	// ':': range
+	// '&': intersection
+	// '^': symmetric-difference
+	// '|': union
+
+// regular-expression operators:
+	// [charset], string literal, numeric literal, parenthesis
+	// '+', '*', '?', '{' expression '}'
+	// ' ' juxtaposition
+	// '|'-or
+
+// grammar operators:
+	// /regex/, [charset], string literal, numeric literal, parenthesis
+	// '+', '*', '?', '{' expression '}'
+	// ' ' juxtaposition
+	// '|'-or
+
+// syntactic-rule:
+// name -> grammar rule;
+
+// value-define, gets evaluated immediately
+// name = expression;
+
+// evaluated on runtime
+// ("(require)" | "(warn)" | "(info)")? expression;
+
+$skip: /' ' | '\t' | '\n'/;
+
+true_: "true";
+
+false_: "false";
+
+integer: /['-','+']? ['1':'9'] ['0':'9']* :i/;
+
+string: /'\"' [^'\"']* '\"'/;
+
+list: '[' (value (',' value)*)? ']';
+
+keyvalue: string ':' value;
+
+dict: '{' (keyvalue (',' keyvalue)*)? '}';
+
+value: true_ | false_ | integer | string | list | dict;
+
+$start: value;
+
+blacklist = "\"" :+ {"abc", "def", "ghi"} :+ "\"";
+
+// no key of any dictionary can be equal to "abc":
+(require) all($char[] s, b: s != b, keyvalue:.string, blacklist);
+
+// every integer read from the file must be prime:
+(warn) all($int u: u > 1 implies all($int n: u % n, 1 to u), integer[0]);
+
+// the number of "true"s read has to be equal to the number "false"s read:
+(info) len(true_) == len(false_);
+
+// keys of the same dictionary can't start with the same letter:
+nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], 0 to len(list), 0 to len(list));
+
+(warn) all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
