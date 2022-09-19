@@ -32,8 +32,11 @@
 #include "new.h"
 #include "nfa_to_dfa.h"
 #include "add_transition.h"
+#include "add_grammar_transition.h"
 
 #include "transition/struct.h"
+
+#include "grammar/struct.h"
 
 struct mapping
 {
@@ -88,9 +91,11 @@ static void add_lambda_states(struct ptrset* set, struct gegex* ele)
 	EXIT;
 }
 
-struct gegex* gegex_nfa_to_dfa(struct gegex* original)
+struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 {
 	ENTER;
+	
+	original.accept->accepts = true;
 	
 	struct quack* todo = new_quack();
 	
@@ -101,7 +106,7 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 	{
 		struct ptrset* start_set = new_ptrset();
 		
-		add_lambda_states(start_set, original);
+		add_lambda_states(start_set, original.start);
 		
 		struct mapping* mapping = new_mapping(start_set, new_start);
 		
@@ -225,14 +230,11 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 				
 				if (node)
 				{
-					TODO;
-					#if 0
 					struct mapping* old = node->item;
 					
 					gegex_add_transition(state, min_token, whitespace, structinfo, old->combined_state);
 					
 					free_ptrset(subptrset);
-					#endif
 				}
 				else
 				{
@@ -264,30 +266,24 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 			{
 				ENTER;
 				
-				TODO;
-				#if 0
 				struct iterator* this = smalloc(sizeof(*this));
 				
-				this->i = state->grammar_transitions.data;
+				this->i = state->grammars.data;
 				
-				this->n = state->grammar_transitions.data + state->grammar_transitions.n;
+				this->n = state->grammars.data + state->grammars.n;
 				
 				EXIT;
 				return this;
-				#endif
 			}
 			
 			int compare_iterators(const void* a, const void* b)
 			{
-				TODO;
-				#if 0
 				const struct iterator* A = a, *B = b;
 				
 				struct string* grammar_a = A->i[0]->grammar;
 				struct string* grammar_b = B->i[0]->grammar;
 				
 				return compare_strings(grammar_a, grammar_b);
-				#endif
 			}
 			
 			struct heap* heap = new_heap(compare_iterators);
@@ -298,11 +294,8 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 					struct gegex* ele = ptr;
 					if (ele->grammars.n)
 					{
-						TODO;
-						#if 0
 						struct iterator* iter = new_iterator(ele);
 						heap_push(heap, iter);
-						#endif
 					}
 				}
 				runme;
@@ -310,8 +303,6 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 			
 			while (heap_is_nonempty(heap))
 			{
-				TODO;
-				#if 0
 				struct iterator* iterator;
 				
 				struct gegex_grammar_transition* transition;
@@ -320,9 +311,9 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 				
 				struct ptrset* subptrset = new_ptrset();
 				
-				struct structinfo* structinfo = new_structinfo(/* name: */ NULL);
+				struct structinfo* structinfo = new_structinfo();
 				
-				while (heap_len(heap) && strings_are_equal((transition = (iterator = heap_head(heap))->i[0])->grammar, min_grammar))
+				do
 				{
 					heap_pop(heap);
 					
@@ -335,16 +326,20 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 					else
 						free(iterator);
 				}
+				while (heap_is_nonempty(heap) && strings_are_equal((transition = (iterator = heap_head(heap))->i[0])->grammar, min_grammar));
 				
 				struct avl_node_t* node = avl_search(mappings, &subptrset);
 				
 				if (node)
 				{
+					TODO;
+					#if 0
 					struct mapping* old = node->item;
 					
 					gegex_add_grammar_transition(state, min_grammar, structinfo, old->combined_state);
 					
 					free_ptrset(subptrset);
+					#endif
 				}
 				else
 				{
@@ -360,7 +355,6 @@ struct gegex* gegex_nfa_to_dfa(struct gegex* original)
 				}
 				
 				free_structinfo(structinfo);
-				#endif
 			}
 			
 			free_heap(heap);

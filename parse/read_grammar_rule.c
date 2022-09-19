@@ -1,7 +1,6 @@
 
 #include <debug.h>
 
-#include <gegex/struct.h>
 #include <gegex/nfa_to_dfa.h>
 #include <gegex/simplify_dfa.h>
 #include <gegex/combine_structinfos.h>
@@ -36,11 +35,9 @@ void read_grammar_rule(
 	
 	read_token(tokenizer);
 	
-	struct gbundle nfa = read_grammar_root_expression(tokenizer, scope, lex);
+	struct gbundle nfa = read_grammar_root_expression(tokenizer, lex);
 	
-	nfa.accepts->accepts = true;
-	
-	struct gegex* dfa = gegex_nfa_to_dfa(nfa.start);
+	struct gegex* dfa = gegex_nfa_to_dfa(nfa);
 	
 	struct gegex* simp = gegex_simplify_dfa(dfa);
 	

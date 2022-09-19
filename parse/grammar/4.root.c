@@ -6,12 +6,11 @@
 
 struct gbundle read_grammar_root_expression(
 	struct tokenizer* tokenizer,
-	struct scope* scope,
 	struct lex* lex)
 {
 	ENTER;
 	
-	struct gbundle retval = read_grammar_union_expression(tokenizer, scope, lex);
+	struct gbundle retval = read_grammar_union_expression(tokenizer, lex);
 	
 	EXIT;
 	return retval;

@@ -14,6 +14,7 @@
 #include "directives/using.h"
 
 #include "read_grammar_rule.h"
+#include "read_value_declaration.h"
 #include "recursive.h"
 
 void recursive_parse(
@@ -48,11 +49,11 @@ void recursive_parse(
 					
 					if (strequals(string, "%""skip"))
 					{
-						process_skip_directive(lex, tokenizer);
+						process_skip_directive(tokenizer, lex);
 					}
 					else if (strequals(string, "%""start"))
 					{
-						TODO;
+						process_start_directive(tokenizer, scope, lex);
 					}
 					else if (strequals(string, "%""using"))
 					{
@@ -80,17 +81,12 @@ void recursive_parse(
 					switch (tokenizer->token)
 					{
 						case t_colon:
-						{
 							read_grammar_rule(tokenizer, tcache, scope, lex, name);
 							break;
-						}
 						
 						case t_equals:
-						{
-							TODO;
-/*							read_value_definition();*/
+							read_value_declaration(tokenizer, scope, name);
 							break;
-						}
 						
 						default:
 							TODO;

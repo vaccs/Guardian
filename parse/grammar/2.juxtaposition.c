@@ -10,24 +10,24 @@
 
 struct gbundle read_grammar_juxtaposition_expression(
 	struct tokenizer* tokenizer,
-	struct scope* scope,
 	struct lex* lex)
 {
 	ENTER;
 	
-	struct gbundle left = read_grammar_postfix_expression(tokenizer, scope, lex);
+	struct gbundle left = read_grammar_postfix_expression(tokenizer, lex);
 	
 	again: switch (tokenizer->token)
 	{
 		case t_oparen:
 		case t_string:
 		case t_character:
+		case t_identifier:
 		{
-			struct gbundle right = read_grammar_postfix_expression(tokenizer, scope, lex);
+			struct gbundle right = read_grammar_postfix_expression(tokenizer, lex);
 			
-			gegex_add_lambda_transition(left.accepts, right.start);
+			gegex_add_lambda_transition(left.accept, right.start);
 			
-			left = (struct gbundle) {left.start, right.accepts};
+			left = (struct gbundle) {left.start, right.accept};
 			goto again;
 		}
 		

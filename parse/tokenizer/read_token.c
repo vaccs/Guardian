@@ -45,6 +45,7 @@ static const enum state {
 	s_asterisk,
 	s_dash,
 	s_emark,
+	s_equals,
 	
 	s_directive,
 	s_scalar_hashtag,
@@ -70,6 +71,7 @@ static const enum state {
 	s_read_asterisk,
 	s_read_dash,
 	s_read_emark,
+	s_read_equals,
 	
 	s_reading_comment,
 	
@@ -137,6 +139,9 @@ static const enum state {
 	
 	[s_start]['-'] = s_read_dash,
 		[s_read_dash][ANY] = s_dash,
+	
+	[s_start]['='] = s_read_equals,
+		[s_read_equals][ANY] = s_equals,
 	
 	// directives:
 	[s_start]['%'] = s_reading_directive,
@@ -260,6 +265,10 @@ void read_token(struct tokenizer* this)
 		
 		case s_asterisk:
 			this->token = t_asterisk;
+			break;
+		
+		case s_equals:
+			this->token = t_equals;
 			break;
 		
 		case s_directive:

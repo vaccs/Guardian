@@ -3,5 +3,6 @@
 
 void structinfo_add_field(
 	struct structinfo* this,
-	struct string* name,
-	enum structinfo_node_type type);
+	struct string* fieldname,
+	struct string* grammar,
+	enum structinfo_node_type fieldtype);

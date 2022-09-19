@@ -22,11 +22,19 @@
 #include <set/ptr/get_head.h>
 #include <set/ptr/free.h>
 
-#include "transition/struct.h"
+#include <set/unsigned/compare.h>
+
+#include <yacc/structinfo/compare.h>
+
 #include "struct.h"
 #include "new.h"
 #include "add_transition.h"
+#include "add_grammar_transition.h"
 #include "simplify_dfa.h"
+
+#include "transition/struct.h"
+
+#include "grammar/struct.h"
 
 struct pair
 {
@@ -142,15 +150,12 @@ static struct ptrset* build_universe(struct gegex* start)
 		
 		for (unsigned i = 0, n = node->grammars.n; i < n; i++)
 		{
-			TODO;
-			#if 0
 			struct gegex* to = node->grammars.data[i]->to;
 			
 			if (ptrset_add(universe, to))
 			{
 				quack_append(todo, to);
 			}
-			#endif
 		}
 	}
 	
@@ -385,9 +390,7 @@ static struct gegex* clone(
 		
 		for (unsigned i = 0, n = old->grammars.n; i < n; i++)
 		{
-			TODO;
-			#if 0
-			struct gegex_grammar_transition* const ele = old->grammar_transitions.data[i];
+			struct gegex_grammar_transition* const ele = old->grammars.data[i];
 			
 			struct gegex* cloneme = find(connections, ele->to);
 			
@@ -411,7 +414,6 @@ static struct gegex* clone(
 				
 				quack_append(todo, submapping);
 			}
-			#endif
 		}
 	}
 	
@@ -455,25 +457,25 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 							
 							while (!unequal && a_i < a_n && b_i < b_n)
 							{
-								TODO;
-								#if 0
-								const struct transition* const at = a->transitions.data[a_i];
-								const struct transition* const bt = b->transitions.data[b_i];
+								const struct gegex_transition* const at = a->transitions.data[a_i];
+								const struct gegex_transition* const bt = b->transitions.data[b_i];
 								
 								if (at->token != bt->token || compare_unsignedsets(at->whitespace, bt->whitespace))
 								{
 									unequal = true;
 								}
-								else if (!structinfos_are_equal(at->structinfo, bt->structinfo))
+								else if (!compare_structinfos(at->structinfo, bt->structinfo))
 								{
 									unequal = true;
 								}
 								else
 								{
+									TODO;
+									#if 0
 									simplify_dfa_add_dep(dependent_of, a, b, at->to, bt->to);
 									a_i++, b_i++;
+									#endif
 								}
-								#endif
 							}
 							
 							if (!unequal && (a_i < a_n || b_i < b_n))
@@ -488,25 +490,25 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 							
 							while (!unequal && a_i < a_n && b_i < b_n)
 							{
-								TODO;
-								#if 0
-								const struct grammar_transition* const at = a->grammar_transitions.data[a_i];
-								const struct grammar_transition* const bt = b->grammar_transitions.data[b_i];
+								const struct gegex_grammar_transition* const at = a->grammars.data[a_i];
+								const struct gegex_grammar_transition* const bt = b->grammars.data[b_i];
 								
 								if (!strings_are_equal(at->grammar, bt->grammar))
 								{
 									unequal = true;
 								}
-								else if (!structinfos_are_equal(at->structinfo, bt->structinfo))
+								else if (!compare_structinfos(at->structinfo, bt->structinfo))
 								{
 									unequal = true;
 								}
 								else
 								{
+									TODO;
+									#if 0
 									simplify_dfa_add_dep(dependent_of, a, b, at->to, bt->to);
 									a_i++, b_i++;
+									#endif
 								}
-								#endif
 							}
 							
 							if (!unequal && (a_i < a_n || b_i < b_n))

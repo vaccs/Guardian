@@ -10,7 +10,6 @@
 
 struct gbundle read_grammar_primary_parenthesis_expression(
 	struct tokenizer* tokenizer,
-	struct scope* scope,
 	struct lex* lex)
 {
 	ENTER;
@@ -19,7 +18,7 @@ struct gbundle read_grammar_primary_parenthesis_expression(
 	
 	read_token(tokenizer);
 	
-	struct gbundle retval = read_grammar_root_expression(tokenizer, scope, lex);
+	struct gbundle retval = read_grammar_root_expression(tokenizer, lex);
 	
 	if (tokenizer->token != t_cparen)
 	{

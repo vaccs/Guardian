@@ -143,7 +143,6 @@ static struct format {
 
 struct gbundle read_grammar_primary_regex_expression(
 	struct tokenizer* tokenizer,
-	struct scope* scope,
 	struct lex* lex)
 {
 	ENTER;
@@ -200,7 +199,7 @@ struct gbundle read_grammar_primary_regex_expression(
 		switch (tokenizer->token)
 		{
 			case t_scalar_hashtag:
-				structinfo_add_field(structinfo, tag, snt_token_string_scalar);
+				structinfo_add_field(structinfo, tag, NULL, snt_token_scalar);
 				break;
 			
 			case t_array_hashtag:

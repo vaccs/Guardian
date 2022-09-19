@@ -7,12 +7,12 @@
 #include "primary/string.h"
 #include "primary/regex.h"
 #include "primary/parenthesis.h"
+#include "primary/identifier.h"
 
 #include "0.primary.h"
 
 struct gbundle read_grammar_primary_expression(
 	struct tokenizer* tokenizer,
-	struct scope* scope,
 	struct lex* lex)
 {
 	struct gbundle retval;
@@ -21,19 +21,23 @@ struct gbundle read_grammar_primary_expression(
 	switch (tokenizer->token)
 	{
 		case t_character:
-			retval = read_grammar_primary_character_expression(tokenizer, scope, lex);
+			retval = read_grammar_primary_character_expression(tokenizer, lex);
 			break;
 		
 		case t_string:
-			retval = read_grammar_primary_string_expression(tokenizer, scope, lex);
+			retval = read_grammar_primary_string_expression(tokenizer, lex);
 			break;
 		
 		case t_slash:
-			retval = read_grammar_primary_regex_expression(tokenizer, scope, lex);
+			retval = read_grammar_primary_regex_expression(tokenizer, lex);
 			break;
 		
 		case t_oparen:
-			retval = read_grammar_primary_parenthesis_expression(tokenizer, scope, lex);
+			retval = read_grammar_primary_parenthesis_expression(tokenizer, lex);
+			break;
+		
+		case t_identifier:
+			retval = read_grammar_primary_identifier_expression(tokenizer, lex);
 			break;
 		
 		default:

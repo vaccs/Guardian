@@ -62,6 +62,7 @@
 	#include <string/new.h>
 	#include <string/inc.h>
 	#include <string/compare.h>
+	#include <string/are_equal.h>
 	#include <string/free.h>
 #endif
 

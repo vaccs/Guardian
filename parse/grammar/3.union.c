@@ -11,21 +11,20 @@
 
 struct gbundle read_grammar_union_expression(
 	struct tokenizer* tokenizer,
-	struct scope* scope,
 	struct lex* lex)
 {
 	ENTER;
 	
-	struct gbundle left = read_grammar_juxtaposition_expression(tokenizer, scope, lex);
+	struct gbundle left = read_grammar_juxtaposition_expression(tokenizer, lex);
 	
 	while (tokenizer->token == t_vbar)
 	{
 		read_token(tokenizer);
 		
-		struct gbundle right = read_grammar_juxtaposition_expression(tokenizer, scope, lex);
+		struct gbundle right = read_grammar_juxtaposition_expression(tokenizer, lex);
 		
 		gegex_add_lambda_transition(left.start, right.start);
-		gegex_add_lambda_transition(right.accepts, left.accepts);
+		gegex_add_lambda_transition(right.accept, left.accept);
 	}
 	
 	EXIT;

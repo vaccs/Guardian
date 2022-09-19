@@ -9,6 +9,7 @@
 void structinfo_add_field(
 	struct structinfo* this,
 	struct string* fieldname,
+	struct string* grammar,
 	enum structinfo_node_type fieldtype)
 {
 	ENTER;
@@ -21,7 +22,7 @@ void structinfo_add_field(
 	}
 	else
 	{
-		struct structinfo_node* node = new_structinfo_node(fieldname, fieldtype);
+		struct structinfo_node* node = new_structinfo_node(fieldname, grammar, fieldtype);
 		
 		avl_insert(this->tree, node);
 	}

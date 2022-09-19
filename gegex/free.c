@@ -13,6 +13,8 @@
 
 #include "transition/struct.h"
 #include "transition/free.h"
+#include "grammar/struct.h"
+#include "grammar/free.h"
 #include "struct.h"
 #include "free.h"
 
@@ -52,7 +54,12 @@ void free_gegex(struct gegex* start)
 		
 		for (unsigned i = 0, n = state->grammars.n; i < n; i++)
 		{
-			TODO;
+			struct gegex_grammar_transition* ele = state->grammars.data[i];
+			
+			if (ptrset_add(queued, ele->to))
+				quack_append(todo, ele->to);
+			
+			free_gegex_grammar_transition(ele);
 		}
 		
 		free(state->transitions.data);

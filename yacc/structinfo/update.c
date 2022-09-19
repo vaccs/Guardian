@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include "node/compare.h"
+#include "node/struct.h"
 #include "node/inc.h"
 
 #include "struct.h"
@@ -19,20 +19,25 @@ void structinfo_update(
 	{
 		struct structinfo_node *ae = an->item, *be = bn->item;
 		
-		int cmp = compare_structinfo_nodes(ae, be);
+		int cmp = compare_strings(ae->name, be->name);
 		
 		if (cmp < 0)
 		{
-			TODO;
+			an = an->next;
 		}
 		else if (cmp > 0)
 		{
 			avl_insert(this->tree, inc_structinfo_node(be));
 			bn = bn->next;
 		}
-		else
+		else if (ae->type != be->type)
 		{
 			TODO;
+			exit(1);
+		}
+		else
+		{
+			an = an->next, bn = bn->next;
 		}
 	}
 	

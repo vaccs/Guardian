@@ -15,6 +15,17 @@
 	// bool
 	// int
 	// float
+	// range
+
+// types:
+	// char
+	// bool
+	// int
+	// float
+	// list
+	// tuple
+	// lambda
+	// grammar-rule
 
 // expression operators:
 	// boolean literals, numeric literals, string literals, {set construction},
@@ -70,8 +81,6 @@
 	// ' ?' & ':': ternary-conditional
 	// '.?' & ':': element-wise equivalent
 	
-	// 'to': range operator (start to stop)
-	
 	// "implies"-operator
 	
 	// "iff"-operator
@@ -126,6 +135,8 @@ value: boolean | integer | string | list | dict;
 %start: value;
 
 blacklist = "\"" .+ {"abc", "def", "ghi"} .+ "\"";
+
+assert: (debug) len(blacklist);
 
 (debug) 1 + 2;
 

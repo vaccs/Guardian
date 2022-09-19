@@ -14,9 +14,12 @@
 #include <yacc/structinfo/new.h>
 #include <yacc/structinfo/update.h>
 
-#include "transition/struct.h"
 #include "struct.h"
 #include "combine_structinfos.h"
+
+#include "transition/struct.h"
+
+#include "grammar/struct.h"
 
 struct structinfo* gegex_combine_structinfos(struct gegex* start)
 {
@@ -46,7 +49,12 @@ struct structinfo* gegex_combine_structinfos(struct gegex* start)
 		
 		for (unsigned i = 0, n = state->grammars.n; i < n; i++)
 		{
-			TODO;
+			struct gegex_grammar_transition* ele = state->grammars.data[i];
+			
+			structinfo_update(combined, ele->structinfo);
+			
+			if (ptrset_add(queued, ele->to))
+				quack_append(todo, ele->to);
 		}
 	}
 	
