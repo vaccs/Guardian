@@ -2,8 +2,6 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include <memory/smalloc.h>
-
 #include "tree_t.h"
 #include "insert.h"
 
@@ -19,7 +17,7 @@ avl_node_t *avl_insert(avl_tree_t *avltree, void *item)
 {
 	avl_node_t *newnode;
 	
-	newnode = avl_init_node(smalloc(sizeof(avl_node_t)), item);
+	newnode = avl_init_node(malloc(sizeof(avl_node_t)), item);
 	
 	if (newnode)
 	{

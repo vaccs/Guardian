@@ -1,8 +1,10 @@
 
 #include <debug.h>
 
-#include <regex/struct.h>
-#include <regex/new.h>
+#include <regex/new_from_string.h>
+#include <regex/new_from_charset.h>
+
+#include "../charset/6.root.h"
 
 #include "../tokenizer/struct.h"
 #include "../tokenizer/read_token.h"
@@ -12,23 +14,32 @@
 struct rbundle read_regex_primary_expression(
 	struct tokenizer* tokenizer)
 {
+	struct rbundle retval;
 	ENTER;
 	
 	switch (tokenizer->token)
 	{
 		case t_character:
 		{
-			unsigned code = tokenizer->tokenchars.chars[0];
+			unsigned char code = tokenizer->tokenchars.chars[0];
 			
-			struct regex* start = new_regex();
-			struct regex* accept = new_regex();
-			
-			start->transitions[code] = accept;
+			retval = new_regex_from_string(&code, 1);
 			
 			read_token(tokenizer);
-			
-			return (struct rbundle) {start, accept};
+			break;
 		}
+		
+		case t_octal_literal:
+			TODO;
+			break;
+		
+		case t_decimal_literal:
+			TODO;
+			break;
+		
+		case t_hexadecimal_literal:
+			TODO;
+			break;
 		
 		case t_string:
 		{
@@ -38,7 +49,19 @@ struct rbundle read_regex_primary_expression(
 		
 		case t_osquare:
 		{
-			TODO;
+			read_token(tokenizer);
+			
+			charset_t charset = read_charset_root_expression(tokenizer);
+			
+			if (tokenizer->token != t_csquare)
+			{
+				TODO;
+			}
+			
+			retval = new_regex_from_charset(charset);
+			
+			read_token(tokenizer);
+			
 			break;
 		}
 		
@@ -55,7 +78,16 @@ struct rbundle read_regex_primary_expression(
 		}
 	}
 	
-	TODO;
-	
 	EXIT;
+	return retval;
 }
+
+
+
+
+
+
+
+
+
+

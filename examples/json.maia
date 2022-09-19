@@ -78,6 +78,7 @@
 
 // charset operators:
 	// character-literal, parenthesis
+	// '!': complement
 	// ':': range
 	// '&': intersection
 	// '^': symmetric-difference
@@ -110,9 +111,9 @@
 // "boolean" as a variable refers to the list of those types that were parsed.
 boolean: "true" #true_ | "false" #false_;
 
-integer: /['-','+']? ['1':'9'] ['0':'9']* :i/ #literal;
+integer: /['-','+']? ['1'-'9'] ['0'-'9']* / #literal;
 
-string: /'\"' [^'\"']* '\"'/ #literal;
+string: /'\"' [!'\"']* '\"'/ #literal;
 
 list: '[' (value #elements[] (',' value #elements[])*)? ']';
 
@@ -132,13 +133,13 @@ blacklist = "\"" .+ {"abc", "def", "ghi"} .+ "\"";
 (require) all($char[] s, b: s != b, keyvalue.key, blacklist);
 
 // every integer read from the file must be prime:
-(warn) all($int u: u > 1 implies all($int n: u % n, 1:u), integer.literal);
+(warn) all($int u: u > 1 implies all($int n: u % n, 1:u), map(int, integer.literal));
 
 // the number of "true"s read has to be equal to the number "false"s read:
 (info) len(boolean.true_) == len(boolean.false_);
 
 // keys of the same dictionary can't start with the same letter:
-nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], 0 : len(list), 0 : len(list));
+nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], range(list), range(list));
 
 (warn) all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
 

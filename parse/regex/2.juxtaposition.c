@@ -20,6 +20,7 @@ struct rbundle read_regex_juxtaposition_expression(
 		case t_character:
 		case t_string:
 		case t_oparen:
+		case t_osquare:
 		{
 			struct rbundle right = read_regex_postfix_expression(tokenizer);
 			
@@ -30,7 +31,9 @@ struct rbundle read_regex_juxtaposition_expression(
 		}
 		
 		case t_vbar:
+		case t_colon:
 		case t_semicolon:
+		case t_slash:
 			break;
 		
 		default:
@@ -41,3 +44,14 @@ struct rbundle read_regex_juxtaposition_expression(
 	EXIT;
 	return left;
 }
+
+
+
+
+
+
+
+
+
+
+

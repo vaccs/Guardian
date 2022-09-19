@@ -150,12 +150,9 @@ struct regex* regex_nfa_to_dfa(struct rbundle nfa)
 				
 				if (node)
 				{
-					TODO;
-					#if 0
 					struct mapping* old = node->item;
 					
 					state->transitions[i] = old->combined_state;
-					#endif
 				}
 				else
 				{

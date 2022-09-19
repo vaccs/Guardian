@@ -1,7 +1,8 @@
 
 void recursive_parse(
-	struct lex* lex,
-	struct scope* scope,
-	struct pragma_once* pragma_once,
 	struct expressionset* assertions,
+	struct pragma_once* pragma_once,
+	struct type_cache* tcache,
+	struct scope* scope,
+	struct lex* lex,
 	int dirfd, int fd);

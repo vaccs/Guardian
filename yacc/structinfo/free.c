@@ -10,7 +10,8 @@ void free_structinfo(struct structinfo* this)
 	
 	if (this && !--this->refcount)
 	{
-		TODO;
+		avl_free_tree(this->tree);
+		free(this);
 	}
 	
 	EXIT;

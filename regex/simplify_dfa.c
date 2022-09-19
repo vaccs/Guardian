@@ -496,8 +496,6 @@ struct regex* regex_simplify_dfa(struct regex* original)
 						{
 							heap_push(todo, new_task(a, b, 0));
 						}
-						
-						EXIT;
 					}
 				}
 				runme;

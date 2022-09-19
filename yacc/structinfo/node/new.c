@@ -16,6 +16,8 @@ struct structinfo_node* new_structinfo_node(
 	
 	this->type = type;
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }

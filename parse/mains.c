@@ -13,9 +13,10 @@
 #include "mains.h"
 
 void mains_parse(
-	struct lex* lex,
-	struct avl_tree_t* grammar,
 	struct expressionset* assertions,
+	struct avl_tree_t* grammar,
+	struct type_cache* tcache,
+	struct lex* lex,
 	const char* input_path)
 {
 	ENTER;
@@ -29,10 +30,11 @@ void mains_parse(
 	struct br_rettype br = break_and_open_path(AT_FDCWD, input_path);
 	
 	recursive_parse(
-		lex,
-		scope,
-		pragma_once,
 		assertions,
+		pragma_once,
+		tcache,
+		scope,
+		lex,
 		br.dirfd,
 		br.fd
 	);

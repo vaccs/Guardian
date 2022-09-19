@@ -35,7 +35,16 @@ static const enum state {
 	s_dollar,
 	s_colon,
 	s_vbar,
+	s_comma,
 	s_semicolon,
+	s_osquare,
+	s_csquare,
+	s_oparen,
+	s_cparen,
+	s_qmark,
+	s_asterisk,
+	s_dash,
+	s_emark,
 	
 	s_directive,
 	s_scalar_hashtag,
@@ -51,7 +60,16 @@ static const enum state {
 	s_read_colon,
 	s_read_dollar,
 	s_read_vbar,
+	s_read_comma,
 	s_read_semicolon,
+	s_read_osquare,
+	s_read_csquare,
+	s_read_oparen,
+	s_read_cparen,
+	s_read_qmark,
+	s_read_asterisk,
+	s_read_dash,
+	s_read_emark,
 	
 	s_reading_comment,
 	
@@ -87,11 +105,38 @@ static const enum state {
 	[s_start]['|'] = s_read_vbar,
 		[s_read_vbar][ANY] = s_vbar,
 	
+	[s_start][','] = s_read_comma,
+		[s_read_comma][ANY] = s_comma,
+	
 	[s_start][';'] = s_read_semicolon,
 		[s_read_semicolon][ANY] = s_semicolon,
 	
 	[s_start]['$'] = s_read_dollar,
 		[s_read_dollar][ANY] = s_dollar,
+	
+	[s_start]['['] = s_read_osquare,
+		[s_read_osquare][ANY] = s_osquare,
+	
+	[s_start][']'] = s_read_csquare,
+		[s_read_csquare][ANY] = s_csquare,
+	
+	[s_start]['('] = s_read_oparen,
+		[s_read_oparen][ANY] = s_oparen,
+	
+	[s_start][')'] = s_read_cparen,
+		[s_read_cparen][ANY] = s_cparen,
+	
+	[s_start]['?'] = s_read_qmark,
+		[s_read_qmark][ANY] = s_qmark,
+	
+	[s_start]['!'] = s_read_emark,
+		[s_read_emark][ANY] = s_emark,
+	
+	[s_start]['*'] = s_read_asterisk,
+		[s_read_asterisk][ANY] = s_asterisk,
+	
+	[s_start]['-'] = s_read_dash,
+		[s_read_dash][ANY] = s_dash,
 	
 	// directives:
 	[s_start]['%'] = s_reading_directive,
@@ -165,6 +210,10 @@ void read_token(struct tokenizer* this)
 			break;
 		}
 		
+		case s_slash:
+			this->token = t_slash;
+			break;
+		
 		case s_colon:
 			this->token = t_colon;
 			break;
@@ -173,8 +222,44 @@ void read_token(struct tokenizer* this)
 			this->token = t_vbar;
 			break;
 		
+		case s_comma:
+			this->token = t_comma;
+			break;
+		
+		case s_dash:
+			this->token = t_dash;
+			break;
+		
 		case s_semicolon:
 			this->token = t_semicolon;
+			break;
+		
+		case s_osquare:
+			this->token = t_osquare;
+			break;
+		
+		case s_csquare:
+			this->token = t_csquare;
+			break;
+		
+		case s_oparen:
+			this->token = t_oparen;
+			break;
+		
+		case s_cparen:
+			this->token = t_cparen;
+			break;
+		
+		case s_qmark:
+			this->token = t_qmark;
+			break;
+		
+		case s_emark:
+			this->token = t_emark;
+			break;
+		
+		case s_asterisk:
+			this->token = t_asterisk;
 			break;
 		
 		case s_directive:

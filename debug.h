@@ -37,6 +37,10 @@
 	struct structinfo;
 	struct unsignedset;
 	struct gegex;
+	struct type_cache;
+	struct type;
+	struct gegex_transition;
+	struct grammar_type;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -57,6 +61,7 @@
 	#include <string/struct.h>
 	#include <string/new.h>
 	#include <string/inc.h>
+	#include <string/compare.h>
 	#include <string/free.h>
 #endif
 

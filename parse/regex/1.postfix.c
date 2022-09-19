@@ -1,7 +1,10 @@
 
 #include <debug.h>
 
+#include <regex/add_lambda_transition.h>
+
 #include "../tokenizer/struct.h"
+#include "../tokenizer/read_token.h"
 
 #include "0.primary.h"
 #include "1.postfix.h"
@@ -20,11 +23,14 @@ struct rbundle read_regex_postfix_expression(
 			break;
 		
 		case t_asterisk:
-			TODO;
+			regex_add_lambda_transition(left.start, left.accept);
+			regex_add_lambda_transition(left.accept, left.start);
+			read_token(tokenizer);
 			break;
 		
 		case t_qmark:
-			TODO;
+			regex_add_lambda_transition(left.start, left.accept);
+			read_token(tokenizer);
 			break;
 		
 		case t_ocurly:
