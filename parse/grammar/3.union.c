@@ -1,7 +1,10 @@
 
 #include <debug.h>
 
+#include <gegex/add_lambda_transition.h>
+
 #include "../tokenizer/struct.h"
+#include "../tokenizer/read_token.h"
 
 #include "2.juxtaposition.h"
 #include "3.union.h"
@@ -13,15 +16,20 @@ struct gbundle read_grammar_union_expression(
 {
 	ENTER;
 	
-	struct gbundle retval = read_grammar_juxtaposition_expression(tokenizer, scope, lex);
+	struct gbundle left = read_grammar_juxtaposition_expression(tokenizer, scope, lex);
 	
 	while (tokenizer->token == t_vbar)
 	{
-		TODO;
+		read_token(tokenizer);
+		
+		struct gbundle right = read_grammar_juxtaposition_expression(tokenizer, scope, lex);
+		
+		gegex_add_lambda_transition(left.start, right.start);
+		gegex_add_lambda_transition(right.accepts, left.accepts);
 	}
 	
 	EXIT;
-	return retval;
+	return left;
 }
 
 

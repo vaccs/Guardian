@@ -16,6 +16,7 @@
 #include <lex/add_token.h>
 
 #include <yacc/structinfo/new.h>
+#include <yacc/structinfo/add_field.h>
 #include <yacc/structinfo/free.h>
 
 #include "../../tokenizer/struct.h"
@@ -53,32 +54,36 @@ struct gbundle read_grammar_primary_string_expression(
 	read_token(tokenizer);
 	
 	while (false
-		|| tokenizer->token == t_hashtag_scalar
-		|| tokenizer->token == t_hashtag_array)
+		|| tokenizer->token == t_scalar_hashtag
+		|| tokenizer->token == t_array_hashtag)
 	{
-		TODO;
-		#if 0
 		struct string* tag = new_string_from_tokenchars(tokenizer);
 		
 		switch (tokenizer->token)
 		{
-			case t_hashtag_scalar:
-				structinfo_add_token_scalar_field(structinfo, tag);
+			case t_scalar_hashtag:
+			{
+				structinfo_add_field(structinfo, tag, snt_token_string_scalar);
 				break;
+			}
 			
-			case t_hashtag_array:
+			case t_array_hashtag:
+			{
+				TODO;
+				#if 0
 				structinfo_add_token_array_field(structinfo, tag);
+				#endif
 				break;
+			}
 			
 			default:
 				TODO;
 				break;
 		}
 		
-		read_token(tokenizer, production_after_highest_machine);
+		read_token(tokenizer);
 		
 		free_string(tag);
-		#endif
 	}
 	
 	struct unsignedset* whitespace = new_unsignedset();

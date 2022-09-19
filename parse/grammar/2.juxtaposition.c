@@ -33,6 +33,7 @@ struct gbundle read_grammar_juxtaposition_expression(
 		
 		case t_semicolon:
 		case t_cparen:
+		case t_vbar:
 			break;
 		
 		default:

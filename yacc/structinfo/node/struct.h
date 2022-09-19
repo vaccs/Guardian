@@ -1,10 +1,12 @@
 
-#include "kind.h"
+#include "type.h"
 
 struct structinfo_node
 {
-	struct structinfo_node_kind kind;
+	struct string* name; // must be the first
 	
-	struct string* name;
+	enum structinfo_node_type type;
+	
+	unsigned refcount;
 };
 

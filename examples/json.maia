@@ -106,9 +106,9 @@
 
 %skip: ' ' | '\t' | '\n';
 
-true_: "true";
-
-false_: "false";
+// "boolean" as a type refers to a thing with two strings.
+// "boolean" as a variable refers to the list of those types that were parsed.
+boolean: "true" #true_ | "false" #false_;
 
 integer: /['-','+']? ['1':'9'] ['0':'9']* :i/ #literal;
 
@@ -120,7 +120,7 @@ keyvalue: string #key ':' value #value;
 
 dict: '{' (keyvalue #entries[] (',' keyvalue #entries[])*)? '}';
 
-value: true_ | false_ | integer | string | list | dict;
+value: boolean | integer | string | list | dict;
 
 %start: value;
 
@@ -135,12 +135,12 @@ blacklist = "\"" .+ {"abc", "def", "ghi"} .+ "\"";
 (warn) all($int u: u > 1 implies all($int n: u % n, 1:u), integer.literal);
 
 // the number of "true"s read has to be equal to the number "false"s read:
-// (info) len(true_) == len(false_);
+(info) len(boolean.true_) == len(boolean.false_);
 
 // keys of the same dictionary can't start with the same letter:
-// nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], 0 : len(list), 0 : len(list));
+nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], 0 : len(list), 0 : len(list));
 
-// (warn) all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
+(warn) all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
 
 
 

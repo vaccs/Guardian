@@ -16,8 +16,8 @@ enum token
 	t_vbar,
 	t_equals,
 	
-	t_hashtag_scalar,
-	t_hashtag_array,
+	t_scalar_hashtag,
+	t_array_hashtag,
 	
 	t_identifier,
 	

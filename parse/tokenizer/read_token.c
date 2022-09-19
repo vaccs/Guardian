@@ -38,6 +38,9 @@ static const enum state {
 	s_semicolon,
 	
 	s_directive,
+	s_scalar_hashtag,
+	s_array_hashtag,
+	s_list_hashtag,
 	s_identifier,
 	s_character,
 	s_string,
@@ -51,7 +54,12 @@ static const enum state {
 	s_read_semicolon,
 	
 	s_reading_comment,
+	
 	s_reading_directive,
+	
+	s_reading_hashtag,
+	s_reading_hashtag2,
+	s_reading_hashtag3,
 	
 	s_reading_identifier,
 	
@@ -90,6 +98,16 @@ static const enum state {
 		[s_reading_directive][    ANY    ] = s_directive,
 		[s_reading_directive]['a' ... 'z'] = s_reading_directive,
 		[s_reading_directive]['A' ... 'Z'] = s_reading_directive,
+	
+	// hashtags:
+	[s_start]['#'] = s_reading_hashtag,
+		[s_reading_hashtag][    ANY    ] = s_scalar_hashtag,
+		[s_reading_hashtag]['_'] = s_reading_hashtag,
+		[s_reading_hashtag]['a' ... 'z'] = s_reading_hashtag,
+		[s_reading_hashtag]['A' ... 'Z'] = s_reading_hashtag,
+		[s_reading_hashtag]['['] = s_reading_hashtag2,
+			[s_reading_hashtag2][']'] = s_reading_hashtag3,
+				[s_reading_hashtag3][ANY] = s_array_hashtag,
 	
 	// identifiers:
 	[s_start]['a' ... 'z'] = s_reading_identifier,
@@ -163,6 +181,28 @@ void read_token(struct tokenizer* this)
 			append(this, 0);
 			this->token = t_directive;
 			break;
+		
+		case s_scalar_hashtag:
+		{
+			// remove #:
+			memmove(this->tokenchars.chars, this->tokenchars.chars + 1, this->tokenchars.n);
+			this->tokenchars.n -= 1;
+			
+			append(this, 0);
+			this->token = t_scalar_hashtag;
+			break;
+		}
+		
+		case s_array_hashtag:
+		{
+			// remove # and []:
+			memmove(this->tokenchars.chars, this->tokenchars.chars + 1, this->tokenchars.n);
+			this->tokenchars.n -= 3;
+			
+			append(this, 0);
+			this->token = t_array_hashtag;
+			break;
+		}
 		
 		void escapes()
 		{

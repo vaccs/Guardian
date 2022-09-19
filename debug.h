@@ -56,6 +56,7 @@
 	
 	#include <string/struct.h>
 	#include <string/new.h>
+	#include <string/inc.h>
 	#include <string/free.h>
 #endif
 
