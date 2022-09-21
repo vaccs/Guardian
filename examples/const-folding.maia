@@ -1,130 +1,181 @@
 
-(debug) true;
-(debug) false;
-(debug) 42;
-(debug) 3.14;
-(debug) 042;
-(debug) 0x42;
-(debug) "abc";
-(debug) {1, 2, 3];
+$debug: true;
+$debug: false;
+$debug: 42;
+$debug: 042;
+$debug: 0x42;
+$debug: 3.14;
+$debug: 3.14e-2;
+$debug: 3.14e3;
+$debug: "abc";
+$debug: [1, 2, 3];
+$debug: ("abc");
+$debug: (1, 2, 3);
+$debug: (int: 1, bool: 2, float: 3.14, char[]: "abc");
+$debug: ((1, 2), (3, 4));
 
-(debug) ("abc");
-(debug) (1, 2, 3);
+$debug: [1, 2, 3][0];
+$debug: [1, 2, 3][2];
+$debug: [1, 2, 3][-1];
 
-(debug) (int: 1, bool: 2, float: 3.14, char[]: "abc");
-(debug) ((1, 2), (3, 4));
-(debug) bool(true); bool(false);
-(debug) bool(-1); bool(0); bool(1);
-(debug) bool(0.0); bool(3.14);
-(debug) bool(""); bool("abc");
-(debug) bool([]); bool([1, 2, 3]);
-(debug) bool(()); bool((1, 2, 3));
-(debug) int(true);
-(debug) int(false);
-(debug) int(-1);
-(debug) int(0);
-(debug) int(1);
-(debug) int(0.0);
-(debug) int(3.14);
-(debug) int("0");
-(debug) int("1");
-(debug) float(true);
-(debug) float(false);
-(debug) float(-1);
-(debug) float(0);
-(debug) float(1);
-(debug) float(0.0);
-(debug) float(3.14);
-(debug) float("0.2");
-(debug) float("1.4");
-(debug) [1, 2, 3][0];
-(debug) [1, 2, 3][2];
-(debug) [1, 2, 3][-1];
-(debug) (1, 2, 3)[0];
-(debug) (1, 2, 3)[2];
-(debug) (1, 2, 3)[0 - 1];
-(debug) [+2, +3];
-(debug) .+ [2, 3];
-(debug) [-0, -1, -(-3)];
-(debug) .- [0, 1, (-3)];
-(debug) [3, !3, !!3];
-(debug) .! [3, 3, !3];
-(debug) [~0, ~2, ~(-3)];
-(debug) .~ [0, 2, (-3)];
-(debug) [7 ** 3, 0 ** 2];
-(debug) [7, 0] .** [3, 2];
-(debug) [7 * 3, 0 * 2];
-(debug) [7, 0] .* [3, 2];
-(debug) [7 % 3, 0 % 2];
-(debug) [7, 0] .% [3, 2];
-(debug) [7 / 3, 0 / 2];
-(debug) [7, 0] ./ [3, 2];
-(debug) 11 + 2;
-(debug) [11] .+ [2];
-(debug) 11 - 2;
-(debug) [11] .- [2];
-(debug) ["abc" + "def", "abc" + "", "" + "def"];
-(debug) ["abc", "abc", ""] .+ ["def", "", "def", "ghi"];
-(debug) [[1, 2, 3] + [4, 5, 6], [1, 2, 3] + [], [] + [4, 5, 6]];
-(debug) [[1, 2, 3], [1, 2, 3], []] .+ [[4, 5, 6], [], [4, 5, 6], [7, 8, 9]];
-(debug) [1 << 3, 256 << 5];
-(debug) [1, 256] .<< [3, 5];
-(debug) [1 >> 3, 256 >> 5];
-(debug) [1, 256] .>> [3, 5];
-(debug) [3 <  4, 4 <  4, 5 <  4, "a" <  "b", "b" <  "b", "c" <  "b", (1, 2) <  (1, 3), (2, 1) <  (2, 1), (3,) <  ()];
-(debug) [3 <= 4, 4 <= 4, 5 <= 4, "a" <= "b", "b" <= "b", "c" <= "b", (1, 2) <= (1, 3), (2, 1) <= (2, 1), (3,) <= ()];
-(debug) [3 == 4, 4 == 4, 5 == 4, "a" == "b", "b" == "b", "c" == "b", (1, 2) == (1, 3), (2, 1) == (2, 1), (3,) == ()];
-(debug) [3 >= 4, 4 >= 4, 5 >= 4, "a" >= "b", "b" >= "b", "c" >= "b", (1, 2) >= (1, 3), (2, 1) >= (2, 1), (3,) >= ()];
-(debug) [3 >  4, 4 >  4, 5 >  4, "a" >  "b", "b" >  "b", "c" <  "b", (1, 2) >  (1, 3), (2, 1) >  (2, 1), (3,) >  ()];
-(debug) [[3, 4, 5] .<  [4, 4, 4], ["a", "b", "c"] .<  ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .<  [(1, 3), (2, 1), ()]];
-(debug) [[3, 4, 5] .<= [4, 4, 4], ["a", "b", "c"] .<= ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .<= [(1, 3), (2, 1), ()]];
-(debug) [[3, 4, 5] .== [4, 4, 4], ["a", "b", "c"] .== ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .== [(1, 3), (2, 1), ()]];
-(debug) [[3, 4, 5] .>= [4, 4, 4], ["a", "b", "c"] .>= ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .>= [(1, 3), (2, 1), ()]];
-(debug) [[3, 4, 5] .>  [4, 4, 4], ["a", "b", "c"] .>  ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .>  [(1, 3), (2, 1), ()]];
-(debug) [0 == 0, 1 == 2, -1 == -1, "abc" == "abc", "abc" == "def", (1, 2) == (1, 2), (2, 3) == (4, 3)];
-(debug) [0 != 0, 1 != 2, -1 != -1, "abc" != "abc", "abc" != "def", (1, 2) != (1, 2), (2, 3) == (4, 3)];
-(debug) [[0, 1, -1] .== [0, 2, -1], ["abc", "abc"] .== ["abc", "def"], [(1, 2), (2, 3)] .== [(1, 2), (4, 3)]];
-(debug) [[0, 1, -1] .!= [0, 2, -1], ["abc", "abc"] .!= ["abc", "def"], [(1, 2), (2, 3)] .!= [(1, 2), (4, 3)]];
-(debug) 0x0F & 0xF8;
-(debug) [0x0F] .& [0xF8, 0x42];
-(debug) 0x0F ^ 0xF8;
-(debug) [0x0F] .^ [0xF8, 0x42];
-(debug) 0x0F | 0xF8;
-(debug) [0x0F] .| [0xF8, 0x42];
-(debug) [true && true, false && true, true && false, false && false]
-(debug) [true, false, true, false] .&& [true, true, false, false, true]
-(debug) [true || true, false || true, true || false, false || false]
-(debug) [true, false, true, false] .|| [true, true, false, false, false]
-(debug) [true ? 1 : 2, false ? 1 : 2]
-(debug) [3 ?: 4, 0 ?: 5]
-(debug) [true, false] .? [1, 1] : [2, 2]
-(debug) [3, 0] .?: [4, 5]
-(debug) [0 to 0, 1 to 10, 10 to 1];
-(debug) [true implies true, true implies false, false implies true, false implies false]
-(debug) [true iff true, true iff false, false iff true, false iff false]
+$debug: (1, 2, 3)[0];
+$debug: (1, 2, 3)[2];
+$debug: (1, 2, 3)[0 - 1];
+
+$debug: [+2, +3];
+$debug: .+ [2, 3];
+$debug: [-0, -1, -(-3)];
+$debug: .- [0, 1, (-3)];
+$debug: [-0.0, -0.1, -(-0.3)];
+$debug: .- [0.0, 0.1, (-0.3)];
+$debug: [3, !3, !!3];
+$debug: .! [3, 3, !3];
+$debug: [~0, ~2, ~(-3)];
+$debug: .~ [0, 2, (-3)];
+
+$debug: [7 ** 3, 0 ** 2];
+$debug: [7, 0] .** [3, 2];
+$debug: [0.7 ** 0.3, 0.0 ** 0.2];
+$debug: [0.7, 0] .** [0.3, 0.2];
+
+$debug: [7 * 3, 0 * 2];
+$debug: [7, 0] .* [3, 2];
+$debug: [0.7 * 0.3, 0.0 * 0.2];
+$debug: [0.7, 0.0] .* [0.3, 0.2];
+$debug: [7 % 3, 0 % 2];
+$debug: [7, 0] .% [3, 2];
+$debug: [0.7 % 0.3, 0 % 2];
+$debug: [0.7, 0.0] .% [0.3, 0.2];
+$debug: [7 / 3, 0 / 2];
+$debug: [7, 0] ./ [3, 2];
+$debug: [0.7 / 0.3, 0.0 / 0.2];
+$debug: [0.7, 0.0] ./ [0.3, 0.2];
+
+$debug: 11 + 2;
+$debug: [11] .+ [2];
+$debug: 11 - 2;
+$debug: [11] .- [2];
+
+$debug: ["abc" + "def", "abc" + "", "" + "def"];
+$debug: ["abc", "abc", ""] .+ ["def", "", "def", "ghi"];
+$debug: [[1, 2, 3] + [4, 5, 6], [1, 2, 3] + [], [] + [4, 5, 6]];
+$debug: [[1, 2, 3], [1, 2, 3], []] .+ [[4, 5, 6], [], [4, 5, 6], [7, 8, 9]];
+
+$debug: [1 << 3, 256 << 5];
+$debug: [1, 256] .<< [3, 5];
+$debug: [1 >> 3, 256 >> 5];
+$debug: [1, 256] .>> [3, 5];
+
+$debug: [3 <  4, 4 <  4, 5 <  4, "a" <  "b", "b" <  "b", "c" <  "b", (1, 2) <  (1, 3), (2, 1) <  (2, 1), (3,) <  ()];
+$debug: [3 <= 4, 4 <= 4, 5 <= 4, "a" <= "b", "b" <= "b", "c" <= "b", (1, 2) <= (1, 3), (2, 1) <= (2, 1), (3,) <= ()];
+$debug: [3 == 4, 4 == 4, 5 == 4, "a" == "b", "b" == "b", "c" == "b", (1, 2) == (1, 3), (2, 1) == (2, 1), (3,) == ()];
+$debug: [3 >= 4, 4 >= 4, 5 >= 4, "a" >= "b", "b" >= "b", "c" >= "b", (1, 2) >= (1, 3), (2, 1) >= (2, 1), (3,) >= ()];
+$debug: [3 >  4, 4 >  4, 5 >  4, "a" >  "b", "b" >  "b", "c" <  "b", (1, 2) >  (1, 3), (2, 1) >  (2, 1), (3,) >  ()];
+$debug: [[3, 4, 5] .<  [4, 4, 4], ["a", "b", "c"] .<  ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .<  [(1, 3), (2, 1), ()]];
+$debug: [[3, 4, 5] .<= [4, 4, 4], ["a", "b", "c"] .<= ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .<= [(1, 3), (2, 1), ()]];
+$debug: [[3, 4, 5] .== [4, 4, 4], ["a", "b", "c"] .== ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .== [(1, 3), (2, 1), ()]];
+$debug: [[3, 4, 5] .>= [4, 4, 4], ["a", "b", "c"] .>= ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .>= [(1, 3), (2, 1), ()]];
+$debug: [[3, 4, 5] .>  [4, 4, 4], ["a", "b", "c"] .>  ["b", "b", "b"], [(1, 2), (2, 1), (3,)] .>  [(1, 3), (2, 1), ()]];
+
+$debug: [0 == 0, 1 == 2, -1 == -1, "abc" == "abc", "abc" == "def", (1, 2) == (1, 2), (2, 3) == (4, 3)];
+$debug: [0 != 0, 1 != 2, -1 != -1, "abc" != "abc", "abc" != "def", (1, 2) != (1, 2), (2, 3) == (4, 3)];
+$debug: [[0, 1, -1] .== [0, 2, -1], ["abc", "abc"] .== ["abc", "def"], [(1, 2), (2, 3)] .== [(1, 2), (4, 3)]];
+$debug: [[0, 1, -1] .!= [0, 2, -1], ["abc", "abc"] .!= ["abc", "def"], [(1, 2), (2, 3)] .!= [(1, 2), (4, 3)]];
+
+$debug: 0x0F & 0xF8;
+$debug: [0x0F] .& [0xF8, 0x42];
+
+$debug: 0x0F ^ 0xF8;
+$debug: [0x0F] .^ [0xF8, 0x42];
+
+$debug: 0x0F | 0xF8;
+$debug: [0x0F] .| [0xF8, 0x42];
+
+$debug: [true && true, false && true, true && false, false && false]
+$debug: [true, false, true, false] .&& [true, true, false, false, true]
+
+$debug: [true || true, false || true, true || false, false || false]
+$debug: [true, false, true, false] .|| [true, true, false, false, false]
+
+$debug: [true ? 1 : 2, false ? 1 : 2]
+$debug: [3 ?: 4, 0 ?: 5]
+
+$debug: [true, false] .? [1, 1] : [2, 2]
+$debug: [3, 0] .?: [4, 5]
+
+$debug: [true implies true, true implies false, false implies true, false implies false]
+
+$debug: [true iff true, true iff false, false iff true, false iff false]
+
+$debug: bool(true);
+$debug: bool(false);
+$debug: bool(-1);
+$debug: bool(0);
+$debug: bool(1);
+$debug: bool(0.0);
+$debug: bool(3.14);
+$debug: bool("");
+$debug: bool("abc");
+$debug: bool([]);
+$debug: bool([1, 2, 3]);
+$debug: bool(());
+$debug: bool((1, 2, 3));
+
+$debug: int(true);
+$debug: int(false);
+$debug: int(-1);
+$debug: int(0);
+$debug: int(1);
+$debug: int(0.0);
+$debug: int(-3.14);
+$debug: int(3.14);
+$debug: int("0");
+$debug: int("7");
+$debug: int("-010");
+$debug: int("-10");
+$debug: int("-0x10");
+$debug: int("+010");
+$debug: int("+10");
+$debug: int("+0x10");
+
+$debug: float(true);
+$debug: float(false);
+$debug: float(-1);
+$debug: float(0);
+$debug: float(1);
+$debug: float(0.0);
+$debug: float(3.14);
+$debug: float("0.2");
+$debug: float("1.4");
 
 z = 2 + 3;
 foo = $int x, int y: x + y + z;
 
-(debug) foo(1, 2);
+$debug: foo(1, 2);
 
 bar = $char[] str: len(str) << 2;
 
-(debug) bar("hello");
+$debug: bar("hello");
 
 har = $(int, float[]) tuple: tuple[0] + len(tuple[1]);
 
-(debug) call($int x, y: x + y, (2, 3));
+$debug: call($int x, y: x + y, (2, 3));
 
-filter($x: x % 2, 1 to 10);
+$debug: filter($x: x % 2, 1 to 10);
 
-reduce($x, y: x + y, 1 to 10);
+$debug: reduce($x, y: x + y, 1 to 10);
 
-sum(1 to 10);
+$debug: range(10);
 
-zip(1 to 10, 1 to 10);
+$debug: range(1, 10);
 
-unique(map($x: x _/ 2, 1 to 10));
+$debug: range(1, 10, 2);
+
+$debug: sum(1 to 10);
+
+$debug: zip(1 to 10, 1 to 10);
+
+$debug: unique(map($x: x _/ 2, 1 to 10));
 
 
 

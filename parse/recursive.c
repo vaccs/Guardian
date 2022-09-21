@@ -12,6 +12,7 @@
 #include "directives/skip.h"
 #include "directives/start.h"
 #include "directives/using.h"
+#include "directives/debug.h"
 
 #include "read_grammar_rule.h"
 #include "read_value_declaration.h"
@@ -60,6 +61,22 @@ void recursive_parse(
 						// process_directive(pragma_once, dirfd, tokenizer);
 						TODO;
 					}
+					else if (strequals(string, "%""error"))
+					{
+						TODO;
+					}
+					else if (strequals(string, "%""warning"))
+					{
+						TODO;
+					}
+					else if (strequals(string, "%""note"))
+					{
+						TODO;
+					}
+					else if (strequals(string, "%""debug"))
+					{
+						process_debug_directive(tokenizer, scope);
+					}
 					else
 					{
 						TODO;
@@ -95,13 +112,6 @@ void recursive_parse(
 					
 					free_string(name);
 					
-					break;
-				}
-				
-				// assertion:
-				case t_enforcement_level:
-				{
-					TODO;
 					break;
 				}
 				

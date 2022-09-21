@@ -41,6 +41,7 @@
 	struct type;
 	struct gegex_transition;
 	struct grammar_type;
+	struct expression;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>

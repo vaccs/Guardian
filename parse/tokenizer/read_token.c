@@ -46,6 +46,9 @@ static const enum state {
 	s_dash,
 	s_emark,
 	s_equals,
+	s_octal_integer,
+	s_decimal_integer,
+	s_hexadecimal_integer,
 	
 	s_directive,
 	s_scalar_hashtag,
@@ -80,6 +83,12 @@ static const enum state {
 	s_reading_hashtag,
 	s_reading_hashtag2,
 	s_reading_hashtag3,
+	
+	s_read_0,
+	s_reading_octal_integer,
+	s_reading_decimal_integer,
+	s_prereading_hexadecimal_integer,
+	s_reading_hexadecimal_integer,
 	
 	s_reading_identifier,
 	
@@ -166,6 +175,24 @@ static const enum state {
 		[s_reading_identifier][    '_'    ] = s_reading_identifier,
 		[s_reading_identifier]['a' ... 'z'] = s_reading_identifier,
 		[s_reading_identifier]['A' ... 'Z'] = s_reading_identifier,
+	
+	// octal, hexadecimal, and decimal integer literals:
+	[s_start]['0'] = s_read_0,
+		[s_read_0][ANY] = s_decimal_integer,
+		[s_read_0]['1' ... '7'] = s_reading_octal_integer,
+			[s_reading_octal_integer][ANY] = s_octal_integer,
+			[s_reading_octal_integer]['0' ... '7'] = s_reading_octal_integer,
+		[s_read_0]['x'] = s_prereading_hexadecimal_integer,
+			[s_prereading_hexadecimal_integer]['0' ... '9'] = s_reading_hexadecimal_integer,
+			[s_prereading_hexadecimal_integer]['a' ... 'f'] = s_reading_hexadecimal_integer,
+			[s_prereading_hexadecimal_integer]['A' ... 'F'] = s_reading_hexadecimal_integer,
+				[s_reading_hexadecimal_integer][ANY] = s_hexadecimal_integer,
+				[s_reading_hexadecimal_integer]['0' ... '9'] = s_reading_hexadecimal_integer,
+				[s_reading_hexadecimal_integer]['a' ... 'f'] = s_reading_hexadecimal_integer,
+				[s_reading_hexadecimal_integer]['A' ... 'F'] = s_reading_hexadecimal_integer,
+	[s_start]['1' ... '9'] = s_reading_decimal_integer,
+		[s_reading_decimal_integer][ANY] = s_decimal_integer,
+		[s_reading_decimal_integer]['0' ... '9'] = s_reading_decimal_integer,
 	
 	// character literal:
 	[s_start]['\''] = s_reading_character1,
@@ -339,6 +366,18 @@ void read_token(struct tokenizer* this)
 			
 			EXIT;
 		}
+		
+		case s_octal_integer:
+			TODO;
+			break;
+		
+		case s_decimal_integer:
+			TODO;
+			break;
+		
+		case s_hexadecimal_integer:
+			TODO;
+			break;
 		
 		case s_character:
 			escapes();

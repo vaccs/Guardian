@@ -1,5 +1,5 @@
 
-// $using "set-templates.maia"
+// %using "set-templates.maia"
 
 // builtin functions:
 	// all
@@ -32,6 +32,7 @@
 		// (tuple construction, ), parenthesis
 	
 	// '$1($2, ...)`: function-call
+	// '$1!($2, ...)`: macro-call
 	// '$1.field': field-access
 	// '$1[index]': list-index
 	// '$1.[index]': element-wise list-index
@@ -120,7 +121,7 @@
 // "boolean" as a variable refers to the list of those types that were parsed.
 boolean: "true" #true_ | "false" #false_;
 
-integer: /['-','+']? ['1'-'9'] ['0'-'9']* / #literal;
+integer: / [ '-', '+']? ['1'-'9'] ['0'-'9']* / #literal;
 
 string: /'\"' [!'\"']* '\"'/ #literal;
 
@@ -134,25 +135,103 @@ value: boolean | integer | string | list | dict;
 
 %start: value;
 
+%debug: 10 + 010 + 0x10;
+
+z = 4;
+
+foo = {$int x, y: x + y, $int x, y: x - y * z};
+
+%debug: foo[0](1, 2);
+
+%debug: foo[1](13, 2);
+
+z2 = len(value);
+
+foo2 = {$int x, y: x + y, $int x, y: x - y * z2};
+
+%note: foo2[0](1, 2);
+
+%note: foo2[1](13, 2);
+
+bar = $int x: x + 2;
+har = $ $int:int f, int x: f(x);
+
+%note: har(bar, 3);
+
+// lambda has a list of parameters
+// and a list of variables they want to "capture"
+// this is a *union* of what they need directly, and what any of their
+// children-lambdas need.
+// This will make a tree-like shape.
+
+jim = $int x: $: $: x;
+
+jim1 = jim(3);
+
+jim2 = jim(4);
+
+%debug: (jim1, jim2);
+
+// if we use zebu for this, we'll need it to support inserting fields
+// into it's generated structs. I'm okay with it setting them to NULL,
+// but I will need to be able to set the deconstructor.
+
+// parse file into parse-tree
+	// all grammar rules
+	// all value-declarations
+	// all assertions
+
+// parse-tree-expressions have no datatype, so variable-references only have
+	// a string
+
+// for each value-declare and assertion:
+	// traverse through expression, looking for lambdas
+		// for each lambda, make a dict from variable-name to the
+		// variable-expressions using them.
+		// union-in needs of children lambdas
+		// for your parameters, you know the types, set those expression's
+		// datatype and cross those off the list
+		// pass that list back
+	// for all entries remaining on list when we reach root-scope
+	// should be looked-up and filled-out, error if we can't.
+	// this way each lambda will know exactly what it needs to capture and what
+	// datatype the captured variables are.
+
+// now we can do type-checking, and conversion to typed-expressions
+	// literals and variables know their type
+	// complex expressions learn their type, from their children expressions
+
+// when we do code-generation:
+	// when building a lambda, which now knows it's needs.
+	// if the creator is another lambda:
+		// it will hand either stuff from parameters or it's own captured
+			// variables. It has to be either one of those. and the names
+			// can't be reused.
+	// if the creator is root scope:
+		// hand stuff with the same name as root scope. no confusion there
+		// either!
+
+another = $int x: $: {$int y: x - y, $int y: x + y};
+
 blacklist = "\"" .+ {"abc", "def", "ghi"} .+ "\"";
 
-assert: (debug) len(blacklist);
+%debug: len(blacklist);
 
-(debug) 1 + 2;
+// no key of any dictionary can be equal to "abc", "def", or "ghi":
+%error: all($char[] s, b: s != b, keyvalue.key, blacklist);
 
-// no key of any dictionary can be equal to "abc":
-(require) all($char[] s, b: s != b, keyvalue.key, blacklist);
+%error: all($dict d: all($keyvalue e: len(filter($keyvalue f: e.key == f.key, d.entries))) == 1, d.entries), dict);
 
 // every integer read from the file must be prime:
-(warn) all($int u: u > 1 implies all($int n: u % n, 1:u), map(int, integer.literal));
+%warning: all($int u: u > 1 implies all($int n: u % n, 1:u), map(int, integer.literal));
 
 // the number of "true"s read has to be equal to the number "false"s read:
-(info) len(boolean.true_) == len(boolean.false_);
+%warning: len(boolean.true_) == len(boolean.false_);
 
 // keys of the same dictionary can't start with the same letter:
 nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], range(list), range(list));
 
-(warn) all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
+%warning: all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
 
 
 

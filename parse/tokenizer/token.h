@@ -35,8 +35,6 @@ enum token
 	t_character,
 	t_string,
 	
-	t_enforcement_level,
-	
 	number_of_tokens,
 };
 
