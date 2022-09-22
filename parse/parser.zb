@@ -59,7 +59,6 @@ primary_expression
 	| `char`
 	| `string`
 	| `identifier`
-	| '(' expression ')'
 	| '(' (expression (',' expression)*)? ')'
 	| '[' (expression (',' expression)*)? ']'
 	;
@@ -154,7 +153,6 @@ primary_type
 	| "char"
 	| `identifier`
 	| primary_type "[]"
-	| '(' type ')'
 	| '(' (type (',' type)*)? ')'
 	;
 
