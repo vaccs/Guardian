@@ -1,4 +1,5 @@
 
+#if 0
 #include <debug.h>
 
 #include "struct.h"
@@ -20,3 +21,4 @@ struct rbundle new_regex_from_charset(charset_t charset)
 	return (struct rbundle) {start, accept};
 }
 
+#endif

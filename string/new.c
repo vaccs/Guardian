@@ -1,4 +1,5 @@
 
+#if 0
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -93,4 +94,4 @@ struct string* new_string_from_format(const char* fmt, ...)
 
 
 
-
+#endif

@@ -172,19 +172,20 @@ implication_expression: possession_expression ("implies" possession_expression)*
 expression: implication_expression ("iff" implication_expression)*;
 
 entry
-	: "%" "skip"   ":" regex ';'
-	| "%" "start"  ":" grammar ';'
-	| `identifier` ':' grammar ';'
-	| `identifier` '=' expression ';'
-	|  ("%" "debug" ":")? expression ';'
-	|  ("%" "note" ":")? expression ';'
-	|  ("%" "warning" ":")? expression ';'
-	|  ("%" "error" ":")? expression ';'
+	: "%" "using" #using `string` #path ';'
+	| "%" "skip" #skip ":" regex #regex ';'
+	| "%" "start" #start ":" grammar ';'
+	| `identifier` ':' grammar #grammar ';'
+	| `identifier` '=' expression #expression ';'
+	|  ("%" "debug" #debug ":")? expression #assertion ';'
+	|  ("%" "note" #note ":")? expression #assertion ';'
+	|  ("%" "warning" #warning ":")? expression #assertion ';'
+	|  ("%" "error" #error ":")? expression #assertion ';'
 	;
 
-root: entry+;
+root: (entry #entries[]) +;
 
-%start: root;
+%start: root #root;
 
 
 

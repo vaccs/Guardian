@@ -26,7 +26,7 @@ CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wno-unused-label
 
 else ifeq ($(buildtype), debug)
-CPPFLAGS += -D DEBUGGING
+CPPFLAGS += -D DEBUGGING -D DEBUG
 
 CFLAGS += -g
 CFLAGS += -Wno-unused-variable
@@ -86,6 +86,7 @@ gen/srclist.mk: | gen/%/
 
 ifneq "$(MAKECMDGOALS)" "clean"
 include gen/srclist.mk
+srcs += ./parse/parser.c
 endif
 
 objs := $(patsubst %.c,$(buildprefix)/%.o,$(srcs))
@@ -93,6 +94,9 @@ objs := $(patsubst %.S,$(buildprefix)/%.o,$(objs))
 
 deps := $(patsubst %.c,$(buildprefix)/%.d,$(srcs))
 deps := $(patsubst %.S,$(buildprefix)/%.d,$(deps))
+
+parse/parser.c parse/parser.h: parse/parser.zb
+	zebu -v -m --template=fileio -i $< -o parse/parser
 
 $(buildprefix)/%.o $(buildprefix)/%.d: %.c | $(buildprefix)/%/
 	@ echo "compiling $<"

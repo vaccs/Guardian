@@ -8,20 +8,22 @@
 #include <cmdln/process.h>
 #include <cmdln/free.h>
 
-#include <named/grammar/compare.h>
-#include <named/grammar/free.h>
+#include <parse/driver.h>
 
-#include <lex/new.h>
-#include <lex/free.h>
+/*#include <named/grammar/compare.h>*/
+/*#include <named/grammar/free.h>*/
 
-#include <parse/mains.h>
+/*#include <lex/new.h>*/
+/*#include <lex/free.h>*/
 
-#include <set/expression/new.h>
-#include <set/expression/free.h>
+/*#include <parse/mains.h>*/
 
-#include <type_cache/new.h>
+/*#include <set/expression/new.h>*/
+/*#include <set/expression/free.h>*/
 
-#include <type_cache/free.h>
+/*#include <type_cache/new.h>*/
+
+/*#include <type_cache/free.h>*/
 
 int main(int argc, char* const* argv)
 {
@@ -33,6 +35,10 @@ int main(int argc, char* const* argv)
 	
 	struct cmdln* flags = cmdln_process(argc, argv);
 	
+	parse_driver(flags->input_path);
+	
+	TODO;
+	#if 0
 	struct lex* lex = new_lex();
 	
 	struct type_cache* tcache = new_type_cache();
@@ -43,8 +49,6 @@ int main(int argc, char* const* argv)
 	
 	mains_parse(assertions, grammar, tcache, lex, flags->input_path);
 	
-	TODO;
-	#if 0
 	// scope:
 		// needs push, pop, declare, lookup functions.
 		// also saves named_gegexes
@@ -105,7 +109,6 @@ int main(int argc, char* const* argv)
 				// 2. globals and lambdas
 				// 3. assertions
 		
-	#endif
 	
 	avl_free_tree(grammar);
 	
@@ -113,9 +116,10 @@ int main(int argc, char* const* argv)
 	
 	free_type_cache(tcache);
 	
-	free_cmdln(flags);
-	
 	free_lex(lex);
+	#endif
+	
+	free_cmdln(flags);
 	
 	EXIT;
 	return 0;
