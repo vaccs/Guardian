@@ -14,6 +14,7 @@
 	// call
 	// bool
 	// int
+	// sort
 	// float
 	// range
 
@@ -44,7 +45,7 @@
 	// ' !': logical-not
 	// '.!': element-wise logical-not
 	// ' ~': bitwise-not
-	// '.~': element-wise bitwise-not
+	// '.~': element-wise 	bitwise-not
 	
 	// '**': exponentiation
 	// '.**': element-wise equivalent
@@ -81,6 +82,8 @@
 	
 	// ' ?' & ':': ternary-conditional
 	// '.?' & ':': element-wise equivalent
+	
+	// "has"-operator
 	
 	// "implies"-operator
 	
@@ -139,7 +142,7 @@ value: boolean | integer | string | list | dict;
 
 z = 4;
 
-foo = {$int x, y: x + y, $int x, y: x - y * z};
+foo = [$int x, y: (x + y), $int x, y: (x - y * z)];
 
 %debug: foo[0](1, 2);
 
@@ -147,16 +150,16 @@ foo = {$int x, y: x + y, $int x, y: x - y * z};
 
 z2 = len(value);
 
-foo2 = {$int x, y: x + y, $int x, y: x - y * z2};
+foo2 = [$int x, y: (x + y), $int x, y: (x - y * z2)];
 
 %note: foo2[0](1, 2);
 
 %note: foo2[1](13, 2);
 
-bar = $int x: x + 2;
-har = $ $int:int f, int x: f(x);
+bar = $int x, float y: (float(x) + y + 2.3);
+har = $ $int, float: float f, int x, float y: f(x, y);
 
-%note: har(bar, 3);
+har(bar, 3, 3.14);
 
 // lambda has a list of parameters
 // and a list of variables they want to "capture"
@@ -211,30 +214,28 @@ jim2 = jim(4);
 		// hand stuff with the same name as root scope. no confusion there
 		// either!
 
-another = $int x: $: {$int y: x - y, $int y: x + y};
+another = $int x: $: [$int y: (x - y), $int y: (x + y)];
 
-blacklist = "\"" .+ {"abc", "def", "ghi"} .+ "\"";
+blacklist = map($char[] c: ("\"" + c + "\""), ["abc", "def", "ghi"]);
 
-%debug: len(blacklist);
+len(blacklist);
 
 // no key of any dictionary can be equal to "abc", "def", or "ghi":
 %error: all($char[] s, b: s != b, keyvalue.key, blacklist);
 
-%error: all($dict d: all($keyvalue e: len(filter($keyvalue f: e.key == f.key, d.entries))) == 1, d.entries), dict);
+%error: all($dict d: all($keyvalue e: len(filter($keyvalue f: e.key == f.key, d.entries)) == 1, d.entries), dict);
 
 // every integer read from the file must be prime:
-%warning: all($int u: u > 1 implies all($int n: u % n, 1:u), map(int, integer.literal));
+%warning: all($int u: u > 1 implies all($int n: u % n != 0, range(1, u)), map(int, integer.literal));
 
 // the number of "true"s read has to be equal to the number "false"s read:
 %warning: len(boolean.true_) == len(boolean.false_);
+%warning: sum($boolean b: int(b has true_), boolean) == sum($boolean b: int(b has false_), boolean);
 
 // keys of the same dictionary can't start with the same letter:
 nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], range(list), range(list));
 
-%warning: all($dict d: nonrepeating(map($char[] s: s[0], d:.keyvalue:.string)), dict);
-
-
-
+%warning: all($dict d: nonrepeating(map($char[] s: s[0], d.keyvalue.string)), dict);
 
 
 
