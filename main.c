@@ -38,34 +38,20 @@ int main(int argc, char* const* argv)
 	
 	struct lex* lex = new_lex();
 	
+	struct ptrset* assertions = new_ptrset();
+	
+	struct type_cache* tcache = new_type_cache();
+	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	
 	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	
 	struct avl_tree_t* declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
 	
-	struct ptrset* assertions = new_ptrset();
-	
-	struct type_cache* tcache = new_type_cache();
-	
 	parse_driver(lex, grammar, types, declares, assertions, tcache, flags->input_path);
 	
 	TODO;
 	#if 0
-	
-	// traverse through parse-tree:
-		// regular expressions:
-			// build NFA
-			// convert to DFA and simplifiy at the end
-			// get token id from lexer
-		// grammar rules:
-			// build NFA
-			// parse grammar as NFA
-			// build big structinfo
-			// generate grammar datatype,
-			// declare type into scope
-			// declared named grammar into scope
-	
 	// process lambda-captures/variable references:
 		// gives each parse-tree variable-use a type, maybe even a value
 	
@@ -73,6 +59,8 @@ int main(int argc, char* const* argv)
 		// will create new expression structs with types
 	
 	// generate parser
+	
+	// print source for all types 
 	
 	// print source for parser
 	
@@ -97,19 +85,22 @@ int main(int argc, char* const* argv)
 				// 1. parsing and set-building
 				// 2. globals and lambdas
 				// 3. assertions
-		
-	
-	avl_free_tree(grammar);
-	
-	free_expressionset(assertions);
-	
-	free_type_cache(tcache);
 	
 	#endif
 	
-	free_lex(lex);
+	free_ptrset(assertions);
+	
+	free_type_cache(tcache);
+	
+	avl_free_tree(declares);
+	
+	avl_free_tree(grammar);
+	
+	avl_free_tree(types);
 	
 	free_cmdln(flags);
+	
+	free_lex(lex);
 	
 	EXIT;
 	return 0;
