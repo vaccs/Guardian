@@ -5,36 +5,52 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <debug.h>
 
 #include <memory/smalloc.h>
 
 #include <parse/tokenizer/struct.h>
+#endif
+
+#include <debug.h>
+
+#include <parse/parser.h>
 
 #include "struct.h"
 #include "new.h"
 
-struct string* new_string_without_copy(char* str)
+struct string* new_string_from_token(const struct token* token)
 {
 	ENTER;
 	
-	dpvs(str);
+	dpvsn(token->data, token->len);
 	
 	struct string* this = smalloc(sizeof(*this));
 	
-	this->chars = str;
-	this->len = strlen(str);
+	this->chars = memcpy(malloc(token->len), token->data, token->len);
+	this->len = token->len;
 	this->refcount = 1;
 	
 	EXIT;
 	return this;
 }
 
-struct string* new_string(const char* str)
+struct string* new_string(const char* str, unsigned len)
 {
-	return new_string_without_copy(strdup(str));
+	ENTER;
+	
+	dpvsn(str, len);
+	
+	struct string* this = smalloc(sizeof(*this));
+	
+	this->chars = memcpy(malloc(len), str, len);
+	this->len = len;
+	this->refcount = 1;
+	
+	EXIT;
+	return this;
 }
 
+#if 0
 struct string* new_string_from_tokenchars(struct tokenizer* tokenizer)
 {
 	return new_string((const char*) tokenizer->tokenchars.chars);

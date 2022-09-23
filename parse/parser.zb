@@ -11,47 +11,51 @@
 
 `identifier`: ['a'-'z'] ['_', 'a'-'z', '0'-'9']*;
 
-charset_highest: `char` | `int` | '(' charset ')';
+charset_highest
+	: `char` #character
+	| `int` #integer
+	| '(' charset #subcharset ')'
+	;
 
-charset_prefix: '!'? charset_highest;
+charset_prefix: ('!' #emark)? charset_highest #base;
 
-charset_range: charset_prefix ('-' charset_prefix)?;
+charset_range: charset_prefix #left ('-' charset_prefix #right)?;
 
-charset_intersect: charset_range ('&' charset_range)*;
+charset_intersect: charset_range #base ('&' charset_range #intersects[])*;
 
-charset_symdif: charset_intersect ('^' charset_intersect)*;
+charset_symdiff: charset_intersect #base ('^' charset_intersect #xors[])*;
 
-charset: charset_symdif ((',' | '|')? charset_symdif)*;
+charset: charset_symdiff #base ((',' | '|')? charset_symdiff #ors[])*;
 
 regex_highest
-	: `char`
-	| `int`
-	| `string`
-	| '(' regex ')'
-	| '[' charset ']'
+	: `char` #character
+	| `int` #integer
+	| `string` #string
+	| '(' regex #subregex ')'
+	| '[' charset #charset ']'
 	;
 
-regex_postfix: regex_highest ('+' | '?' | '*')?;
+regex_postfix: regex_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
 
-regex_jux: regex_postfix+;
+regex_juxtaposition: regex_postfix #base (regex_postfix #juxtapositions[])*;
 
-regex: regex_jux ('|' regex_jux)*;
+regex: regex_juxtaposition #base ('|' regex_juxtaposition #ors[])*;
 
 grammar_highest
-	: `char` `'#' ['a'-'z','_']+ "[]"?`?
-	| `int` `'#' ['a'-'z','_']+ "[]"?`?
-	| `string` `'#' ['a'-'z','_']+ "[]"?`?
-	| `identifier` `'#' ['a'-'z','_']+ "[]"?`?
-	| '/' regex '/' `'#' ['a'-'z','_']+ "[]"?`?
-	| '[' charset ']' `'#' ['a'-'z','_']+ "[]"?`?
-	| '(' grammar ')'
+	: `char` #character (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `int` #integer (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `string` #string (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `identifier` #name (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '/' regex #regex '/' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '[' charset #charset ']' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '(' grammar #subgrammar ')'
 	;
 
-grammar_postfix: grammar_highest ('+' | '?' | '*')?;
+grammar_postfix: grammar_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
 
-grammar_jux: grammar_postfix+;
+grammar_juxtaposition: grammar_postfix #base (grammar_postfix #juxtapositions[])*;
 
-grammar: grammar_jux ('|' grammar_jux)*;
+grammar: grammar_juxtaposition #base ('|' grammar_juxtaposition #ors[])*;
 
 primary_expression
 	: `int`
@@ -174,9 +178,9 @@ expression: implication_expression ("iff" implication_expression)*;
 entry
 	: "%" "using" #using `string` #path ';'
 	| "%" "skip" #skip ":" regex #regex ';'
-	| "%" "start" #start ":" grammar ';'
-	| `identifier` ':' grammar #grammar ';'
-	| `identifier` '=' expression #expression ';'
+	| "%" "start" #start ":" grammar #grammar ';'
+	| `identifier` #name ':' grammar #grammar ';'
+	| `identifier` #name '=' expression #expression ';'
 	|  ("%" "debug" #debug ":")? expression #assertion ';'
 	|  ("%" "note" #note ":")? expression #assertion ';'
 	|  ("%" "warning" #warning ":")? expression #assertion ';'

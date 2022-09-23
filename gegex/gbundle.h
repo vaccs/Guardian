@@ -4,7 +4,7 @@
 
 struct gbundle
 {
-	struct gegex *start, *accept;
+	struct gegex *start, *accepts;
 };
 
 #endif

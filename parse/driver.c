@@ -10,8 +10,11 @@
 #include <misc/break_and_open_path.h>
 
 #include "skip.h"
+#include "grammar.h"
 #include "parser.h"
 #include "driver.h"
+#include "declare.h"
+#include "assertion.h"
 
 struct file_descriptor
 {
@@ -46,7 +49,9 @@ static void free_file_descriptor(struct file_descriptor* this)
 	
 	if (!--this->refcount)
 	{
-		TODO;
+		if (this->fd > 0)
+			close(this->fd);
+		free(this);
 	}
 	else
 	{
@@ -91,7 +96,14 @@ static int compare(const void* a, const void* b)
 	TODO;
 }
 
-void parse_driver(const char* input_path)
+void parse_driver(
+	struct lex* lex,
+	struct avl_tree_t* grammar,
+	struct avl_tree_t* types,
+	struct avl_tree_t* declares,
+	struct ptrset* assertions,
+	struct type_cache* tcache,
+	const char* input_path)
 {
 	ENTER;
 	
@@ -135,35 +147,22 @@ void parse_driver(const char* input_path)
 				TODO;
 			}
 			else if (entry->skip)
-			{
-				process_skip(entry);
-			}
+				process_skip(lex, entry);
 			else if (entry->start)
-			{
-				TODO;
-			}
+				process_start(lex, grammar, entry);
 			else if (entry->grammar)
-			{
-				TODO;
-			}
+				process_grammar(lex, grammar, types, declares, tcache, entry);
 			else if (entry->expression)
-			{
-				TODO;
-			}
+				process_declare(grammar, declares, entry);
 			else if (entry->assertion)
-			{
-				// maybe 'debug', 'note', 'warning', 'error'
-				TODO;
-			}
+				process_assertion(assertions, entry);
 			else
 			{
 				TODO;
 			}
 		}
 		
-		TODO;
-		
-		free_zebu_$start_ptree(start);
+		free_zebu_$start(start);
 		
 		fclose(stream);
 		

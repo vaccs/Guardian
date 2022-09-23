@@ -26,7 +26,8 @@ CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wno-unused-label
 
 else ifeq ($(buildtype), debug)
-CPPFLAGS += -D DEBUGGING -D DEBUG
+CPPFLAGS += -D DEBUGGING
+#CPPFLAGS += -D ZEBU_DEBUG
 
 CFLAGS += -g
 CFLAGS += -Wno-unused-variable

@@ -1,12 +1,7 @@
 
-struct tokenizer;
+struct token;
 
-struct string* new_string_without_copy(char* str);
+struct string* new_string_from_token(const struct token* token);
 
-struct string* new_string(const char* str);
-
-struct string* new_string_from_tokenchars(struct tokenizer* tokenizer);
-
-struct string* new_string_from_format(const char* fmt, ...);
-
+struct string* new_string(const char* str, unsigned len);
 

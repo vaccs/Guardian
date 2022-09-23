@@ -4,7 +4,7 @@
 
 struct rbundle
 {
-	struct regex *start, *accept;
+	struct regex *start, *accepts;
 };
 
 #endif

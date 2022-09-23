@@ -81,7 +81,7 @@ struct regex* regex_nfa_to_dfa(struct rbundle nfa)
 {
 	ENTER;
 	
-	nfa.accept->accepts = true;
+	nfa.accepts->accepts = true;
 	
 	struct quack* todo = new_quack();
 	

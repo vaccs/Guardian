@@ -95,7 +95,7 @@ struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 {
 	ENTER;
 	
-	original.accept->accepts = true;
+	original.accepts->accepts = true;
 	
 	struct quack* todo = new_quack();
 	

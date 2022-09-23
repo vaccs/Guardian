@@ -9,8 +9,15 @@
 int compare_strings(const void* a, const void* b)
 {
 	const struct string *A = a, *B = b;
-	dpvs(A->chars);
-	dpvs(B->chars);
-	return strcmp(A->chars, B->chars);
+	
+	dpvsn(A->chars, A->len);
+	dpvsn(B->chars, B->len);
+	
+	if (A->len > B->len)
+		return +1;
+	else if (A->len < B->len)
+		return -1;
+	else
+		return strncmp(A->chars, B->chars, A->len);
 }
 

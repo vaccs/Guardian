@@ -10,20 +10,21 @@
 
 #include <parse/driver.h>
 
-/*#include <named/grammar/compare.h>*/
-/*#include <named/grammar/free.h>*/
+#include <named/grammar/compare.h>
+#include <named/grammar/free.h>
 
-/*#include <lex/new.h>*/
-/*#include <lex/free.h>*/
+#include <named/type/compare.h>
+#include <named/type/free.h>
 
-/*#include <parse/mains.h>*/
+#include <named/zebu_expression/compare.h>
+#include <named/zebu_expression/free.h>
 
-/*#include <set/expression/new.h>*/
-/*#include <set/expression/free.h>*/
+#include <set/ptr/new.h>
 
-/*#include <type_cache/new.h>*/
+#include <lex/new.h>
+#include <lex/free.h>
 
-/*#include <type_cache/free.h>*/
+#include <type_cache/new.h>
 
 int main(int argc, char* const* argv)
 {
@@ -35,53 +36,41 @@ int main(int argc, char* const* argv)
 	
 	struct cmdln* flags = cmdln_process(argc, argv);
 	
-	parse_driver(flags->input_path);
-	
-	TODO;
-	#if 0
 	struct lex* lex = new_lex();
-	
-	struct type_cache* tcache = new_type_cache();
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	
-	struct expressionset* assertions = new_expressionset();
+	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	
-	mains_parse(assertions, grammar, tcache, lex, flags->input_path);
+	struct avl_tree_t* declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
 	
-	// scope:
-		// needs push, pop, declare, lookup functions.
-		// also saves named_gegexes
+	struct ptrset* assertions = new_ptrset();
 	
-	// parse
-		// grammar declarations:
-			// regular expressions:
-				// parse as NFA
-				// convert to DFA and simplifiy at the end
-				// get token id from lexer
-			// token transitions:
-				// tokens have a type: boolean, integer, string
-				// include in gegex's transition's structinfo
-			// grammar transitions:
-				// we may not have read this grammar yet, but we still know the
-				// datatype
+	struct type_cache* tcache = new_type_cache();
+	
+	parse_driver(lex, grammar, types, declares, assertions, tcache, flags->input_path);
+	
+	TODO;
+	#if 0
+	
+	// traverse through parse-tree:
+		// regular expressions:
+			// build NFA
+			// convert to DFA and simplifiy at the end
+			// get token id from lexer
+		// grammar rules:
+			// build NFA
 			// parse grammar as NFA
 			// build big structinfo
 			// generate grammar datatype,
 			// declare type into scope
 			// declared named grammar into scope
-		// defines:
-			// parse expression
-			// evaluate now
-			// save result to scope
-		// assertions
-			// read as a parse-tree-expression
-				// any lambdas you find, should be added to the lambda todo list
-			// add to list
 	
-	// list for converted assertions
+	// process lambda-captures/variable references:
+		// gives each parse-tree variable-use a type, maybe even a value
 	
-	// tree of converted lambdas (original) -> specialized
+	// type-check/specialize expressions
+		// will create new expression structs with types
 	
 	// generate parser
 	
@@ -116,8 +105,9 @@ int main(int argc, char* const* argv)
 	
 	free_type_cache(tcache);
 	
-	free_lex(lex);
 	#endif
+	
+	free_lex(lex);
 	
 	free_cmdln(flags);
 	
