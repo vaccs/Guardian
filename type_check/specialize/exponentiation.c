@@ -1,0 +1,32 @@
+
+#include <debug.h>
+
+#include <parse/parser.h>
+
+#include "unary.h"
+#include "exponentiation.h"
+
+struct expression* specialize_exponentiation_expression(
+	struct type_cache* tcache,
+	struct zebu_exponentiation_expression* zexpression)
+{
+	struct expression* retval;
+	ENTER;
+	
+	if (zexpression->base)
+	{
+		retval = specialize_unary_expression(tcache, zexpression->base);
+	}
+	else if (zexpression->left)
+	{
+		TODO;
+	}
+	else
+	{
+		TODO;
+	}
+	
+	EXIT;
+	return retval;
+}
+

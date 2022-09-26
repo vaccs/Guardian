@@ -41,8 +41,13 @@
 	struct type_cache;
 	struct type;
 	struct gegex_transition;
+	struct zebu_expression;
 	struct grammar_type;
 	struct expression;
+	struct unresolved;
+	struct zebu_primary_expression;
+	struct zebu_type;
+	struct value;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -57,7 +62,9 @@
 	#include <avl/alloc_tree.h>
 	#include <avl/search.h>
 	#include <avl/insert.h>
+	#include <avl/foreach.h>
 	#include <avl/free_tree.h>
+	#include <avl/delete_node.h>
 	#include <avl/delete.h>
 	
 	#include <string/struct.h>
@@ -66,6 +73,12 @@
 	#include <string/compare.h>
 	#include <string/are_equal.h>
 	#include <string/free.h>
+	
+	#include <set/ptr/new.h>
+	#include <set/ptr/add.h>
+	#include <set/ptr/foreach.h>
+	#include <set/ptr/free.h>
+	
 #endif
 
 #ifdef DEBUGGING
@@ -149,14 +162,14 @@
 	#define dpvc(ch) \
 		real_dpvc(#ch, ch);
 	
-	#define dpvsn(str, len) { \
+	#define dpvsn(str, _len) { \
 		_Generic(str, \
-			char*:          real_dpvsn (#str, ( char  *) (str), len), \
-			const char*:    real_dpvsn (#str, ( char  *) (str), len), \
-			struct string*: real_dpvsn(#str, ((struct string*) (str))->chars, len), \
-			wchar_t*:       real_dpvwsn(#str, (wchar_t*) (str), len), \
-			const wchar_t*: real_dpvwsn(#str, (wchar_t*) (str), len), \
-			default:        real_dpvsn (#str, (   void*) (str), len)); \
+			char*:          real_dpvsn (#str, ( char  *) (str), _len), \
+			const char*:    real_dpvsn (#str, ( char  *) (str), _len), \
+			struct string*: real_dpvsn(#str, ((struct string*) (str))->chars, ((struct string*) (str))->len), \
+			wchar_t*:       real_dpvwsn(#str, (wchar_t*) (str), _len), \
+			const wchar_t*: real_dpvwsn(#str, (wchar_t*) (str), _len), \
+			default:        real_dpvsn (#str, (   void*) (str), _len)); \
 	}
 	
 	#define dpvs(str) dpvsn(str, -1)

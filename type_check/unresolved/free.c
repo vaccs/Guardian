@@ -1,0 +1,18 @@
+
+#include <debug.h>
+
+#include "struct.h"
+#include "free.h"
+
+void free_unresolved(struct unresolved* this)
+{
+	ENTER;
+	
+	if (this && !--this->refcount)
+	{
+		TODO;
+	}
+	
+	EXIT;
+}
+

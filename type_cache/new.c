@@ -15,6 +15,8 @@ struct type_cache* new_type_cache()
 	
 	this->tree = avl_alloc_tree(compare_types, free_type);
 	
+	this->int_type = NULL;
+	
 	EXIT;
 	return this;
 }

@@ -36,13 +36,26 @@ struct zebu_$start
 	unsigned refcount;
 };
 
+struct zebu_0$parameter
+{
+	struct zebu_token* name;
+	struct zebu_type* type;
+	unsigned refcount;
+};
+
 struct zebu_additive_expression
 {
+	struct zebu_multiplicative_expression* base;
+	struct zebu_additive_expression* left;
+	struct zebu_multiplicative_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_and_expression
 {
+	struct zebu_equality_expression* base;
+	struct zebu_and_expression* left;
+	struct zebu_equality_expression* right;
 	unsigned refcount;
 };
 
@@ -110,26 +123,43 @@ struct zebu_charset_symdiff
 
 struct zebu_conditional_expression
 {
+	struct zebu_logical_or_expression* base;
+	struct zebu_conditional_expression* false_case;
+	struct zebu_expression* true_case;
 	unsigned refcount;
 };
 
 struct zebu_equality_expression
 {
+	struct zebu_relational_expression* base;
+	struct zebu_equality_expression* left;
+	struct zebu_relational_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_exclusive_or_expression
 {
+	struct zebu_and_expression* base;
+	struct zebu_exclusive_or_expression* left;
+	struct zebu_and_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_exponentiation_expression
 {
+	struct zebu_unary_expression* base;
+	struct zebu_exponentiation_expression* left;
+	struct zebu_unary_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_expression
 {
+	struct zebu_implication_expression* base;
+	struct {
+		struct zebu_implication_expression** data;
+		unsigned n, cap;
+	} iffs;
 	unsigned refcount;
 };
 
@@ -187,51 +217,110 @@ struct zebu_grammar_rule
 
 struct zebu_implication_expression
 {
+	struct zebu_possession_expression* base;
+	struct {
+		struct zebu_possession_expression** data;
+		unsigned n, cap;
+	} implies;
 	unsigned refcount;
 };
 
 struct zebu_inclusive_or_expression
 {
+	struct zebu_exclusive_or_expression* base;
+	struct zebu_inclusive_or_expression* left;
+	struct zebu_exclusive_or_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_lambda_expression
 {
+	struct zebu_conditional_expression* base;
+	struct zebu_lambda_expression* lambda;
+	struct unresolved* lambda_captures;
+	struct zebu_token* name;
+	struct {
+		struct zebu_0$parameter** data;
+		unsigned n, cap;
+	} parameters;
+	struct zebu_type* type;
 	unsigned refcount;
 };
 
 struct zebu_logical_and_expression
 {
+	struct zebu_inclusive_or_expression* base;
+	struct zebu_logical_and_expression* left;
+	struct zebu_inclusive_or_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_logical_or_expression
 {
+	struct zebu_logical_and_expression* base;
+	struct zebu_logical_or_expression* left;
+	struct zebu_logical_and_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_multiplicative_expression
 {
+	struct zebu_exponentiation_expression* base;
+	struct zebu_multiplicative_expression* left;
+	struct zebu_exponentiation_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_possession_expression
 {
+	struct zebu_lambda_expression* base;
+	struct zebu_token* has;
 	unsigned refcount;
 };
 
 struct zebu_postfix_expression
 {
+	struct {
+		struct zebu_expression** data;
+		unsigned n, cap;
+	} args;
+	struct zebu_primary_expression* base;
+	struct zebu_expression* index;
+	struct zebu_postfix_expression* sub;
 	unsigned refcount;
 };
 
 struct zebu_primary_expression
 {
+	struct zebu_token* character_literal;
+	struct {
+		struct zebu_expression** data;
+		unsigned n, cap;
+	} elements;
+	struct zebu_token* float_literal;
+	struct zebu_token* identifier;
+	struct zebu_token* integer_literal;
+	struct zebu_token* list;
+	struct zebu_token* string_literal;
+	struct zebu_token* tuple;
+	struct type* type;
+	struct value* value;
 	unsigned refcount;
 };
 
 struct zebu_primary_type
 {
+	struct zebu_primary_type* array;
+	struct zebu_token* bool_type;
+	struct zebu_token* char_type;
+	struct {
+		struct zebu_type** data;
+		unsigned n, cap;
+	} elements;
+	struct zebu_token* float_type;
+	struct zebu_token* grammar;
+	struct zebu_token* int_type;
+	struct zebu_token* tuple;
 	unsigned refcount;
 };
 
@@ -276,11 +365,17 @@ struct zebu_regex_postfix
 
 struct zebu_relational_expression
 {
+	struct zebu_shift_expression* base;
+	struct zebu_relational_expression* left;
+	struct zebu_shift_expression* right;
 	unsigned refcount;
 };
 
 struct zebu_shift_expression
 {
+	struct zebu_additive_expression* base;
+	struct zebu_shift_expression* left;
+	struct zebu_additive_expression* right;
 	unsigned refcount;
 };
 
@@ -298,11 +393,19 @@ struct zebu_start_directive
 
 struct zebu_type
 {
+	struct {
+		struct zebu_type** data;
+		unsigned n, cap;
+	} args;
+	struct zebu_primary_type* base;
+	struct zebu_type* rettype;
 	unsigned refcount;
 };
 
 struct zebu_unary_expression
 {
+	struct zebu_postfix_expression* base;
+	struct zebu_unary_expression* sub;
 	unsigned refcount;
 };
 
@@ -323,6 +426,7 @@ struct zebu_value_declare
 
 extern struct zebu_token* inc_zebu_token(struct zebu_token* this);
 extern struct zebu_$start* inc_zebu_$start(struct zebu_$start* ptree);
+extern struct zebu_0$parameter* inc_zebu_0$parameter(struct zebu_0$parameter* ptree);
 extern struct zebu_additive_expression* inc_zebu_additive_expression(struct zebu_additive_expression* ptree);
 extern struct zebu_and_expression* inc_zebu_and_expression(struct zebu_and_expression* ptree);
 extern struct zebu_assertion* inc_zebu_assertion(struct zebu_assertion* ptree);
@@ -368,6 +472,8 @@ extern struct zebu_value_declare* inc_zebu_value_declare(struct zebu_value_decla
 
 extern void free_zebu_token(struct zebu_token* this);
 extern void free_zebu_$start(struct zebu_$start* ptree);
+
+extern void free_zebu_0$parameter(struct zebu_0$parameter* ptree);
 
 extern void free_zebu_additive_expression(struct zebu_additive_expression* ptree);
 

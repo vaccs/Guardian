@@ -142,7 +142,7 @@ value: boolean | integer | string | list | dict;
 
 z = 4;
 
-foo = [$int x, y: x + y, $int x, y: x - y * z];
+foo = [$int x, y: x + y, $int x, int y: x - y * z];
 
 %debug: foo[0](1, 2);
 

@@ -1,121 +1,150 @@
 
+%extra_field: primary_expression, "struct type*", type, free_type();
+%extra_field: primary_expression, "struct value*", value, free_value();
+
 primary_expression
-	: `int`
-	| `float`
-	| `char`
-	| `string`
-	| `identifier`
-	| '(' (expression (',' expression)*)? ')'
-	| '[' (expression (',' expression)*)? ']'
+	: `int` #integer_literal
+	| `float` #float_literal
+	| `char` #character_literal
+	| `string` #string_literal
+	| `identifier` #identifier
+	| '(' #tuple (expression #elements[] (',' expression #elements[])*)? ')'
+	| '[' #list (expression #elements[]  (',' expression #elements[])*)? ']'
 	;
 
 postfix_expression
-	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '.' `identifier`
-	| postfix_expression '(' (expression (',' expression)*)? ')'
+	: primary_expression #base
+	| postfix_expression #sub '[' expression #index ']'
+	| postfix_expression #sub '.' `identifier`
+	| postfix_expression #sub '(' (expression #args[] (',' expression #args[])*)? ')'
 	;
 
 unary_expression
-	: postfix_expression
-	| "+" unary_expression
-	| "-" unary_expression
-	| "!" unary_expression
-	| "~" unary_expression
+	: postfix_expression #base
+	| "+" unary_expression #sub
+	| "-" unary_expression #sub
+	| "!" unary_expression #sub
+	| "~" unary_expression #sub
 	;
 	
 exponentiation_expression
-	: unary_expression
-	| exponentiation_expression "**" unary_expression
+	: unary_expression #base
+	| exponentiation_expression #left "**" unary_expression #right
 	;
 
 multiplicative_expression
-	: exponentiation_expression
-	| multiplicative_expression '*' exponentiation_expression
-	| multiplicative_expression '/' exponentiation_expression
-	| multiplicative_expression '%' exponentiation_expression
+	: exponentiation_expression #base
+	| multiplicative_expression #left '*' exponentiation_expression #right
+	| multiplicative_expression #left '/' exponentiation_expression #right
+	| multiplicative_expression #left '%' exponentiation_expression #right
 	;
 
 additive_expression
-	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
+	: multiplicative_expression #base
+	| additive_expression #left '+' multiplicative_expression #right
+	| additive_expression #left '-' multiplicative_expression #right
 	;
 
 shift_expression
-	: additive_expression
-	| shift_expression "<<" additive_expression
-	| shift_expression ">>" additive_expression
+	: additive_expression #base
+	| shift_expression #left "<<" additive_expression #right
+	| shift_expression #left ">>" additive_expression #right
 	;
 
 relational_expression
-	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression "<=" shift_expression
-	| relational_expression ">=" shift_expression
+	: shift_expression #base
+	| relational_expression #left '<'  shift_expression #right
+	| relational_expression #left '>'  shift_expression #right
+	| relational_expression #left "<=" shift_expression #right
+	| relational_expression #left ">=" shift_expression #right
 	;
 
 equality_expression
-	: relational_expression
-	| equality_expression "==" relational_expression
-	| equality_expression "!=" relational_expression
+	: relational_expression #base
+	| equality_expression #left "==" relational_expression #right
+	| equality_expression #left "!=" relational_expression #right
 	;
 
 and_expression
-	: equality_expression
-	| and_expression '&' equality_expression
+	: equality_expression #base
+	| and_expression #left '&' equality_expression #right
 	;
 
 exclusive_or_expression
-	: and_expression
-	| exclusive_or_expression '^' and_expression
+	: and_expression #base
+	| exclusive_or_expression #left '^' and_expression #right
 	;
 
 inclusive_or_expression
-	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
+	: exclusive_or_expression #base
+	| inclusive_or_expression #left '|' exclusive_or_expression #right
 	;
 
 logical_and_expression
-	: inclusive_or_expression
-	| logical_and_expression "&&" inclusive_or_expression
+	: inclusive_or_expression #base
+	| logical_and_expression #left "&&" inclusive_or_expression #right
 	;
 
 logical_or_expression
-	: logical_and_expression
-	| logical_or_expression "||" logical_and_expression
+	: logical_and_expression #base
+	| logical_or_expression #left "||" logical_and_expression #right
 	;
 
 conditional_expression
-	: logical_or_expression
-	| logical_or_expression '?' expression ':' conditional_expression
+	: logical_or_expression #base
+	| logical_or_expression #base '?' expression #true_case ':' conditional_expression #false_case
 	;
 
 primary_type
-	: "int"
-	| "bool"
-	| "float"
-	| "char"
-	| `identifier`
-	| primary_type "[]"
-	| '(' (type (',' type)*)? ')'
+	: "int" #int_type
+	| "char" #char_type
+	| "bool" #bool_type
+	| "float" #float_type
+	| `identifier` #grammar
+	| primary_type #array "[]"
+	| '(' #tuple (type #elements[] (',' type #elements[])*)? ')'
 	;
 
-type: primary_type
-	| '$' (type (',' type)*)? ':' type
+type: primary_type #base
+	| '$' (type #args[] (',' type #args[])*)? ':' type #rettype
 	;
+
+%extra_field: lambda_expression, "struct unresolved*", lambda_captures, free_unresolved();
 
 lambda_expression
-	: conditional_expression
-	| '$' (type `identifier` (',' type? `identifier`)*)? ':' lambda_expression
+	: conditional_expression #base
+	| %parameter: (type #type)? `identifier` #name:
+	  ('$' (type #type `identifier` #name (',' parameter #parameters[])*)? ':'
+	  	lambda_expression #lambda)
 	;
 
-possession_expression: lambda_expression ("has" `identifier`)?;
+possession_expression:
+	lambda_expression #base
+	("has" `identifier` #has)?;
 
-implication_expression: possession_expression ("implies" possession_expression)*;
+implication_expression:
+	possession_expression #base
+	("implies" possession_expression #implies[])*;
 
-expression: implication_expression ("iff" implication_expression)*;
+expression:
+	implication_expression #base
+	("iff" implication_expression #iffs[])*;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

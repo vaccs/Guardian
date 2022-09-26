@@ -48,7 +48,8 @@ else
 $(error "invalid on_error option!");
 endif
 
-buildprefix = gen/$(buildtype)-build
+buildprefix = bin/$(buildtype)-build
+depprefix   = dep/$(buildtype)-build
 
 default: $(buildprefix)/maia
 
@@ -81,29 +82,29 @@ install: $(buildprefix)/maia
 %/:
 	@ mkdir -p $@
 
-gen/srclist.mk: | gen/%/
+srclist.mk:
 	@ echo "searching for source files..."
-	@ find -name '*.c' -! -path '*/-*' | sort -Vr | sed 's/^/srcs += /' > $@
+	@ find -name '*.c' -! -path '*/-*' | sort -V | sed 's/^/srcs += /' > $@
 
 ifneq "$(MAKECMDGOALS)" "clean"
-include gen/srclist.mk
+include srclist.mk
 srcs += ./parse/parser.c
 endif
 
 objs := $(patsubst %.c,$(buildprefix)/%.o,$(srcs))
 objs := $(patsubst %.S,$(buildprefix)/%.o,$(objs))
 
-deps := $(patsubst %.c,$(buildprefix)/%.d,$(srcs))
-deps := $(patsubst %.S,$(buildprefix)/%.d,$(deps))
+deps := $(patsubst %.c,$(depprefix)/%.d,$(srcs))
+deps := $(patsubst %.S,$(depprefix)/%.d,$(deps))
 
 parse/parser.c parse/parser.h: parse/parser.zb parse/assertion.zb \
-		parse/charset.zb parse/declare.zb parse/grammar.zb parse/regex.zb \
-		parse/skip.zb parse/start.zb parse/using.zb
+		parse/charset.zb parse/declare.zb parse/expression.zb parse/grammar.zb \
+		parse/regex.zb parse/skip.zb parse/start.zb parse/using.zb
 	zebu -v -m --template=fileio -i $< -o parse/parser
 
-$(buildprefix)/%.o $(buildprefix)/%.d: %.c | $(buildprefix)/%/
+$(buildprefix)/%.o $(depprefix)/%.d: %.c | $(buildprefix)/%/ $(depprefix)/%/
 	@ echo "compiling $<"
-	@ $(CC) -c $(CPPFLAGS) $(CFLAGS) $< -MD -o $(buildprefix)/$*.o $(ON_ERROR)
+	@ $(CC) -c $(CPPFLAGS) $(CFLAGS) $< -MMD -o $(buildprefix)/$*.o -MF $(depprefix)/$*.d $(ON_ERROR)
 
 $(buildprefix)/maia: $(objs)
 	@ echo "linking $@"

@@ -2,7 +2,7 @@
 #include "tree_t.h"
 #include "foreach.h"
 
-void avl_tree_foreach(
+void avl_foreach(
 	struct avl_tree_t* this,
 	void (*runme)(void*))
 {

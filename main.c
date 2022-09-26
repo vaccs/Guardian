@@ -19,6 +19,9 @@
 #include <named/zebu_expression/compare.h>
 #include <named/zebu_expression/free.h>
 
+#include <named/expression/compare.h>
+#include <named/expression/free.h>
+
 #include <set/ptr/new.h>
 
 #include <lex/new.h>
@@ -26,19 +29,22 @@
 
 #include <type_cache/new.h>
 
+#include <type_check/type_check.h>
+
 int main(int argc, char* const* argv)
 {
 	#ifdef DEBUGGING
-	setvbuf(stdout, NULL, 0, _IONBF);
-	setvbuf(stderr, NULL, 0, _IONBF);
+/*	setvbuf(stdout, NULL, 0, _IONBF);*/
+/*	setvbuf(stderr, NULL, 0, _IONBF);*/
 	#endif
+	
 	ENTER;
 	
 	struct cmdln* flags = cmdln_process(argc, argv);
 	
 	struct lex* lex = new_lex();
 	
-	struct ptrset* assertions = new_ptrset();
+	struct ptrset* raw_assertions = new_ptrset();
 	
 	struct type_cache* tcache = new_type_cache();
 	
@@ -46,18 +52,18 @@ int main(int argc, char* const* argv)
 	
 	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	
-	struct avl_tree_t* declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
+	struct avl_tree_t* raw_declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
 	
-	parse_driver(lex, grammar, types, declares, assertions, tcache, flags->input_path);
+	parse_driver(lex, grammar, types, raw_declares, raw_assertions, tcache, flags->input_path);
+	
+	struct ptrset* typed_assertions = new_ptrset();
+	
+	struct avl_tree_t* typed_declares = avl_alloc_tree(compare_named_expressions, free_named_expression);
+	
+	type_check(tcache, types, typed_declares, typed_assertions, raw_declares, raw_assertions);
 	
 	TODO;
 	#if 0
-	// process lambda-captures/variable references:
-		// gives each parse-tree variable-use a type, maybe even a value
-	
-	// type-check/specialize expressions
-		// will create new expression structs with types
-	
 	// generate parser
 	
 	// print source for all types 
