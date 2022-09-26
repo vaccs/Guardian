@@ -9,14 +9,14 @@
 void process_declare(
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* declares,
-	struct zebu_entry* entry)
+	struct zebu_value_declare* declare)
 {
 	ENTER;
 	
-	assert(entry->name);
-	assert(entry->expression);
+	assert(declare->name);
+	assert(declare->expression);
 	
-	struct string* name = new_string_from_token(entry->name);
+	struct string* name = new_string_from_token(declare->name);
 	
 	if (avl_search(grammar, &name) || avl_search(declares, &name))
 	{
@@ -24,7 +24,7 @@ void process_declare(
 		exit(1);
 	}
 	
-	avl_insert(declares, new_named_zebu_expression(name, entry->expression));
+	avl_insert(declares, new_named_zebu_expression(name, declare->expression));
 	
 	free_string(name);
 	

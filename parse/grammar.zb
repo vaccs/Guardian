@@ -1,0 +1,22 @@
+
+%include "charset.zb"
+%include "regex.zb"
+
+grammar_highest
+	: `char` #character        (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `int` #integer           (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `string` #string         (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `identifier` #name       (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '/' regex #regex '/'     (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '[' charset #charset ']' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '(' grammar #subgrammar ')'
+	;
+
+grammar_postfix: grammar_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
+
+grammar_juxtaposition: grammar_postfix #base (grammar_postfix #juxtapositions[])*;
+
+grammar: grammar_juxtaposition #base ('|' grammar_juxtaposition #ors[])*;
+
+grammar_rule: `identifier` #name ':' grammar #grammar ';';
+

@@ -27,13 +27,13 @@ void process_grammar(
 	struct avl_tree_t* types,
 	struct avl_tree_t* declares,
 	struct type_cache* tcache,
-	struct zebu_entry* entry)
+	struct zebu_grammar_rule* rule)
 {
 	ENTER;
 	
-	assert(entry->grammar);
+	assert(rule->grammar);
 	
-	struct string* name = new_string_from_token(entry->name);
+	struct string* name = new_string_from_token(rule->name);
 	
 	dpvs(name);
 	
@@ -43,7 +43,7 @@ void process_grammar(
 		exit(1);
 	}
 	
-	struct gbundle nfa = read_grammar_root(lex, entry->grammar);
+	struct gbundle nfa = read_grammar_root(lex, rule->grammar);
 	
 	struct gegex* dfa = gegex_nfa_to_dfa(nfa);
 	
@@ -66,42 +66,6 @@ void process_grammar(
 	free_gegex(dfa);
 	
 	free_type(type);
-	
-	EXIT;
-}
-
-void process_start(
-	struct lex* lex,
-	struct avl_tree_t* grammar,
-	struct zebu_entry* entry)
-{
-	ENTER;
-	
-	assert(entry->grammar);
-	
-	struct string* name = new_string("$start", 6);
-	
-	dpvs(name);
-	
-	if (avl_search(grammar, &name))
-	{
-		TODO;
-		exit(1);
-	}
-	
-	struct gbundle nfa = read_grammar_root(lex, entry->grammar);
-	
-	struct gegex* dfa = gegex_nfa_to_dfa(nfa);
-	
-	struct gegex* simp = gegex_simplify_dfa(dfa);
-	
-	avl_insert(grammar, new_named_grammar(name, simp));
-	
-	free_gegex(nfa.start);
-	
-	free_string(name);
-	
-	free_gegex(dfa);
 	
 	EXIT;
 }

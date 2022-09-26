@@ -28,7 +28,7 @@ struct gbundle read_grammar_highest_character(
 {
 	ENTER;
 	
-	struct token* character = highest->character;
+	struct zebu_token* character = highest->character;
 	
 	assert(character);
 	
@@ -54,7 +54,7 @@ struct gbundle read_grammar_highest_character(
 	
 	for (unsigned i = 0, n = highest->tags.n; i < n; i++)
 	{
-		struct token* token = highest->tags.data[i];
+		struct zebu_token* token = highest->tags.data[i];
 		
 		dpvsn(token->data, token->len);
 		

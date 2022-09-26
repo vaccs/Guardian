@@ -37,6 +37,7 @@
 	struct structinfo;
 	struct unsignedset;
 	struct gegex;
+	struct zebu_token;
 	struct type_cache;
 	struct type;
 	struct gegex_transition;

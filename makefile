@@ -96,7 +96,9 @@ objs := $(patsubst %.S,$(buildprefix)/%.o,$(objs))
 deps := $(patsubst %.c,$(buildprefix)/%.d,$(srcs))
 deps := $(patsubst %.S,$(buildprefix)/%.d,$(deps))
 
-parse/parser.c parse/parser.h: parse/parser.zb
+parse/parser.c parse/parser.h: parse/parser.zb parse/assertion.zb \
+		parse/charset.zb parse/declare.zb parse/grammar.zb parse/regex.zb \
+		parse/skip.zb parse/start.zb parse/using.zb
 	zebu -v -m --template=fileio -i $< -o parse/parser
 
 $(buildprefix)/%.o $(buildprefix)/%.d: %.c | $(buildprefix)/%/

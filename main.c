@@ -86,7 +86,6 @@ int main(int argc, char* const* argv)
 				// 2. globals and lambdas
 				// 3. assertions
 	
-	#endif
 	
 	free_ptrset(assertions);
 	
@@ -101,6 +100,9 @@ int main(int argc, char* const* argv)
 	free_cmdln(flags);
 	
 	free_lex(lex);
+	#endif
+	
+	TODO;
 	
 	EXIT;
 	return 0;

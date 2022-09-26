@@ -1,7 +1,7 @@
 
 struct ptrset;
-struct zebu_entry;
+struct zebu_assertion;
 
 void process_assertion(
 	struct ptrset* assertions,
-	struct zebu_entry* entry);
+	struct zebu_assertion* entry);

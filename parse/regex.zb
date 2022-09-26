@@ -1,0 +1,17 @@
+
+%include "charset.zb"
+
+regex_highest
+	: `char` #character
+	| `int` #integer
+	| `string` #string
+	| '(' regex #subregex ')'
+	| '[' charset #charset ']'
+	;
+
+regex_postfix: regex_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
+
+regex_juxtaposition: regex_postfix #base (regex_postfix #juxtapositions[])*;
+
+regex: regex_juxtaposition #base ('|' regex_juxtaposition #ors[])*;
+

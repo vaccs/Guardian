@@ -10,9 +10,10 @@
 #include <misc/break_and_open_path.h>
 
 #include "skip.h"
-#include "grammar.h"
+#include "start.h"
 #include "parser.h"
 #include "driver.h"
+#include "grammar.h"
 #include "declare.h"
 #include "assertion.h"
 
@@ -138,28 +139,34 @@ void parse_driver(
 		
 		struct zebu_$start* start = zebu_parse(stream);
 		
-		for (unsigned i = 0, n = start->root->entries.n; i < n; i++)
+		for (unsigned i = 0, n = start->usings.n; i < n; i++)
 		{
-			struct zebu_entry* entry = start->root->entries.data[i];
-			
-			if (entry->using)
-			{
-				TODO;
-			}
-			else if (entry->skip)
-				process_skip(lex, entry);
-			else if (entry->start)
-				process_start(lex, grammar, entry);
-			else if (entry->grammar)
-				process_grammar(lex, grammar, types, declares, tcache, entry);
-			else if (entry->expression)
-				process_declare(grammar, declares, entry);
-			else if (entry->assertion)
-				process_assertion(assertions, entry);
-			else
-			{
-				TODO;
-			}
+			TODO;
+		}
+		
+		for (unsigned i = 0, n = start->skips.n; i < n; i++)
+		{
+			process_skip(lex,  start->skips.data[i]);
+		}
+		
+		for (unsigned i = 0, n = start->starts.n; i < n; i++)
+		{
+			process_start(lex, grammar, start->starts.data[i]);
+		}
+		
+		for (unsigned i = 0, n = start->grammars.n; i < n; i++)
+		{
+			process_grammar(lex, grammar, types, declares, tcache, start->grammars.data[i]);
+		}
+		
+		for (unsigned i = 0, n = start->declares.n; i < n; i++)
+		{
+			process_declare(grammar, declares, start->declares.data[i]);
+		}
+		
+		for (unsigned i = 0, n = start->assertions.n; i < n; i++)
+		{
+			process_assertion(assertions, start->assertions.data[i]);
 		}
 		
 		free_zebu_$start(start);

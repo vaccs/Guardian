@@ -30,7 +30,7 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				
 				if (highest->character)
 				{
-					struct token* token = highest->character;
+					struct zebu_token* token = highest->character;
 					
 					dpvsn(token->data, token->len);
 					

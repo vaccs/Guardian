@@ -15,13 +15,13 @@
 
 void process_skip(
 	struct lex* lex,
-	struct zebu_entry* entry)
+	struct zebu_skip_directive* directive)
 {
 	ENTER;
 	
-	assert(entry->regex);
+	assert(directive->regex);
 	
-	struct rbundle nfa = process_regex(entry->regex);
+	struct rbundle nfa = process_regex(directive->regex);
 	
 	regex_add_lambda_transition(nfa.accepts, nfa.start);
 	

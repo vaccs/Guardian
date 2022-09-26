@@ -50,7 +50,7 @@ charset_t process_charset(
 						
 						if (highest->character)
 						{
-							struct token* token = highest->character;
+							struct zebu_token* token = highest->character;
 							
 							escapes(token->data, token->len);
 							

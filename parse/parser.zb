@@ -11,185 +11,30 @@
 
 `identifier`: ['a'-'z'] ['_', 'a'-'z', '0'-'9']*;
 
-charset_highest
-	: `char` #character
-	| `int` #integer
-	| '(' charset #subcharset ')'
-	;
+%include "charset.zb"
 
-charset_prefix: ('!' #emark)? charset_highest #base;
+%include "regex.zb"
 
-charset_range: charset_prefix #left ('-' charset_prefix #right)?;
+%include "expression.zb"
 
-charset_intersect: charset_range #base ('&' charset_range #intersects[])*;
+%include "using.zb"
 
-charset_symdiff: charset_intersect #base ('^' charset_intersect #xors[])*;
+%include "skip.zb"
 
-charset: charset_symdiff #base ((',' | '|')? charset_symdiff #ors[])*;
+%include "start.zb"
 
-regex_highest
-	: `char` #character
-	| `int` #integer
-	| `string` #string
-	| '(' regex #subregex ')'
-	| '[' charset #charset ']'
-	;
+%include "grammar.zb"
 
-regex_postfix: regex_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
+%include "declare.zb"
 
-regex_juxtaposition: regex_postfix #base (regex_postfix #juxtapositions[])*;
+%include "assertion.zb"
 
-regex: regex_juxtaposition #base ('|' regex_juxtaposition #ors[])*;
-
-grammar_highest
-	: `char` #character (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `int` #integer (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `string` #string (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `identifier` #name (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '/' regex #regex '/' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '[' charset #charset ']' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '(' grammar #subgrammar ')'
-	;
-
-grammar_postfix: grammar_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
-
-grammar_juxtaposition: grammar_postfix #base (grammar_postfix #juxtapositions[])*;
-
-grammar: grammar_juxtaposition #base ('|' grammar_juxtaposition #ors[])*;
-
-primary_expression
-	: `int`
-	| `float`
-	| `char`
-	| `string`
-	| `identifier`
-	| '(' (expression (',' expression)*)? ')'
-	| '[' (expression (',' expression)*)? ']'
-	;
-
-postfix_expression
-	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '.' `identifier`
-	| postfix_expression '(' (expression (',' expression)*)? ')'
-	;
-
-unary_expression
-	: postfix_expression
-	| "+" unary_expression
-	| "-" unary_expression
-	| "!" unary_expression
-	| "~" unary_expression
-	;
-	
-exponentiation_expression
-	: unary_expression
-	| exponentiation_expression "**" unary_expression
-	;
-
-multiplicative_expression
-	: exponentiation_expression
-	| multiplicative_expression '*' exponentiation_expression
-	| multiplicative_expression '/' exponentiation_expression
-	| multiplicative_expression '%' exponentiation_expression
-	;
-
-additive_expression
-	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
-	;
-
-shift_expression
-	: additive_expression
-	| shift_expression "<<" additive_expression
-	| shift_expression ">>" additive_expression
-	;
-
-relational_expression
-	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression "<=" shift_expression
-	| relational_expression ">=" shift_expression
-	;
-
-equality_expression
-	: relational_expression
-	| equality_expression "==" relational_expression
-	| equality_expression "!=" relational_expression
-	;
-
-and_expression
-	: equality_expression
-	| and_expression '&' equality_expression
-	;
-
-exclusive_or_expression
-	: and_expression
-	| exclusive_or_expression '^' and_expression
-	;
-
-inclusive_or_expression
-	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
-	;
-
-logical_and_expression
-	: inclusive_or_expression
-	| logical_and_expression "&&" inclusive_or_expression
-	;
-
-logical_or_expression
-	: logical_and_expression
-	| logical_or_expression "||" logical_and_expression
-	;
-
-conditional_expression
-	: logical_or_expression
-	| logical_or_expression '?' expression ':' conditional_expression
-	;
-
-primary_type
-	: "int"
-	| "bool"
-	| "float"
-	| "char"
-	| `identifier`
-	| primary_type "[]"
-	| '(' (type (',' type)*)? ')'
-	;
-
-type: primary_type
-	| '$' (type (',' type)*)? ':' type
-	;
-
-lambda_expression
-	: conditional_expression
-	| '$' (type `identifier` (',' type? `identifier`)*)? ':' lambda_expression
-	;
-
-possession_expression: lambda_expression ("has" `identifier`)?;
-
-implication_expression: possession_expression ("implies" possession_expression)*;
-
-expression: implication_expression ("iff" implication_expression)*;
-
-entry
-	: "%" "using" #using `string` #path ';'
-	| "%" "skip" #skip ":" regex #regex ';'
-	| "%" "start" #start ":" grammar #grammar ';'
-	| `identifier` #name ':' grammar #grammar ';'
-	| `identifier` #name '=' expression #expression ';'
-	|  ("%" "debug" #debug ":")? expression #assertion ';'
-	|  ("%" "note" #note ":")? expression #assertion ';'
-	|  ("%" "warning" #warning ":")? expression #assertion ';'
-	|  ("%" "error" #error ":")? expression #assertion ';'
-	;
-
-root: (entry #entries[]) +;
-
-%start: root #root;
+%start: ( using_directive #usings[]
+	| skip_directive #skips[]
+	| start_directive #starts[]
+	| grammar_rule #grammars[]
+	| value_declare #declares[]
+	| assertion #assertions[] )+;
 
 
 

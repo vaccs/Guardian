@@ -11,24 +11,24 @@
 
 void process_assertion(
 	struct ptrset* assertions,
-	struct zebu_entry* entry)
+	struct zebu_assertion* assertion)
 {
 	ENTER;
 	
-	assert(entry->assertion);
+	assert(assertion->expression);
 	
 	enum assertion_kind kind = ak_warning;
 	
-	if (entry->debug)
+	if (assertion->debug)
 		kind = ak_debug;
-	else if (entry->note)
+	else if (assertion->note)
 		kind = ak_note;
-	else if (entry->warning)
+	else if (assertion->warning)
 		kind = ak_warning;
-	else if (entry->error)
+	else if (assertion->error)
 		kind = ak_error;
 	
-	ptrset_add(assertions, new_assertion(kind, entry->assertion));
+	ptrset_add(assertions, new_assertion(kind, assertion->expression));
 	
 	EXIT;
 }

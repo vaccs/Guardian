@@ -1,0 +1,17 @@
+
+charset_highest
+	: `char` #character
+	| `int` #integer
+	| '(' charset #subcharset ')'
+	;
+
+charset_prefix: ('!' #emark)? charset_highest #base;
+
+charset_range: charset_prefix #left ('-' charset_prefix #right)?;
+
+charset_intersect: charset_range #base ('&' charset_range #intersects[])*;
+
+charset_symdiff: charset_intersect #base ('^' charset_intersect #xors[])*;
+
+charset: charset_symdiff #base ((',' | '|')? charset_symdiff #ors[])*;
+

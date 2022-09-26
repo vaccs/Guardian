@@ -1,0 +1,121 @@
+
+primary_expression
+	: `int`
+	| `float`
+	| `char`
+	| `string`
+	| `identifier`
+	| '(' (expression (',' expression)*)? ')'
+	| '[' (expression (',' expression)*)? ']'
+	;
+
+postfix_expression
+	: primary_expression
+	| postfix_expression '[' expression ']'
+	| postfix_expression '.' `identifier`
+	| postfix_expression '(' (expression (',' expression)*)? ')'
+	;
+
+unary_expression
+	: postfix_expression
+	| "+" unary_expression
+	| "-" unary_expression
+	| "!" unary_expression
+	| "~" unary_expression
+	;
+	
+exponentiation_expression
+	: unary_expression
+	| exponentiation_expression "**" unary_expression
+	;
+
+multiplicative_expression
+	: exponentiation_expression
+	| multiplicative_expression '*' exponentiation_expression
+	| multiplicative_expression '/' exponentiation_expression
+	| multiplicative_expression '%' exponentiation_expression
+	;
+
+additive_expression
+	: multiplicative_expression
+	| additive_expression '+' multiplicative_expression
+	| additive_expression '-' multiplicative_expression
+	;
+
+shift_expression
+	: additive_expression
+	| shift_expression "<<" additive_expression
+	| shift_expression ">>" additive_expression
+	;
+
+relational_expression
+	: shift_expression
+	| relational_expression '<' shift_expression
+	| relational_expression '>' shift_expression
+	| relational_expression "<=" shift_expression
+	| relational_expression ">=" shift_expression
+	;
+
+equality_expression
+	: relational_expression
+	| equality_expression "==" relational_expression
+	| equality_expression "!=" relational_expression
+	;
+
+and_expression
+	: equality_expression
+	| and_expression '&' equality_expression
+	;
+
+exclusive_or_expression
+	: and_expression
+	| exclusive_or_expression '^' and_expression
+	;
+
+inclusive_or_expression
+	: exclusive_or_expression
+	| inclusive_or_expression '|' exclusive_or_expression
+	;
+
+logical_and_expression
+	: inclusive_or_expression
+	| logical_and_expression "&&" inclusive_or_expression
+	;
+
+logical_or_expression
+	: logical_and_expression
+	| logical_or_expression "||" logical_and_expression
+	;
+
+conditional_expression
+	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	;
+
+primary_type
+	: "int"
+	| "bool"
+	| "float"
+	| "char"
+	| `identifier`
+	| primary_type "[]"
+	| '(' (type (',' type)*)? ')'
+	;
+
+type: primary_type
+	| '$' (type (',' type)*)? ':' type
+	;
+
+lambda_expression
+	: conditional_expression
+	| '$' (type `identifier` (',' type? `identifier`)*)? ':' lambda_expression
+	;
+
+possession_expression: lambda_expression ("has" `identifier`)?;
+
+implication_expression: possession_expression ("implies" possession_expression)*;
+
+expression: implication_expression ("iff" implication_expression)*;
+
+
+
