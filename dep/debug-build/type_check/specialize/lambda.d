@@ -6,5 +6,12 @@ bin/debug-build/./type_check/specialize/lambda.o: \
  avl/free_tree.h avl/delete_node.h avl/tree_t.h avl/delete.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/foreach.h set/ptr/free.h parse/parser.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h parse/parser.h \
+ named/type/new.h named/type/compare.h named/type/free.h type/free.h \
+ value/lambda/new.h value/free.h parameter/new.h parameter/free.h \
+ list/parameter/new.h list/parameter/is_nonempty.h \
+ list/parameter/append.h list/parameter/free.h expression/lambda/new.h \
+ expression/literal/new.h expression/free.h \
+ type_check/specialize/../unresolved/foreach.h \
+ type_check/specialize/../build_type.h \
  type_check/specialize/conditional.h type_check/specialize/lambda.h

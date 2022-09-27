@@ -28,7 +28,7 @@ void process_assertion(
 	else if (assertion->error)
 		kind = ak_error;
 	
-	ptrset_add(assertions, new_assertion(kind, assertion->expression));
+	ptrset_add(assertions, new_raw_assertion(kind, assertion->expression));
 	
 	EXIT;
 }

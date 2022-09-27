@@ -4,6 +4,7 @@
 #include "../new.h"
 
 #include "struct.h"
+#include "inheritance.h"
 #include "new.h"
 
 struct type* new_int_type()
@@ -12,6 +13,7 @@ struct type* new_int_type()
 	
 	struct type* retval = new_type(
 		tk_int,
+		&int_type_inheritance,
 		sizeof(struct int_type));
 	
 	EXIT;

@@ -5,4 +5,6 @@ bin/debug-build/./expression/free.o: expression/free.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/foreach.h set/ptr/free.h expression/free.h
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h type/free.h \
+ expression/inheritance.h expression/struct.h expression/kind.h \
+ expression/free.h

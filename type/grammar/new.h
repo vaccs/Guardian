@@ -1,3 +1,3 @@
 
-struct grammar_type* new_grammar_type(struct structinfo* structinfo);
+struct type* new_grammar_type(struct structinfo* structinfo);
 

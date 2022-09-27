@@ -3,8 +3,7 @@
 
 #include "struct.h"
 #include "compare.h"
-
-#include "grammar/compare.h"
+#include "inheritance.h"
 
 int compare_types(const void* a, const void* b)
 {
@@ -17,26 +16,38 @@ int compare_types(const void* a, const void* b)
 	
 	if (A->kind < B->kind)
 	{
-		TODO;
+		cmp = -1;
 	}
 	else if (A->kind > B->kind)
 	{
 		TODO;
 	}
-	else switch (A->kind)
+	else
 	{
-		case tk_grammar:
-			cmp = compare_grammar_types(
-				(struct grammar_type*) A,
-				(struct grammar_type*) B);
-			break;
+		dpv(B);
+		dpv(B->inheritance);
 		
-		default:
-			TODO;
-			break;
+		assert(B->inheritance->compare);
+		
+		cmp = (B->inheritance->compare)(A, B);
 	}
 	
 	EXIT;
 	return cmp;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

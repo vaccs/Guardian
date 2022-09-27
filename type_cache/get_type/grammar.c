@@ -13,6 +13,7 @@ struct type* type_cache_get_grammar_type(
 	struct type_cache* this,
 	struct structinfo* structinfo)
 {
+	struct type* retval;
 	ENTER;
 	
 	struct avl_node_t* node = avl_search(this->tree, &(struct grammar_type){
@@ -22,18 +23,17 @@ struct type* type_cache_get_grammar_type(
 	
 	if (node)
 	{
-		EXIT;
-		return inc_type(node->item);
+		retval = inc_type(node->item);
 	}
 	else
 	{
-		struct grammar_type* new = new_grammar_type(structinfo);
+		retval = new_grammar_type(structinfo);
 		
-		avl_insert(this->tree, new);
-		
-		EXIT;
-		return (void*) new;
+		avl_insert(this->tree, retval);
 	}
+	
+	EXIT;
+	return retval;
 }
 
 

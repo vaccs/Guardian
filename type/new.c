@@ -6,13 +6,18 @@
 
 struct type* new_type(
 	enum type_kind kind,
+	struct type_inheritance* inheritance,
 	unsigned size)
 {
 	ENTER;
 	
+	dpv(inheritance);
+	
 	struct type* this = smalloc(size);
 	
 	this->kind = kind;
+	
+	this->inheritance = inheritance;
 	
 	this->refcount = 1;
 	

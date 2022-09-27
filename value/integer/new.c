@@ -1,22 +1,36 @@
 
 #include <debug.h>
 
+#include <type_cache/get_type/int.h>
+
+#include <type/free.h>
+
+#include "../new.h"
+
+#include "struct.h"
+#include "inheritance.h"
 #include "new.h"
 
-struct value* new_integer_value(int64_t value)
+struct value* new_integer_value(
+	struct type_cache* tcache,
+	signed long integer)
 {
-	TODO;
-	#if 0
-	struct type* type = new_integer_type();
+	ENTER;
 	
-	struct value* super = new_value(
-		sizeof(struct integer_value));
+	dpv(integer);
 	
-	struct integer_value* this = super;
+	struct type* type = type_cache_get_int_type(tcache);
 	
-	this->value = value;
+	struct integer_value* this = (void*) new_value(
+		type,
+		&integer_value_inheritance,
+		sizeof(*this));
 	
-	TODO;
-	#endif
+	this->integer = integer;
+	
+	free_type(type);
+	
+	EXIT;
+	return (void*) this;
 }
 

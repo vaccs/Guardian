@@ -285,6 +285,8 @@ struct zebu_postfix_expression
 		unsigned n, cap;
 	} args;
 	struct zebu_primary_expression* base;
+	struct zebu_token* call;
+	struct zebu_token* field;
 	struct zebu_expression* index;
 	struct zebu_postfix_expression* sub;
 	unsigned refcount;

@@ -5,6 +5,6 @@ bin/debug-build/./yacc/structinfo/node/free.o: \
  avl/node_t.h avl/search.h avl/insert.h avl/foreach.h avl/free_tree.h \
  avl/delete_node.h avl/tree_t.h avl/delete.h string/struct.h string/new.h \
  string/inc.h string/compare.h string/are_equal.h string/free.h \
- set/ptr/new.h set/ptr/add.h set/ptr/foreach.h set/ptr/free.h \
- yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
+ set/ptr/new.h set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h \
+ set/ptr/free.h yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
  yacc/structinfo/node/free.h

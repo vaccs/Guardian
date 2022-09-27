@@ -22,6 +22,8 @@ static void resolve_variables_primary(
 {
 	ENTER;
 	
+	assert(expression);
+	
 	if (expression->identifier)
 	{
 		struct string* name = new_string_from_token(expression->identifier);
@@ -54,15 +56,35 @@ static void resolve_variables_postfix(
 {
 	ENTER;
 	
-	resolve_variables_primary(unresolved, tcache, expression->base);
-	
-	if (expression->index)
+	if (expression->base)
 	{
-		TODO;
+		resolve_variables_primary(unresolved, tcache, expression->base);
 	}
-	else for (unsigned i = 0, n = expression->args.n; i < n; i++)
+	else
 	{
-		TODO;
+		assert(expression->sub);
+		
+		resolve_variables_postfix(unresolved, tcache, expression->sub);
+		
+		if (expression->index)
+		{
+			resolve_variables(unresolved, tcache, expression->index);
+		}
+		else if (expression->field)
+		{
+			;
+		}
+		else if (expression->call)
+		{
+			for (unsigned i = 0, n = expression->args.n; i < n; i++)
+			{
+				resolve_variables(unresolved, tcache, expression->args.data[i]);
+			}
+		}
+		else
+		{
+			TODO;
+		}
 	}
 	
 	EXIT;

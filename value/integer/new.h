@@ -1,2 +1,4 @@
 
-struct value* new_integer_value(int64_t value);
+struct value* new_integer_value(
+	struct type_cache* tcache,
+	signed long value);

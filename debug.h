@@ -38,6 +38,7 @@
 	struct unsignedset;
 	struct gegex;
 	struct zebu_token;
+	struct expression_list;
 	struct type_cache;
 	struct type;
 	struct gegex_transition;
@@ -47,6 +48,11 @@
 	struct unresolved;
 	struct zebu_primary_expression;
 	struct zebu_type;
+	struct value_list;
+	struct parameter_list;
+	struct parameter;
+	struct type_inheritance;
+	struct lambda_value;
 	struct value;
 	
 	#include <memory/smalloc.h>
@@ -76,6 +82,7 @@
 	
 	#include <set/ptr/new.h>
 	#include <set/ptr/add.h>
+	#include <set/ptr/get_head.h>
 	#include <set/ptr/foreach.h>
 	#include <set/ptr/free.h>
 	

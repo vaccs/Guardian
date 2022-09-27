@@ -5,5 +5,5 @@ bin/debug-build/./lex/token_to_id_node/new.o: lex/token_to_id_node/new.c \
  avl/insert.h avl/foreach.h avl/free_tree.h avl/delete_node.h \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
- set/ptr/add.h set/ptr/foreach.h set/ptr/free.h \
+ set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
  lex/token_to_id_node/struct.h lex/token_to_id_node/new.h

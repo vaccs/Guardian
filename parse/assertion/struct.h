@@ -1,10 +1,14 @@
 
-#include "kind.h"
+#ifndef STRUCT_ZEBU_ASSERTION
+#define STRUCT_ZEBU_ASSERTION
 
-struct assertion
+#include <enums/assertion_kind.h>
+
+struct raw_assertion
 {
 	enum assertion_kind kind;
 	
 	struct zebu_expression* expression; // owned. free when done.
 };
 
+#endif

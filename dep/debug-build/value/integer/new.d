@@ -5,4 +5,8 @@ bin/debug-build/./value/integer/new.o: value/integer/new.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/foreach.h set/ptr/free.h value/integer/new.h
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
+ type_cache/get_type/int.h type/free.h value/integer/../new.h \
+ value/integer/struct.h value/integer/../struct.h value/integer/../kind.h \
+ value/integer/inheritance.h value/integer/../inheritance.h \
+ value/integer/new.h
