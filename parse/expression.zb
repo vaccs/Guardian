@@ -8,8 +8,9 @@ primary_expression
 	| `char` #character_literal
 	| `string` #string_literal
 	| `identifier` #identifier
+	| "len" #len '(' expression #args[] ')'
 	| "map" #map '(' (expression #args[] (',' expression #args[])*)? ')'
-	| '(' #tuple (expression #elements[] (',' expression #elements[])*)? ')'
+	| '(' #paren expression #elements[] (',' #tuple (expression #elements[] (',' expression #elements[])*)?)? ')'
 	| '[' #list (expression #elements[]  (',' expression #elements[])*)? ']'
 	;
 
@@ -63,7 +64,7 @@ relational_expression
 equality_expression
 	: relational_expression #base
 	| equality_expression #left "==" relational_expression #right
-	| equality_expression #left "!=" relational_expression #right
+	| equality_expression #left "!=" #not relational_expression #right
 	;
 
 and_expression

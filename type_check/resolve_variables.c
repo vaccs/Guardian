@@ -24,7 +24,23 @@ static void resolve_variables_primary(
 	
 	assert(expression);
 	
-	if (expression->identifier)
+	if (expression->integer_literal)
+	{
+		;
+	}
+	else if (expression->float_literal)
+	{
+		;
+	}
+	else if (expression->character_literal)
+	{
+		;
+	}
+	else if (expression->string_literal)
+	{
+		;
+	}
+	else if (expression->identifier)
 	{
 		struct string* name = new_string_from_token(expression->identifier);
 		
@@ -34,16 +50,23 @@ static void resolve_variables_primary(
 		
 		free_string(name);
 	}
-	else if (expression->map)
+	else if (expression->len || expression->map)
 	{
 		for (unsigned i = 0, n = expression->args.n; i < n; i++)
 		{
 			resolve_variables(unresolved, tcache, expression->args.data[i]);
 		}
 	}
-	else if (expression->tuple)
+	else if (expression->paren)
 	{
-		TODO;
+		if (expression->tuple)
+		{
+			TODO;
+		}
+		else
+		{
+			resolve_variables(unresolved, tcache, expression->elements.data[0]);
+		}
 	}
 	else if (expression->list)
 	{
@@ -51,6 +74,10 @@ static void resolve_variables_primary(
 		{
 			resolve_variables(unresolved, tcache, expression->elements.data[i]);
 		}
+	}
+	else
+	{
+		TODO;
 	}
 	
 	EXIT;

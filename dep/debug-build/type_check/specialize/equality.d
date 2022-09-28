@@ -8,7 +8,8 @@ bin/debug-build/./type_check/specialize/equality.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h parse/parse.h \
  expression/literal/struct.h expression/literal/../struct.h \
- expression/literal/../kind.h expression/literal/new.h expression/free.h \
- value/bool/new.h value/compare.h value/free.h type_cache/get_type/bool.h \
- type/free.h type_check/specialize/relational.h \
- type_check/specialize/equality.h
+ expression/literal/../kind.h expression/literal/new.h \
+ expression/comparison/new.h expression/comparison/kind.h \
+ expression/free.h value/bool/new.h value/compare.h value/free.h \
+ type_cache/get_type/bool.h type/free.h \
+ type_check/specialize/relational.h type_check/specialize/equality.h

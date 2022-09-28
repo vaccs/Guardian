@@ -135,6 +135,7 @@ struct zebu_equality_expression
 {
 	struct zebu_relational_expression* base;
 	struct zebu_equality_expression* left;
+	struct zebu_token* not;
 	struct zebu_relational_expression* right;
 	unsigned refcount;
 };
@@ -308,8 +309,10 @@ struct zebu_primary_expression
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
 	struct zebu_token* integer_literal;
+	struct zebu_token* len;
 	struct zebu_token* list;
 	struct zebu_token* map;
+	struct zebu_token* paren;
 	struct zebu_token* string_literal;
 	struct zebu_token* tuple;
 	struct type* type;

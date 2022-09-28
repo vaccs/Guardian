@@ -150,15 +150,13 @@ foo = [$int x, y: x + y, $int x, int y: x - y * z];
 
 %debug: map($int x: x + z, [1, z, 3]) == [5, z + z, 7];
 
-// uncomment me:
-// z2 = len(value);
-// foo2 = [$int x, y: x + y, $int x, y: (x - y) * z2];
-// %note: foo2[0](1, 2) == 3;
-// %note: foo2[1](13, 2) == 5;
+z2 = len(value);
 
+foo2 = [$int x, y: x + y, $int x, y: (x - y) * z2];
 
+%note: foo2[0](1, 2) == 3;
 
-
+%note: foo2[1](13, 2) == 5;
 
 // bar = $int x, float y: (float(x) + y + 2.3);
 // har = $ $int, float: float f, int x, float y: f(x, y);

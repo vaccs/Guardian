@@ -8,4 +8,5 @@ bin/debug-build/./expression/variable/inheritance.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
  expression/variable/inheritance.h expression/variable/../inheritance.h \
- expression/variable/evaluate.h expression/variable/free.h
+ expression/variable/evaluate.h expression/variable/print.h \
+ expression/variable/free.h

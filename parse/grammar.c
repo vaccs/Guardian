@@ -13,6 +13,7 @@
 #include <named/type/new.h>
 
 #include <type_cache/get_type/grammar.h>
+#include <type_cache/get_type/list.h>
 
 #include <type/free.h>
 
@@ -53,9 +54,11 @@ void process_grammar(
 	
 	struct type* type = type_cache_get_grammar_type(tcache, structinfo);
 	
+	struct type* list = type_cache_get_list_type(tcache, type);
+	
 	avl_insert(grammar, new_named_grammar(name, simp));
 	
-	avl_insert(types, new_named_type(name, type));
+	avl_insert(types, new_named_type(name, list));
 	
 	free_structinfo(structinfo);
 	
@@ -64,6 +67,8 @@ void process_grammar(
 	free_string(name);
 	
 	free_gegex(dfa);
+	
+	free_type(list);
 	
 	free_type(type);
 	

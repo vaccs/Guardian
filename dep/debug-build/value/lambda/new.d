@@ -5,9 +5,8 @@ bin/debug-build/./value/lambda/new.o: value/lambda/new.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h expression/struct.h \
- expression/kind.h expression/inc.h type_cache/get_type/lambda.h \
- type/free.h list/parameter/inc.h value/lambda/../new.h \
- value/lambda/struct.h value/lambda/../struct.h value/lambda/../kind.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h expression/inc.h \
+ list/parameter/inc.h value/lambda/../new.h value/lambda/struct.h \
+ value/lambda/../struct.h value/lambda/../kind.h \
  value/lambda/inheritance.h value/lambda/../inheritance.h \
  value/lambda/new.h

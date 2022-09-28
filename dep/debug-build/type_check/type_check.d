@@ -9,9 +9,9 @@ bin/debug-build/./type_check/type_check.o: type_check/type_check.c \
  named/zebu_expression/struct.h quack/new.h quack/pop.h \
  quack/is_nonempty.h quack/append.h quack/free.h assertion/new.h \
  enums/assertion_kind.h value/bool/struct.h value/bool/../struct.h \
- value/bool/../kind.h type/struct.h type/kind.h expression/struct.h \
- expression/kind.h expression/literal/struct.h \
- expression/literal/../struct.h expression/free.h \
+ value/bool/../kind.h type/struct.h type/kind.h expression/print.h \
+ expression/struct.h expression/kind.h expression/literal/struct.h \
+ expression/literal/../struct.h expression/free.h named/type/struct.h \
  named/expression/struct.h named/expression/new.h \
  parse/assertion/struct.h type_check/resolve_variables.h \
  type_check/unresolved/new.h type_check/unresolved/inc.h \

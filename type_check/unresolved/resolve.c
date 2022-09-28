@@ -37,6 +37,8 @@ void unresolved_resolve(
 		}));
 		
 		avl_delete_node(this->tree, node);
+		
+		this->n--;
 	}
 	
 	EXIT;

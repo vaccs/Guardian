@@ -10,6 +10,8 @@
 void free_expression(
 	struct expression* this)
 {
+	ENTER;
+	
 	if (this && !--this->refcount)
 	{
 		assert(this->inheritance->free);
@@ -20,5 +22,7 @@ void free_expression(
 		
 		free(this);
 	}
+	
+	EXIT;
 }
 

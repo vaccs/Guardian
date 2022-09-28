@@ -107,7 +107,6 @@ int main(int argc, char* const* argv)
 	ptrset_foreach(typed_assertions, ({
 		void runme(void* ptr)
 		{
-			TODO;
 			free_assertion(ptr);
 		}
 		runme;

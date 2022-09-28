@@ -5,6 +5,7 @@
 
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
+#include <expression/comparison/new.h>
 #include <expression/free.h>
 
 #include <value/bool/new.h>
@@ -49,6 +50,9 @@ struct expression* specialize_equality_expression(
 			
 			bool is_equal = !compare_value(spef_left->value, spef_right->value);
 			
+			if (zexpression->not)
+				is_equal = !is_equal;
+			
 			dpvb(is_equal);
 			
 			struct type* type = type_cache_get_bool_type(tcache);
@@ -63,7 +67,7 @@ struct expression* specialize_equality_expression(
 		}
 		else
 		{
-			TODO;
+			retval = new_comparison_expression(tcache, zexpression->not ? cek_not_equal_to : cek_equal_to, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

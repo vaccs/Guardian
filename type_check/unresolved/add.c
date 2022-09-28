@@ -26,6 +26,8 @@ void unresolved_add(
 		struct unresolved_node* new = new_unresolved_node(name, expression);
 		
 		avl_insert(this->tree, new);
+		
+		this->n++;
 	}
 	
 	EXIT;

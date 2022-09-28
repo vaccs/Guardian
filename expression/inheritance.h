@@ -9,6 +9,10 @@ struct expression_inheritance
 		struct expression*,
 		struct scope*);
 	
-	void (*free)(struct expression*);
+	void (*print)(
+		struct expression*);
+		
+	void (*free)(
+		struct expression*);
 };
 

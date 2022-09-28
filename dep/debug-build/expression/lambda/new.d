@@ -7,5 +7,6 @@ bin/debug-build/./expression/lambda/new.o: expression/lambda/new.c \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
  expression/lambda/../new.h expression/lambda/../kind.h \
- expression/lambda/../inc.h expression/lambda/struct.h \
+ expression/lambda/../inc.h expression/lambda/inheritance.h \
+ expression/lambda/../inheritance.h expression/lambda/struct.h \
  expression/lambda/../struct.h expression/lambda/new.h

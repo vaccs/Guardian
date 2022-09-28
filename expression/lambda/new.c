@@ -4,21 +4,22 @@
 #include "../new.h"
 #include "../inc.h"
 
+#include "inheritance.h"
 #include "struct.h"
 #include "new.h"
 
 struct expression* new_lambda_expression(
+	struct type* type,
 	struct parameter_list* parameters,
 	struct parameter_list* captured,
 	struct expression* body)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct lambda_expression* this = (void*) new_expression(
 		ek_lambda,
-		body->type,
+		&lambda_expression_inheritance,
+		type,
 		sizeof(*this));
 	
 	this->parameters = parameters;
@@ -27,6 +28,5 @@ struct expression* new_lambda_expression(
 	
 	EXIT;
 	return (void*) this;
-	#endif
 }
 

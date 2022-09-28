@@ -15,9 +15,12 @@
 
 #include <type/struct.h>
 
+#include <expression/print.h>
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
 #include <expression/free.h>
+
+#include <named/type/struct.h>
 
 #include <named/expression/struct.h>
 #include <named/expression/new.h>
@@ -62,6 +65,8 @@ static struct task* new_task(
 	this->unresolved = inc_unresolved(unresolved);
 	
 	this->count = unresolved_len(unresolved);
+	
+	dpv(this->count);
 	
 	EXIT;
 	return this;
@@ -154,16 +159,22 @@ void type_check(
 			unresolved_foreach(unresolved, ({
 				void runme(struct string* name)
 				{
+					ENTER;
+					
 					dpvs(name);
 					
 					struct avl_node_t* node = avl_search(grammar_types, &name);
 					
 					if (node)
 					{
-						// if its in `grammar_types`:
-							// assign it, remove it.
-						TODO;
+						struct named_type* ntype = node->item;
+						
+						ddprintf("found!\n");
+						
+						unresolved_resolve(unresolved, ntype->name, ntype->type, NULL);
 					}
+					
+					EXIT;
 				}
 				runme;
 			}));
@@ -192,10 +203,13 @@ void type_check(
 					runme;
 				}));
 				
+				ddprintf("going into waiting...\n");
+				
 				waiting++;
 			}
 			else
 			{
+				ddprintf("going into ready...\n");
 				quack_append(ready, task);
 			}
 			
@@ -241,7 +255,13 @@ void type_check(
 		
 		struct expression* typed = specialize_expression(tcache, task->expression);
 		
-		avl_insert(typed_declares, new_named_expression(task->name, typed));
+/*		expression_print(typed), puts("");*/
+		
+		struct named_expression* ne = new_named_expression(task->name, typed);
+		
+		struct avl_node_t* in = avl_insert(typed_declares, ne);
+		
+		assert(in);
 	
 		struct avl_node_t* node = avl_search(dependents, &task->name);
 		
@@ -316,6 +336,8 @@ void type_check(
 			}));
 			
 			struct expression* specialized = specialize_expression(tcache, raw_assertion->expression);
+			
+/*			expression_print(specialized), puts("");*/
 			
 			if (specialized->type->kind != tk_bool)
 			{

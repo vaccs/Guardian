@@ -20,6 +20,9 @@
 #include <list/parameter/append.h>
 #include <list/parameter/free.h>
 
+#include <type_cache/get_type/lambda.h>
+
+#include <expression/struct.h>
 #include <expression/lambda/new.h>
 #include <expression/literal/new.h>
 #include <expression/free.h>
@@ -104,21 +107,24 @@ struct expression* specialize_lambda_expression(
 		
 		struct expression* body = specialize_lambda_expression(tcache, zexpression->lambda);
 		
+		struct type* type = type_cache_get_lambda_type(tcache, parameters, body->type);
+	
 		if (parameter_list_is_nonempty(captured))
 		{
-			retval = new_lambda_expression(parameters, captured, body);
+			retval = new_lambda_expression(type, parameters, captured, body);
 		}
 		else
 		{
 			// if we know all the values for the capture, this should be
 			// a literal_expression instead
-			struct value* new = new_lambda_value(tcache, parameters, captured, body);
+			struct value* new = new_lambda_value(type, parameters, captured, body);
 			
 			retval = new_literal_expression(new);
 			
 			free_value(new);
 		}
 		
+		free_type(type);
 		free_parameter_list(parameters);
 		free_parameter_list(captured);
 		free_expression(body);

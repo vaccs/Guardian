@@ -16,6 +16,8 @@
 #include <expression/variable/new.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
+#include <expression/len/new.h>
+#include <expression/list/new.h>
 #include <expression/free.h>
 
 #include <type_cache/get_type/list.h>
@@ -159,7 +161,7 @@ static struct expression* specialize_primary_list_expression(
 	}
 	else
 	{
-		TODO;
+		retval = new_list_expression(type, elements);
 	}
 	
 	free_type(type);
@@ -170,6 +172,42 @@ static struct expression* specialize_primary_list_expression(
 	return retval;
 }
 
+static struct expression* specialize_primary_len_expression(
+	struct type_cache* tcache,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
+	
+	if (raw_len != 1)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct expression* list = specialize_expression(tcache, raw_arguments[0]);
+	
+	if (list->type->kind != tk_list)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	if (list->kind == ek_literal)
+	{
+		TODO;
+	}
+	else
+	{
+		retval = new_len_expression(tcache, list);
+	}
+	
+	free_expression(list);
+	
+	EXIT;
+	return retval;
+}
+	
 static struct expression* specialize_primary_map_expression(
 	struct type_cache* tcache,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
@@ -180,6 +218,7 @@ static struct expression* specialize_primary_map_expression(
 	if (raw_len < 2)
 	{
 		TODO;
+		exit(1);
 	}
 	
 	bool all_literals = true;
@@ -310,14 +349,27 @@ struct expression* specialize_primary_expression(
 	{
 		retval = specialize_primary_identifier_expression(tcache, zexpression);
 	}
-	else if (zexpression->tuple)
+	else if (zexpression->paren)
 	{
-		TODO;
+		if (zexpression->tuple)
+		{
+			TODO;
+		}
+		else
+		{
+			retval = specialize_expression(tcache,
+				zexpression->elements.data[0]);
+		}
 	}
 	else if (zexpression->list)
 	{
 		retval = specialize_primary_list_expression(tcache,
 			zexpression->elements.data, zexpression->elements.n);
+	}
+	else if (zexpression->len)
+	{
+		retval = specialize_primary_len_expression(tcache,
+			zexpression->args.data, zexpression->args.n);
 	}
 	else if (zexpression->map)
 	{

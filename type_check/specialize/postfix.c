@@ -11,6 +11,8 @@
 
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
+#include <expression/funccall/new.h>
+#include <expression/list_index/new.h>
 #include <expression/free.h>
 
 #include <list/expression/struct.h>
@@ -99,7 +101,7 @@ struct expression* specialize_postfix_expression(
 					}
 					else
 					{
-						TODO;
+						retval = new_list_index_expression(sub, index);
 					}
 					break;
 				}
@@ -129,9 +131,9 @@ struct expression* specialize_postfix_expression(
 				exit(1);
 			}
 			
-			struct lambda_type* spef = (void*) sub->type;
+			struct lambda_type* lambda_type = (void*) sub->type;
 			
-			if (spef->parameters->n != zexpression->args.n)
+			if (lambda_type->parameters->n != zexpression->args.n)
 			{
 				TODO;
 			}
@@ -147,7 +149,7 @@ struct expression* specialize_postfix_expression(
 				if (arg->kind != ek_literal)
 					all_literals = false;
 				
-				if (spef->parameters->data[i]->type != arg->type)
+				if (lambda_type->parameters->data[i]->type != arg->type)
 				{
 					TODO;
 					exit(1);
@@ -179,6 +181,8 @@ struct expression* specialize_postfix_expression(
 				
 				struct value* result = lambda_value_call(lambda, valargs);
 				
+				assert(lambda_type->rettype == result->type);
+				
 				retval = new_literal_expression(result);
 				
 				free_value(result);
@@ -187,7 +191,7 @@ struct expression* specialize_postfix_expression(
 			}
 			else
 			{
-				TODO;
+				retval = new_funccall_expression(lambda_type->rettype, sub, arguments);
 			}
 			
 			free_expression_list(arguments);

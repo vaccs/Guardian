@@ -10,7 +10,8 @@ bin/debug-build/./type_check/specialize/postfix.o: \
  type/struct.h type/kind.h list/expression/new.h list/expression/append.h \
  list/expression/free.h expression/literal/struct.h \
  expression/literal/../struct.h expression/literal/../kind.h \
- expression/literal/new.h expression/free.h list/expression/struct.h \
+ expression/literal/new.h expression/funccall/new.h \
+ expression/list_index/new.h expression/free.h list/expression/struct.h \
  list/parameter/struct.h parameter/struct.h mpz/struct.h \
  list/value/struct.h list/value/new.h list/value/append.h \
  list/value/free.h type/lambda/struct.h type/lambda/../struct.h \
