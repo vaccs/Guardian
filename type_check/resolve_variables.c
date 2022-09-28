@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
 
 #include <type/free.h>
 
@@ -34,6 +34,13 @@ static void resolve_variables_primary(
 		
 		free_string(name);
 	}
+	else if (expression->map)
+	{
+		for (unsigned i = 0, n = expression->args.n; i < n; i++)
+		{
+			resolve_variables(unresolved, tcache, expression->args.data[i]);
+		}
+	}
 	else if (expression->tuple)
 	{
 		TODO;
@@ -60,10 +67,8 @@ static void resolve_variables_postfix(
 	{
 		resolve_variables_primary(unresolved, tcache, expression->base);
 	}
-	else
+	else if (expression->sub)
 	{
-		assert(expression->sub);
-		
 		resolve_variables_postfix(unresolved, tcache, expression->sub);
 		
 		if (expression->index)
@@ -85,6 +90,10 @@ static void resolve_variables_postfix(
 		{
 			TODO;
 		}
+	}
+	else
+	{
+		TODO;
 	}
 	
 	EXIT;
@@ -251,7 +260,11 @@ static void resolve_variables_equality(
 	}
 	else if (expression->left)
 	{
-		TODO;
+		assert(expression->right);
+		
+		resolve_variables_equality(unresolved, tcache, expression->left);
+		
+		resolve_variables_relational(unresolved, tcache, expression->right);
 	}
 	else
 	{

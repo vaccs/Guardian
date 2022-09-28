@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
 
 #include <named/type/new.h>
 #include <named/type/compare.h>
@@ -112,7 +112,7 @@ struct expression* specialize_lambda_expression(
 		{
 			// if we know all the values for the capture, this should be
 			// a literal_expression instead
-			struct value* new = new_lambda_value(tcache, parameters, body);
+			struct value* new = new_lambda_value(tcache, parameters, captured, body);
 			
 			retval = new_literal_expression(new);
 			

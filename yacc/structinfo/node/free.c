@@ -12,7 +12,11 @@ void free_structinfo_node(void* ptr)
 	
 	if (node && !--node->refcount)
 	{
-		TODO;
+		free_string(node->name);
+		
+		free_string(node->grammar);
+	
+		free(node);
 	}
 	
 	EXIT;

@@ -17,6 +17,7 @@ struct value* new_list_value(
 	
 	struct list_value* this = (void*) new_value(
 		type,
+		vk_list,
 		&list_value_inheritance,
 		sizeof(*this));
 	

@@ -6,4 +6,4 @@ bin/debug-build/./parse/charset.o: parse/charset.c debug.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h parse/misc/escapes.h \
- parse/parser.h parse/charset.h parse/charset_t.h
+ parse/parse.h parse/charset.h parse/charset_t.h

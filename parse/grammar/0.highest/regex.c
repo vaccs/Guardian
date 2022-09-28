@@ -19,7 +19,7 @@
 #include <gegex/new.h>
 #include <gegex/add_transition.h>
 
-#include "../../parser.h"
+#include "../../parse.h"
 #include "../../regex.h"
 
 #include "regex.h"

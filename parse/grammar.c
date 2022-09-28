@@ -18,7 +18,7 @@
 
 #include "grammar/3.root.h"
 
-#include "parser.h"
+#include "parse.h"
 #include "grammar.h"
 
 void process_grammar(

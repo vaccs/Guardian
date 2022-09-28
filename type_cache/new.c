@@ -17,6 +17,8 @@ struct type_cache* new_type_cache()
 	
 	this->int_type = NULL;
 	
+	this->bool_type = NULL;
+	
 	EXIT;
 	return this;
 }

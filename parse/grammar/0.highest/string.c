@@ -17,7 +17,7 @@
 #include <gegex/new.h>
 #include <gegex/add_transition.h>
 
-#include "../../parser.h"
+#include "../../parse.h"
 #include "../../misc/escapes.h"
 
 #include "string.h"

@@ -1,9 +1,9 @@
 
 #include <debug.h>
 
-#include <type_cache/get_type/int.h>
+#include <mpz/inc.h>
 
-#include <type/free.h>
+#include <type/struct.h>
 
 #include "../new.h"
 
@@ -12,23 +12,22 @@
 #include "new.h"
 
 struct value* new_integer_value(
-	struct type_cache* tcache,
-	signed long integer)
+	struct type* type,
+	struct mpz* integer)
 {
 	ENTER;
 	
 	dpv(integer);
 	
-	struct type* type = type_cache_get_int_type(tcache);
+	assert(type->kind == tk_int);
 	
 	struct integer_value* this = (void*) new_value(
 		type,
+		vk_integer,
 		&integer_value_inheritance,
 		sizeof(*this));
 	
-	this->integer = integer;
-	
-	free_type(type);
+	this->integer = inc_mpz(integer);
 	
 	EXIT;
 	return (void*) this;

@@ -1,6 +1,7 @@
 
 #include <debug.h>
 
+#include "node/struct.h"
 #include "node/new.h"
 #include "struct.h"
 #include "add.h"
@@ -16,7 +17,9 @@ void unresolved_add(
 	
 	if (node)
 	{
-		TODO;
+		struct unresolved_node* old = node->item;
+		
+		ptrset_add(old->usages, expression);
 	}
 	else
 	{

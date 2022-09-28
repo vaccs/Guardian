@@ -11,6 +11,6 @@ bin/debug-build/./parse/grammar/0.highest/character.o: \
  yacc/structinfo/new.h yacc/structinfo/add_field.h \
  yacc/structinfo/node/type.h yacc/structinfo/free.h set/unsigned/new.h \
  set/unsigned/add.h set/unsigned/free.h gegex/new.h \
- gegex/add_transition.h parse/grammar/0.highest/../../parser.h \
+ gegex/add_transition.h parse/grammar/0.highest/../../parse.h \
  parse/grammar/0.highest/../../misc/escapes.h \
  parse/grammar/0.highest/string.h gegex/gbundle.h

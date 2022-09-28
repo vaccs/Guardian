@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
 
 #include <type/struct.h>
 
@@ -13,27 +13,25 @@
 #include <expression/literal/new.h>
 #include <expression/free.h>
 
-#include <list/value/new.h>
-
 #include <list/expression/struct.h>
 
 #include <list/parameter/struct.h>
 
 #include <parameter/struct.h>
 
+#include <mpz/struct.h>
+
 #include <list/value/struct.h>
+#include <list/value/new.h>
 #include <list/value/append.h>
 #include <list/value/free.h>
-
-#include <scope/new.h>
-#include <scope/free.h>
 
 #include <type/lambda/struct.h>
 
 #include <value/integer/struct.h>
 #include <value/list/struct.h>
 #include <value/lambda/call.h>
-#include <value/inc.h>
+/*#include <value/inc.h>*/
 #include <value/free.h>
 
 #include "expression.h"
@@ -51,10 +49,8 @@ struct expression* specialize_postfix_expression(
 	{
 		retval = specialize_primary_expression(tcache, zexpression->base);
 	}
-	else
+	else if (zexpression->sub)
 	{
-		assert(zexpression->sub);
-		
 		struct expression* sub = specialize_postfix_expression(tcache, zexpression->sub);
 		
 		if (zexpression->index)
@@ -79,11 +75,22 @@ struct expression* specialize_postfix_expression(
 						struct list_value* list = (void*) spef_sub->value;
 						struct integer_value* index = (void*) spef_index->value;
 						
-						if (0 <= index->integer && index->integer < list->elements->n)
+						if (mpz_fits_uint_p(index->integer->mpz))
 						{
-							struct value* element = list->elements->data[index->integer];
+							unsigned long raw_index = mpz_get_ui(index->integer->mpz);
 							
-							retval = new_literal_expression(element);
+							dpv(raw_index);
+							
+							if (raw_index < list->elements->n)
+							{
+								struct value* element = list->elements->data[raw_index];
+								
+								retval = new_literal_expression(element);
+							}
+							else
+							{
+								TODO;
+							}
 						}
 						else
 						{
@@ -170,17 +177,13 @@ struct expression* specialize_postfix_expression(
 					value_list_append(valargs, le->value);
 				}
 				
-				struct scope* scope = new_scope();
-				
-				struct value* result = lambda_value_call(lambda, scope, valargs);
+				struct value* result = lambda_value_call(lambda, valargs);
 				
 				retval = new_literal_expression(result);
 				
 				free_value(result);
 				
 				free_value_list(valargs);
-				
-				free_scope(scope);
 			}
 			else
 			{
@@ -195,6 +198,10 @@ struct expression* specialize_postfix_expression(
 		}
 		
 		free_expression(sub);
+	}
+	else
+	{
+		TODO;
 	}
 	
 	EXIT;

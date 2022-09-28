@@ -7,6 +7,8 @@ struct lambda_value
 	
 	struct parameter_list* parameters;
 	
+	struct parameter_list* captured;
+	
 	struct expression* body;
 };
 

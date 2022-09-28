@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
 
 #include "inclusive_or.h"
 #include "logical_and.h"

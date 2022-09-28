@@ -11,7 +11,7 @@
 
 #include "skip.h"
 #include "start.h"
-#include "parser.h"
+#include "parse.h"
 #include "driver.h"
 #include "grammar.h"
 #include "declare.h"

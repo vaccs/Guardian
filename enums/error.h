@@ -7,6 +7,7 @@ enum error
 	e_success,
 	e_syscall_failed,
 	e_syntax_error,
+	e_bad_input_file,
 };
 
 #endif

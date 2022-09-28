@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <value/free.h>
+
 #include "struct.h"
 #include "free.h"
 
@@ -9,7 +11,13 @@ void free_value_list(
 {
 	if (this && !--this->refcount)
 	{
-		TODO;
+		while (this->n--)
+		{
+			free_value(this->data[this->n]);
+		}
+		
+		free(this->data);
+		free(this);
 	}
 }
 

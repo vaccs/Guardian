@@ -1,7 +1,11 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
+
+#include <type/struct.h>
+
+#include <builtin/map/evaluate.h>
 
 #include <list/expression/struct.h>
 #include <list/expression/new.h>
@@ -12,10 +16,18 @@
 #include <expression/variable/new.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
+#include <expression/free.h>
 
 #include <type_cache/get_type/list.h>
+#include <type_cache/get_type/int.h>
 
+#include <type/lambda/struct.h>
+#include <type/list/struct.h>
 #include <type/free.h>
+
+#include <parameter/struct.h>
+
+#include <list/parameter/struct.h>
 
 #include <list/value/new.h>
 #include <list/value/append.h>
@@ -24,6 +36,9 @@
 #include <value/integer/new.h>
 #include <value/list/new.h>
 #include <value/free.h>
+
+#include <mpz/new.h>
+#include <mpz/free.h>
 
 #include "expression.h"
 #include "primary.h"
@@ -36,24 +51,19 @@ static struct expression* specialize_primary_integer_expression(
 	
 	dpvs(integer->data);
 	
-	errno = 0;
+	struct type* type = type_cache_get_int_type(tcache);
 	
-	char* m;
-	signed long number = strtol((void*) integer->data, &m, 0);
+	struct mpz* mpz = new_mpz_from_string((char*) integer->data);
 	
-	if (errno || *m)
-	{
-		TODO;
-		exit(1);
-	}
-	
-	dpv(number);
-	
-	struct value* value = new_integer_value(tcache, number);
+	struct value* value = new_integer_value(type, mpz);
 	
 	struct expression* retval = new_literal_expression(value);
 	
 	free_value(value);
+	
+	free_type(type);
+	
+	free_mpz(mpz);
 	
 	EXIT;
 	return retval;
@@ -116,6 +126,8 @@ static struct expression* specialize_primary_list_expression(
 			all_literals = false;
 		
 		expression_list_append(elements, element);
+		
+		free_expression(element);
 	}
 	
 	struct type* type = type_cache_get_list_type(tcache, element_type);
@@ -158,6 +170,119 @@ static struct expression* specialize_primary_list_expression(
 	return retval;
 }
 
+static struct expression* specialize_primary_map_expression(
+	struct type_cache* tcache,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
+	
+	if (raw_len < 2)
+	{
+		TODO;
+	}
+	
+	bool all_literals = true;
+	
+	struct expression* lambda_exp = specialize_expression(tcache, raw_arguments[0]);
+	
+	if (lambda_exp->kind != ek_literal)
+		all_literals = false;
+	
+	if (lambda_exp->type->kind != tk_lambda)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct lambda_type* lambda_type = (void*) lambda_exp->type;
+	
+	raw_arguments++, raw_len--;
+	
+	if (lambda_type->parameters->n != raw_len)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct expression_list* arguments = new_expression_list();
+	
+	for (unsigned i = 0, n = raw_len; i < n; i++)
+	{
+		struct expression* arg = specialize_expression(tcache, raw_arguments[i]);
+		
+		if (arg->kind != ek_literal)
+			all_literals = false;
+		
+		if (arg->type->kind != tk_list)
+		{
+			TODO;
+			exit(1);
+		}
+		
+		struct list_type* list_type = (void*) arg->type;
+		
+		if (lambda_type->parameters->data[i]->type != list_type->element_type)
+		{
+			TODO;
+			exit(1);
+		}
+		
+		expression_list_append(arguments, arg);
+		
+		free_expression(arg);
+	}
+	
+	struct type* type = type_cache_get_list_type(tcache, lambda_type->rettype);
+	
+	if (all_literals)
+	{
+		struct value* lambda_val;
+		struct value_list* valargs = new_value_list();
+		
+		{
+			assert(lambda_exp->kind == ek_literal);
+			
+			struct literal_expression* le = (void*) lambda_exp;
+			
+			lambda_val = le->value;
+		}
+		
+		for (unsigned i = 0, n = arguments->n; i < n; i++)
+		{
+			struct expression* element = arguments->data[i];
+			
+			assert(element->kind == ek_literal);
+			
+			struct literal_expression* le = (void*) element;
+			
+			value_list_append(valargs, le->value);
+		}
+		
+		struct value* result = builtin_map_evaluate(type, lambda_val, valargs);
+		
+		retval = new_literal_expression(result);
+		
+		free_value(result);
+		
+		free_value_list(valargs);
+	}
+	else
+	{
+		TODO;
+	}
+	
+	free_expression_list(arguments);
+	
+	free_expression(lambda_exp);
+	
+	free_type(type);
+	
+	EXIT;
+	return retval;
+}
+
+
 struct expression* specialize_primary_expression(
 	struct type_cache* tcache,
 	struct zebu_primary_expression* zexpression)
@@ -193,6 +318,11 @@ struct expression* specialize_primary_expression(
 	{
 		retval = specialize_primary_list_expression(tcache,
 			zexpression->elements.data, zexpression->elements.n);
+	}
+	else if (zexpression->map)
+	{
+		retval = specialize_primary_map_expression(tcache,
+			zexpression->args.data, zexpression->args.n);
 	}
 	else
 	{

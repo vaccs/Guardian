@@ -3,7 +3,7 @@
 
 #include <gegex/add_lambda_transition.h>
 
-#include "../parser.h"
+#include "../parse.h"
 
 #include "0.highest.h"
 #include "1.postfix.h"

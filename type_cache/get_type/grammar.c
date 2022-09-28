@@ -27,9 +27,11 @@ struct type* type_cache_get_grammar_type(
 	}
 	else
 	{
-		retval = new_grammar_type(structinfo);
+		struct type* grammar = new_grammar_type(structinfo);
 		
-		avl_insert(this->tree, retval);
+		avl_insert(this->tree, grammar);
+		
+		retval = inc_type(grammar);
 	}
 	
 	EXIT;

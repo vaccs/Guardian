@@ -10,7 +10,7 @@
 #include <regex/free.h>
 
 #include "regex.h"
-#include "parser.h"
+#include "parse.h"
 #include "skip.h"
 
 void process_skip(

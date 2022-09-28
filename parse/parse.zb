@@ -1,0 +1,51 @@
+
+%skip: ' ' | '\t' | '\n' | "//" [!'\n']* '\n';
+
+`char`: '\'' ([!('\'', '\\')] | '\\' .) '\'';
+
+`string`: '\"' ([!('\"', '\\')] | '\\' .)* '\"';
+
+`int`: '0' | ('0' ('x' | 'b')?)? ['1'-'9'] ['0'-'9']*;
+
+`float`: ['0'-'9']+ '.' ['0'-'9']+;
+
+`identifier`: ['a'-'z'] ['_', 'a'-'z', '0'-'9']*;
+
+%include "charset.zb"
+
+%include "regex.zb"
+
+%include "expression.zb"
+
+%include "using.zb"
+
+%include "skip.zb"
+
+%include "start.zb"
+
+%include "grammar.zb"
+
+%include "declare.zb"
+
+%include "assertion.zb"
+
+%start: ( using_directive #usings[]
+	| skip_directive #skips[]
+	| start_directive #starts[]
+	| grammar_rule #grammars[]
+	| value_declare #declares[]
+	| assertion #assertions[] )+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

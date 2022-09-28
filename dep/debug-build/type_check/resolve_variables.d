@@ -6,7 +6,7 @@ bin/debug-build/./type_check/resolve_variables.o: \
  avl/free_tree.h avl/delete_node.h avl/tree_t.h avl/delete.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h parse/parser.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h parse/parse.h \
  type/free.h type_check/unresolved/new.h type_check/unresolved/inc.h \
  type_check/unresolved/add.h type_check/unresolved/resolve.h \
  type_check/unresolved/update.h type_check/unresolved/free.h \

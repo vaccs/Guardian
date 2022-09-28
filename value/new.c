@@ -8,6 +8,7 @@
 
 struct value* new_value(
 	struct type* type,
+	enum value_kind kind,
 	struct value_inheritance* inheritance,
 	size_t alloc_size)
 {
@@ -18,6 +19,8 @@ struct value* new_value(
 	struct value* this = smalloc(alloc_size);
 	
 	this->type = inc_type(type);
+	
+	this->kind = kind;
 	
 	this->inheritance = inheritance;
 	

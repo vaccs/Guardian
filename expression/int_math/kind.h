@@ -5,6 +5,7 @@
 enum int_math_expression_kind
 {
 	imek_add,
+	imek_subtract,
 	imek_multiply,
 };
 

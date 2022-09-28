@@ -8,6 +8,7 @@ primary_expression
 	| `char` #character_literal
 	| `string` #string_literal
 	| `identifier` #identifier
+	| "map" #map '(' (expression #args[] (',' expression #args[])*)? ')'
 	| '(' #tuple (expression #elements[] (',' expression #elements[])*)? ')'
 	| '[' #list (expression #elements[]  (',' expression #elements[])*)? ']'
 	;
@@ -41,8 +42,8 @@ multiplicative_expression
 
 additive_expression
 	: multiplicative_expression #base
-	| additive_expression #left '+' multiplicative_expression #right
-	| additive_expression #left '-' multiplicative_expression #right
+	| additive_expression #left '+' #add multiplicative_expression #right
+	| additive_expression #left '-' #sub multiplicative_expression #right
 	;
 
 shift_expression

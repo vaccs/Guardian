@@ -27,9 +27,11 @@ struct type* type_cache_get_list_type(
 	}
 	else
 	{
-		retval = new_list_type(element_type);
+		struct type* list = new_list_type(element_type);
 		
-		avl_insert(this->tree, retval);
+		avl_insert(this->tree, list);
+		
+		retval = inc_type(list);
 	}
 	
 	EXIT;

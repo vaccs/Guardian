@@ -7,4 +7,4 @@ bin/debug-build/./parse/start.o: parse/start.c debug.h memory/smalloc.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h gegex/nfa_to_dfa.h \
  gegex/gbundle.h gegex/simplify_dfa.h gegex/free.h named/grammar/new.h \
- parse/grammar/3.root.h gegex/gbundle.h parse/parser.h parse/start.h
+ parse/grammar/3.root.h gegex/gbundle.h parse/parse.h parse/start.h

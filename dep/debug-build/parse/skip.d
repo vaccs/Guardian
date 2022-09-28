@@ -8,4 +8,4 @@ bin/debug-build/./parse/skip.o: parse/skip.c debug.h memory/smalloc.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h lex/struct.h \
  lex/add_token.h regex/add_lambda_transition.h regex/nfa_to_dfa.h \
  regex/rbundle.h regex/simplify_dfa.h regex/free.h parse/regex.h \
- regex/rbundle.h parse/parser.h parse/skip.h
+ regex/rbundle.h parse/parse.h parse/skip.h

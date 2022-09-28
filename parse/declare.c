@@ -3,7 +3,7 @@
 
 #include <named/zebu_expression/new.h>
 
-#include "parser.h"
+#include "parse.h"
 #include "declare.h"
 
 void process_declare(

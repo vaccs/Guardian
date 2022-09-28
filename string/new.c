@@ -13,7 +13,7 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
 
 #include "struct.h"
 #include "new.h"

@@ -6,5 +6,5 @@ bin/debug-build/./parse/grammar/3.root.o: parse/grammar/3.root.c debug.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- gegex/add_lambda_transition.h parse/grammar/../parser.h \
+ gegex/add_lambda_transition.h parse/grammar/../parse.h \
  parse/grammar/2.juxtaposition.h gegex/gbundle.h parse/grammar/3.root.h

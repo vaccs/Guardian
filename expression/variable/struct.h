@@ -4,6 +4,7 @@
 struct variable_expression
 {
 	struct expression super;
+	
 	struct string* name;
 };
 

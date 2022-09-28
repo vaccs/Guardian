@@ -3,7 +3,7 @@
 
 #include <gegex/add_lambda_transition.h>
 
-#include "../parser.h"
+#include "../parse.h"
 
 #include "2.juxtaposition.h"
 #include "3.root.h"

@@ -1,14 +1,22 @@
 
 #include <debug.h>
 
-#include <parse/parser.h>
+#include <parse/parse.h>
 
 #include <type/struct.h>
 
+#include <expression/int_math/new.h>
+#include <expression/literal/struct.h>
+#include <expression/literal/new.h>
 #include <expression/struct.h>
 #include <expression/free.h>
 
-#include <expression/int_math/new.h>
+#include <mpz/add.h>
+#include <mpz/free.h>
+
+#include <value/integer/struct.h>
+#include <value/integer/new.h>
+#include <value/free.h>
 
 #include "multiplicative.h"
 #include "additive.h"
@@ -38,11 +46,68 @@ struct expression* specialize_additive_expression(
 			exit(1);
 		}
 		
-		switch (left->type->kind)
+		if (left->kind == ek_literal && right->kind == ek_literal)
+		{
+			struct literal_expression* spef_left = (void*) left;
+			struct literal_expression* spef_right = (void*) right;
+			
+			struct value* value;
+			
+			switch (left->type->kind)
+			{
+				case tk_int:
+				{
+					struct integer_value* left_value = (void*) spef_left->value;
+					struct integer_value* right_value = (void*) spef_right->value;
+					
+					struct mpz* number;
+					
+					if (zexpression->add)
+					{
+						number = new_mpz_from_add(left_value->integer, right_value->integer);
+					}
+					else
+					{
+						TODO;
+					}
+					
+					value = new_integer_value(left->type, number);
+					
+					free_mpz(number);
+					break;
+				}
+				
+				case tk_float:
+					TODO;
+					break;
+				
+				default:
+					TODO;
+					break;
+			}
+			
+			retval = new_literal_expression(value);
+			
+			free_value(value);
+		}
+		else switch (left->type->kind)
 		{
 			case tk_int:
-				retval = new_int_math_expression(tcache, imek_add, left, right);
+			{
+				if (zexpression->add)
+				{
+					retval = new_int_math_expression(tcache, imek_add, left, right);
+				}
+				else if (zexpression->sub)
+				{
+					retval = new_int_math_expression(tcache, imek_subtract, left, right);
+				}
+				else
+				{
+					TODO;
+				}
 				break;
+			}
 			
 			case tk_float:
 			{

@@ -8,7 +8,7 @@
 #include <gegex/new.h>
 #include <gegex/add_grammar_transition.h>
 
-#include "../../parser.h"
+#include "../../parse.h"
 
 #include "name.h"
 

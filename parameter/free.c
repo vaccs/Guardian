@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <type/free.h>
+
 #include "struct.h"
 #include "free.h"
 
@@ -9,7 +11,9 @@ void free_parameter(
 {
 	if (this && !--this->refcount)
 	{
-		TODO;
+		free_string(this->name);
+		free_type(this->type);
+		free(this);
 	}
 }
 

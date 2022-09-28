@@ -8,7 +8,7 @@
 #include <named/grammar/new.h>
 
 #include "grammar/3.root.h"
-#include "parser.h"
+#include "parse.h"
 #include "start.h"
 
 void process_start(

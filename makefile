@@ -6,6 +6,8 @@ CPPFLAGS += -I .
 
 CFLAGS += -Wall -Werror -Wfatal-errors
 
+LDLIBS += -lgmp
+
 buildtype ?= release
 
 ifeq ($(buildtype), release)
@@ -88,7 +90,7 @@ srclist.mk:
 
 ifneq "$(MAKECMDGOALS)" "clean"
 include srclist.mk
-srcs += ./parse/parser.c
+srcs += ./parse/parse.c
 endif
 
 objs := $(patsubst %.c,$(buildprefix)/%.o,$(srcs))
@@ -97,10 +99,10 @@ objs := $(patsubst %.S,$(buildprefix)/%.o,$(objs))
 deps := $(patsubst %.c,$(depprefix)/%.d,$(srcs))
 deps := $(patsubst %.S,$(depprefix)/%.d,$(deps))
 
-parse/parser.c parse/parser.h: parse/parser.zb parse/assertion.zb \
+parse/parse.c parse/parse.h: parse/parse.zb parse/assertion.zb \
 		parse/charset.zb parse/declare.zb parse/expression.zb parse/grammar.zb \
 		parse/regex.zb parse/skip.zb parse/start.zb parse/using.zb
-	zebu -v -m --template=fileio -i $< -o parse/parser
+	zebu -v -m --template=fileio -i $< -o parse/parse
 
 $(buildprefix)/%.o $(depprefix)/%.d: %.c | $(buildprefix)/%/ $(depprefix)/%/
 	@ echo "compiling $<"

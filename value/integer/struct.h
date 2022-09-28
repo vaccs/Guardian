@@ -4,6 +4,6 @@
 struct integer_value
 {
 	struct value super;
-	signed long integer;
+	struct mpz* integer;
 };
 

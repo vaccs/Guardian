@@ -7,4 +7,4 @@ bin/debug-build/./parse/assertion.o: parse/assertion.c debug.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
  parse/assertion/new.h enums/assertion_kind.h parse/assertion.h \
- parse/parser.h
+ parse/parse.h

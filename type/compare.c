@@ -20,7 +20,7 @@ int compare_types(const void* a, const void* b)
 	}
 	else if (A->kind > B->kind)
 	{
-		TODO;
+		cmp = +1;
 	}
 	else
 	{

@@ -7,7 +7,7 @@
 
 #include "assertion.h"
 
-#include "parser.h"
+#include "parse.h"
 
 void process_assertion(
 	struct ptrset* assertions,

@@ -6,7 +6,7 @@ bin/debug-build/./parse/grammar/0.highest.o: parse/grammar/0.highest.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- parse/grammar/../parser.h parse/grammar/3.root.h gegex/gbundle.h \
+ parse/grammar/../parse.h parse/grammar/3.root.h gegex/gbundle.h \
  parse/grammar/0.highest/character.h parse/grammar/0.highest/string.h \
  parse/grammar/0.highest/regex.h parse/grammar/0.highest/name.h \
  parse/grammar/0.highest.h

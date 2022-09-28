@@ -7,8 +7,13 @@
 #include <quack/pop.h>
 #include <quack/is_nonempty.h>
 #include <quack/append.h>
+#include <quack/free.h>
 
 #include <assertion/new.h>
+
+#include <value/bool/struct.h>
+
+#include <type/struct.h>
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
@@ -64,7 +69,15 @@ static struct task* new_task(
 
 static void free_task(struct task* this)
 {
-	TODO;
+	ENTER;
+	
+	free_string(this->name);
+	
+	free_unresolved(this->unresolved);
+	
+	free(this);
+	
+	EXIT;
 }
 
 struct dependents
@@ -94,13 +107,19 @@ static struct dependents* new_dependents(
 static int compare_dependents(const void* a, const void* b)
 {
 	const struct dependents *A = a, *B = b;
+	
 	return compare_strings(A->name, B->name);
 }
 
 static void free_dependents(void* ptr)
 {
-	// struct dependents* this
-	TODO;
+	struct dependents *dep = ptr;
+	
+	free_string(dep->name);
+	
+	free_ptrset(dep->tasks);
+	
+	free(dep);
 }
 
 void type_check(
@@ -245,6 +264,8 @@ void type_check(
 			}));
 		}
 		
+		free_task(task);
+		
 		free_expression(typed);
 	}
 	
@@ -296,9 +317,30 @@ void type_check(
 			
 			struct expression* specialized = specialize_expression(tcache, raw_assertion->expression);
 			
-			struct assertion* assertion = new_assertion(raw_assertion->kind, specialized);
+			if (specialized->type->kind != tk_bool)
+			{
+				fprintf(stderr, "%s: every assertion should return a bool!\n", argv0);
+				exit(e_bad_input_file);
+			}
 			
-			ptrset_add(typed_assertions, assertion);
+			if (specialized->kind == ek_literal)
+			{
+				struct literal_expression* literal = (void*) specialized;
+				
+				struct bool_value* value = (struct bool_value*) literal->value;
+				
+				if (!value->value)
+				{
+					fprintf(stderr, "%s: assertion constant-folded to false value!\n", argv0);
+					exit(e_bad_input_file);
+				}
+			}
+			else
+			{
+				struct assertion* assertion = new_assertion(raw_assertion->kind, specialized);
+				
+				ptrset_add(typed_assertions, assertion);
+			}
 			
 			free_expression(specialized);
 			
@@ -306,6 +348,10 @@ void type_check(
 		}
 		runme;
 	}));
+	
+	avl_free_tree(dependents);
+	
+	free_quack(ready);
 	
 	EXIT;
 }

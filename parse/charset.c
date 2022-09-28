@@ -3,7 +3,7 @@
 
 #include "misc/escapes.h"
 
-#include "parser.h"
+#include "parse.h"
 #include "charset.h"
 
 static unsigned char max(charset_t value)

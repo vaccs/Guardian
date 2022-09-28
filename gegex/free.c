@@ -69,6 +69,10 @@ void free_gegex(struct gegex* start)
 		free(state);
 	}
 	
+	free_ptrset(queued);
+	
+	free_quack(todo);
+	
 	EXIT;
 }
 

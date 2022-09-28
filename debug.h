@@ -26,6 +26,8 @@
 	#include <time.h>
 	#include <pwd.h>
 	
+	#include <gmp.h>
+	
 	struct pragma_once;
 	struct tokenizer;
 	struct expressionset;
@@ -41,6 +43,8 @@
 	struct expression_list;
 	struct type_cache;
 	struct type;
+	struct assertion;
+	struct raw_assertion;
 	struct gegex_transition;
 	struct zebu_expression;
 	struct grammar_type;
@@ -53,6 +57,7 @@
 	struct parameter;
 	struct type_inheritance;
 	struct lambda_value;
+	struct mpz;
 	struct value;
 	
 	#include <memory/smalloc.h>

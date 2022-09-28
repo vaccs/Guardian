@@ -5,4 +5,6 @@ bin/debug-build/./type/list/compare.o: type/list/compare.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h type/list/compare.h
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
+ type/list/../compare.h type/list/struct.h type/list/../struct.h \
+ type/list/../kind.h type/list/compare.h

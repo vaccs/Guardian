@@ -8,7 +8,7 @@
 #include "misc/escapes.h"
 
 #include "charset.h"
-#include "parser.h"
+#include "parse.h"
 #include "regex.h"
 
 struct rbundle process_regex(struct zebu_regex* regex)

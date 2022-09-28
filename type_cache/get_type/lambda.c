@@ -30,9 +30,11 @@ struct type* type_cache_get_lambda_type(
 	}
 	else
 	{
-		retval = new_lambda_type(parameters, rettype);
+		struct type* lambda = new_lambda_type(parameters, rettype);
 		
-		avl_insert(this->tree, retval);
+		avl_insert(this->tree, lambda);
+		
+		retval = inc_type(lambda);
 	}
 	
 	EXIT;

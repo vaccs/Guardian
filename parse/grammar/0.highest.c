@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include "../parser.h"
+#include "../parse.h"
 
 #include "3.root.h"
 

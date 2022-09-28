@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include "../parser.h"
+#include "../parse.h"
 
 #include "struct.h"
 #include "new.h"

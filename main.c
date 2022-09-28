@@ -10,6 +10,9 @@
 
 #include <parse/driver.h>
 
+#include <parse/assertion/free.h>
+#include <assertion/free.h>
+
 #include <named/grammar/compare.h>
 #include <named/grammar/free.h>
 
@@ -28,6 +31,7 @@
 #include <lex/free.h>
 
 #include <type_cache/new.h>
+#include <type_cache/free.h>
 
 #include <type_check/type_check.h>
 
@@ -44,9 +48,9 @@ int main(int argc, char* const* argv)
 	
 	struct lex* lex = new_lex();
 	
-	struct ptrset* raw_assertions = new_ptrset();
-	
 	struct type_cache* tcache = new_type_cache();
+	
+	struct ptrset* raw_assertions = new_ptrset();
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	
@@ -62,7 +66,6 @@ int main(int argc, char* const* argv)
 	
 	type_check(tcache, types, typed_declares, typed_assertions, raw_declares, raw_assertions);
 	
-	TODO;
 	#if 0
 	// generate parser
 	
@@ -91,13 +94,34 @@ int main(int argc, char* const* argv)
 				// 1. parsing and set-building
 				// 2. globals and lambdas
 				// 3. assertions
+	#endif
 	
+	ptrset_foreach(raw_assertions, ({
+		void runme(void* ptr)
+		{
+			free_raw_assertion(ptr);
+		}
+		runme;
+	}));
 	
-	free_ptrset(assertions);
+	ptrset_foreach(typed_assertions, ({
+		void runme(void* ptr)
+		{
+			TODO;
+			free_assertion(ptr);
+		}
+		runme;
+	}));
+	
+	free_ptrset(raw_assertions);
+	
+	free_ptrset(typed_assertions);
 	
 	free_type_cache(tcache);
 	
-	avl_free_tree(declares);
+	avl_free_tree(typed_declares);
+	
+	avl_free_tree(raw_declares);
 	
 	avl_free_tree(grammar);
 	
@@ -106,9 +130,6 @@ int main(int argc, char* const* argv)
 	free_cmdln(flags);
 	
 	free_lex(lex);
-	#endif
-	
-	TODO;
 	
 	EXIT;
 	return 0;

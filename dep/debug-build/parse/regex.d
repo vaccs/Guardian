@@ -8,5 +8,5 @@ bin/debug-build/./parse/regex.o: parse/regex.c debug.h memory/smalloc.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
  regex/new_from_string.h regex/rbundle.h regex/new_from_charset.h \
  parse/charset_t.h regex/add_lambda_transition.h parse/misc/escapes.h \
- parse/charset.h parse/charset_t.h parse/parser.h parse/regex.h \
+ parse/charset.h parse/charset_t.h parse/parse.h parse/regex.h \
  regex/rbundle.h

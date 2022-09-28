@@ -6,4 +6,4 @@ bin/debug-build/./type_check/build_type.o: type_check/build_type.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- parse/parser.h type_cache/get_type/int.h type_check/build_type.h
+ parse/parse.h type_cache/get_type/int.h type_check/build_type.h
