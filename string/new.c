@@ -50,12 +50,6 @@ struct string* new_string(const char* str, unsigned len)
 	return this;
 }
 
-#if 0
-struct string* new_string_from_tokenchars(struct tokenizer* tokenizer)
-{
-	return new_string((const char*) tokenizer->tokenchars.chars);
-}
-
 struct string* new_string_from_format(const char* fmt, ...)
 {
 	ENTER;
@@ -71,7 +65,13 @@ struct string* new_string_from_format(const char* fmt, ...)
 	
 	dpvs(chars);
 	
-	struct string* this = new_string_without_copy(chars);
+	dpvs(chars);
+	
+	struct string* this = smalloc(sizeof(*this));
+	
+	this->chars = chars;
+	this->len = strlen(chars);
+	this->refcount = 1;
 	
 	va_end(ap);
 	
@@ -110,4 +110,3 @@ struct string* new_string_from_format(const char* fmt, ...)
 
 
 
-#endif

@@ -9,6 +9,8 @@
 
 #include <misc/break_and_open_path.h>
 
+#include <lex/add_EOF_token.h>
+
 #include "skip.h"
 #include "start.h"
 #include "parse.h"
@@ -176,6 +178,8 @@ void parse_driver(
 		free_file_descriptor(info->abs_dirfd);
 		free_file_descriptor(info->rel_dirfd);
 	}
+	
+	lex_add_EOF_token(lex);
 	
 	avl_free_tree(queued);
 	

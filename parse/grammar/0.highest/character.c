@@ -48,8 +48,6 @@ struct gbundle read_grammar_highest_character(
 	
 	struct structinfo* structinfo = new_structinfo();
 	
-	struct unsignedset* whitespace = new_unsignedset();
-	
 	struct gegex *start = new_gegex(), *end = new_gegex();
 	
 	for (unsigned i = 0, n = highest->tags.n; i < n; i++)
@@ -68,14 +66,7 @@ struct gbundle read_grammar_highest_character(
 		free_string(tag);
 	}
 	
-	if (lex->whitespace_token_id)
-	{
-		unsignedset_add(whitespace, lex->whitespace_token_id);
-	}
-	
-	gegex_add_transition(start, token_id, whitespace, structinfo, end);
-	
-	free_unsignedset(whitespace);
+	gegex_add_transition(start, token_id, structinfo, end);
 	
 	free_structinfo(structinfo);
 	

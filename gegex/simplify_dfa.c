@@ -372,7 +372,7 @@ static struct gegex* clone(
 			{
 				struct mapping* submapping = node->item;
 				
-				gegex_add_transition(new, ele->token, ele->whitespace, ele->structinfo, submapping->new);
+				gegex_add_transition(new, ele->token, ele->structinfo, submapping->new);
 			}
 			else
 			{
@@ -380,7 +380,7 @@ static struct gegex* clone(
 				
 				struct mapping* submapping = new_mapping(cloneme, subnew);
 				
-				gegex_add_transition(new, ele->token, ele->whitespace, ele->structinfo, subnew);
+				gegex_add_transition(new, ele->token, ele->structinfo, subnew);
 				
 				avl_insert(mappings, submapping);
 				
@@ -460,7 +460,7 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 								const struct gegex_transition* const at = a->transitions.data[a_i];
 								const struct gegex_transition* const bt = b->transitions.data[b_i];
 								
-								if (at->token != bt->token || compare_unsignedsets(at->whitespace, bt->whitespace))
+								if (at->token != bt->token)
 								{
 									unequal = true;
 								}

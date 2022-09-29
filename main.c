@@ -35,6 +35,10 @@
 
 #include <type_check/type_check.h>
 
+#include <yacc/yacc.h>
+
+#include <yacc/state/free.h>
+
 int main(int argc, char* const* argv)
 {
 	#ifdef DEBUGGING
@@ -66,15 +70,17 @@ int main(int argc, char* const* argv)
 	
 	type_check(tcache, types, typed_declares, typed_assertions, raw_declares, raw_assertions);
 	
+	struct yacc_state* start = yacc(lex, grammar);
+	
 	#if 0
-	// generate parser
+	// print source for all types
 	
-	// print source for all types 
+	// print source for parser and set-building
 	
-	// print source for parser
+	// print source for value-declares
 	
 	// print source for assertions:
-		// boolean, integers, and string types become `bool` , `int`, and `string`
+		// boolean, integers, and char types become `bool` , `int`, and `char`
 		
 		// lists become a typed-pointer with a reference-count
 		// lambdas become a struct:
@@ -82,6 +88,9 @@ int main(int argc, char* const* argv)
 			// with a function-pointer
 			// and a struct of "captured" values
 			// first parameter of function-pointer is the struct
+		
+		// if a other code-generating stuff sees its invoking a lambda literal
+		// the lambda can be inlined.
 		
 		// iterate through assertions, generating their code.
 			// for every global value or named-lambda that' used, add them to
@@ -97,30 +106,30 @@ int main(int argc, char* const* argv)
 	#endif
 	
 	ptrset_foreach(raw_assertions, ({
-		void runme(void* ptr)
-		{
+		void runme(void* ptr) {
 			free_raw_assertion(ptr);
 		}
 		runme;
 	}));
 	
 	ptrset_foreach(typed_assertions, ({
-		void runme(void* ptr)
-		{
+		void runme(void* ptr) {
 			free_assertion(ptr);
 		}
 		runme;
 	}));
 	
+	free_yacc_state(start);
+	
 	free_ptrset(raw_assertions);
 	
 	free_ptrset(typed_assertions);
 	
-	free_type_cache(tcache);
-	
 	avl_free_tree(typed_declares);
 	
 	avl_free_tree(raw_declares);
+	
+	free_type_cache(tcache);
 	
 	avl_free_tree(grammar);
 	

@@ -203,8 +203,6 @@ struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 				
 				dpv(min_token);
 				
-				struct unsignedset* whitespace = new_unsignedset();
-				
 				struct ptrset* subptrset = new_ptrset();
 				
 				struct structinfo* structinfo = new_structinfo();
@@ -214,8 +212,6 @@ struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 					heap_pop(heap);
 					
 					add_lambda_states(subptrset, transition->to);
-					
-					unsignedset_update(whitespace, transition->whitespace);
 					
 					structinfo_update(structinfo, transition->structinfo);
 					
@@ -232,7 +228,7 @@ struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 				{
 					struct mapping* old = node->item;
 					
-					gegex_add_transition(state, min_token, whitespace, structinfo, old->combined_state);
+					gegex_add_transition(state, min_token, structinfo, old->combined_state);
 					
 					free_ptrset(subptrset);
 				}
@@ -242,14 +238,14 @@ struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 					
 					struct mapping* new = new_mapping(subptrset, substate);
 					
-					gegex_add_transition(state, min_token, whitespace, structinfo, substate);
+					gegex_add_transition(state, min_token, structinfo, substate);
 					
 					quack_append(todo, new);
 					
 					avl_insert(mappings, new);
 				}
 				
-				free_structinfo(structinfo), free_unsignedset(whitespace);
+				free_structinfo(structinfo);
 			}
 			
 			free_heap(heap);

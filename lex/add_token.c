@@ -7,6 +7,9 @@
 #include "token_to_id_node/struct.h"
 #include "token_to_id_node/new.h"
 
+#include "id_to_token_node/struct.h"
+#include "id_to_token_node/new.h"
+
 #include "struct.h"
 #include "add_token.h"
 
@@ -39,6 +42,7 @@ unsigned lex_add_token(
 		regex_set_kind(token, retval, kind);
 		
 		avl_insert(this->token_to_id, new_token_to_id_node(token, retval));
+		avl_insert(this->id_to_token, new_id_to_token_node(retval, token));
 	}
 	
 	dpv(retval);

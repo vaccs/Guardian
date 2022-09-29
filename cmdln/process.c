@@ -11,6 +11,7 @@
 #include "usage.h"
 #include "flags.h"
 #include "process.h"
+#include "minimize_lexer.h"
 
 struct cmdln* cmdln_process(int argc, char* const* argv)
 {
@@ -20,7 +21,7 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 	bool verbose = false;
 	
 	int opt;
-	while ((opt = getopt(argc, argv, "hvi:")) != -1)
+	while ((opt = getopt(argc, argv, "hvmi:")) != -1)
 	{
 		switch (opt)
 		{
@@ -30,6 +31,10 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 			
 			case 'v':
 				verbose = true;
+				break;
+			
+			case 'm':
+				minimize_lexer = true;
 				break;
 			
 			case 'h':

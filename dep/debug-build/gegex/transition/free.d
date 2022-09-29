@@ -6,5 +6,4 @@ bin/debug-build/./gegex/transition/free.o: gegex/transition/free.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- set/unsigned/free.h yacc/structinfo/free.h gegex/transition/struct.h \
- gegex/transition/free.h
+ yacc/structinfo/free.h gegex/transition/struct.h gegex/transition/free.h

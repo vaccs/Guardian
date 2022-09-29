@@ -10,13 +10,12 @@
 void gegex_add_transition(
 	struct gegex* from,
 	unsigned token,
-	struct unsignedset* whitespace,
 	struct structinfo* structinfo,
 	struct gegex* to)
 {
 	ENTER;
 	
-	struct gegex_transition* transition = new_gegex_transition(token, whitespace, structinfo, to);
+	struct gegex_transition* transition = new_gegex_transition(token, structinfo, to);
 	
 	if (from->transitions.n == from->transitions.cap)
 	{

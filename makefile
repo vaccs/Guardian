@@ -57,6 +57,9 @@ default: $(buildprefix)/maia
 
 ARGS += -v
 
+ARGS += -m
+#ARGS += --minimize-lexer
+
 #ARGS += -i ./examples/const-folding.maia
 ARGS += -i ./examples/json.maia
 

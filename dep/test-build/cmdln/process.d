@@ -6,4 +6,4 @@ bin/test-build/./cmdln/process.o: cmdln/process.c debug.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h cmdln/usage.h \
- cmdln/flags.h cmdln/process.h
+ cmdln/flags.h cmdln/process.h cmdln/minimize_lexer.h

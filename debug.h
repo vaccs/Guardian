@@ -44,6 +44,8 @@
 	struct type_cache;
 	struct type;
 	struct assertion;
+	struct yacc_state;
+	struct lex_state;
 	struct raw_assertion;
 	struct gegex_transition;
 	struct zebu_expression;

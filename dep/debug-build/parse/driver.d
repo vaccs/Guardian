@@ -7,5 +7,6 @@ bin/debug-build/./parse/driver.o: parse/driver.c debug.h memory/smalloc.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h quack/new.h \
  quack/append.h quack/pop.h quack/is_nonempty.h quack/free.h \
- misc/break_and_open_path.h parse/skip.h parse/start.h parse/parse.h \
- parse/driver.h parse/grammar.h parse/declare.h parse/assertion.h
+ misc/break_and_open_path.h lex/add_EOF_token.h parse/skip.h \
+ parse/start.h parse/parse.h parse/driver.h parse/grammar.h \
+ parse/declare.h parse/assertion.h

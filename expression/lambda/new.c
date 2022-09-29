@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <list/parameter/inc.h>
+
 #include "../new.h"
 #include "../inc.h"
 
@@ -22,8 +24,8 @@ struct expression* new_lambda_expression(
 		type,
 		sizeof(*this));
 	
-	this->parameters = parameters;
-	this->captured = captured;
+	this->parameters = inc_parameter_list(parameters);
+	this->captured = inc_parameter_list(captured);
 	this->body = inc_expression(body);
 	
 	EXIT;

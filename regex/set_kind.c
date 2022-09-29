@@ -37,7 +37,7 @@ void regex_set_kind(
 		
 		if (state->EOF_transition_to)
 		{
-			TODO;
+			regex_set_kind(state->EOF_transition_to, accepts, kind);
 		}
 	}
 	
