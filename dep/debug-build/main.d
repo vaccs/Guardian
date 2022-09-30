@@ -11,4 +11,5 @@ bin/debug-build/./main.o: main.c debug.h memory/smalloc.h \
  named/type/compare.h named/type/free.h named/zebu_expression/compare.h \
  named/zebu_expression/free.h named/expression/compare.h \
  named/expression/free.h lex/new.h lex/free.h type_cache/new.h \
- type_cache/free.h type_check/type_check.h yacc/yacc.h yacc/state/free.h
+ type_cache/free.h type_check/type_check.h yacc/yacc.h yacc/state/free.h \
+ out/out.h stringtree/stream.h stringtree/free.h

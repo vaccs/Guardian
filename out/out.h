@@ -1,0 +1,2 @@
+
+struct stringtree* out();
