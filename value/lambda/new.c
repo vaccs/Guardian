@@ -5,6 +5,8 @@
 
 #include <list/parameter/inc.h>
 
+#include <scope/inc.h>
+
 #include "../new.h"
 
 #include "struct.h"
@@ -14,7 +16,7 @@
 struct value* new_lambda_value(
 	struct type* type,
 	struct parameter_list* parameters,
-	struct parameter_list* captured,
+	struct scope* captured,
 	struct expression* body)
 {
 	ENTER;
@@ -27,7 +29,7 @@ struct value* new_lambda_value(
 	
 	this->parameters = inc_parameter_list(parameters);
 	
-	this->captured = inc_parameter_list(captured);
+	this->captured = inc_scope(captured);
 	
 	this->body = inc_expression(body);
 	

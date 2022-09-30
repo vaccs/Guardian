@@ -115,9 +115,7 @@ struct expression* specialize_lambda_expression(
 		}
 		else
 		{
-			// if we know all the values for the capture, this should be
-			// a literal_expression instead
-			struct value* new = new_lambda_value(type, parameters, captured, body);
+			struct value* new = new_lambda_value(type, parameters, NULL, body);
 			
 			retval = new_literal_expression(new);
 			

@@ -21,7 +21,7 @@ void comparison_expression_print(
 	
 	expression_print(this->left);
 	
-	printf("%s", lookup[this->kind]);
+	printf(" %s ", lookup[this->kind]);
 	
 	expression_print(this->right);
 	

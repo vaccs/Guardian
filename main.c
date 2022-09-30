@@ -72,6 +72,37 @@ int main(int argc, char* const* argv)
 	
 	struct yacc_state* start = yacc(lex, grammar);
 	
+	// generate output (in some kind of string-builder data structure):
+		// needs some kind of variable-name generator to be passed around
+		
+		// start with the assertions:
+			// generate their source code
+			// based on what they need:
+				// add used types to type source-generation queue
+				// add used declares to value-declare source-generation queue
+				// "mark"? grammar sets as being used.
+		
+		// for all declares:
+			// (prepend) their generated source code
+			// based on what they need:
+				// add used types to type source-generation queue
+				// add used declares to value-declare source-generation queue
+				// "mark"? grammar sets as being used.
+		
+		// generate source code for parser:
+			// for all of the "marked" grammar-rules, create lists for their
+				// values
+			// keep all of the reduction-rules for building the structs
+			// insert code in reduction-rules for appending structs to their
+				// lists
+		
+		// for all types:
+			// (prepend) their generated source code
+			// based on what they need:
+				// add used types to type source-generation queue
+			
+	
+	
 	#if 0
 	// print source for all types
 	
@@ -79,30 +110,29 @@ int main(int argc, char* const* argv)
 	
 	// print source for value-declares
 	
-	// print source for assertions:
-		// boolean, integers, and char types become `bool` , `int`, and `char`
+	// boolean, integers, float, and char types become `bool`, `float`, `int`, and `char`
+	
+	// lists become a typed-pointer with a reference-count
+	// lambdas become a struct:
+		// with a reference-count
+		// with a function-pointer
+		// and a struct of "captured" values
+		// first parameter of function-pointer is the struct
+	
+	// if other code-generating stuff sees its invoking a lambda literal
+	// the lambda can be inlined.
+	
+	// iterate through assertions, generating their code.
+		// for every global value or named-lambda that' used, add them to
+		// the todo for code generation, their code will be prepended.
+		// for any structs that are used, add the to todo, their code will
+		// be prepended before both.
 		
-		// lists become a typed-pointer with a reference-count
-		// lambdas become a struct:
-			// with a reference-count
-			// with a function-pointer
-			// and a struct of "captured" values
-			// first parameter of function-pointer is the struct
-		
-		// if a other code-generating stuff sees its invoking a lambda literal
-		// the lambda can be inlined.
-		
-		// iterate through assertions, generating their code.
-			// for every global value or named-lambda that' used, add them to
-			// the todo for code generation, their code will be prepended.
-			// for any structs that are used, add the, to todo, their code will
-			// be prepended before both.
-			
-			// in the file:
-				// 0. structs
-				// 1. parsing and set-building
-				// 2. globals and lambdas
-				// 3. assertions
+		// in the file:
+			// 0. structs
+			// 1. parsing and set-building
+			// 2. globals and lambdas
+			// 3. assertions
 	#endif
 	
 	ptrset_foreach(raw_assertions, ({

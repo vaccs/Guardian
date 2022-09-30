@@ -13,6 +13,7 @@ enum expression_kind
 	ek_funccall,
 	ek_comparison,
 	ek_list_index,
+	ek_parenthesis,
 };
 
 #endif

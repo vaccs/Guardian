@@ -10,4 +10,6 @@ struct comparison_expression
 	enum comparison_expression_kind kind;
 	
 	struct expression* left, *right;
+	
+	struct type* type;
 };

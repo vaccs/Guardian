@@ -18,6 +18,7 @@
 #include <expression/literal/new.h>
 #include <expression/len/new.h>
 #include <expression/list/new.h>
+#include <expression/parenthesis/new.h>
 #include <expression/free.h>
 
 #include <type_cache/get_type/list.h>
@@ -357,8 +358,12 @@ struct expression* specialize_primary_expression(
 		}
 		else
 		{
-			retval = specialize_expression(tcache,
+			struct expression* sub = specialize_expression(tcache,
 				zexpression->elements.data[0]);
+			
+			retval = new_parenthesis_expression(sub);
+			
+			free_expression(sub);
 		}
 	}
 	else if (zexpression->list)

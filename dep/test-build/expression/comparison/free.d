@@ -6,7 +6,7 @@ bin/test-build/./expression/comparison/free.o: \
  avl/delete_node.h avl/tree_t.h avl/delete.h string/struct.h string/new.h \
  string/inc.h string/compare.h string/are_equal.h string/free.h \
  set/ptr/new.h set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h \
- set/ptr/free.h expression/comparison/../free.h \
+ set/ptr/free.h type/free.h expression/comparison/../free.h \
  expression/comparison/struct.h expression/comparison/../struct.h \
  expression/comparison/../kind.h expression/comparison/kind.h \
  expression/comparison/free.h

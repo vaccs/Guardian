@@ -21,7 +21,8 @@ struct value* lambda_value_call(
 {
 	ENTER;
 	
-	struct scope* scope = new_scope();
+	struct scope* scope = new_scope(
+		/* prev: */ this->captured);
 	
 	assert(this->parameters->n == arguments->n);
 	
@@ -33,12 +34,6 @@ struct value* lambda_value_call(
 		assert(parameter->type == value->type);
 		
 		scope_declare(scope, parameter->name, value);
-	}
-	
-	// push all captured values into scope
-	for (unsigned i = 0, n = this->captured->n; i < n; i++)
-	{
-		TODO;
 	}
 	
 	// evaluate inner expression

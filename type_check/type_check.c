@@ -255,7 +255,7 @@ void type_check(
 		
 		struct expression* typed = specialize_expression(tcache, task->expression);
 		
-/*		expression_print(typed), puts("");*/
+		expression_print(typed), puts("");
 		
 		struct named_expression* ne = new_named_expression(task->name, typed);
 		
@@ -337,7 +337,7 @@ void type_check(
 			
 			struct expression* specialized = specialize_expression(tcache, raw_assertion->expression);
 			
-/*			expression_print(specialized), puts("");*/
+			expression_print(specialized), puts("");
 			
 			if (specialized->type->kind != tk_bool)
 			{

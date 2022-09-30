@@ -6,8 +6,9 @@ bin/test-build/./expression/comparison/new.o: expression/comparison/new.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- type_cache/get_type/bool.h type/free.h expression/comparison/../new.h \
- expression/comparison/../kind.h expression/comparison/../inc.h \
- expression/comparison/struct.h expression/comparison/../struct.h \
- expression/comparison/kind.h expression/comparison/inheritance.h \
+ type_cache/get_type/bool.h type/inc.h type/free.h \
+ expression/comparison/../new.h expression/comparison/../kind.h \
+ expression/comparison/../inc.h expression/comparison/struct.h \
+ expression/comparison/../struct.h expression/comparison/kind.h \
+ expression/comparison/inheritance.h \
  expression/comparison/../inheritance.h expression/comparison/new.h

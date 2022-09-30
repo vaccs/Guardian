@@ -158,6 +158,8 @@ foo2 = [$int x, y: x + y, $int x, y: (x - y) * z2];
 
 %note: foo2[1](13, 2) == 5;
 
+%error: [1, 2, z2] == [1, 2, 3];
+
 // bar = $int x, float y: (float(x) + y + 2.3);
 // har = $ $int, float: float f, int x, float y: f(x, y);
 

@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <type/free.h>
+
 #include "../free.h"
 
 #include "struct.h"
@@ -16,6 +18,8 @@ void free_comparison_expression(
 	free_expression(this->left);
 	
 	free_expression(this->right);
+	
+	free_type(this->type);
 	
 	EXIT;
 }

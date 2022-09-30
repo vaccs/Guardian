@@ -12,8 +12,8 @@ bin/test-build/./type_check/specialize/primary.o: \
  list/expression/free.h expression/struct.h expression/kind.h \
  expression/variable/new.h expression/literal/struct.h \
  expression/literal/../struct.h expression/literal/new.h \
- expression/len/new.h expression/list/new.h expression/free.h \
- type_cache/get_type/list.h type_cache/get_type/int.h \
+ expression/len/new.h expression/list/new.h expression/parenthesis/new.h \
+ expression/free.h type_cache/get_type/list.h type_cache/get_type/int.h \
  type/lambda/struct.h type/lambda/../struct.h type/list/struct.h \
  type/list/../struct.h type/free.h parameter/struct.h \
  list/parameter/struct.h list/value/new.h list/value/append.h \

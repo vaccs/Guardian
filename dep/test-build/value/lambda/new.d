@@ -6,7 +6,7 @@ bin/test-build/./value/lambda/new.o: value/lambda/new.c debug.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h expression/inc.h \
- list/parameter/inc.h value/lambda/../new.h value/lambda/struct.h \
- value/lambda/../struct.h value/lambda/../kind.h \
+ list/parameter/inc.h scope/inc.h value/lambda/../new.h \
+ value/lambda/struct.h value/lambda/../struct.h value/lambda/../kind.h \
  value/lambda/inheritance.h value/lambda/../inheritance.h \
  value/lambda/new.h

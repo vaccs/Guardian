@@ -15,6 +15,8 @@ struct scope* new_scope()
 	
 	this->tree = avl_alloc_tree(compare_named_values, free_named_value);
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }
