@@ -33583,10 +33583,86 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 77;
 		break;
 	}
-	case 26:
+	case 64:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
 		{
 		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
 		if (value->starts.n == value->starts.cap)
@@ -33597,6 +33673,100 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
 		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
 		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 77;
+		break;
+	}
+	case 71:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
 		}
 		d = value, g = 77;
 		break;
@@ -33713,180 +33883,10 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 77;
 		break;
 	}
-	case 71:
+	case 26:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 77;
-		break;
-	}
-	case 64:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
 		{
 		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
 		if (value->starts.n == value->starts.cap)
@@ -33981,6 +33981,24 @@ struct zebu_$start* zebu_parse(FILE* stream)
 			}
 			free_zebu_$start(trie);
 		}
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 77;
+		break;
+	}
+	case 25:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
 		{
 		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
 		if (value->skips.n == value->skips.cap)
@@ -34105,490 +34123,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		free_zebu_value_declare(subgrammar);
 		}
 		d = value, g = 77;
-		break;
-	}
-	case 25:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
-		}
-		d = value, g = 77;
-		break;
-	}
-	case 45:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
-		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 109:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 106:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->grammars.n == value->grammars.cap)
-		{
-			value->grammars.cap = value->grammars.cap << 1 ?: 1;
-			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-		}
-		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
-		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 110:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->declares.n == value->declares.cap)
-		{
-			value->declares.cap = value->declares.cap << 1 ?: 1;
-			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-		}
-		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
-		free_zebu_value_declare(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 107:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 43:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->grammars.n == value->grammars.cap)
-		{
-			value->grammars.cap = value->grammars.cap << 1 ?: 1;
-			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-		}
-		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
-		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 44:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 42:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->assertions.n == value->assertions.cap)
-		{
-			value->assertions.cap = value->assertions.cap << 1 ?: 1;
-			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-		}
-		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
-		free_zebu_assertion(subgrammar);
-		}
-		d = value, g = 28;
-		break;
-	}
-	case 46:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 28;
 		break;
 	}
 	case 47:
@@ -34797,7 +34331,25 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 28;
 		break;
 	}
-	case 118:
+	case 45:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 106:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
@@ -34878,17 +34430,371 @@ struct zebu_$start* zebu_parse(FILE* stream)
 			free_zebu_$start(trie);
 		}
 		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
+		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->grammars.n == value->grammars.cap)
 		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+			value->grammars.cap = value->grammars.cap << 1 ?: 1;
+			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
 		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
+		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
+		free_zebu_grammar_rule(subgrammar);
 		}
-		d = value, g = 30;
+		d = value, g = 28;
+		break;
+	}
+	case 42:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->assertions.n == value->assertions.cap)
+		{
+			value->assertions.cap = value->assertions.cap << 1 ?: 1;
+			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+		}
+		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
+		free_zebu_assertion(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 110:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->declares.n == value->declares.cap)
+		{
+			value->declares.cap = value->declares.cap << 1 ?: 1;
+			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+		}
+		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
+		free_zebu_value_declare(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 46:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 107:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 109:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 44:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 28;
+		break;
+	}
+	case 43:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->grammars.n == value->grammars.cap)
+		{
+			value->grammars.cap = value->grammars.cap << 1 ?: 1;
+			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+		}
+		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
+		free_zebu_grammar_rule(subgrammar);
+		}
+		d = value, g = 28;
 		break;
 	}
 	case 116:
@@ -34981,230 +34887,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
 		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
 		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 30;
-		break;
-	}
-	case 53:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
-		}
-		d = value, g = 30;
-		break;
-	}
-	case 55:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 30;
-		break;
-	}
-	case 120:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->declares.n == value->declares.cap)
-		{
-			value->declares.cap = value->declares.cap << 1 ?: 1;
-			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-		}
-		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
-		free_zebu_value_declare(subgrammar);
-		}
-		d = value, g = 30;
-		break;
-	}
-	case 117:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
 		}
 		d = value, g = 30;
 		break;
@@ -35303,24 +34985,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 30;
 		break;
 	}
-	case 52:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->grammars.n == value->grammars.cap)
-		{
-			value->grammars.cap = value->grammars.cap << 1 ?: 1;
-			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-		}
-		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
-		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 30;
-		break;
-	}
 	case 54:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -35335,6 +34999,248 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
 		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
 		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 30;
+		break;
+	}
+	case 51:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->assertions.n == value->assertions.cap)
+		{
+			value->assertions.cap = value->assertions.cap << 1 ?: 1;
+			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+		}
+		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
+		free_zebu_assertion(subgrammar);
+		}
+		d = value, g = 30;
+		break;
+	}
+	case 117:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 30;
+		break;
+	}
+	case 56:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->declares.n == value->declares.cap)
+		{
+			value->declares.cap = value->declares.cap << 1 ?: 1;
+			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+		}
+		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
+		free_zebu_value_declare(subgrammar);
+		}
+		d = value, g = 30;
+		break;
+	}
+	case 120:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->declares.n == value->declares.cap)
+		{
+			value->declares.cap = value->declares.cap << 1 ?: 1;
+			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+		}
+		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
+		free_zebu_value_declare(subgrammar);
+		}
+		d = value, g = 30;
+		break;
+	}
+	case 53:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
 		}
 		d = value, g = 30;
 		break;
@@ -35433,38 +35339,132 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 30;
 		break;
 	}
-	case 51:
+	case 55:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
 		{
-		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->assertions.n == value->assertions.cap)
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
 		{
-			value->assertions.cap = value->assertions.cap << 1 ?: 1;
-			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
 		}
-		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
-		free_zebu_assertion(subgrammar);
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
 		}
 		d = value, g = 30;
 		break;
 	}
-	case 56:
+	case 52:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
 		{
-		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->declares.n == value->declares.cap)
+		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->grammars.n == value->grammars.cap)
 		{
-			value->declares.cap = value->declares.cap << 1 ?: 1;
-			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+			value->grammars.cap = value->grammars.cap << 1 ?: 1;
+			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
 		}
-		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
-		free_zebu_value_declare(subgrammar);
+		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
+		free_zebu_grammar_rule(subgrammar);
+		}
+		d = value, g = 30;
+		break;
+	}
+	case 118:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
 		}
 		d = value, g = 30;
 		break;
@@ -36040,136 +36040,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 75;
 		break;
 	}
-	case 58:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->assertions.n == value->assertions.cap)
-		{
-			value->assertions.cap = value->assertions.cap << 1 ?: 1;
-			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-		}
-		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
-		free_zebu_assertion(subgrammar);
-		}
-		d = value, g = 31;
-		break;
-	}
-	case 143:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
-		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
-		}
-		d = value, g = 31;
-		break;
-	}
-	case 62:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 31;
-		break;
-	}
 	case 144:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -36452,6 +36322,42 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 31;
 		break;
 	}
+	case 58:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->assertions.n == value->assertions.cap)
+		{
+			value->assertions.cap = value->assertions.cap << 1 ?: 1;
+			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+		}
+		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
+		free_zebu_assertion(subgrammar);
+		}
+		d = value, g = 31;
+		break;
+	}
+	case 60:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 31;
+		break;
+	}
 	case 59:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -36466,6 +36372,24 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
 		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
 		free_zebu_grammar_rule(subgrammar);
+		}
+		d = value, g = 31;
+		break;
+	}
+	case 62:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
 		}
 		d = value, g = 31;
 		break;
@@ -36560,24 +36484,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
 		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
 		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 31;
-		break;
-	}
-	case 60:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
 		}
 		d = value, g = 31;
 		break;
@@ -36698,6 +36604,100 @@ struct zebu_$start* zebu_parse(FILE* stream)
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 31;
+		break;
+	}
+	case 143:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
 		{
 		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
 		if (value->starts.n == value->starts.cap)
@@ -37354,248 +37354,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 57;
 		break;
 	}
-	case 149:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
-		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
-		}
-		d = value, g = 32;
-		break;
-	}
-	case 69:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 32;
-		break;
-	}
-	case 150:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 32;
-		break;
-	}
-	case 70:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->declares.n == value->declares.cap)
-		{
-			value->declares.cap = value->declares.cap << 1 ?: 1;
-			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-		}
-		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
-		free_zebu_value_declare(subgrammar);
-		}
-		d = value, g = 32;
-		break;
-	}
-	case 68:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
-		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
-		}
-		d = value, g = 32;
-		break;
-	}
 	case 65:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -37704,24 +37462,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
 		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
 		free_zebu_assertion(subgrammar);
-		}
-		d = value, g = 32;
-		break;
-	}
-	case 66:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->grammars.n == value->grammars.cap)
-		{
-			value->grammars.cap = value->grammars.cap << 1 ?: 1;
-			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-		}
-		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
-		free_zebu_grammar_rule(subgrammar);
 		}
 		d = value, g = 32;
 		break;
@@ -37932,6 +37672,248 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 32;
 		break;
 	}
+	case 70:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->declares.n == value->declares.cap)
+		{
+			value->declares.cap = value->declares.cap << 1 ?: 1;
+			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+		}
+		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
+		free_zebu_value_declare(subgrammar);
+		}
+		d = value, g = 32;
+		break;
+	}
+	case 68:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 32;
+		break;
+	}
+	case 149:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 32;
+		break;
+	}
+	case 69:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
+		}
+		d = value, g = 32;
+		break;
+	}
+	case 150:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
+		}
+		d = value, g = 32;
+		break;
+	}
 	case 151:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -38022,6 +38004,24 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
 		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
 		free_zebu_value_declare(subgrammar);
+		}
+		d = value, g = 32;
+		break;
+	}
+	case 66:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->grammars.n == value->grammars.cap)
+		{
+			value->grammars.cap = value->grammars.cap << 1 ?: 1;
+			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+		}
+		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
+		free_zebu_grammar_rule(subgrammar);
 		}
 		d = value, g = 32;
 		break;
@@ -38228,6 +38228,118 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 59;
 		break;
 	}
+	case 72:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->assertions.n == value->assertions.cap)
+		{
+			value->assertions.cap = value->assertions.cap << 1 ?: 1;
+			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+		}
+		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
+		free_zebu_assertion(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 152:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->assertions.n == value->assertions.cap)
+		{
+			value->assertions.cap = value->assertions.cap << 1 ?: 1;
+			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+		}
+		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
+		free_zebu_assertion(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
 	case 73:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -38242,6 +38354,360 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
 		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
 		free_zebu_grammar_rule(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 153:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->grammars.n == value->grammars.cap)
+		{
+			value->grammars.cap = value->grammars.cap << 1 ?: 1;
+			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+		}
+		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
+		free_zebu_grammar_rule(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 74:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 154:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->skips.n == value->skips.cap)
+		{
+			value->skips.cap = value->skips.cap << 1 ?: 1;
+			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+		}
+		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
+		free_zebu_skip_directive(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 77:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->declares.n == value->declares.cap)
+		{
+			value->declares.cap = value->declares.cap << 1 ?: 1;
+			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+		}
+		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
+		free_zebu_value_declare(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 75:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 155:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
+		{
+		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->starts.n == value->starts.cap)
+		{
+			value->starts.cap = value->starts.cap << 1 ?: 1;
+			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+		}
+		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
+		free_zebu_start_directive(subgrammar);
+		}
+		d = value, g = 33;
+		break;
+	}
+	case 76:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->usings.n == value->usings.cap)
+		{
+			value->usings.cap = value->usings.cap << 1 ?: 1;
+			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+		}
+		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
+		free_zebu_using_directive(subgrammar);
 		}
 		d = value, g = 33;
 		break;
@@ -38434,566 +38900,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 33;
 		break;
 	}
-	case 76:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_using_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->usings.n == value->usings.cap)
-		{
-			value->usings.cap = value->usings.cap << 1 ?: 1;
-			value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-		}
-		memmove(value->usings.data + 1, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-		value->usings.data[0] = inc_zebu_using_directive(subgrammar), value->usings.n++;
-		free_zebu_using_directive(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 155:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
-		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 152:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->assertions.n == value->assertions.cap)
-		{
-			value->assertions.cap = value->assertions.cap << 1 ?: 1;
-			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-		}
-		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
-		free_zebu_assertion(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 75:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_start_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->starts.n == value->starts.cap)
-		{
-			value->starts.cap = value->starts.cap << 1 ?: 1;
-			value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-		}
-		memmove(value->starts.data + 1, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-		value->starts.data[0] = inc_zebu_start_directive(subgrammar), value->starts.n++;
-		free_zebu_start_directive(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 153:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->grammars.n == value->grammars.cap)
-		{
-			value->grammars.cap = value->grammars.cap << 1 ?: 1;
-			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-		}
-		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
-		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 154:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 77:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_value_declare* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->declares.n == value->declares.cap)
-		{
-			value->declares.cap = value->declares.cap << 1 ?: 1;
-			value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-		}
-		memmove(value->declares.data + 1, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-		value->declares.data[0] = inc_zebu_value_declare(subgrammar), value->declares.n++;
-		free_zebu_value_declare(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 74:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_skip_directive* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->skips.n == value->skips.cap)
-		{
-			value->skips.cap = value->skips.cap << 1 ?: 1;
-			value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-		}
-		memmove(value->skips.data + 1, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-		value->skips.data[0] = inc_zebu_skip_directive(subgrammar), value->skips.n++;
-		free_zebu_skip_directive(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 72:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_assertion* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->assertions.n == value->assertions.cap)
-		{
-			value->assertions.cap = value->assertions.cap << 1 ?: 1;
-			value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-		}
-		memmove(value->assertions.data + 1, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-		value->assertions.data[0] = inc_zebu_assertion(subgrammar), value->assertions.n++;
-		free_zebu_assertion(subgrammar);
-		}
-		d = value, g = 33;
-		break;
-	}
-	case 159:
-	{
-		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
-			if (trie->assertions.n)
-			{
-				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
-				{
-					value->assertions.cap = value->assertions.cap << 1 ?: 1;
-					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
-				}
-				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
-				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
-					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
-				value->assertions.n += trie->assertions.n;
-			}
-			if (trie->declares.n)
-			{
-				while (value->declares.n + trie->declares.n > value->declares.cap)
-				{
-					value->declares.cap = value->declares.cap << 1 ?: 1;
-					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
-				}
-				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
-				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
-					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
-				value->declares.n += trie->declares.n;
-			}
-			if (trie->grammars.n)
-			{
-				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
-				{
-					value->grammars.cap = value->grammars.cap << 1 ?: 1;
-					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-				}
-				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
-					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
-				value->grammars.n += trie->grammars.n;
-			}
-			if (trie->skips.n)
-			{
-				while (value->skips.n + trie->skips.n > value->skips.cap)
-				{
-					value->skips.cap = value->skips.cap << 1 ?: 1;
-					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
-				}
-				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
-				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
-					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
-				value->skips.n += trie->skips.n;
-			}
-			if (trie->starts.n)
-			{
-				while (value->starts.n + trie->starts.n > value->starts.cap)
-				{
-					value->starts.cap = value->starts.cap << 1 ?: 1;
-					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
-				}
-				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
-				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
-					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
-				value->starts.n += trie->starts.n;
-			}
-			if (trie->usings.n)
-			{
-				while (value->usings.n + trie->usings.n > value->usings.cap)
-				{
-					value->usings.cap = value->usings.cap << 1 ?: 1;
-					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
-				}
-				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
-				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
-					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
-				value->usings.n += trie->usings.n;
-			}
-			free_zebu_$start(trie);
-		}
-		{
-		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
-		if (value->grammars.n == value->grammars.cap)
-		{
-			value->grammars.cap = value->grammars.cap << 1 ?: 1;
-			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
-		}
-		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
-		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
-		free_zebu_grammar_rule(subgrammar);
-		}
-		d = value, g = 34;
-		break;
-	}
 	case 79:
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -39110,6 +39016,100 @@ struct zebu_$start* zebu_parse(FILE* stream)
 	{
 		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
 		value->refcount = 1;
+		{
+		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
+		if (value->grammars.n == value->grammars.cap)
+		{
+			value->grammars.cap = value->grammars.cap << 1 ?: 1;
+			value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+		}
+		memmove(value->grammars.data + 1, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+		value->grammars.data[0] = inc_zebu_grammar_rule(subgrammar), value->grammars.n++;
+		free_zebu_grammar_rule(subgrammar);
+		}
+		d = value, g = 34;
+		break;
+	}
+	case 159:
+	{
+		struct zebu_$start* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
+		{
+			struct zebu_$start* trie = data.data[--yacc.n, --data.n];
+			if (trie->assertions.n)
+			{
+				while (value->assertions.n + trie->assertions.n > value->assertions.cap)
+				{
+					value->assertions.cap = value->assertions.cap << 1 ?: 1;
+					value->assertions.data = realloc(value->assertions.data, sizeof(*value->assertions.data) * value->assertions.cap);
+				}
+				memmove(value->assertions.data + trie->assertions.n, value->assertions.data, sizeof(*value->assertions.data) * value->assertions.n);
+				for (unsigned i = 0, n = trie->assertions.n; i < n; i++)
+					value->assertions.data[i] = inc_zebu_assertion(trie->assertions.data[i]);
+				value->assertions.n += trie->assertions.n;
+			}
+			if (trie->declares.n)
+			{
+				while (value->declares.n + trie->declares.n > value->declares.cap)
+				{
+					value->declares.cap = value->declares.cap << 1 ?: 1;
+					value->declares.data = realloc(value->declares.data, sizeof(*value->declares.data) * value->declares.cap);
+				}
+				memmove(value->declares.data + trie->declares.n, value->declares.data, sizeof(*value->declares.data) * value->declares.n);
+				for (unsigned i = 0, n = trie->declares.n; i < n; i++)
+					value->declares.data[i] = inc_zebu_value_declare(trie->declares.data[i]);
+				value->declares.n += trie->declares.n;
+			}
+			if (trie->grammars.n)
+			{
+				while (value->grammars.n + trie->grammars.n > value->grammars.cap)
+				{
+					value->grammars.cap = value->grammars.cap << 1 ?: 1;
+					value->grammars.data = realloc(value->grammars.data, sizeof(*value->grammars.data) * value->grammars.cap);
+				}
+				memmove(value->grammars.data + trie->grammars.n, value->grammars.data, sizeof(*value->grammars.data) * value->grammars.n);
+				for (unsigned i = 0, n = trie->grammars.n; i < n; i++)
+					value->grammars.data[i] = inc_zebu_grammar_rule(trie->grammars.data[i]);
+				value->grammars.n += trie->grammars.n;
+			}
+			if (trie->skips.n)
+			{
+				while (value->skips.n + trie->skips.n > value->skips.cap)
+				{
+					value->skips.cap = value->skips.cap << 1 ?: 1;
+					value->skips.data = realloc(value->skips.data, sizeof(*value->skips.data) * value->skips.cap);
+				}
+				memmove(value->skips.data + trie->skips.n, value->skips.data, sizeof(*value->skips.data) * value->skips.n);
+				for (unsigned i = 0, n = trie->skips.n; i < n; i++)
+					value->skips.data[i] = inc_zebu_skip_directive(trie->skips.data[i]);
+				value->skips.n += trie->skips.n;
+			}
+			if (trie->starts.n)
+			{
+				while (value->starts.n + trie->starts.n > value->starts.cap)
+				{
+					value->starts.cap = value->starts.cap << 1 ?: 1;
+					value->starts.data = realloc(value->starts.data, sizeof(*value->starts.data) * value->starts.cap);
+				}
+				memmove(value->starts.data + trie->starts.n, value->starts.data, sizeof(*value->starts.data) * value->starts.n);
+				for (unsigned i = 0, n = trie->starts.n; i < n; i++)
+					value->starts.data[i] = inc_zebu_start_directive(trie->starts.data[i]);
+				value->starts.n += trie->starts.n;
+			}
+			if (trie->usings.n)
+			{
+				while (value->usings.n + trie->usings.n > value->usings.cap)
+				{
+					value->usings.cap = value->usings.cap << 1 ?: 1;
+					value->usings.data = realloc(value->usings.data, sizeof(*value->usings.data) * value->usings.cap);
+				}
+				memmove(value->usings.data + trie->usings.n, value->usings.data, sizeof(*value->usings.data) * value->usings.n);
+				for (unsigned i = 0, n = trie->usings.n; i < n; i++)
+					value->usings.data[i] = inc_zebu_using_directive(trie->usings.data[i]);
+				value->usings.n += trie->usings.n;
+			}
+			free_zebu_$start(trie);
+		}
 		{
 		struct zebu_grammar_rule* subgrammar = data.data[--yacc.n, --data.n];
 		if (value->grammars.n == value->grammars.cap)
@@ -40021,18 +40021,6 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		d = value, g = 3;
 		break;
 	}
-	case 176:
-	{
-		struct zebu_charset* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
-		value->refcount = 1;
-		{
-		struct zebu_charset_symdiff* subgrammar = data.data[--yacc.n, --data.n];
-		free_zebu_charset_symdiff(value->base), value->base = inc_zebu_charset_symdiff(subgrammar);
-		free_zebu_charset_symdiff(subgrammar);
-		}
-		d = value, g = 45;
-		break;
-	}
 	case 262:
 	{
 		struct zebu_charset* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
@@ -40154,6 +40142,18 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		value->ors.data[0] = inc_zebu_charset_symdiff(subgrammar), value->ors.n++;
 		free_zebu_charset_symdiff(subgrammar);
 		}
+		{
+		struct zebu_charset_symdiff* subgrammar = data.data[--yacc.n, --data.n];
+		free_zebu_charset_symdiff(value->base), value->base = inc_zebu_charset_symdiff(subgrammar);
+		free_zebu_charset_symdiff(subgrammar);
+		}
+		d = value, g = 45;
+		break;
+	}
+	case 176:
+	{
+		struct zebu_charset* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));
+		value->refcount = 1;
 		{
 		struct zebu_charset_symdiff* subgrammar = data.data[--yacc.n, --data.n];
 		free_zebu_charset_symdiff(value->base), value->base = inc_zebu_charset_symdiff(subgrammar);
