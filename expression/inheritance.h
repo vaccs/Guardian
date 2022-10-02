@@ -9,6 +9,9 @@ struct expression_inheritance
 		struct expression*,
 		struct scope*);
 	
+	struct stringtree* (*print_source)(
+		struct expression*);
+	
 	void (*print)(
 		struct expression*);
 		

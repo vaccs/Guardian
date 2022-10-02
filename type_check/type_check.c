@@ -1,7 +1,6 @@
 
 #include <debug.h>
 
-#include <named/zebu_expression/struct.h>
 
 #include <quack/new.h>
 #include <quack/pop.h>
@@ -14,6 +13,7 @@
 #include <value/bool/struct.h>
 
 #include <type/struct.h>
+#include <type/free.h>
 
 #include <expression/print.h>
 #include <expression/struct.h>
@@ -25,7 +25,11 @@
 #include <named/expression/struct.h>
 #include <named/expression/new.h>
 
+#include <named/zebu_expression/struct.h>
+
 #include <parse/assertion/struct.h>
+
+#include <type_cache/get_type/list.h>
 
 #include "resolve_variables.h"
 
@@ -171,7 +175,11 @@ void type_check(
 						
 						ddprintf("found!\n");
 						
-						unresolved_resolve(unresolved, ntype->name, ntype->type, NULL);
+						struct type* list = type_cache_get_list_type(tcache, ntype->type);
+						
+						unresolved_resolve(unresolved, ntype->name, list, NULL);
+						
+						free_type(list);
 					}
 					
 					EXIT;

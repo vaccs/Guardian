@@ -1,21 +1,52 @@
 
 #include <debug.h>
 
+#include <quack/new.h>
+#include <quack/free.h>
+
+#include <assertion/print_source.h>
+
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
 
 #include "out.h"
 
-struct stringtree* out()
+struct stringtree* out(
+	struct ptrset* assertions)
 {
 	ENTER;
 	
-	struct stringtree* retval = new_stringtree();
+	struct stringtree* root = new_stringtree();
 	
-	stringtree_append_printf(retval, "hello world!\n");
+	struct quack* types = new_quack();
+	
+	struct quack* declares = new_quack();
+	
+	stringtree_append_printf(root, "int main() {");
+	
+	ptrset_foreach(assertions, ({
+		void runme(void* ptr)
+		{
+			ENTER;
+			
+			struct stringtree* sub = assertion_print_source(ptr);
+			
+			stringtree_append_tree(root, sub);
+			
+			EXIT;
+		}
+		runme;
+	}));
+	
+	stringtree_append_printf(root, "}");
+	
+	free_quack(declares);
+	
+	free_quack(types);
 	
 	EXIT;
-	return retval;
+	return root;
 }
 
 	// generate output (in some kind of string-builder data structure):
@@ -26,21 +57,16 @@ struct stringtree* out()
 			// based on what they need:
 				// add used types to type source-generation queue
 				// add used declares to value-declare source-generation queue
-				// "mark"? grammar sets as being used.
 		
 		// for all declares:
 			// (prepend) their generated source code
 			// based on what they need:
 				// add used types to type source-generation queue
 				// add used declares to value-declare source-generation queue
-				// "mark"? grammar sets as being used.
 		
 		// generate source code for parser:
-			// for all of the "marked" grammar-rules, create lists for their
-				// values
-			// keep all of the reduction-rules for building the structs
-			// insert code in reduction-rules for appending structs to their
-				// lists
+			// create sets for each kind of grammar-rule
+			// insert code for reduction rules
 		
 		// for all types:
 			// (prepend) their generated source code

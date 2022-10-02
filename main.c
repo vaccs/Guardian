@@ -77,9 +77,19 @@ int main(int argc, char* const* argv)
 	
 	struct yacc_state* start = yacc(lex, grammar);
 	
-	struct stringtree* content = out();
+	struct stringtree* content = out(typed_assertions);
 	
-	stringtree_stream(content, stdout);
+	FILE* stream = fopen(flags->output_path, "w");
+	
+	if (!stream)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	stringtree_stream(content, stream);
+	
+	fclose(stream);
 	
 	free_stringtree(content);
 	

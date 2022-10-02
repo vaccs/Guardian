@@ -14,7 +14,7 @@ void stringtree_stream(
 		current; current = current->next)
 	{
 		if (current->is_branch)
-			stringtree_stream(current->subbranch, stream);
+			stringtree_stream(current->tree, stream);
 		else
 			fputs(current->string, stream);
 	}

@@ -63,6 +63,8 @@ ARGS += -m
 #ARGS += -i ./examples/const-folding.maia
 ARGS += -i ./examples/json.maia
 
+ARGS += -o /tmp/out.c
+
 run: $(buildprefix)/maia
 	$< $(ARGS)
 

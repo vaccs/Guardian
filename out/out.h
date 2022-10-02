@@ -1,2 +1,3 @@
 
-struct stringtree* out();
+struct stringtree* out(
+	struct ptrset* assertions);
