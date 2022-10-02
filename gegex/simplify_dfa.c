@@ -464,7 +464,7 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 								{
 									unequal = true;
 								}
-								else if (!compare_structinfos(at->structinfo, bt->structinfo))
+								else if (compare_structinfos(at->structinfo, bt->structinfo))
 								{
 									unequal = true;
 								}
@@ -497,7 +497,7 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 								{
 									unequal = true;
 								}
-								else if (!compare_structinfos(at->structinfo, bt->structinfo))
+								else if (compare_structinfos(at->structinfo, bt->structinfo))
 								{
 									unequal = true;
 								}
