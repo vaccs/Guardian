@@ -83,6 +83,9 @@ struct rbundle process_regex(struct zebu_regex* regex)
 			{
 				regex_add_lambda_transition(retval.start, retval.accepts);
 				regex_add_lambda_transition(retval.accepts, retval.start);
+				
+				// fix this
+				TODO;
 			}
 			
 			EXIT;

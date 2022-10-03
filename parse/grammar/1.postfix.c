@@ -28,6 +28,9 @@ struct gbundle read_grammar_postfix(
 	{
 		gegex_add_lambda_transition(base.start, base.accepts);
 		gegex_add_lambda_transition(base.accepts, base.start);
+		
+				// fix this
+		TODO;
 	}
 	
 	EXIT;
