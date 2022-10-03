@@ -43,21 +43,42 @@ struct stringtree* out(
 		runme;
 	}));
 	
+	// quack and tree for:
 	// print source for all declares:
 		// might request source for more declares, compares, index and inc
 		// functions and types.
 	
-	// print source for all comparision functions:
-		// might request for source more compare or inc functions
+	// quack and tree for:
+	// print source for all lambda functions: (pure functions)
+		// might request source for more lambda functions, compares, index,
+		// new, free and inc functions and types.
 	
-	// print source index functions
+	// quack and tree for:
+	// print source for all `compare_*` functions:
+		// needs to support generating forward-declares
+		// might request for source more compare functions
+	
+	// quack and tree for:
+	// print source `*_index` functions
 		// might request for source for more inc functions
 	
+	// quack and tree for:
+	// create all new functions:
+		// may want `inc_*` functions
+	
+	// quack and tree for:
+	// create all free functions:
+		// may want other `free_*` functions
+	
+	// quack and tree for:
 	// create all inc functions:
 		// easy
 	
+	// quack and tree for:
 	// declare all types:
-		// might request source for more types
+		// declare struct
+		// needs to support generating forward-declares
+		// might request structs for more types
 	
 	stringtree_append_printf(root, "}");
 	
