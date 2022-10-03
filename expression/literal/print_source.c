@@ -3,9 +3,11 @@
 
 #include <type/struct.h>
 
-#include <stringtree/new.h>
-#include <stringtree/append_tree.h>
-#include <stringtree/append_printf.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_tree.h>*/
+/*#include <stringtree/append_printf.h>*/
+
+#include <value/print_source.h>
 
 #include "../print_source.h"
 
@@ -13,13 +15,14 @@
 #include "print_source.h"
 
 struct stringtree* literal_expression_print_source(
-	struct expression* super)
+	struct expression* super,
+	struct out_shared* shared)
 {
 	ENTER;
 	
-	struct stringtree* tree = new_stringtree();
+	struct literal_expression* this = (void*) super;
 	
-	stringtree_append_printf(tree, "<literal>\n");
+	struct stringtree* tree = value_print_source(this->value, shared);
 	
 	EXIT;
 	return tree;

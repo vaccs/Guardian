@@ -292,6 +292,46 @@ static bool mark_as_unequal(
 	return removed;
 }
 
+static void add_dep(
+	struct avl_tree_t* dependent_of,
+	struct gegex* a_on, struct gegex* b_on,
+	struct gegex* a_of, struct gegex* b_of)
+{
+	ENTER;
+	
+	if (a_of > b_of)
+	{
+		struct gegex* swap = b_of;
+		b_of = a_of, a_of = swap;
+	}
+	
+	struct avl_node_t* node = avl_search(dependent_of, &(struct pair){a_of, b_of});
+	
+	if (node)
+	{
+		struct dependent_of_node* old = node->item;
+		
+		if (!avl_search(old->dependent_of, &(struct pair){a_on, b_on}))
+		{
+			struct pair* dep = new_pair(a_on, b_on);
+			
+			avl_insert(old->dependent_of, dep);
+		}
+	}
+	else
+	{
+		struct dependent_of_node* new = new_dependent_of_node(a_of, b_of);
+		
+		struct pair* dep = new_pair(a_on, b_on);
+		
+		avl_insert(new->dependent_of, dep);
+		
+		avl_insert(dependent_of, new);
+	}
+	
+	EXIT;
+}
+
 struct mapping
 {
 	struct gegex* old; // must be the first
@@ -470,11 +510,8 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 								}
 								else
 								{
-									TODO;
-									#if 0
-									simplify_dfa_add_dep(dependent_of, a, b, at->to, bt->to);
+									add_dep(dependent_of, a, b, at->to, bt->to);
 									a_i++, b_i++;
-									#endif
 								}
 							}
 							

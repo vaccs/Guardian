@@ -7,7 +7,6 @@ bin/debug-build/./expression/literal/print_source.o: \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h type/struct.h \
- type/kind.h stringtree/new.h stringtree/append_tree.h \
- stringtree/append_printf.h expression/literal/../print_source.h \
+ type/kind.h value/print_source.h expression/literal/../print_source.h \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/../kind.h expression/literal/print_source.h

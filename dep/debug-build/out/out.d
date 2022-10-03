@@ -7,4 +7,5 @@ bin/debug-build/./out/out.o: out/out.c debug.h memory/smalloc.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h quack/new.h \
  quack/free.h assertion/print_source.h stringtree/new.h \
- stringtree/append_printf.h stringtree/append_tree.h out/out.h
+ stringtree/append_printf.h stringtree/append_tree.h \
+ out/type_to_id_node.h out/shared.h out/out.h

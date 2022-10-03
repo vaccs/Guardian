@@ -8,7 +8,7 @@ bin/debug-build/./expression/comparison/print_source.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h type/struct.h \
  type/kind.h stringtree/new.h stringtree/append_tree.h \
- stringtree/append_printf.h type/print_source.h \
+ stringtree/append_printf.h type/print_source.h out/get_type_id.h \
  expression/comparison/../print_source.h expression/comparison/struct.h \
  expression/comparison/../struct.h expression/comparison/../kind.h \
  expression/comparison/kind.h expression/comparison/print_source.h

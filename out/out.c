@@ -10,6 +10,8 @@
 #include <stringtree/append_printf.h>
 #include <stringtree/append_tree.h>
 
+#include "type_to_id_node.h"
+#include "shared.h"
 #include "out.h"
 
 struct stringtree* out(
@@ -19,9 +21,11 @@ struct stringtree* out(
 	
 	struct stringtree* root = new_stringtree();
 	
-	struct quack* types = new_quack();
+	struct out_shared* shared = smalloc(sizeof(*shared));
 	
-	struct quack* declares = new_quack();
+	shared->type.todo = new_quack();
+	shared->type.lookup = avl_alloc_tree(compare_type_to_id_nodes, free);
+	shared->type.next = 0;
 	
 	stringtree_append_printf(root, "int main() {");
 	
@@ -30,7 +34,7 @@ struct stringtree* out(
 		{
 			ENTER;
 			
-			struct stringtree* sub = assertion_print_source(ptr);
+			struct stringtree* sub = assertion_print_source(ptr, shared);
 			
 			stringtree_append_tree(root, sub);
 			
@@ -39,11 +43,29 @@ struct stringtree* out(
 		runme;
 	}));
 	
+	// print source for all declares:
+		// might request source for more declares, compares, index and inc
+		// functions and types.
+	
+	// print source for all comparision functions:
+		// might request for source more compare or inc functions
+	
+	// print source index functions
+		// might request for source for more inc functions
+	
+	// create all inc functions:
+		// easy
+	
+	// declare all types:
+		// might request source for more types
+	
 	stringtree_append_printf(root, "}");
 	
-	free_quack(declares);
+	free_quack(shared->type.todo);
 	
-	free_quack(types);
+	avl_free_tree(shared->type.lookup);
+	
+	free(shared);
 	
 	EXIT;
 	return root;

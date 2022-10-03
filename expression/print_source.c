@@ -6,7 +6,8 @@
 #include "print_source.h"
 
 struct stringtree* expression_print_source(
-	struct expression* this)
+	struct expression* this,
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -18,7 +19,7 @@ struct stringtree* expression_print_source(
 	
 	assert(this->inheritance->print_source);
 	
-	struct stringtree* tree = (this->inheritance->print_source)(this);
+	struct stringtree* tree = (this->inheritance->print_source)(this, shared);
 	
 	EXIT;
 	return tree;

@@ -47,6 +47,7 @@
 	struct yacc_state;
 	struct lex_state;
 	struct stringtree;
+	struct out_shared;
 	struct raw_assertion;
 	struct gegex_transition;
 	struct zebu_expression;
