@@ -7,7 +7,6 @@ bin/debug-build/./value/list/print_source.o: value/list/print_source.c \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
  stringtree/new.h stringtree/append_tree.h stringtree/append_printf.h \
- list/value/struct.h out/get_type_id.h type/list/struct.h \
- type/list/../struct.h type/list/../kind.h value/list/../print_source.h \
- value/list/struct.h value/list/../struct.h value/list/../kind.h \
- value/list/print_source.h
+ list/value/struct.h type/list/struct.h type/list/../struct.h \
+ type/list/../kind.h value/list/../print_source.h value/list/struct.h \
+ value/list/../struct.h value/list/../kind.h value/list/print_source.h

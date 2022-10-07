@@ -1,6 +1,7 @@
 
 #include <debug.h>
 
+#include <regex/new.h>
 #include <regex/new_from_string.h>
 #include <regex/new_from_charset.h>
 #include <regex/add_lambda_transition.h>
@@ -84,8 +85,11 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				regex_add_lambda_transition(retval.start, retval.accepts);
 				regex_add_lambda_transition(retval.accepts, retval.start);
 				
-				// fix this
-				TODO;
+				struct regex* new_accepts = new_regex();
+				
+				regex_add_lambda_transition(retval.start, new_accepts);
+				
+				retval.accepts = new_accepts;
 			}
 			
 			EXIT;

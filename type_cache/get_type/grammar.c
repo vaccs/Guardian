@@ -27,7 +27,7 @@ struct type* type_cache_get_grammar_type(
 	}
 	else
 	{
-		struct type* grammar = new_grammar_type(structinfo);
+		struct type* grammar = new_grammar_type(this->next++, structinfo);
 		
 		avl_insert(this->tree, grammar);
 		

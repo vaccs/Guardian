@@ -7,9 +7,10 @@
 #include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>
 
-#include <out/get_type_id.h>
-
 #include <list/expression/struct.h>
+
+#include <out/shared.h>
+#include <out/type_lookup/lookup.h>
 
 #include "../print_source.h"
 
@@ -18,7 +19,7 @@
 
 struct stringtree* funccall_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct shared* shared)
 {
 	ENTER;
 	
@@ -26,14 +27,16 @@ struct stringtree* funccall_expression_print_source(
 	
 	struct funccall_expression* this = (void*) super;
 	
-	unsigned functype = out_get_type_id(shared, this->lambda->type);
+	type_lookup(shared->tlookup, this->lambda->type);
 	
 	stringtree_append_printf(tree, "({\n");
 	
-	stringtree_append_printf(tree, "type_%u func = ", functype);
+	stringtree_append_printf(tree, "type_%u func = ", this->lambda->type->id);
 	stringtree_append_tree(tree, expression_print_source(this->lambda, shared));
 	stringtree_append_printf(tree, ";");
 	
+	TODO;
+	#if 0
 	struct expression_list* arguments = this->arguments;
 	
 	for (unsigned i = 0, n = arguments->n; i < n; i++)
@@ -78,6 +81,7 @@ struct stringtree* funccall_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

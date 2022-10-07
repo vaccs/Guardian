@@ -1,5 +1,6 @@
 
 struct type;
+struct type_lookup;
 
 struct type_inheritance
 {
@@ -8,7 +9,8 @@ struct type_inheritance
 		const struct type*);
 	
 	struct stringtree* (*print_source)(
-		struct type*);
+		struct type*,
+		struct type_lookup* tlookup);
 	
 	void (*print)(
 		struct type*);

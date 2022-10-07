@@ -1,3 +1,3 @@
 
 struct stringtree* out(
-	struct ptrset* assertions);
+	struct quack* assertions);

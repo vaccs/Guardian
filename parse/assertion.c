@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <set/ptr/add.h>
+#include <quack/append.h>
 
 #include "assertion/new.h"
 
@@ -10,7 +10,7 @@
 #include "parse.h"
 
 void process_assertion(
-	struct ptrset* assertions,
+	struct quack* assertions,
 	struct zebu_assertion* assertion)
 {
 	ENTER;
@@ -28,7 +28,7 @@ void process_assertion(
 	else if (assertion->error)
 		kind = ak_error;
 	
-	ptrset_add(assertions, new_raw_assertion(kind, assertion->expression));
+	quack_append(assertions, new_raw_assertion(kind, assertion->expression));
 	
 	EXIT;
 }

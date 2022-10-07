@@ -10,6 +10,7 @@ bin/test-build/./main.o: main.c debug.h memory/smalloc.h \
  assertion/free.h named/grammar/compare.h named/grammar/free.h \
  named/type/compare.h named/type/free.h named/zebu_expression/compare.h \
  named/zebu_expression/free.h named/expression/compare.h \
- named/expression/free.h lex/new.h lex/free.h type_cache/new.h \
- type_cache/free.h type_check/type_check.h yacc/yacc.h yacc/state/free.h \
- out/out.h stringtree/stream.h stringtree/free.h
+ named/expression/free.h quack/new.h quack/foreach.h quack/free.h \
+ lex/new.h lex/free.h type_cache/new.h type_cache/free.h \
+ type_check/type_check.h yacc/yacc.h yacc/state/free.h out/out.h \
+ stringtree/stream.h stringtree/free.h

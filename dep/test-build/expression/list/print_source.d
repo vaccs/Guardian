@@ -9,7 +9,6 @@ bin/test-build/./expression/list/print_source.o: \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h type/list/struct.h \
  type/list/../struct.h type/list/../kind.h stringtree/new.h \
  stringtree/append_tree.h stringtree/append_printf.h \
- list/expression/struct.h out/get_type_id.h \
- expression/list/../print_source.h expression/list/struct.h \
- expression/list/../struct.h expression/list/../kind.h \
- expression/list/print_source.h
+ list/expression/struct.h expression/list/../print_source.h \
+ expression/list/struct.h expression/list/../struct.h \
+ expression/list/../kind.h expression/list/print_source.h

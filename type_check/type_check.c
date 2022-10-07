@@ -5,6 +5,7 @@
 #include <quack/new.h>
 #include <quack/pop.h>
 #include <quack/is_nonempty.h>
+#include <quack/foreach.h>
 #include <quack/append.h>
 #include <quack/free.h>
 
@@ -135,9 +136,9 @@ void type_check(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
 	struct avl_tree_t* typed_declares,
-	struct ptrset* typed_assertions,
+	struct quack* typed_assertions,
 	struct avl_tree_t* raw_declares,
-	struct ptrset* raw_assertions)
+	struct quack* raw_assertions)
 {
 	ENTER;
 	
@@ -303,7 +304,7 @@ void type_check(
 		TODO;
 	}
 	
-	ptrset_foreach(raw_assertions, ({
+	quack_foreach(raw_assertions, ({
 		void runme(void* ptr)
 		{
 			struct raw_assertion* raw_assertion = ptr;
@@ -369,7 +370,7 @@ void type_check(
 			{
 				struct assertion* assertion = new_assertion(raw_assertion->kind, specialized);
 				
-				ptrset_add(typed_assertions, assertion);
+				quack_append(typed_assertions, assertion);
 			}
 			
 			free_expression(specialized);

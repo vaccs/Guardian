@@ -27,7 +27,7 @@ struct type* type_cache_get_list_type(
 	}
 	else
 	{
-		struct type* list = new_list_type(element_type);
+		struct type* list = new_list_type(this->next++, element_type);
 		
 		avl_insert(this->tree, list);
 		

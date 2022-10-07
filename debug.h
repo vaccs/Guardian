@@ -48,6 +48,7 @@
 	struct lex_state;
 	struct stringtree;
 	struct out_shared;
+	struct shared;
 	struct raw_assertion;
 	struct gegex_transition;
 	struct zebu_expression;
@@ -63,6 +64,8 @@
 	struct lambda_value;
 	struct mpz;
 	struct value;
+	struct out_type;
+	struct type_lookup;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>

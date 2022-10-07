@@ -9,7 +9,8 @@
 
 #include <type/print_source.h>
 
-#include <out/get_type_id.h>
+#include <out/shared.h>
+#include <out/type_lookup/lookup.h>
 
 #include "../print_source.h"
 
@@ -22,7 +23,7 @@ static const char* lookup[] = {
 
 struct stringtree* comparison_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct shared* shared)
 {
 	ENTER;
 	
@@ -49,14 +50,18 @@ struct stringtree* comparison_expression_print_source(
 		{
 			stringtree_append_printf(tree, "({");
 			
-			unsigned tid = out_get_type_id(shared, this->type);
+			type_lookup(shared->tlookup, this->type);
 			
-			stringtree_append_printf(tree, "type_%u left = ", tid);
+			unsigned tid = this->type->id;
+			
+			stringtree_append_printf(tree, "type_%u *left = ", tid);
 			stringtree_append_tree(tree, expression_print_source(this->left, shared));
-			stringtree_append_printf(tree, ", right = ");
+			stringtree_append_printf(tree, ", *right = ");
 			stringtree_append_tree(tree, expression_print_source(this->right, shared));
 			stringtree_append_printf(tree, ";\n");
 			
+			TODO;
+			#if 0
 			stringtree_append_printf(tree, "bool cmp = compare_type_%u(left, right) %s 0;", tid, lookup[this->kind]);
 			
 			stringtree_append_printf(tree, "free_type_%u(left), free_type_%u(right);", tid, tid);
@@ -64,6 +69,7 @@ struct stringtree* comparison_expression_print_source(
 			stringtree_append_printf(tree, "cmp;", lookup[this->kind]);
 			
 			stringtree_append_printf(tree, "})");
+			#endif
 			
 			break;
 		}

@@ -15,7 +15,9 @@ struct type* type_cache_get_int_type(
 	
 	if (!this->int_type)
 	{
-		this->int_type = new_int_type();
+		struct type* type = new_int_type(this->next++);
+		
+		this->int_type = type;
 	}
 	
 	EXIT;

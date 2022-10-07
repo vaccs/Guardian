@@ -6,5 +6,5 @@ bin/debug-build/./parse/grammar/1.postfix.o: parse/grammar/1.postfix.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- gegex/add_lambda_transition.h parse/grammar/../parse.h \
+ gegex/new.h gegex/add_lambda_transition.h parse/grammar/../parse.h \
  parse/grammar/0.highest.h gegex/gbundle.h parse/grammar/1.postfix.h

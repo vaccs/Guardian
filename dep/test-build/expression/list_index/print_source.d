@@ -8,6 +8,6 @@ bin/test-build/./expression/list_index/print_source.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
  stringtree/append_tree.h stringtree/append_printf.h type/struct.h \
- type/kind.h out/get_type_id.h expression/list_index/../print_source.h \
+ type/kind.h expression/list_index/../print_source.h \
  expression/list_index/struct.h expression/list_index/../struct.h \
  expression/list_index/../kind.h expression/list_index/print_source.h

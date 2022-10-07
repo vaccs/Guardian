@@ -2,7 +2,7 @@
 struct expression;
 struct scope;
 struct value;
-struct out_shared;
+struct shared;
 
 struct expression_inheritance
 {
@@ -12,7 +12,7 @@ struct expression_inheritance
 	
 	struct stringtree* (*print_source)(
 		struct expression*,
-		struct out_shared*);
+		struct shared*);
 	
 	void (*print)(
 		struct expression*);

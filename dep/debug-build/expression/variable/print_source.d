@@ -7,6 +7,6 @@ bin/debug-build/./expression/variable/print_source.o: \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
- stringtree/append_printf.h out/get_type_id.h \
- expression/variable/struct.h expression/variable/../struct.h \
- expression/variable/../kind.h expression/variable/print_source.h
+ stringtree/append_printf.h expression/variable/struct.h \
+ expression/variable/../struct.h expression/variable/../kind.h \
+ expression/variable/print_source.h

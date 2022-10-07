@@ -12,12 +12,14 @@
 #include "new.h"
 
 struct type* new_lambda_type(
+	unsigned id,
 	struct parameter_list* parameters,
 	struct type* rettype)
 {
 	ENTER;
 	
 	struct lambda_type* this = (void*) new_type(
+		id,
 		tk_lambda,
 		&lambda_type_inheritance,
 		sizeof(*this));

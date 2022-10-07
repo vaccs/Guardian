@@ -19,10 +19,14 @@ const char* lookup[] = {
 
 struct stringtree* assertion_print_source(
 	struct assertion* this,
-	struct out_shared* shared)
+	struct shared* shared)
 {
 	ENTER;
 	
+	struct stringtree* text = expression_print_source(this->expression, shared);
+	
+	TODO;
+	#if 0
 	struct stringtree* stringtree = new_stringtree();
 	
 	stringtree_append_printf(stringtree, "if (!(");
@@ -37,5 +41,23 @@ struct stringtree* assertion_print_source(
 	
 	EXIT;
 	return stringtree;
+	#endif
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

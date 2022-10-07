@@ -1,15 +1,12 @@
 
-struct out_shared
+struct shared
 {
 	struct {
-		struct quack* todo; // `struct type*`
-		struct avl_tree_t* queued;
-	} lambda, compare, index, new, free, inc;
+		struct quack* todo; // list of names
+		struct stringset* queued;
+	} set, declare;
 	
-	struct {
-		struct quack* todo;
-		struct avl_tree_t* lookup;
-		unsigned next;
-	} type;
+	struct function_lookup* flookup;
+	
+	struct type_lookup* tlookup;
 };
-

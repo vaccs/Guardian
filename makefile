@@ -8,7 +8,8 @@ CFLAGS += -Wall -Werror -Wfatal-errors
 
 LDLIBS += -lgmp
 
-buildtype ?= release
+#buildtype ?= release
+buildtype ?= debug
 
 ifeq ($(buildtype), release)
 CPPFLAGS += -D RELEASE

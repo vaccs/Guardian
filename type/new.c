@@ -5,6 +5,7 @@
 #include "new.h"
 
 struct type* new_type(
+	unsigned id,
 	enum type_kind kind,
 	struct type_inheritance* inheritance,
 	unsigned size)
@@ -14,6 +15,8 @@ struct type* new_type(
 	dpv(inheritance);
 	
 	struct type* this = smalloc(size);
+	
+	this->id = id;
 	
 	this->kind = kind;
 	

@@ -9,11 +9,14 @@
 #include "struct.h"
 #include "new.h"
 
-struct type* new_grammar_type(struct structinfo* structinfo)
+struct type* new_grammar_type(
+	unsigned id,
+	struct structinfo* structinfo)
 {
 	ENTER;
 	
 	struct grammar_type* this = (void*) new_type(
+		id,
 		tk_grammar,
 		&grammar_type_inheritance,
 		sizeof(*this));

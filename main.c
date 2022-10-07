@@ -11,6 +11,7 @@
 #include <parse/driver.h>
 
 #include <parse/assertion/free.h>
+
 #include <assertion/free.h>
 
 #include <named/grammar/compare.h>
@@ -25,7 +26,9 @@
 #include <named/expression/compare.h>
 #include <named/expression/free.h>
 
-#include <set/ptr/new.h>
+#include <quack/new.h>
+#include <quack/foreach.h>
+#include <quack/free.h>
 
 #include <lex/new.h>
 #include <lex/free.h>
@@ -59,7 +62,7 @@ int main(int argc, char* const* argv)
 	
 	struct type_cache* tcache = new_type_cache();
 	
-	struct ptrset* raw_assertions = new_ptrset();
+	struct quack* raw_assertions = new_quack();
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	
@@ -69,7 +72,7 @@ int main(int argc, char* const* argv)
 	
 	parse_driver(lex, grammar, types, raw_declares, raw_assertions, tcache, flags->input_path);
 	
-	struct ptrset* typed_assertions = new_ptrset();
+	struct quack* typed_assertions = new_quack();
 	
 	struct avl_tree_t* typed_declares = avl_alloc_tree(compare_named_expressions, free_named_expression);
 	
@@ -93,14 +96,14 @@ int main(int argc, char* const* argv)
 	
 	free_stringtree(content);
 	
-	ptrset_foreach(raw_assertions, ({
+	quack_foreach(raw_assertions, ({
 		void runme(void* ptr) {
 			free_raw_assertion(ptr);
 		}
 		runme;
 	}));
 	
-	ptrset_foreach(typed_assertions, ({
+	quack_foreach(typed_assertions, ({
 		void runme(void* ptr) {
 			free_assertion(ptr);
 		}
@@ -109,9 +112,9 @@ int main(int argc, char* const* argv)
 	
 	free_yacc_state(start);
 	
-	free_ptrset(raw_assertions);
+	free_quack(raw_assertions);
 	
-	free_ptrset(typed_assertions);
+	free_quack(typed_assertions);
 	
 	avl_free_tree(typed_declares);
 	

@@ -10,6 +10,8 @@ struct type
 	
 	struct type_inheritance* inheritance;
 	
+	unsigned id;
+	
 	unsigned refcount;
 };
 

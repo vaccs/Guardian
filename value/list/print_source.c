@@ -7,7 +7,7 @@
 
 #include <list/value/struct.h>
 
-#include <out/get_type_id.h>
+/*#include <out/get_type_id.h>*/
 
 #include <type/list/struct.h>
 
@@ -22,6 +22,8 @@ struct stringtree* list_value_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct list_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -64,6 +66,7 @@ struct stringtree* list_value_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

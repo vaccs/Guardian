@@ -1,6 +1,7 @@
 
 #include <debug.h>
 
+#include <gegex/new.h>
 #include <gegex/add_lambda_transition.h>
 
 #include "../parse.h"
@@ -29,8 +30,11 @@ struct gbundle read_grammar_postfix(
 		gegex_add_lambda_transition(base.start, base.accepts);
 		gegex_add_lambda_transition(base.accepts, base.start);
 		
-				// fix this
-		TODO;
+		struct gegex* new_accepts = new_gegex();
+		
+		gegex_add_lambda_transition(base.accepts, new_accepts);
+		
+		base.accepts = new_accepts;
 	}
 	
 	EXIT;

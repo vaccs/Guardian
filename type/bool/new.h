@@ -1,2 +1,3 @@
 
-struct type* new_bool_type();
+struct type* new_bool_type(
+	unsigned id);

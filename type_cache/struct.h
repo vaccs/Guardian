@@ -6,4 +6,6 @@ struct type_cache
 	struct type* int_type;
 	
 	struct type* bool_type;
+	
+	unsigned next;
 };

@@ -8,7 +8,7 @@ bin/test-build/./expression/funccall/print_source.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h type/struct.h \
  type/kind.h stringtree/new.h stringtree/append_tree.h \
- stringtree/append_printf.h out/get_type_id.h list/expression/struct.h \
- expression/funccall/../print_source.h expression/funccall/struct.h \
- expression/funccall/../struct.h expression/funccall/../kind.h \
- expression/funccall/print_source.h
+ stringtree/append_printf.h list/expression/struct.h out/shared.h \
+ out/type_lookup/lookup.h expression/funccall/../print_source.h \
+ expression/funccall/struct.h expression/funccall/../struct.h \
+ expression/funccall/../kind.h expression/funccall/print_source.h

@@ -436,7 +436,7 @@ struct zebu_value_declare
 
 
 
-extern struct zebu_token* inc_zebu_token(struct zebu_token* this);
+extern struct zebu_token* inc_zebu_token(struct zebu_token* token);
 extern struct zebu_$start* inc_zebu_$start(struct zebu_$start* ptree);
 extern struct zebu_0$parameter* inc_zebu_0$parameter(struct zebu_0$parameter* ptree);
 extern struct zebu_additive_expression* inc_zebu_additive_expression(struct zebu_additive_expression* ptree);
@@ -482,7 +482,7 @@ extern struct zebu_using_directive* inc_zebu_using_directive(struct zebu_using_d
 extern struct zebu_value_declare* inc_zebu_value_declare(struct zebu_value_declare* ptree);
 
 
-extern void free_zebu_token(struct zebu_token* this);
+extern void free_zebu_token(struct zebu_token* token);
 extern void free_zebu_$start(struct zebu_$start* ptree);
 
 extern void free_zebu_0$parameter(struct zebu_0$parameter* ptree);

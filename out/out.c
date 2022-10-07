@@ -2,7 +2,10 @@
 #include <debug.h>
 
 #include <quack/new.h>
+#include <quack/foreach.h>
 #include <quack/free.h>
+
+#include <set/string/new.h>
 
 #include <assertion/print_source.h>
 
@@ -10,25 +13,96 @@
 #include <stringtree/append_printf.h>
 #include <stringtree/append_tree.h>
 
-#include "type_to_id_node.h"
+#include "type_lookup/new.h"
+
+#include "function_lookup/new.h"
+
 #include "shared.h"
 #include "out.h"
 
 struct stringtree* out(
-	struct ptrset* assertions)
+	struct quack* assertions)
 {
 	ENTER;
 	
+	struct quack* all_types = new_quack();
+	
+	struct quack* all_functions = new_quack();
+	
+	struct shared shared;
+	
+	shared.declare.todo = new_quack(); // list of names
+	shared.declare.queued = new_stringset();
+	
+	shared.set.todo = new_quack(); // list of names
+	shared.set.queued = new_stringset();
+	
+	shared.tlookup = new_type_lookup(all_types);
+	
+	shared.flookup = new_function_lookup(all_functions);
+	
+	struct stringtree* assertions_text = new_stringtree();
+	
+	quack_foreach(assertions, ({
+		void runme(void* ptr)
+		{
+			struct assertion* assertion = ptr;
+			
+			struct stringtree* text = assertion_print_source(assertion, &shared);
+			
+			stringtree_append_tree(assertions_text, text);
+		}
+		runme;
+	}));
+	
+	TODO;
+	#if 0
+	TODO;
+	
+	struct stringtree* declares_text = new_stringtree();
+	
+	// build text for declares
+		// type_lookup and function_lookup will generate text (and id) as
+		// things are referenced
+	TODO;
+	
+	struct stringtree* shift_table_text = new_stringtree();
+	struct stringtree* reduce_table_text = new_stringtree();
+	struct stringtree* goto_table_text = new_stringtree();
+	struct stringtree* lexer_table_text = new_stringtree();
+	
+	// generate parse table text
+	TODO;
+	
+	struct stringtree* sets_text = new_stringtree();
+	
+	// generate text for declaring lists of grammar data
+	TODO;
+	
+	struct stringtree* reduction_rules_text = new_stringtree();
+	
+	// generate reduction-rule text
+	// if grammar name is in list of needed sets, add code for appending to
+		// set-list
+	TODO;
+	
+	struct stringtree* supports_text = new_stringtree();
+	
+	// determine order of structs' and functions' text
+	TODO;
+	
 	struct stringtree* root = new_stringtree();
 	
-	struct out_shared* shared = smalloc(sizeof(*shared));
+	// use find-and-replace template from zebu
+	// TODO;
 	
-	shared->type.todo = new_quack();
-	shared->type.lookup = avl_alloc_tree(compare_type_to_id_nodes, free);
-	shared->type.next = 0;
-	
-	stringtree_append_printf(root, "int main() {");
-	
+	EXIT;
+	return root;
+	#endif
+}
+
+#if 0
+
 	ptrset_foreach(assertions, ({
 		void runme(void* ptr)
 		{
@@ -42,55 +116,7 @@ struct stringtree* out(
 		}
 		runme;
 	}));
-	
-	// quack and tree for:
-	// print source for all declares:
-		// might request source for more declares, compares, index and inc
-		// functions and types.
-	
-	// quack and tree for:
-	// print source for all lambda functions: (pure functions)
-		// might request source for more lambda functions, compares, index,
-		// new, free and inc functions and types.
-	
-	// quack and tree for:
-	// print source for all `compare_*` functions:
-		// needs to support generating forward-declares
-		// might request for source more compare functions
-	
-	// quack and tree for:
-	// print source `*_index` functions
-		// might request for source for more inc functions
-	
-	// quack and tree for:
-	// create all new functions:
-		// may want `inc_*` functions
-	
-	// quack and tree for:
-	// create all free functions:
-		// may want other `free_*` functions
-	
-	// quack and tree for:
-	// create all inc functions:
-		// easy
-	
-	// quack and tree for:
-	// declare all types:
-		// declare struct
-		// needs to support generating forward-declares
-		// might request structs for more types
-	
-	stringtree_append_printf(root, "}");
-	
-	free_quack(shared->type.todo);
-	
-	avl_free_tree(shared->type.lookup);
-	
-	free(shared);
-	
-	EXIT;
-	return root;
-}
+	#endif
 
 	// generate output (in some kind of string-builder data structure):
 		// needs some kind of variable-name generator to be passed around

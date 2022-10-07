@@ -6,8 +6,8 @@ bin/test-build/./type_check/type_check.o: type_check/type_check.c debug.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h quack/new.h \
- quack/pop.h quack/is_nonempty.h quack/append.h quack/free.h \
- assertion/new.h enums/assertion_kind.h value/bool/struct.h \
+ quack/pop.h quack/is_nonempty.h quack/foreach.h quack/append.h \
+ quack/free.h assertion/new.h enums/assertion_kind.h value/bool/struct.h \
  value/bool/../struct.h value/bool/../kind.h type/struct.h type/kind.h \
  type/free.h expression/print.h expression/struct.h expression/kind.h \
  expression/literal/struct.h expression/literal/../struct.h \
