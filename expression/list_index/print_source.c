@@ -31,7 +31,7 @@ struct stringtree* list_index_expression_print_source(
 	
 	struct list_index_expression* this = (void*) super;
 	
-	type_lookup(shared->tlookup, super->type);
+	type_lookup(shared->tlookup, super->type, NULL);
 	
 	stringtree_append_printf(tree, "({");
 	
@@ -52,12 +52,15 @@ struct stringtree* list_index_expression_print_source(
 		"type_%u* element = func_%u(list, index);"
 	"", super->type->id, index_func);
 	
+	TODO;
+	#if 0
 	unsigned free_list_func = function_lookup_free(shared->flookup, this->list->type);
 	unsigned free_index_func = function_lookup_free(shared->flookup, this->index->type);
 	
 	stringtree_append_printf(tree, ""
 		"func_%u(list), func_%u(index);"
 	"", free_list_func, free_index_func);
+	#endif
 	
 	stringtree_append_printf(tree, "element;");
 	

@@ -97,6 +97,7 @@ srclist.mk:
 ifneq "$(MAKECMDGOALS)" "clean"
 include srclist.mk
 srcs += ./parse/parse.c
+srcs += ./out/escaped.c
 endif
 
 objs := $(patsubst %.c,$(buildprefix)/%.o,$(srcs))
@@ -104,6 +105,14 @@ objs := $(patsubst %.S,$(buildprefix)/%.o,$(objs))
 
 deps := $(patsubst %.c,$(depprefix)/%.d,$(srcs))
 deps := $(patsubst %.S,$(depprefix)/%.d,$(deps))
+
+bin/escape: ./-escape.c | bin/
+	@ echo "compiling $<"
+	@ gcc -Wall -Werror ./$< -o $@
+
+./out/escaped.c: bin/escape ./out/-template.c
+	@ echo "escaping $*"
+	@ $^ -v template -o $@
 
 parse/parse.c parse/parse.h dep/parse/parse.d: parse/parse.zb | dep/parse/
 	zebu -v -m --template=fileio -i $< -o parse/parse -MF dep/parse/parse.d

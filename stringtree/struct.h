@@ -9,4 +9,6 @@ struct stringtree
 		};
 		struct stringtree_node* next;
 	}* head, *tail;
+	
+	unsigned refcount;
 };

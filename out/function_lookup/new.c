@@ -15,7 +15,7 @@ struct function_lookup* new_function_lookup()
 	
 	this->tree = avl_alloc_tree(compare_function_lookup_nodes, free_function_lookup_node);
 	
-	this->next = 0;
+	this->next = 1;
 	
 	EXIT;
 	return this;

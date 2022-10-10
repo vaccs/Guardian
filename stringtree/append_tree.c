@@ -13,7 +13,7 @@ void stringtree_append_tree(
 	struct stringtree_node* node = smalloc(sizeof(*node));
 	
 	node->is_branch = true;
-	node->tree = tree;
+	node->tree = tree, tree->refcount++;
 	node->next = NULL;
 	
 	if (this->tail)

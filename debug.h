@@ -105,9 +105,19 @@
 	#include <stringtree/new.h>
 	#include <stringtree/append_printf.h>
 	#include <stringtree/append_tree.h>
+	#include <stringtree/append_strndup.h>
+	#include <stringtree/inc.h>
+	#include <stringtree/free.h>
+	
+	#include <heap/new.h>
+	#include <heap/is_nonempty.h>
+	#include <heap/push.h>
+	#include <heap/pop.h>
+	#include <heap/free.h>
 	
 	#include <quack/new.h>
 	#include <quack/is_nonempty.h>
+	#include <quack/append.h>
 	#include <quack/pop.h>
 	#include <quack/free.h>
 #endif

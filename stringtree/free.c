@@ -9,32 +9,35 @@ void free_stringtree(
 {
 	ENTER;
 	
-	struct stringtree_node* current = this->head;
-	struct stringtree_node* next = NULL;
-	
-	if (current)
+	if (this && !--this->refcount)
 	{
-		next = current->next;
-	}
-	
-	while (current)
-	{
-		if (current->is_branch)
-			free_stringtree(current->tree);
-		else
-			free(current->string);
-		
-		free(current);
-		
-		current = next;
+		struct stringtree_node* current = this->head;
+		struct stringtree_node* next = NULL;
 		
 		if (current)
 		{
 			next = current->next;
 		}
+		
+		while (current)
+		{
+			if (current->is_branch)
+				free_stringtree(current->tree);
+			else
+				free(current->string);
+			
+			free(current);
+			
+			current = next;
+			
+			if (current)
+			{
+				next = current->next;
+			}
+		}
+		
+		free(this);
 	}
-	
-	free(this);
 	
 	EXIT;
 }

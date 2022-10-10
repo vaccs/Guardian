@@ -35,18 +35,19 @@ struct stringtree* variable_expression_print_source(
 			break;
 		
 		case vek_declare:
-			if (stringset_add(shared->declare.queued, this->name))
-				quack_append(shared->declare.todo, this->name);
+			if (stringset_add(shared->declares.queued, this->name))
+				quack_append(shared->declares.todo, this->name);
 			break;
 		
 		case vek_grammar_rule:
-			TODO;
+			if (stringset_add(shared->sets.queued, this->name))
+				quack_append(shared->sets.todo, this->name);
 			break;
 	}
 	
-	type_lookup(shared->tlookup, super->type);
+	type_lookup(shared->tlookup, super->type, NULL);
 	
-	unsigned inc_id = function_lookup_inc(shared->flookup, super->type);
+	unsigned inc_id = function_lookup_inc(shared->flookup, super->type, 0);
 	
 	stringtree_append_printf(tree, ""
 		"func_%u(%.*s)"

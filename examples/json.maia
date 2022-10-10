@@ -138,17 +138,17 @@ value: boolean | integer | string | list | dict;
 
 %start: value;
 
-%debug: 10 + 010 + 0x10 + 0b10 == 36;
+// %debug: 10 + 010 + 0x10 + 0b10 == 36;
 
-z = 4;
+// z = 4;
 
-foo = [$int x, y: x + y, $int x, int y: x - y * z];
+// foo = [$int x, y: x + y, $int x, int y: x - y * z];
 
-%debug: foo[0](1, 2) == 3;
+// %debug: foo[0](1, 2) == 3;
 
-%debug: foo[1](13, 2) == 5;
+// %debug: foo[1](13, 2) == 5;
 
-%debug: map($int x: x + z, [1, z, 3]) == [5, z + z, 7];
+// %debug: map($int x: x + z, [1, z, 3]) == [5, z + z, 7];
 
 z2 = len(value);
 

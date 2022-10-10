@@ -13,7 +13,8 @@
 
 unsigned function_lookup_free(
 	struct function_lookup* this,
-	struct type* type)
+	struct type* type,
+	unsigned using_func_id)
 {
 	unsigned retval;
 	ENTER;
@@ -26,18 +27,53 @@ unsigned function_lookup_free(
 	if (node)
 	{
 		struct function_lookup_node* old = node->item;
+		
+		if (using_func_id)
+		{
+			TODO;
+		}
+		
 		retval = old->id;
 	}
 	else
 	{
 		retval = this->next++;
 		
+		struct stringtree* tree = new_stringtree();
+		
+		struct function_lookup_node* node = new_function_lookup_node(
+			flnk_free, type, retval, new_out_function(tree));
+		
 		struct stringtree* text = type_generate_free_text(type, retval, this);
 		
-		avl_insert(this->tree, new_function_lookup_node(
-			flnk_free, type, retval, new_out_function(text)));
+		stringtree_append_tree(tree, text);
+		
+		avl_insert(this->tree, node);
+		
+		if (using_func_id)
+		{
+			TODO;
+		}
+		
+		free_stringtree(tree), free_stringtree(text);
 	}
+	
 	
 	EXIT;
 	return retval;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

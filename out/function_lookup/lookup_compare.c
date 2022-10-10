@@ -13,7 +13,8 @@
 
 unsigned function_lookup_compare(
 	struct function_lookup* this,
-	struct type* type)
+	struct type* type,
+	unsigned using_func_id)
 {
 	unsigned retval;
 	ENTER;
@@ -36,6 +37,11 @@ unsigned function_lookup_compare(
 		
 		avl_insert(this->tree, new_function_lookup_node(
 			flnk_compare, type, retval, new_out_function(text)));
+	}
+	
+	if (using_func_id)
+	{
+		TODO;
 	}
 	
 	EXIT;

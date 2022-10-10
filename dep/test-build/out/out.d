@@ -6,10 +6,17 @@ bin/test-build/./out/out.o: out/out.c debug.h memory/smalloc.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
- stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
- quack/is_nonempty.h quack/pop.h quack/free.h quack/foreach.h \
- set/string/new.h assertion/print_source.h named/expression/struct.h \
- expression/struct.h expression/kind.h expression/print_source.h \
- type/struct.h type/kind.h out/type_lookup/new.h out/type_lookup/lookup.h \
- out/function_lookup/new.h out/function_lookup/lookup_free.h out/shared.h \
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/inc.h stringtree/free.h \
+ heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h \
+ quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
+ quack/foreach.h set/string/new.h set/string/free.h \
+ assertion/print_source.h named/expression/struct.h expression/struct.h \
+ expression/kind.h expression/print_source.h named/type/struct.h \
+ type/struct.h type/kind.h type/free.h type_cache/get_type/list.h \
+ out/type_lookup/new.h out/type_lookup/lookup.h \
+ out/type_lookup/calc_rank.h out/type_lookup/free.h \
+ out/function_lookup/new.h out/function_lookup/lookup_new.h \
+ out/function_lookup/lookup_free.h out/function_lookup/calc_rank.h \
+ out/function_lookup/free.h out/type/struct.h out/shared.h out/escaped.h \
  out/out.h

@@ -15,7 +15,7 @@ struct stringtree* list_type_generate_index_text(
 	
 	struct stringtree* text = new_stringtree();
 	
-	unsigned inc_id = function_lookup_inc(flookup, this->element_type);
+	unsigned inc_id = function_lookup_inc(flookup, this->element_type, func_id);
 	
 	stringtree_append_printf(text, ""
 		"type_%u* func_%u(type_%u* list, unsigned index)"

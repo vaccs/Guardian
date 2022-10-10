@@ -4,6 +4,7 @@
 #include <out/shared.h>
 #include <out/type_lookup/lookup.h>
 #include <out/function_lookup/lookup_new.h>
+#include <out/function_lookup/lookup_free.h>
 
 #include <type/struct.h>
 
@@ -28,8 +29,8 @@ struct stringtree* len_expression_print_source(
 	
 	struct type* rtype = super->type;
 	
-	type_lookup(shared->tlookup, ltype);
-	type_lookup(shared->tlookup, rtype);
+	type_lookup(shared->tlookup, ltype, NULL);
+	type_lookup(shared->tlookup, rtype, NULL);
 	
 	unsigned ltype_id = ltype->id;
 	unsigned rtype_id = rtype->id;
@@ -39,11 +40,13 @@ struct stringtree* len_expression_print_source(
 			"type_%u* list = "
 	"", ltype_id);
 	
-	stringtree_append_tree(tree, expression_print_source(this->list, shared));
+	struct stringtree* expression = expression_print_source(this->list, shared);
+	
+	stringtree_append_tree(tree, expression);
 	
 	unsigned new_id = function_lookup_new(shared->flookup, rtype);
 	
-	unsigned free_id = function_lookup_new(shared->flookup, ltype);
+	unsigned free_id = function_lookup_free(shared->flookup, ltype, 0);
 	
 	stringtree_append_printf(tree, ""
 			";"
@@ -53,6 +56,8 @@ struct stringtree* len_expression_print_source(
 			"len;"
 		"})"
 	"", rtype_id, new_id, free_id);
+	
+	free_stringtree(expression);
 	
 	EXIT;
 	return tree;

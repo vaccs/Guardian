@@ -7,6 +7,9 @@ bin/debug-build/./lex/build_tokenizer/node/compare.o: \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
- stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
- quack/is_nonempty.h quack/pop.h quack/free.h set/unsigned/compare.h \
- lex/build_tokenizer/node/struct.h lex/build_tokenizer/node/compare.h
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/inc.h stringtree/free.h \
+ heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h \
+ quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
+ set/unsigned/compare.h lex/build_tokenizer/node/struct.h \
+ lex/build_tokenizer/node/compare.h

@@ -14,7 +14,7 @@ struct out_function* new_out_function(
 	this->rank = 0;
 	this->dependent_on = new_ptrset();
 	this->dependent_of = new_ptrset();
-	this->text = text;
+	this->text = inc_stringtree(text);
 	
 	EXIT;
 	return this;

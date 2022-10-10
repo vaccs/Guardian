@@ -17,7 +17,7 @@ struct stringtree* list_type_generate_free_text(
 	
 	struct list_type* this = (void*) super;
 	
-	unsigned element_free_id = function_lookup_free(flookup, this->element_type);
+	unsigned element_free_id = function_lookup_free(flookup, this->element_type, func_id);
 	
 	struct stringtree* text = new_stringtree();
 	

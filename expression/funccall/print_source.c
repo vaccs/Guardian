@@ -28,7 +28,7 @@ struct stringtree* funccall_expression_print_source(
 	
 	struct funccall_expression* this = (void*) super;
 	
-	type_lookup(shared->tlookup, this->lambda->type);
+	type_lookup(shared->tlookup, this->lambda->type, NULL);
 	
 	stringtree_append_printf(tree, "({\n");
 	
@@ -42,7 +42,7 @@ struct stringtree* funccall_expression_print_source(
 	{
 		struct expression* argument = arguments->data[i];
 		
-		type_lookup(shared->tlookup, argument->type);
+		type_lookup(shared->tlookup, argument->type, NULL);
 		
 		unsigned atid = argument->type->id;
 		
@@ -51,7 +51,7 @@ struct stringtree* funccall_expression_print_source(
 		stringtree_append_printf(tree, ";");
 	}
 	
-	type_lookup(shared->tlookup, super->type);
+	type_lookup(shared->tlookup, super->type, NULL);
 	
 	unsigned return_id = super->type->id;
 	
@@ -67,6 +67,8 @@ struct stringtree* funccall_expression_print_source(
 	
 	stringtree_append_printf(tree, ");");
 	
+	TODO;
+	#if 0
 	unsigned func_free_id = function_lookup_free(shared->flookup, this->lambda->type);
 	
 	stringtree_append_printf(tree, "func_%u(func);", func_free_id);
@@ -86,6 +88,7 @@ struct stringtree* funccall_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

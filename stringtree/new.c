@@ -12,6 +12,8 @@ struct stringtree* new_stringtree()
 	
 	this->head = this->tail = NULL;
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }

@@ -21,12 +21,12 @@ struct stringtree* list_type_generate_typedef_text(
 	
 	dpv(super->id);
 	
-	type_lookup(tlookup, this->element_type);
+	type_lookup(tlookup, this->element_type, super);
 	
 	stringtree_append_printf(tree, ""
 		"typedef struct {"
 			"type_%u** data;"
-			"unsigned n, refcount;"
+			"unsigned n, cap, refcount;"
 		"} type_%u;"
 	"", this->element_type->id, super->id);
 	

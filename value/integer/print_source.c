@@ -26,7 +26,7 @@ struct stringtree* integer_value_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
-	type_lookup(shared->tlookup, super->type);
+	type_lookup(shared->tlookup, super->type, NULL);
 	
 	stringtree_append_printf(tree, "({");
 	

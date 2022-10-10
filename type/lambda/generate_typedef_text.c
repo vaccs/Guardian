@@ -30,6 +30,8 @@ struct stringtree* lambda_type_generate_typedef_text(
 		"typedef struct {"
 	"");
 	
+	TODO;
+	#if 0
 	type_lookup(tlookup, this->rettype);
 	
 	stringtree_append_printf(tree, ""
@@ -54,6 +56,7 @@ struct stringtree* lambda_type_generate_typedef_text(
 			");"
 		"} type_%u;"
 	"", super->id);
+	#endif
 	
 	EXIT;
 	return tree;

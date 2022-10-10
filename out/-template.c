@@ -1,10 +1,15 @@
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+
+#include <gmp.h>
+
+{{STRUCTS}}
+
+{{TYPE_FUNCTIONS}}
 
 // parser-tables
-
-// structs and functions
-	// order determined by depenencies
 
 int main(int argc, const char** argv)
 {
@@ -20,6 +25,7 @@ int main(int argc, const char** argv)
 	// assertions...
 	
 	// free sets
-	// free parse-tree
+	// free declares
+	return 0;
 }
 

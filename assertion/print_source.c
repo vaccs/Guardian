@@ -30,7 +30,7 @@ struct stringtree* assertion_print_source(
 {
 	ENTER;
 	
-	type_lookup(shared->tlookup, this->expression->type);
+	type_lookup(shared->tlookup, this->expression->type, NULL);
 	
 	struct type* type = this->expression->type;
 	
@@ -43,9 +43,11 @@ struct stringtree* assertion_print_source(
 			"type_%u* assertion = "
 	"", tid);
 	
-	stringtree_append_tree(text, expression_print_source(this->expression, shared));
+	struct stringtree* expression_text = expression_print_source(this->expression, shared);
 	
-	unsigned free_id = function_lookup_free(shared->flookup, type);
+	stringtree_append_tree(text, expression_text);
+	
+	unsigned free_id = function_lookup_free(shared->flookup, type, 0);
 	
 	stringtree_append_printf(text, ""
 			";"
@@ -56,6 +58,8 @@ struct stringtree* assertion_print_source(
 			"func_%u(assertion);"
 		"}"
 	"", free_id);
+	
+	free_stringtree(expression_text);
 	
 	EXIT;
 	return text;

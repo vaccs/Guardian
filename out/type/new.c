@@ -3,6 +3,8 @@
 
 #include <set/ptr/new.h>
 
+#include <stringtree/inc.h>
+
 #include "struct.h"
 #include "new.h"
 
@@ -16,7 +18,7 @@ struct out_type* new_out_type(
 	this->rank = 0;
 	this->dependent_on = new_ptrset();
 	this->dependent_of = new_ptrset();
-	this->text = text;
+	this->text = inc_stringtree(text);
 	
 	EXIT;
 	return this;
