@@ -2,17 +2,17 @@
 #include <debug.h>
 
 #include "inheritance.h"
-#include "generate_typedef_text.h"
-#include "generate_new_text.h"
-#include "generate_free_text.h"
+#include "generate_typedef.h"
+#include "generate_new_func.h"
+#include "generate_free_func.h"
 #include "compare.h"
 #include "free.h"
 
 struct type_inheritance bool_type_inheritance = {
 	.compare = compare_bool_types,
-	.generate_typedef_text = bool_type_generate_typedef_text,
-	.generate_new_text = bool_type_generate_new_text,
-	.generate_free_text = bool_type_generate_free_text,
+	.generate_typedef = bool_type_generate_typedef,
+	.generate_new_func = bool_type_generate_new_func,
+	.generate_free_func = bool_type_generate_free_func,
 	.free = free_bool_type,
 };
 

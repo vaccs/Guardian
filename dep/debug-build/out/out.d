@@ -5,18 +5,18 @@ bin/debug-build/./out/out.o: out/out.c debug.h memory/smalloc.h \
  avl/free_tree.h avl/delete_node.h avl/tree_t.h avl/delete.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
- stringtree/append_printf.h stringtree/append_tree.h \
- stringtree/append_strndup.h stringtree/inc.h stringtree/free.h \
- heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h \
- quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- quack/foreach.h set/string/new.h set/string/free.h \
- assertion/print_source.h named/expression/struct.h expression/struct.h \
- expression/kind.h expression/print_source.h named/type/struct.h \
- type/struct.h type/kind.h type/free.h type_cache/get_type/list.h \
- out/type_lookup/new.h out/type_lookup/lookup.h \
- out/type_lookup/calc_rank.h out/type_lookup/free.h \
- out/function_lookup/new.h out/function_lookup/lookup_new.h \
- out/function_lookup/lookup_free.h out/function_lookup/calc_rank.h \
- out/function_lookup/free.h out/type/struct.h out/shared.h out/escaped.h \
- out/out.h
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h \
+ set/ptr/discard.h set/ptr/free.h set/string/new.h set/string/add.h \
+ set/string/free.h stringtree/new.h stringtree/append_printf.h \
+ stringtree/append_tree.h stringtree/append_strndup.h \
+ stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
+ heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
+ quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
+ quack/foreach.h assertion/print_source.h out/declare_queue/struct.h \
+ out/declare_queue/new.h out/declare_queue/process.h \
+ out/declare_queue/free.h out/set_queue/struct.h out/set_queue/new.h \
+ out/set_queue/process.h out/set_queue/free.h out/function_queue/struct.h \
+ out/function_queue/new.h out/function_queue/process.h \
+ out/function_queue/free.h out/type_queue/struct.h out/type_queue/new.h \
+ out/type_queue/process.h out/type_queue/free.h out/shared.h \
+ out/escaped.h out/out.h

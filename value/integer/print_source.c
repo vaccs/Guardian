@@ -8,8 +8,11 @@
 #include <type/struct.h>
 
 #include <out/shared.h>
-#include <out/type_lookup/lookup.h>
-#include <out/function_lookup/lookup_new.h>
+/*#include <out/type_lookup/lookup.h>*/
+/*#include <out/function_lookup/lookup_new.h>*/
+#include <out/type_queue/submit.h>
+
+#include <out/function_queue/submit_new.h>
 
 #include <mpz/struct.h>
 
@@ -26,13 +29,13 @@ struct stringtree* integer_value_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
-	type_lookup(shared->tlookup, super->type, NULL);
+	type_queue_submit(shared->tqueue, super->type);
 	
 	stringtree_append_printf(tree, "({");
 	
 	unsigned tid = super->type->id;
 	
-	unsigned new_id = function_lookup_new(shared->flookup, super->type);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, "type_%u* new = func_%u();", tid, new_id);
 	
@@ -40,7 +43,7 @@ struct stringtree* integer_value_print_source(
 	{
 		signed long val = mpz_get_si(this->integer->mpz);
 		
-		stringtree_append_printf(tree, "mpz_set_si(new->mpz, %li);", val);
+		stringtree_append_printf(tree, "mpz_set_si(new->value, %li);", val);
 	}
 	else
 	{

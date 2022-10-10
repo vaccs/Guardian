@@ -9,27 +9,27 @@ struct type_inheritance
 		const struct type*,
 		const struct type*);
 	
-	struct stringtree* (*generate_new_text)(
+	struct stringtree* (*generate_typedef)(
+		struct type*,
+		struct type_queue*);
+	
+	struct stringtree* (*generate_new_func)(
 		struct type*,
 		unsigned func_id,
-		struct function_lookup*);
+		struct function_queue*);
 	
-	struct stringtree* (*generate_typedef_text)(
-		struct type*,
-		struct type_lookup*);
-	
-	struct stringtree* (*generate_inc_text)(
+	struct stringtree* (*generate_inc_func)(
 		struct type*);
 	
-	struct stringtree* (*generate_compare_text)(
+	struct stringtree* (*generate_compare_func)(
 		struct type*,
 		unsigned,
-		struct function_lookup*);
+		struct function_queue*);
 	
-	struct stringtree* (*generate_free_text)(
+	struct stringtree* (*generate_free_func)(
 		struct type*,
 		unsigned,
-		struct function_lookup*);
+		struct function_queue*);
 	
 	void (*print)(
 		struct type*);

@@ -70,6 +70,10 @@
 	struct out_function;
 	struct type_lookup;
 	struct function_lookup;
+	struct declare_queue;
+	struct function_queue;
+	struct set_queue;
+	struct type_queue;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -100,12 +104,19 @@
 	#include <set/ptr/add.h>
 	#include <set/ptr/get_head.h>
 	#include <set/ptr/foreach.h>
+	#include <set/ptr/contains.h>
+	#include <set/ptr/discard.h>
 	#include <set/ptr/free.h>
+	
+	#include <set/string/new.h>
+	#include <set/string/add.h>
+	#include <set/string/free.h>
 	
 	#include <stringtree/new.h>
 	#include <stringtree/append_printf.h>
 	#include <stringtree/append_tree.h>
 	#include <stringtree/append_strndup.h>
+	#include <stringtree/prepend_tree.h>
 	#include <stringtree/inc.h>
 	#include <stringtree/free.h>
 	

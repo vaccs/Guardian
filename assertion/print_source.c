@@ -1,9 +1,9 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
-#include <stringtree/append_tree.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
+/*#include <stringtree/append_tree.h>*/
 
 #include <type/struct.h>
 
@@ -11,8 +11,10 @@
 #include <expression/print_source.h>
 
 #include <out/shared.h>
-#include <out/type_lookup/lookup.h>
-#include <out/function_lookup/lookup_free.h>
+/*#include <out/type_lookup/lookup.h>*/
+/*#include <out/function_lookup/lookup_free.h>*/
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_free.h>
 
 #include "struct.h"
 #include "print_source.h"
@@ -30,9 +32,11 @@ struct stringtree* assertion_print_source(
 {
 	ENTER;
 	
-	type_lookup(shared->tlookup, this->expression->type, NULL);
+	struct expression* expression = this->expression;
 	
-	struct type* type = this->expression->type;
+	struct type* type = expression->type;
+	
+	type_queue_submit(shared->tqueue, type);
 	
 	unsigned tid = type->id;
 	
@@ -43,23 +47,24 @@ struct stringtree* assertion_print_source(
 			"type_%u* assertion = "
 	"", tid);
 	
-	struct stringtree* expression_text = expression_print_source(this->expression, shared);
+	struct stringtree* subtext = expression_print_source(this->expression, shared);
 	
-	stringtree_append_tree(text, expression_text);
+	stringtree_append_tree(text, subtext);
 	
-	unsigned free_id = function_lookup_free(shared->flookup, type, 0);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, type);
 	
 	stringtree_append_printf(text, ""
 			";"
 			"if (!assertion->value)"
 			"{"
+				"fprintf(stderr, \"%%s: %%%%%s assertion failed!\\n\", argv0);"
 				"exit(1);"
 			"}"
 			"func_%u(assertion);"
 		"}"
-	"", free_id);
+	"", lookup[this->kind], free_id);
 	
-	free_stringtree(expression_text);
+	free_stringtree(subtext);
 	
 	EXIT;
 	return text;

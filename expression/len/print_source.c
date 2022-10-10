@@ -2,9 +2,9 @@
 #include <debug.h>
 
 #include <out/shared.h>
-#include <out/type_lookup/lookup.h>
-#include <out/function_lookup/lookup_new.h>
-#include <out/function_lookup/lookup_free.h>
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_free.h>
 
 #include <type/struct.h>
 
@@ -25,15 +25,15 @@ struct stringtree* len_expression_print_source(
 	
 	struct expression* list = this->list;
 	
-	struct type* ltype = list->type;
-	
 	struct type* rtype = super->type;
 	
-	type_lookup(shared->tlookup, ltype, NULL);
-	type_lookup(shared->tlookup, rtype, NULL);
+	struct type* ltype = list->type;
 	
-	unsigned ltype_id = ltype->id;
+	type_queue_submit(shared->tqueue, rtype);
+	type_queue_submit(shared->tqueue, ltype);
+	
 	unsigned rtype_id = rtype->id;
+	unsigned ltype_id = ltype->id;
 	
 	stringtree_append_printf(tree, ""
 		"({"
@@ -44,14 +44,14 @@ struct stringtree* len_expression_print_source(
 	
 	stringtree_append_tree(tree, expression);
 	
-	unsigned new_id = function_lookup_new(shared->flookup, rtype);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, rtype);
 	
-	unsigned free_id = function_lookup_free(shared->flookup, ltype, 0);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
 	
 	stringtree_append_printf(tree, ""
 			";"
 			"type_%u* len = func_%u();"
-			"mpz_set_ul(len->value, list->n);"
+			"mpz_set_ui(len->value, list->n);"
 			"func_%u(list);"
 			"len;"
 		"})"

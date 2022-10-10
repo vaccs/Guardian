@@ -12,8 +12,12 @@
 #include <quack/append.h>
 
 #include <out/shared.h>
-#include <out/type_lookup/lookup.h>
-#include <out/function_lookup/lookup_inc.h>
+/*#include <out/type_lookup/lookup.h>*/
+/*#include <out/function_lookup/lookup_inc.h>*/
+#include <out/declare_queue/submit.h>
+#include <out/set_queue/submit.h>
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_inc.h>
 
 #include "struct.h"
 #include "print_source.h"
@@ -35,19 +39,17 @@ struct stringtree* variable_expression_print_source(
 			break;
 		
 		case vek_declare:
-			if (stringset_add(shared->declares.queued, this->name))
-				quack_append(shared->declares.todo, this->name);
+			declare_queue_submit(shared->dqueue, this->name);
 			break;
 		
 		case vek_grammar_rule:
-			if (stringset_add(shared->sets.queued, this->name))
-				quack_append(shared->sets.todo, this->name);
+			set_queue_submit(shared->squeue, this->name);
 			break;
 	}
 	
-	type_lookup(shared->tlookup, super->type, NULL);
+	type_queue_submit(shared->tqueue, super->type);
 	
-	unsigned inc_id = function_lookup_inc(shared->flookup, super->type, 0);
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, ""
 		"func_%u(%.*s)"

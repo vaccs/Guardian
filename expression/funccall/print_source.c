@@ -9,9 +9,9 @@
 
 #include <list/expression/struct.h>
 
-#include <out/shared.h>
-#include <out/type_lookup/lookup.h>
-#include <out/function_lookup/lookup_free.h>
+/*#include <out/shared.h>*/
+/*#include <out/type_lookup/lookup.h>*/
+/*#include <out/function_lookup/lookup_free.h>*/
 
 #include "../print_source.h"
 
@@ -24,6 +24,8 @@ struct stringtree* funccall_expression_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct funccall_expression* this = (void*) super;
@@ -88,6 +90,7 @@ struct stringtree* funccall_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 	#endif
 }
 

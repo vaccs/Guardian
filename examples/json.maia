@@ -158,7 +158,8 @@ z2 = len(value);
 
 // %note: foo2[1](13, 2) == 5;
 
-%error: z2 == 3;
+// %error: z2 == 3;
+%error: z2 == 0;
 // %error: [1, 2, z2] == [1, 2, 3];
 
 // bar = $int x, float y: (float(x) + y + 2.3);

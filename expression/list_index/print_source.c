@@ -11,10 +11,10 @@
 
 #include <out/shared.h>
 
-#include <out/type_lookup/lookup.h>
+/*#include <out/type_lookup/lookup.h>*/
 
-#include <out/function_lookup/lookup_index.h>
-#include <out/function_lookup/lookup_free.h>
+/*#include <out/function_lookup/lookup_index.h>*/
+/*#include <out/function_lookup/lookup_free.h>*/
 
 #include "../print_source.h"
 
@@ -27,6 +27,8 @@ struct stringtree* list_index_expression_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct list_index_expression* this = (void*) super;
@@ -68,6 +70,7 @@ struct stringtree* list_index_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

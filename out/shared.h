@@ -1,12 +1,11 @@
 
 struct out_shared
 {
-	struct {
-		struct quack* todo; // list of names
-		struct stringset* queued;
-	} sets, declares;
+	struct type_queue* tqueue;
 	
-	struct function_lookup* flookup;
+	struct function_queue* fqueue;
 	
-	struct type_lookup* tlookup;
+	struct set_queue* squeue;
+	
+	struct declare_queue* dqueue;
 };
