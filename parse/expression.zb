@@ -1,4 +1,7 @@
 
+
+
+%extra_field: primary_expression, "unsigned", kind;
 %extra_field: primary_expression, "struct type*", type, free_type();
 %extra_field: primary_expression, "struct value*", value, free_value();
 

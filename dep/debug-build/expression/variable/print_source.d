@@ -7,6 +7,9 @@ bin/debug-build/./expression/variable/print_source.o: \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
- stringtree/append_printf.h expression/variable/struct.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h type/struct.h type/kind.h \
+ set/string/add.h quack/append.h out/shared.h out/type_lookup/lookup.h \
+ out/function_lookup/lookup_inc.h expression/variable/struct.h \
  expression/variable/../struct.h expression/variable/../kind.h \
- expression/variable/print_source.h
+ expression/variable/kind.h expression/variable/print_source.h

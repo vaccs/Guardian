@@ -5,7 +5,8 @@ bin/test-build/./yacc/build_structinfo.o: yacc/build_structinfo.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- gegex/grammar/struct.h gegex/transition/struct.h gegex/struct.h \
- quack/new.h quack/append.h quack/is_nonempty.h quack/pop.h quack/free.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h gegex/grammar/struct.h \
+ gegex/transition/struct.h gegex/struct.h quack/append.h \
  yacc/structinfo/new.h yacc/structinfo/update.h yacc/build_structinfo.h

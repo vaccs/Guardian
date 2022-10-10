@@ -5,7 +5,9 @@ bin/test-build/./parse/regex.o: parse/regex.c debug.h memory/smalloc.h \
  avl/free_tree.h avl/delete_node.h avl/tree_t.h avl/delete.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h regex/new.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h regex/new.h \
  regex/new_from_string.h regex/rbundle.h regex/new_from_charset.h \
  parse/charset_t.h regex/add_lambda_transition.h parse/misc/escapes.h \
  parse/charset.h parse/charset_t.h parse/parse.h parse/regex.h \

@@ -5,7 +5,9 @@ bin/test-build/./value/lambda/call.o: value/lambda/call.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h scope/new.h \
- scope/declare.h scope/free.h parameter/struct.h list/parameter/struct.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h scope/new.h scope/declare.h \
+ scope/free.h parameter/struct.h list/parameter/struct.h \
  list/value/struct.h expression/evaluate.h value/lambda/struct.h \
  value/lambda/../struct.h value/lambda/../kind.h value/lambda/call.h

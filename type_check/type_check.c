@@ -174,11 +174,9 @@ void type_check(
 					{
 						struct named_type* ntype = node->item;
 						
-						ddprintf("found!\n");
-						
 						struct type* list = type_cache_get_list_type(tcache, ntype->type);
 						
-						unresolved_resolve(unresolved, ntype->name, list, NULL);
+						unresolved_resolve(unresolved, ntype->name, vek_grammar_rule, list, NULL);
 						
 						free_type(list);
 					}
@@ -252,11 +250,11 @@ void type_check(
 				{
 					struct literal_expression* le = (void*) e;
 					
-					unresolved_resolve(task->unresolved, name, e->type, le->value);
+					unresolved_resolve(task->unresolved, name, vek_declare, e->type, le->value);
 				}
 				else
 				{
-					unresolved_resolve(task->unresolved, name, e->type, NULL);
+					unresolved_resolve(task->unresolved, name, vek_declare, e->type, NULL);
 				}
 			}
 			runme;
@@ -334,11 +332,11 @@ void type_check(
 					{
 						struct literal_expression* le = (void*) e;
 						
-						unresolved_resolve(unresolved, name, e->type, le->value);
+						unresolved_resolve(unresolved, name, vek_declare, e->type, le->value);
 					}
 					else
 					{
-						unresolved_resolve(unresolved, name, e->type, NULL);
+						unresolved_resolve(unresolved, name, vek_declare, e->type, NULL);
 					}
 				}
 				runme;

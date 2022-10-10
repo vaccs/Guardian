@@ -9,6 +9,13 @@
 
 #include <type/struct.h>
 
+#include <out/shared.h>
+
+#include <out/type_lookup/lookup.h>
+
+#include <out/function_lookup/lookup_index.h>
+#include <out/function_lookup/lookup_free.h>
+
 #include "../print_source.h"
 
 #include "struct.h"
@@ -16,37 +23,41 @@
 
 struct stringtree* list_index_expression_print_source(
 	struct expression* super,
-	struct shared* shared)
+	struct out_shared* shared)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct list_index_expression* this = (void*) super;
 	
-	unsigned rettype_id = out_get_type_id(shared, super->type);
-	
-	unsigned list_id = out_get_type_id(shared, this->list->type);
-	
-	assert(this->index->type->kind == tk_int);
-	
-	unsigned index_id = out_get_type_id(shared, this->index->type);
+	type_lookup(shared->tlookup, super->type);
 	
 	stringtree_append_printf(tree, "({");
 	
-	stringtree_append_printf(tree, "type_%u* list = ", list_id);
+	unsigned listid = this->list->type->id;
+	unsigned indexid = this->index->type->id;
+	
+	stringtree_append_printf(tree, "type_%u* list = ", listid);
 	stringtree_append_tree(tree, expression_print_source(this->list, shared));
 	stringtree_append_printf(tree, ";");
 	
-	stringtree_append_printf(tree, "type_%u* index = ", index_id);
+	stringtree_append_printf(tree, "type_%u* index = ", indexid);
 	stringtree_append_tree(tree, expression_print_source(this->index, shared));
 	stringtree_append_printf(tree, ";");
 	
-	stringtree_append_printf(tree, "type_%u* element = type_%u_index(list, index);", rettype_id, list_id);
+	unsigned index_func = function_lookup_index(shared->flookup, this->list->type);
 	
-	stringtree_append_printf(tree, "free_type_%u(list), free_type_%u(index);", list_id, index_id);
+	stringtree_append_printf(tree, ""
+		"type_%u* element = func_%u(list, index);"
+	"", super->type->id, index_func);
+	
+	unsigned free_list_func = function_lookup_free(shared->flookup, this->list->type);
+	unsigned free_index_func = function_lookup_free(shared->flookup, this->index->type);
+	
+	stringtree_append_printf(tree, ""
+		"func_%u(list), func_%u(index);"
+	"", free_list_func, free_index_func);
 	
 	stringtree_append_printf(tree, "element;");
 	
@@ -54,7 +65,6 @@ struct stringtree* list_index_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

@@ -1,4 +1,4 @@
 
 struct stringtree* list_index_expression_print_source(
 	struct expression* super,
-	struct shared* shared);
+	struct out_shared* shared);

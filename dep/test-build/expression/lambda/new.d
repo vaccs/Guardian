@@ -5,7 +5,9 @@ bin/test-build/./expression/lambda/new.o: expression/lambda/new.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h list/parameter/inc.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h list/parameter/inc.h \
  expression/lambda/../new.h expression/lambda/../kind.h \
  expression/lambda/../inc.h expression/lambda/inheritance.h \
  expression/lambda/../inheritance.h expression/lambda/struct.h \

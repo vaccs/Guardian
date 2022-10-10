@@ -11,6 +11,7 @@
 
 #include <out/shared.h>
 #include <out/type_lookup/lookup.h>
+#include <out/function_lookup/lookup_free.h>
 
 #include "../print_source.h"
 
@@ -19,7 +20,7 @@
 
 struct stringtree* funccall_expression_print_source(
 	struct expression* super,
-	struct shared* shared)
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -31,28 +32,30 @@ struct stringtree* funccall_expression_print_source(
 	
 	stringtree_append_printf(tree, "({\n");
 	
-	stringtree_append_printf(tree, "type_%u func = ", this->lambda->type->id);
+	stringtree_append_printf(tree, "type_%u* func = ", this->lambda->type->id);
 	stringtree_append_tree(tree, expression_print_source(this->lambda, shared));
 	stringtree_append_printf(tree, ";");
 	
-	TODO;
-	#if 0
 	struct expression_list* arguments = this->arguments;
 	
 	for (unsigned i = 0, n = arguments->n; i < n; i++)
 	{
 		struct expression* argument = arguments->data[i];
 		
-		unsigned atid = out_get_type_id(shared, argument->type);
+		type_lookup(shared->tlookup, argument->type);
 		
-		stringtree_append_printf(tree, "type_%u arg_%u = ", atid, i);
+		unsigned atid = argument->type->id;
+		
+		stringtree_append_printf(tree, "type_%u* arg_%u = ", atid, i);
 		stringtree_append_tree(tree, expression_print_source(argument, shared));
 		stringtree_append_printf(tree, ";");
 	}
 	
-	unsigned rettype = out_get_type_id(shared, super->type);
+	type_lookup(shared->tlookup, super->type);
 	
-	stringtree_append_printf(tree, "type_%u retval = func(", rettype);
+	unsigned return_id = super->type->id;
+	
+	stringtree_append_printf(tree, "type_%u* retval = func(", return_id);
 	
 	for (unsigned i = 0, n = arguments->n; i < n; i++)
 	{
@@ -64,15 +67,17 @@ struct stringtree* funccall_expression_print_source(
 	
 	stringtree_append_printf(tree, ");");
 	
-	stringtree_append_printf(tree, "free_type_%u(func);", functype);
+	unsigned func_free_id = function_lookup_free(shared->flookup, this->lambda->type);
+	
+	stringtree_append_printf(tree, "func_%u(func);", func_free_id);
 	
 	for (unsigned i = 0, n = arguments->n; i < n; i++)
 	{
 		struct expression* argument = arguments->data[i];
 		
-		unsigned atid = out_get_type_id(shared, argument->type);
+		unsigned free_id = function_lookup_free(shared->flookup, argument->type);
 		
-		stringtree_append_printf(tree, "free_type_%u(arg_%u);", atid, i);
+		stringtree_append_printf(tree, "func_%u(arg_%u);", free_id, i);
 	}
 	
 	stringtree_append_printf(tree, "retval;");
@@ -81,7 +86,6 @@ struct stringtree* funccall_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

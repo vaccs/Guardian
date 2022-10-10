@@ -51,6 +51,7 @@
 	struct shared;
 	struct raw_assertion;
 	struct gegex_transition;
+	struct list_type;
 	struct zebu_expression;
 	struct grammar_type;
 	struct expression;
@@ -59,13 +60,16 @@
 	struct zebu_type;
 	struct value_list;
 	struct parameter_list;
+	struct stringset;
 	struct parameter;
 	struct type_inheritance;
 	struct lambda_value;
 	struct mpz;
 	struct value;
 	struct out_type;
+	struct out_function;
 	struct type_lookup;
+	struct function_lookup;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -98,6 +102,14 @@
 	#include <set/ptr/foreach.h>
 	#include <set/ptr/free.h>
 	
+	#include <stringtree/new.h>
+	#include <stringtree/append_printf.h>
+	#include <stringtree/append_tree.h>
+	
+	#include <quack/new.h>
+	#include <quack/is_nonempty.h>
+	#include <quack/pop.h>
+	#include <quack/free.h>
 #endif
 
 #ifdef DEBUGGING

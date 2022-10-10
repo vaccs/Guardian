@@ -12,7 +12,7 @@ struct expression_inheritance
 	
 	struct stringtree* (*print_source)(
 		struct expression*,
-		struct shared*);
+		struct out_shared*);
 	
 	void (*print)(
 		struct expression*);

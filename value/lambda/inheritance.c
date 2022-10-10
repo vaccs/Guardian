@@ -1,4 +1,6 @@
 
+#include <debug.h>
+
 #include "inheritance.h"
 #include "print.h"
 #include "free.h"

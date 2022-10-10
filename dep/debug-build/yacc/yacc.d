@@ -5,8 +5,9 @@ bin/debug-build/./yacc/yacc.o: yacc/yacc.c debug.h memory/smalloc.h \
  avl/free_tree.h avl/delete_node.h avl/tree_t.h avl/delete.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h quack/new.h \
- quack/pop.h quack/append.h quack/is_nonempty.h quack/free.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h quack/append.h \
  named/trie/compare.h named/trie/free.h named/grammar/struct.h \
  cmdln/minimize_lexer.h set/unsigned/new.h set/unsigned/add.h \
  set/unsigned/free.h set/unsigned/foreach.h set/unsigned/update.h \

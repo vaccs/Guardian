@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <type/print_source.h>
+#include <type/generate_typedef_text.h>
 
 #include "../type/new.h"
 
@@ -20,7 +20,7 @@ void type_lookup(
 	
 	if (!node)
 	{
-		struct stringtree* text = type_print_source(type, this);
+		struct stringtree* text = type_generate_typedef_text(type, this);
 		
 		struct out_type* otype = new_out_type(text);
 		

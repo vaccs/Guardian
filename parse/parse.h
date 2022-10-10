@@ -309,6 +309,7 @@ struct zebu_primary_expression
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
 	struct zebu_token* integer_literal;
+	unsigned kind;
 	struct zebu_token* len;
 	struct zebu_token* list;
 	struct zebu_token* map;

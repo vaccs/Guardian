@@ -1,5 +1,5 @@
 
-struct shared
+struct out_shared
 {
 	struct {
 		struct quack* todo; // list of names

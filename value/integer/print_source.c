@@ -1,15 +1,15 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
+/*#include <stringtree/new.h>*/
 /*#include <stringtree/append_tree.h>*/
-#include <stringtree/append_printf.h>
+/*#include <stringtree/append_printf.h>*/
 
-/*#include <list/value/struct.h>*/
+#include <type/struct.h>
 
-/*#include "../print_source.h"*/
-
-/*#include <out/get_type_id.h>*/
+#include <out/shared.h>
+#include <out/type_lookup/lookup.h>
+#include <out/function_lookup/lookup_new.h>
 
 #include <mpz/struct.h>
 
@@ -22,29 +22,31 @@ struct stringtree* integer_value_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct integer_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
-	unsigned tid = out_get_type_id(shared, super->type);
+	type_lookup(shared->tlookup, super->type);
 	
 	stringtree_append_printf(tree, "({");
 	
-	stringtree_append_printf(tree, "type_%u* new = new_type_%u();", tid, tid);
+	unsigned tid = super->type->id;
+	
+	unsigned new_id = function_lookup_new(shared->flookup, super->type);
+	
+	stringtree_append_printf(tree, "type_%u* new = func_%u();", tid, new_id);
 	
 	if (mpz_fits_slong_p(this->integer->mpz))
 	{
 		signed long val = mpz_get_si(this->integer->mpz);
 		
-		stringtree_append_printf(tree, "mpz_init_set_si(new->mpz, %lu);", val);
+		stringtree_append_printf(tree, "mpz_set_si(new->mpz, %li);", val);
 	}
 	else
 	{
 		TODO;
 		#if 0
-		stringtree_append_printf(tree, "mpz_init_set_str(new->mpz);");
+		stringtree_append_printf(tree, "mpz_set_str(new->mpz);");
 		#endif
 	}
 	
@@ -54,6 +56,18 @@ struct stringtree* integer_value_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

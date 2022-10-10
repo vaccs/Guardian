@@ -6,5 +6,7 @@ bin/test-build/./type_cache/get_type/bool.o: type_cache/get_type/bool.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
+ stringtree/new.h stringtree/append_printf.h stringtree/append_tree.h \
+ quack/new.h quack/is_nonempty.h quack/pop.h quack/free.h \
  type_cache/get_type/../struct.h type/inc.h type/bool/new.h \
  type_cache/get_type/bool.h

@@ -1,5 +1,5 @@
 
-struct out_shared;
+struct shared;
 struct value;
 
 struct value_inheritance

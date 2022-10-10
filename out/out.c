@@ -13,23 +13,29 @@
 #include <stringtree/append_printf.h>
 #include <stringtree/append_tree.h>
 
+#include <named/expression/struct.h>
+
+#include <expression/struct.h>
+#include <expression/print_source.h>
+
+#include <type/struct.h>
+
 #include "type_lookup/new.h"
+#include "type_lookup/lookup.h"
 
 #include "function_lookup/new.h"
+#include "function_lookup/lookup_free.h"
 
 #include "shared.h"
 #include "out.h"
 
 struct stringtree* out(
+	struct avl_tree_t* typed_declares,
 	struct quack* assertions)
 {
 	ENTER;
 	
-	struct quack* all_types = new_quack();
-	
-	struct quack* all_functions = new_quack();
-	
-	struct shared shared;
+	struct out_shared shared;
 	
 	shared.declare.todo = new_quack(); // list of names
 	shared.declare.queued = new_stringset();
@@ -37,9 +43,9 @@ struct stringtree* out(
 	shared.set.todo = new_quack(); // list of names
 	shared.set.queued = new_stringset();
 	
-	shared.tlookup = new_type_lookup(all_types);
+	shared.tlookup = new_type_lookup();
 	
-	shared.flookup = new_function_lookup(all_functions);
+	shared.flookup = new_function_lookup();
 	
 	struct stringtree* assertions_text = new_stringtree();
 	
@@ -55,17 +61,47 @@ struct stringtree* out(
 		runme;
 	}));
 	
+	struct stringtree* init_declares_text = new_stringtree();
+	
+	struct stringtree* uninit_declares_text = new_stringtree();
+	
+	while (quack_is_nonempty(shared.declare.todo))
+	{
+		struct string* name = quack_pop(shared.declare.todo);
+		
+		struct avl_node_t* node = avl_search(typed_declares, &name);
+		
+		assert(node);
+		
+		struct named_expression* nexpression = node->item;
+		
+		struct expression* expression = nexpression->expression;
+		
+		struct type* type = expression->type;
+		
+		type_lookup(shared.tlookup, type);
+		
+		unsigned type_id = type->id;
+		
+		stringtree_append_printf(init_declares_text, ""
+			"type_%u* %.*s = "
+		"", type_id, name->len, name->chars);
+		
+		stringtree_append_tree(init_declares_text, expression_print_source(expression, &shared));
+		
+		stringtree_append_printf(init_declares_text, ""
+			";"
+		"");
+		
+		unsigned free_id = function_lookup_free(shared.flookup, type);
+		
+		stringtree_append_printf(uninit_declares_text, ""
+			"func_%u(%.*s);"
+		"", free_id, name->len, name->chars);
+	}
+	
 	TODO;
 	#if 0
-	TODO;
-	
-	struct stringtree* declares_text = new_stringtree();
-	
-	// build text for declares
-		// type_lookup and function_lookup will generate text (and id) as
-		// things are referenced
-	TODO;
-	
 	struct stringtree* shift_table_text = new_stringtree();
 	struct stringtree* reduce_table_text = new_stringtree();
 	struct stringtree* goto_table_text = new_stringtree();
@@ -88,6 +124,8 @@ struct stringtree* out(
 	
 	struct stringtree* supports_text = new_stringtree();
 	
+	struct quack* all_types = new_quack();
+	struct quack* all_functions = new_quack();
 	// determine order of structs' and functions' text
 	TODO;
 	

@@ -6,7 +6,8 @@ bin/test-build/./gegex/combine_structinfos.o: gegex/combine_structinfos.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- quack/new.h quack/append.h quack/pop.h quack/is_nonempty.h quack/free.h \
+ stringtree/new.h stringtree/append_printf.h stringtree/append_tree.h \
+ quack/new.h quack/is_nonempty.h quack/pop.h quack/free.h quack/append.h \
  yacc/structinfo/new.h yacc/structinfo/update.h gegex/struct.h \
  gegex/combine_structinfos.h gegex/transition/struct.h \
  gegex/grammar/struct.h

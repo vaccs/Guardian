@@ -6,4 +6,6 @@ bin/debug-build/./misc/break_and_open_path.o: misc/break_and_open_path.c \
  avl/tree_t.h avl/delete.h string/struct.h string/new.h string/inc.h \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- misc/sopenat.h misc/break_and_open_path.h
+ stringtree/new.h stringtree/append_printf.h stringtree/append_tree.h \
+ quack/new.h quack/is_nonempty.h quack/pop.h quack/free.h misc/sopenat.h \
+ misc/break_and_open_path.h

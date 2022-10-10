@@ -6,6 +6,9 @@ bin/debug-build/./value/integer/print_source.o: \
  avl/delete_node.h avl/tree_t.h avl/delete.h string/struct.h string/new.h \
  string/inc.h string/compare.h string/are_equal.h string/free.h \
  set/ptr/new.h set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h \
- set/ptr/free.h stringtree/new.h stringtree/append_printf.h mpz/struct.h \
+ set/ptr/free.h stringtree/new.h stringtree/append_printf.h \
+ stringtree/append_tree.h quack/new.h quack/is_nonempty.h quack/pop.h \
+ quack/free.h type/struct.h type/kind.h out/shared.h \
+ out/type_lookup/lookup.h out/function_lookup/lookup_new.h mpz/struct.h \
  value/integer/struct.h value/integer/../struct.h value/integer/../kind.h \
  value/integer/print_source.h

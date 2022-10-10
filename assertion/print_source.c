@@ -5,7 +5,14 @@
 #include <stringtree/append_printf.h>
 #include <stringtree/append_tree.h>
 
+#include <type/struct.h>
+
+#include <expression/struct.h>
 #include <expression/print_source.h>
+
+#include <out/shared.h>
+#include <out/type_lookup/lookup.h>
+#include <out/function_lookup/lookup_free.h>
 
 #include "struct.h"
 #include "print_source.h"
@@ -19,29 +26,39 @@ const char* lookup[] = {
 
 struct stringtree* assertion_print_source(
 	struct assertion* this,
-	struct shared* shared)
+	struct out_shared* shared)
 {
 	ENTER;
 	
-	struct stringtree* text = expression_print_source(this->expression, shared);
+	type_lookup(shared->tlookup, this->expression->type);
 	
-	TODO;
-	#if 0
-	struct stringtree* stringtree = new_stringtree();
+	struct type* type = this->expression->type;
 	
-	stringtree_append_printf(stringtree, "if (!(");
+	unsigned tid = type->id;
 	
-	stringtree_append_tree(stringtree, expression_print_source(this->expression, shared));
+	struct stringtree* text = new_stringtree();
 	
-	stringtree_append_printf(stringtree, ")) {");
+	stringtree_append_printf(text, ""
+		"{"
+			"type_%u* assertion = "
+	"", tid);
 	
-	stringtree_append_printf(stringtree, "print(\"a %%%s directive failed!\");\n", lookup[this->kind]);
+	stringtree_append_tree(text, expression_print_source(this->expression, shared));
 	
-	stringtree_append_printf(stringtree, "}");
+	unsigned free_id = function_lookup_free(shared->flookup, type);
+	
+	stringtree_append_printf(text, ""
+			";"
+			"if (!assertion->value)"
+			"{"
+				"exit(1);"
+			"}"
+			"func_%u(assertion);"
+		"}"
+	"", free_id);
 	
 	EXIT;
-	return stringtree;
-	#endif
+	return text;
 }
 
 

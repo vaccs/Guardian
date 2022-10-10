@@ -80,7 +80,7 @@ int main(int argc, char* const* argv)
 	
 	struct yacc_state* start = yacc(lex, grammar);
 	
-	struct stringtree* content = out(typed_assertions);
+	struct stringtree* content = out(typed_declares, typed_assertions);
 	
 	FILE* stream = fopen(flags->output_path, "w");
 	

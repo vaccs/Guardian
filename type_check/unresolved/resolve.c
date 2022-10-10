@@ -14,6 +14,7 @@
 void unresolved_resolve(
 	struct unresolved* this,
 	struct string* name,
+	enum variable_expression_kind kind,
 	struct type* type,
 	struct value* value)
 {
@@ -30,6 +31,7 @@ void unresolved_resolve(
 			{
 				struct zebu_primary_expression* use = ptr;
 				
+				use->kind = kind;
 				use->type = inc_type(type);
 				use->value = inc_value(value);
 			}

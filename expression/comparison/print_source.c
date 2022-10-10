@@ -7,10 +7,13 @@
 #include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>
 
-#include <type/print_source.h>
+/*#include <type/print_source.h>*/
 
 #include <out/shared.h>
 #include <out/type_lookup/lookup.h>
+#include <out/function_lookup/lookup_new.h>
+#include <out/function_lookup/lookup_compare.h>
+#include <out/function_lookup/lookup_free.h>
 
 #include "../print_source.h"
 
@@ -23,7 +26,7 @@ static const char* lookup[] = {
 
 struct stringtree* comparison_expression_print_source(
 	struct expression* super,
-	struct shared* shared)
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -31,53 +34,35 @@ struct stringtree* comparison_expression_print_source(
 	
 	struct comparison_expression* this = (void*) super;
 	
-	switch (this->type->kind)
-	{
-		case tk_bool:
-			TODO;
-			break;
-		
-		case tk_char:
-			TODO;
-			break;
-		
-		case tk_float:
-			TODO;
-			break;
-		
-		case tk_int:
-		case tk_list:
-		{
-			stringtree_append_printf(tree, "({");
-			
-			type_lookup(shared->tlookup, this->type);
-			
-			unsigned tid = this->type->id;
-			
-			stringtree_append_printf(tree, "type_%u *left = ", tid);
-			stringtree_append_tree(tree, expression_print_source(this->left, shared));
-			stringtree_append_printf(tree, ", *right = ");
-			stringtree_append_tree(tree, expression_print_source(this->right, shared));
-			stringtree_append_printf(tree, ";\n");
-			
-			TODO;
-			#if 0
-			stringtree_append_printf(tree, "bool cmp = compare_type_%u(left, right) %s 0;", tid, lookup[this->kind]);
-			
-			stringtree_append_printf(tree, "free_type_%u(left), free_type_%u(right);", tid, tid);
-			
-			stringtree_append_printf(tree, "cmp;", lookup[this->kind]);
-			
-			stringtree_append_printf(tree, "})");
-			#endif
-			
-			break;
-		}
-		
-		default:
-			TODO;
-			break;
-	}
+	stringtree_append_printf(tree, "({");
+	
+	type_lookup(shared->tlookup, this->type);
+	
+	unsigned tid = this->type->id;
+	
+	stringtree_append_printf(tree, "type_%u *left = ", tid);
+	stringtree_append_tree(tree, expression_print_source(this->left, shared));
+	stringtree_append_printf(tree, ", *right = ");
+	stringtree_append_tree(tree, expression_print_source(this->right, shared));
+	stringtree_append_printf(tree, ";\n");
+	
+	type_lookup(shared->tlookup, super->type);
+	
+	unsigned rettype_id = super->type->id;
+	unsigned new_id = function_lookup_new(shared->flookup, super->type);
+	unsigned compare_id = function_lookup_compare(shared->flookup, this->type);
+	
+	stringtree_append_printf(tree, ""
+		"type_%u* cmp = func_%u(func_%u(left, right) %s 0);"
+	"", rettype_id, new_id, compare_id, lookup[this->kind]);
+	
+	unsigned free_id = function_lookup_free(shared->flookup, this->type);
+	
+	stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+	
+	stringtree_append_printf(tree, "cmp;", lookup[this->kind]);
+	
+	stringtree_append_printf(tree, "})");
 	
 	EXIT;
 	return tree;

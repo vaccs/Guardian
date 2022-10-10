@@ -5,8 +5,9 @@ bin/debug-build/./yacc/calc_firsts.o: yacc/calc_firsts.c debug.h \
  avl/foreach.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
  avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h quack/new.h \
- quack/append.h quack/is_nonempty.h quack/pop.h quack/free.h \
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h quack/append.h \
  named/stringset/struct.h named/stringset/new.h named/stringset/compare.h \
  named/stringset/free.h named/trie/struct.h set/unsigned/new.h \
  set/unsigned/add.h set/unsigned/update.h set/unsigned/inc.h \

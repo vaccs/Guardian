@@ -453,7 +453,7 @@ static void resolve_variables_lambda(
 			
 			struct string* name = new_string_from_token(expression->name);
 			
-			unresolved_resolve(subunresolved, name, type, NULL);
+			unresolved_resolve(subunresolved, name, vek_parameter, type, NULL);
 			
 			for (unsigned i = 0, n = expression->parameters.n; i < n; i++)
 			{
@@ -468,7 +468,7 @@ static void resolve_variables_lambda(
 				
 				struct string* name = new_string_from_token(parameter->name);
 				
-				unresolved_resolve(subunresolved, name, type, NULL);
+				unresolved_resolve(subunresolved, name, vek_parameter, type, NULL);
 				
 				free_string(name);
 			}

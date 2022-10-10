@@ -6,10 +6,11 @@ bin/test-build/./expression/int_math/evaluate.o: \
  avl/free_tree.h avl/delete_node.h avl/tree_t.h avl/delete.h \
  string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
- set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h \
- value/integer/struct.h value/integer/../struct.h value/integer/../kind.h \
- value/integer/new.h value/free.h mpz/add.h mpz/subtract.h mpz/multiply.h \
- mpz/free.h expression/int_math/../evaluate.h \
- expression/int_math/struct.h expression/int_math/../struct.h \
- expression/int_math/../kind.h expression/int_math/kind.h \
- expression/int_math/evaluate.h
+ set/ptr/get_head.h set/ptr/foreach.h set/ptr/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h quack/new.h \
+ quack/is_nonempty.h quack/pop.h quack/free.h value/integer/struct.h \
+ value/integer/../struct.h value/integer/../kind.h value/integer/new.h \
+ value/free.h mpz/add.h mpz/subtract.h mpz/multiply.h mpz/free.h \
+ expression/int_math/../evaluate.h expression/int_math/struct.h \
+ expression/int_math/../struct.h expression/int_math/../kind.h \
+ expression/int_math/kind.h expression/int_math/evaluate.h

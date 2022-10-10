@@ -1,4 +1,4 @@
 
 struct stringtree* expression_print_source(
 	struct expression* this,
-	struct shared* shared);
+	struct out_shared* shared);
