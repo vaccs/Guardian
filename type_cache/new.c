@@ -13,7 +13,7 @@ struct type_cache* new_type_cache()
 	
 	struct type_cache* this = smalloc(sizeof(*this));
 	
-	this->tree = avl_alloc_tree(compare_types, free_type);
+	this->tree = avl_alloc_tree(compare_types, NULL);
 	
 	this->int_type = NULL;
 	

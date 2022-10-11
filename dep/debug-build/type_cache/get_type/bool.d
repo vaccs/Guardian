@@ -12,5 +12,5 @@ bin/debug-build/./type_cache/get_type/bool.o: type_cache/get_type/bool.c \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- type_cache/get_type/../struct.h type/inc.h type/bool/new.h \
+ type_cache/get_type/../struct.h type/bool/new.h \
  type_cache/get_type/bool.h

@@ -2,13 +2,20 @@
 %include "charset.zb"
 %include "regex.zb"
 
+`format`: '\"' '%'
+	['0'-'9']* // max field width
+	("h" | "hh" | "j" | "l" | "ll" | "L" | "q" | "t" | "z")? // length modifier
+	['d' | 'i' | 'o' | 'u' | 'x' | 'X' | // conversion
+	 'f' | 'e' | 'g' | 'E' | 'a' | 's']
+'\"';
+
 grammar_highest
-	: `char` #character        (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `int` #integer           (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `string` #string         (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `identifier` #name       (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '/' regex #regex '/'     (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '[' charset #charset ']' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	: `char` #character                            (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `int` #integer                               (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `string` #string                             (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `identifier` #name                           (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '/' regex #regex (':' `format` #format)? '/' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '[' charset #charset ']'                     (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
 	| '(' grammar #subgrammar ')'
 	;
 

@@ -1,7 +1,6 @@
 
 #include <debug.h>
 
-
 #include <quack/new.h>
 #include <quack/pop.h>
 #include <quack/is_nonempty.h>
@@ -21,12 +20,18 @@
 #include <expression/literal/struct.h>
 #include <expression/free.h>
 
+#include <named/zebu_type/struct.h>
+
 #include <named/type/struct.h>
+#include <named/type/new.h>
 
 #include <named/expression/struct.h>
 #include <named/expression/new.h>
 
 #include <named/zebu_expression/struct.h>
+
+#include <named/type/compare.h>
+#include <named/type/free.h>
 
 #include <parse/assertion/struct.h>
 
@@ -44,6 +49,7 @@
 
 #include "specialize/expression.h"
 
+#include "build_type.h"
 #include "type_check.h"
 
 struct task
@@ -135,12 +141,29 @@ static void free_dependents(void* ptr)
 void type_check(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
+	
 	struct avl_tree_t* typed_declares,
 	struct quack* typed_assertions,
+	
+	struct avl_tree_t* raw_forwards,
 	struct avl_tree_t* raw_declares,
 	struct quack* raw_assertions)
 {
 	ENTER;
+	
+	struct avl_tree_t* typed_forwards = avl_alloc_tree(compare_named_types, free_named_type);
+	
+	avl_foreach(raw_forwards, ({
+		void runme(void* ptr)
+		{
+			struct named_zebu_type* nztype = ptr;
+			
+			struct type* type = build_type(tcache, nztype->type);
+			
+			avl_insert(typed_forwards, new_named_type(nztype->name, type));
+		}
+		runme;
+	}));
 	
 	unsigned waiting = 0;
 	
@@ -177,8 +200,15 @@ void type_check(
 						struct type* list = type_cache_get_list_type(tcache, ntype->type);
 						
 						unresolved_resolve(unresolved, ntype->name, vek_grammar_rule, list, NULL);
+					}
+					
+					node = avl_search(typed_forwards, &name);
+					
+					if (node)
+					{
+						struct named_type* ntype = node->item;
 						
-						free_type(list);
+						unresolved_resolve(unresolved, ntype->name, vek_forward, ntype->type, NULL);
 					}
 					
 					EXIT;
@@ -242,6 +272,8 @@ void type_check(
 				
 				assert(node);
 				
+				TODO;
+				#if 0
 				struct named_expression *ne = node->item;
 				
 				struct expression* e = ne->expression;
@@ -254,8 +286,12 @@ void type_check(
 				}
 				else
 				{
+					// is it a forward-declare?
+					TODO;
+					
 					unresolved_resolve(task->unresolved, name, vek_declare, e->type, NULL);
 				}
+				#endif
 			}
 			runme;
 		}));
@@ -263,6 +299,16 @@ void type_check(
 		struct expression* typed = specialize_expression(tcache, task->expression);
 		
 		expression_print(typed), puts("");
+		
+		// if name in typed_forwards:
+			// kind = dk_forward
+		// else:
+			// kind = dk_normal
+		
+		// struct declare* declare = new_declare();
+		
+		TODO;
+		#if 0
 		
 		struct named_expression* ne = new_named_expression(task->name, typed);
 		
@@ -294,12 +340,16 @@ void type_check(
 		free_task(task);
 		
 		free_expression(typed);
+		#endif
 	}
 	
 	if (waiting)
 	{
-		// "circular reference detected!"
-		TODO;
+		fprintf(stderr, ""
+			"maia: cannot resolve declarations with uses!" "\n"
+			"This may be caused by either a missing declaration, or a circular reference" "\n"
+		"");
+		exit(1);
 	}
 	
 	quack_foreach(raw_assertions, ({
@@ -380,12 +430,12 @@ void type_check(
 	
 	avl_free_tree(dependents);
 	
+	avl_free_tree(typed_forwards);
+	
 	free_quack(ready);
 	
 	EXIT;
 }
-
-
 
 
 

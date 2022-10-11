@@ -2,7 +2,7 @@
 
 
 %extra_field: primary_expression, "unsigned", kind;
-%extra_field: primary_expression, "struct type*", type, free_type();
+%extra_field: primary_expression, "struct type*", type;
 %extra_field: primary_expression, "struct value*", value, free_value();
 
 primary_expression
@@ -12,6 +12,7 @@ primary_expression
 	| `string` #string_literal
 	| `identifier` #identifier
 	| "len" #len '(' expression #args[] ')'
+	| "sum" #sum '(' expression #args[] ')'
 	| "map" #map '(' (expression #args[] (',' expression #args[])*)? ')'
 	| '(' #paren expression #elements[] (',' #tuple (expression #elements[] (',' expression #elements[])*)?)? ')'
 	| '[' #list (expression #elements[]  (',' expression #elements[])*)? ']'
@@ -97,22 +98,10 @@ logical_or_expression
 
 conditional_expression
 	: logical_or_expression #base
-	| logical_or_expression #base '?' expression #true_case ':' conditional_expression #false_case
+	| logical_or_expression #base '?' #qmark expression #true_case ':' conditional_expression #false_case
 	;
 
-primary_type
-	: "int" #int_type
-	| "char" #char_type
-	| "bool" #bool_type
-	| "float" #float_type
-	| `identifier` #grammar
-	| primary_type #array "[]"
-	| '(' #tuple (type #elements[] (',' type #elements[])*)? ')'
-	;
-
-type: primary_type #base
-	| '$' (type #args[] (',' type #args[])*)? ':' type #rettype
-	;
+%include "type.zb"
 
 %extra_field: lambda_expression, "struct unresolved*", lambda_captures, free_unresolved();
 

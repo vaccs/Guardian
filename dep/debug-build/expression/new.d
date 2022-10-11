@@ -11,5 +11,5 @@ bin/debug-build/./expression/new.o: expression/new.c debug.h \
  stringtree/append_tree.h stringtree/append_strndup.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h type/inc.h \
+ quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  expression/struct.h expression/kind.h expression/new.h

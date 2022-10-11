@@ -32,14 +32,26 @@ struct gbundle read_grammar_highest_name(
 		
 		dpvsn(token->data, token->len);
 		
-		struct string* tag = new_string_from_token(token);
-		
 		if (token->data[token->len - 1] == ']')
+		{
+			struct string* tag = new_string((char*) token->data + 1, token->len - 3);
+			
+			dpvs(tag);
+			
 			structinfo_add_field(structinfo, tag, name, snt_grammar_array);
+			
+			free_string(tag);
+		}
 		else
+		{
+			struct string* tag = new_string((char*) token->data + 1, token->len - 1);
+			
+			dpvs(tag);
+			
 			structinfo_add_field(structinfo, tag, name, snt_grammar_scalar);
-		
-		free_string(tag);
+			
+			free_string(tag);
+		}
 	}
 	
 	gegex_add_grammar_transition(start, name, structinfo, accepts);

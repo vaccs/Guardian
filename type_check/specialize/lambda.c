@@ -15,6 +15,10 @@
 #include <parameter/new.h>
 #include <parameter/free.h>
 
+#include <list/type/new.h>
+#include <list/type/append.h>
+#include <list/type/free.h>
+
 #include <list/parameter/new.h>
 #include <list/parameter/is_nonempty.h>
 #include <list/parameter/append.h>
@@ -47,6 +51,8 @@ struct expression* specialize_lambda_expression(
 	}
 	else if (zexpression->lambda)
 	{
+		struct type_list* parameter_types = new_type_list();
+		
 		struct parameter_list* parameters = new_parameter_list();
 		
 		if (zexpression->name)
@@ -58,6 +64,8 @@ struct expression* specialize_lambda_expression(
 			struct parameter* parameter = new_parameter(name, type);
 			
 			parameter_list_append(parameters, parameter);
+			
+			type_list_append(parameter_types, type);
 			
 			free_parameter(parameter);
 			
@@ -71,12 +79,14 @@ struct expression* specialize_lambda_expression(
 				{
 					struct type* new = build_type(tcache, raw_parameter->type);
 					
-					free_type(type), type = new;
+					type = new;
 				}
 				
 				struct string* name = new_string_from_token(raw_parameter->name);
 				
 				struct parameter* parameter = new_parameter(name, type);
+				
+				type_list_append(parameter_types, type);
 				
 				parameter_list_append(parameters, parameter);
 				
@@ -84,8 +94,6 @@ struct expression* specialize_lambda_expression(
 				
 				free_string(name);
 			}
-			
-			free_type(type);
 		}
 		
 		struct parameter_list* captured = new_parameter_list();
@@ -107,7 +115,7 @@ struct expression* specialize_lambda_expression(
 		
 		struct expression* body = specialize_lambda_expression(tcache, zexpression->lambda);
 		
-		struct type* type = type_cache_get_lambda_type(tcache, parameters, body->type);
+		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, body->type);
 	
 		if (parameter_list_is_nonempty(captured))
 		{
@@ -122,9 +130,11 @@ struct expression* specialize_lambda_expression(
 			free_value(new);
 		}
 		
-		free_type(type);
+		free_type_list(parameter_types);
+		
 		free_parameter_list(parameters);
 		free_parameter_list(captured);
+		
 		free_expression(body);
 	}
 	else

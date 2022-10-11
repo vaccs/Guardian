@@ -18,8 +18,6 @@ void free_expression(
 		
 		(this->inheritance->free)(this);
 		
-		free_type(this->type);
-		
 		free(this);
 	}
 	

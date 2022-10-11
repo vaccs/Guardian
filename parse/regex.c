@@ -74,7 +74,13 @@ struct rbundle process_regex(struct zebu_regex* regex)
 			
 			if (postfix->plus)
 			{
-				TODO;
+				regex_add_lambda_transition(retval.accepts, retval.start);
+				
+				struct regex* new_accepts = new_regex();
+				
+				regex_add_lambda_transition(retval.start, new_accepts);
+				
+				retval.accepts = new_accepts;
 			}
 			else if (postfix->qmark)
 			{

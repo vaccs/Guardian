@@ -50,7 +50,7 @@ static void resolve_variables_primary(
 		
 		free_string(name);
 	}
-	else if (expression->len || expression->map)
+	else if (expression->len || expression->map || expression->sum)
 	{
 		for (unsigned i = 0, n = expression->args.n; i < n; i++)
 		{
@@ -427,7 +427,8 @@ static void resolve_variables_conditional(
 	
 	if (expression->true_case)
 	{
-		TODO;
+		resolve_variables(unresolved, tcache, expression->true_case);
+		resolve_variables_conditional(unresolved, tcache, expression->false_case);
 	}
 	
 	EXIT;
@@ -463,7 +464,7 @@ static void resolve_variables_lambda(
 				{
 					struct type* new_type = build_type(tcache, expression->type);
 					
-					free_type(type), type = new_type;
+					type = new_type;
 				}
 				
 				struct string* name = new_string_from_token(parameter->name);
@@ -474,8 +475,6 @@ static void resolve_variables_lambda(
 			}
 			
 			free_string(name);
-			
-			free_type(type);
 		}
 		
 		expression->lambda_captures = inc_unresolved(subunresolved);
@@ -500,11 +499,6 @@ static void resolve_variables_possession(
 	ENTER;
 	
 	resolve_variables_lambda(unresolved, tcache, expression->base);
-	
-	if (expression->has)
-	{
-		TODO;
-	}
 	
 	EXIT;
 }

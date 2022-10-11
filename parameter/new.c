@@ -3,8 +3,6 @@
 
 #include <string/inc.h>
 
-#include <type/inc.h>
-
 #include "struct.h"
 #include "new.h"
 
@@ -18,7 +16,7 @@ struct parameter* new_parameter(
 	
 	this->name = inc_string(name);
 	
-	this->type = inc_type(type);
+	this->type = type;
 	
 	this->refcount = 1;
 	

@@ -12,5 +12,5 @@ bin/debug-build/./type/grammar/free.o: type/grammar/free.c debug.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- yacc/structinfo/free.h type/grammar/struct.h type/grammar/../struct.h \
- type/grammar/../kind.h type/grammar/free.h
+ list/parameter/free.h yacc/structinfo/free.h type/grammar/struct.h \
+ type/grammar/../struct.h type/grammar/../kind.h type/grammar/free.h

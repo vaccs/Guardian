@@ -1,5 +1,11 @@
 
-%skip: ' ' | '\t' | '\n' | "//" [!'\n']* '\n';
+%skip
+	: ' '
+	| '\t'
+	| '\n'
+	| "//" [!'\n']* '\n'
+	// | "/*" [!('*', '/')]* "*/"
+	;
 
 `char`: '\'' ([!('\'', '\\')] | '\\' .) '\'';
 
@@ -17,21 +23,18 @@
 
 %include "expression.zb"
 
-%include "using.zb"
-
-%include "skip.zb"
-
-%include "start.zb"
-
 %include "grammar.zb"
 
 %include "declare.zb"
+
+%include "directives.zb"
 
 %include "assertion.zb"
 
 %start: ( using_directive #usings[]
 	| skip_directive #skips[]
 	| start_directive #starts[]
+	| forward_directive #forwards[]
 	| grammar_rule #grammars[]
 	| value_declare #declares[]
 	| assertion #assertions[] )+;

@@ -2,7 +2,6 @@
 #include <debug.h>
 
 #include <type/int/new.h>
-#include <type/inc.h>
 
 #include "../struct.h"
 
@@ -21,6 +20,6 @@ struct type* type_cache_get_int_type(
 	}
 	
 	EXIT;
-	return inc_type(this->int_type);
+	return this->int_type;
 }
 

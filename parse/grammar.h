@@ -7,5 +7,4 @@ void process_grammar(
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
 	struct avl_tree_t* declares,
-	struct type_cache* tcache,
-	struct zebu_grammar_rule* entry);
+	struct zebu_grammar_rule* rule);

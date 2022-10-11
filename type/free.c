@@ -5,21 +5,16 @@
 #include "struct.h"
 #include "free.h"
 
-void free_type(void* ptr)
+void free_type2(struct type* this)
 {
 	ENTER;
 	
-	struct type* this = ptr;
+	assert(this->inheritance);
+	assert(this->inheritance->free);
 	
-	if (this && !--this->refcount)
-	{
-		assert(this->inheritance);
-		assert(this->inheritance->free);
-		
-		(this->inheritance->free)(this);
-		
-		free(this);
-	}
+	(this->inheritance->free)(this);
+	
+	free(this);
 	
 	EXIT;
 }

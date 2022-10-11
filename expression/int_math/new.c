@@ -33,8 +33,6 @@ struct expression* new_int_math_expression(
 	this->left = inc_expression(left);
 	this->right = inc_expression(right);
 	
-	free_type(type);
-	
 	EXIT;
 	return (void*) this;
 }

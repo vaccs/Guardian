@@ -1,9 +1,7 @@
 
 #include <debug.h>
 
-#include <list/parameter/inc.h>
-
-#include <type/inc.h>
+#include <list/type/inc.h>
 
 #include "../new.h"
 
@@ -13,7 +11,7 @@
 
 struct type* new_lambda_type(
 	unsigned id,
-	struct parameter_list* parameters,
+	struct type_list* parameters,
 	struct type* rettype)
 {
 	ENTER;
@@ -24,9 +22,9 @@ struct type* new_lambda_type(
 		&lambda_type_inheritance,
 		sizeof(*this));
 	
-	this->parameters = inc_parameter_list(parameters);
+	this->parameters = inc_type_list(parameters);
 	
-	this->rettype = inc_type(rettype);
+	this->rettype = rettype;
 	
 	EXIT;
 	return (void*) this;

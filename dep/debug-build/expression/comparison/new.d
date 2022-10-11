@@ -12,9 +12,8 @@ bin/debug-build/./expression/comparison/new.o: \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h type_cache/get_type/bool.h type/inc.h type/free.h \
- expression/comparison/../new.h expression/comparison/../kind.h \
- expression/comparison/../inc.h expression/comparison/struct.h \
- expression/comparison/../struct.h expression/comparison/kind.h \
- expression/comparison/inheritance.h \
+ quack/free.h type_cache/get_type/bool.h expression/comparison/../new.h \
+ expression/comparison/../kind.h expression/comparison/../inc.h \
+ expression/comparison/struct.h expression/comparison/../struct.h \
+ expression/comparison/kind.h expression/comparison/inheritance.h \
  expression/comparison/../inheritance.h expression/comparison/new.h

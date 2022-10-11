@@ -4,15 +4,13 @@
 #include <type/lambda/struct.h>
 #include <type/lambda/new.h>
 
-#include <type/inc.h>
-
 #include "../struct.h"
 
 #include "lambda.h"
 
 struct type* type_cache_get_lambda_type(
 	struct type_cache* this,
-	struct parameter_list* parameters,
+	struct type_list* parameters,
 	struct type* rettype)
 {
 	struct type* retval;
@@ -26,7 +24,7 @@ struct type* type_cache_get_lambda_type(
 	
 	if (node)
 	{
-		retval = inc_type(node->item);
+		retval = node->item;
 	}
 	else
 	{
@@ -34,7 +32,7 @@ struct type* type_cache_get_lambda_type(
 		
 		avl_insert(this->tree, lambda);
 		
-		retval = inc_type(lambda);
+		retval = lambda;
 	}
 	
 	EXIT;

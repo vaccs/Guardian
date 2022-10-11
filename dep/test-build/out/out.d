@@ -12,10 +12,18 @@ bin/test-build/./out/out.o: out/out.c debug.h memory/smalloc.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- quack/foreach.h assertion/print_source.h out/declare_queue/struct.h \
- out/declare_queue/new.h out/declare_queue/process.h \
- out/declare_queue/free.h out/set_queue/struct.h out/set_queue/new.h \
- out/set_queue/process.h out/set_queue/free.h out/function_queue/struct.h \
+ quack/foreach.h lex/state/struct.h yacc/state/struct.h \
+ assertion/print_source.h out/ystate_to_id/new.h \
+ out/ystate_to_id/ystate_to_id.h out/lstate_to_id/new.h \
+ out/lstate_to_id/lstate_to_id.h out/unsignedset_to_id/new.h \
+ out/unsignedset_to_id/unsignedset_to_id.h out/string_to_id/new.h \
+ out/string_to_id/string_to_id.h out/reducerule_to_id/new.h \
+ out/reducerule_to_id/reducerule_to_id.h out/dynvector/new.h \
+ out/dynvector/set.h out/dyntable/new.h out/dyntable/set.h \
+ out/declare_queue/struct.h out/declare_queue/new.h \
+ out/declare_queue/process.h out/declare_queue/free.h \
+ out/set_queue/struct.h out/set_queue/new.h out/set_queue/process.h \
+ out/set_queue/free.h out/function_queue/struct.h \
  out/function_queue/new.h out/function_queue/process.h \
  out/function_queue/free.h out/type_queue/struct.h out/type_queue/new.h \
  out/type_queue/process.h out/type_queue/free.h out/shared.h \

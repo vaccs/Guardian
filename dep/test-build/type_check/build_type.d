@@ -12,4 +12,6 @@ bin/test-build/./type_check/build_type.o: type_check/build_type.c debug.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- parse/parse.h type_cache/get_type/int.h type_check/build_type.h
+ parse/parse.h list/type/new.h list/type/append.h list/type/free.h \
+ type_cache/get_type/int.h type_cache/get_type/lambda.h \
+ type_cache/get_type/grammar.h type_check/build_type.h

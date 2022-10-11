@@ -12,7 +12,6 @@ void free_parameter(
 	if (this && !--this->refcount)
 	{
 		free_string(this->name);
-		free_type(this->type);
 		free(this);
 	}
 }

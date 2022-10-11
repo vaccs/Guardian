@@ -15,8 +15,6 @@ void free_value(struct value* this)
 		
 		(this->inheritance->free)(this);
 		
-		free_type(this->type);
-		
 		free(this);
 	}
 }

@@ -3,7 +3,6 @@
 
 #include "../struct.h"
 
-#include <type/inc.h>
 #include <type/bool/new.h>
 
 #include "bool.h"
@@ -21,7 +20,7 @@ struct type* type_cache_get_bool_type(
 	}
 	
 	EXIT;
-	return inc_type(this->bool_type);
+	return this->bool_type;
 }
 
 

@@ -16,6 +16,7 @@
 #include "parse.h"
 #include "driver.h"
 #include "grammar.h"
+#include "forward.h"
 #include "declare.h"
 #include "assertion.h"
 
@@ -103,6 +104,7 @@ void parse_driver(
 	struct lex* lex,
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
+	struct avl_tree_t* forwards,
 	struct avl_tree_t* declares,
 	struct quack* assertions,
 	struct type_cache* tcache,
@@ -158,7 +160,12 @@ void parse_driver(
 		
 		for (unsigned i = 0, n = start->grammars.n; i < n; i++)
 		{
-			process_grammar(lex, grammar, types, declares, tcache, start->grammars.data[i]);
+			process_grammar(lex, grammar, types, declares, start->grammars.data[i]);
+		}
+		
+		for (unsigned i = 0, n = start->forwards.n; i < n; i++)
+		{
+			process_forward(grammar, forwards, declares, start->forwards.data[i]);
 		}
 		
 		for (unsigned i = 0, n = start->declares.n; i < n; i++)

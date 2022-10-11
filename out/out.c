@@ -8,38 +8,32 @@
 /*#include <set/string/new.h>*/
 /*#include <set/string/free.h>*/
 
+#include <lex/state/struct.h>
+
+#include <yacc/state/struct.h>
+
 #include <assertion/print_source.h>
 
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_printf.h>*/
-/*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/append_strndup.h>*/
-/*#include <stringtree/free.h>*/
+#include "ystate_to_id/new.h"
+#include "ystate_to_id/ystate_to_id.h"
 
-/*#include <named/expression/struct.h>*/
+#include "lstate_to_id/new.h"
+#include "lstate_to_id/lstate_to_id.h"
 
-/*#include <expression/struct.h>*/
-/*#include <expression/print_source.h>*/
+#include "unsignedset_to_id/new.h"
+#include "unsignedset_to_id/unsignedset_to_id.h"
 
-/*#include <named/type/struct.h>*/
+#include "string_to_id/new.h"
+#include "string_to_id/string_to_id.h"
 
-/*#include <type/struct.h>*/
-/*#include <type/free.h>*/
+#include "reducerule_to_id/new.h"
+#include "reducerule_to_id/reducerule_to_id.h"
 
-/*#include <type_cache/get_type/list.h>*/
+#include "dynvector/new.h"
+#include "dynvector/set.h"
 
-/*#include "type_lookup/new.h"*/
-/*#include "type_lookup/lookup.h"*/
-/*#include "type_lookup/calc_rank.h"*/
-/*#include "type_lookup/free.h"*/
-
-/*#include "function_lookup/new.h"*/
-/*#include "function_lookup/lookup_new.h"*/
-/*#include "function_lookup/lookup_free.h"*/
-/*#include "function_lookup/calc_rank.h"*/
-/*#include "function_lookup/free.h"*/
-
-/*#include "type/struct.h"*/
+#include "dyntable/new.h"
+#include "dyntable/set.h"
 
 #include "declare_queue/struct.h"
 #include "declare_queue/new.h"
@@ -68,10 +62,158 @@
 struct stringtree* out(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
-	struct avl_tree_t* typed_declares,
-	struct quack* assertions)
+	struct avl_tree_t* declares,
+	struct quack* assertions,
+	struct yacc_state* yacc_start)
 {
 	ENTER;
+	
+	struct ystate_to_id* ytoi = new_ystate_to_id();
+	
+	struct lstate_to_id* ltoi = new_lstate_to_id();
+	
+	struct unsignedset_to_id* ustoi = new_unsignedset_to_id();
+	
+	struct string_to_id* stoi = new_string_to_id();
+	
+	struct reducerule_to_id* rrtoi = new_reducerule_to_id();
+	
+	struct dyntable*  lexer   = new_dyntable("lexer_transitions");
+	struct dynvector* starts  = new_dynvector("lexer_starts");
+	struct dynvector* accepts = new_dynvector("lexer_accepts");
+	struct dynvector* EOFs    = new_dynvector("lexer_EOFs");
+	
+	struct dyntable* shifts  = new_dyntable("shifts");
+	struct dyntable* reduces = new_dyntable("reduces");
+	struct dyntable* gotos   = new_dyntable("gotos");
+	
+	struct quack* yacc_todo = new_quack();
+	struct quack* lex_todo = new_quack();
+	
+	struct ptrset* yacc_queued = new_ptrset();
+	struct ptrset* lex_queued = new_ptrset();
+	
+	ptrset_add(yacc_queued, yacc_start);
+	quack_append(yacc_todo, yacc_start);
+	
+	while (quack_is_nonempty(yacc_todo))
+	{
+		struct yacc_state* const state = quack_pop(yacc_todo);
+		
+		unsigned yid = ystate_to_id(ytoi, state);
+		
+		dpv(yid);
+		
+		// tokenizer:
+		{
+			struct lex_state* lstate = state->tokenizer_start;
+			
+			unsigned lid = lstate_to_id(ltoi, lstate);
+			
+			dpv(lid);
+			
+			if (ptrset_add(lex_queued, lstate))
+				quack_append(lex_todo, lstate);
+			
+			dynvector_set(starts, yid, lid);
+		}
+		
+		// shift transitions:
+		for (unsigned i = 0, n = state->transitions.n; i < n; i++)
+		{
+			struct yacc_state_transition* const ele = state->transitions.data[i];
+			
+			unsigned tid = unsignedset_to_id(ustoi, ele->on);
+			
+			unsigned syid = ystate_to_id(ytoi, ele->to);
+			
+			dyntable_set(shifts, yid, tid, syid);
+			
+			if (ptrset_add(yacc_queued, ele->to))
+				quack_append(yacc_todo, ele->to);
+		}
+		
+		// grammar transitions:
+		for (unsigned i = 0, n = state->grammar_transitions.n; i < n; i++)
+		{
+			struct yacc_state_grammar_transition* const ele = state->grammar_transitions.data[i];
+			
+			dpvs(ele->grammar);
+			
+			unsigned gid = string_to_id(stoi, ele->grammar);
+			
+			unsigned syid = ystate_to_id(ytoi, ele->to);
+			
+			dyntable_set(gotos, yid, gid, syid);
+			
+			if (ptrset_add(yacc_queued, ele->to))
+				quack_append(yacc_todo, ele->to);
+		}
+		
+		// reduce transitions:
+		for (unsigned i = 0, n = state->reduce_transitions.n; i < n; i++)
+		{
+			struct yacc_state_reduce_transition* const ele = state->reduce_transitions.data[i];
+			
+			unsigned tid = unsignedset_to_id(ustoi, ele->on);
+			
+			unsigned rrid = reducerule_to_id(rrtoi, ele->reduce_as, ele->grammar, ele->reductioninfo, ele->structinfo);
+			
+			dyntable_set(reduces, yid, tid, rrid);
+		}
+	}
+	
+	while (quack_is_nonempty(lex_todo))
+	{
+		struct lex_state* const state = quack_pop(lex_todo);
+		
+		unsigned lid = lstate_to_id(ltoi, state);
+		
+		dpv(lid);
+		
+		if (state->accepts)
+		{
+			if (state->kind == tk_whitespace)
+			{
+				dynvector_set(accepts, lid, 1);
+			}
+			else
+			{
+				unsigned tid = unsignedset_to_id(ustoi, state->accepts);
+				
+				dpv(tid);
+				
+				dynvector_set(accepts, lid, tid);
+			}
+		}
+		
+		for (unsigned i = 0, n = 256; i < n; i++)
+		{
+			struct lex_state* to = state->transitions[i];
+			
+			if (to)
+			{
+				unsigned slid = lstate_to_id(ltoi, to);
+				
+				dyntable_set(lexer, lid, i, slid);
+				
+				if (ptrset_add(lex_queued, to))
+					quack_append(lex_todo, to);
+			}
+		}
+		
+		if (state->EOF_transition_to)
+		{
+			struct lex_state* to = state->EOF_transition_to;
+			
+			unsigned slid = lstate_to_id(ltoi, to);
+			
+			dynvector_set(EOFs, lid, slid);
+			
+			if (ptrset_add(lex_queued, to))
+				quack_append(lex_todo, to);
+		}
+	}
 	
 	struct out_shared shared;
 	
@@ -99,7 +241,7 @@ struct stringtree* out(
 		runme;
 	}));
 	
-	declare_queue_process(shared.dqueue, typed_declares, &shared);
+	declare_queue_process(shared.dqueue, declares, &shared);
 	
 	set_queue_process(shared.squeue, tcache, grammar_types, &shared);
 	
@@ -115,16 +257,6 @@ struct stringtree* out(
 	function_queue_process(shared.fqueue);
 	
 	type_queue_process(shared.tqueue);
-	
-	#if 0
-	struct stringtree* shift_table_text = new_stringtree();
-	struct stringtree* reduce_table_text = new_stringtree();
-	struct stringtree* goto_table_text = new_stringtree();
-	struct stringtree* lexer_table_text = new_stringtree();
-	
-	// generate parse table text
-	TODO;
-	#endif
 	
 	struct stringtree* root = new_stringtree();
 	
@@ -158,7 +290,7 @@ struct stringtree* out(
 				TODO;
 /*				dyntable_print_source(gotos, output_prefix, stream);*/
 			}
-			else if (!strncmp(old, "LEXER_TABLE", len))
+			else if (!strncmp(old, "LEXER_TRANSITION_TABLE", len))
 			{
 				TODO;
 /*				dyntable_print_source(lexer, output_prefix, stream);*/
@@ -239,6 +371,35 @@ struct stringtree* out(
 	free_declare_queue(shared.dqueue);
 	
 	free_stringtree(assertions_text);
+	
+	TODO;
+	#if 0
+	free_reducerule_to_id(rrtoi);
+	
+	free_unsignedset_to_id(ustoi);
+	
+	free_ptrset(yacc_queued);
+	
+	free_ptrset(lex_queued);
+	
+	free_string_to_id(stoi);
+	
+	free_ystate_to_id(ytoi);
+	
+	free_lstate_to_id(ltoi);
+	
+	free_dynvector(starts);
+	free_dynvector(EOFs);
+	free_dynvector(accepts);
+	
+	free_dyntable(lexer);
+	free_dyntable(shifts);
+	free_dyntable(reduces);
+	free_dyntable(gotos);
+	
+	free_quack(yacc_todo);
+	free_quack(lex_todo);
+	#endif
 	
 	EXIT;
 	return root;

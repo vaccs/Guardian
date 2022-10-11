@@ -15,7 +15,8 @@ bin/debug-build/./type_check/specialize/lambda.o: \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  parse/parse.h named/type/new.h named/type/compare.h named/type/free.h \
  type/free.h value/lambda/new.h value/free.h parameter/new.h \
- parameter/free.h list/parameter/new.h list/parameter/is_nonempty.h \
+ parameter/free.h list/type/new.h list/type/append.h list/type/free.h \
+ list/parameter/new.h list/parameter/is_nonempty.h \
  list/parameter/append.h list/parameter/free.h \
  type_cache/get_type/lambda.h expression/struct.h expression/kind.h \
  expression/lambda/new.h expression/literal/new.h expression/free.h \

@@ -13,5 +13,5 @@ bin/test-build/./type_cache/get_type/list.o: type_cache/get_type/list.c \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  type/list/struct.h type/list/../struct.h type/list/../kind.h \
- type/list/new.h type/inc.h type_cache/get_type/../struct.h \
+ type/list/new.h type_cache/get_type/../struct.h \
  type_cache/get_type/list.h

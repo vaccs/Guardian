@@ -134,7 +134,7 @@ keyvalue: string #key ':' value #value;
 
 dict: '{' (keyvalue #entries[] (',' keyvalue #entries[])*)? '}';
 
-value: boolean | integer | string | list | dict;
+value: boolean #b | integer #i | string #s | list #l | dict #d;
 
 %start: value;
 

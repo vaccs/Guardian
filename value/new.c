@@ -1,8 +1,6 @@
 
 #include <debug.h>
 
-#include <type/inc.h>
-
 #include "struct.h"
 #include "new.h"
 
@@ -18,7 +16,7 @@ struct value* new_value(
 	
 	struct value* this = smalloc(alloc_size);
 	
-	this->type = inc_type(type);
+	this->type = type;
 	
 	this->kind = kind;
 	

@@ -2,7 +2,6 @@
 #include <debug.h>
 
 #include "../new.h"
-#include "../inc.h"
 
 #include "struct.h"
 #include "inheritance.h"
@@ -20,7 +19,7 @@ struct type* new_list_type(
 		&list_type_inheritance,
 		sizeof(*this));
 	
-	this->element_type = inc_type(element_type);
+	this->element_type = element_type;
 	
 	EXIT;
 	return (void*) this;

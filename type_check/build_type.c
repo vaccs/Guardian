@@ -3,7 +3,13 @@
 
 #include <parse/parse.h>
 
+#include <list/type/new.h>
+#include <list/type/append.h>
+#include <list/type/free.h>
+
 #include <type_cache/get_type/int.h>
+#include <type_cache/get_type/lambda.h>
+#include <type_cache/get_type/grammar.h>
 
 #include "build_type.h"
 
@@ -25,7 +31,15 @@ static struct type* helper(
 	}
 	else if (type->grammar)
 	{
-		TODO;
+		struct string* tokenstring = new_string_from_token(type->grammar);
+		
+		dpvs(tokenstring);
+		
+		struct type* retval = type_cache_get_grammar_type(tcache, tokenstring);
+		
+		free_string(tokenstring);
+		
+		return retval;
 	}
 	else if (type->array)
 	{
@@ -49,9 +63,26 @@ struct type* build_type(
 	{
 		return helper(tcache, type->base);
 	}
-	else if (type->rettype)
+	else if (type->lambda)
 	{
-		TODO;
+		// '$' #lambda (type #args[] (',' type #args[])*)? ':' type #rettype
+		
+		struct type_list* tlist = new_type_list();
+		
+		for (unsigned i = 0, n = type->args.n; i < n; i++)
+		{
+			struct type* arg = build_type(tcache, type->args.data[i]);
+			
+			type_list_append(tlist, arg);
+		}
+		
+		struct type* rettype = build_type(tcache, type->rettype);
+		
+		struct type* returnme = type_cache_get_lambda_type(tcache, tlist, rettype);
+		
+		free_type_list(tlist);
+		
+		return returnme;
 	}
 	else
 	{

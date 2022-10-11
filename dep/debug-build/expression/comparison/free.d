@@ -12,7 +12,7 @@ bin/debug-build/./expression/comparison/free.o: \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h type/free.h expression/comparison/../free.h \
+ quack/free.h expression/comparison/../free.h \
  expression/comparison/struct.h expression/comparison/../struct.h \
  expression/comparison/../kind.h expression/comparison/kind.h \
  expression/comparison/free.h

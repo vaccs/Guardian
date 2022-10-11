@@ -1,2 +1,3 @@
 
-void free_type(void* type);
+void free_type2(struct type* this);
+

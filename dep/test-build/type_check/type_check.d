@@ -16,12 +16,14 @@ bin/test-build/./type_check/type_check.o: type_check/type_check.c debug.h \
  value/bool/struct.h value/bool/../struct.h value/bool/../kind.h \
  type/struct.h type/kind.h type/free.h expression/print.h \
  expression/struct.h expression/kind.h expression/literal/struct.h \
- expression/literal/../struct.h expression/free.h named/type/struct.h \
+ expression/literal/../struct.h expression/free.h \
+ named/zebu_type/struct.h named/type/struct.h named/type/new.h \
  named/expression/struct.h named/expression/new.h \
- named/zebu_expression/struct.h parse/assertion/struct.h \
- type_cache/get_type/list.h type_check/resolve_variables.h \
- type_check/unresolved/new.h type_check/unresolved/inc.h \
- type_check/unresolved/len.h type_check/unresolved/resolve.h \
- expression/variable/kind.h type_check/unresolved/foreach.h \
- type_check/unresolved/is_nonempty.h type_check/unresolved/free.h \
- type_check/specialize/expression.h type_check/type_check.h
+ named/zebu_expression/struct.h named/type/compare.h named/type/free.h \
+ parse/assertion/struct.h type_cache/get_type/list.h \
+ type_check/resolve_variables.h type_check/unresolved/new.h \
+ type_check/unresolved/inc.h type_check/unresolved/len.h \
+ type_check/unresolved/resolve.h expression/variable/kind.h \
+ type_check/unresolved/foreach.h type_check/unresolved/is_nonempty.h \
+ type_check/unresolved/free.h type_check/specialize/expression.h \
+ type_check/build_type.h type_check/type_check.h

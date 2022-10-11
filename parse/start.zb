@@ -1,5 +1,0 @@
-
-%include "grammar.zb"
-
-start_directive: "%" "start" ":" grammar #grammar ';';
-

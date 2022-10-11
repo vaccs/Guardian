@@ -1,4 +1,0 @@
-
-%include "regex.zb"
-
-skip_directive: "%" "skip" ":" regex #regex ';';

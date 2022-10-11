@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <list/parameter/new.h>
+
 #include <yacc/structinfo/inc.h>
 
 #include "../new.h"
@@ -11,7 +13,7 @@
 
 struct type* new_grammar_type(
 	unsigned id,
-	struct structinfo* structinfo)
+	struct string* name)
 {
 	ENTER;
 	
@@ -21,7 +23,9 @@ struct type* new_grammar_type(
 		&grammar_type_inheritance,
 		sizeof(*this));
 	
-	this->structinfo = inc_structinfo(structinfo);
+	this->name = inc_string(name);
+	
+	this->fields = new_parameter_list();
 	
 	EXIT;
 	return (void*) this;

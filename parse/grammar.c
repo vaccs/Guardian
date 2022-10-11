@@ -10,11 +10,11 @@
 
 #include <named/grammar/new.h>
 
-#include <named/type/new.h>
+#include <named/structinfo/new.h>
 
-#include <type_cache/get_type/grammar.h>
+/*#include <type_cache/get_type/grammar.h>*/
 
-#include <type/free.h>
+/*#include <type/free.h>*/
 
 #include "grammar/3.root.h"
 
@@ -26,7 +26,6 @@ void process_grammar(
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
 	struct avl_tree_t* declares,
-	struct type_cache* tcache,
 	struct zebu_grammar_rule* rule)
 {
 	ENTER;
@@ -51,11 +50,9 @@ void process_grammar(
 	
 	struct structinfo* structinfo = gegex_combine_structinfos(simp);
 	
-	struct type* type = type_cache_get_grammar_type(tcache, structinfo);
-	
 	avl_insert(grammar, new_named_grammar(name, simp));
 	
-	avl_insert(types, new_named_type(name, type));
+	avl_insert(types, new_named_structinfo(name, structinfo));
 	
 	free_structinfo(structinfo);
 	
@@ -64,8 +61,6 @@ void process_grammar(
 	free_string(name);
 	
 	free_gegex(dfa);
-	
-	free_type(type);
 	
 	EXIT;
 }

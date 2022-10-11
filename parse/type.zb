@@ -1,0 +1,16 @@
+
+primary_type
+	: "int" #int_type
+	| "char" #char_type
+	| "bool" #bool_type
+	| "float" #float_type
+	| `identifier` #grammar
+	| primary_type #array "[]"
+	| '(' #paren type #elements[] (',' #tuple (type #elements[] (',' type #elements[])*)?)? ')'
+	;
+
+type
+	: primary_type #base
+	| '$' #lambda (type #args[] (',' type #args[])*)? ':' type #rettype
+	;
+

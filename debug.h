@@ -69,6 +69,7 @@
 	struct out_type;
 	struct out_function;
 	struct type_lookup;
+	struct type_list;
 	struct function_lookup;
 	struct declare_queue;
 	struct function_queue;

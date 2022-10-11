@@ -52,14 +52,30 @@ struct gbundle read_grammar_highest_regex(
 		
 		dpvsn(token->data, token->len);
 		
-		struct string* tag = new_string_from_token(token);
-		
 		if (token->data[token->len - 1] == ']')
+		{
+			TODO;
+			#if 0
+			struct string* tag = new_string_from_token(token);
 			structinfo_add_field(structinfo, tag, NULL, snt_token_array);
+			free_string(tag);
+			#endif
+		}
 		else
-			structinfo_add_field(structinfo, tag, NULL, snt_token_scalar);
-		
-		free_string(tag);
+		{
+			struct string* tag = new_string((char*) token->data + 1, token->len - 1);
+			
+			if (highest->format)
+			{
+				TODO;
+			}
+			else
+			{
+				structinfo_add_field(structinfo, tag, NULL, snt_token_scalar);
+			}
+			
+			free_string(tag);
+		}
 	}
 	
 	gegex_add_transition(start, token_id, structinfo, end);

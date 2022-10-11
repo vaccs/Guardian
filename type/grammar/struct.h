@@ -5,6 +5,8 @@ struct grammar_type
 {
 	struct type super;
 	
-	struct structinfo* structinfo;
+	struct string* name;
+	
+	struct parameter_list* fields;
 };
 

@@ -23,8 +23,14 @@
 #include <named/zebu_expression/compare.h>
 #include <named/zebu_expression/free.h>
 
+#include <named/zebu_type/compare.h>
+#include <named/zebu_type/free.h>
+
 #include <named/expression/compare.h>
 #include <named/expression/free.h>
+
+#include <named/structinfo/compare.h>
+#include <named/structinfo/free.h>
 
 #include <quack/new.h>
 #include <quack/foreach.h>
@@ -36,6 +42,7 @@
 #include <type_cache/new.h>
 #include <type_cache/free.h>
 
+#include <type_check/specialize_grammar_types.h>
 #include <type_check/type_check.h>
 
 #include <yacc/yacc.h>
@@ -66,21 +73,34 @@ int main(int argc, char* const* argv)
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	
-	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
+	struct avl_tree_t* structinfos = avl_alloc_tree(compare_named_structinfos, free_named_structinfo);
+	
+	struct avl_tree_t* raw_forwards = avl_alloc_tree(compare_named_zebu_types, free_named_zebu_type);
 	
 	struct avl_tree_t* raw_declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
 	
-	parse_driver(lex, grammar, types, raw_declares, raw_assertions, tcache, flags->input_path);
+	parse_driver(lex, grammar, structinfos, raw_forwards, raw_declares, raw_assertions, tcache, flags->input_path);
+	
+	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
+	
+	specialize_grammar_types(types, tcache, structinfos);
 	
 	struct quack* typed_assertions = new_quack();
 	
 	struct avl_tree_t* typed_declares = avl_alloc_tree(compare_named_expressions, free_named_expression);
 	
-	type_check(tcache, types, typed_declares, typed_assertions, raw_declares, raw_assertions);
+	type_check(tcache, types, typed_declares, typed_assertions, raw_forwards, raw_declares, raw_assertions);
 	
-	struct yacc_state* start = yacc(lex, grammar);
+	TODO;
+	#if 0
+	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
-	struct stringtree* content = out(tcache, types, typed_declares, typed_assertions);
+	struct stringtree* content = out(
+		tcache,
+		types,
+		typed_declares,
+		typed_assertions,
+		start);
 	
 	FILE* stream = fopen(flags->output_path, "w");
 	
@@ -120,6 +140,8 @@ int main(int argc, char* const* argv)
 	
 	avl_free_tree(raw_declares);
 	
+	avl_free_tree(structinfos);
+	
 	free_type_cache(tcache);
 	
 	avl_free_tree(grammar);
@@ -132,6 +154,7 @@ int main(int argc, char* const* argv)
 	
 	EXIT;
 	return 0;
+	#endif
 }
 
 

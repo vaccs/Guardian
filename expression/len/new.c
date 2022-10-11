@@ -29,8 +29,6 @@ struct expression* new_len_expression(
 	
 	this->list = inc_expression(list);
 	
-	free_type(type);
-	
 	EXIT;
 	return (void*) this;
 }

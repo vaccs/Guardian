@@ -3,9 +3,6 @@
 
 #include <type_cache/get_type/bool.h>
 
-#include <type/inc.h>
-#include <type/free.h>
-
 #include "../new.h"
 #include "../inc.h"
 
@@ -36,9 +33,7 @@ struct expression* new_comparison_expression(
 	this->left = inc_expression(left);
 	this->right = inc_expression(right);
 	
-	this->type = inc_type(left->type);
-	
-	free_type(type);
+	this->type = left->type;
 	
 	EXIT;
 	return (void*) this;

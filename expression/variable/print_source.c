@@ -45,6 +45,10 @@ struct stringtree* variable_expression_print_source(
 		case vek_grammar_rule:
 			set_queue_submit(shared->squeue, this->name);
 			break;
+		
+		default:
+			TODO;
+			break;
 	}
 	
 	type_queue_submit(shared->tqueue, super->type);

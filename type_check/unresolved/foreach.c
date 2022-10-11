@@ -22,13 +22,16 @@ void unresolved_foreach(
 	
 	while (current)
 	{
+		dpv(current);
+		dpv(next);
+		
 		struct unresolved_node* node = current->item;
 		
 		runme(node->name);
 		
 		current = next;
 		
-		if (current && current->next)
+		if (current)
 			next = current->next;
 	}
 	

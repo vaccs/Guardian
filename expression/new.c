@@ -1,8 +1,6 @@
 
 #include <debug.h>
 
-#include <type/inc.h>
-
 #include "struct.h"
 #include "new.h"
 
@@ -20,7 +18,7 @@ struct expression* new_expression(
 	
 	this->inheritance = inheritance;
 	
-	this->type = inc_type(type);
+	this->type = type;
 	
 	this->refcount = 1;
 	

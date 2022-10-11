@@ -62,8 +62,6 @@ struct expression* specialize_equality_expression(
 			retval = new_literal_expression(value);
 			
 			free_value(value);
-			
-			free_type(type);
 		}
 		else
 		{

@@ -23,5 +23,5 @@ bin/debug-build/./yacc/yacc.o: yacc/yacc.c debug.h memory/smalloc.h \
  yacc/stateinfo/free.h yacc/stateinfo/foreach.h yacc/structinfo/free.h \
  yacc/state/struct.h yacc/state/new.h yacc/state/add_transition.h \
  yacc/state/add_reduce_transition.h yacc/state/add_grammar_transition.h \
- yacc/build_tries.h yacc/build_structinfo.h yacc/expand_stateinfo.h \
- yacc/calc_firsts.h yacc/yacc.h
+ yacc/build_tries.h yacc/expand_stateinfo.h yacc/calc_firsts.h \
+ yacc/yacc.h

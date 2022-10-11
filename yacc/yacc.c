@@ -49,7 +49,6 @@
 #include "state/add_grammar_transition.h"
 
 #include "build_tries.h"
-#include "build_structinfo.h"
 #include "expand_stateinfo.h"
 #include "calc_firsts.h"
 #include "yacc.h"
@@ -377,6 +376,7 @@ static void shift_reduce_error(
 
 struct yacc_state* yacc(
 	struct lex* lex,
+	struct avl_tree_t* structinfos,
 	struct avl_tree_t* grammar)
 {
 	ENTER;
@@ -392,11 +392,14 @@ struct yacc_state* yacc(
 			
 			dpvs(name);
 			
+			TODO;
+			#if 0
 			struct structinfo* structinfo = build_structinfo(name, grammar_rule->grammar);
 			
 			build_tries(named_tries, name, grammar_rule->grammar, structinfo);
 			
 			free_structinfo(structinfo);
+			#endif
 		}
 		runme;
 	}));

@@ -13,8 +13,6 @@ void free_list_type(
 	
 	struct list_type* this = (void*) super;
 	
-	free_type(this->element_type);
-	
 	EXIT;
 }
 

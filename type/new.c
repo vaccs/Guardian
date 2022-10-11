@@ -22,8 +22,6 @@ struct type* new_type(
 	
 	this->inheritance = inheritance;
 	
-	this->refcount = 1;
-	
 	EXIT;
 	return this;
 }

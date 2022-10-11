@@ -13,13 +13,14 @@
 #include <expression/literal/new.h>
 #include <expression/funccall/new.h>
 #include <expression/list_index/new.h>
+#include <expression/fieldaccess/new.h>
 #include <expression/free.h>
 
 #include <list/expression/struct.h>
 
-#include <list/parameter/struct.h>
+#include <list/type/struct.h>
 
-#include <parameter/struct.h>
+/*#include <parameter/struct.h>*/
 
 #include <mpz/struct.h>
 
@@ -29,6 +30,8 @@
 #include <list/value/free.h>
 
 #include <type/lambda/struct.h>
+
+#include <type/grammar/get_field.h>
 
 #include <value/integer/struct.h>
 #include <value/list/struct.h>
@@ -121,7 +124,27 @@ struct expression* specialize_postfix_expression(
 		}
 		else if (zexpression->field)
 		{
-			TODO;
+			if (sub->type->kind != tk_grammar)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			struct grammar_type* subtype = (void*) sub->type;
+			
+			struct string* fieldname = new_string_from_token(zexpression->field);
+			
+			struct type* fieldtype = grammar_type_get_field(subtype, fieldname);
+			
+			if (!fieldtype)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			retval = new_fieldaccess_expression(fieldtype, sub, fieldname);
+			
+			free_string(fieldname);
 		}
 		else if (zexpression->call)
 		{
@@ -136,6 +159,7 @@ struct expression* specialize_postfix_expression(
 			if (lambda_type->parameters->n != zexpression->args.n)
 			{
 				TODO;
+				exit(1);
 			}
 			
 			struct expression_list* arguments = new_expression_list();
@@ -149,7 +173,7 @@ struct expression* specialize_postfix_expression(
 				if (arg->kind != ek_literal)
 					all_literals = false;
 				
-				if (lambda_type->parameters->data[i]->type != arg->type)
+				if (lambda_type->parameters->data[i] != arg->type)
 				{
 					TODO;
 					exit(1);
@@ -162,6 +186,8 @@ struct expression* specialize_postfix_expression(
 			
 			if (all_literals)
 			{
+				TODO;
+				#if 0
 				struct literal_expression* spef = (void*) sub;
 				
 				struct lambda_value* lambda = (void*) spef->value;
@@ -188,6 +214,7 @@ struct expression* specialize_postfix_expression(
 				free_value(result);
 				
 				free_value_list(valargs);
+				#endif
 			}
 			else
 			{

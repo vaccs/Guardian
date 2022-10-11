@@ -12,6 +12,6 @@ bin/debug-build/./type/lambda/new.o: type/lambda/new.c debug.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- list/parameter/inc.h type/inc.h type/lambda/../new.h \
- type/lambda/../kind.h type/lambda/struct.h type/lambda/../struct.h \
- type/lambda/inheritance.h type/lambda/../inheritance.h type/lambda/new.h
+ list/type/inc.h type/lambda/../new.h type/lambda/../kind.h \
+ type/lambda/struct.h type/lambda/../struct.h type/lambda/inheritance.h \
+ type/lambda/../inheritance.h type/lambda/new.h

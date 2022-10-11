@@ -3,7 +3,6 @@
 
 #include <type/list/struct.h>
 #include <type/list/new.h>
-#include <type/inc.h>
 
 #include "../struct.h"
 
@@ -23,7 +22,7 @@ struct type* type_cache_get_list_type(
 	
 	if (node)
 	{
-		retval = inc_type(node->item);
+		retval = node->item;
 	}
 	else
 	{
@@ -31,7 +30,7 @@ struct type* type_cache_get_list_type(
 		
 		avl_insert(this->tree, list);
 		
-		retval = inc_type(list);
+		retval = list;
 	}
 	
 	EXIT;

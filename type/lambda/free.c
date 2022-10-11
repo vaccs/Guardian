@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <list/parameter/free.h>
+#include <list/type/free.h>
 
 #include "../free.h"
 
@@ -15,9 +15,7 @@ void free_lambda_type(
 	
 	struct lambda_type* this = (void*) super;
 	
-	free_parameter_list(this->parameters);
-	
-	free_type(this->rettype);
+	free_type_list(this->parameters);
 	
 	EXIT;
 }

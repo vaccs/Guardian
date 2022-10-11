@@ -1,8 +1,10 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
+/*#include <yacc/structinfo/print_source.h>*/
+
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
 
 #include "struct.h"
 #include "generate_typedef.h"
@@ -13,17 +15,14 @@ struct stringtree* grammar_type_generate_typedef(
 {
 	ENTER;
 	
-	struct stringtree* tree = new_stringtree();
+	TODO;
+	#if 0
+	struct grammar_type* this = (void*) super;
 	
-	dpv(super->id);
-	
-	stringtree_append_printf(tree, ""
-		"typedef struct {"
-			"unsigned refcount;"
-		"} type_%u;"
-	"", super->id);
+	struct stringtree* tree = structinfo_print_source(this->structinfo, super->id);
 	
 	EXIT;
 	return tree;
+	#endif
 }
 

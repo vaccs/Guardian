@@ -1,0 +1,17 @@
+
+%include "regex.zb"
+
+%include "grammar.zb"
+
+%include "expression.zb"
+
+%include "type.zb"
+
+forward_directive: "%" "forward" ":" `identifier` #name '=' type #type ';';
+
+start_directive: "%" "start" ":" grammar #grammar ';';
+
+skip_directive: "%" "skip" ":" regex #regex ';';
+
+using_directive: "%" "using" `string` #path ';';
+

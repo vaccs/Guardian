@@ -13,5 +13,7 @@ bin/debug-build/./type_check/specialize/conditional.o: \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- parse/parse.h type_check/specialize/logical_or.h \
- type_check/specialize/conditional.h
+ parse/parse.h type/struct.h type/kind.h type/print.h expression/struct.h \
+ expression/kind.h expression/free.h expression/print.h \
+ expression/ternary/new.h type_check/specialize/expression.h \
+ type_check/specialize/logical_or.h type_check/specialize/conditional.h

@@ -56,8 +56,6 @@ void set_queue_process(
 		stringtree_append_printf(this->uninit_text, ""
 			"func_%u(%.*s);"
 		"", free_id, name->len, name->chars);
-		
-		free_type(ltype);
 	}
 	
 	EXIT;

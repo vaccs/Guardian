@@ -56,6 +56,8 @@ struct gbundle read_grammar_highest_string(
 		
 		dpvsn(token->data, token->len);
 		
+		TODO;
+		#if 0
 		struct string* tag = new_string_from_token(token);
 		
 		if (token->data[token->len - 1] == ']')
@@ -64,6 +66,7 @@ struct gbundle read_grammar_highest_string(
 			structinfo_add_field(structinfo, tag, NULL, snt_token_scalar);
 		
 		free_string(tag);
+		#endif
 	}
 	
 	gegex_add_transition(start, token_id, structinfo, end);

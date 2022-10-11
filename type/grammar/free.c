@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <list/parameter/free.h>
+
 #include <yacc/structinfo/free.h>
 
 #include "struct.h"
@@ -13,7 +15,9 @@ void free_grammar_type(
 	
 	struct grammar_type* this = (void*) super;
 	
-	free_structinfo(this->structinfo);
+	free_string(this->name);
+	
+	free_parameter_list(this->fields);
 	
 	EXIT;
 }

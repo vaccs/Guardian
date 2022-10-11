@@ -62,7 +62,8 @@ ARGS += -m
 #ARGS += --minimize-lexer
 
 #ARGS += -i ./examples/const-folding.maia
-ARGS += -i ./examples/json.maia
+#ARGS += -i ./examples/json.maia
+ARGS += -i ./examples/math.maia
 
 ARGS += -o /tmp/out.c
 

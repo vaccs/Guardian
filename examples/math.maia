@@ -1,0 +1,51 @@
+
+%skip: ' ' | '\t' | '\n';
+
+highest: /'-'? ['0'-'9']+ :"%i"/ #literal | '(' root #subexp ')';
+
+multiplicative: highest #base ('*' highest #multmes[] | '/' highest #divmes[])*;
+
+additive: multiplicative #base ('+' multiplicative #addmes[] | '-' multiplicative #submes[])*;
+
+root: additive #exp;
+
+%start: root #root;
+
+%forward: eval_root = $root: int;
+
+eval_highest = $highest h: (h has literal)
+	? h.literal
+	: eval_root(h.subexp)
+	;
+
+eval_multiply = $multiplicative m: eval_highest(a.base)
+	* product(map(eval_highest, a.multmes))
+	/ product(map(eval_highest, a.divmes))
+	;
+
+eval_add = $additive a: eval_multiply(a.base)
+	+ sum(map(eval_multiply, a.addmes))
+	- sum(map(eval_multiply, a.submes))
+	;
+
+eval_root = $root r: eval_add(r.exp);
+
+%error: eval_root(root[0]) != 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

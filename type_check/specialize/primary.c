@@ -64,8 +64,6 @@ static struct expression* specialize_primary_integer_expression(
 	
 	free_value(value);
 	
-	free_type(type);
-	
 	free_mpz(mpz);
 	
 	EXIT;
@@ -165,8 +163,6 @@ static struct expression* specialize_primary_list_expression(
 		retval = new_list_expression(type, elements);
 	}
 	
-	free_type(type);
-	
 	free_expression_list(elements);
 	
 	EXIT;
@@ -239,6 +235,8 @@ static struct expression* specialize_primary_map_expression(
 	
 	raw_arguments++, raw_len--;
 	
+	TODO;
+	#if 0
 	if (lambda_type->parameters->n != raw_len)
 	{
 		TODO;
@@ -316,10 +314,9 @@ static struct expression* specialize_primary_map_expression(
 	
 	free_expression(lambda_exp);
 	
-	free_type(type);
-	
 	EXIT;
 	return retval;
+	#endif
 }
 
 

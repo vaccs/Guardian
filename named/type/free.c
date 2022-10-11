@@ -14,8 +14,6 @@ void free_named_type(void* ptr)
 	
 	free_string(this->name);
 	
-	free_type(this->type);
-	
 	free(this);
 	
 	EXIT;

@@ -3,8 +3,6 @@
 
 #include <parse/parse.h>
 
-#include <type/inc.h>
-
 #include <value/inc.h>
 
 #include "node/struct.h"
@@ -32,7 +30,7 @@ void unresolved_resolve(
 				struct zebu_primary_expression* use = ptr;
 				
 				use->kind = kind;
-				use->type = inc_type(type);
+				use->type = type;
 				use->value = inc_value(value);
 			}
 			runme;
