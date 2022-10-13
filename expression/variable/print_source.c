@@ -32,6 +32,8 @@ struct stringtree* variable_expression_print_source(
 	
 	struct variable_expression* this = (void*) super;
 	
+	dpvs(this->name);
+	
 	switch (this->kind)
 	{
 		case vek_parameter:
@@ -39,6 +41,7 @@ struct stringtree* variable_expression_print_source(
 			break;
 		
 		case vek_declare:
+		case vek_forward:
 			declare_queue_submit(shared->dqueue, this->name);
 			break;
 		

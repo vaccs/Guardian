@@ -48,9 +48,9 @@ void process_grammar(
 	
 	struct gegex* simp = gegex_simplify_dfa(dfa);
 	
-	struct structinfo* structinfo = gegex_combine_structinfos(simp);
-	
 	avl_insert(grammar, new_named_grammar(name, simp));
+	
+	struct structinfo* structinfo = gegex_combine_structinfos(simp);
 	
 	avl_insert(types, new_named_structinfo(name, structinfo));
 	

@@ -8,12 +8,12 @@ bin/test-build/./expression/fieldaccess/evaluate.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h \
  set/ptr/discard.h set/ptr/free.h set/string/new.h set/string/add.h \
- set/string/free.h stringtree/new.h stringtree/append_printf.h \
- stringtree/append_tree.h stringtree/append_strndup.h \
- stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
- heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- value/struct.h value/kind.h value/integer/new.h \
+ set/string/contains.h set/string/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
+ stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
+ heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
+ quack/free.h value/struct.h value/kind.h value/integer/new.h \
  expression/fieldaccess/../evaluate.h expression/fieldaccess/struct.h \
  expression/fieldaccess/../struct.h expression/fieldaccess/../kind.h \
  expression/fieldaccess/evaluate.h

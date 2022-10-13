@@ -1,9 +1,11 @@
 
 #include <debug.h>
 
+#include <type/struct.h>
 #include <type/generate_new_func.h>
 #include <type/generate_inc_func.h>
 #include <type/generate_compare_func.h>
+#include <type/list/generate_index_func.h>
 #include <type/generate_free_func.h>
 
 #include <stringtree/prepend_tree.h>
@@ -48,6 +50,11 @@ void function_queue_process(
 				
 				case fk_free:
 					func = type_generate_free_func(fdata->type, fdata->id, this);
+					break;
+				
+				case fk_index:
+					assert(fdata->type->kind == tk_list);
+					func = list_type_generate_index_func((void*) fdata->type, fdata->id, this);
 					break;
 				
 				default:

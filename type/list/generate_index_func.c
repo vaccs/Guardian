@@ -2,6 +2,7 @@
 #include <debug.h>
 
 /*#include <out/function_lookup/lookup_inc.h>*/
+#include <out/function_queue/submit_inc.h>
 
 #include "struct.h"
 #include "generate_index_func.h"
@@ -9,15 +10,13 @@
 struct stringtree* list_type_generate_index_func(
 	struct list_type* this,
 	unsigned func_id,
-	struct function_lookup* flookup)
+	struct function_queue* flookup)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* text = new_stringtree();
 	
-	unsigned inc_id = function_lookup_inc(flookup, this->element_type, func_id);
+	unsigned inc_id = function_queue_submit_inc(flookup, this->element_type);
 	
 	stringtree_append_printf(text, ""
 		"type_%u* func_%u(type_%u* list, unsigned index)"
@@ -28,13 +27,12 @@ struct stringtree* list_type_generate_index_func(
 			"}"
 			"else"
 			"{"
-				"exit(1);"
+				"assert(!\"index out of bounds\");"
 			"}"
 		"}"
 	"", this->element_type->id, func_id, this->super.id, inc_id);
 	
 	EXIT;
 	return text;
-	#endif
 }
 

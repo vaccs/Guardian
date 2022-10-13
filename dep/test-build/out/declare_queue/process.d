@@ -7,13 +7,13 @@ bin/test-build/./out/declare_queue/process.o: out/declare_queue/process.c \
  string/compare.h string/are_equal.h string/free.h set/ptr/new.h \
  set/ptr/add.h set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h \
  set/ptr/discard.h set/ptr/free.h set/string/new.h set/string/add.h \
- set/string/free.h stringtree/new.h stringtree/append_printf.h \
- stringtree/append_tree.h stringtree/append_strndup.h \
- stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
- heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- named/expression/struct.h expression/struct.h expression/kind.h \
- expression/print_source.h type/struct.h type/kind.h \
+ set/string/contains.h set/string/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
+ stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
+ heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
+ quack/free.h named/expression/struct.h expression/struct.h \
+ expression/kind.h expression/print_source.h type/struct.h type/kind.h \
  out/declare_queue/../shared.h out/declare_queue/../type_queue/submit.h \
  out/declare_queue/../function_queue/submit_free.h \
  out/declare_queue/struct.h out/declare_queue/process.h

@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <type/struct.h>
+
+#include <stringtree/prepend_printf.h>
+
 #include <type/generate_typedef.h>
 
 #include "struct.h"
@@ -19,7 +23,9 @@ void type_queue_process(
 		
 		if (ptrset_contains(this->done, type))
 		{
-			TODO;
+			stringtree_prepend_printf(text, ""
+				"struct type_%u;"
+			"", type->id);
 		}
 		else
 		{

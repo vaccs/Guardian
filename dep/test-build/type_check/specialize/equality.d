@@ -8,14 +8,14 @@ bin/test-build/./type_check/specialize/equality.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h \
  set/ptr/discard.h set/ptr/free.h set/string/new.h set/string/add.h \
- set/string/free.h stringtree/new.h stringtree/append_printf.h \
- stringtree/append_tree.h stringtree/append_strndup.h \
- stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
- heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- parse/parse.h expression/literal/struct.h expression/literal/../struct.h \
- expression/literal/../kind.h expression/literal/new.h \
- expression/comparison/new.h expression/comparison/kind.h \
- expression/free.h value/bool/new.h value/compare.h value/free.h \
- type_cache/get_type/bool.h type/free.h \
+ set/string/contains.h set/string/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
+ stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
+ heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
+ quack/free.h parse/parse.h expression/literal/struct.h \
+ expression/literal/../struct.h expression/literal/../kind.h \
+ expression/literal/new.h expression/comparison/new.h \
+ expression/comparison/kind.h expression/free.h value/bool/new.h \
+ value/compare.h value/free.h type_cache/get_type/bool.h type/free.h \
  type_check/specialize/relational.h type_check/specialize/equality.h

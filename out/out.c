@@ -62,6 +62,7 @@
 struct stringtree* out(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
+	struct avl_tree_t* forwards,
 	struct avl_tree_t* declares,
 	struct quack* assertions,
 	struct yacc_state* yacc_start)
@@ -241,7 +242,7 @@ struct stringtree* out(
 		runme;
 	}));
 	
-	declare_queue_process(shared.dqueue, declares, &shared);
+	declare_queue_process(shared.dqueue, forwards, declares, &shared);
 	
 	set_queue_process(shared.squeue, tcache, grammar_types, &shared);
 	
@@ -329,6 +330,10 @@ struct stringtree* out(
 			else if (!strncmp(old, "FUNCTIONS", len))
 			{
 				stringtree_append_tree(root, shared.fqueue->text);
+			}
+			else if (!strncmp(old, "FORWARD_DECLARES", len))
+			{
+				TODO;
 			}
 			else if (!strncmp(old, "INIT_DECLARES", len))
 			{

@@ -33,6 +33,8 @@ void set_queue_process(
 	{
 		struct string* name = quack_pop(this->todo);
 		
+		dpvs(name);
+		
 		struct avl_node_t* node = avl_search(grammar_types, &name);
 		
 		assert(node);

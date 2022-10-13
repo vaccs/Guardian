@@ -7,11 +7,11 @@ bin/test-build/./type/bool/inheritance.o: type/bool/inheritance.c debug.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h \
  set/ptr/discard.h set/ptr/free.h set/string/new.h set/string/add.h \
- set/string/free.h stringtree/new.h stringtree/append_printf.h \
- stringtree/append_tree.h stringtree/append_strndup.h \
- stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
- heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- type/bool/inheritance.h type/bool/../inheritance.h \
+ set/string/contains.h set/string/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
+ stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
+ heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
+ quack/free.h type/bool/inheritance.h type/bool/../inheritance.h \
  type/bool/generate_typedef.h type/bool/generate_new_func.h \
  type/bool/generate_free_func.h type/bool/compare.h type/bool/free.h

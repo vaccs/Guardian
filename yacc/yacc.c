@@ -29,6 +29,8 @@
 #include <lex/build_tokenizer/build_tokenizer.h>
 #include <lex/minimize_lexer.h>
 
+#include <named/structinfo/struct.h>
+
 #include <named/trie/struct.h>
 
 #include "trie/struct.h"
@@ -392,14 +394,13 @@ struct yacc_state* yacc(
 			
 			dpvs(name);
 			
-			TODO;
-			#if 0
-			struct structinfo* structinfo = build_structinfo(name, grammar_rule->grammar);
+			struct avl_node_t* node = avl_search(structinfos, &name);
 			
-			build_tries(named_tries, name, grammar_rule->grammar, structinfo);
+			assert(node);
 			
-			free_structinfo(structinfo);
-			#endif
+			struct named_structinfo* nstructinfo = node->item;
+			
+			build_tries(named_tries, name, grammar_rule->grammar, nstructinfo->structinfo);
 		}
 		runme;
 	}));

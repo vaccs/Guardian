@@ -5,7 +5,13 @@
 #include <gegex/simplify_dfa.h>
 #include <gegex/free.h>
 
+#include <gegex/combine_structinfos.h>
+
 #include <named/grammar/new.h>
+
+#include <named/structinfo/new.h>
+
+#include <yacc/structinfo/free.h>
 
 #include "grammar/3.root.h"
 #include "parse.h"
@@ -14,6 +20,7 @@
 void process_start(
 	struct lex* lex,
 	struct avl_tree_t* grammar,
+	struct avl_tree_t* types,
 	struct zebu_start_directive* directive)
 {
 	ENTER;
@@ -37,6 +44,12 @@ void process_start(
 	struct gegex* simp = gegex_simplify_dfa(dfa);
 	
 	avl_insert(grammar, new_named_grammar(name, simp));
+	
+	struct structinfo* structinfo = gegex_combine_structinfos(simp);
+	
+	avl_insert(types, new_named_structinfo(name, structinfo));
+	
+	free_structinfo(structinfo);
 	
 	free_gegex(nfa.start);
 	

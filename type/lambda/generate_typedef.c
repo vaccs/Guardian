@@ -6,10 +6,9 @@
 
 #include <out/shared.h>
 /*#include <out/type_lookup/lookup.h>*/
+#include <out/type_queue/submit.h>
 
-#include <parameter/struct.h>
-
-#include <list/parameter/struct.h>
+#include <list/type/struct.h>
 
 #include "struct.h"
 #include "generate_typedef.h"
@@ -20,8 +19,8 @@ struct stringtree* lambda_type_generate_typedef(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == tk_lambda);
+	
 	struct lambda_type* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -32,9 +31,7 @@ struct stringtree* lambda_type_generate_typedef(
 		"typedef struct {"
 	"");
 	
-	TODO;
-	#if 0
-	type_lookup(tlookup, this->rettype);
+	type_queue_submit(tlookup, this->rettype);
 	
 	stringtree_append_printf(tree, ""
 		"type_%u (*funcptr)("
@@ -42,27 +39,23 @@ struct stringtree* lambda_type_generate_typedef(
 	
 	for (unsigned i = 0, n = this->parameters->n; i < n; i++)
 	{
-		struct parameter* p = this->parameters->data[i];
+		struct type* t = this->parameters->data[i];
 		
-		type_lookup(tlookup, p->type);
+		type_queue_submit(tlookup, t);
 		
-		stringtree_append_printf(tree, "type_%u", p->type->id);
+		stringtree_append_printf(tree, "type_%u", t->id);
 		
 		if (i + 1 < n)
-		{
 			stringtree_append_printf(tree, ", ");
-		}
 	}
 	
 	stringtree_append_printf(tree, ""
 			");"
 		"} type_%u;"
 	"", super->id);
-	#endif
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

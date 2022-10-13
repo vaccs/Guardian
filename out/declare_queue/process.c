@@ -17,10 +17,13 @@
 
 void declare_queue_process(
 	struct declare_queue* this,
+	struct avl_tree_t* raw_forwards,
 	struct avl_tree_t* typed_declares,
 	struct out_shared* shared)
 {
 	ENTER;
+	
+	this->forward_text = new_stringtree();
 	
 	this->init_text = new_stringtree();
 	
@@ -30,39 +33,57 @@ void declare_queue_process(
 	{
 		struct string* name = quack_pop(this->todo);
 		
-		struct avl_node_t* node = avl_search(typed_declares, &name);
+		dpvs(name);
 		
-		assert(node);
-		
-		struct named_expression* nexpression = node->item;
-		
-		struct expression* expression = nexpression->expression;
-		
-		struct type* type = expression->type;
-		
-		type_queue_submit(shared->tqueue, type);
-		
-		unsigned type_id = type->id;
-		
-		stringtree_append_printf(this->init_text, ""
-			"type_%u* %.*s = "
-		"", type_id, name->len, name->chars);
-		
-		struct stringtree* text = expression_print_source(expression, shared);
-		
-		stringtree_append_tree(this->init_text, text);
-		
-		stringtree_append_printf(this->init_text, ""
-			";"
-		"");
-		
-		unsigned free_id = function_queue_submit_free(shared->fqueue, type);
-		
-		stringtree_append_printf(this->uninit_text, ""
-			"func_%u(%.*s);"
-		"", free_id, name->len, name->chars);
-		
-		free_stringtree(text);
+		if (stringset_contains(this->done, name))
+		{
+			assert(avl_search(raw_forwards, &name));
+		}
+		else
+		{
+			struct avl_node_t* node = avl_search(typed_declares, &name);
+			
+			assert(node);
+			
+			struct named_expression* nexpression = node->item;
+			
+			struct expression* expression = nexpression->expression;
+			
+			struct type* type = expression->type;
+			
+			type_queue_submit(shared->tqueue, type);
+			
+			unsigned type_id = type->id;
+			
+			struct stringtree* subtext = expression_print_source(expression, shared);
+			
+			if (avl_search(raw_forwards, &name))
+			{
+				TODO;
+			}
+			else
+			{
+				stringtree_append_printf(this->init_text, ""
+					"type_%u* %.*s = "
+				"", type_id, name->len, name->chars);
+				
+				stringtree_append_tree(this->init_text, subtext);
+				
+				stringtree_append_printf(this->init_text, ""
+					";"
+				"");
+			}
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+			
+			stringtree_append_printf(this->uninit_text, ""
+				"func_%u(%.*s);"
+			"", free_id, name->len, name->chars);
+			
+			stringset_add(this->done, name);
+			
+			free_stringtree(subtext);
+		}
 	}
 	
 	EXIT;

@@ -6,6 +6,12 @@
 /*#include <stringtree/new.h>*/
 /*#include <stringtree/append_printf.h>*/
 
+#include <parameter/struct.h>
+
+#include <list/parameter/struct.h>
+
+#include <out/type_queue/submit.h>
+
 #include "struct.h"
 #include "generate_typedef.h"
 
@@ -15,14 +21,52 @@ struct stringtree* grammar_type_generate_typedef(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == tk_grammar);
+	
 	struct grammar_type* this = (void*) super;
 	
-	struct stringtree* tree = structinfo_print_source(this->structinfo, super->id);
+	struct stringtree* tree = new_stringtree();
+	
+	stringtree_append_printf(tree, ""
+		"typedef struct {"
+	"");
+	
+	for (unsigned i = 0, n = this->fields->n; i < n; i++)
+	{
+		struct parameter* p = this->fields->data[i];
+		
+		type_queue_submit(tlookup, p->type);
+		
+		stringtree_append_printf(tree, ""
+			"type_%u* %.*s; "
+		"", p->type->id, p->name->len, p->name->chars);
+	}
+	
+	stringtree_append_printf(tree, ""
+		"} type_%u;"
+	"");
 	
 	EXIT;
 	return tree;
-	#endif
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

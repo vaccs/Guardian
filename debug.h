@@ -112,6 +112,7 @@
 	
 	#include <set/string/new.h>
 	#include <set/string/add.h>
+	#include <set/string/contains.h>
 	#include <set/string/free.h>
 	
 	#include <stringtree/new.h>

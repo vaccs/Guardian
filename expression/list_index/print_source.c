@@ -10,11 +10,9 @@
 #include <type/struct.h>
 
 #include <out/shared.h>
-
-/*#include <out/type_lookup/lookup.h>*/
-
-/*#include <out/function_lookup/lookup_index.h>*/
-/*#include <out/function_lookup/lookup_free.h>*/
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_index.h>
+#include <out/function_queue/submit_free.h>
 
 #include "../print_source.h"
 
@@ -27,42 +25,45 @@ struct stringtree* list_index_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct list_index_expression* this = (void*) super;
 	
-	type_lookup(shared->tlookup, super->type, NULL);
+	type_queue_submit(shared->tqueue, super->type);
 	
 	stringtree_append_printf(tree, "({");
 	
-	unsigned listid = this->list->type->id;
-	unsigned indexid = this->index->type->id;
+	struct type* list_type = this->list->type;
+	type_queue_submit(shared->tqueue, list_type);
 	
-	stringtree_append_printf(tree, "type_%u* list = ", listid);
-	stringtree_append_tree(tree, expression_print_source(this->list, shared));
+	struct stringtree* list_tree = expression_print_source(this->list, shared);
+	stringtree_append_printf(tree, "type_%u* list = ", list_type->id);
+	stringtree_append_tree(tree, list_tree);
 	stringtree_append_printf(tree, ";");
+	free_stringtree(list_tree);
 	
-	stringtree_append_printf(tree, "type_%u* index = ", indexid);
-	stringtree_append_tree(tree, expression_print_source(this->index, shared));
+	struct type* index_type = this->index->type;
+	type_queue_submit(shared->tqueue, index_type);
+	
+	struct stringtree* index_tree = expression_print_source(this->index, shared);
+	stringtree_append_printf(tree, "type_%u* index = ", index_type->id);
+	stringtree_append_tree(tree, index_tree);
 	stringtree_append_printf(tree, ";");
+	free_stringtree(index_tree);
 	
-	unsigned index_func = function_lookup_index(shared->flookup, this->list->type);
+	unsigned index_id = function_queue_submit_index(shared->fqueue, list_type);
 	
 	stringtree_append_printf(tree, ""
 		"type_%u* element = func_%u(list, index);"
-	"", super->type->id, index_func);
+	"", super->type->id, index_id);
 	
-	TODO;
-	#if 0
-	unsigned free_list_func = function_lookup_free(shared->flookup, this->list->type);
-	unsigned free_index_func = function_lookup_free(shared->flookup, this->index->type);
+	unsigned free_list_id = function_queue_submit_free(shared->fqueue, list_type);
+	
+	unsigned free_index_id = function_queue_submit_free(shared->fqueue, index_type);
 	
 	stringtree_append_printf(tree, ""
 		"func_%u(list), func_%u(index);"
-	"", free_list_func, free_index_func);
-	#endif
+	"", free_list_id, free_index_id);
 	
 	stringtree_append_printf(tree, "element;");
 	
@@ -70,7 +71,6 @@ struct stringtree* list_index_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

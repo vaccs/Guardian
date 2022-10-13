@@ -13,8 +13,12 @@ struct declare_queue* new_declare_queue()
 	this->todo = new_quack();
 	
 	this->queued = new_stringset();
+	this->done = new_stringset();
+	
+	this->forward_text = NULL;
 	
 	this->init_text = NULL;
+	
 	this->uninit_text = NULL;
 	
 	EXIT;

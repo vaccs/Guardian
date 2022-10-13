@@ -300,11 +300,24 @@ void type_check(
 		
 		struct named_expression* declare = new_named_expression(task->name, typed);
 		
+		struct avl_node_t* node = avl_search(typed_forwards, &task->name);
+		
+		if (node)
+		{
+			struct named_type* ntype = node->item;
+			
+			if (ntype->type != typed->type)
+			{
+				TODO;
+				exit(1);
+			}
+		}
+		
 		struct avl_node_t* in = avl_insert(typed_declares, declare);
 		
 		assert(in);
 		
-		struct avl_node_t* node = avl_search(dependents, &task->name);
+		node = avl_search(dependents, &task->name);
 		
 		if (node)
 		{

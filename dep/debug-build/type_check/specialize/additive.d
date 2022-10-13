@@ -8,15 +8,16 @@ bin/debug-build/./type_check/specialize/additive.o: \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h \
  set/ptr/discard.h set/ptr/free.h set/string/new.h set/string/add.h \
- set/string/free.h stringtree/new.h stringtree/append_printf.h \
- stringtree/append_tree.h stringtree/append_strndup.h \
- stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
- heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- parse/parse.h type/struct.h type/kind.h expression/int_math/new.h \
- expression/int_math/kind.h expression/literal/struct.h \
- expression/literal/../struct.h expression/literal/../kind.h \
- expression/literal/new.h expression/struct.h expression/free.h mpz/add.h \
- mpz/free.h value/integer/struct.h value/integer/../struct.h \
- value/integer/../kind.h value/integer/new.h value/free.h \
- type_check/specialize/multiplicative.h type_check/specialize/additive.h
+ set/string/contains.h set/string/free.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h \
+ stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
+ stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
+ heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
+ quack/free.h parse/parse.h type/struct.h type/kind.h \
+ expression/int_math/new.h expression/int_math/kind.h \
+ expression/literal/struct.h expression/literal/../struct.h \
+ expression/literal/../kind.h expression/literal/new.h \
+ expression/struct.h expression/free.h mpz/add.h mpz/free.h \
+ value/integer/struct.h value/integer/../struct.h value/integer/../kind.h \
+ value/integer/new.h value/free.h type_check/specialize/multiplicative.h \
+ type_check/specialize/additive.h

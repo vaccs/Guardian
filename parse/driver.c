@@ -155,7 +155,7 @@ void parse_driver(
 		
 		for (unsigned i = 0, n = start->starts.n; i < n; i++)
 		{
-			process_start(lex, grammar, start->starts.data[i]);
+			process_start(lex, grammar, types, start->starts.data[i]);
 		}
 		
 		for (unsigned i = 0, n = start->grammars.n; i < n; i++)
