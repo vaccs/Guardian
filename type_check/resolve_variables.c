@@ -50,7 +50,7 @@ static void resolve_variables_primary(
 		
 		free_string(name);
 	}
-	else if (expression->len || expression->map || expression->sum)
+	else if (expression->len || expression->map || expression->sum || expression->product)
 	{
 		for (unsigned i = 0, n = expression->args.n; i < n; i++)
 		{

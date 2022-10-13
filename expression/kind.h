@@ -6,10 +6,13 @@ enum expression_kind
 {
 	ek_len,
 	ek_has,
+	ek_map,
 	ek_list,
+	ek_sum,
 	ek_lambda,
 	ek_literal,
 	ek_ternary,
+	ek_product,
 	ek_int_math,
 	ek_variable,
 	ek_funccall,

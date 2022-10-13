@@ -21,8 +21,8 @@ bin/debug-build/./type_check/specialize/postfix.o: \
  expression/fieldaccess/new.h expression/free.h list/expression/struct.h \
  list/type/struct.h mpz/struct.h list/value/struct.h list/value/new.h \
  list/value/append.h list/value/free.h type/lambda/struct.h \
- type/lambda/../struct.h type/grammar/get_field.h value/integer/struct.h \
- value/integer/../struct.h value/integer/../kind.h value/list/struct.h \
- value/list/../struct.h value/lambda/call.h value/free.h \
- type_check/specialize/expression.h type_check/specialize/primary.h \
- type_check/specialize/postfix.h
+ type/lambda/../struct.h type/print.h type/grammar/get_field.h \
+ value/integer/struct.h value/integer/../struct.h value/integer/../kind.h \
+ value/list/struct.h value/list/../struct.h value/lambda/call.h \
+ value/free.h type_check/specialize/expression.h \
+ type_check/specialize/primary.h type_check/specialize/postfix.h

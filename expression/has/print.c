@@ -11,18 +11,13 @@ void has_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_has);
 	
 	struct has_expression* this = (void*) super;
 	
-	printf("has(");
+	expression_print(this->object);
 	
-	expression_print(this->list);
-	
-	printf(")");
-	#endif
+	printf(" has %.*s", this->fieldname->len, this->fieldname->chars);
 	
 	EXIT;
 }

@@ -31,6 +31,7 @@
 
 #include <type/lambda/struct.h>
 
+#include <type/print.h>
 #include <type/grammar/get_field.h>
 
 #include <value/integer/struct.h>
@@ -175,7 +176,14 @@ struct expression* specialize_postfix_expression(
 				
 				if (lambda_type->parameters->data[i] != arg->type)
 				{
-					TODO;
+					printf("maia: function call with incorrect types!\n");
+					printf("maia: function type:\n");
+					type_print(sub->type);
+					
+					printf("\nmaia: %uth argument type:\n", i);
+					type_print(arg->type);
+					
+					puts("");
 					exit(1);
 				}
 				

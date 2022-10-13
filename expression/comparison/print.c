@@ -8,6 +8,7 @@
 
 static const char* lookup[] = {
 	[cek_equal_to] = "==",
+	[cek_not_equal_to] = "!=",
 };
 
 void comparison_expression_print(
@@ -20,6 +21,11 @@ void comparison_expression_print(
 	struct comparison_expression* this = (void*) super;
 	
 	expression_print(this->left);
+	
+	if (!lookup[this->kind])
+	{
+		TODO;
+	}
 	
 	printf(" %s ", lookup[this->kind]);
 	

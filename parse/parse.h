@@ -327,6 +327,7 @@ struct zebu_primary_expression
 	struct zebu_token* list;
 	struct zebu_token* map;
 	struct zebu_token* paren;
+	struct zebu_token* product;
 	struct zebu_token* string_literal;
 	struct zebu_token* sum;
 	struct zebu_token* tuple;

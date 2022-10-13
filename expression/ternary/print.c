@@ -11,18 +11,19 @@ void ternary_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_ternary);
 	
 	struct ternary_expression* this = (void*) super;
 	
-	printf("ternary(");
+	expression_print(this->conditional);
 	
-	expression_print(this->list);
+	printf(" ? ");
 	
-	printf(")");
-	#endif
+	expression_print(this->true_case);
+	
+	printf(" : ");
+	
+	expression_print(this->false_case);
 	
 	EXIT;
 }

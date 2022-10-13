@@ -15,26 +15,26 @@ int compare_parameter_list(
 	int cmp = 0;
 	ENTER;
 	
-	unsigned i = 0, n = a->n;
-	unsigned j = 0, m = b->n;
+	unsigned i = 0, n = a->n, m = b->n;
 	
-	while (!cmp && i < n && j < m)
+	while (!cmp && i < n && i < m)
 	{
-		struct parameter* ae = a->data[i];
-		struct parameter* be = a->data[j];
+		struct parameter *ae = a->data[i], *be = b->data[i];
 		
-		cmp = compare_types(ae->type, be->type);
-		
-		i++, j++;
+		cmp = compare_types(ae->type, be->type), i++;
 	}
 	
 	if (!cmp)
 	{
 		if (i < n)
 			cmp = +1;
-		else if (j < m)
+		else if (i < m)
 			cmp = -1;
 	}
+	
+	dpv(cmp);
+	
+	CHECK;
 	
 	EXIT;
 	return cmp;

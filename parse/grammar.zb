@@ -3,10 +3,7 @@
 %include "regex.zb"
 
 `format`: '\"' '%'
-	['0'-'9']* // max field width
-	("h" | "hh" | "j" | "l" | "ll" | "L" | "q" | "t" | "z")? // length modifier
-	['d' | 'i' | 'o' | 'u' | 'x' | 'X' | // conversion
-	 'f' | 'e' | 'g' | 'E' | 'a' | 's']
+	['d' | 'i' | 'o' | 'u' | 'x' | 'X' | 'f' | 'e' | 'g' | 'E' | 'a' | 's']
 '\"';
 
 grammar_highest

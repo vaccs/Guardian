@@ -18,7 +18,10 @@
 #include <expression/literal/new.h>
 #include <expression/len/new.h>
 #include <expression/list/new.h>
+#include <expression/sum/new.h>
 #include <expression/parenthesis/new.h>
+#include <expression/map/new.h>
+#include <expression/product/new.h>
 #include <expression/free.h>
 
 #include <type_cache/get_type/list.h>
@@ -26,11 +29,14 @@
 
 #include <type/lambda/struct.h>
 #include <type/list/struct.h>
+#include <type/print.h>
 #include <type/free.h>
 
 #include <parameter/struct.h>
 
 #include <list/parameter/struct.h>
+
+#include <list/type/struct.h>
 
 #include <list/value/new.h>
 #include <list/value/append.h>
@@ -204,7 +210,54 @@ static struct expression* specialize_primary_len_expression(
 	EXIT;
 	return retval;
 }
+
+static struct expression* specialize_primary_sum_expression(
+	struct type_cache* tcache,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
 	
+	if (raw_len != 1)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	bool all_literals = true;
+	
+	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
+	
+	if (list_exp->kind != ek_literal)
+		all_literals = false;
+	
+	if (list_exp->type->kind != tk_list)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = ((struct list_type*) list_exp->type)->element_type;
+	
+	if (type->kind != tk_int && type->kind != tk_float)
+	{
+		TODO;
+	}
+	else if (all_literals)
+	{
+		TODO;
+	}
+	else
+	{
+		retval = new_sum_expression(type, list_exp);
+	}
+	
+	free_expression(list_exp);
+	
+	EXIT;
+	return retval;
+}
+
 static struct expression* specialize_primary_map_expression(
 	struct type_cache* tcache,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
@@ -235,8 +288,6 @@ static struct expression* specialize_primary_map_expression(
 	
 	raw_arguments++, raw_len--;
 	
-	TODO;
-	#if 0
 	if (lambda_type->parameters->n != raw_len)
 	{
 		TODO;
@@ -260,7 +311,7 @@ static struct expression* specialize_primary_map_expression(
 		
 		struct list_type* list_type = (void*) arg->type;
 		
-		if (lambda_type->parameters->data[i]->type != list_type->element_type)
+		if (lambda_type->parameters->data[i] != list_type->element_type)
 		{
 			TODO;
 			exit(1);
@@ -275,6 +326,8 @@ static struct expression* specialize_primary_map_expression(
 	
 	if (all_literals)
 	{
+		TODO;
+		#if 0
 		struct value* lambda_val;
 		struct value_list* valargs = new_value_list();
 		
@@ -304,10 +357,11 @@ static struct expression* specialize_primary_map_expression(
 		free_value(result);
 		
 		free_value_list(valargs);
+		#endif
 	}
 	else
 	{
-		TODO;
+		retval = new_map_expression(type, lambda_exp, arguments);
 	}
 	
 	free_expression_list(arguments);
@@ -316,7 +370,53 @@ static struct expression* specialize_primary_map_expression(
 	
 	EXIT;
 	return retval;
-	#endif
+}
+
+static struct expression* specialize_primary_product_expression(
+	struct type_cache* tcache,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
+	
+	if (raw_len != 1)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	bool all_literals = true;
+	
+	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
+	
+	if (list_exp->kind != ek_literal)
+		all_literals = false;
+	
+	if (list_exp->type->kind != tk_list)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = ((struct list_type*) list_exp->type)->element_type;
+	
+	if (type->kind != tk_int && type->kind != tk_float)
+	{
+		TODO;
+	}
+	else if (all_literals)
+	{
+		TODO;
+	}
+	else
+	{
+		retval = new_product_expression(type, list_exp);
+	}
+	
+	free_expression(list_exp);
+	
+	EXIT;
+	return retval;
 }
 
 
@@ -373,9 +473,19 @@ struct expression* specialize_primary_expression(
 		retval = specialize_primary_len_expression(tcache,
 			zexpression->args.data, zexpression->args.n);
 	}
+	else if (zexpression->sum)
+	{
+		retval = specialize_primary_sum_expression(tcache,
+			zexpression->args.data, zexpression->args.n);
+	}
 	else if (zexpression->map)
 	{
 		retval = specialize_primary_map_expression(tcache,
+			zexpression->args.data, zexpression->args.n);
+	}
+	else if (zexpression->product)
+	{
+		retval = specialize_primary_product_expression(tcache,
 			zexpression->args.data, zexpression->args.n);
 	}
 	else

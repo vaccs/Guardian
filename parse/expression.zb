@@ -14,6 +14,7 @@ primary_expression
 	| "len" #len '(' expression #args[] ')'
 	| "sum" #sum '(' expression #args[] ')'
 	| "map" #map '(' (expression #args[] (',' expression #args[])*)? ')'
+	| "product" #product '(' (expression #args[] (',' expression #args[])*)? ')'
 	| '(' #paren expression #elements[] (',' #tuple (expression #elements[] (',' expression #elements[])*)?)? ')'
 	| '[' #list (expression #elements[]  (',' expression #elements[])*)? ']'
 	;

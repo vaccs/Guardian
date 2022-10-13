@@ -6,6 +6,7 @@
 
 #include "inheritance.h"
 #include "compare.h"
+#include "print.h"
 #include "free.h"
 
 struct type_inheritance grammar_type_inheritance = {
@@ -13,6 +14,7 @@ struct type_inheritance grammar_type_inheritance = {
 	.generate_free_func = grammar_type_generate_free_func,
 	
 	.compare = compare_grammar_types,
+	.print = grammar_type_print,
 	.free = free_grammar_type,
 };
 

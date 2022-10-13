@@ -10,6 +10,6 @@ bool strings_are_equal(
 	const struct string* a,
 	const struct string* b)
 {
-	return !strcmp(a->chars, b->chars);
+	return a->len == b->len && !strncmp(a->chars, b->chars, a->len);
 }
 

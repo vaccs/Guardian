@@ -38,7 +38,7 @@ struct gbundle read_grammar_highest_name(
 			
 			dpvs(tag);
 			
-			structinfo_add_field(structinfo, tag, name, snt_grammar_array);
+			structinfo_add_field(structinfo, snt_grammar_array, tag, name);
 			
 			free_string(tag);
 		}
@@ -48,7 +48,7 @@ struct gbundle read_grammar_highest_name(
 			
 			dpvs(tag);
 			
-			structinfo_add_field(structinfo, tag, name, snt_grammar_scalar);
+			structinfo_add_field(structinfo, snt_grammar_scalar, tag, name);
 			
 			free_string(tag);
 		}

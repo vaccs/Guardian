@@ -201,14 +201,16 @@ void type_check(
 						
 						unresolved_resolve(unresolved, ntype->name, vek_grammar_rule, list, NULL);
 					}
-					
-					node = avl_search(typed_forwards, &name);
-					
-					if (node)
+					else
 					{
-						struct named_type* ntype = node->item;
+						node = avl_search(typed_forwards, &name);
 						
-						unresolved_resolve(unresolved, ntype->name, vek_forward, ntype->type, NULL);
+						if (node)
+						{
+							struct named_type* ntype = node->item;
+							
+							unresolved_resolve(unresolved, ntype->name, vek_forward, ntype->type, NULL);
+						}
 					}
 					
 					EXIT;
@@ -250,6 +252,8 @@ void type_check(
 				quack_append(ready, task);
 			}
 			
+			// CHECK_NTH(4);
+			
 			free_unresolved(unresolved);
 			
 			EXIT;
@@ -272,8 +276,6 @@ void type_check(
 				
 				assert(node);
 				
-				TODO;
-				#if 0
 				struct named_expression *ne = node->item;
 				
 				struct expression* e = ne->expression;
@@ -286,12 +288,8 @@ void type_check(
 				}
 				else
 				{
-					// is it a forward-declare?
-					TODO;
-					
 					unresolved_resolve(task->unresolved, name, vek_declare, e->type, NULL);
 				}
-				#endif
 			}
 			runme;
 		}));
@@ -300,22 +298,12 @@ void type_check(
 		
 		expression_print(typed), puts("");
 		
-		// if name in typed_forwards:
-			// kind = dk_forward
-		// else:
-			// kind = dk_normal
+		struct named_expression* declare = new_named_expression(task->name, typed);
 		
-		// struct declare* declare = new_declare();
-		
-		TODO;
-		#if 0
-		
-		struct named_expression* ne = new_named_expression(task->name, typed);
-		
-		struct avl_node_t* in = avl_insert(typed_declares, ne);
+		struct avl_node_t* in = avl_insert(typed_declares, declare);
 		
 		assert(in);
-	
+		
 		struct avl_node_t* node = avl_search(dependents, &task->name);
 		
 		if (node)
@@ -340,7 +328,6 @@ void type_check(
 		free_task(task);
 		
 		free_expression(typed);
-		#endif
 	}
 	
 	if (waiting)

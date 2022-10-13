@@ -19,6 +19,8 @@
 #include <list/type/append.h>
 #include <list/type/free.h>
 
+#include <type/print.h>
+
 #include <list/parameter/new.h>
 #include <list/parameter/is_nonempty.h>
 #include <list/parameter/append.h>
@@ -116,7 +118,7 @@ struct expression* specialize_lambda_expression(
 		struct expression* body = specialize_lambda_expression(tcache, zexpression->lambda);
 		
 		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, body->type);
-	
+		
 		if (parameter_list_is_nonempty(captured))
 		{
 			retval = new_lambda_expression(type, parameters, captured, body);

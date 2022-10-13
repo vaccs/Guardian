@@ -16,8 +16,8 @@ bin/test-build/./parse/grammar/0.highest/regex.o: \
  regex/nfa_to_dfa.h regex/rbundle.h regex/simplify_dfa.h regex/free.h \
  lex/struct.h lex/add_token.h yacc/structinfo/new.h \
  yacc/structinfo/add_field.h yacc/structinfo/node/type.h \
- yacc/structinfo/free.h set/unsigned/new.h set/unsigned/add.h \
- set/unsigned/free.h gegex/new.h gegex/add_transition.h \
- parse/grammar/0.highest/../../parse.h \
+ yacc/structinfo/add_scanf_scalar_field.h yacc/structinfo/free.h \
+ set/unsigned/new.h set/unsigned/add.h set/unsigned/free.h gegex/new.h \
+ gegex/add_transition.h parse/grammar/0.highest/../../parse.h \
  parse/grammar/0.highest/../../regex.h regex/rbundle.h \
  parse/grammar/0.highest/regex.h gegex/gbundle.h

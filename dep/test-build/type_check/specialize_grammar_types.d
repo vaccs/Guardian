@@ -15,6 +15,6 @@ bin/test-build/./type_check/specialize_grammar_types.o: \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  named/structinfo/struct.h named/type/new.h type_cache/get_type/grammar.h \
  type_cache/get_type/charlist.h type_cache/get_type/list.h \
- yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
- yacc/structinfo/foreach.h type/grammar/add_field.h \
- type_check/specialize_grammar_types.h
+ type_cache/get_type/int.h yacc/structinfo/node/struct.h \
+ yacc/structinfo/node/type.h yacc/structinfo/foreach.h \
+ type/grammar/add_field.h type_check/specialize_grammar_types.h

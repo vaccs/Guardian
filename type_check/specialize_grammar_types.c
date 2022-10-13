@@ -8,6 +8,7 @@
 #include <type_cache/get_type/grammar.h>
 #include <type_cache/get_type/charlist.h>
 #include <type_cache/get_type/list.h>
+#include <type_cache/get_type/int.h>
 
 #include <yacc/structinfo/node/struct.h>
 #include <yacc/structinfo/foreach.h>
@@ -78,6 +79,29 @@ void specialize_grammar_types(
 							grammar_type_add_field(gtype, ele->name, subtype);
 							break;
 						}
+						
+						case snt_scanf_scalar:
+						{
+							switch (ele->conversion_char)
+							{
+								case 'i':
+								{
+									struct type* subtype = type_cache_get_int_type(tcache);
+									grammar_type_add_field(gtype, ele->name, subtype);
+									break;
+								}
+								
+								default:
+									dpvc(ele->conversion_char);
+									TODO;
+									break;
+							}
+							break;
+						}
+						
+						default:
+							TODO;
+							break;
 					}
 				}
 				runme;

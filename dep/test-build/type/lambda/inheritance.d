@@ -12,6 +12,6 @@ bin/test-build/./type/lambda/inheritance.o: type/lambda/inheritance.c \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- type/lambda/inheritance.h type/lambda/../inheritance.h \
  type/lambda/generate_typedef.h type/lambda/generate_free_func.h \
- type/lambda/compare.h type/lambda/free.h
+ type/lambda/inheritance.h type/lambda/../inheritance.h \
+ type/lambda/compare.h type/lambda/print.h type/lambda/free.h

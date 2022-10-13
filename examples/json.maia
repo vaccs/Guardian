@@ -1,7 +1,7 @@
 
 // %using "set-templates.maia"
 
-// builtin functions:
+// builtin "special-forms":
 	// all
 	// any
 	// map
@@ -33,55 +33,37 @@
 		// (tuple construction, ), parenthesis
 	
 	// '$1($2, ...)`: function-call
-	// '$1!($2, ...)`: macro-call
 	// '$1.field': field-access
 	// '$1[index]': list-index
-	// '$1.[index]': element-wise list-index
 	
 	// ' +': positive
-	// '.+': element-wise positive
 	// ' -': negative
-	// '.-': element-wise negative
 	// ' !': logical-not
-	// '.!': element-wise logical-not
 	// ' ~': bitwise-not
-	// '.~': element-wise 	bitwise-not
 	
 	// '**': exponentiation
-	// '.**': element-wise equivalent
 	
 	// ' *': multiplication, '/': division, '%': remainder
-	// '.*', './', '.%': element-wise equivalent
 	
 	// ' +': addition or concatenation, '-' subtraction
-	// '.+': element-wise equivalent
 	
 	// ' <<': leftbitshift, '>>': rightbitshift
-	// '.<<', '.>>': element-wise equivalent
 	
 	// ' <': less-than, '<=': less-than-equal-to, '>': greater-than, '>=': greater-than-equal-to
-	// '.<', '.<=', '.>', '.>=': element-wise equivalent
 	
 	// ' ==': equal-to, '!=': not-equal-to
-	// '.==', '.!=': element-wise equivalent
 	
 	// ' &': bitwise-and
-	// '.&': element-wise equivalent
 	
 	// ' ^': bitwise-xor
-	// '.^': element-wise equivalent
 	
 	// ' |': bitwise-or
-	// '.|': element-wise equivalent
 	
 	// ' &&': logical-and
-	// '.&&': element-wise equivalent
 	
 	// ' ||': logical-or
-	// '.||': element-wise equivalent
 	
 	// ' ?' & ':': ternary-conditional
-	// '.?' & ':': element-wise equivalent
 	
 	// "has"-operator
 	

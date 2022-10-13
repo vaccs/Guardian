@@ -10,6 +10,7 @@
 
 #include <yacc/structinfo/new.h>
 #include <yacc/structinfo/add_field.h>
+#include <yacc/structinfo/add_scanf_scalar_field.h>
 #include <yacc/structinfo/free.h>
 
 #include <set/unsigned/new.h>
@@ -66,13 +67,9 @@ struct gbundle read_grammar_highest_regex(
 			struct string* tag = new_string((char*) token->data + 1, token->len - 1);
 			
 			if (highest->format)
-			{
-				TODO;
-			}
+				structinfo_add_scanf_scalar_field(structinfo, tag, highest->format->data[2]);
 			else
-			{
-				structinfo_add_field(structinfo, tag, NULL, snt_token_scalar);
-			}
+				structinfo_add_field(structinfo, snt_token_scalar, tag, NULL);
 			
 			free_string(tag);
 		}

@@ -15,7 +15,7 @@ void free_structinfo_node(void* ptr)
 		free_string(node->name);
 		
 		free_string(node->grammar);
-	
+		
 		free(node);
 	}
 	

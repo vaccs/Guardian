@@ -14,4 +14,4 @@ bin/test-build/./type/grammar/inheritance.o: type/grammar/inheritance.c \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  type/grammar/generate_typedef.h type/grammar/generate_free_func.h \
  type/grammar/inheritance.h type/grammar/../inheritance.h \
- type/grammar/compare.h type/grammar/free.h
+ type/grammar/compare.h type/grammar/print.h type/grammar/free.h
