@@ -10,5 +10,7 @@ struct lambda_expression
 	struct parameter_list* captured;
 	
 	struct expression* body;
+	
+	unsigned id;
 };
 

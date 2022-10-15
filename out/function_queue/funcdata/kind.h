@@ -9,6 +9,8 @@ enum funcdata_kind
 	fk_compare,
 	fk_index,
 	fk_free,
+	
+	fk_lambda_new,
 };
 
 #endif

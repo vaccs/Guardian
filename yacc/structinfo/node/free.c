@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <parse/parse.h>
+
 #include "struct.h"
 #include "free.h"
 
@@ -15,6 +17,8 @@ void free_structinfo_node(void* ptr)
 		free_string(node->name);
 		
 		free_string(node->grammar);
+		
+		free_zebu_type(node->tokentype);
 		
 		free(node);
 	}

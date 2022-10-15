@@ -18,4 +18,4 @@ bin/debug-build/./type_check/specialize_grammar_types.o: \
  type_cache/get_type/list.h type_cache/get_type/int.h \
  yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
  yacc/structinfo/foreach.h type/grammar/add_field.h \
- type_check/specialize_grammar_types.h
+ type_check/build_type.h type_check/specialize_grammar_types.h

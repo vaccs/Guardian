@@ -20,7 +20,7 @@ struct gbundle read_grammar_highest_name(
 	
 	assert(highest->name);
 	
-	struct string* name = new_string_from_token(highest->name);
+	struct string* grammar = new_string_from_token(highest->name);
 	
 	struct structinfo* structinfo = new_structinfo();
 	
@@ -38,7 +38,7 @@ struct gbundle read_grammar_highest_name(
 			
 			dpvs(tag);
 			
-			structinfo_add_field(structinfo, snt_grammar_array, tag, name);
+			structinfo_add_field(structinfo, snt_grammar_array, tag, grammar, NULL);
 			
 			free_string(tag);
 		}
@@ -48,17 +48,17 @@ struct gbundle read_grammar_highest_name(
 			
 			dpvs(tag);
 			
-			structinfo_add_field(structinfo, snt_grammar_scalar, tag, name);
+			structinfo_add_field(structinfo, snt_grammar_scalar, tag, grammar, NULL);
 			
 			free_string(tag);
 		}
 	}
 	
-	gegex_add_grammar_transition(start, name, structinfo, accepts);
+	gegex_add_grammar_transition(start, grammar, structinfo, accepts);
 	
 	free_structinfo(structinfo);
 	
-	free_string(name);
+	free_string(grammar);
 	
 	EXIT;
 	return (struct gbundle) {start, accepts};

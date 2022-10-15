@@ -75,6 +75,7 @@
 	struct function_queue;
 	struct set_queue;
 	struct type_queue;
+	struct lambda_expression;
 	struct format_flags;
 	
 	#include <memory/smalloc.h>

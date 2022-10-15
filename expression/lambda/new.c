@@ -10,6 +10,8 @@
 #include "struct.h"
 #include "new.h"
 
+static unsigned next_id = 0;
+
 struct expression* new_lambda_expression(
 	struct type* type,
 	struct parameter_list* parameters,
@@ -27,6 +29,8 @@ struct expression* new_lambda_expression(
 	this->parameters = inc_parameter_list(parameters);
 	this->captured = inc_parameter_list(captured);
 	this->body = inc_expression(body);
+	
+	this->id = next_id++;
 	
 	EXIT;
 	return (void*) this;

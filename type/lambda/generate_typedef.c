@@ -28,9 +28,11 @@ struct stringtree* lambda_type_generate_typedef(
 	dpv(super->id);
 	
 	stringtree_append_printf(tree, ""
-		"typedef struct {"
-	"");
+		"struct type_%u {"
+	"", super->id);
 	
+	TODO;
+	#if 0
 	type_queue_submit(tlookup, this->rettype);
 	
 	stringtree_append_printf(tree, ""
@@ -51,8 +53,9 @@ struct stringtree* lambda_type_generate_typedef(
 	
 	stringtree_append_printf(tree, ""
 			");"
-		"} type_%u;"
+		";"
 	"", super->id);
+	#endif
 	
 	EXIT;
 	return tree;

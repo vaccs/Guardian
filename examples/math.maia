@@ -1,7 +1,7 @@
 
 %skip: ' ' | '\t' | '\n';
 
-highest: /'-'? ['0'-'9']+ :"%i"/ #literal | '(' root #subexp ')';
+highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
 
 multiplicative: highest #base ('*' highest #multmes[] | '/' highest #divmes[])*;
 
@@ -12,6 +12,46 @@ root: additive #exp;
 %start: root #root;
 
 %forward: eval_root = $root: int;
+
+// struct lambda_%u
+// {
+	// struct type_%u super;
+	// captures
+	// ...
+// };
+
+// struct rettype lambda_%u_evaluate(struct type_%u* this, parameters, ...)
+// {
+	// 
+// }
+
+// void free_lambda_%u(struct type_%u* this)
+// {
+	// free_captures(this->captures);
+// }
+
+// struct type_%u* new_lambda_%u(captures, ...)
+// {
+	// struct lambda_%u* this = malloc(sizeof(*this));
+	// this->super.evaluate = lambda_%u_evaluate;
+	// this->super.free = free_lambda_%u;
+	// this->captures = inc_capatures(captures);
+	// return this;
+// }
+
+// struct type_%u (rettype, parameter-types, ...)
+// {
+	// rettype (*evaluate)(struct type_%u*, parameter-types, ...);
+	// void (*free)(struct type_%u*);
+// };
+
+// struct rettype* evaluate_lambda(struct type_%u* this, parameters, ...):
+	// return (this->evaluate)(this, parameters, ...);
+
+// void free_type_%u(struct type_%u* this):
+	// if this && !--this->refcount:
+		// (this->free)(this);
+		// free(this);
 
 eval_highest = $highest h: (h has literal) ? h.literal : eval_root(h.subexp);
 
@@ -30,6 +70,8 @@ eval_root = $root r: eval_add(r.exp);
 x = eval_root(root[0]);
 
 %error: x != 0;
+
+//%error: !all($root r: eval_root(r) != 0, root)
 
 //isprime = $int x: all(map($int m: x % m != 0, range(2, x - 1)));
 //%warning: !isprime(x);

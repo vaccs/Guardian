@@ -163,11 +163,8 @@ struct zebu_exponentiation_expression
 
 struct zebu_expression
 {
-	struct zebu_implication_expression* base;
-	struct {
-		struct zebu_implication_expression** data;
-		unsigned n, cap;
-	} iffs;
+	struct zebu_possession_expression* base;
+	struct zebu_expression* implies;
 	unsigned refcount;
 };
 
@@ -192,7 +189,6 @@ struct zebu_grammar_highest
 {
 	struct zebu_token* character;
 	struct zebu_charset* charset;
-	struct zebu_token* format;
 	struct zebu_token* integer;
 	struct zebu_token* name;
 	struct zebu_regex* regex;
@@ -202,6 +198,7 @@ struct zebu_grammar_highest
 		struct zebu_token** data;
 		unsigned n, cap;
 	} tags;
+	struct zebu_type* type;
 	unsigned refcount;
 };
 
@@ -231,13 +228,10 @@ struct zebu_grammar_rule
 	unsigned refcount;
 };
 
-struct zebu_implication_expression
+struct zebu_inclusion_expression
 {
-	struct zebu_possession_expression* base;
-	struct {
-		struct zebu_possession_expression** data;
-		unsigned n, cap;
-	} implies;
+	struct zebu_lambda_expression* base;
+	struct zebu_lambda_expression* list;
 	unsigned refcount;
 };
 
@@ -289,7 +283,7 @@ struct zebu_multiplicative_expression
 
 struct zebu_possession_expression
 {
-	struct zebu_lambda_expression* base;
+	struct zebu_inclusion_expression* base;
 	struct zebu_token* has;
 	unsigned refcount;
 };
@@ -310,6 +304,8 @@ struct zebu_postfix_expression
 
 struct zebu_primary_expression
 {
+	struct zebu_token* all;
+	struct zebu_token* any;
 	struct {
 		struct zebu_expression** data;
 		unsigned n, cap;
@@ -319,6 +315,8 @@ struct zebu_primary_expression
 		struct zebu_expression** data;
 		unsigned n, cap;
 	} elements;
+	struct zebu_type* emptytype;
+	struct zebu_token* filter;
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
 	struct zebu_token* integer_literal;
@@ -326,13 +324,20 @@ struct zebu_primary_expression
 	struct zebu_token* len;
 	struct zebu_token* list;
 	struct zebu_token* map;
+	struct zebu_token* max;
+	struct zebu_token* min;
 	struct zebu_token* paren;
 	struct zebu_token* product;
+	struct zebu_token* range;
+	struct zebu_token* reduce;
+	struct zebu_token* sort;
 	struct zebu_token* string_literal;
 	struct zebu_token* sum;
 	struct zebu_token* tuple;
 	struct type* type;
+	struct zebu_token* unique;
 	struct value* value;
+	struct zebu_token* zip;
 	unsigned refcount;
 };
 
@@ -477,7 +482,7 @@ extern struct zebu_grammar_highest* inc_zebu_grammar_highest(struct zebu_grammar
 extern struct zebu_grammar_juxtaposition* inc_zebu_grammar_juxtaposition(struct zebu_grammar_juxtaposition* ptree);
 extern struct zebu_grammar_postfix* inc_zebu_grammar_postfix(struct zebu_grammar_postfix* ptree);
 extern struct zebu_grammar_rule* inc_zebu_grammar_rule(struct zebu_grammar_rule* ptree);
-extern struct zebu_implication_expression* inc_zebu_implication_expression(struct zebu_implication_expression* ptree);
+extern struct zebu_inclusion_expression* inc_zebu_inclusion_expression(struct zebu_inclusion_expression* ptree);
 extern struct zebu_inclusive_or_expression* inc_zebu_inclusive_or_expression(struct zebu_inclusive_or_expression* ptree);
 extern struct zebu_lambda_expression* inc_zebu_lambda_expression(struct zebu_lambda_expression* ptree);
 extern struct zebu_logical_and_expression* inc_zebu_logical_and_expression(struct zebu_logical_and_expression* ptree);
@@ -546,7 +551,7 @@ extern void free_zebu_grammar_postfix(struct zebu_grammar_postfix* ptree);
 
 extern void free_zebu_grammar_rule(struct zebu_grammar_rule* ptree);
 
-extern void free_zebu_implication_expression(struct zebu_implication_expression* ptree);
+extern void free_zebu_inclusion_expression(struct zebu_inclusion_expression* ptree);
 
 extern void free_zebu_inclusive_or_expression(struct zebu_inclusive_or_expression* ptree);
 

@@ -28,8 +28,8 @@ struct stringtree* grammar_type_generate_typedef(
 	struct stringtree* tree = new_stringtree();
 	
 	stringtree_append_printf(tree, ""
-		"typedef struct {"
-	"");
+		"struct type_%u {"
+	"", super->id);
 	
 	for (unsigned i = 0, n = this->fields->n; i < n; i++)
 	{
@@ -43,7 +43,7 @@ struct stringtree* grammar_type_generate_typedef(
 	}
 	
 	stringtree_append_printf(tree, ""
-		"} type_%u;"
+		"};"
 	"");
 	
 	EXIT;

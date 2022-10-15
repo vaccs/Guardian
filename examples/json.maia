@@ -14,8 +14,8 @@
 	// call
 	// bool
 	// int
-	// sort
 	// float
+	// sort
 	// range
 
 // types:
@@ -29,7 +29,7 @@
 	// grammar-rule
 
 // expression operators:
-	// boolean literals, numeric literals, string literals, {set construction},
+	// boolean literals, numeric literals, string literals, [set construction],
 		// (tuple construction, ), parenthesis
 	
 	// '$1($2, ...)`: function-call
@@ -40,36 +40,21 @@
 	// ' -': negative
 	// ' !': logical-not
 	// ' ~': bitwise-not
-	
 	// '**': exponentiation
-	
 	// ' *': multiplication, '/': division, '%': remainder
-	
 	// ' +': addition or concatenation, '-' subtraction
-	
 	// ' <<': leftbitshift, '>>': rightbitshift
-	
 	// ' <': less-than, '<=': less-than-equal-to, '>': greater-than, '>=': greater-than-equal-to
-	
 	// ' ==': equal-to, '!=': not-equal-to
-	
 	// ' &': bitwise-and
-	
 	// ' ^': bitwise-xor
-	
 	// ' |': bitwise-or
-	
 	// ' &&': logical-and
-	
 	// ' ||': logical-or
-	
 	// ' ?' & ':': ternary-conditional
-	
+	// "in"-operator
 	// "has"-operator
-	
 	// "implies"-operator
-	
-	// "iff"-operator
 
 // charset operators:
 	// character-literal, parenthesis
@@ -106,7 +91,7 @@
 // "boolean" as a variable refers to the list of those types that were parsed.
 boolean: "true" #true_ | "false" #false_;
 
-integer: / [ '-', '+']? ['1'-'9'] ['0'-'9']* / #literal;
+integer: / ['-', '+']? ['1'-'9'] ['0'-'9']* / #literal;
 
 string: /'\"' [!'\"']* '\"'/ #literal;
 
@@ -120,6 +105,14 @@ value: boolean #b | integer #i | string #s | list #l | dict #d;
 
 %start: value;
 
+//bewteen = $int[] a, b: b + a + b;
+
+//bewteen = $<T>[] a, b: b + a + b;
+
+//a = bewteen(int[], [1, 2, 3]);
+
+//%error: a == 0;
+
 // %debug: 10 + 010 + 0x10 + 0b10 == 36;
 
 // z = 4;
@@ -132,7 +125,7 @@ value: boolean #b | integer #i | string #s | list #l | dict #d;
 
 // %debug: map($int x: x + z, [1, z, 3]) == [5, z + z, 7];
 
-z2 = len(value);
+//z2 = len(value);
 
 // foo2 = [$int x, y: x + y, $int x, y: (x - y) * z2];
 
@@ -141,13 +134,13 @@ z2 = len(value);
 // %note: foo2[1](13, 2) == 5;
 
 // %error: z2 == 3;
-%error: z2 == 0;
+//%error: z2 == 0;
 // %error: [1, 2, z2] == [1, 2, 3];
 
-// bar = $int x, float y: (float(x) + y + 2.3);
-// har = $ $int, float: float f, int x, float y: f(x, y);
+//bar = $int x, float y: (float(x) + y + 2.3);
+//har = $ ($int, float: float) f, int x, float y: f(x, y);
 
-// har(bar, 3, 3.14);
+//har(bar, 3, 3.14);
 
 // lambda has a list of parameters
 // and a list of variables they want to "capture"
@@ -155,13 +148,13 @@ z2 = len(value);
 // children-lambdas need.
 // This will make a tree-like shape.
 
-// jim = $int x: $: $: x;
+//jim = $int x: $: $: x;
 
-// jim1 = jim(3);
+//jim1 = jim(3);
 
-// jim2 = jim(4);
+//jim2 = jim(4);
 
-// %debug: (jim1, jim2);
+//%debug: (jim1()(), jim2()()) == (3, 4);
 
 // if we use zebu for this, we'll need it to support inserting fields
 // into it's generated structs. I'm okay with it setting them to NULL,
@@ -214,7 +207,8 @@ z2 = len(value);
 // %error: all($dict d: all($keyvalue e: len(filter($keyvalue f: e.key == f.key, d.entries)) == 1, d.entries), dict);
 
 // every integer read from the file must be prime:
-// %warning: all($int u: u > 1 implies all($int n: u % n != 0, range(1, u)), map(int, integer.literal));
+//%warning: all(map($int u: u > 1 implies all($int n: u % n != 0, range(1, u)), integer.literal));
+/*%warning: all(map($int u: u <= 1 || all($int n: u % n != 0, range(2, u)), integer.literal));*/
 
 // the number of "true"s read has to be equal to the number "false"s read:
 // %warning: len(boolean.true_) == len(boolean.false_);

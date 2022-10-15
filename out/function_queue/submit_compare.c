@@ -25,7 +25,7 @@ unsigned function_queue_submit_compare(
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_compare, type, id = this->next++);
+		struct funcdata* fdata = new_funcdata(fk_compare, type, NULL, id = this->next++);
 		
 		quack_append(this->todo, fdata);
 		

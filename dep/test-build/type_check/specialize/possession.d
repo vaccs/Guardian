@@ -14,4 +14,4 @@ bin/test-build/./type_check/specialize/possession.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
  quack/free.h expression/has/new.h expression/free.h parse/parse.h \
- type_check/specialize/lambda.h type_check/specialize/possession.h
+ type_check/specialize/inclusion.h type_check/specialize/possession.h

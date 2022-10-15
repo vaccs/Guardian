@@ -491,6 +491,23 @@ static void resolve_variables_lambda(
 	EXIT;
 }
 
+static void resolve_variables_inclusion(
+	struct unresolved* unresolved,
+	struct type_cache* tcache,
+	struct zebu_inclusion_expression* expression)
+{
+	ENTER;
+	
+	resolve_variables_lambda(unresolved, tcache, expression->base);
+	
+	if (expression->list)
+	{
+		TODO;
+	}
+	
+	EXIT;
+}
+
 static void resolve_variables_possession(
 	struct unresolved* unresolved,
 	struct type_cache* tcache,
@@ -498,7 +515,7 @@ static void resolve_variables_possession(
 {
 	ENTER;
 	
-	resolve_variables_lambda(unresolved, tcache, expression->base);
+	resolve_variables_inclusion(unresolved, tcache, expression->base);
 	
 	EXIT;
 }
@@ -506,13 +523,13 @@ static void resolve_variables_possession(
 static void resolve_variables_implies(
 	struct unresolved* unresolved,
 	struct type_cache* tcache,
-	struct zebu_implication_expression* expression)
+	struct zebu_expression* expression)
 {
 	ENTER;
 	
 	resolve_variables_possession(unresolved, tcache, expression->base);
 	
-	for (unsigned i = 0, n = expression->implies.n; i < n; i++)
+	if (expression->implies)
 	{
 		TODO;
 	}
@@ -527,12 +544,7 @@ void resolve_variables(
 {
 	ENTER;
 	
-	resolve_variables_implies(unresolved, tcache, expression->base);
-	
-	for (unsigned i = 0, n = expression->iffs.n; i < n; i++)
-	{
-		TODO;
-	}
+	resolve_variables_implies(unresolved, tcache, expression);
 	
 	EXIT;
 }

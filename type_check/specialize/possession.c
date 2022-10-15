@@ -6,7 +6,7 @@
 
 #include <parse/parse.h>
 
-#include "lambda.h"
+#include "inclusion.h"
 #include "possession.h"
 
 struct expression* specialize_possession_expression(
@@ -18,7 +18,7 @@ struct expression* specialize_possession_expression(
 	
 	if (zexpression->has)
 	{
-		struct expression* object = specialize_lambda_expression(tcache, zexpression->base);
+		struct expression* object = specialize_inclusion_expression(tcache, zexpression->base);
 		
 		struct string* fieldname = new_string_from_token(zexpression->has);
 		
@@ -30,7 +30,7 @@ struct expression* specialize_possession_expression(
 	}
 	else
 	{
-		retval = specialize_lambda_expression(tcache, zexpression->base);
+		retval = specialize_inclusion_expression(tcache, zexpression->base);
 	}
 	
 	EXIT;

@@ -1,5 +1,5 @@
-bin/test-build/./yacc/structinfo/add_scanf_scalar_field.o: \
- yacc/structinfo/add_scanf_scalar_field.c debug.h memory/smalloc.h \
+bin/test-build/./out/function_queue/submit_lambda_new.o: \
+ out/function_queue/submit_lambda_new.c debug.h memory/smalloc.h \
  memory/srealloc.h defines/argv0.h macros/strequals.h enums/error.h \
  enums/token_kind.h avl/alloc_tree.h avl/tree_t.h avl/freeitem_t.h \
  avl/compare_t.h avl/node_t.h avl/search.h avl/insert.h avl/foreach.h \
@@ -13,5 +13,6 @@ bin/test-build/./yacc/structinfo/add_scanf_scalar_field.o: \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h yacc/structinfo/struct.h yacc/structinfo/node/new.h \
- yacc/structinfo/node/type.h yacc/structinfo/add_scanf_scalar_field.h
+ quack/free.h out/function_queue/funcdata/struct.h \
+ out/function_queue/funcdata/kind.h out/function_queue/funcdata/new.h \
+ out/function_queue/struct.h out/function_queue/submit_lambda_new.h

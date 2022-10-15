@@ -1,5 +1,5 @@
-bin/test-build/./parse/grammar/0.highest/regex.o: \
- parse/grammar/0.highest/regex.c debug.h memory/smalloc.h \
+bin/debug-build/./out/function_queue/submit_lambda_new.o: \
+ out/function_queue/submit_lambda_new.c debug.h memory/smalloc.h \
  memory/srealloc.h defines/argv0.h macros/strequals.h enums/error.h \
  enums/token_kind.h avl/alloc_tree.h avl/tree_t.h avl/freeitem_t.h \
  avl/compare_t.h avl/node_t.h avl/search.h avl/insert.h avl/foreach.h \
@@ -13,11 +13,6 @@ bin/test-build/./parse/grammar/0.highest/regex.o: \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h regex/nfa_to_dfa.h regex/rbundle.h regex/simplify_dfa.h \
- regex/free.h lex/struct.h lex/add_token.h yacc/structinfo/new.h \
- yacc/structinfo/add_field.h yacc/structinfo/node/type.h \
- yacc/structinfo/free.h set/unsigned/new.h set/unsigned/add.h \
- set/unsigned/free.h gegex/new.h gegex/add_transition.h \
- parse/grammar/0.highest/../../parse.h \
- parse/grammar/0.highest/../../regex.h regex/rbundle.h \
- parse/grammar/0.highest/regex.h gegex/gbundle.h
+ quack/free.h out/function_queue/funcdata/struct.h \
+ out/function_queue/funcdata/kind.h out/function_queue/funcdata/new.h \
+ out/function_queue/struct.h out/function_queue/submit_lambda_new.h

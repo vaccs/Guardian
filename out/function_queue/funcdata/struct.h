@@ -7,6 +7,8 @@ struct funcdata
 	
 	struct type* type;
 	
+	struct lambda_expression* lexpression;
+	
 	unsigned id;
 };
 

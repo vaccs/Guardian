@@ -28,7 +28,7 @@
 
 #include <type_cache/get_type/lambda.h>
 
-#include <expression/struct.h>
+#include <expression/struct.h>	
 #include <expression/lambda/new.h>
 #include <expression/literal/new.h>
 #include <expression/free.h>

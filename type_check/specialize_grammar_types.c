@@ -15,6 +15,8 @@
 
 #include <type/grammar/add_field.h>
 
+#include <type_check/build_type.h>
+
 #include "specialize_grammar_types.h"
 
 void specialize_grammar_types(
@@ -46,15 +48,30 @@ void specialize_grammar_types(
 					{
 						case snt_token_scalar:
 						{
-							struct type* subtype = type_cache_get_charlist_type(tcache);
-							
-							grammar_type_add_field(gtype, ele->name, subtype);
+							if (ele->tokentype)
+							{
+								struct type* subtype = build_type(tcache, ele->tokentype);
+								
+								grammar_type_add_field(gtype, ele->name, subtype);
+							}
+							else
+							{
+								struct type* subtype = type_cache_get_charlist_type(tcache);
+								grammar_type_add_field(gtype, ele->name, subtype);
+							}
 							break;
 						}
 						
 						case snt_token_array:
 						{
-							TODO;
+							if (ele->tokentype)
+							{
+								TODO;
+							}
+							else
+							{
+								TODO;
+							}
 							break;
 						}
 						
@@ -77,25 +94,6 @@ void specialize_grammar_types(
 							struct type* subtype = type_cache_get_list_type(tcache, subtype_ele);
 							
 							grammar_type_add_field(gtype, ele->name, subtype);
-							break;
-						}
-						
-						case snt_scanf_scalar:
-						{
-							switch (ele->conversion_char)
-							{
-								case 'i':
-								{
-									struct type* subtype = type_cache_get_int_type(tcache);
-									grammar_type_add_field(gtype, ele->name, subtype);
-									break;
-								}
-								
-								default:
-									dpvc(ele->conversion_char);
-									TODO;
-									break;
-							}
 							break;
 						}
 						

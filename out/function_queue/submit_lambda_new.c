@@ -5,28 +5,29 @@
 #include "funcdata/new.h"
 
 #include "struct.h"
-#include "submit_inc.h"
+#include "submit_lambda_new.h"
 
-unsigned function_queue_submit_free(
+unsigned function_queue_submit_lambda_new(
 	struct function_queue* this,
-	struct type* type)
+	struct lambda_expression* lexpression)
 {
 	unsigned id;
 	ENTER;
 	
 	struct avl_node_t* node = avl_search(this->queued, &(struct funcdata) {
-		.kind = fk_free,
-		.type = type,
+		.kind = fk_lambda_new,
+		.lexpression = lexpression,
 	});
 	
 	if (node)
 	{
 		struct funcdata* fdata = node->item;
+		
 		id = fdata->id;
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_free, type, NULL, id = this->next++);
+		struct funcdata* fdata = new_funcdata(fk_new, NULL, lexpression, id = this->next++);
 		
 		quack_append(this->todo, fdata);
 		

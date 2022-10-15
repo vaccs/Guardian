@@ -12,5 +12,5 @@ bin/debug-build/./yacc/structinfo/node/free.o: \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
- yacc/structinfo/node/free.h
+ quack/free.h parse/parse.h yacc/structinfo/node/struct.h \
+ yacc/structinfo/node/type.h yacc/structinfo/node/free.h

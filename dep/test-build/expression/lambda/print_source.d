@@ -13,5 +13,7 @@ bin/test-build/./expression/lambda/print_source.o: \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h expression/lambda/struct.h expression/lambda/../struct.h \
- expression/lambda/../kind.h expression/lambda/print_source.h
+ quack/free.h out/shared.h out/function_queue/submit_lambda_new.h \
+ parameter/struct.h list/parameter/struct.h expression/lambda/struct.h \
+ expression/lambda/../struct.h expression/lambda/../kind.h \
+ expression/lambda/print_source.h

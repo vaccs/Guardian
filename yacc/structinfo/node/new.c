@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <parse/parse.h>
+
 #include "struct.h"
 #include "new.h"
 
@@ -8,7 +10,7 @@ struct structinfo_node* new_structinfo_node(
 	enum structinfo_node_type type,
 	struct string* name,
 	struct string* grammar,
-	char conversion_char)
+	struct zebu_type* tokentype)
 {
 	ENTER;
 	
@@ -20,7 +22,7 @@ struct structinfo_node* new_structinfo_node(
 	
 	this->grammar = inc_string(grammar);
 	
-	this->conversion_char = conversion_char;
+	this->tokentype = inc_zebu_type(tokentype);
 	
 	this->refcount = 1;
 	
