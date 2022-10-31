@@ -33,24 +33,26 @@ struct stringtree* lambda_type_generate_typedef(
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
-			"type_%u* (*evaluate)(/* parameters */);"
-			"void (*free)(type_%u*);"
-		"};"
-	"", rid, rid, rid);
+			"type_%u* (*evaluate)("
+	"", rid, rid);
 	
-	#if 0
 	for (unsigned i = 0, n = this->parameters->n; i < n; i++)
 	{
-		struct type* t = this->parameters->data[i];
+		struct type* type = this->parameters->data[i];
 		
-		type_queue_submit(tlookup, t);
+		type_queue_submit(tlookup, type);
 		
-		stringtree_append_printf(tree, "type_%u", t->id);
+		stringtree_append_printf(tree, "type_%u*", type->id);
 		
 		if (i + 1 < n)
 			stringtree_append_printf(tree, ", ");
 	}
-	#endif
+	
+	stringtree_append_printf(tree, ""
+				");"
+			"void (*free)(type_%u*);"
+		"};"
+	"", rid);
 	
 	EXIT;
 	return tree;
