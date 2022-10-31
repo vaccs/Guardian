@@ -18,10 +18,10 @@ struct stringtree* bool_type_generate_typedef(
 	dpv(super->id);
 	
 	stringtree_append_printf(tree, ""
-		"typedef struct {"
+		"struct type_%u {"
 			"bool value;"
 			"unsigned refcount;"
-		"} type_%u;"
+		"};"
 	"", super->id);
 	
 	EXIT;

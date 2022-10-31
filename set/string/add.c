@@ -24,7 +24,6 @@ bool stringset_add(
 	}
 	else
 	{
-		TODO;
 		return false;
 	}
 	

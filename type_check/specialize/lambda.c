@@ -37,11 +37,13 @@
 
 #include "../build_type.h"
 
+#include "shared.h"
 #include "conditional.h"
 #include "lambda.h"
 
 struct expression* specialize_lambda_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_lambda_expression* zexpression)
 {
 	struct expression* retval;
@@ -49,7 +51,7 @@ struct expression* specialize_lambda_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_conditional_expression(tcache, zexpression->base);
+		retval = specialize_conditional_expression(tcache, sshared, zexpression->base);
 	}
 	else if (zexpression->lambda)
 	{
@@ -115,17 +117,17 @@ struct expression* specialize_lambda_expression(
 			runme;
 		}));
 		
-		struct expression* body = specialize_lambda_expression(tcache, zexpression->lambda);
+		struct expression* body = specialize_lambda_expression(tcache, sshared, zexpression->lambda);
 		
 		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, body->type);
 		
 		if (parameter_list_is_nonempty(captured))
 		{
-			retval = new_lambda_expression(type, parameters, captured, body);
+			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, captured, body);
 		}
 		else
 		{
-			struct value* new = new_lambda_value(type, parameters, NULL, body);
+			struct value* new = new_lambda_value(type, sshared->lambda_id++, parameters, NULL, body);
 			
 			retval = new_literal_expression(new);
 			

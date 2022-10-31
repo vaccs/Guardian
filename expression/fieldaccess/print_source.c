@@ -4,6 +4,7 @@
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
 
 #include <type/struct.h>
@@ -19,51 +20,54 @@ struct stringtree* fieldaccess_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == ek_fieldaccess);
+	
 	struct fieldaccess_expression* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
-	struct expression* list = this->list;
+	struct expression* object = this->object;
+
+	struct type* ftype = super->type;
+	struct type* otype = object->type;
 	
-	struct type* rtype = super->type;
-	
-	struct type* ltype = list->type;
-	
-	type_queue_submit(shared->tqueue, rtype);
-	type_queue_submit(shared->tqueue, ltype);
-	
-	unsigned rtype_id = rtype->id;
-	unsigned ltype_id = ltype->id;
+	type_queue_submit(shared->tqueue, ftype);
+	type_queue_submit(shared->tqueue, otype);
 	
 	stringtree_append_printf(tree, ""
 		"({"
-			"type_%u* list = "
-	"", ltype_id);
+			"type_%u* _object = "
+	"", otype->id);
 	
-	struct stringtree* expression = expression_print_source(this->list, shared);
+	struct stringtree* expression = expression_print_source(this->object, shared);
 	
 	stringtree_append_tree(tree, expression);
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, rtype);
+	struct string* fieldname = this->fieldname;
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, ftype);
 	
 	stringtree_append_printf(tree, ""
-			";"
-			"type_%u* fieldaccess = func_%u();"
-			"mpz_set_ui(fieldaccess->value, list->n);"
-			"func_%u(list);"
-			"fieldaccess;"
+				";"
+			"if (!_object.%.*s) {"
+				"assert(!\"TODO: missing field!\");"
+			"}"
+			"type_%u* _field = func_%u(_object.%.*s);"
+	"", fieldname->len, fieldname->chars,
+	ftype->id, inc_id, fieldname->len, fieldname->chars);
+	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, otype);
+	
+	stringtree_append_printf(tree, ""
+			"func_%u(_object);"
+			"_field;"
 		"})"
-	"", rtype_id, new_id, free_id);
+	"", free_id);
 	
 	free_stringtree(expression);
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

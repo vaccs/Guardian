@@ -8,6 +8,7 @@
 
 struct expression* specialize_unary_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_unary_expression* zexpression)
 {
 	struct expression* retval;
@@ -15,7 +16,7 @@ struct expression* specialize_unary_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_postfix_expression(tcache, zexpression->base);
+		retval = specialize_postfix_expression(tcache, sshared, zexpression->base);
 	}
 	else
 	{

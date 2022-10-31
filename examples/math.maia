@@ -11,7 +11,7 @@ root: additive #exp;
 
 %start: root #root;
 
-%forward: eval_root = $root: int;
+// %forward: eval_root = $root: int;
 
 // struct lambda_%u
 // {
@@ -53,23 +53,31 @@ root: additive #exp;
 		// (this->free)(this);
 		// free(this);
 
-eval_highest = $highest h: (h has literal) ? h.literal : eval_root(h.subexp);
+// eval_highest = $highest h: (h has literal) ? h.literal : eval_root(h.subexp);
 
-eval_multiply = $multiplicative m: eval_highest(m.base)
-	* product(map(eval_highest, m.multmes))
-	/ product(map(eval_highest, m.divmes))
-	;
+// eval_multiply = $multiplicative m: eval_highest(m.base)
+// 	* product(map(eval_highest, m.multmes))
+// 	/ product(map(eval_highest, m.divmes))
+// 	;
 
-eval_add = $additive a: eval_multiply(a.base)
-	+ sum(map(eval_multiply, a.addmes))
-	- sum(map(eval_multiply, a.submes))
-	;
+// eval_add = $additive a: eval_multiply(a.base)
+// 	+ sum(map(eval_multiply, a.addmes))
+// 	- sum(map(eval_multiply, a.submes))
+// 	;
 
-eval_root = $root r: eval_add(r.exp);
+// eval_root = $root r: eval_add(r.exp);
 
-x = eval_root(root[0]);
+// x = eval_root(root[0]);
 
-%error: x != 0;
+// %error: x != 0;
+
+a = $int x: $: $int y: $: x + y;
+
+x = highest[0].literal;
+y = highest[1].literal;
+
+// %error: a(3)()(4)() == 7;
+%error: a(x)()(y)() == 7;
 
 //%error: !all($root r: eval_root(r) != 0, root)
 

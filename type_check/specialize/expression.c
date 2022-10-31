@@ -8,12 +8,13 @@
 
 struct expression* specialize_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_expression* zexpression)
 {
 	struct expression* retval;
 	ENTER;
 	
-	retval = specialize_implication_expression(tcache, zexpression);
+	retval = specialize_implication_expression(tcache, sshared, zexpression);
 	
 	EXIT;
 	return retval;

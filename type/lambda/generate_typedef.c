@@ -27,18 +27,18 @@ struct stringtree* lambda_type_generate_typedef(
 	
 	dpv(super->id);
 	
-	stringtree_append_printf(tree, ""
-		"struct type_%u {"
-	"", super->id);
-	
-	TODO;
-	#if 0
 	type_queue_submit(tlookup, this->rettype);
 	
-	stringtree_append_printf(tree, ""
-		"type_%u (*funcptr)("
-	"", this->rettype->id);
+	unsigned rid = this->rettype->id;
 	
+	stringtree_append_printf(tree, ""
+		"struct type_%u {"
+			"type_%u* (*evaluate)(/* parameters */);"
+			"void (*free)(type_%u*);"
+		"};"
+	"", rid, rid, rid);
+	
+	#if 0
 	for (unsigned i = 0, n = this->parameters->n; i < n; i++)
 	{
 		struct type* t = this->parameters->data[i];
@@ -50,11 +50,6 @@ struct stringtree* lambda_type_generate_typedef(
 		if (i + 1 < n)
 			stringtree_append_printf(tree, ", ");
 	}
-	
-	stringtree_append_printf(tree, ""
-			");"
-		";"
-	"", super->id);
 	#endif
 	
 	EXIT;

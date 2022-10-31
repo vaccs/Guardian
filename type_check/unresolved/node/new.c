@@ -14,9 +14,10 @@ struct unresolved_node* new_unresolved_node(
 	
 	this->name = inc_string(name);
 	
-	this->usages = new_ptrset();
+	this->layers.current = new_ptrset();
+	this->layers.deeper = new_ptrset();
 	
-	ptrset_add(this->usages, expression);
+	ptrset_add(this->layers.current, expression);
 	
 	this->refcount = 1;
 	

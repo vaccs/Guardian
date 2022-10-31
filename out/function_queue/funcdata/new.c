@@ -8,6 +8,7 @@ struct funcdata* new_funcdata(
 	enum funcdata_kind kind,
 	struct type* type,
 	struct lambda_expression* lexpression,
+	struct lambda_value* lvalue,
 	unsigned id)
 {
 	ENTER;
@@ -19,6 +20,8 @@ struct funcdata* new_funcdata(
 	this->type = type;
 	
 	this->lexpression = lexpression;
+	
+	this->lvalue = lvalue;
 	
 	this->id = id;
 	

@@ -3,52 +3,36 @@
 
 #include <avl/tree_t.h>
 
-#ifdef VERBOSE
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <misc/default_sighandler.h>
-#endif
-
 #include "struct.h"
 #include "print_source.h"
 
-void dyntable_print_source(struct dyntable* this, const char* prefix, FILE* stream)
+struct stringtree* dyntable_print_source(
+	struct dyntable* this)
 {
 	ENTER;
 	
-	#ifdef VERBOSE
-	void handler(int _)
-	{
-		char ptr[100] = {};
-		
-		size_t len = snprintf(ptr, 100, "\e[K" "zebu: writing %s table ...\r", this->name);
-		
-		if (write(1, ptr, len) != len)
-		{
-			abort();
-		}
-	}
+	struct stringtree* tree = new_stringtree();
 	
-	signal(SIGALRM, handler);
-	#endif
-	
-	fprintf(stream, "const unsigned %s_%s[%u][%u] = {\n", prefix, this->name, this->width + 1, this->height + 1);
+	stringtree_append_printf(tree, ""
+		"const unsigned %s[%u + 1][%u + 1] = {"
+	"", this->name, this->width, this->height);
 	
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 	{
 		struct dyntable_node* ele = node->item;
 		
-		fprintf(stream, "\t[%u][%u] = %u,\n", ele->x, ele->y, ele->v);
+		stringtree_append_printf(tree, ""
+			"[%u][%u] = %u,"
+		"", ele->x, ele->y, ele->v);
 	}
 	
-	fprintf(stream, "};\n");
 	
-	#ifdef VERBOSE
-	signal(SIGALRM, default_sighandler);
-	#endif
+	stringtree_append_printf(tree, ""
+		"};"
+	"");
 	
 	EXIT;
+	return tree;
 }
 
 

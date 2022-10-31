@@ -20,10 +20,10 @@ struct stringtree* char_type_generate_typedef(
 	dpv(super->id);
 	
 	stringtree_append_printf(tree, ""
-		"typedef struct {"
+		"struct type_%u {"
 			"mpz_t value;"
 			"unsigned refcount;"
-		"} type_%u;"
+		"} ;"
 	"", super->id);
 	
 	EXIT;

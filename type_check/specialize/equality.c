@@ -21,6 +21,7 @@
 
 struct expression* specialize_equality_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_equality_expression* zexpression)
 {
 	struct expression* retval;
@@ -28,15 +29,15 @@ struct expression* specialize_equality_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_relational_expression(tcache, zexpression->base);
+		retval = specialize_relational_expression(tcache, sshared, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
 		assert(zexpression->right);
 		
-		struct expression* left = specialize_equality_expression(tcache, zexpression->left);
+		struct expression* left = specialize_equality_expression(tcache, sshared, zexpression->left);
 		
-		struct expression* right = specialize_relational_expression(tcache, zexpression->right);
+		struct expression* right = specialize_relational_expression(tcache, sshared, zexpression->right);
 		
 		if (left->type != right->type)
 		{

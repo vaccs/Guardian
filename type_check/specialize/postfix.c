@@ -46,6 +46,7 @@
 
 struct expression* specialize_postfix_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_postfix_expression* zexpression)
 {
 	struct expression* retval;
@@ -53,15 +54,15 @@ struct expression* specialize_postfix_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_primary_expression(tcache, zexpression->base);
+		retval = specialize_primary_expression(tcache, sshared, zexpression->base);
 	}
 	else if (zexpression->sub)
 	{
-		struct expression* sub = specialize_postfix_expression(tcache, zexpression->sub);
+		struct expression* sub = specialize_postfix_expression(tcache, sshared, zexpression->sub);
 		
 		if (zexpression->index)
 		{
-			struct expression* index = specialize_expression(tcache, zexpression->index);
+			struct expression* index = specialize_expression(tcache, sshared, zexpression->index);
 			
 			if (index->type->kind != tk_int)
 			{
@@ -169,7 +170,7 @@ struct expression* specialize_postfix_expression(
 			
 			for (unsigned i = 0, n = zexpression->args.n; i < n; i++)
 			{
-				struct expression* arg = specialize_expression(tcache, zexpression->args.data[i]);
+				struct expression* arg = specialize_expression(tcache, sshared, zexpression->args.data[i]);
 				
 				if (arg->kind != ek_literal)
 					all_literals = false;

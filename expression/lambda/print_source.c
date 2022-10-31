@@ -21,6 +21,8 @@ struct stringtree* lambda_expression_print_source(
 	
 	struct lambda_expression* this = (void*) super;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	unsigned new_id = function_queue_submit_lambda_new(shared->fqueue, this);
@@ -56,6 +58,7 @@ struct stringtree* lambda_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

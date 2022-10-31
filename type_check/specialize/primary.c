@@ -102,6 +102,7 @@ static struct expression* specialize_primary_identifier_expression(
 
 static struct expression* specialize_primary_list_expression(
 	struct type_cache* tcache,
+	struct specialize_shared* sshared,
 	struct zebu_expression** raw_elements, unsigned len)
 {
 	ENTER;
@@ -118,7 +119,7 @@ static struct expression* specialize_primary_list_expression(
 	
 	for (unsigned i = 0, n = len; i < n; i++)
 	{
-		struct expression* element = specialize_expression(tcache, raw_elements[i]);
+		struct expression* element = specialize_expression(tcache, sshared, raw_elements[i]);
 		
 		if (!element_type)
 		{
@@ -177,6 +178,7 @@ static struct expression* specialize_primary_list_expression(
 
 static struct expression* specialize_primary_len_expression(
 	struct type_cache* tcache,
+	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -188,7 +190,7 @@ static struct expression* specialize_primary_len_expression(
 		exit(1);
 	}
 	
-	struct expression* list = specialize_expression(tcache, raw_arguments[0]);
+	struct expression* list = specialize_expression(tcache, sshared, raw_arguments[0]);
 	
 	if (list->type->kind != tk_list)
 	{
@@ -213,6 +215,7 @@ static struct expression* specialize_primary_len_expression(
 
 static struct expression* specialize_primary_sum_expression(
 	struct type_cache* tcache,
+	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -226,7 +229,7 @@ static struct expression* specialize_primary_sum_expression(
 	
 	bool all_literals = true;
 	
-	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
+	struct expression* list_exp = specialize_expression(tcache, sshared, raw_arguments[0]);
 	
 	if (list_exp->kind != ek_literal)
 		all_literals = false;
@@ -260,6 +263,7 @@ static struct expression* specialize_primary_sum_expression(
 
 static struct expression* specialize_primary_map_expression(
 	struct type_cache* tcache,
+	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -273,7 +277,7 @@ static struct expression* specialize_primary_map_expression(
 	
 	bool all_literals = true;
 	
-	struct expression* lambda_exp = specialize_expression(tcache, raw_arguments[0]);
+	struct expression* lambda_exp = specialize_expression(tcache, sshared, raw_arguments[0]);
 	
 	if (lambda_exp->kind != ek_literal)
 		all_literals = false;
@@ -298,7 +302,7 @@ static struct expression* specialize_primary_map_expression(
 	
 	for (unsigned i = 0, n = raw_len; i < n; i++)
 	{
-		struct expression* arg = specialize_expression(tcache, raw_arguments[i]);
+		struct expression* arg = specialize_expression(tcache, sshared, raw_arguments[i]);
 		
 		if (arg->kind != ek_literal)
 			all_literals = false;
@@ -374,6 +378,7 @@ static struct expression* specialize_primary_map_expression(
 
 static struct expression* specialize_primary_product_expression(
 	struct type_cache* tcache,
+	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -387,7 +392,7 @@ static struct expression* specialize_primary_product_expression(
 	
 	bool all_literals = true;
 	
-	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
+	struct expression* list_exp = specialize_expression(tcache, sshared, raw_arguments[0]);
 	
 	if (list_exp->kind != ek_literal)
 		all_literals = false;
@@ -422,6 +427,7 @@ static struct expression* specialize_primary_product_expression(
 
 struct expression* specialize_primary_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_primary_expression* zexpression)
 {
 	struct expression* retval;
@@ -456,6 +462,7 @@ struct expression* specialize_primary_expression(
 		else
 		{
 			struct expression* sub = specialize_expression(tcache,
+				sshared,
 				zexpression->elements.data[0]);
 			
 			retval = new_parenthesis_expression(sub);
@@ -466,26 +473,31 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->list)
 	{
 		retval = specialize_primary_list_expression(tcache,
+			sshared,
 			zexpression->elements.data, zexpression->elements.n);
 	}
 	else if (zexpression->len)
 	{
 		retval = specialize_primary_len_expression(tcache,
+			sshared,
 			zexpression->args.data, zexpression->args.n);
 	}
 	else if (zexpression->sum)
 	{
 		retval = specialize_primary_sum_expression(tcache,
+			sshared,
 			zexpression->args.data, zexpression->args.n);
 	}
 	else if (zexpression->map)
 	{
 		retval = specialize_primary_map_expression(tcache,
+			sshared,
 			zexpression->args.data, zexpression->args.n);
 	}
 	else if (zexpression->product)
 	{
 		retval = specialize_primary_product_expression(tcache,
+			sshared,
 			zexpression->args.data, zexpression->args.n);
 	}
 	else

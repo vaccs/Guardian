@@ -77,6 +77,7 @@
 	struct type_queue;
 	struct lambda_expression;
 	struct format_flags;
+	struct specialize_shared;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -92,6 +93,7 @@
 	#include <avl/search.h>
 	#include <avl/insert.h>
 	#include <avl/foreach.h>
+	#include <avl/clear_tree.h>
 	#include <avl/free_tree.h>
 	#include <avl/delete_node.h>
 	#include <avl/delete.h>
@@ -108,7 +110,10 @@
 	#include <set/ptr/get_head.h>
 	#include <set/ptr/foreach.h>
 	#include <set/ptr/contains.h>
+	#include <set/ptr/update.h>
+	#include <set/ptr/is_nonempty.h>
 	#include <set/ptr/discard.h>
+	#include <set/ptr/clear.h>
 	#include <set/ptr/free.h>
 	
 	#include <set/string/new.h>

@@ -52,9 +52,9 @@ struct stringtree* comparison_expression_print_source(
 	
 	struct stringtree* right = expression_print_source(this->right, shared);
 	
-	stringtree_append_printf(tree, "type_%u *left = ", tid);
+	stringtree_append_printf(tree, "type_%u *_left = ", tid);
 	stringtree_append_tree(tree, left);
-	stringtree_append_printf(tree, ", *right = ");
+	stringtree_append_printf(tree, ", *_right = ");
 	stringtree_append_tree(tree, right);
 	stringtree_append_printf(tree, ";\n");
 	
@@ -63,14 +63,14 @@ struct stringtree* comparison_expression_print_source(
 	unsigned compare_id = function_queue_submit_compare(shared->fqueue, this->type);
 	
 	stringtree_append_printf(tree, ""
-		"type_%u* cmp = func_%u(func_%u(left, right) %s 0);"
+		"type_%u* _cmp = func_%u(func_%u(_left, _right) %s 0);"
 	"", rid, new_id, compare_id, lookup[this->kind]);
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, this->type);
 	
-	stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+	stringtree_append_printf(tree, "func_%u(_left), func_%u(_right);", free_id, free_id);
 	
-	stringtree_append_printf(tree, "cmp;");
+	stringtree_append_printf(tree, "_cmp;");
 	
 	stringtree_append_printf(tree, "})");
 	

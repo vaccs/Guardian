@@ -11,6 +11,8 @@ enum funcdata_kind
 	fk_free,
 	
 	fk_lambda_new,
+	fk_lambda_evaluate,
+	fk_lambda_free,
 };
 
 #endif

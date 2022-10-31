@@ -21,11 +21,12 @@ unsigned function_queue_submit_index(
 	
 	if (node)
 	{
-		TODO;
+		struct funcdata* old = node->item;
+		id = old->id;
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_index, type, NULL, id = this->next++);
+		struct funcdata* fdata = new_funcdata(fk_index, type, NULL, NULL, id = this->next++);
 		
 		quack_append(this->todo, fdata);
 		

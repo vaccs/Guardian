@@ -10,6 +10,9 @@
 
 #include <stringtree/prepend_tree.h>
 
+#include <value/lambda/generate_new_func.h>
+#include <value/lambda/generate_evaluate_func.h>
+
 #include "funcdata/struct.h"
 
 #include "struct.h"
@@ -37,25 +40,85 @@ void function_queue_process(
 			switch (fdata->kind)
 			{
 				case fk_new:
+					dputs("fk_new");
+					dpv(fdata->type);
 					func = type_generate_new_func(fdata->type, fdata->id, this);
 					break;
 				
 				case fk_inc:
+					dputs("fk_inc");
 					func = type_generate_inc_func(fdata->type, fdata->id);
 					break;
 				
 				case fk_compare:
+					dputs("fk_compare");
 					func = type_generate_compare_func(fdata->type, fdata->id, this);
 					break;
 				
 				case fk_free:
+					dputs("fk_free");
 					func = type_generate_free_func(fdata->type, fdata->id, this);
 					break;
 				
 				case fk_index:
+					dputs("fk_index");
 					assert(fdata->type->kind == tk_list);
 					func = list_type_generate_index_func((void*) fdata->type, fdata->id, this);
 					break;
+				
+				case fk_lambda_new:
+				{
+					dputs("fk_lambda_new");
+					if (fdata->lexpression)
+					{
+						TODO;
+					}
+					else if (fdata->lvalue)
+					{
+						func = lambda_value_generate_new_func(fdata->lvalue, fdata->id, this);
+					}
+					else
+					{
+						TODO;
+					}
+					break;
+				}
+				
+				case fk_lambda_evaluate:
+				{
+					dputs("fk_lambda_evaluate");
+					if (fdata->lexpression)
+					{
+						TODO;
+					}
+					else if (fdata->lvalue)
+					{
+						func = lambda_value_generate_evaluate_func(fdata->lvalue, fdata->id, this);
+					}
+					else
+					{
+						TODO;
+					}
+					break;
+				}
+				
+				case fk_lambda_free:
+				{
+					dputs("fk_lambda_free");
+					if (fdata->lexpression)
+					{
+						TODO;
+					}
+					else if (fdata->lvalue)
+					{
+						TODO;
+					}
+					else
+					{
+						TODO;
+					}
+					break;
+				}
 				
 				default:
 					dpv(fdata->kind);

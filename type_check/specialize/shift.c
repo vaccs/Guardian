@@ -8,6 +8,7 @@
 
 struct expression* specialize_shift_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_shift_expression* zexpression)
 {
 	struct expression* retval;
@@ -15,7 +16,7 @@ struct expression* specialize_shift_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_additive_expression(tcache, zexpression->base);
+		retval = specialize_additive_expression(tcache, sshared, zexpression->base);
 	}
 	else if (zexpression->left)
 	{

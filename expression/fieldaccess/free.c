@@ -11,12 +11,11 @@ void free_fieldaccess_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct fieldaccess_expression* this = (void*) super;
 	
-	free_expression(this->list);
-	#endif
+	free_expression(this->object);
+	
+	free_string(this->fieldname);
 	
 	EXIT;
 }

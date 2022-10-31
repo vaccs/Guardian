@@ -7,13 +7,15 @@
 #include "struct.h"
 #include "submit_lambda_new.h"
 
-unsigned function_queue_submit_lambda_new(
+unsigned function_queue_submit_lambda_expression_new(
 	struct function_queue* this,
 	struct lambda_expression* lexpression)
 {
 	unsigned id;
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct avl_node_t* node = avl_search(this->queued, &(struct funcdata) {
 		.kind = fk_lambda_new,
 		.lexpression = lexpression,
@@ -27,7 +29,39 @@ unsigned function_queue_submit_lambda_new(
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_new, NULL, lexpression, id = this->next++);
+		struct funcdata* fdata = new_funcdata(fk_lambda_new, NULL, lexpression, id = this->next++);
+		
+		quack_append(this->todo, fdata);
+		
+		avl_insert(this->queued, fdata);
+	}
+	
+	EXIT;
+	return id;
+	#endif
+}
+
+unsigned function_queue_submit_lambda_value_new(
+	struct function_queue* this,
+	struct lambda_value* lvalue)
+{
+	unsigned id;
+	ENTER;
+	
+	struct avl_node_t* node = avl_search(this->queued, &(struct funcdata) {
+		.kind = fk_lambda_new,
+		.lvalue = lvalue,
+	});
+	
+	if (node)
+	{
+		struct funcdata* fdata = node->item;
+		
+		id = fdata->id;
+	}
+	else
+	{
+		struct funcdata* fdata = new_funcdata(fk_lambda_new, NULL, NULL, lvalue, id = this->next++);
 		
 		quack_append(this->todo, fdata);
 		
@@ -37,4 +71,13 @@ unsigned function_queue_submit_lambda_new(
 	EXIT;
 	return id;
 }
+
+
+
+
+
+
+
+
+
 

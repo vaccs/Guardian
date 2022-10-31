@@ -23,6 +23,7 @@
 {{LEXER_TRANSITION_TABLE}}
 
 // parser tables:
+{{SHIFT_TABLE}}
 
 static void escape(char *out, unsigned char in)
 {

@@ -3,7 +3,10 @@ struct unresolved_node
 {
 	struct string* name;
 	
-	struct ptrset* usages; // primary_expressions;
+	struct {
+		struct ptrset *current; // primary_expressions;
+		struct ptrset *deeper; // primary_expressions;
+	} layers;
 	
 	unsigned refcount;
 };

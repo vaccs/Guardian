@@ -24,11 +24,11 @@ struct stringtree* list_type_generate_typedef(
 	type_queue_submit(tqueue, this->element_type);
 	
 	stringtree_append_printf(tree, ""
-		"typedef struct {"
+		"struct type_%u {"
 			"type_%u** data;"
 			"unsigned n, cap, refcount;"
-		"} type_%u;"
-	"", this->element_type->id, super->id);
+		"};"
+	"", super->id, this->element_type->id);
 	
 	EXIT;
 	return tree;

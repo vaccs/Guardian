@@ -15,6 +15,7 @@
 
 struct value* new_lambda_value(
 	struct type* type,
+	unsigned id,
 	struct parameter_list* parameters,
 	struct scope* captured,
 	struct expression* body)
@@ -26,6 +27,8 @@ struct value* new_lambda_value(
 		vk_lambda,
 		&lambda_value_inheritance,
 		sizeof(*this));
+	
+	this->id = id;
 	
 	this->parameters = inc_parameter_list(parameters);
 	

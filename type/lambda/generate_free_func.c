@@ -19,18 +19,18 @@ struct stringtree* lambda_type_generate_free_func(
 	
 	struct stringtree* text = new_stringtree();
 	
-	TODO;
-	#if 0
 	stringtree_append_printf(text, ""
 		"static void func_%u(type_%u* this)"
 		"{"
 			"if (this && !--this->refcount)"
 			"{"
+				"if (this->free) {"
+					"(this->free)(this);"
+				"}"
 				"free(this);"
 			"}"
 		"}"
 	"", func_id, super->id);
-	#endif
 	
 	EXIT;
 	return text;

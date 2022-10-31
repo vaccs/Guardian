@@ -14,6 +14,8 @@ unsigned function_queue_submit_new(
 	unsigned id;
 	ENTER;
 	
+	assert(type);
+	
 	struct avl_node_t* node = avl_search(this->queued, &(struct funcdata) {
 		.kind = fk_new,
 		.type = type,
@@ -27,7 +29,9 @@ unsigned function_queue_submit_new(
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_new, type, NULL, id = this->next++);
+		struct funcdata* fdata = new_funcdata(fk_new, type, NULL, NULL, id = this->next++);
+		
+		assert(fdata->type);
 		
 		quack_append(this->todo, fdata);
 		

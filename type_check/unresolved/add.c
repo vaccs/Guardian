@@ -19,7 +19,7 @@ void unresolved_add(
 	{
 		struct unresolved_node* old = node->item;
 		
-		ptrset_add(old->usages, expression);
+		ptrset_add(old->layers.current, expression);
 	}
 	else
 	{

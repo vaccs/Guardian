@@ -5,12 +5,14 @@
 
 #include <type/free.h>
 
+#include "unresolved/foreach.h"
 #include "unresolved/new.h"
 #include "unresolved/inc.h"
 #include "unresolved/add.h"
 #include "unresolved/resolve.h"
 #include "unresolved/update.h"
 #include "unresolved/free.h"
+#include "unresolved/encase.h"
 
 #include "build_type.h"
 #include "resolve_variables.h"
@@ -477,8 +479,24 @@ static void resolve_variables_lambda(
 			free_string(name);
 		}
 		
-		expression->lambda_captures = inc_unresolved(subunresolved);
+		struct unresolved* lambda_captures = new_unresolved();
 		
+		// fill out `lambda_captures`:
+		unresolved_foreach(subunresolved, ({
+			void runme(struct string* name)
+			{
+				struct zebu_primary_expression* expression = smalloc(sizeof(*expression));
+				memset(expression, 0, sizeof(*expression));
+				unresolved_add(lambda_captures, name, expression);
+			}
+			runme;
+		}));
+		
+		expression->lambda_captures = lambda_captures;
+		
+		unresolved_update(unresolved, lambda_captures);
+		
+		unresolved_encase(subunresolved);
 		unresolved_update(unresolved, subunresolved);
 		
 		free_unresolved(subunresolved);

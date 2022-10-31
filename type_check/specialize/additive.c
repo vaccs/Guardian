@@ -23,6 +23,7 @@
 
 struct expression* specialize_additive_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_additive_expression* zexpression)
 {
 	struct expression* retval;
@@ -30,15 +31,15 @@ struct expression* specialize_additive_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_multiplicative_expression(tcache, zexpression->base);
+		retval = specialize_multiplicative_expression(tcache, sshared, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
 		assert(zexpression->right);
 		
-		struct expression* left = specialize_additive_expression(tcache, zexpression->left);
+		struct expression* left = specialize_additive_expression(tcache, sshared, zexpression->left);
 		
-		struct expression* right = specialize_multiplicative_expression(tcache, zexpression->right);
+		struct expression* right = specialize_multiplicative_expression(tcache, sshared, zexpression->right);
 		
 		if (left->type != right->type)
 		{

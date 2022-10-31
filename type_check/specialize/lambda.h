@@ -1,4 +1,5 @@
 
 struct expression* specialize_lambda_expression(
 	struct type_cache* tcache,
+	struct specialize_shared *sshared,
 	struct zebu_lambda_expression* zexpression);

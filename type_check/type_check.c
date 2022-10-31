@@ -48,6 +48,7 @@
 #include "unresolved/free.h"
 
 #include "specialize/expression.h"
+#include "specialize/shared.h"
 
 #include "build_type.h"
 #include "type_check.h"
@@ -166,6 +167,8 @@ void type_check(
 	}));
 	
 	unsigned waiting = 0;
+	
+	struct specialize_shared sshared = {};
 	
 	struct quack* ready = new_quack();
 	
@@ -294,7 +297,7 @@ void type_check(
 			runme;
 		}));
 		
-		struct expression* typed = specialize_expression(tcache, task->expression);
+		struct expression* typed = specialize_expression(tcache, &sshared, task->expression);
 		
 		expression_print(typed), puts("");
 		
@@ -392,7 +395,7 @@ void type_check(
 				runme;
 			}));
 			
-			struct expression* specialized = specialize_expression(tcache, raw_assertion->expression);
+			struct expression* specialized = specialize_expression(tcache, &sshared, raw_assertion->expression);
 			
 			expression_print(specialized), puts("");
 			

@@ -9,6 +9,8 @@ struct funcdata
 	
 	struct lambda_expression* lexpression;
 	
+	struct lambda_value* lvalue;
+	
 	unsigned id;
 };
 

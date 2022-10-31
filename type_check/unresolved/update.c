@@ -1,6 +1,7 @@
 
 #include <debug.h>
 
+#include "node/struct.h"
 #include "node/inc.h"
 
 #include "struct.h"
@@ -17,7 +18,25 @@ void unresolved_update(
 	
 	while (an && bn)
 	{
-		TODO;
+		struct unresolved_node *ae = an->item, *be = bn->item;
+		
+		int cmp = compare_strings(ae->name, be->name);
+		
+		if (cmp < 0)
+		{
+			TODO;
+		}
+		else if (cmp > 0)
+		{
+			TODO;
+		}
+		else
+		{
+			ptrset_update(ae->layers.current, be->layers.current);
+			ptrset_update(ae->layers.deeper, be->layers.deeper);
+			
+			an = an->next, bn = bn->next;
+		}
 	}
 	
 	while (bn)

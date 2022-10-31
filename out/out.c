@@ -16,24 +16,32 @@
 
 #include "ystate_to_id/new.h"
 #include "ystate_to_id/ystate_to_id.h"
+#include "ystate_to_id/free.h"
 
 #include "lstate_to_id/new.h"
 #include "lstate_to_id/lstate_to_id.h"
+#include "lstate_to_id/free.h"
 
 #include "unsignedset_to_id/new.h"
 #include "unsignedset_to_id/unsignedset_to_id.h"
+#include "unsignedset_to_id/free.h"
 
 #include "string_to_id/new.h"
 #include "string_to_id/string_to_id.h"
+#include "string_to_id/free.h"
 
 #include "reducerule_to_id/new.h"
 #include "reducerule_to_id/reducerule_to_id.h"
+#include "reducerule_to_id/free.h"
 
 #include "dynvector/new.h"
 #include "dynvector/set.h"
+#include "dynvector/free.h"
 
 #include "dyntable/new.h"
+#include "dyntable/print_source.h"
 #include "dyntable/set.h"
+#include "dyntable/free.h"
 
 #include "declare_queue/struct.h"
 #include "declare_queue/new.h"
@@ -276,10 +284,9 @@ struct stringtree* out(
 			
 			if (!strncmp(old, "SHIFT_TABLE", len))
 			{
-				TODO;
-				#if 0
-				dyntable_print_source(shifts, output_prefix, stream);
-				#endif
+				struct stringtree* text = dyntable_print_source(shifts);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
 			else if (!strncmp(old, "REDUCE_TABLE", len))
 			{
@@ -293,8 +300,9 @@ struct stringtree* out(
 			}
 			else if (!strncmp(old, "LEXER_TRANSITION_TABLE", len))
 			{
-				TODO;
-/*				dyntable_print_source(lexer, output_prefix, stream);*/
+				struct stringtree* text = dyntable_print_source(lexer);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
 			else if (!strncmp(old, "LEXER_STARTS_TABLE", len))
 			{
@@ -333,7 +341,7 @@ struct stringtree* out(
 			}
 			else if (!strncmp(old, "FORWARD_DECLARES", len))
 			{
-				TODO;
+				stringtree_append_tree(root, shared.dqueue->forward_text);
 			}
 			else if (!strncmp(old, "INIT_DECLARES", len))
 			{
@@ -377,8 +385,6 @@ struct stringtree* out(
 	
 	free_stringtree(assertions_text);
 	
-	TODO;
-	#if 0
 	free_reducerule_to_id(rrtoi);
 	
 	free_unsignedset_to_id(ustoi);
@@ -404,7 +410,6 @@ struct stringtree* out(
 	
 	free_quack(yacc_todo);
 	free_quack(lex_todo);
-	#endif
 	
 	EXIT;
 	return root;
