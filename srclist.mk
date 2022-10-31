@@ -327,6 +327,7 @@ srcs += ./regex/nfa_to_dfa.c
 srcs += ./regex/set_kind.c
 srcs += ./regex/simplify_dfa.c
 srcs += ./scope/declare.c
+srcs += ./scope/foreach.c
 srcs += ./scope/free.c
 srcs += ./scope/inc.c
 srcs += ./scope/lookup.c
