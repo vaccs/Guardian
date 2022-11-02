@@ -4,8 +4,8 @@ struct unresolved_node
 	struct string* name;
 	
 	struct {
-		struct ptrset *current; // primary_expressions;
-		struct ptrset *deeper; // primary_expressions;
+		struct zpexpressionset *current;
+		struct zpexpressionset *deeper;
 	} layers;
 	
 	unsigned refcount;

@@ -78,6 +78,7 @@
 	struct lambda_expression;
 	struct format_flags;
 	struct specialize_shared;
+	struct zpexpressionset;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>

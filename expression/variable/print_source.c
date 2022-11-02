@@ -37,7 +37,9 @@ struct stringtree* variable_expression_print_source(
 	switch (this->kind)
 	{
 		case vek_parameter:
-			TODO;
+			break;
+		
+		case vek_captured:
 			break;
 		
 		case vek_declare:
@@ -58,9 +60,18 @@ struct stringtree* variable_expression_print_source(
 	
 	unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
 	
-	stringtree_append_printf(tree, ""
-		"func_%u(%.*s)"
-	"", inc_id, this->name->len, this->name->chars);
+	if (this->kind == vek_captured)
+	{
+		stringtree_append_printf(tree, ""
+			"func_%u(this->$%.*s)"
+		"", inc_id, this->name->len, this->name->chars);
+	}
+	else
+	{
+		stringtree_append_printf(tree, ""
+			"func_%u($%.*s)"
+		"", inc_id, this->name->len, this->name->chars);
+	}
 	
 	EXIT;
 	return tree;

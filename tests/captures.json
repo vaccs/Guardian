@@ -1,0 +1,26 @@
+[{
+	"files": {
+		"./maia": "bin/release-build/maia",
+		
+		"./input.maia": [
+			"%skip: ' ';",
+			"integer: `int: ['0'-'9']+` #value;`",
+			"%start: integer+;",
+			"f = $int x: $: $int y: $: x + y;",
+			"x = integer[0];",
+			"y = integer[1];",
+			"%error: f(x)()(y)() == 7;",
+		],
+		"./test.txt": [
+			"3 4",
+		],
+	},
+	"environment": {
+		"PATH": "/tmp/"
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out",
+		"./out"
+	],
+}]

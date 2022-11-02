@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <set/zpexpression/update.h>
+#include <set/zpexpression/clear.h>
+
 #include "node/struct.h"
 
 #include "struct.h"
@@ -14,8 +17,8 @@ void unresolved_encase(
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 	{
 		struct unresolved_node* ele = node->item;
-		ptrset_update(ele->layers.deeper, ele->layers.current);
-		ptrset_clear(ele->layers.current);
+		zpexpressionset_update(ele->layers.deeper, ele->layers.current);
+		zpexpressionset_clear(ele->layers.current);
 	}
 	
 	EXIT;

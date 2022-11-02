@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <set/zpexpression/add.h>
+
 #include "node/struct.h"
 #include "node/new.h"
 #include "struct.h"
@@ -19,7 +21,7 @@ void unresolved_add(
 	{
 		struct unresolved_node* old = node->item;
 		
-		ptrset_add(old->layers.current, expression);
+		zpexpressionset_add(old->layers.current, expression);
 	}
 	else
 	{

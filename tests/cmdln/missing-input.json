@@ -1,0 +1,13 @@
+
+[{
+	"commands": [
+		"./maia -i ./missing/path.maia"
+	],
+	
+	"stderr": ""
+		"maia: cannot open './missing/path.maia'!"
+	"",
+	
+	"exit-code": 1,
+}]
+

@@ -29,6 +29,8 @@ bin/debug-build/./out/out.o: out/out.c debug.h memory/smalloc.h \
  out/set_queue/struct.h out/set_queue/new.h out/set_queue/process.h \
  out/set_queue/free.h out/function_queue/struct.h \
  out/function_queue/new.h out/function_queue/process.h \
- out/function_queue/free.h out/type_queue/struct.h out/type_queue/new.h \
+ out/function_queue/free.h out/subtype_queue/struct.h \
+ out/subtype_queue/new.h out/subtype_queue/process.h \
+ out/subtype_queue/free.h out/type_queue/struct.h out/type_queue/new.h \
  out/type_queue/process.h out/type_queue/free.h out/shared.h \
  out/escaped.h out/out.h

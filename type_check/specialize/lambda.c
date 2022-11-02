@@ -34,6 +34,7 @@
 #include <expression/free.h>
 
 #include "../unresolved/foreach.h"
+#include "../unresolved/is_nonempty.h"
 
 #include "../build_type.h"
 
@@ -100,34 +101,17 @@ struct expression* specialize_lambda_expression(
 			}
 		}
 		
-		struct parameter_list* captured = new_parameter_list();
-		
-		unresolved_foreach2(zexpression->lambda_captures, ({
-			void runme(struct string* name, struct type* type, struct value* value)
-			{
-				if (!value)
-				{
-					struct parameter* parameter = new_parameter(name, type);
-					
-					parameter_list_append(captured, parameter);
-					
-					free_parameter(parameter);
-				}
-			}
-			runme;
-		}));
-		
 		struct expression* body = specialize_lambda_expression(tcache, sshared, zexpression->lambda);
 		
 		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, body->type);
 		
-		if (parameter_list_is_nonempty(captured))
+		if (unresolved_is_nonempty(zexpression->lambda_captures))
 		{
-			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, captured, body);
+			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, zexpression->lambda_captures, body);
 		}
 		else
 		{
-			struct value* new = new_lambda_value(type, sshared->lambda_id++, parameters, NULL, body);
+			struct value* new = new_lambda_value(type, parameters, NULL, body);
 			
 			retval = new_literal_expression(new);
 			
@@ -137,7 +121,6 @@ struct expression* specialize_lambda_expression(
 		free_type_list(parameter_types);
 		
 		free_parameter_list(parameters);
-		free_parameter_list(captured);
 		
 		free_expression(body);
 	}

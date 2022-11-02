@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <set/zpexpression/update.h>
+
 #include "node/struct.h"
 #include "node/inc.h"
 
@@ -8,13 +10,13 @@
 #include "update.h"
 
 void unresolved_update(
-	struct unresolved* this,
-	const struct unresolved* other)
+	struct unresolved* a,
+	const struct unresolved* b)
 {
 	ENTER;
 	
-	struct avl_node_t* an = this->tree->head;
-	struct avl_node_t* bn = other->tree->head;
+	struct avl_node_t* an = a->tree->head;
+	struct avl_node_t* bn = b->tree->head;
 	
 	while (an && bn)
 	{
@@ -32,8 +34,8 @@ void unresolved_update(
 		}
 		else
 		{
-			ptrset_update(ae->layers.current, be->layers.current);
-			ptrset_update(ae->layers.deeper, be->layers.deeper);
+			zpexpressionset_update(ae->layers.current, be->layers.current);
+			zpexpressionset_update(ae->layers.deeper, be->layers.deeper);
 			
 			an = an->next, bn = bn->next;
 		}
@@ -43,9 +45,9 @@ void unresolved_update(
 	{
 		struct unresolved_node* be = bn->item;
 		
-		avl_insert(this->tree, inc_unresolved_node(be));
+		avl_insert(a->tree, inc_unresolved_node(be));
 		
-		this->n++;
+		a->n++;
 		
 		bn = bn->next;
 	}

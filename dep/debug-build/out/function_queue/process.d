@@ -15,8 +15,12 @@ bin/debug-build/./out/function_queue/process.o: \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  type/struct.h type/kind.h type/generate_new_func.h \
- type/generate_inc_func.h type/generate_compare_func.h \
- type/list/generate_index_func.h type/generate_free_func.h \
- value/lambda/generate_new_func.h value/lambda/generate_evaluate_func.h \
+ type/generate_new_forward.h type/generate_inc_func.h \
+ type/generate_inc_forward.h type/generate_compare_func.h \
+ type/generate_free_func.h type/generate_free_forward.h \
+ type/list/generate_index_func.h expression/lambda/generate_new_func.h \
+ expression/lambda/generate_evaluate_func.h \
+ expression/lambda/generate_free_func.h value/lambda/generate_new_func.h \
+ value/lambda/generate_evaluate_func.h \
  out/function_queue/funcdata/struct.h out/function_queue/funcdata/kind.h \
  out/function_queue/struct.h out/function_queue/process.h

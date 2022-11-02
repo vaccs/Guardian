@@ -18,6 +18,10 @@ struct type_inheritance
 		unsigned func_id,
 		struct function_queue*);
 	
+	struct stringtree* (*generate_new_forward)(
+		struct type*,
+		unsigned func_id);
+	
 	struct stringtree* (*generate_inc_func)(
 		struct type*);
 	

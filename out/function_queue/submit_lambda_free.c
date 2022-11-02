@@ -14,8 +14,6 @@ unsigned function_queue_submit_lambda_expression_free(
 	unsigned id;
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct avl_node_t* node = avl_search(this->queued, &(struct funcdata) {
 		.kind = fk_lambda_free,
 		.lexpression = lexpression,
@@ -29,7 +27,7 @@ unsigned function_queue_submit_lambda_expression_free(
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_lambda_free, NULL, lexpression, id = this->next++);
+		struct funcdata* fdata = new_funcdata(fk_lambda_free, NULL, lexpression, NULL, id = this->next++);
 		
 		quack_append(this->todo, fdata);
 		
@@ -38,7 +36,6 @@ unsigned function_queue_submit_lambda_expression_free(
 	
 	EXIT;
 	return id;
-	#endif
 }
 
 unsigned function_queue_submit_lambda_value_free(

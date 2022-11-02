@@ -14,4 +14,5 @@ bin/debug-build/./type_check/unresolved/node/new.o: \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
+ set/zpexpression/new.h set/zpexpression/add.h \
  type_check/unresolved/node/struct.h type_check/unresolved/node/new.h

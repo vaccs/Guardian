@@ -487,7 +487,9 @@ static void resolve_variables_lambda(
 			{
 				struct zebu_primary_expression* expression = smalloc(sizeof(*expression));
 				memset(expression, 0, sizeof(*expression));
+				expression->refcount = 1;
 				unresolved_add(lambda_captures, name, expression);
+				free_zebu_primary_expression(expression);
 			}
 			runme;
 		}));

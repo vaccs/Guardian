@@ -3,6 +3,8 @@
 
 #include <type/struct.h>
 
+#include <out/shared.h>
+#include <out/type_queue/submit.h>
 /*#include <out/function_queue/submit_lambda_new.h>*/
 #include <out/function_queue/submit_lambda_evaluate.h>
 
@@ -12,24 +14,26 @@
 struct stringtree* lambda_value_generate_new_func(
 	struct lambda_value* this,
 	unsigned func_id,
-	struct function_queue* fqueue)
+	struct out_shared* shared)
 {
 	ENTER;
 	
 	struct stringtree* tree = new_stringtree();
 	
+	type_queue_submit(shared->tqueue, this->super.type);
+	
 	unsigned type_id = this->super.type->id;
 	
-	unsigned evaluate_id = function_queue_submit_lambda_value_evaluate(fqueue, this);
+	unsigned evaluate_id = function_queue_submit_lambda_value_evaluate(shared->fqueue, this);
 	
 	stringtree_append_printf(tree, ""
-		"type_%u* func_%u()"
+		"struct type_%u* func_%u()"
 		"{"
-			"type_%u* new = malloc(sizeof(*new));"
-			"new->evaluate = func_%u;"
-			"new->free = NULL;"
-			"new->refcount = 1;"
-			"new;"
+			"struct type_%u* this = malloc(sizeof(*new));"
+			"this->evaluate = func_%u;"
+			"this->free = NULL;"
+			"this->refcount = 1;"
+			"return this;"
 		"}"
 	"", type_id, func_id, type_id, evaluate_id);
 	

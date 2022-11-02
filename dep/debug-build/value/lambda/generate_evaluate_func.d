@@ -16,5 +16,6 @@ bin/debug-build/./value/lambda/generate_evaluate_func.o: \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  type/struct.h type/kind.h type/lambda/struct.h type/lambda/../struct.h \
  list/parameter/struct.h parameter/struct.h scope/foreach.h \
+ expression/print_source.h out/shared.h out/type_queue/submit.h \
  value/lambda/struct.h value/lambda/../struct.h value/lambda/../kind.h \
  value/lambda/generate_evaluate_func.h

@@ -13,38 +13,45 @@
 
 #include <expression/print_source.h>
 
+#include <out/shared.h>
+#include <out/type_queue/submit.h>
+
 #include "struct.h"
 #include "generate_evaluate_func.h"
 
 struct stringtree* lambda_value_generate_evaluate_func(
 	struct lambda_value* this,
 	unsigned func_id,
-	struct function_queue* fqueue)
+	struct out_shared* shared)
 {
 	ENTER;
 	
 	struct stringtree* tree = new_stringtree();
 	
+	unsigned type_id = this->super.type->id;
+	
+	type_queue_submit(shared->tqueue, this->super.type);
+	
 	struct lambda_type* ltype = (void*) this->super.type;
+	
+	type_queue_submit(shared->tqueue, ltype->rettype);
 	
 	unsigned rettype_id = ltype->rettype->id;
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u* func_%u("
-	"", rettype_id, func_id);
+			"struct type_%u* _"
+	"", rettype_id, func_id, type_id);
 	
 	for (unsigned i = 0, n = this->parameters->n; i < n; i++)
 	{
 		struct parameter* parameter = this->parameters->data[i];
 		
-		stringtree_append_printf(tree, ""
-			"struct type_%u* %.*s"
-		"", parameter->type->id, parameter->name->len, parameter->name->chars);
+		type_queue_submit(shared->tqueue, parameter->type);
 		
-		if (i + 1 < n)
-		{
-			stringtree_append_printf(tree, ", ");
-		}
+		stringtree_append_printf(tree, ""
+			", struct type_%u* $%.*s"
+		"", parameter->type->id, parameter->name->len, parameter->name->chars);
 	}
 	
 	stringtree_append_printf(tree, ""
@@ -53,6 +60,8 @@ struct stringtree* lambda_value_generate_evaluate_func(
 	
 	if (this->captured)
 	{
+		TODO;
+		#if 0
 		// declare captured values:
 		scope_foreach(this->captured, ({
 			void runme(struct string* name, struct value* value)
@@ -86,6 +95,7 @@ struct stringtree* lambda_value_generate_evaluate_func(
 		stringtree_append_printf(tree, ""
 			"return retval;"
 		"");
+		#endif
 	}
 	else
 	{
@@ -93,15 +103,15 @@ struct stringtree* lambda_value_generate_evaluate_func(
 			"return "
 		"");
 		
-		struct stringtree* subtree = expression_print_source(this->body);
+		struct stringtree* subtree = expression_print_source(this->body, shared);
 		
-		stringtree_append_branch(tree, subtree);
+		stringtree_append_tree(tree, subtree);
 		
 		stringtree_append_printf(tree, ""
 			";"
 		"");
 		
-		free_string_tree(subtree);
+		free_stringtree(subtree);
 	}
 	
 	stringtree_append_printf(tree, ""

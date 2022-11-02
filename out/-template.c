@@ -11,7 +11,10 @@
 #define N(array) (sizeof(array) / sizeof(*array))
 
 // integers, booleans, lambdas, lists, tuples, ...
-{{STRUCTS}}
+{{TYPES}}
+
+// lambda captures:
+{{SUBTYPES}}
 
 // any '%forward' value-declares:
 {{FORWARD_DECLARES}}
@@ -323,7 +326,11 @@ int main(int argc, char* const* argv)
 	unsigned y = 1;
 	push_state(y), read_token(1);
 	
-	assert(!"TODO");
+	// main parse loop:
+	while (1)
+	{
+		assert(!"TODO");
+	}
 	
 	// variable declarations:
 	{{INIT_DECLARES}}

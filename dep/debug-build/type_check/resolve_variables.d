@@ -15,8 +15,8 @@ bin/debug-build/./type_check/resolve_variables.o: \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  parse/parse.h type/free.h type_check/unresolved/foreach.h \
- type_check/unresolved/new.h type_check/unresolved/inc.h \
- type_check/unresolved/add.h type_check/unresolved/resolve.h \
- expression/variable/kind.h type_check/unresolved/update.h \
+ expression/variable/kind.h type_check/unresolved/new.h \
+ type_check/unresolved/inc.h type_check/unresolved/add.h \
+ type_check/unresolved/resolve.h type_check/unresolved/update.h \
  type_check/unresolved/free.h type_check/unresolved/encase.h \
  type_check/build_type.h type_check/resolve_variables.h

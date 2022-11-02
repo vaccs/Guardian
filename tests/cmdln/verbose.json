@@ -1,0 +1,11 @@
+
+[{
+	"commands": [
+		"./maia --verbose"
+	],
+}, {
+	"commands": [
+		"./maia -v"
+	],
+}]
+

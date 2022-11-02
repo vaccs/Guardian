@@ -58,6 +58,11 @@
 #include "function_queue/process.h"
 #include "function_queue/free.h"
 
+#include "subtype_queue/struct.h"
+#include "subtype_queue/new.h"
+#include "subtype_queue/process.h"
+#include "subtype_queue/free.h"
+
 #include "type_queue/struct.h"
 #include "type_queue/new.h"
 #include "type_queue/process.h"
@@ -228,6 +233,8 @@ struct stringtree* out(
 	
 	shared.tqueue = new_type_queue();
 	
+	shared.stqueue = new_subtype_queue();
+	
 	shared.fqueue = new_function_queue();
 	
 	shared.squeue = new_set_queue();
@@ -254,6 +261,12 @@ struct stringtree* out(
 	
 	set_queue_process(shared.squeue, tcache, grammar_types, &shared);
 	
+	function_queue_process(shared.fqueue, &shared);
+	
+	subtype_queue_process(shared.stqueue, shared.tqueue);
+	
+	type_queue_process(shared.tqueue);
+	
 	#if 0
 	struct stringtree* reduction_rules_text = new_stringtree();
 	
@@ -262,10 +275,6 @@ struct stringtree* out(
 		// set-list
 	TODO;
 	#endif
-	
-	function_queue_process(shared.fqueue);
-	
-	type_queue_process(shared.tqueue);
 	
 	struct stringtree* root = new_stringtree();
 	
@@ -331,9 +340,13 @@ struct stringtree* out(
 				TODO;
 /*				reducerule_to_id_print_source(rrtoi, stoi, output_prefix, stream);*/
 			}
-			else if (!strncmp(old, "STRUCTS", len))
+			else if (!strncmp(old, "TYPES", len))
 			{
 				stringtree_append_tree(root, shared.tqueue->text);
+			}
+			else if (!strncmp(old, "SUBTYPES", len))
+			{
+				stringtree_append_tree(root, shared.stqueue->text);
 			}
 			else if (!strncmp(old, "FUNCTIONS", len))
 			{
@@ -376,6 +389,8 @@ struct stringtree* out(
 	}
 	
 	free_type_queue(shared.tqueue);
+	
+	free_subtype_queue(shared.stqueue);
 	
 	free_function_queue(shared.fqueue);
 	

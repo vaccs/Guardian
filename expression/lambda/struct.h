@@ -7,7 +7,7 @@ struct lambda_expression
 	
 	struct parameter_list* parameters;
 	
-	struct parameter_list* captured;
+	struct unresolved* captured;
 	
 	struct expression* body;
 	

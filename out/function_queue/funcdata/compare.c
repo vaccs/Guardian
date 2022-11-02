@@ -23,20 +23,16 @@ int compare_funcdata(const void* a, const void* b)
 				return +1;
 			else if (A->type < B->type)
 				return -1;
-			break;
+			else
+				return +0;
 		
 		case fk_lambda_new:
 		case fk_lambda_evaluate:
 		case fk_lambda_free:
-		{
 			if (A->lexpression < B->lexpression)
-			{
-				TODO;
-			}
+				return -1;
 			else if (A->lexpression > B->lexpression)
-			{
-				TODO;
-			}
+				return +1;
 			else if (A->lvalue < B->lvalue)
 			{
 				TODO;
@@ -47,13 +43,10 @@ int compare_funcdata(const void* a, const void* b)
 			}
 			else
 				return +0;
-		}
 		
 		default:
 			TODO;
 			break;
 	}
-	
-	return +0;
 }
 

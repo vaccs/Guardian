@@ -13,8 +13,8 @@ bin/debug-build/./expression/lambda/new.o: expression/lambda/new.c \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h list/parameter/inc.h expression/lambda/../new.h \
- expression/lambda/../kind.h expression/lambda/../inc.h \
- expression/lambda/inheritance.h expression/lambda/../inheritance.h \
- expression/lambda/struct.h expression/lambda/../struct.h \
- expression/lambda/new.h
+ quack/free.h list/parameter/inc.h type_check/unresolved/inc.h \
+ expression/lambda/../new.h expression/lambda/../kind.h \
+ expression/lambda/../inc.h expression/lambda/inheritance.h \
+ expression/lambda/../inheritance.h expression/lambda/struct.h \
+ expression/lambda/../struct.h expression/lambda/new.h

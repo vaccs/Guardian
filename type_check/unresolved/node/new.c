@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <set/zpexpression/new.h>
+#include <set/zpexpression/add.h>
+
 #include "struct.h"
 #include "new.h"
 
@@ -14,10 +17,10 @@ struct unresolved_node* new_unresolved_node(
 	
 	this->name = inc_string(name);
 	
-	this->layers.current = new_ptrset();
-	this->layers.deeper = new_ptrset();
+	this->layers.current = new_zpexpressionset();
+	this->layers.deeper = new_zpexpressionset();
 	
-	ptrset_add(this->layers.current, expression);
+	zpexpressionset_add(this->layers.current, expression);
 	
 	this->refcount = 1;
 	

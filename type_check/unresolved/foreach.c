@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <set/zpexpression/is_nonempty.h>
+#include <set/zpexpression/get_head.h>
+
 #include <parse/parse.h>
 
 #include "node/struct.h"
@@ -40,7 +43,10 @@ void unresolved_foreach(
 
 void unresolved_foreach2(
 	const struct unresolved* this,
-	void (*runme)(struct string* name, struct type* type, struct value* value))
+	void (*runme)(
+		struct string* name,
+		enum variable_expression_kind kind,
+		bool another))
 {
 	ENTER;
 	
@@ -48,11 +54,33 @@ void unresolved_foreach2(
 	{
 		struct unresolved_node* ele = node->item;
 		
-		struct zebu_primary_expression* use = ptrset_is_nonempty(ele->layers.current)
-			? ptrset_get_head(ele->layers.current)
-			: ptrset_get_head(ele->layers.deeper);
+		struct zebu_primary_expression* use = zpexpressionset_is_nonempty(ele->layers.current)
+			? zpexpressionset_get_head(ele->layers.current)
+			: zpexpressionset_get_head(ele->layers.deeper);
 		
-		runme(ele->name, use->type, use->value);
+		runme(ele->name, use->kind, !!node->next);
+	}
+	
+	EXIT;
+}
+
+void unresolved_foreach3(
+	const struct unresolved* this,
+	void (*runme)(
+		struct string* name,
+		struct type* type))
+{
+	ENTER;
+	
+	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
+	{
+		struct unresolved_node* ele = node->item;
+		
+		struct zebu_primary_expression* use = zpexpressionset_is_nonempty(ele->layers.current)
+			? zpexpressionset_get_head(ele->layers.current)
+			: zpexpressionset_get_head(ele->layers.deeper);
+		
+		runme(ele->name, use->type);
 	}
 	
 	EXIT;

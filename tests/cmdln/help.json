@@ -1,0 +1,11 @@
+
+[{
+	"commands": [
+		"./maia --help"
+	],
+}, {
+	"commands": [
+		"./maia -h"
+	],
+}]
+
