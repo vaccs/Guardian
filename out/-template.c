@@ -1,4 +1,5 @@
 
+#include <string.h>
 #include <assert.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -9,6 +10,18 @@
 #include <gmp.h>
 
 #define N(array) (sizeof(array) / sizeof(*array))
+
+struct token
+{
+	unsigned char* data;
+	unsigned len;
+};
+
+static void free_token(struct token* token)
+{
+	free(token->data);
+	free(token);
+}
 
 // integers, booleans, lambdas, lists, tuples, ...
 {{TYPES}}
@@ -25,8 +38,18 @@
 // lexer tables:
 {{LEXER_TRANSITION_TABLE}}
 
+{{LEXER_ACCEPTS}}
+
+{{LEXER_STARTS}}
+
+{{LEXER_EOFS}}
+
 // parser tables:
 {{SHIFT_TABLE}}
+
+{{REDUCE_TABLE}}
+
+{{GOTO_TABLE}}
 
 static void escape(char *out, unsigned char in)
 {
@@ -54,7 +77,6 @@ static void escape(char *out, unsigned char in)
 		case ':': case ';':
 		case ',': case '.':
 		case '_':
-		case '/':
 		case '0' ... '9':
 		case 'a' ... 'z':
 		case 'A' ... 'Z':
@@ -182,8 +204,6 @@ int main(int argc, char* const* argv)
 		{
 			if (i < lexer.n)
 			{
-				assert(!"TODO");
-				#if 0
 				c = lexer.data[i];
 				
 				char escaped[10];
@@ -192,8 +212,7 @@ int main(int argc, char* const* argv)
 				
 				ddprintf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);
 				
-				a = l < N(lexer) && c < N(*lexer) ? lexer[l][c] : 0;
-				#endif
+				a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
 			}
 			else if ((c = getc(stream)) != EOF)
 			{
@@ -209,40 +228,28 @@ int main(int argc, char* const* argv)
 			}
 			else
 			{
-				assert(!"TODO");
-				#if 0
 				c = EOF;
 				
 				ddprintf("lexer: c = <EOF>\n");
 				
 				a = l < N(lexer_EOFs) ? lexer_EOFs[l] : 0;
-				#endif
 			}
 			
-			assert(!"TODO");
-			#if 0
 			b = l < N(lexer_accepts) ? lexer_accepts[l] : 0;
 			
 			ddprintf("lexer: \"%.*s\" (%u): a = %u, b = %u\n", lexer.n, lexer.data, i, a, b);
-			#endif
 			
 			if (a)
 			{
 				if (b)
 				{
-					assert(!"TODO");
-					#if 0
 					l = a, t = b, f = i++;
 					ddprintf("lexer: l = %u\n", l);
-					#endif
 				}
 				else
 				{
-					assert(!"TODO");
-					#if 0
 					l = a, i++;
 					ddprintf("lexer: l = %u\n", l);
-					#endif
 				}
 			}
 			else if (b)
@@ -251,31 +258,22 @@ int main(int argc, char* const* argv)
 				
 				if (!lexer.n)
 				{
-					assert(!"TODO");
-					#if 0
 					ddprintf("lexer: EOF.\n");
 					t = b, td = NULL;
 					break;
-					#endif
 				}
 				else if (b == 1)
 				{
-					assert(!"TODO");
-					#if 0
-					ddprintf("lexer: whitespace: \"%.*s\"\n", i, lexer.data);
+					ddprintf("lexer: whitespace\n");
 					
 					l = original_l, t = 0;
 					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i, i = 0;
-					#endif
 				}
 				else
 				{
-					assert(!"TODO");
-					#if 0
 					ddprintf("lexer: i = %u\n", i);
 					
 					struct token* token = malloc(sizeof(*token));
-					token->refcount = 1;
 					token->data = memcpy(malloc(i + 1), lexer.data, i);
 					token->data[i] = 0;
 					token->len = i;
@@ -283,14 +281,13 @@ int main(int argc, char* const* argv)
 					
 					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i;
 					break;
-					#endif
 				}
 			}
 			else if (f)
 			{
 				if (t == 1)
 				{
-					assert(!"TODO");
+					assert(!"TODO: 291");
 					#if 0
 					ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
 					
@@ -300,7 +297,7 @@ int main(int argc, char* const* argv)
 				}
 				else
 				{
-					assert(!"TODO");
+					assert(!"TODO: 301");
 					#if 0
 					ddprintf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
 					
@@ -324,23 +321,71 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	unsigned y = 1;
+	void* start = NULL;
+	
+	unsigned y = 1, s, r;
 	push_state(y), read_token(1);
 	
-	// main parse loop:
-	while (1)
+	while (yacc.n)
 	{
-		assert(!"TODO");
+		if (y < N(shifts) && t < N(*shifts) && (s = shifts[y][t]))
+		{
+			ddprintf("s == %u\n", s);
+			
+			y = s, push_state(y), push_data(td);
+			
+			read_token(lexer_starts[y]);
+			
+			ddprintf("t = %u\n", t);
+		}
+		else if (y < N(reduces) && t < N(*reduces) && (r = reduces[y][t]))
+		{
+			ddprintf("r == %u\n", r);
+			
+			unsigned g;
+			void* d;
+			
+			{{REDUCTION_RULE_SWITCH}}
+			
+			if (g == {{START_GRAMMAR_ID}})
+			{
+				yacc.n = 0, start = d;
+			}
+			else
+			{
+				y = yacc.data[yacc.n - 1];
+				
+				ddprintf("y = %u\n", y);
+				
+				assert(y < N(gotos) && g < N(*gotos));
+				
+				s = gotos[y][g];
+				
+				ddprintf("s = %u\n", s);
+				
+				y = s, push_state(y), push_data(d);
+			}
+		}
+		else	
+		{
+			assert(!"266");
+		}
 	}
 	
+	#if 0
 	// variable declarations:
 	{{INIT_DECLARES}}
 	
+	assert(!"TODO: declares & assertions");
 	// assertions:
 	{{ASSERTIONS}}
 	
 	// clean up declarations:
 	{{UNINIT_DECLARES}}
+	#endif
+	
+	// free parse-tree:
+	{{FREE_START}}(start);
 	
 	// clean up sets:
 	{{UNINIT_SETS}}
@@ -348,6 +393,8 @@ int main(int argc, char* const* argv)
 	free(yacc.data);
 	free(data.data);
 	free(lexer.data);
+	
+	fclose(stream);
 	
 	return 0;
 }

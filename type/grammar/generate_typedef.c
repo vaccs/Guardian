@@ -38,11 +38,12 @@ struct stringtree* grammar_type_generate_typedef(
 		type_queue_submit(tlookup, p->type);
 		
 		stringtree_append_printf(tree, ""
-			"type_%u* $%.*s; "
+			"struct type_%u* $%.*s; "
 		"", p->type->id, p->name->len, p->name->chars);
 	}
 	
 	stringtree_append_printf(tree, ""
+			"unsigned refcount;"
 		"};"
 	"");
 	

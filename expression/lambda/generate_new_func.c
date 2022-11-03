@@ -26,34 +26,41 @@ struct stringtree* lambda_expression_generate_new_func(
 	
 	subtype_queue_submit(shared->stqueue, this);
 	
-	unsigned lambda_id = this->id;
+	unsigned type_id = this->super.type->id;
 	
 	stringtree_append_printf(tree, ""
-		"struct subtype_%u* func_%u("
-	"", lambda_id, func_id);
+		"static struct type_%u* func_%u("
+	"", type_id, func_id);
 	
+	bool first = true;
 	unresolved_foreach3(this->captured, ({
 		void runme(struct string* name, struct type* type)
 		{
 			dpvs(name);
 			
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
 			type_queue_submit(shared->tqueue, type);
 			
 			stringtree_append_printf(tree, ""
-				"struct type_%u* $%.*s, "
+				"struct type_%u* $%.*s"
 			"", type->id, name->len, name->chars);
 		}
 		runme;
 	}));
 	
+	unsigned lambda_id = this->id;
+	
 	unsigned evaluate_id = function_queue_submit_lambda_expression_evaluate(shared->fqueue, this);
 	
 	unsigned free_id = function_queue_submit_lambda_expression_free(shared->fqueue, this);
 	
-	stringtree_append_printf(tree, ""
-			"void)"
+	stringtree_append_printf(tree, ")"
 		"{"
-			"subtype_%u* this = malloc(sizeof(*new));"
+			"struct subtype_%u* this = malloc(sizeof(*this));"
 			"this->super.evaluate = func_%u;"
 			"this->super.free = func_%u;"
 			"this->super.refcount = 1;"
@@ -76,7 +83,7 @@ struct stringtree* lambda_expression_generate_new_func(
 	}));
 	
 	stringtree_append_printf(tree, ""
-			"return this;"
+			"return (void*) this;"
 		"}"
 	"");
 	

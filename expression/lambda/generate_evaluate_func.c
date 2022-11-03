@@ -2,6 +2,7 @@
 #include <debug.h>
 
 #include <type/struct.h>
+#include <type/lambda/struct.h>
 
 #include <list/parameter/foreach.h>
 
@@ -30,11 +31,15 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 	
 	subtype_queue_submit(shared->stqueue, this);
 	
-	unsigned type_id = this->super.type->id, lambda_id = this->id;
+	struct lambda_type* ltype = (void*) this->super.type;
+	
+	unsigned type_id = this->super.type->id;
+	
+	unsigned rettype_id = ltype->rettype->id;
 	
 	stringtree_append_printf(tree, ""
-		"struct type_%u* func_%u(struct type_%u* super"
-	"", type_id, func_id, type_id);
+		"static struct type_%u* func_%u(struct type_%u* super"
+	"", rettype_id, func_id, type_id);
 	
 	parameter_list_foreach(this->parameters, ({
 		void runme(struct string* name, struct type* type)
@@ -45,6 +50,8 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 		}
 		runme;
 	}));
+	
+	unsigned lambda_id = this->id;
 	
 	stringtree_append_printf(tree, ""
 			")"

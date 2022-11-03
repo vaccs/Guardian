@@ -36,7 +36,7 @@ struct stringtree* fieldaccess_expression_print_source(
 	
 	stringtree_append_printf(tree, ""
 		"({"
-			"type_%u* _object = "
+			"struct type_%u* object = "
 	"", otype->id);
 	
 	struct stringtree* expression = expression_print_source(this->object, shared);
@@ -49,18 +49,18 @@ struct stringtree* fieldaccess_expression_print_source(
 	
 	stringtree_append_printf(tree, ""
 				";"
-			"if (!_object.%.*s) {"
+			"if (!object->$%.*s) {"
 				"assert(!\"TODO: missing field!\");"
 			"}"
-			"type_%u* _field = func_%u(_object.%.*s);"
+			"struct type_%u* field = func_%u(object->$%.*s);"
 	"", fieldname->len, fieldname->chars,
 	ftype->id, inc_id, fieldname->len, fieldname->chars);
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, otype);
 	
 	stringtree_append_printf(tree, ""
-			"func_%u(_object);"
-			"_field;"
+			"func_%u(object);"
+			"field;"
 		"})"
 	"", free_id);
 	

@@ -14,5 +14,7 @@ bin/test-build/./type/grammar/generate_free_func.o: \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- type/grammar/struct.h type/grammar/../struct.h type/grammar/../kind.h \
+ list/parameter/struct.h parameter/struct.h \
+ out/function_queue/submit_free.h type/grammar/struct.h \
+ type/grammar/../struct.h type/grammar/../kind.h \
  type/grammar/generate_free_func.h

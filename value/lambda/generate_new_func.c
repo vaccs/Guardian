@@ -27,9 +27,9 @@ struct stringtree* lambda_value_generate_new_func(
 	unsigned evaluate_id = function_queue_submit_lambda_value_evaluate(shared->fqueue, this);
 	
 	stringtree_append_printf(tree, ""
-		"struct type_%u* func_%u()"
+		"static struct type_%u* func_%u()"
 		"{"
-			"struct type_%u* this = malloc(sizeof(*new));"
+			"struct type_%u* this = malloc(sizeof(*this));"
 			"this->evaluate = func_%u;"
 			"this->free = NULL;"
 			"this->refcount = 1;"

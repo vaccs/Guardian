@@ -64,7 +64,7 @@ void declare_queue_process(
 			else
 			{
 				stringtree_append_printf(this->init_text, ""
-					"type_%u* %.*s = "
+					"struct type_%u* $%.*s = "
 				"", type_id, name->len, name->chars);
 				
 				stringtree_append_tree(this->init_text, subtext);
@@ -77,7 +77,7 @@ void declare_queue_process(
 			unsigned free_id = function_queue_submit_free(shared->fqueue, type);
 			
 			stringtree_append_printf(this->uninit_text, ""
-				"func_%u(%.*s);"
+				"func_%u($%.*s);"
 			"", free_id, name->len, name->chars);
 			
 			stringset_add(this->done, name);

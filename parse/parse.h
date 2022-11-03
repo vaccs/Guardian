@@ -198,7 +198,7 @@ struct zebu_grammar_highest
 		struct zebu_token** data;
 		unsigned n, cap;
 	} tags;
-	struct zebu_type* type;
+	struct zebu_tokentype* tokentype;
 	unsigned refcount;
 };
 
@@ -425,6 +425,14 @@ struct zebu_start_directive
 	unsigned refcount;
 };
 
+struct zebu_tokentype
+{
+	struct zebu_token* char_;
+	struct zebu_token* float_;
+	struct zebu_token* int_;
+	unsigned refcount;
+};
+
 struct zebu_type
 {
 	struct {
@@ -500,6 +508,7 @@ extern struct zebu_relational_expression* inc_zebu_relational_expression(struct 
 extern struct zebu_shift_expression* inc_zebu_shift_expression(struct zebu_shift_expression* ptree);
 extern struct zebu_skip_directive* inc_zebu_skip_directive(struct zebu_skip_directive* ptree);
 extern struct zebu_start_directive* inc_zebu_start_directive(struct zebu_start_directive* ptree);
+extern struct zebu_tokentype* inc_zebu_tokentype(struct zebu_tokentype* ptree);
 extern struct zebu_type* inc_zebu_type(struct zebu_type* ptree);
 extern struct zebu_unary_expression* inc_zebu_unary_expression(struct zebu_unary_expression* ptree);
 extern struct zebu_using_directive* inc_zebu_using_directive(struct zebu_using_directive* ptree);
@@ -586,6 +595,8 @@ extern void free_zebu_shift_expression(struct zebu_shift_expression* ptree);
 extern void free_zebu_skip_directive(struct zebu_skip_directive* ptree);
 
 extern void free_zebu_start_directive(struct zebu_start_directive* ptree);
+
+extern void free_zebu_tokentype(struct zebu_tokentype* ptree);
 
 extern void free_zebu_type(struct zebu_type* ptree);
 

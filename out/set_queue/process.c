@@ -52,11 +52,11 @@ void set_queue_process(
 		unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
 		
 		stringtree_append_printf(this->init_text, ""
-			"type_%u* %.*s = func_%u();"
+			"struct type_%u* $%.*s = func_%u();"
 		"", ltype->id, name->len, name->chars, new_id);
 		
 		stringtree_append_printf(this->uninit_text, ""
-			"func_%u(%.*s);"
+			"func_%u($%.*s);"
 		"", free_id, name->len, name->chars);
 	}
 	

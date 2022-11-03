@@ -14,6 +14,8 @@
 
 #include <assertion/print_source.h>
 
+#include <type_cache/get_type/grammar.h>
+
 #include "ystate_to_id/new.h"
 #include "ystate_to_id/ystate_to_id.h"
 #include "ystate_to_id/free.h"
@@ -32,9 +34,11 @@
 
 #include "reducerule_to_id/new.h"
 #include "reducerule_to_id/reducerule_to_id.h"
+#include "reducerule_to_id/print_source.h"
 #include "reducerule_to_id/free.h"
 
 #include "dynvector/new.h"
+#include "dynvector/print_source.h"
 #include "dynvector/set.h"
 #include "dynvector/free.h"
 
@@ -55,6 +59,7 @@
 
 #include "function_queue/struct.h"
 #include "function_queue/new.h"
+#include "function_queue/submit_free.h"
 #include "function_queue/process.h"
 #include "function_queue/free.h"
 
@@ -231,6 +236,8 @@ struct stringtree* out(
 	
 	struct out_shared shared;
 	
+	shared.tcache = tcache;
+	
 	shared.tqueue = new_type_queue();
 	
 	shared.stqueue = new_subtype_queue();
@@ -261,7 +268,21 @@ struct stringtree* out(
 	
 	set_queue_process(shared.squeue, tcache, grammar_types, &shared);
 	
+	struct stringtree* reductionrules_text = reducerule_to_id_print_source(tcache, rrtoi, stoi, &shared);
+	
+	struct stringtree* free_start_text = new_stringtree();
+	
+	{
+		struct string* name = new_string("$start", 6);
+		struct type* type = type_cache_get_grammar_type(tcache, name);
+		unsigned free_id = function_queue_submit_free(shared.fqueue, type);
+		stringtree_append_printf(free_start_text, "func_%u", free_id);
+		free_string(name);
+	}
+	
 	function_queue_process(shared.fqueue, &shared);
+	
+	// maybe a forwar-declare queue?
 	
 	subtype_queue_process(shared.stqueue, shared.tqueue);
 	
@@ -299,13 +320,15 @@ struct stringtree* out(
 			}
 			else if (!strncmp(old, "REDUCE_TABLE", len))
 			{
-				TODO;
-/*				dyntable_print_source(reduces, output_prefix, stream);*/
+				struct stringtree* text = dyntable_print_source(reduces);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
 			else if (!strncmp(old, "GOTO_TABLE", len))
 			{
-				TODO;
-/*				dyntable_print_source(gotos, output_prefix, stream);*/
+				struct stringtree* text = dyntable_print_source(gotos);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
 			else if (!strncmp(old, "LEXER_TRANSITION_TABLE", len))
 			{
@@ -313,32 +336,37 @@ struct stringtree* out(
 				stringtree_append_tree(root, text);
 				free_stringtree(text);
 			}
-			else if (!strncmp(old, "LEXER_STARTS_TABLE", len))
+			else if (!strncmp(old, "LEXER_STARTS", len))
 			{
-				TODO;
-/*				dynvector_print_source(starts, output_prefix, stream);*/
+				struct stringtree* text = dynvector_print_source(starts);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
-			else if (!strncmp(old, "LEXER_ACCEPTS_TABLE", len))
+			else if (!strncmp(old, "LEXER_ACCEPTS", len))
 			{
-				TODO;
-/*				dynvector_print_source(accepts, output_prefix, stream);*/
+				struct stringtree* text = dynvector_print_source(accepts);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
-			else if (!strncmp(old, "LEXER_EOF_TABLE", len))
+			else if (!strncmp(old, "LEXER_EOFS", len))
 			{
-				TODO;
-/*				dynvector_print_source(EOFs, output_prefix, stream);*/
+				struct stringtree* text = dynvector_print_source(EOFs);
+				stringtree_append_tree(root, text);
+				free_stringtree(text);
 			}
 			else if (!strncmp(old, "START_GRAMMAR_ID", len))
 			{
-				TODO;
-/*				struct string* start = new_string("$start");*/
-/*				fprintf(stream, "%u", string_to_id(stoi, start));*/
-/*				free_string(start);*/
+				struct string* start = new_string("$start", 6);
+				stringtree_append_printf(root, "%u", string_to_id(stoi, start));
+				free_string(start);
+			}
+			else if (!strncmp(old, "FREE_START", len))
+			{
+				stringtree_append_tree(root, free_start_text);
 			}
 			else if (!strncmp(old, "REDUCTION_RULE_SWITCH", len))
 			{
-				TODO;
-/*				reducerule_to_id_print_source(rrtoi, stoi, output_prefix, stream);*/
+				stringtree_append_tree(root, reductionrules_text);
 			}
 			else if (!strncmp(old, "TYPES", len))
 			{
@@ -387,6 +415,8 @@ struct stringtree* out(
 		
 		stringtree_append_strndup(root, last, end - last);
 	}
+	
+	free_stringtree(reductionrules_text);
 	
 	free_type_queue(shared.tqueue);
 	

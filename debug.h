@@ -79,6 +79,8 @@
 	struct format_flags;
 	struct specialize_shared;
 	struct zpexpressionset;
+	struct reductioninfo;
+	struct zebu_tokentype;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>

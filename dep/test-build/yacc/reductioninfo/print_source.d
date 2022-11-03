@@ -14,5 +14,9 @@ bin/test-build/./yacc/reductioninfo/print_source.o: \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- yacc/reductioninfo/struct.h yacc/reductioninfo/kind.h \
- yacc/reductioninfo/print_source.h
+ type/struct.h type/kind.h type_cache/get_type/grammar.h \
+ type_cache/get_type/int.h parse/parse.h out/shared.h \
+ out/function_queue/submit_new.h out/function_queue/submit_free.h \
+ yacc/structinfo/foreach.h yacc/structinfo/node/struct.h \
+ yacc/structinfo/node/type.h yacc/reductioninfo/struct.h \
+ yacc/reductioninfo/kind.h yacc/reductioninfo/print_source.h

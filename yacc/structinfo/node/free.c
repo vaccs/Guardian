@@ -18,7 +18,7 @@ void free_structinfo_node(void* ptr)
 		
 		free_string(node->grammar);
 		
-		free_zebu_type(node->tokentype);
+		free_zebu_tokentype(node->tokentype);
 		
 		free(node);
 	}

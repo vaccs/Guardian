@@ -9,7 +9,7 @@ struct structinfo_node
 	
 	struct string* grammar; // might be NULL
 	
-	struct zebu_type* tokentype; // might be NULL
+	struct zebu_tokentype* tokentype; // might be NULL
 	
 	unsigned refcount;
 };

@@ -65,7 +65,7 @@ struct gbundle read_grammar_highest_regex(
 		{
 			struct string* tag = new_string((char*) token->data + 1, token->len - 1);
 			
-			structinfo_add_field(structinfo, snt_token_scalar, tag, NULL, highest->type);
+			structinfo_add_field(structinfo, snt_token_scalar, tag, NULL, highest->tokentype);
 			
 			free_string(tag);
 		}

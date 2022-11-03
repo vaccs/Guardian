@@ -1,12 +1,8 @@
 
-#include <stdio.h>
-
-struct reductioninfo;
-struct structinfo;
-
 void reductioninfo_print_source(
+	struct stringtree* tree,
 	struct reductioninfo* this,
 	struct structinfo* structinfo,
-	const char* grammar,
-	const char* prefix,
-	FILE* stream);
+	struct type_cache* tcache,
+	struct out_shared* shared,
+	const char* grammar);

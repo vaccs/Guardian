@@ -37,7 +37,7 @@ struct stringtree* integer_value_print_source(
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
-	stringtree_append_printf(tree, "type_%u* new = func_%u();", tid, new_id);
+	stringtree_append_printf(tree, "struct type_%u* new = func_%u();", tid, new_id);
 	
 	if (mpz_fits_slong_p(this->integer->mpz))
 	{

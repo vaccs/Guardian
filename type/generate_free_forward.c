@@ -15,7 +15,7 @@ struct stringtree* type_generate_free_forward(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static void func_%u(type_%u*);"
+		"static void func_%u(struct type_%u*);"
 	"", func_id, type_id);
 	
 	EXIT;

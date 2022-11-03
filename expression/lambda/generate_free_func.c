@@ -29,9 +29,9 @@ struct stringtree* lambda_expression_generate_free_func(
 	unsigned lambda_id = this->id;
 	
 	stringtree_append_printf(tree, ""
-		"void func_%u(struct type_%u* super)"
+		"static void func_%u(struct type_%u* super)"
 		"{"
-			"struct subtype_%u* this = super;"
+			"struct subtype_%u* this = (void*) super;"
 	"", func_id, type_id, lambda_id);
 	
 	unresolved_foreach3(this->captured, ({

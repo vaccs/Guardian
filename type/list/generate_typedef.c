@@ -25,7 +25,7 @@ struct stringtree* list_type_generate_typedef(
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
-			"type_%u** data;"
+			"struct type_%u** data;"
 			"unsigned n, cap, refcount;"
 		"};"
 	"", super->id, this->element_type->id);

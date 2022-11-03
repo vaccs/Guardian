@@ -14,5 +14,6 @@ bin/debug-build/./type/list/generate_index_func.o: \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
+ type_cache/get_type/int.h out/shared.h out/type_queue/submit.h \
  out/function_queue/submit_inc.h type/list/struct.h type/list/../struct.h \
  type/list/../kind.h type/list/generate_index_func.h

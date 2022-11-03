@@ -247,7 +247,6 @@ srcs += ./out/dyntable/print_source.c
 srcs += ./out/dyntable/set.c
 srcs += ./out/dynvector/free.c
 srcs += ./out/dynvector/new.c
-srcs += ./out/dynvector/print_header.c
 srcs += ./out/dynvector/print_source.c
 srcs += ./out/dynvector/set.c
 srcs += ./out/escaped.c

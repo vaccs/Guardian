@@ -14,7 +14,7 @@ struct stringtree* dyntable_print_source(
 	struct stringtree* tree = new_stringtree();
 	
 	stringtree_append_printf(tree, ""
-		"const unsigned %s[%u + 1][%u + 1] = {"
+		"static const unsigned %s[%u + 1][%u + 1] = {"
 	"", this->name, this->width, this->height);
 	
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)

@@ -2,13 +2,19 @@
 %include "charset.zb"
 %include "regex.zb"
 
+tokentype
+	: "int" #int_
+	| "char" #char_
+	| "float" #float_
+	;
+
 grammar_highest
-	: `char` #character                      (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `int` #integer                         (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `string` #string                       (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| `identifier` #name                     (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '/' (type #type ':')? regex #regex '/' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
-	| '[' charset #charset ']'               (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	: `char` #character                                (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `int` #integer                                   (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `string` #string                                 (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| `identifier` #name                               (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '/' (tokentype #tokentype ':')? regex #regex '/' (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
+	| '[' charset #charset ']'                         (`'#' ['a'-'z','_']+ "[]"?` #tags[])*
 	| '(' grammar #subgrammar ')'
 	;
 

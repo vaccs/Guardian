@@ -10,7 +10,7 @@ struct structinfo_node* new_structinfo_node(
 	enum structinfo_node_type type,
 	struct string* name,
 	struct string* grammar,
-	struct zebu_type* tokentype)
+	struct zebu_tokentype* tokentype)
 {
 	ENTER;
 	
@@ -22,7 +22,7 @@ struct structinfo_node* new_structinfo_node(
 	
 	this->grammar = inc_string(grammar);
 	
-	this->tokentype = inc_zebu_type(tokentype);
+	this->tokentype = inc_zebu_tokentype(tokentype);
 	
 	this->refcount = 1;
 	

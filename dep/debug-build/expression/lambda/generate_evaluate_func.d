@@ -14,9 +14,9 @@ bin/debug-build/./expression/lambda/generate_evaluate_func.o: \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- type/struct.h type/kind.h list/parameter/foreach.h out/shared.h \
- out/subtype_queue/submit.h out/type_queue/submit.h \
- expression/print_source.h type_check/unresolved/foreach.h \
- expression/variable/kind.h expression/lambda/struct.h \
- expression/lambda/../struct.h expression/lambda/../kind.h \
- expression/lambda/generate_evaluate_func.h
+ type/struct.h type/kind.h type/lambda/struct.h type/lambda/../struct.h \
+ list/parameter/foreach.h out/shared.h out/subtype_queue/submit.h \
+ out/type_queue/submit.h expression/print_source.h \
+ type_check/unresolved/foreach.h expression/variable/kind.h \
+ expression/lambda/struct.h expression/lambda/../struct.h \
+ expression/lambda/../kind.h expression/lambda/generate_evaluate_func.h

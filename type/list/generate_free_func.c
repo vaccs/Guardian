@@ -22,7 +22,7 @@ struct stringtree* list_type_generate_free_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static void func_%u(type_%u* this)"
+		"static void func_%u(struct type_%u* this)"
 		"{"
 			"if (this && !--this->refcount)"
 			"{"

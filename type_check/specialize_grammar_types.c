@@ -5,6 +5,8 @@
 
 #include <named/type/new.h>
 
+#include <parse/parse.h>
+
 #include <type_cache/get_type/grammar.h>
 #include <type_cache/get_type/charlist.h>
 #include <type_cache/get_type/list.h>
@@ -48,16 +50,19 @@ void specialize_grammar_types(
 					{
 						case snt_token_scalar:
 						{
-							if (ele->tokentype)
+							if (!ele->tokentype)
 							{
-								struct type* subtype = build_type(tcache, ele->tokentype);
-								
+								struct type* subtype = type_cache_get_charlist_type(tcache);
+								grammar_type_add_field(gtype, ele->name, subtype);
+							}
+							else if (ele->tokentype->int_)
+							{
+								struct type* subtype = type_cache_get_int_type(tcache);
 								grammar_type_add_field(gtype, ele->name, subtype);
 							}
 							else
 							{
-								struct type* subtype = type_cache_get_charlist_type(tcache);
-								grammar_type_add_field(gtype, ele->name, subtype);
+								TODO;
 							}
 							break;
 						}

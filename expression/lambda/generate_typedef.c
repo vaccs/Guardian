@@ -28,7 +28,7 @@ struct stringtree* lambda_expression_generate_generate_typedef(
 	stringtree_append_printf(tree, ""
 		"struct subtype_%u"
 		"{"
-			"type_%u super;"
+			"struct type_%u super;"
 	"", lambda_id, super_id);
 	
 	unresolved_foreach3(this->captured, ({

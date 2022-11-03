@@ -1,9 +1,0 @@
-[{
-	"commands": [
-		"make -C ~/wmu/maia/repo/out buildtype=debug"
-	]
-}, {
-	"commands": [
-		"make -C ~/wmu/maia/repo/out buildtype=test"
-	]
-}]

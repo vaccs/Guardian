@@ -89,7 +89,7 @@ void function_queue_process(
 				case fk_index:
 					dputs("fk_index");
 					assert(fdata->type->kind == tk_list);
-					subtext = list_type_generate_index_func((void*) fdata->type, fdata->id, this);
+					subtext = list_type_generate_index_func((void*) fdata->type, fdata->id, shared);
 					break;
 				
 				case fk_lambda_new:

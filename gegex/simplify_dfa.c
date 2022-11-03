@@ -540,11 +540,8 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 								}
 								else
 								{
-									TODO;
-									#if 0
-									simplify_dfa_add_dep(dependent_of, a, b, at->to, bt->to);
+									add_dep(dependent_of, a, b, at->to, bt->to);
 									a_i++, b_i++;
-									#endif
 								}
 							}
 							
@@ -595,21 +592,18 @@ struct gegex* gegex_simplify_dfa(struct gegex* original)
 			
 			if (node)
 			{
-				TODO;
-				#if 0
 				struct dependent_of_node* dep = node->item;
 				
 				unsigned hopcount = task->hopcount + 1;
 				
-				avl_tree_foreach(dep->dependent_of, ({
+				avl_foreach(dep->dependent_of, ({
 					void runme(void* ptr) {
 						const struct pair* pair = ptr;
 						
-						heap_push(todo, new_simplify_task(pair->a, pair->b, hopcount));
+						heap_push(todo, new_task(pair->a, pair->b, hopcount));
 					}
 					runme;
 				}));
-				#endif
 			}
 		}
 		

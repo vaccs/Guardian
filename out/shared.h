@@ -1,6 +1,8 @@
 
 struct out_shared
 {
+	struct type_cache* tcache;
+	
 	struct type_queue* tqueue;
 	
 	struct subtype_queue* stqueue;

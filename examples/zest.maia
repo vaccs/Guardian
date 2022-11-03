@@ -1,0 +1,15 @@
+
+%skip: ' ' | '\n';
+
+number: /int: ['0'-'9']+/ #value;
+
+%start: number number;
+
+f = $int x: $: $int y: $: x + y;
+x = number[0].value;
+y = number[1].value;
+
+%error: f(x)()(y)() == 7;
+
+
+

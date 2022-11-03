@@ -5,59 +5,71 @@
 
 #include <string/struct.h>
 
-#include <yacc/structinfo/struct.h>
+#include <type/struct.h>
+#include <type_cache/get_type/grammar.h>
 
+#include <yacc/structinfo/struct.h>
 #include <yacc/reductioninfo/print_source.h>
 
+#include "../shared.h"
+#include "../type_queue/submit.h"
 #include "../string_to_id/string_to_id.h"
 
 #include "struct.h"
 #include "print_source.h"
 
-void reducerule_to_id_print_source(
+struct stringtree* reducerule_to_id_print_source(
+	struct type_cache* tcache,
 	struct reducerule_to_id* this,
 	struct string_to_id* stoi,
-	const char* prefix,
-	FILE* stream)
+	struct out_shared* shared)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	fprintf(stream, ""
-		"switch (r)" "\n"
-		"{" "\n"
+	struct stringtree* tree = new_stringtree();
+	
+	stringtree_append_printf(tree, ""
+		"switch (r)"
+		"{"
 	"");
 	
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 	{
 		struct reducerule_to_id_node* const ele = node->item;
 		
-		fprintf(stream, ""
-			"\t" "case %u:" "\n"
-			"\t" "{" "\n"
+		stringtree_append_printf(tree, ""
+			"case %u:"
+			"{"
 		"", ele->id);
 		
-		fprintf(stream, ""
-			"\t" "\t" "struct %s_%s* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));" "\n"
-			"\t" "\t" "value->refcount = 1;" "\n"
-		"", prefix, ele->grammar->chars);
+		stringtree_append_printf(tree, ""
+			"/* build structs */"
+		"");
 		
-		reductioninfo_print_source(ele->reductioninfo, ele->structinfo, ele->grammar->chars, prefix, stream);
+		struct type* type = type_cache_get_grammar_type(tcache, ele->grammar);
 		
-		fprintf(stream, ""
-			"\t" "\t" "d = value, g = %u;" "\n"
-			"\t" "\t" "break;" "\n"
-			"\t" "}" "\n"
+		type_queue_submit(shared->tqueue, type);
+		
+		stringtree_append_printf(tree, ""
+			"struct type_%u* value = memset(malloc(sizeof(*value)), 0, sizeof(*value));" "\n"
+			"value->refcount = 1;" "\n"
+		"", type->id);
+		
+		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, tcache, shared, ele->grammar->chars);
+		
+		stringtree_append_printf(tree, ""
+				"d = value, g = %u;"
+				"break;"
+			"}"
 		"", string_to_id(stoi, ele->reduce_as));
 	}
 	
-	fprintf(stream, ""
+	stringtree_append_printf(tree, ""
 		"}"
 	"");
-	#endif
 	
 	EXIT;
+	return tree;
 }
 
 

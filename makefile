@@ -63,7 +63,8 @@ ARGS += -m
 
 #ARGS += -i ./examples/const-folding.maia
 #ARGS += -i ./examples/json.maia
-ARGS += -i ./examples/math.maia
+#ARGS += -i ./examples/math.maia
+ARGS += -i ./examples/zest.maia
 
 ARGS += -o /tmp/out.c
 
