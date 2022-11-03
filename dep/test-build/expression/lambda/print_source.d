@@ -15,6 +15,7 @@ bin/test-build/./expression/lambda/print_source.o: \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h out/shared.h \
  out/function_queue/submit_lambda_new.h parameter/struct.h \
- list/parameter/struct.h expression/lambda/struct.h \
+ list/parameter/struct.h type_check/unresolved/foreach.h \
+ expression/variable/kind.h expression/lambda/struct.h \
  expression/lambda/../struct.h expression/lambda/../kind.h \
  expression/lambda/print_source.h

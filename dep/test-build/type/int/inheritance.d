@@ -14,6 +14,7 @@ bin/test-build/./type/int/inheritance.o: type/int/inheritance.c debug.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  type/int/generate_typedef.h type/int/generate_new_func.h \
- type/int/generate_compare_func.h type/int/generate_free_func.h \
- type/int/inheritance.h type/int/../inheritance.h type/int/compare.h \
- type/int/print.h type/int/free.h
+ type/int/generate_new_forward.h type/int/generate_compare_func.h \
+ type/int/generate_free_func.h type/int/inheritance.h \
+ type/int/../inheritance.h type/int/compare.h type/int/print.h \
+ type/int/free.h

@@ -21,6 +21,7 @@ bin/test-build/./type_check/specialize/lambda.o: \
  list/parameter/append.h list/parameter/free.h \
  type_cache/get_type/lambda.h expression/struct.h expression/kind.h \
  expression/lambda/new.h expression/literal/new.h expression/free.h \
- type_check/specialize/../unresolved/foreach.h \
+ type_check/specialize/../unresolved/foreach.h expression/variable/kind.h \
+ type_check/specialize/../unresolved/is_nonempty.h \
  type_check/specialize/../build_type.h type_check/specialize/shared.h \
  type_check/specialize/conditional.h type_check/specialize/lambda.h

@@ -4,9 +4,9 @@
 		"./maia -i ./missing/path.maia"
 	],
 	
-	"stderr": ""
+	"output": [
 		"maia: cannot open './missing/path.maia'!"
-	"",
+	],
 	
 	"exit-code": 1,
 }]

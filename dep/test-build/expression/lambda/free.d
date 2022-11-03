@@ -13,6 +13,7 @@ bin/test-build/./expression/lambda/free.o: expression/lambda/free.c \
  stringtree/append_strndup.h stringtree/prepend_tree.h stringtree/inc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/pop.h \
- quack/free.h list/parameter/free.h expression/lambda/../free.h \
- expression/lambda/struct.h expression/lambda/../struct.h \
- expression/lambda/../kind.h expression/lambda/free.h
+ quack/free.h list/parameter/free.h type_check/unresolved/free.h \
+ expression/lambda/../free.h expression/lambda/struct.h \
+ expression/lambda/../struct.h expression/lambda/../kind.h \
+ expression/lambda/free.h

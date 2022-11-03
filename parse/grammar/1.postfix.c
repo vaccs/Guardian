@@ -19,7 +19,13 @@ struct gbundle read_grammar_postfix(
 	
 	if (postfix->plus)
 	{
-		TODO;
+		gegex_add_lambda_transition(base.accepts, base.start);
+		
+		struct gegex* new_accepts = new_gegex();
+		
+		gegex_add_lambda_transition(base.accepts, new_accepts);
+		
+		base.accepts = new_accepts;
 	}
 	else if (postfix->qmark)
 	{
