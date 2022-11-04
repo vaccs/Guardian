@@ -5,6 +5,8 @@
 
 #include <string/struct.h>
 
+#include <stringtree/append_printf.h>
+
 #include <type/struct.h>
 
 #include <type_cache/get_type/grammar.h>

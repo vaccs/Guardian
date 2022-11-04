@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <avl/search.h>
+#include <avl/insert.h>
+
 #include <set/zpexpression/add.h>
 
 #include "node/struct.h"

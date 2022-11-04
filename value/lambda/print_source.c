@@ -1,9 +1,9 @@
 
 #include <debug.h>
 
-/*#include <stringtree/new.h>*/
+#include <stringtree/new.h>
 /*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/append_printf.h>*/
+#include <stringtree/append_printf.h>
 
 /*#include <type/struct.h>*/
 

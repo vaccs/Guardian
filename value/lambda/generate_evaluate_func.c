@@ -1,13 +1,21 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <type/struct.h>
-
 #include <type/lambda/struct.h>
 
 #include <list/parameter/struct.h>
 
 #include <parameter/struct.h>
+
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include <scope/foreach.h>
 

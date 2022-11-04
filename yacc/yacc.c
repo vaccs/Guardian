@@ -1,5 +1,27 @@
 
+#include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <defines/argv0.h>
+
+#include <enums/error.h>
+
+#include <memory/smalloc.h>
+
+#include <avl/alloc_tree.h>
+#include <avl/search.h>
+#include <avl/insert.h>
+#include <avl/foreach.h>
+#include <avl/free_tree.h>
+
+#include <string/new.h>
+#include <string/inc.h>
+#include <string/are_equal.h>
+#include <string/compare.h>
+#include <string/free.h>
 
 #include <quack/new.h>
 #include <quack/pop.h>

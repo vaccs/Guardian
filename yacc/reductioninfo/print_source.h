@@ -1,4 +1,6 @@
 
+struct stringtree;
+
 void reductioninfo_print_source(
 	struct stringtree* tree,
 	struct reductioninfo* this,

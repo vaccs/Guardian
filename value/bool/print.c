@@ -1,4 +1,7 @@
 
+#include <assert.h>
+#include <stdio.h>
+
 #include <debug.h>
 
 #include "struct.h"

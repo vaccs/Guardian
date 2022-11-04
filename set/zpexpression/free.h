@@ -1,2 +1,5 @@
 
-void free_zpexpressionset(struct zpexpressionset* this);
+struct zpexpressionset;
+
+void free_zpexpressionset(
+	struct zpexpressionset* this);

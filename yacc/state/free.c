@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-/*#include <string/free.h>*/
+#include <string/free.h>
 
 #include <quack/new.h>
 #include <quack/append.h>
@@ -11,9 +11,9 @@
 #include <quack/pop.h>
 #include <quack/free.h>
 
-/*#include <set/ptr/new.h>*/
-/*#include <set/ptr/add.h>*/
-/*#include <set/ptr/free.h>*/
+#include <set/ptr/new.h>
+#include <set/ptr/add.h>
+#include <set/ptr/free.h>
 
 #include <lex/state/free.h>
 

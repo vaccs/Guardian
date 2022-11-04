@@ -4,11 +4,11 @@
 
 #include <debug.h>
 
-/*#include <memory/smalloc.h>*/
+#include <memory/smalloc.h>
 
 #include <string/new.h>
-/*#include <string/inc.h>*/
-/*#include <string/free.h>*/
+#include <string/inc.h>
+#include <string/free.h>
 
 #include <quack/new.h>
 #include <quack/append.h>
@@ -16,10 +16,10 @@
 #include <quack/pop.h>
 #include <quack/free.h>
 
-/*#include <avl/alloc_tree.h>*/
-/*#include <avl/insert.h>*/
-/*#include <avl/search.h>*/
-/*#include <avl/free_tree.h>*/
+#include <avl/alloc_tree.h>
+#include <avl/insert.h>
+#include <avl/search.h>
+#include <avl/free_tree.h>
 
 /*#include <named/gegex/struct.h>*/
 
@@ -29,9 +29,9 @@
 /*#include <named/trie/compare.h>*/
 /*#include <named/trie/free.h>*/
 
-/*#include <set/ptr/new.h>*/
-/*#include <set/ptr/add.h>*/
-/*#include <set/ptr/free.h>*/
+#include <set/ptr/new.h>
+#include <set/ptr/add.h>
+#include <set/ptr/free.h>
 
 /*#include <set/string/new.h>*/
 /*#include <set/string/foreach.h>*/

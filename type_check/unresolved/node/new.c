@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
+#include <string/inc.h>
+
 #include <set/zpexpression/new.h>
 #include <set/zpexpression/add.h>
 

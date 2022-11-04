@@ -1,4 +1,6 @@
 
+struct avl_tree_t;
+
 void type_check(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,

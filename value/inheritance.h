@@ -1,4 +1,5 @@
 
+struct out_shared;
 struct shared;
 struct value;
 

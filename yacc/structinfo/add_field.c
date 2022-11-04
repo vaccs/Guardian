@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/search.h>
+#include <avl/insert.h>
 
 #include "struct.h"
 #include "add_field.h"

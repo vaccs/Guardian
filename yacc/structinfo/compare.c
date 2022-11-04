@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <avl/free_tree.h>
+
+#include <string/compare.h>
+
 #include "node/struct.h"
 #include "node/compare.h"
 

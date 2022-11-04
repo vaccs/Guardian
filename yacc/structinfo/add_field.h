@@ -1,4 +1,7 @@
 
+struct string;
+struct zebu_tokentype;
+
 #include "node/type.h"
 
 void structinfo_add_field(

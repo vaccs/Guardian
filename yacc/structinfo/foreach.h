@@ -1,5 +1,6 @@
 
 struct structinfo_node;
+struct structinfo;
 
 void structinfo_foreach(
 	struct structinfo* this,

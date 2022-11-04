@@ -1,5 +1,8 @@
 
+#include <stddef.h>
+
 enum value_kind;
+struct type;
 struct value_inheritance;
 
 struct value* new_value(

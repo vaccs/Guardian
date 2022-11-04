@@ -1,5 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/tree_t.h>
+#include <avl/insert.h>
+
+#include <string/compare.h>
 
 #include <set/zpexpression/update.h>
 

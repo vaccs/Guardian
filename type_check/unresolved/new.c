@@ -1,6 +1,11 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
+#include <avl/alloc_tree.h>
+#include <avl/insert.h>
+
 #include "node/compare.h"
 #include "node/free.h"
 

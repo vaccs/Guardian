@@ -1,8 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-#include <named/structinfo/struct.h>
+#include <avl/foreach.h>
+#include <avl/insert.h>
 
+#include <named/structinfo/struct.h>
 #include <named/type/new.h>
 
 #include <parse/parse.h>

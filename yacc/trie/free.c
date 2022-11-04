@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-/*#include <string/free.h>*/
+#include <string/free.h>
 
 #include <yacc/reductioninfo/free.h>
 

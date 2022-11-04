@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <avl/tree_t.h>
+
 #include <set/zpexpression/is_nonempty.h>
 #include <set/zpexpression/get_head.h>
 
