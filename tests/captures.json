@@ -3,6 +3,58 @@
 		"./maia": "bin/test-build/maia",
 		
 		"./input.maia": [
+			"%start: \"abc\";"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out"
+	],
+	"exit-code": 1
+}, {
+	"files": {
+		"./maia": "bin/test-build/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			"number: /int: ['0'-'9']+/ #value;",
+			"%start: number number;",
+			"f = $int x: $: $int y: $: x + y;",
+			"x = number[0].value;",
+			"y = number[1].value;",
+			"%error: f(x)()(y)() == 7;"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out"
+	],
+	"exit-code": 1
+}, {
+	"files": {
+		"./maia": "bin/test-build/maia",
+		
+		"./input.maia": [
+			"%skip: ' ';",
+			"number: /int: ['0'-'9']+/ #value;",
+			"%start: number number;",
+			"f = $int x: $: $int y: $: x + y;",
+			"x = number[0];",
+			"y = number[1];",
+			"%error: f(x)()(y)() == 7;"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c"
+	],
+	"exit-code": 1
+}, {
+	"files": {
+		"./maia": "bin/test-build/maia",
+		
+		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			"number: /int: ['0'-'9']+/ #value;",
 			"%start: number number;",
@@ -18,28 +70,45 @@
 	},
 	"commands": [
 		"./maia -i ./input.maia -o out.c",
-		"gcc -Wall -Werror ./out.c -o ./out",
-		"./out"
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
 	]
 }, {
 	"files": {
 		"./maia": "bin/test-build/maia",
 		
 		"./input.maia": [
-			"%skip: ' ';",
+			"%skip: ' ' | '\\n';",
 			"number: /int: ['0'-'9']+/ #value;",
 			"%start: number number;",
 			"f = $int x: $: $int y: $: x + y;",
-			"x = number[0];",
-			"y = number[1];",
+			"x = number[0].value;",
+			"y = number[1].value;",
 			"%error: f(x)()(y)() == 7;"
 		],
+		
+		"./test.txt": [
+			"2 3"
+		]
 	},
 	"commands": [
 		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
 	],
 	"exit-code": 1
 }]
+
+
+
+
+
+
+
+
+
+
+
 
 
 

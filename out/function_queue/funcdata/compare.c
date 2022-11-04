@@ -18,6 +18,7 @@ int compare_funcdata(const void* a, const void* b)
 		case fk_inc:
 		case fk_compare:
 		case fk_index:
+		case fk_append:
 		case fk_free:
 			if (A->type > B->type)
 				return +1;

@@ -9,12 +9,15 @@ void free_type2(struct type* this)
 {
 	ENTER;
 	
-	assert(this->inheritance);
-	assert(this->inheritance->free);
-	
-	(this->inheritance->free)(this);
-	
-	free(this);
+	if (this)
+	{
+		assert(this->inheritance);
+		assert(this->inheritance->free);
+		
+		(this->inheritance->free)(this);
+		
+		free(this);
+	}
 	
 	EXIT;
 }

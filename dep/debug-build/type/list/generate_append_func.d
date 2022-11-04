@@ -1,5 +1,5 @@
-bin/test-build/./out/reducerule_to_id/print_source.o: \
- out/reducerule_to_id/print_source.c debug.h memory/smalloc.h \
+bin/debug-build/./type/list/generate_append_func.o: \
+ type/list/generate_append_func.c debug.h memory/smalloc.h \
  memory/srealloc.h defines/argv0.h macros/strequals.h enums/error.h \
  enums/token_kind.h avl/alloc_tree.h avl/tree_t.h avl/freeitem_t.h \
  avl/compare_t.h avl/node_t.h avl/search.h avl/insert.h avl/foreach.h \
@@ -13,12 +13,6 @@ bin/test-build/./out/reducerule_to_id/print_source.o: \
  stringtree/append_tree.h stringtree/append_strndup.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
- type/struct.h type/kind.h type_cache/get_type/grammar.h \
- type_cache/get_type/list.h yacc/structinfo/struct.h \
- yacc/reductioninfo/print_source.h out/function_queue/submit_append.h \
- out/reducerule_to_id/../shared.h \
- out/reducerule_to_id/../type_queue/submit.h \
- out/reducerule_to_id/../string_to_id/string_to_id.h \
- out/reducerule_to_id/../set_queue/has_processed.h \
- out/reducerule_to_id/struct.h out/reducerule_to_id/print_source.h
+ quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h out/shared.h \
+ out/function_queue/submit_inc.h type/list/struct.h type/list/../struct.h \
+ type/list/../kind.h type/list/generate_append_func.h

@@ -56,11 +56,6 @@
 
 int main(int argc, char* const* argv)
 {
-	#ifdef DEBUGGING
-/*	setvbuf(stdout, NULL, 0, _IONBF);*/
-/*	setvbuf(stderr, NULL, 0, _IONBF);*/
-	#endif
-	
 	ENTER;
 	
 	struct cmdln* flags = cmdln_process(argc, argv);

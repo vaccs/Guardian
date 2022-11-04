@@ -11,6 +11,7 @@
 #include <type/generate_free_forward.h>
 
 #include <type/list/generate_index_func.h>
+#include <type/list/generate_append_func.h>
 
 #include <stringtree/prepend_tree.h>
 
@@ -76,6 +77,18 @@ void function_queue_process(
 					subtext = type_generate_inc_func(fdata->type, fdata->id);
 					break;
 				
+				case fk_index:
+					dputs("fk_index");
+					assert(fdata->type->kind == tk_list);
+					subtext = list_type_generate_index_func((void*) fdata->type, fdata->id, shared);
+					break;
+				
+				case fk_append:
+					dputs("fk_append");
+					assert(fdata->type->kind == tk_list);
+					subtext = list_type_generate_append_func((void*) fdata->type, fdata->id, shared);
+					break;
+				
 				case fk_compare:
 					dputs("fk_compare");
 					subtext = type_generate_compare_func(fdata->type, fdata->id, this);
@@ -84,12 +97,6 @@ void function_queue_process(
 				case fk_free:
 					dputs("fk_free");
 					subtext = type_generate_free_func(fdata->type, fdata->id, this);
-					break;
-				
-				case fk_index:
-					dputs("fk_index");
-					assert(fdata->type->kind == tk_list);
-					subtext = list_type_generate_index_func((void*) fdata->type, fdata->id, shared);
 					break;
 				
 				case fk_lambda_new:

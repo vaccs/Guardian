@@ -27,14 +27,10 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 	{
 		switch (opt)
 		{
-			case 'i':
-				input_path = optarg;
+			case 'h':
+				usage(0);
 				break;
-			
-			case 'o':
-				output_path = optarg;
-				break;
-			
+				
 			case 'v':
 				verbose = true;
 				break;
@@ -43,8 +39,12 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 				minimize_lexer = true;
 				break;
 			
-			case 'h':
-				usage(0);
+			case 'i':
+				input_path = optarg;
+				break;
+			
+			case 'o':
+				output_path = optarg;
 				break;
 			
 			default:

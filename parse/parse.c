@@ -49984,7 +49984,7 @@ struct zebu_$start* zebu_parse(FILE* stream)
 				else
 					fprintf(stderr, "zebu: unexpected '%c' when reading '%.*s'!\n", c, i, lexer.data);
 				
-				abort();
+				exit(1);
 			}
 		}
 	}
@@ -56934,7 +56934,11 @@ struct zebu_$start* zebu_parse(FILE* stream)
 		}
 		else
 		{
-			assert(!"266");
+			struct zebu_token* token = td;
+			
+			fprintf(stderr, "zebu: unexpected token '%.*s'!\n", token->len, token->data);
+			
+			exit(1);
 		}
 	}
 	

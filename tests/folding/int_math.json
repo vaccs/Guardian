@@ -1,16 +1,15 @@
 
 [{
 	"files": {
+		"./maia": "bin/test-build/maia",
+		
 		"./input.maia": [
 			"a = 2 + 3;",
-			"b = 2 - 3;",
-			"c = 2 * 3;",
-			"d = 2 / 3;",
-			"%start: \"abc\";"
+			"%start: \"abc\";",
 		]
 	},
 	"commands": [
-		"./maia ./input.maia"
+		"./maia -i ./input.maia -o ./output.c",
 	]
 }]
 

@@ -18,7 +18,8 @@ bin/test-build/./out/function_queue/process.o: \
  type/generate_new_forward.h type/generate_inc_func.h \
  type/generate_inc_forward.h type/generate_compare_func.h \
  type/generate_free_func.h type/generate_free_forward.h \
- type/list/generate_index_func.h expression/lambda/generate_new_func.h \
+ type/list/generate_index_func.h type/list/generate_append_func.h \
+ expression/lambda/generate_new_func.h \
  expression/lambda/generate_evaluate_func.h \
  expression/lambda/generate_free_func.h value/lambda/generate_new_func.h \
  value/lambda/generate_evaluate_func.h \

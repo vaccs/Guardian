@@ -15,8 +15,10 @@ bin/debug-build/./out/reducerule_to_id/print_source.o: \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
  type/struct.h type/kind.h type_cache/get_type/grammar.h \
- yacc/structinfo/struct.h yacc/reductioninfo/print_source.h \
+ type_cache/get_type/list.h yacc/structinfo/struct.h \
+ yacc/reductioninfo/print_source.h out/function_queue/submit_append.h \
  out/reducerule_to_id/../shared.h \
  out/reducerule_to_id/../type_queue/submit.h \
  out/reducerule_to_id/../string_to_id/string_to_id.h \
+ out/reducerule_to_id/../set_queue/has_processed.h \
  out/reducerule_to_id/struct.h out/reducerule_to_id/print_source.h

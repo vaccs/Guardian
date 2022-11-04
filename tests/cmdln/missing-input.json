@@ -1,5 +1,9 @@
 
 [{
+	"files": {
+		"./maia": "bin/test-build/maia"
+	},
+	
 	"commands": [
 		"./maia -i ./missing/path.maia"
 	],

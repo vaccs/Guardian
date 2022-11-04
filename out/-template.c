@@ -372,17 +372,14 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	#if 0
 	// variable declarations:
 	{{INIT_DECLARES}}
 	
-	assert(!"TODO: declares & assertions");
 	// assertions:
 	{{ASSERTIONS}}
 	
 	// clean up declarations:
 	{{UNINIT_DECLARES}}
-	#endif
 	
 	// free parse-tree:
 	{{FREE_START}}(start);

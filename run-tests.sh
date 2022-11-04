@@ -1,4 +1,4 @@
 set -ev
 make buildtype=debug
 make buildtype=test
-zest ./tests/
+zest ./tests/ || more /tmp/zest/output.txt

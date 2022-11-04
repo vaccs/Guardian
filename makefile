@@ -30,7 +30,7 @@ CFLAGS += -Wno-unused-label
 
 else ifeq ($(buildtype), debug)
 CPPFLAGS += -D DEBUGGING
-#CPPFLAGS += -D ZEBU_DEBUG
+CPPFLAGS += -D ZEBU_DEBUG
 
 CFLAGS += -g
 CFLAGS += -Wno-unused-variable
@@ -61,7 +61,6 @@ ARGS += -v
 ARGS += -m
 #ARGS += --minimize-lexer
 
-#ARGS += -i ./examples/const-folding.maia
 #ARGS += -i ./examples/json.maia
 #ARGS += -i ./examples/math.maia
 ARGS += -i ./examples/zest.maia

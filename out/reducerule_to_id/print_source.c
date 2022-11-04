@@ -6,14 +6,19 @@
 #include <string/struct.h>
 
 #include <type/struct.h>
+
 #include <type_cache/get_type/grammar.h>
+#include <type_cache/get_type/list.h>
 
 #include <yacc/structinfo/struct.h>
 #include <yacc/reductioninfo/print_source.h>
 
+#include <out/function_queue/submit_append.h>
+
 #include "../shared.h"
 #include "../type_queue/submit.h"
 #include "../string_to_id/string_to_id.h"
+#include "../set_queue/has_processed.h"
 
 #include "struct.h"
 #include "print_source.h"
@@ -42,10 +47,6 @@ struct stringtree* reducerule_to_id_print_source(
 			"{"
 		"", ele->id);
 		
-		stringtree_append_printf(tree, ""
-			"/* build structs */"
-		"");
-		
 		struct type* type = type_cache_get_grammar_type(tcache, ele->grammar);
 		
 		type_queue_submit(shared->tqueue, type);
@@ -56,6 +57,17 @@ struct stringtree* reducerule_to_id_print_source(
 		"", type->id);
 		
 		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, tcache, shared, ele->grammar->chars);
+		
+		if (set_queue_has_processed(shared->squeue, ele->grammar))
+		{
+			struct type* ltype = type_cache_get_list_type(tcache, type);
+			
+			unsigned append_id = function_queue_submit_append(shared->fqueue, ltype);
+			
+			stringtree_append_printf(tree, ""
+				"func_%u($%.*s, value);"
+			"", append_id, ele->grammar->len, ele->grammar->chars);
+		}
 		
 		stringtree_append_printf(tree, ""
 				"d = value, g = %u;"

@@ -1,11 +1,21 @@
 
 [{
+	"files": {
+		"./maia": "bin/test-build/maia"
+	},
+	
 	"commands": [
 		"./maia --help"
 	],
+	
+	"exit-code": 1
 }, {
+	"files": {
+		"./maia": "bin/test-build/maia"
+	},
+	
 	"commands": [
 		"./maia -h"
-	],
+	]
 }]
 

@@ -44,7 +44,7 @@ struct stringtree* assertion_print_source(
 	
 	stringtree_append_printf(text, ""
 		"{"
-			"type_%u* assertion = "
+			"struct type_%u* assertion = "
 	"", tid);
 	
 	struct stringtree* subtext = expression_print_source(this->expression, shared);
@@ -55,11 +55,13 @@ struct stringtree* assertion_print_source(
 	
 	stringtree_append_printf(text, ""
 			";"
+			
 			"if (!assertion->value)"
 			"{"
 				"fprintf(stderr, \"%%s: %%%%%s assertion failed!\\n\", argv0);"
 				"exit(1);"
 			"}"
+			
 			"func_%u(assertion);"
 		"}"
 	"", lookup[this->kind], free_id);

@@ -38,7 +38,7 @@ struct stringtree* funccall_expression_print_source(
 	
 	type_queue_submit(shared->tqueue, ltype);
 	
-	stringtree_append_printf(tree, "type_%u* _func = ", ltype->id);
+	stringtree_append_printf(tree, "struct type_%u* function = ", ltype->id);
 	struct stringtree* ltree = expression_print_source(this->lambda, shared);
 	stringtree_append_tree(tree, ltree);
 	stringtree_append_printf(tree, ";");
@@ -53,7 +53,7 @@ struct stringtree* funccall_expression_print_source(
 		
 		unsigned atid = argument->type->id;
 		
-		stringtree_append_printf(tree, "type_%u* _arg_%u = ", atid, i);
+		stringtree_append_printf(tree, "struct type_%u* arg_%u = ", atid, i);
 		
 		struct stringtree* atree = expression_print_source(argument, shared);
 		
@@ -65,21 +65,20 @@ struct stringtree* funccall_expression_print_source(
 	
 	unsigned rid = super->type->id;
 	
-	stringtree_append_printf(tree, "type_%u* _retval = (_func->evaluate)(", rid);
+	stringtree_append_printf(tree, ""
+		"struct type_%u* retval = (function->evaluate)(function"
+	"", rid);
 	
 	for (unsigned i = 0, n = arguments->n; i < n; i++)
 	{
-		stringtree_append_printf(tree, "_arg_%u", i);
-		
-		if (i + 1 < n)
-			stringtree_append_printf(tree, ", ");
+		stringtree_append_printf(tree, ", arg_%u", i);
 	}
 	
 	stringtree_append_printf(tree, ");");
 	
 	unsigned func_free_id = function_queue_submit_free(shared->fqueue, ltype);
 	
-	stringtree_append_printf(tree, "func_%u(_func);", func_free_id);
+	stringtree_append_printf(tree, "func_%u(function);", func_free_id);
 	
 	for (unsigned i = 0, n = arguments->n; i < n; i++)
 	{
@@ -87,10 +86,10 @@ struct stringtree* funccall_expression_print_source(
 		
 		unsigned free_id = function_queue_submit_free(shared->fqueue, argument->type);
 		
-		stringtree_append_printf(tree, "func_%u(_arg_%u);", free_id, i);
+		stringtree_append_printf(tree, "func_%u(arg_%u);", free_id, i);
 	}
 	
-	stringtree_append_printf(tree, "_retval;");
+	stringtree_append_printf(tree, "retval;");
 	
 	stringtree_append_printf(tree, "})\n");
 	
