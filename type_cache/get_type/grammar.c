@@ -1,10 +1,13 @@
 
 #include <debug.h>
 
-#include "../struct.h"
+#include <avl/insert.h>
+#include <avl/search.h>
 
 #include <type/grammar/struct.h>
 #include <type/grammar/new.h>
+
+#include "../struct.h"
 
 #include "grammar.h"
 

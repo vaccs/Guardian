@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <avl/search.h>
+#include <avl/insert.h>
+
 #include <type/list/struct.h>
 #include <type/list/new.h>
 

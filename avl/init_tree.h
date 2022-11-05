@@ -1,5 +1,5 @@
 
-#include "tree_t.h"
+#include "tree.h"
 
 /* Initializes a new tree for elements that will be ordered using
  * the supplied strcmp()-like function.

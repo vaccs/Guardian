@@ -1,5 +1,15 @@
 
+#include <stdlib.h>
+#include <assert.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
+
+#include <avl/alloc_tree.h>
+#include <avl/search.h>
+#include <avl/insert.h>
+#include <avl/free_tree.h>
 
 #include <quack/new.h>
 #include <quack/is_nonempty.h>
@@ -36,7 +46,7 @@ static struct pair* new_pair(struct regex* a, struct regex* b)
 {
 	ENTER;
 	
-	struct pair* this = malloc(sizeof(*this));
+	struct pair* this = smalloc(sizeof(*this));
 	
 	assert(a < b);
 	

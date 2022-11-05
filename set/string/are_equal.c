@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <avl/tree_t.h>
+#include <avl/tree.h>
 
 #include <string/are_equal.h>
 

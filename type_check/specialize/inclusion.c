@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 /*#include <expression/has/new.h>*/

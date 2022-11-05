@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <avl/tree.h>
+#include <avl/insert.h>
+
 #include <parse/parse.h>
 
 #include "struct.h"

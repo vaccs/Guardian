@@ -1,6 +1,6 @@
 
-#include "tree_t.h"
-#include "node_t.h"
+#include "tree.h"
+#include "node.h"
 
 /* Insert a node before another node. Returns the new node.
  * If old is NULL, the item is appended to the tree.

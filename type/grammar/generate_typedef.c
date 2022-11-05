@@ -1,10 +1,14 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 /*#include <yacc/structinfo/print_source.h>*/
 
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_printf.h>*/
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include <parameter/struct.h>
 

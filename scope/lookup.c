@@ -1,5 +1,10 @@
 
+#include <stdlib.h>
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/search.h>
 
 #include <named/value/struct.h>
 

@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <avl/search.h>
+#include <avl/insert.h>
+
 #include <type/lambda/struct.h>
 #include <type/lambda/new.h>
 

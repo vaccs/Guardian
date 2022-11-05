@@ -1,5 +1,10 @@
 
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <avl/foreach.h>
+#include <avl/free_tree.h>
 
 #include <type/free.h>
 

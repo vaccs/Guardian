@@ -1,9 +1,16 @@
 
+#include <stdbool.h>
+#include <stdlib.h>
+#include <assert.h>
+
 #include <debug.h>
 
 #include <parse/parse.h>
 
 #include <type/struct.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <list/expression/new.h>
 #include <list/expression/append.h>

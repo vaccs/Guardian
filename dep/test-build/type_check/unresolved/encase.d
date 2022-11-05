@@ -1,10 +1,10 @@
 bin/test-build/./type_check/unresolved/encase.o: \
  type_check/unresolved/encase.c debug.h memory/smalloc.h \
  memory/srealloc.h defines/argv0.h macros/strequals.h enums/error.h \
- enums/token_kind.h avl/alloc_tree.h avl/tree_t.h avl/freeitem_t.h \
- avl/compare_t.h avl/node_t.h avl/search.h avl/insert.h avl/foreach.h \
- avl/clear_tree.h avl/free_tree.h avl/delete_node.h avl/tree_t.h \
- avl/delete.h string/struct.h string/new.h string/inc.h string/compare.h \
+ enums/token_kind.h avl/alloc_tree.h avl/tree.h avl/freeitem.h \
+ avl/compare.h avl/node.h avl/search.h avl/insert.h avl/foreach.h \
+ avl/clear_tree.h avl/free_tree.h avl/delete_node.h avl/delete.h \
+ string/struct.h string/new.h string/inc.h string/compare.h \
  string/are_equal.h string/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/get_head.h set/ptr/foreach.h set/ptr/contains.h set/ptr/update.h \
  set/ptr/is_nonempty.h set/ptr/discard.h set/ptr/clear.h set/ptr/free.h \
@@ -13,7 +13,7 @@ bin/test-build/./type_check/unresolved/encase.o: \
  stringtree/append_tree.h stringtree/append_strndup.h \
  stringtree/prepend_tree.h stringtree/inc.h stringtree/free.h heap/new.h \
  heap/is_nonempty.h heap/push.h heap/pop.h heap/free.h quack/new.h \
- quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h \
+ quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h avl/tree.h \
  set/zpexpression/update.h set/zpexpression/clear.h \
  type_check/unresolved/node/struct.h type_check/unresolved/struct.h \
  type_check/unresolved/encase.h

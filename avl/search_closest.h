@@ -1,5 +1,5 @@
 
-#include "tree_t.h"
+#include "tree.h"
 
 /* Searches for a node with the key closest (or equal) to the given item.
  * If avlnode is not NULL, *avlnode will be set to the node found or NULL

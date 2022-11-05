@@ -1,6 +1,6 @@
 bin/release-build/./type_check/specialize_grammar_types.o: \
  type_check/specialize_grammar_types.c debug.h avl/foreach.h avl/insert.h \
- avl/tree_t.h avl/freeitem_t.h avl/compare_t.h avl/node_t.h \
+ avl/tree.h avl/freeitem.h avl/compare.h avl/node.h \
  named/structinfo/struct.h named/type/new.h parse/parse.h \
  type_cache/get_type/grammar.h type_cache/get_type/charlist.h \
  type_cache/get_type/list.h type_cache/get_type/int.h \

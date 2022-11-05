@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/tree.h>
+#include <avl/insert.h>
 
 #include "struct.h"
 #include "update.h"

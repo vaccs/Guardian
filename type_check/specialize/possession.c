@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <string/new.h>
+#include <string/free.h>
+
 #include <expression/has/new.h>
 #include <expression/free.h>
 

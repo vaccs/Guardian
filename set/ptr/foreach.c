@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <avl/tree.h>
+
 #include "struct.h"
 #include "foreach.h"
 

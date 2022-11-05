@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "struct.h"
 #include "generate_inc_func.h"
 

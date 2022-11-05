@@ -1,7 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 /*#include <out/function_lookup/lookup_free.h>*/
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include "struct.h"
 #include "generate_free_func.h"

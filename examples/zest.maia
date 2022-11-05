@@ -1,1 +1,59 @@
-%start: "abc";
+
+%skip: ' ' | '\n';
+
+number: /int: ['0'-'9']+/ #value;
+
+%start: number number;
+
+%forward: g: $int: int;
+
+struct {
+	void (*)();
+}* g = NULL;
+
+/*g = $int x: x > 2 ? g(x - 1) + g(x - 2) : y;*/
+
+h = $: g();
+
+struct type* h = inc(g);
+
+void function_j(this):
+	return ({
+/*		function = inc(this->g);*/
+		function = inc(g);
+		param = ({
+			litearl = 2;
+			literal;
+		});
+		result = function(param);
+		free(function), free(param);
+		result
+	});
+
+j = malloc();
+/*j->g = g;*/
+
+g = malloc();
+g->evaluate = whatever;
+
+assert(j() == 3);
+
+
+
+
+
+
+
+
+j = $: g(2);
+
+j = $: h(2);
+
+f = $int x: $: $int y: $: x + y;
+
+x = number[0].value;
+y = number[1].value;
+
+%error: f(x)()(y)() == 7;
+
+

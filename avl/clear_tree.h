@@ -1,5 +1,5 @@
 
-#include "tree_t.h"
+#include "tree.h"
 
 /* Reinitializes the tree structure for reuse. Nothing is free()d.
  * Compare and freeitem functions are left alone.

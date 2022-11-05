@@ -4,7 +4,7 @@
 
 #include <debug.h>
 
-#include <avl/tree_t.h>
+#include <avl/tree.h>
 
 #include <memory/srealloc.h>
 

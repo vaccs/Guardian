@@ -1,5 +1,13 @@
 
+#include <string.h>
+#include <assert.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <parse/parse.h>
 

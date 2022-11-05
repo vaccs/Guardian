@@ -1,4 +1,6 @@
 
+struct type_cache;
+struct specialize_shared;
 struct zebu_expression;
 
 struct expression* specialize_implication_expression(

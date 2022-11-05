@@ -1,7 +1,7 @@
 bin/release-build/./type_check/type_check.o: type_check/type_check.c \
  debug.h defines/argv0.h enums/error.h memory/smalloc.h string/inc.h \
- string/compare.h string/free.h avl/alloc_tree.h avl/tree_t.h \
- avl/freeitem_t.h avl/compare_t.h avl/node_t.h avl/foreach.h avl/insert.h \
+ string/compare.h string/free.h avl/alloc_tree.h avl/tree.h \
+ avl/freeitem.h avl/compare.h avl/node.h avl/foreach.h avl/insert.h \
  avl/search.h avl/free_tree.h quack/new.h quack/pop.h quack/is_nonempty.h \
  quack/foreach.h quack/append.h quack/free.h set/ptr/new.h set/ptr/add.h \
  set/ptr/foreach.h set/ptr/free.h assertion/new.h enums/assertion_kind.h \

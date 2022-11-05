@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 /*#include <out/function_lookup/lookup_free.h>*/
 

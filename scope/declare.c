@@ -1,5 +1,9 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/insert.h>
 
 #include <named/value/new.h>
 

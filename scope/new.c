@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
+#include <avl/alloc_tree.h>
+
 #include <named/value/compare.h>
 #include <named/value/free.h>
 

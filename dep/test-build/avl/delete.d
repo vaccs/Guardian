@@ -1,3 +1,2 @@
-bin/test-build/./avl/delete.o: avl/delete.c avl/search.h avl/tree_t.h \
- avl/freeitem_t.h avl/compare_t.h avl/node_t.h avl/delete_node.h \
- avl/tree_t.h avl/delete.h
+bin/test-build/./avl/delete.o: avl/delete.c avl/search.h avl/tree.h \
+ avl/freeitem.h avl/compare.h avl/node.h avl/delete_node.h avl/delete.h

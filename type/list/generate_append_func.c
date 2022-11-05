@@ -8,6 +8,9 @@
 /*#include <out/function_lookup/lookup_inc.h>*/
 #include <out/function_queue/submit_inc.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "struct.h"
 #include "generate_append_func.h"
 

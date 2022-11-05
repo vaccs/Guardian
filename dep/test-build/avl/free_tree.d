@@ -1,3 +1,2 @@
 bin/test-build/./avl/free_tree.o: avl/free_tree.c avl/free_nodes.h \
- avl/tree_t.h avl/freeitem_t.h avl/compare_t.h avl/node_t.h \
- avl/free_tree.h
+ avl/tree.h avl/freeitem.h avl/compare.h avl/node.h avl/free_tree.h

@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-#include <avl/tree_t.h>
+#include <avl/tree.h>
 #include <avl/insert.h>
 
 #include <string/compare.h>

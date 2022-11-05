@@ -1,7 +1,7 @@
 
-#include "tree_t.h"
-#include "compare_t.h"
-#include "freeitem_t.h"
+#include "tree.h"
+#include "compare.h"
+#include "freeitem.h"
 
 /* Allocates and initializes a new tree for elements that will be
  * ordered using the supplied strcmp()-like function.

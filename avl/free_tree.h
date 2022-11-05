@@ -1,5 +1,5 @@
 
-#include "tree_t.h"
+#include "tree.h"
 
 /* Frees the entire tree efficiently. Nodes will be free()d.
  * If the tree's freeitem is not NULL it will be invoked on every item.

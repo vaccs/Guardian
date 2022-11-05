@@ -1,4 +1,5 @@
 
+struct type_cache;
 struct specialize_shared;
 
 struct expression* specialize_expression(

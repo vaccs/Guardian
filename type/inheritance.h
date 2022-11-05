@@ -1,4 +1,6 @@
 
+struct function_queue;
+struct type_queue;
 struct type;
 struct type_lookup;
 struct out_shared;

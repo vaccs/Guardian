@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include "struct.h"
@@ -30,7 +32,7 @@ void regex_set_kind(
 		
 		for (unsigned i = 0, n = state->lambdas.n; i < n; i++)
 		{
-			struct regex* to = state->lambdas.data[i];
+			// struct regex* to = state->lambdas.data[i];
 			
 			TODO;
 		}

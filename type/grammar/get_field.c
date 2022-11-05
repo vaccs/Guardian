@@ -1,5 +1,9 @@
 
+#include <stddef.h>
+
 #include <debug.h>
+
+#include <string/are_equal.h>
 
 #include <parameter/struct.h>
 

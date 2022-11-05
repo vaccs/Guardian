@@ -1,4 +1,6 @@
 
+#include <stdbool.h>
+
 struct stringtree
 {
 	struct stringtree_node {

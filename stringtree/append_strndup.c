@@ -1,5 +1,10 @@
 
+#include <string.h>
+#include <stdio.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
 
 #include "struct.h"
 #include "append_strndup.h"

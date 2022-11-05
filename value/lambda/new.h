@@ -1,4 +1,7 @@
 
+struct parameter_list;
+struct scope;
+struct expression;
 
 struct value* new_lambda_value(
 	struct type* type,

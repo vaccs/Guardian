@@ -1,4 +1,8 @@
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <assert.h>
+
 #include <debug.h>
 
 #include <parse/parse.h>
@@ -6,6 +10,9 @@
 #include <type/struct.h>
 
 #include <builtin/map/evaluate.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <list/expression/struct.h>
 #include <list/expression/new.h>

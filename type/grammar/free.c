@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <string/free.h>
+
 #include <list/parameter/free.h>
 
 #include <yacc/structinfo/free.h>

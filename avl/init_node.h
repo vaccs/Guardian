@@ -1,5 +1,5 @@
 
-#include "node_t.h"
+#include "node.h"
 
 /* Initializes memory for use as a node. Returns NULL if avlnode is NULL.
  * O(1) */

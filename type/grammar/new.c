@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <string/inc.h>
+
 #include <list/parameter/new.h>
 
 #include <yacc/structinfo/inc.h>

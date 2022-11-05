@@ -1,6 +1,6 @@
 
-#include "node_t.h"
-#include "tree_t.h"
+#include "node.h"
+#include "tree.h"
 
 /* Insert a node into the tree and return it.
  * Returns NULL if the node is already in the tree.

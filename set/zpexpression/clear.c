@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <avl/clear_tree.h>
+
 #include "struct.h"
 #include "clear.h"
 

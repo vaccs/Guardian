@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 /*#include <out/function_lookup/lookup_free.h>*/

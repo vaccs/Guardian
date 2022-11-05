@@ -1,2 +1,2 @@
 bin/test-build/./avl/search.o: avl/search.c avl/search_closest.h \
- avl/tree_t.h avl/freeitem_t.h avl/compare_t.h avl/node_t.h avl/search.h
+ avl/tree.h avl/freeitem.h avl/compare.h avl/node.h avl/search.h

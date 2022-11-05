@@ -1,5 +1,9 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/tree.h>
 
 #include "struct.h"
 #include "get_head.h"

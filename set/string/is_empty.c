@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <avl/tree_t.h>
+#include <avl/tree.h>
 
 #include "struct.h"
 #include "is_empty.h"

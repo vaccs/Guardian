@@ -1,6 +1,6 @@
 
-#include "tree_t.h"
-#include "node_t.h"
+#include "tree.h"
+#include "node.h"
 
 /* Searches for the item in the tree and returns a matching node if found
  * or NULL if not.

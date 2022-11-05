@@ -1,6 +1,6 @@
 
-#include "node_t.h"
-#include "tree_t.h"
+#include "node.h"
+#include "tree.h"
 
 /* Insert a node in an empty tree. If avlnode is NULL, the tree will be
  * cleared and ready for re-use.

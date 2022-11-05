@@ -2,7 +2,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include "tree_t.h"
+#include "tree.h"
 #include "insert.h"
 
 #include "init_node.h"

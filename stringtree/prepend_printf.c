@@ -1,5 +1,12 @@
 
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include <stdarg.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
 
 #include "struct.h"
 #include "prepend_printf.h"

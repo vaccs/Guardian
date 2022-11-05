@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 /*#include <out/function_lookup/lookup_free.h>*/
 
@@ -14,8 +19,6 @@ struct stringtree* lambda_type_generate_free_func(
 	ENTER;
 	
 	assert(super->kind == tk_lambda);
-	
-	struct lambda_type* this = (void*) super;
 	
 	struct stringtree* text = new_stringtree();
 	

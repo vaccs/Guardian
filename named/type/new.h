@@ -1,4 +1,5 @@
 
+struct string;
 struct type;
 
 struct named_type* new_named_type(

@@ -11,8 +11,6 @@ void free_list_type(
 {
 	ENTER;
 	
-	struct list_type* this = (void*) super;
-	
 	EXIT;
 }
 

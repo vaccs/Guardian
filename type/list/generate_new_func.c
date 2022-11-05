@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include "struct.h"
 #include "generate_new_func.h"
@@ -14,8 +19,6 @@ struct stringtree* list_type_generate_new_func(
 	unsigned type_id = super->id;
 	
 	assert(super->kind == tk_list);
-	
-	struct int_type* this = (void*) super;
 	
 	struct stringtree* text = new_stringtree();
 	

@@ -1,5 +1,9 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/tree.h>
 
 #include <named/value/struct.h>
 

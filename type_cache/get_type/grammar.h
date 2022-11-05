@@ -1,4 +1,5 @@
 
+struct string;
 struct type_cache;
 
 struct type* type_cache_get_grammar_type(

@@ -1,7 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <parse/parse.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <named/type/new.h>
 #include <named/type/compare.h>
