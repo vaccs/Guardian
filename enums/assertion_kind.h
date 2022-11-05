@@ -4,7 +4,6 @@
 
 enum assertion_kind
 {
-	ak_debug,
 	ak_note,
 	ak_warning,
 	ak_error,

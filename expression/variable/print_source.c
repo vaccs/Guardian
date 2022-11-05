@@ -28,6 +28,8 @@ struct stringtree* variable_expression_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct variable_expression* this = (void*) super;
@@ -75,6 +77,7 @@ struct stringtree* variable_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

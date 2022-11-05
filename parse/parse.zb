@@ -14,7 +14,7 @@
 
 `float`: ['0'-'9']+ '.' ['0'-'9']+;
 
-`identifier`: ['a'-'z'] ['_', 'a'-'z', '0'-'9']*;
+`identifier`: ['_', 'a'-'z'] ['_', 'a'-'z', '0'-'9']*;
 
 %include "charset.zb"
 
@@ -33,7 +33,6 @@
 %start: ( using_directive #usings[]
 	| skip_directive #skips[]
 	| start_directive #starts[]
-	| forward_directive #forwards[]
 	| grammar_rule #grammars[]
 	| value_declare #declares[]
 	| assertion #assertions[] )+;

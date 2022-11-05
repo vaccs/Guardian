@@ -68,17 +68,18 @@ int main(int argc, char* const* argv)
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	struct avl_tree_t* structinfos = avl_alloc_tree(compare_named_structinfos, free_named_structinfo);
-	struct avl_tree_t* raw_forwards = avl_alloc_tree(compare_named_zebu_types, free_named_zebu_type);
 	struct avl_tree_t* raw_declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
-	parse_driver(lex, grammar, structinfos, raw_forwards, raw_declares, raw_assertions, tcache, flags->input_path);
+	parse_driver(lex, grammar, structinfos, raw_declares, raw_assertions, tcache, flags->input_path);
 	
 	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	specialize_grammar_types(types, tcache, structinfos);
 	
-	struct quack* typed_assertions = new_quack();
-	struct avl_tree_t* typed_declares = avl_alloc_tree(compare_named_expressions, free_named_expression);
-	type_check(tcache, types, typed_declares, typed_assertions, raw_forwards, raw_declares, raw_assertions);
+/*	struct quack* typed_assertions = new_quack();*/
+/*	struct avl_tree_t* typed_declares = avl_alloc_tree(compare_named_expressions, free_named_expression);*/
+	type_check(tcache, types, raw_declares, raw_assertions);
 	
+	TODO;
+	#if 0
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
 	struct stringtree* content = out(
@@ -140,6 +141,7 @@ int main(int argc, char* const* argv)
 	
 	EXIT;
 	return 0;
+	#endif
 }
 
 

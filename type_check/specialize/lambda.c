@@ -57,7 +57,10 @@ struct expression* specialize_lambda_expression(
 	
 	if (zexpression->base)
 	{
+		TODO;
+		#if 0
 		retval = specialize_conditional_expression(tcache, sshared, zexpression->base);
+		#endif
 	}
 	else if (zexpression->lambda)
 	{
@@ -106,11 +109,18 @@ struct expression* specialize_lambda_expression(
 			}
 		}
 		
+		struct type* rettype = build_type(tcache, zexpression->rettype);
+		
+		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, rettype);
+		
 		struct expression* body = specialize_lambda_expression(tcache, sshared, zexpression->lambda);
 		
-		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, body->type);
-		
-		if (unresolved_is_nonempty(zexpression->lambda_captures))
+		if (rettype != body->type)
+		{
+			TODO;
+			exit(1);
+		}
+		else if (unresolved_is_nonempty(zexpression->lambda_captures))
 		{
 			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, zexpression->lambda_captures, body);
 		}

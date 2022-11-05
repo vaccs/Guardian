@@ -81,6 +81,8 @@
 	struct zpexpressionset;
 	struct reductioninfo;
 	struct zebu_tokentype;
+	struct zebu_possession_expression;
+	struct zebu_inclusion_expression;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -91,6 +93,8 @@
 	
 	#include <enums/error.h>
 	#include <enums/token_kind.h>
+	
+	#include <cmdln/verbose.h>
 	
 	#include <avl/alloc_tree.h>
 	#include <avl/search.h>
@@ -121,8 +125,16 @@
 	
 	#include <set/string/new.h>
 	#include <set/string/add.h>
+	#include <set/string/filter.h>
+	#include <set/string/foreach.h>
+	#include <set/string/len.h>
+	#include <set/string/is_nonempty.h>
 	#include <set/string/contains.h>
 	#include <set/string/free.h>
+	
+	#include <list/string/new.h>
+	#include <list/string/append.h>
+	#include <list/string/free.h>
 	
 	#include <stringtree/new.h>
 	#include <stringtree/append_printf.h>
@@ -141,8 +153,17 @@
 	#include <quack/new.h>
 	#include <quack/is_nonempty.h>
 	#include <quack/append.h>
+	#include <quack/len.h>
 	#include <quack/pop.h>
 	#include <quack/free.h>
+	
+	#include <type/print.h>
+	
+	#include <type_cache/get_type/int.h>
+	#include <type_cache/get_type/list.h>
+	#include <type_cache/get_type/lambda.h>
+	
+	#include <misc/default_sighandler.h>
 #endif
 
 #ifdef DEBUGGING

@@ -11,6 +11,6 @@ primary_type
 
 type
 	: primary_type #base
-	| '$' #lambda (type #args[] (',' type #args[])*)? ':' type #rettype
+	| '$' #lambda (type #args[] (',' type #args[])*)? "->" type #rettype
 	;
 

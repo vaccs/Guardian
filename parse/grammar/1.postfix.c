@@ -42,7 +42,28 @@ struct gbundle read_grammar_postfix(
 		
 		base.accepts = new_accepts;
 	}
+	else if (postfix->n || postfix->m)
+	{
+		TODO;
+	}
 	
 	EXIT;
 	return base;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

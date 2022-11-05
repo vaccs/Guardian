@@ -41,6 +41,14 @@ else
 $(error "invalid buildtype!");
 endif
 
+verbose ?= yes
+ifeq ($(verbose), yes)
+CPPFLAGS += -D VERBOSE
+else ifeq ($(verbose), no)
+else
+$(error "invalid verbose!");
+endif
+
 on_error ?= do_nothing
 ifeq ($(on_error), do_nothing)
 ON_ERROR =
@@ -50,8 +58,8 @@ else
 $(error "invalid on_error option!");
 endif
 
-buildprefix = bin/$(buildtype)-build
-depprefix   = dep/$(buildtype)-build
+buildprefix = bin/$(buildtype)-build/$(verbose)-verbose
+depprefix   = dep/$(buildtype)-build/$(verbose)-verbose
 
 default: $(buildprefix)/maia
 

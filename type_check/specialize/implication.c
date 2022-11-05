@@ -16,6 +16,8 @@ struct expression* specialize_implication_expression(
 	struct expression* retval;
 	ENTER;
 	
+	TODO;
+	#if 0
 	if (zexpression->implies)
 	{
 		TODO;
@@ -27,5 +29,6 @@ struct expression* specialize_implication_expression(
 	
 	EXIT;
 	return retval;
+	#endif
 }
 

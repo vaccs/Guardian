@@ -20,7 +20,6 @@
 #include "print_source.h"
 
 const char* lookup[] = {
-	[ak_debug] = "debug",
 	[ak_note] = "note",
 	[ak_warning] = "warning",
 	[ak_error] = "error",

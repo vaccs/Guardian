@@ -99,9 +99,17 @@ logical_or_expression
 	| logical_or_expression #left "||" logical_and_expression #right
 	;
 
+inclusion_expression: logical_or_expression #base ("in" logical_or_expression #list)?;
+
+possession_expression: inclusion_expression #base ("has" `identifier` #has)?;
+
+implication_expression: possession_expression #base ("implies" implication_expression #implies)?;
+
 conditional_expression
-	: logical_or_expression #base
-	| logical_or_expression #base '?' #qmark expression #true_case ':' conditional_expression #false_case
+	: implication_expression #base
+	| implication_expression #base
+		'?' #qmark expression #true_case
+		':' conditional_expression #false_case
 	;
 
 %include "type.zb"
@@ -111,15 +119,11 @@ conditional_expression
 lambda_expression
 	: conditional_expression #base
 	| %parameter: (type #type)? `identifier` #name:
-	  ('$' (type #type `identifier` #name (',' parameter #parameters[])*)? ':'
-	  	lambda_expression #lambda)
+		('$' (type #type `identifier` #name (',' parameter #parameters[])*)?
+			"->" type #rettype ':' lambda_expression #lambda)
 	;
 
-inclusion_expression: lambda_expression #base ("in" lambda_expression #list)?;
-
-possession_expression: inclusion_expression #base ("has" `identifier` #has)?;
-
-expression: possession_expression #base ("implies" expression #implies)?;
+expression: lambda_expression #base;
 
 
 

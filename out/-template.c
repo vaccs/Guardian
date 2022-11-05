@@ -29,12 +29,6 @@ static void free_token(struct token* token)
 // lambda captures:
 {{SUBTYPES}}
 
-// any '%forward' value-declares:
-{{FORWARD_DECLARES}}
-
-// new()s, inc()s, free()s, compare()s, index()s, ...
-{{FUNCTIONS}}
-
 // lexer tables:
 {{LEXER_TRANSITION_TABLE}}
 
@@ -372,7 +366,13 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	// variable declarations:
+	// "struct* $x = NULL;"
+	{{DECLARES}}
+
+	// new()s, inc()s, free()s, compare()s, index()s, ...
+	{{FUNCTIONS}}
+
+	// "$x = malloc()";
 	{{INIT_DECLARES}}
 	
 	// assertions:
@@ -384,7 +384,7 @@ int main(int argc, char* const* argv)
 	// free parse-tree:
 	{{FREE_START}}(start);
 	
-	// clean up sets:
+	// "free($x);
 	{{UNINIT_SETS}}
 	
 	free(yacc.data);
@@ -395,6 +395,14 @@ int main(int argc, char* const* argv)
 	
 	return 0;
 }
+
+
+
+
+
+
+
+
 
 
 

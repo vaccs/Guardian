@@ -8,6 +8,7 @@
 
 #include <memory/smalloc.h>
 
+#include "verbose.h"
 #include "usage.h"
 #include "flags.h"
 #include "process.h"
@@ -20,8 +21,6 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 	const char* input_path = NULL;
 	const char* output_path = NULL;
 	
-	bool verbose = false;
-	
 	int opt;
 	while ((opt = getopt(argc, argv, "hvmi:o:")) != -1)
 	{
@@ -32,7 +31,9 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 				break;
 				
 			case 'v':
+				#ifdef VERBOSE
 				verbose = true;
+				#endif
 				break;
 			
 			case 'm':
@@ -62,11 +63,13 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 	
 	flags->input_path = input_path;
 	flags->output_path = output_path;
-	flags->verbose = verbose;
 	
 	dpvs(flags->input_path);
 	dpvs(flags->output_path);
-	dpvb(flags->verbose);
+	
+	#ifdef VERBOSE
+	dpvb(verbose);
+	#endif
 	
 	EXIT;
 	return flags;

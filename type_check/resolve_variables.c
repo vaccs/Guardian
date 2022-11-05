@@ -19,6 +19,7 @@
 #include "unresolved/add.h"
 #include "unresolved/resolve.h"
 #include "unresolved/update.h"
+#include "unresolved/discard.h"
 #include "unresolved/free.h"
 #include "unresolved/encase.h"
 
@@ -426,6 +427,52 @@ static void resolve_variables_logical_or(
 	EXIT;
 }
 
+static void resolve_variables_inclusion(
+	struct unresolved* unresolved,
+	struct type_cache* tcache,
+	struct zebu_inclusion_expression* expression)
+{
+	ENTER;
+	
+	resolve_variables_logical_or(unresolved, tcache, expression->base);
+	
+	if (expression->list)
+	{
+		TODO;
+	}
+	
+	EXIT;
+}
+
+static void resolve_variables_possession(
+	struct unresolved* unresolved,
+	struct type_cache* tcache,
+	struct zebu_possession_expression* expression)
+{
+	ENTER;
+	
+	resolve_variables_inclusion(unresolved, tcache, expression->base);
+	
+	EXIT;
+}
+
+static void resolve_variables_implication(
+	struct unresolved* unresolved,
+	struct type_cache* tcache,
+	struct zebu_implication_expression* expression)
+{
+	ENTER;
+	
+	resolve_variables_possession(unresolved, tcache, expression->base);
+	
+	if (expression->implies)
+	{
+		TODO;
+	}
+	
+	EXIT;
+}
+
 static void resolve_variables_conditional(
 	struct unresolved* unresolved,
 	struct type_cache* tcache,
@@ -433,7 +480,7 @@ static void resolve_variables_conditional(
 {
 	ENTER;
 	
-	resolve_variables_logical_or(unresolved, tcache, expression->base);
+	resolve_variables_implication(unresolved, tcache, expression->base);
 	
 	if (expression->true_case)
 	{
@@ -451,7 +498,11 @@ static void resolve_variables_lambda(
 {
 	ENTER;
 	
-	if (expression->lambda)
+	if (expression->base)
+	{
+		resolve_variables_conditional(unresolved, tcache, expression->base);
+	}
+	else if (expression->lambda)
 	{
 		struct unresolved* subunresolved = new_unresolved();
 		
@@ -464,7 +515,9 @@ static void resolve_variables_lambda(
 			
 			struct string* name = new_string_from_token(expression->name);
 			
-			unresolved_resolve(subunresolved, name, vek_parameter, type, NULL);
+			unresolved_resolve_type(subunresolved, name, vek_parameter, type);
+			
+			unresolved_discard(subunresolved, name);
 			
 			for (unsigned i = 0, n = expression->parameters.n; i < n; i++)
 			{
@@ -479,7 +532,9 @@ static void resolve_variables_lambda(
 				
 				struct string* name = new_string_from_token(parameter->name);
 				
-				unresolved_resolve(subunresolved, name, vek_parameter, type, NULL);
+				unresolved_resolve_type(subunresolved, name, vek_parameter, type);
+				
+				unresolved_discard(subunresolved, name);
 				
 				free_string(name);
 			}
@@ -513,52 +568,6 @@ static void resolve_variables_lambda(
 	}
 	else
 	{
-		resolve_variables_conditional(unresolved, tcache, expression->base);
-	}
-	
-	EXIT;
-}
-
-static void resolve_variables_inclusion(
-	struct unresolved* unresolved,
-	struct type_cache* tcache,
-	struct zebu_inclusion_expression* expression)
-{
-	ENTER;
-	
-	resolve_variables_lambda(unresolved, tcache, expression->base);
-	
-	if (expression->list)
-	{
-		TODO;
-	}
-	
-	EXIT;
-}
-
-static void resolve_variables_possession(
-	struct unresolved* unresolved,
-	struct type_cache* tcache,
-	struct zebu_possession_expression* expression)
-{
-	ENTER;
-	
-	resolve_variables_inclusion(unresolved, tcache, expression->base);
-	
-	EXIT;
-}
-
-static void resolve_variables_implies(
-	struct unresolved* unresolved,
-	struct type_cache* tcache,
-	struct zebu_expression* expression)
-{
-	ENTER;
-	
-	resolve_variables_possession(unresolved, tcache, expression->base);
-	
-	if (expression->implies)
-	{
 		TODO;
 	}
 	
@@ -572,7 +581,7 @@ void resolve_variables(
 {
 	ENTER;
 	
-	resolve_variables_implies(unresolved, tcache, expression);
+	resolve_variables_lambda(unresolved, tcache, expression->base);
 	
 	EXIT;
 }

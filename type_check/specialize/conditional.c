@@ -66,7 +66,10 @@ struct expression* specialize_conditional_expression(
 	}
 	else
 	{
+		TODO;
+		#if 0
 		retval = specialize_logical_or_expression(tcache, sshared, zexpression->base);
+		#endif
 	}
 	
 	EXIT;

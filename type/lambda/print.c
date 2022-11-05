@@ -30,7 +30,7 @@ void lambda_type_print(
 			printf(", ");
 	}
 	
-	printf(":");
+	printf(" -> ");
 	
 	type_print(this->rettype);
 	

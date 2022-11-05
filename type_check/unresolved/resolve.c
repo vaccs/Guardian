@@ -14,12 +14,11 @@
 #include "struct.h"
 #include "resolve.h"
 
-void unresolved_resolve(
+void unresolved_resolve_type(
 	struct unresolved* this,
 	struct string* name,
 	enum variable_expression_kind kind,
-	struct type* type,
-	struct value* value)
+	struct type* type)
 {
 	ENTER;
 	
@@ -34,14 +33,13 @@ void unresolved_resolve(
 			{
 				use->kind = kind;
 				use->type = type;
-				use->value = inc_value(value);
 			}
 			runme;
 		}));
 		
 		enum variable_expression_kind deeper_kind;
 		
-		if (kind == vek_forward)
+		if (kind == vek_declare || kind == vek_grammar_rule)
 			deeper_kind = kind;
 		else
 			deeper_kind = vek_captured;
@@ -51,14 +49,44 @@ void unresolved_resolve(
 			{
 				use->kind = deeper_kind;
 				use->type = type;
+			}
+			runme;
+		}));
+		
+		this->n--;
+	}
+	
+	EXIT;
+}
+
+void unresolved_resolve_value(
+	struct unresolved* this,
+	struct string* name,
+	struct value* value)
+{
+	ENTER;
+	
+	struct avl_node_t* node = avl_search(this->tree, &name);
+	
+	if (node)
+	{
+		struct unresolved_node* ele = node->item;
+		
+		zpexpressionset_foreach(ele->layers.current, ({
+			void runme(struct zebu_primary_expression* use)
+			{
 				use->value = inc_value(value);
 			}
 			runme;
 		}));
 		
-		avl_delete_node(this->tree, node);
-		
-		this->n--;
+		zpexpressionset_foreach(ele->layers.deeper, ({
+			void runme(struct zebu_primary_expression* use)
+			{
+				use->value = inc_value(value);
+			}
+			runme;
+		}));
 	}
 	
 	EXIT;

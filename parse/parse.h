@@ -18,10 +18,6 @@ struct zebu_$start
 		unsigned n, cap;
 	} declares;
 	struct {
-		struct zebu_forward_directive** data;
-		unsigned n, cap;
-	} forwards;
-	struct {
 		struct zebu_grammar_rule** data;
 		unsigned n, cap;
 	} grammars;
@@ -67,7 +63,6 @@ struct zebu_and_expression
 
 struct zebu_assertion
 {
-	struct zebu_token* debug;
 	struct zebu_token* error;
 	struct zebu_expression* expression;
 	struct zebu_token* note;
@@ -129,7 +124,7 @@ struct zebu_charset_symdiff
 
 struct zebu_conditional_expression
 {
-	struct zebu_logical_or_expression* base;
+	struct zebu_implication_expression* base;
 	struct zebu_conditional_expression* false_case;
 	struct zebu_token* qmark;
 	struct zebu_expression* true_case;
@@ -163,15 +158,7 @@ struct zebu_exponentiation_expression
 
 struct zebu_expression
 {
-	struct zebu_possession_expression* base;
-	struct zebu_expression* implies;
-	unsigned refcount;
-};
-
-struct zebu_forward_directive
-{
-	struct zebu_token* name;
-	struct zebu_type* type;
+	struct zebu_lambda_expression* base;
 	unsigned refcount;
 };
 
@@ -215,6 +202,9 @@ struct zebu_grammar_juxtaposition
 struct zebu_grammar_postfix
 {
 	struct zebu_grammar_highest* base;
+	struct zebu_token* c;
+	struct zebu_token* m;
+	struct zebu_token* n;
 	struct zebu_token* plus;
 	struct zebu_token* qmark;
 	struct zebu_token* star;
@@ -228,10 +218,17 @@ struct zebu_grammar_rule
 	unsigned refcount;
 };
 
+struct zebu_implication_expression
+{
+	struct zebu_possession_expression* base;
+	struct zebu_implication_expression* implies;
+	unsigned refcount;
+};
+
 struct zebu_inclusion_expression
 {
-	struct zebu_lambda_expression* base;
-	struct zebu_lambda_expression* list;
+	struct zebu_logical_or_expression* base;
+	struct zebu_logical_or_expression* list;
 	unsigned refcount;
 };
 
@@ -253,6 +250,7 @@ struct zebu_lambda_expression
 		struct zebu_0$parameter** data;
 		unsigned n, cap;
 	} parameters;
+	struct zebu_type* rettype;
 	struct zebu_type* type;
 	unsigned refcount;
 };
@@ -484,12 +482,12 @@ extern struct zebu_equality_expression* inc_zebu_equality_expression(struct zebu
 extern struct zebu_exclusive_or_expression* inc_zebu_exclusive_or_expression(struct zebu_exclusive_or_expression* ptree);
 extern struct zebu_exponentiation_expression* inc_zebu_exponentiation_expression(struct zebu_exponentiation_expression* ptree);
 extern struct zebu_expression* inc_zebu_expression(struct zebu_expression* ptree);
-extern struct zebu_forward_directive* inc_zebu_forward_directive(struct zebu_forward_directive* ptree);
 extern struct zebu_grammar* inc_zebu_grammar(struct zebu_grammar* ptree);
 extern struct zebu_grammar_highest* inc_zebu_grammar_highest(struct zebu_grammar_highest* ptree);
 extern struct zebu_grammar_juxtaposition* inc_zebu_grammar_juxtaposition(struct zebu_grammar_juxtaposition* ptree);
 extern struct zebu_grammar_postfix* inc_zebu_grammar_postfix(struct zebu_grammar_postfix* ptree);
 extern struct zebu_grammar_rule* inc_zebu_grammar_rule(struct zebu_grammar_rule* ptree);
+extern struct zebu_implication_expression* inc_zebu_implication_expression(struct zebu_implication_expression* ptree);
 extern struct zebu_inclusion_expression* inc_zebu_inclusion_expression(struct zebu_inclusion_expression* ptree);
 extern struct zebu_inclusive_or_expression* inc_zebu_inclusive_or_expression(struct zebu_inclusive_or_expression* ptree);
 extern struct zebu_lambda_expression* inc_zebu_lambda_expression(struct zebu_lambda_expression* ptree);
@@ -548,8 +546,6 @@ extern void free_zebu_exponentiation_expression(struct zebu_exponentiation_expre
 
 extern void free_zebu_expression(struct zebu_expression* ptree);
 
-extern void free_zebu_forward_directive(struct zebu_forward_directive* ptree);
-
 extern void free_zebu_grammar(struct zebu_grammar* ptree);
 
 extern void free_zebu_grammar_highest(struct zebu_grammar_highest* ptree);
@@ -559,6 +555,8 @@ extern void free_zebu_grammar_juxtaposition(struct zebu_grammar_juxtaposition* p
 extern void free_zebu_grammar_postfix(struct zebu_grammar_postfix* ptree);
 
 extern void free_zebu_grammar_rule(struct zebu_grammar_rule* ptree);
+
+extern void free_zebu_implication_expression(struct zebu_implication_expression* ptree);
 
 extern void free_zebu_inclusion_expression(struct zebu_inclusion_expression* ptree);
 

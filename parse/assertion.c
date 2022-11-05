@@ -19,9 +19,7 @@ void process_assertion(
 	
 	enum assertion_kind kind = ak_warning;
 	
-	if (assertion->debug)
-		kind = ak_debug;
-	else if (assertion->note)
+	if (assertion->note)
 		kind = ak_note;
 	else if (assertion->warning)
 		kind = ak_warning;
