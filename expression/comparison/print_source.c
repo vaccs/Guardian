@@ -30,6 +30,7 @@
 
 static const char* lookup[] = {
 	[cek_equal_to] = "==",
+	[cek_not_equal_to] = "!=",
 	[cek_less_than] = "<",
 	[cek_greater_than] = ">",
 };

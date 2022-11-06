@@ -13,6 +13,7 @@
 #include <list/type/free.h>
 
 #include <type_cache/get_type/int.h>
+#include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/lambda.h>
 #include <type_cache/get_type/grammar.h>
 
@@ -32,7 +33,7 @@ static struct type* helper(
 	}
 	else if (type->bool_type)
 	{
-		TODO;
+		return type_cache_get_bool_type(tcache);
 	}
 	else if (type->float_type)
 	{

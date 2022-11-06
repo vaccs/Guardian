@@ -418,7 +418,9 @@ static void resolve_variables_logical_or(
 	}
 	else if (expression->left)
 	{
-		TODO;
+		resolve_variables_logical_or(unresolved, tcache, expression->left);
+		
+		resolve_variables_logical_and(unresolved, tcache, expression->right);
 	}
 	else
 	{

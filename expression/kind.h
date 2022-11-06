@@ -17,6 +17,7 @@ enum expression_kind
 	ek_variable,
 	ek_funccall,
 	ek_comparison,
+	ek_logical_or,
 	ek_list_index,
 	ek_fieldaccess,
 	ek_parenthesis,

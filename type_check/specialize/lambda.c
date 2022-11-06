@@ -165,11 +165,10 @@ struct expression* specialize_lambda_expression(
 			runme;
 		}));
 		
-		// if (capture_list_is_nonempty(captures))
+		if (capture_list_is_nonempty(captures))
 		{
 			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, captures, body);
 		}
-		#if 0
 		else
 		{
 			struct value* new = new_lambda_value(type, parameters, NULL, body);
@@ -178,7 +177,6 @@ struct expression* specialize_lambda_expression(
 			
 			free_value(new);
 		}
-		#endif
 		
 		free_capture_list(captures);
 		

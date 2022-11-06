@@ -9,10 +9,13 @@ x = number[0].value;
 
 y = number[1].value;
 
-myadd = $int a, b -> int: b == 0 ? a : myadd(a, b - 1) + 1;
-%error: myadd(x, y) > 30;
+iseven = $int a -> bool: a == 0 || isodd(a - 1);
 
-// myadd = $int a -> $int -> int: $int b -> int: a + b;
-// %error: myadd(x)(y) > 30;
+isodd = $int a -> bool: a != 0 || iseven(a - 1);
+
+%error: iseven(x);
+
+%error: isodd(y);
+
 
 

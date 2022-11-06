@@ -1,0 +1,67 @@
+[{
+	"files": {
+		"./input.maia": [
+			"%skip: ' ' | '\\n';
+			"number: /int: ['0'-'9']+/ #value;"
+			"%start: number number;"
+			"x = number[0].value;"
+			"y = number[1].value;"
+			"iseven = $int a -> bool: a == 0 || isodd(a - 1);"
+			"isodd = $int a -> bool: a != 0 || iseven(a - 1);"
+			"%error: iseven(x);"
+			"%error: isodd(y);"
+		],
+		
+		"./input.txt": [
+			"2 6"
+		]
+	}
+}, {
+	"files": {
+		"./input.maia": [
+			"%skip: ' ' | '\\n';
+			"number: /int: ['0'-'9']+/ #value;"
+			"%start: number number;"
+			"x = number[0].value;"
+			"y = number[1].value;"
+			"iseven = $int a -> bool: a == 0 || isodd(a - 1);"
+			"isodd = $int a -> bool: a != 0 || iseven(a - 1);"
+			"%error: iseven(x);"
+			"%error: isodd(y);"
+		],
+		
+		"./input.txt": [
+			"2 7"
+		]
+	}
+}, {
+	"files": {
+		"./input.maia": [
+			"%skip: ' ' | '\\n';
+			"number: /int: ['0'-'9']+/ #value;"
+			"%start: number number;"
+			"x = number[0].value;"
+			"y = number[1].value;"
+			"iseven = $int a -> bool: a == 0 || isodd(a - 1);"
+			"isodd = $int a -> bool: a != 0 || iseven(a - 1);"
+			"%error: iseven(x);"
+			"%error: isodd(y);"
+		],
+		
+		"./input.txt": [
+			"3 7"
+		]
+	}
+}]
+
+
+
+
+
+
+
+
+
+
+
+

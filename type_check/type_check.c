@@ -31,6 +31,8 @@
 #include <quack/append.h>
 #include <quack/free.h>
 
+#include <list/string/struct.h>
+
 #include <set/ptr/new.h>
 #include <set/ptr/add.h>
 #include <set/ptr/foreach.h>
@@ -46,6 +48,7 @@
 #include <set/string/len.h>
 
 #include <list/string/append.h>
+#include <list/string/index.h>
 
 #include <type_cache/get_type/list.h>
 
@@ -92,6 +95,9 @@
 /*#include <parse/assertion/struct.h>*/
 
 /*#include <type_cache/get_type/list.h>*/
+
+#include <set/string/contains.h>
+#include <list/string/pop.h>
 
 #include <named/type/new.h>
 #include <named/type/compare.h>
@@ -380,6 +386,8 @@ void type_check(
 	
 	struct avl_tree_t* name_to_expression = avl_alloc_tree(compare_named_expressions, free_named_expression);
 	
+	struct stringset* cyclic_variables = new_stringset();
+
 	struct specialize_shared sshared = {};
 	
 	{
@@ -409,9 +417,17 @@ void type_check(
 			return this;
 		}
 		
-		void free_task(struct task* this)
+		int compare_tasks(const void* a, const void* b)
+		{
+			const struct task* A = a, *B = b;
+			return compare_strings(A->name, B->name);
+		}
+		
+		void free_task(void* ptr)
 		{
 			ENTER;
+			
+			struct task* this = ptr;
 			
 			free_string(this->name);
 			
@@ -464,12 +480,9 @@ void type_check(
 			free(dep);
 		}
 		
-		struct {
-			struct task** data;
-			unsigned n, cap;
-		} tasks = {};
-		
 		struct avl_tree_t* dependents = avl_alloc_tree(compare_dependents, free_dependents);
+		
+		struct avl_tree_t* all_tasks = avl_alloc_tree(compare_tasks, free_task);
 		
 		struct quack* todo = new_quack();
 		
@@ -551,19 +564,76 @@ void type_check(
 					runme;
 				}));
 				
-				// add task to `tasks`, `queued` and `todo`
-				if (tasks.n == tasks.cap)
-				{
-					tasks.cap = tasks.cap << 1 ?: 1;
-					tasks.data = srealloc(tasks.data, sizeof(*tasks.data) * tasks.cap);
-				}
-				
-				tasks.data[tasks.n++] = task;
+				avl_insert(all_tasks, task);
 				
 				quack_append(todo, task);
+				
 				ptrset_add(queued, task);
 				
 				free_unresolved(unresolved);
+			}
+			runme;
+		}));
+		
+		// look for cycles:
+		avl_foreach(all_tasks, ({
+			void runme(void* ptr)
+			{
+				struct task* task = ptr;
+				
+				if (!stringset_contains(cyclic_variables, task->name))
+				{
+					struct string_list* stack = new_string_list();
+					
+					printf("%s: looking for cycles starting from '%.*s':\n",
+						argv0, task->name->len, task->name->chars);
+					
+					void helper(struct string* name)
+					{
+						unsigned index;
+						
+						if (string_list_index(stack, &index, name))
+						{
+							dpv(index);
+							
+							for (unsigned i = index, n = stack->n; i < n; i++)
+							{
+								struct string* cyclic = stack->data[i];
+								
+								dpvs(cyclic);
+								
+								printf("%s: \t '%.*s' is cyclic.\n", argv0, cyclic->len, cyclic->chars);
+								
+								stringset_add(cyclic_variables, cyclic);
+							}
+						}
+						else
+						{
+							string_list_append(stack, name);
+							
+							struct avl_node_t* node = avl_search(all_tasks, &name);
+							
+							assert(node);
+							
+							struct task* task = node->item;
+							
+							unresolved_foreach(task->unresolved, ({
+								void runme(struct string* name)
+								{
+									dpvs(name);
+									helper(name);
+								}
+								runme;
+							}));
+							
+							string_list_pop(stack);
+						}
+					}
+					
+					helper(task->name);
+					
+					free_string_list(stack);
+				}
 			}
 			runme;
 		}));
@@ -606,7 +676,7 @@ void type_check(
 				avl_insert(name_to_expression, new);
 			}
 			
-			if (typed->kind == ek_literal)
+			if (typed->kind == ek_literal && !stringset_contains(cyclic_variables, task->name))
 			{
 				struct literal_expression* literal = (void*) typed;
 				
@@ -636,16 +706,11 @@ void type_check(
 			free_expression(typed);
 		}
 		
-		while (tasks.n--)
-		{
-			free_task(tasks.data[tasks.n]);
-		}
-		
-		free(tasks.data);
-		
 		free_ptrset(queued);
 		
 		free_quack(todo);
+		
+		avl_free_tree(all_tasks);
 		
 		avl_free_tree(dependents);
 	}
@@ -661,7 +726,7 @@ void type_check(
 			
 			struct named_expression* nexpression = node->item;
 			
-			if (nexpression->expression->kind != ek_literal)
+			if (nexpression->expression->kind != ek_literal || stringset_contains(cyclic_variables, nexpression->name))
 			{
 				struct declaration* declaration = new_declaration(name, nexpression->expression);
 				
@@ -756,6 +821,8 @@ void type_check(
 		}
 		runme;
 	}));
+	
+	free_stringset(cyclic_variables);
 	
 	free_string_list(source_order);
 	
