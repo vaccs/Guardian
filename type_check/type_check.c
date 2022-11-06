@@ -5,33 +5,55 @@
 
 #include <debug.h>
 
-/*#include <defines/argv0.h>*/
+#include <defines/argv0.h>
 
 /*#include <enums/error.h>*/
 
-/*#include <memory/smalloc.h>*/
+#include <cmdln/verbose.h>
 
-/*#include <string/inc.h>*/
-/*#include <string/compare.h>*/
-/*#include <string/free.h>*/
+#include <memory/smalloc.h>
 
-/*#include <avl/alloc_tree.h>*/
-/*#include <avl/foreach.h>*/
-/*#include <avl/insert.h>*/
-/*#include <avl/search.h>*/
-/*#include <avl/free_tree.h>*/
+#include <string/struct.h>
+#include <string/inc.h>
+#include <string/compare.h>
+#include <string/free.h>
 
-/*#include <quack/new.h>*/
-/*#include <quack/pop.h>*/
-/*#include <quack/is_nonempty.h>*/
+#include <avl/alloc_tree.h>
+#include <avl/foreach.h>
+#include <avl/insert.h>
+#include <avl/search.h>
+#include <avl/free_tree.h>
+
+#include <quack/new.h>
+#include <quack/pop.h>
+#include <quack/is_nonempty.h>
 /*#include <quack/foreach.h>*/
-/*#include <quack/append.h>*/
-/*#include <quack/free.h>*/
+#include <quack/append.h>
+#include <quack/free.h>
 
-/*#include <set/ptr/new.h>*/
-/*#include <set/ptr/add.h>*/
-/*#include <set/ptr/foreach.h>*/
-/*#include <set/ptr/free.h>*/
+#include <set/ptr/new.h>
+#include <set/ptr/add.h>
+#include <set/ptr/foreach.h>
+#include <set/ptr/discard.h>
+#include <set/ptr/is_nonempty.h>
+#include <set/ptr/free.h>
+
+#include <set/string/new.h>
+#include <set/string/filter.h>
+#include <set/string/is_nonempty.h>
+#include <set/string/foreach.h>
+#include <set/string/free.h>
+#include <set/string/len.h>
+
+#include <list/string/append.h>
+
+#include <type_cache/get_type/list.h>
+
+#include <set/string/add.h>
+
+#include <memory/srealloc.h>
+
+#include <list/string/free.h>
 
 /*#include <assertion/new.h>*/
 
@@ -39,6 +61,9 @@
 
 /*#include <type/struct.h>*/
 /*#include <type/free.h>*/
+#include <type/print.h>
+
+#include <list/string/new.h>
 
 #include <expression/struct.h>
 #include <expression/print.h>

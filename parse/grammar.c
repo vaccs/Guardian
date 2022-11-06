@@ -1,5 +1,14 @@
 
+#include <stdlib.h>
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/new.h>
+#include <string/free.h>
+
+#include <avl/insert.h>
+#include <avl/search.h>
 
 #include <gegex/nfa_to_dfa.h>
 #include <gegex/simplify_dfa.h>

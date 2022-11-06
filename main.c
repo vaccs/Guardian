@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -7,6 +8,12 @@
 #include <cmdln/flags.h>
 #include <cmdln/process.h>
 #include <cmdln/free.h>
+
+#include <avl/alloc_tree.h>
+#include <avl/free_tree.h>
+
+#include <set/string/new.h>
+#include <set/string/free.h>
 
 #include <parse/driver.h>
 

@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
 #include <expression/inc.h>
 
 #include "struct.h"

@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <debug.h>
 
 /*#include <value/struct.h>*/
@@ -21,10 +22,10 @@ struct value* funccall_expression_evaluate(
 {
 	ENTER;
 	
-	struct funccall_expression* this = (void*) super;
-	
 	TODO;
 	#if 0
+	struct funccall_expression* this = (void*) super;
+	
 	struct value* funccall = expression_evaluate(this->funccall, scope);
 	
 	assert(funccall->kind == vk_funccall);

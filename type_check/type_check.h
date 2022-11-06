@@ -1,4 +1,5 @@
 
+struct stringset;
 struct raw_assertion_list;
 struct declaration_list;
 struct assertion_list;

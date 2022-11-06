@@ -3,7 +3,17 @@
 
 #include <type/struct.h>
 
+#include <quack/is_nonempty.h>
+#include <quack/pop.h>
+
+#include <set/ptr/contains.h>
+#include <set/ptr/add.h>
+#include <set/ptr/discard.h>
+
+#include <stringtree/new.h>
 #include <stringtree/prepend_printf.h>
+#include <stringtree/prepend_tree.h>
+#include <stringtree/free.h>
 
 #include <type/generate_typedef.h>
 

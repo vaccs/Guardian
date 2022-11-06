@@ -1,6 +1,8 @@
 
 #ifdef DEBUGGING
 
+#include <string.h>
+
 #include <debug.h>
 
 __thread int debug_depth = 0;

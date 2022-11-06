@@ -1,0 +1,4 @@
+bin/release-build/yes-verbose/./type_check/determine_type/additive.o: \
+ type_check/determine_type/additive.c debug.h parse/parse.h \
+ type_check/determine_type/multiplicative.h \
+ type_check/determine_type/additive.h

@@ -3,6 +3,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "inheritance.h"
 #include "struct.h"
 #include "generate_compare_forward.h"

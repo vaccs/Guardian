@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <yacc/structinfo/new.h>
 #include <yacc/structinfo/add_field.h>

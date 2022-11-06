@@ -1,6 +1,7 @@
 
 #include <stdbool.h>
 
+struct stringset;
 struct string;
 
 bool stringset_contains(

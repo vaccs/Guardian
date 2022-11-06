@@ -1,5 +1,16 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/search.h>
+
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
+#include <set/string/foreach.h>
 
 #include <named/type/struct.h>
 

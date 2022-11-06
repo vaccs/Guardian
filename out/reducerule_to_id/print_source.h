@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 
+struct stringset;
 struct reducerule_to_id;
 struct string_to_id;
 

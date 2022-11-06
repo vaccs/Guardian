@@ -1,5 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include <out/shared.h>
 #include <out/function_queue/submit_lambda_new.h>
@@ -35,17 +42,18 @@ struct stringtree* lambda_expression_print_source(
 		"func_%u("
 	"", new_id);
 	
+	bool first = true;
+	
 	capture_list_foreach(this->captured, ({
 		void runme(struct capture* capture)
 		{
 			dpvs(capture->name);
 			
-			TODO;
-			#if 0
-			switch (kind)
+			struct string* name = capture->name;
+			
+			switch (capture->kind)
 			{
 				case vek_parameter:
-				case vek_declare:
 					stringtree_append_printf(tree, "$%.*s", name->len, name->chars);
 					break;
 				
@@ -58,9 +66,10 @@ struct stringtree* lambda_expression_print_source(
 					break;
 			}
 			
-			if (another)
+			if (first)
+				first = false;
+			else
 				stringtree_append_printf(tree, ", ");
-			#endif
 		}
 		runme;
 	}));

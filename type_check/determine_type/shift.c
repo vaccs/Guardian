@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <parse/parse.h>
@@ -21,7 +23,8 @@ struct type* determine_type_of_shift_expression(
 	}
 	else
 	{
-		type = determine_type_of_additive_expression(expression->base, tcache, grammar_types, name_to_type);
+		type = determine_type_of_additive_expression(expression->base,
+			tcache, grammar_types, name_to_type);
 	}
 	
 	EXIT;

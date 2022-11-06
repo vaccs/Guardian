@@ -1,0 +1,4 @@
+bin/release-build/yes-verbose/./type_check/determine_type/expression.o: \
+ type_check/determine_type/expression.c debug.h parse/parse.h \
+ type_check/determine_type/lambda.h \
+ type_check/determine_type/expression.h

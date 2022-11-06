@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 #include <debug.h>
 
 #include <list/expression/struct.h>

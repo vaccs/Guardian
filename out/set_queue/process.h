@@ -1,4 +1,6 @@
 
+struct avl_tree_t;
+
 void set_queue_process(
 	struct set_queue* this,
 	struct avl_tree_t* grammar_types,

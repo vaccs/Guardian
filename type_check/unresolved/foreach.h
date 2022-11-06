@@ -4,6 +4,8 @@
 #include <expression/variable/kind.h>
 
 struct string;
+struct unresolved;
+struct value;
 
 void unresolved_foreach(
 	const struct unresolved* this,

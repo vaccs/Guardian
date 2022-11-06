@@ -1,5 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <avl/search.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <parse/parse.h>
 

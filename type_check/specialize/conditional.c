@@ -1,7 +1,11 @@
 
+#include <stdlib.h>
+
 #include <assert.h>
 
 #include <debug.h>
+
+#include <defines/argv0.h>
 
 #include <parse/parse.h>
 

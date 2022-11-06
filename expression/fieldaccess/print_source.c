@@ -1,5 +1,14 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
+#include <string/struct.h>
 
 #include <out/shared.h>
 #include <out/type_queue/submit.h>

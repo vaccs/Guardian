@@ -1,5 +1,13 @@
 
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
+
+#include <quack/new.h>
+
+#include <avl/alloc_tree.h>
 
 #include "funcdata/compare.h"
 

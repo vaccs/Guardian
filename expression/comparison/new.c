@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <debug.h>
 
 #include <type_cache/get_type/bool.h>

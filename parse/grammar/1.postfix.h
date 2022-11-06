@@ -2,6 +2,7 @@
 #include <gegex/gbundle.h>
 
 struct zebu_grammar_postfix;
+struct lex;
 
 struct gbundle read_grammar_postfix(
 	struct lex* lex,

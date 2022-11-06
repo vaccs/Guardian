@@ -1,5 +1,13 @@
 
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <set/string/free.h>
+
+#include <stringtree/free.h>
+
+#include <quack/free.h>
 
 #include "struct.h"
 #include "free.h"

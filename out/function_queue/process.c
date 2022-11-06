@@ -1,5 +1,12 @@
 
+#include <assert.h>
+#include <stddef.h>
+
 #include <debug.h>
+
+#include <avl/delete.h>
+#include <avl/insert.h>
+#include <avl/search.h>
 
 #include <type/struct.h>
 #include <type/generate_new_func.h>
@@ -14,7 +21,12 @@
 #include <type/list/generate_index_func.h>
 #include <type/list/generate_append_func.h>
 
+#include <quack/pop.h>
+#include <quack/is_nonempty.h>
+
+#include <stringtree/new.h>
 #include <stringtree/prepend_tree.h>
+#include <stringtree/free.h>
 
 #include <expression/lambda/generate_new_func.h>
 #include <expression/lambda/generate_evaluate_func.h>

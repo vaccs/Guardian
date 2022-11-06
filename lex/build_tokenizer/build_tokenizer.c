@@ -5,12 +5,12 @@
 
 /*#include <stddef.h>*/
 
-/*#include <avl/insert.h>*/
-/*#include <avl/search.h>*/
+#include <avl/insert.h>
+#include <avl/search.h>
 
-/*#include <set/ptr/new.h>*/
-/*#include <set/ptr/add.h>*/
-/*#include <set/ptr/free.h>*/
+#include <set/ptr/new.h>
+#include <set/ptr/add.h>
+#include <set/ptr/free.h>
 
 #include <set/unsigned/add.h>
 #include <set/unsigned/foreach.h>

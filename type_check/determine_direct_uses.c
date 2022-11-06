@@ -1,5 +1,13 @@
 
+#include <assert.h>
+#include <stdbool.h>
+
 #include <debug.h>
+
+#include <string/new.h>
+#include <string/free.h>
+
+#include <set/string/add.h>
 
 #include <parse/parse.h>
 

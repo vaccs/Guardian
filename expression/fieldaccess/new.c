@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <string/inc.h>
+
 #include <expression/inc.h>
 
 #include <type/free.h>

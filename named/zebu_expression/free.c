@@ -1,7 +1,11 @@
 
+#include <stdlib.h>
+
 #include <debug.h>
 
 #include <parse/parse.h>
+
+#include <string/free.h>
 
 #include "struct.h"
 #include "free.h"

@@ -3,6 +3,9 @@
 
 #include <debug.h>
 
+#include <avl/delete_node.h>
+#include <avl/tree.h>
+
 #include "struct.h"
 #include "filter.h"
 

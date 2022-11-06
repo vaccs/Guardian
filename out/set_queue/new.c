@@ -1,6 +1,12 @@
 
 #include <debug.h>
 
+#include <set/string/new.h>
+
+#include <quack/new.h>
+
+#include <memory/smalloc.h>
+
 #include "struct.h"
 #include "new.h"
 

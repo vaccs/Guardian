@@ -1,4 +1,5 @@
 
+struct string;
 struct zebu_expression;
 
 struct named_zebu_expression* new_named_zebu_expression(

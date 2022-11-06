@@ -1,5 +1,18 @@
 
+#include <assert.h>
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
+
+#include <avl/alloc_tree.h>
+#include <avl/insert.h>
+#include <avl/search.h>
+#include <avl/free_tree.h>
+
+#include <string/compare.h>
+#include <string/are_equal.h>
 
 #include <quack/new.h>
 #include <quack/append.h>

@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <string/free.h>
+
 #include "../free.h"
 
 #include "struct.h"

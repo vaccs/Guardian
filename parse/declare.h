@@ -1,4 +1,5 @@
 
+struct avl_tree_t;
 struct zebu_value_declare;
 
 void process_declare(

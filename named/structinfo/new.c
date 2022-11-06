@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <string/inc.h>
+
+#include <memory/smalloc.h>
+
 #include <yacc/structinfo/inc.h>
 
 #include "struct.h"

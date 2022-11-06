@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include <avl/tree.h>
 
 #include "struct.h"

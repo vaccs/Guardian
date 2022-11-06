@@ -1,4 +1,6 @@
 
+struct type_queue;
+struct lambda_expression;
 struct subtype_queue;
 
 struct stringtree* lambda_expression_generate_generate_typedef(

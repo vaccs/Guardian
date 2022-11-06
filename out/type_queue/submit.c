@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <set/ptr/add.h>
+
+#include <quack/append.h>
+
 #include "struct.h"
 #include "submit.h"
 

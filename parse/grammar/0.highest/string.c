@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <debug.h>
 
 #include <regex/new_from_string.h>
@@ -52,12 +53,12 @@ struct gbundle read_grammar_highest_string(
 	
 	for (unsigned i = 0, n = highest->tags.n; i < n; i++)
 	{
+		TODO;
+		#if 0
 		struct zebu_token* token = highest->tags.data[i];
 		
 		dpvsn(token->data, token->len);
 		
-		TODO;
-		#if 0
 		struct string* tag = new_string_from_token(token);
 		
 		if (token->data[token->len - 1] == ']')

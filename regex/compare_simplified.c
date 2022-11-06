@@ -1,4 +1,7 @@
 
+#include <assert.h>
+#include <stdlib.h>
+
 #include <debug.h>
 
 #include <quack/new.h>
@@ -6,6 +9,13 @@
 #include <quack/pop.h>
 #include <quack/is_nonempty.h>
 #include <quack/free.h>
+
+#include <memory/smalloc.h>
+
+#include <avl/free_tree.h>
+#include <avl/search.h>
+#include <avl/insert.h>
+#include <avl/alloc_tree.h>
 
 #include "struct.h"
 #include "compare_simplified.h"
@@ -15,6 +25,8 @@ struct node
 	const struct regex* regex;
 	unsigned number;
 };
+
+struct avl_tree_t;
 
 static void insert_number(
 	struct avl_tree_t* avl,

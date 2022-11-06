@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <parse/parse.h>
@@ -41,7 +43,14 @@ struct type* determine_type_of_lambda_expression(
 			{
 				struct zebu_0$parameter* ele = expression->parameters.data[i];
 				
-				TODO;
+				if (ele->type)
+				{
+					TODO;
+				}
+				else
+				{
+					type_list_append(parameter_types, type);
+				}
 			}
 		}
 		

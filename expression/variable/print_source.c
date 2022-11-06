@@ -1,7 +1,11 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <type/struct.h>
+
+#include <string/struct.h>
 
 #include <stringtree/new.h>
 /*#include <stringtree/append_tree.h>*/
@@ -14,7 +18,7 @@
 #include <out/shared.h>
 /*#include <out/type_lookup/lookup.h>*/
 /*#include <out/function_lookup/lookup_inc.h>*/
-#include <out/declare_queue/submit.h>
+/*#include <out/declare_queue/submit.h>*/
 #include <out/set_queue/submit.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_inc.h>
@@ -40,7 +44,11 @@ struct stringtree* variable_expression_print_source(
 	{
 		case vek_captured:
 		{
-			TODO;
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, ""
+				"func_%u(this->$%.*s)"
+			"", inc_id, this->name->len, this->name->chars);
 			break;
 		}
 		
@@ -64,29 +72,6 @@ struct stringtree* variable_expression_print_source(
 	EXIT;
 	return tree;
 }
-
-
-
-
-	#if 0
-	
-	
-	if (this->kind == vek_captured)
-	{
-		stringtree_append_printf(tree, ""
-			"func_%u(this->$%.*s)"
-		"", inc_id, this->name->len, this->name->chars);
-	}
-	else
-	{
-		stringtree_append_printf(tree, ""
-			"func_%u($%.*s)"
-		"", inc_id, this->name->len, this->name->chars);
-	}
-	
-	EXIT;
-	return tree;
-	#endif
 
 
 

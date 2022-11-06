@@ -1,4 +1,5 @@
 
+struct avl_tree_t;
 struct lex;
 struct zebu_grammar_rule;
 

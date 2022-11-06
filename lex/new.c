@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
+#include <avl/alloc_tree.h>
+
 #include "token_to_id_node/compare.h"
 #include "token_to_id_node/free.h"
 

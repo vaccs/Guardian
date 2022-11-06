@@ -1,5 +1,10 @@
 
+#include <stdio.h>
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/struct.h>
 
 #include "../print.h"
 

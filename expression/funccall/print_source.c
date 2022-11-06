@@ -6,6 +6,7 @@
 #include <stringtree/new.h>
 #include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>
+#include <stringtree/free.h>
 
 #include <list/expression/struct.h>
 

@@ -7,6 +7,8 @@
 
 #include <type/free.h>
 
+#include <string/inc.h>
+
 #include "../new.h"
 
 #include "inheritance.h"

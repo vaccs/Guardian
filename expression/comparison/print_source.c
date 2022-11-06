@@ -1,8 +1,11 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <type/struct.h>
 
+#include <stringtree/free.h>
 #include <stringtree/new.h>
 #include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>

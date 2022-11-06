@@ -1,3 +1,6 @@
 
-void free_value(struct value* this);
+struct value;
+
+void free_value(
+	struct value* this);
 

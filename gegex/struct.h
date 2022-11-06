@@ -1,4 +1,6 @@
 
+#include <stdbool.h>
+
 struct gegex
 {
 	struct {

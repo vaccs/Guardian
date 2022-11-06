@@ -1,5 +1,13 @@
 
+
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include <type/struct.h>
 
@@ -36,11 +44,11 @@ struct stringtree* lambda_expression_generate_new_func(
 		"struct type_%u* func_%u("
 	"", type_id, func_id);
 	
+	bool first = true;
+	
 	capture_list_foreach(this->captured, ({
 		void runme(struct capture* capture)
 		{
-			TODO;
-			#if 0
 			struct type* type = capture->type;
 			
 			type_queue_submit(shared->tqueue, type);
@@ -51,11 +59,10 @@ struct stringtree* lambda_expression_generate_new_func(
 				"struct type_%u* $%.*s"
 			"", type->id, name->len, name->chars);
 			
-			if (another)
-			{
+			if (first)
+				first = false;
+			else
 				stringtree_append_printf(tree, ", ");
-			}
-			#endif
 		}
 		runme;
 	}));
@@ -77,18 +84,17 @@ struct stringtree* lambda_expression_generate_new_func(
 	capture_list_foreach(this->captured, ({
 		void runme(struct capture* capture)
 		{
-			TODO;
-			#if 0
-			dpvs(name);
+			dpvs(capture->name);
 			
-			unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, capture->type);
 			
 			dpv(inc_id);
+			
+			struct string* name = capture->name;
 			
 			stringtree_append_printf(tree, ""
 				"this->$%.*s = func_%u($%.*s);"
 			"", name->len, name->chars, inc_id, name->len, name->chars);
-			#endif
 		}
 		runme;
 	}));

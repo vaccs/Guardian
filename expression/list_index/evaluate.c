@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 /*#include <value/struct.h>*/
@@ -21,10 +23,10 @@ struct value* list_index_expression_evaluate(
 {
 	ENTER;
 	
-	struct list_index_expression* this = (void*) super;
-	
 	TODO;
 	#if 0
+	struct list_index_expression* this = (void*) super;
+	
 	struct value* list = expression_evaluate(this->list, scope);
 	
 	assert(list->kind == vk_list);

@@ -1,5 +1,10 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <regex/nfa_to_dfa.h>
 #include <regex/simplify_dfa.h>

@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <value/inc.h>
@@ -12,7 +14,7 @@ struct value* parenthesis_expression_evaluate(
 {
 	ENTER;
 	
-	struct parenthesis_expression* this = (void*) super;
+	// struct parenthesis_expression* this = (void*) super;
 	
 	TODO;
 	

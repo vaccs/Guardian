@@ -119,6 +119,14 @@ struct expression* specialize_additive_expression(
 				break;
 			}
 			
+			case tk_list:
+				TODO;
+				break;
+			
+			case tk_lambda:
+				TODO;
+				break;
+			
 			default:
 				TODO;
 				break;

@@ -3,12 +3,16 @@
 
 number: /int: ['0'-'9']+/ #value;
 
-%start: number;
+%start: number number;
 
 x = number[0].value;
 
-fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
+y = number[1].value;
 
-%error: fib(x) > 30;
+myadd = $int a, b -> int: b == 0 ? a : myadd(a, b - 1) + 1;
+%error: myadd(x, y) > 30;
+
+// myadd = $int a -> $int -> int: $int b -> int: a + b;
+// %error: myadd(x)(y) > 30;
 
 

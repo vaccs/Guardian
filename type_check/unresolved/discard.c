@@ -1,6 +1,9 @@
 
 #include <debug.h>
 
+#include <avl/search.h>
+#include <avl/delete_node.h>
+
 #include "struct.h"
 #include "discard.h"
 

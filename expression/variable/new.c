@@ -1,5 +1,9 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/inc.h>
 
 #include "../new.h"
 

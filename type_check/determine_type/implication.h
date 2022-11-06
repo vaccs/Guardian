@@ -1,4 +1,6 @@
 
+struct type_cache;
+struct avl_tree_t;
 struct zebu_implication_expression;
 
 struct type* determine_type_of_implication_expression(

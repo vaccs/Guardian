@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <memory/srealloc.h>
+
 #include <parameter/inc.h>
 
 #include "struct.h"

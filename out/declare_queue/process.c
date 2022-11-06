@@ -6,6 +6,13 @@
 #include <expression/struct.h>
 #include <expression/print_source.h>
 
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include <type/struct.h>
 
 #include <declaration/struct.h>

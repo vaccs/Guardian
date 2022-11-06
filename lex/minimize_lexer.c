@@ -4,13 +4,13 @@
 
 #include <debug.h>
 
-/*#include <memory/smalloc.h>*/
+#include <memory/smalloc.h>
 
-/*#include <avl/foreach.h>*/
-/*#include <avl/search.h>*/
-/*#include <avl/insert.h>*/
-/*#include <avl/alloc_tree.h>*/
-/*#include <avl/free_tree.h>*/
+#include <avl/foreach.h>
+#include <avl/search.h>
+#include <avl/insert.h>
+#include <avl/alloc_tree.h>
+#include <avl/free_tree.h>
 
 #include <quack/new.h>
 #include <quack/pop.h>
@@ -24,14 +24,14 @@
 #include <heap/push.h>
 #include <heap/free.h>
 
-/*#include <set/ptr/new.h>*/
-/*#include <set/ptr/add.h>*/
+#include <set/ptr/new.h>
+#include <set/ptr/add.h>
 #include <set/ptr/clone.h>
 #include <set/ptr/contains.h>
-/*#include <set/ptr/foreach.h>*/
-/*#include <set/ptr/get_head.h>*/
+#include <set/ptr/foreach.h>
+#include <set/ptr/get_head.h>
 #include <set/ptr/discard.h>
-/*#include <set/ptr/free.h>*/
+#include <set/ptr/free.h>
 
 #include <set/unsigned/compare.h>
 #include <set/unsigned/inc.h>

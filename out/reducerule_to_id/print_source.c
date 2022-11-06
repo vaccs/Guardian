@@ -5,6 +5,11 @@
 
 #include <string/struct.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
+#include <set/string/contains.h>
+
 #include <type/struct.h>
 
 #include <type_cache/get_type/grammar.h>

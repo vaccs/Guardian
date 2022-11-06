@@ -1,10 +1,12 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/append_printf.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/free.h>
 
 #include <type/struct.h>
 /*#include <type/print_source.h>*/

@@ -1,6 +1,8 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
 #include <set/ptr/new.h>
 
 #include <quack/new.h>

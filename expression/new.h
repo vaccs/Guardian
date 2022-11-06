@@ -1,7 +1,10 @@
 
-struct expression_inheritance;
+#include <stddef.h>
 
 #include "kind.h"
+
+struct expression_inheritance;
+struct type;
 
 struct expression* new_expression(
 	enum expression_kind kind,

@@ -1,12 +1,35 @@
 
+#include <assert.h>
+
+#include <string.h>
+
 #include <debug.h>
 
-/*#include <quack/new.h>*/
+#include <quack/new.h>
 #include <quack/foreach.h>
 /*#include <quack/free.h>*/
 
 /*#include <set/string/new.h>*/
 /*#include <set/string/free.h>*/
+
+#include <set/ptr/new.h>
+#include <set/ptr/add.h>
+
+#include <quack/append.h>
+#include <quack/is_nonempty.h>
+#include <quack/pop.h>
+#include <quack/free.h>
+
+#include <string/new.h>
+#include <string/free.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/append_strndup.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/free.h>
+
+#include <set/ptr/free.h>
 
 #include <lex/state/struct.h>
 
@@ -390,6 +413,7 @@ struct stringtree* out(
 			else if (!strncmp(old, "UNINIT_SETS", len))
 			{
 				stringtree_append_tree(root, squeue->uninit_text);
+				
 			}
 			else if (!strncmp(old, "ASSERTIONS", len))
 			{

@@ -1,4 +1,6 @@
 
+struct reductioninfo;
+struct out_shared;
 struct stringtree;
 
 void reductioninfo_print_source(

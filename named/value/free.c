@@ -1,5 +1,9 @@
 
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <string/free.h>
 
 #include <value/free.h>
 
@@ -8,6 +12,8 @@
 
 void free_named_value(void* ptr)
 {
+	ENTER;
+	
 	struct named_value* this = ptr;
 	
 	free_string(this->name);
@@ -15,5 +21,7 @@ void free_named_value(void* ptr)
 	free_value(this->value);
 	
 	free(this);
+	
+	EXIT;
 }
 

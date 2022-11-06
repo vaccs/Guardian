@@ -3,6 +3,7 @@ struct expression;
 struct scope;
 struct value;
 struct shared;
+struct out_shared;
 
 struct expression_inheritance
 {

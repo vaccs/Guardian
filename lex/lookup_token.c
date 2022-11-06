@@ -1,8 +1,9 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-/*#include <avl/search.h>*/
-/*#include <assert.h>*/
+#include <avl/search.h>
 
 #include "struct.h"
 

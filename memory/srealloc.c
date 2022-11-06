@@ -1,5 +1,12 @@
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <defines/argv0.h>
+
+#include <enums/error.h>
 
 #include "srealloc.h"
 

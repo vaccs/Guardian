@@ -1,4 +1,7 @@
 
+struct type_cache;
+struct avl_tree_t;
+
 struct type* determine_type_of_inclusion_expression(
 	struct zebu_inclusion_expression* expression,
 	struct type_cache* tcache,

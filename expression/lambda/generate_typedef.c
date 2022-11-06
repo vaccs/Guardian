@@ -1,11 +1,20 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include <type/struct.h>
 
 #include <type_check/unresolved/foreach.h>
 
 #include <out/type_queue/submit.h>
+
+#include <capture/struct.h>
 
 #include <list/capture/foreach.h>
 
@@ -36,16 +45,15 @@ struct stringtree* lambda_expression_generate_generate_typedef(
 	capture_list_foreach(this->captured, ({
 		void runme(struct capture* capture)
 		{
-			TODO;
-			#if 0
-			dpvs(name);
+			dpvs(capture->name);
 			
-			type_queue_submit(tqueue, type);
+			type_queue_submit(tqueue, capture->type);
+			
+			struct string* name = capture->name;
 			
 			stringtree_append_printf(tree, ""
 				"struct type_%u* $%.*s;"
-			"", type->id, name->len, name->chars);
-			#endif
+			"", capture->type->id, name->len, name->chars);
 		}
 		runme;
 	}));

@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <string/inc.h>
+
+#include <memory/srealloc.h>
+
 #include "struct.h"
 #include "append.h"
 

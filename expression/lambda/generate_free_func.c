@@ -1,7 +1,16 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
+#include <string/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include <type/struct.h>
+
+#include <capture/struct.h>
 
 #include <list/capture/is_nonempty.h>
 #include <list/capture/foreach.h>
@@ -43,16 +52,15 @@ struct stringtree* lambda_expression_generate_free_func(
 		capture_list_foreach(this->captured, ({
 			void runme(struct capture* capture)
 			{
-				TODO;
-				#if 0
-				dpvs(name);
+				dpvs(capture->name);
 				
-				unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+				unsigned free_id = function_queue_submit_free(shared->fqueue, capture->type);
+				
+				struct string* name = capture->name;
 				
 				stringtree_append_printf(tree, ""
 					"func_%u(this->$%.*s);"
 				"", free_id, name->len, name->chars);
-				#endif
 			}
 			
 			runme;

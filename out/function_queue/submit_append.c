@@ -1,5 +1,14 @@
 
+#include <stddef.h>
+
+#include <assert.h>
+
 #include <debug.h>
+
+#include <quack/append.h>
+
+#include <avl/insert.h>
+#include <avl/search.h>
 
 #include "funcdata/struct.h"
 #include "funcdata/new.h"

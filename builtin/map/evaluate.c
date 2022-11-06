@@ -1,5 +1,10 @@
 
+#include <assert.h>
+#include <stdlib.h>
+
 #include <debug.h>
+
+#include <memory/smalloc.h>
 
 #include <list/value/struct.h>
 #include <list/value/new.h>

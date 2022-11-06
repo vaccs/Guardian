@@ -1,4 +1,7 @@
 
+struct type;
+struct function_queue;
+
 struct stringtree* type_generate_new_func(
 	struct type* this,
 	unsigned func_id,

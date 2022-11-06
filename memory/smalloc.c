@@ -6,6 +6,8 @@
 
 #include <defines/argv0.h>
 
+#include <enums/error.h>
+
 #include "smalloc.h"
 
 void* smalloc(size_t size)

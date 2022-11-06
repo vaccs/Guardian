@@ -1,5 +1,9 @@
 
+#include <stdio.h>
+
 #include <debug.h>
+
+#include <string/struct.h>
 
 #include <list/parameter/struct.h>
 

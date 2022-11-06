@@ -1,6 +1,10 @@
 
 #include <debug.h>
 
+#include <memory/smalloc.h>
+
+#include <string/inc.h>
+
 #include <parse/parse.h>
 
 #include "struct.h"

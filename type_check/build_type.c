@@ -30,6 +30,10 @@ static struct type* helper(
 	{
 		TODO;
 	}
+	else if (type->bool_type)
+	{
+		TODO;
+	}
 	else if (type->float_type)
 	{
 		TODO;
@@ -50,9 +54,16 @@ static struct type* helper(
 	{
 		TODO;
 	}
-	else if (type->tuple)
+	else if (type->paren)
 	{
-		TODO;
+		if (type->tuple)
+		{
+			TODO;
+		}
+		else
+		{
+			return build_type(tcache, type->elements.data[0]);
+		}
 	}
 	else
 	{
