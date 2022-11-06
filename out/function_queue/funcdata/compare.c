@@ -35,9 +35,7 @@ int compare_funcdata(const void* a, const void* b)
 			else if (A->lexpression > B->lexpression)
 				return +1;
 			else if (A->lvalue < B->lvalue)
-			{
-				TODO;
-			}
+				return -1;
 			else if (A->lvalue > B->lvalue)
 			{
 				TODO;

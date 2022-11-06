@@ -18,8 +18,8 @@ bin/debug-build/yes-verbose/./expression/parenthesis/new.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/struct.h expression/kind.h \
- expression/inc.h expression/parenthesis/../new.h \
- expression/parenthesis/../kind.h expression/parenthesis/inheritance.h \
+ expression/struct.h expression/kind.h expression/inc.h \
+ expression/parenthesis/../new.h expression/parenthesis/../kind.h \
+ expression/parenthesis/inheritance.h \
  expression/parenthesis/../inheritance.h expression/parenthesis/struct.h \
  expression/parenthesis/../struct.h expression/parenthesis/new.h

@@ -405,8 +405,6 @@ struct yacc_state* yacc(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct avl_tree_t* named_tries = avl_alloc_tree(compare_named_tries, free_named_trie);
 	
 	avl_foreach(grammar, ({
@@ -732,7 +730,6 @@ struct yacc_state* yacc(
 	
 	EXIT;
 	return start;
-	#endif
 }
 
 

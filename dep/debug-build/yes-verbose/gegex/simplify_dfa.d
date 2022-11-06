@@ -16,8 +16,7 @@ bin/debug-build/yes-verbose/./gegex/simplify_dfa.o: gegex/simplify_dfa.c \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h set/ptr/clone.h set/unsigned/compare.h \
- yacc/structinfo/compare.h gegex/struct.h gegex/new.h \
- gegex/add_transition.h gegex/add_grammar_transition.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h set/ptr/clone.h \
+ set/unsigned/compare.h yacc/structinfo/compare.h gegex/struct.h \
+ gegex/new.h gegex/add_transition.h gegex/add_grammar_transition.h \
  gegex/simplify_dfa.h gegex/transition/struct.h gegex/grammar/struct.h

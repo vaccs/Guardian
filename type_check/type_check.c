@@ -40,22 +40,26 @@
 /*#include <type/struct.h>*/
 /*#include <type/free.h>*/
 
-/*#include <expression/print.h>*/
 #include <expression/struct.h>
+#include <expression/print.h>
+#include <expression/inc.h>
 #include <expression/literal/struct.h>
-/*#include <expression/free.h>*/
+#include <expression/free.h>
 
 /*#include <named/zebu_type/struct.h>*/
 
 #include <named/type/struct.h>
 /*#include <named/type/new.h>*/
 
-/*#include <named/expression/struct.h>*/
+#include <named/expression/struct.h>
 #include <named/expression/new.h>
 #include <named/expression/compare.h>
 #include <named/expression/free.h>
 
 #include <named/zebu_expression/struct.h>
+
+#include <assertion/new.h>
+#include <assertion/free.h>
 
 /*#include <named/type/compare.h>*/
 /*#include <named/type/free.h>*/
@@ -68,9 +72,22 @@
 #include <named/type/compare.h>
 #include <named/type/free.h>
 
+#include <list/assertion/append.h>
+
 #include <list/zebu_expression/new.h>
 #include <list/zebu_expression/append.h>
 #include <list/zebu_expression/free.h>
+
+#include <list/string/foreach.h>
+
+#include <list/raw_assertion/foreach.h>	
+
+#include <list/declaration/append.h>
+
+#include <declaration/new.h>
+#include <declaration/free.h>
+
+#include <parse/assertion/struct.h>
 
 #include "unresolved/new.h"
 #include "unresolved/inc.h"
@@ -98,11 +115,11 @@ void type_check(
 	struct avl_tree_t* grammar_types, // named types?
 	
 	struct avl_tree_t* raw_declares, // named_zebu_expression
-	struct quack* raw_assertions // ptrset of zebu_expressions?
+	struct raw_assertion_list* raw_assertions, // ptrset of zebu_expressions?
 	
-/*	struct avl_tree_t* typed_declares,*/
-/*	struct quack* typed_assertions,*/
-	)
+	struct stringset* grammar_sets,
+	struct declaration_list* declarations,
+	struct assertion_list* assertions)
 {
 	ENTER;
 	
@@ -207,7 +224,7 @@ void type_check(
 				{
 					struct string* name = nexp->name;
 					
-					printf("%s: determining direct variable usages of '%.*s'...\n", argv0, name->len, name->chars);
+					printf("%s: determining direct variable usages of '%.*s':", argv0, name->len, name->chars);
 				}
 				
 				struct stringset* direct_uses = new_stringset();
@@ -229,10 +246,12 @@ void type_check(
 						stringset_foreach(direct_uses, ({
 							void runme(struct string* element)
 							{
-								printf("\t" "'%.*s' is needed\n", element->len, element->chars);
+								printf(" %.*s", element->len, element->chars);
 							}
 							runme;
 						}));
+						
+						puts("");
 					}
 					
 					struct task* task = new_task(nexp->name, nexp->expression, stringset_len(direct_uses));
@@ -262,7 +281,7 @@ void type_check(
 				}
 				else
 				{
-					printf("\t" "nothing is needed\n");
+					printf(" nothing is needed.\n");
 					
 					quack_append(ready, new_task(nexp->name, nexp->expression, 0));
 				}
@@ -335,6 +354,8 @@ void type_check(
 	}
 	
 	struct avl_tree_t* name_to_expression = avl_alloc_tree(compare_named_expressions, free_named_expression);
+	
+	struct specialize_shared sshared = {};
 	
 	{
 		struct task
@@ -453,6 +474,8 @@ void type_check(
 							
 							struct type* list = type_cache_get_list_type(tcache, ntype->type);
 							
+							stringset_add(grammar_sets, name);
+							
 							unresolved_resolve_type(unresolved, ntype->name, vek_grammar_rule, list);
 							
 							unresolved_discard(unresolved, ntype->name);
@@ -494,7 +517,11 @@ void type_check(
 						
 						struct named_type* ntype = node->item;
 						
+						assert(ntype->type);
+						
 						unresolved_resolve_type(unresolved, name, vek_declare, ntype->type);
+						
+						// CHECK_NTH(9);
 					}
 					runme;
 				}));
@@ -516,15 +543,19 @@ void type_check(
 			runme;
 		}));
 		
-		struct specialize_shared sshared = {};
-		
 		while (quack_is_nonempty(todo))
 		{
 			struct task* task = quack_pop(todo);
 			
-			printf("%s: specializing '%.*s'...\n", argv0, task->name->len, task->name->chars);
+			ptrset_discard(queued, task);
+			
+			printf("%s: specializing '%.*s': ", argv0, task->name->len, task->name->chars);
 			
 			struct expression* typed = specialize_expression(tcache, &sshared, task->expression);
+			
+			expression_print(typed);
+			
+			puts("");
 			
 			struct avl_node_t* node;
 			
@@ -537,9 +568,11 @@ void type_check(
 			
 			if ((node = avl_search(name_to_expression, &task->name)))
 			{
-				// free(dict[exp]);
-				// dict[exp] = typed;
-				TODO;
+				struct named_expression* old = node->item;
+				
+				free_expression(old->expression);
+				
+				old->expression = inc_expression(typed);
 			}
 			else
 			{
@@ -561,14 +594,13 @@ void type_check(
 					ptrset_foreach(dep->tasks, ({
 						void runme(void* ptr)
 						{
-							struct task* task = ptr;
+							struct task* subtask = ptr;
 							
-							unresolved_resolve_value(task->unresolved, task->name, literal->value);
+							unresolved_resolve_value(subtask->unresolved, task->name, literal->value);
 							
 							if (ptrset_add(queued, ptr))
 							{
-								// todo.append(using-expression);
-								TODO;
+								quack_append(todo, subtask);
 							}
 						}
 						runme;
@@ -576,13 +608,15 @@ void type_check(
 				}
 			}
 			
-			ptrset_discard(queued, task);
+			free_expression(typed);
 		}
 		
 		while (tasks.n--)
 		{
-			TODO; // free tasks
+			free_task(tasks.data[tasks.n]);
 		}
+		
+		free(tasks.data);
 		
 		free_ptrset(queued);
 		
@@ -591,23 +625,112 @@ void type_check(
 		avl_free_tree(dependents);
 	}
 	
-	// declarations = list();
-	TODO;
+	string_list_foreach(source_order, ({
+		void runme(struct string* name)
+		{
+			dpvs(name);
+			
+			struct avl_node_t* node = avl_search(name_to_expression, &name);
+			
+			assert(node);
+			
+			struct named_expression* nexpression = node->item;
+			
+			if (nexpression->expression->kind != ek_literal)
+			{
+				struct declaration* declaration = new_declaration(name, nexpression->expression);
+				
+				declaration_list_append(declarations, declaration);
+				
+				free_declaration(declaration);
+			}
+		}
+		runme;
+	}));
 	
-	// for e in source-order:
-		// assert(e in dict);
-		// typed = dict[e];
-		// if not typed is literal:
-			// declarations.append(typed);
-	TODO;
-	
-	// assertions = list();
-	TODO;
-	
-	// for a in raw-assertions:
-		// typed = specialize(a);
-		// assertions.append(typed);
-	TODO;
+	raw_assertion_list_foreach(raw_assertions, ({
+		void runme(struct raw_assertion* element)
+		{
+			ENTER;
+			
+			dpv(element);
+			
+			struct unresolved* unresolved = new_unresolved();
+			
+			resolve_variables(unresolved, tcache, element->expression);
+			
+			unresolved_foreach(unresolved, ({
+				void runme(struct string* name)
+				{
+					ENTER;
+					
+					dpvs(name);
+					
+					struct avl_node_t* node = avl_search(grammar_types, &name);
+					
+					if (node)
+					{
+						struct named_type* ntype = node->item;
+						
+						struct type* list = type_cache_get_list_type(tcache, ntype->type);
+						
+						TODO;
+						
+						unresolved_resolve_type(unresolved, ntype->name, vek_grammar_rule, list);
+						
+						unresolved_discard(unresolved, ntype->name);
+					}
+					else
+					{
+						node = avl_search(name_to_expression, &name);
+						
+						if (!node)
+						{
+							// "could not find defintition for {name}"!
+							TODO;
+							exit(1);
+						}
+						
+						struct named_expression* nexpression = node->item;
+						
+						struct expression* expression = nexpression->expression;
+						
+						if (expression->kind == ek_literal)
+						{
+							struct literal_expression* literal = (void*) expression;
+							
+							assert(literal->value);
+							
+							unresolved_resolve_type(unresolved, name, vek_declare, expression->type);
+							unresolved_resolve_value(unresolved, name, literal->value);
+						}
+						else
+						{
+							unresolved_resolve_type(unresolved, name, vek_declare, expression->type);
+						}
+					}
+					
+					EXIT;
+				}
+				runme;
+			}));
+			
+			struct expression* typed = specialize_expression(tcache, &sshared, element->expression);
+			
+			struct assertion* assertion = new_assertion(element->kind, typed);
+			
+			assertion_list_append(assertions, assertion);
+			
+			free_expression(typed);
+			
+			free_assertion(assertion);
+			
+			free_unresolved(unresolved);
+			
+			EXIT;
+		}
+		runme;
+	}));
 	
 	free_string_list(source_order);
 	
@@ -621,259 +744,16 @@ void type_check(
 
 
 
-	#if 0
-	struct avl_tree_t* typed_forwards = avl_alloc_tree(compare_named_types, free_named_type);
-	
-	avl_foreach(raw_forwards, ({
-		void runme(void* ptr)
-		{
-			struct named_zebu_type* nztype = ptr;
-			
-			struct type* type = build_type(tcache, nztype->type);
-			
-			avl_insert(typed_forwards, new_named_type(nztype->name, type));
-		}
-		runme;
-	}));
-	
-	unsigned waiting = 0;
-	
-	struct specialize_shared sshared = {};
-	
-	struct quack* ready = new_quack();
-	
-	struct avl_tree_t* dependents = avl_alloc_tree(compare_dependents, free_dependents);
-	
-	avl_foreach(raw_declares, ({
-		void runme(void* ptr)
-		{
-			ENTER;
-			
-			struct named_zebu_expression* nzexpression = ptr;
-			
-			dpvs(nzexpression->name);
-			
-			struct unresolved* unresolved = new_unresolved();
-			
-			resolve_variables(unresolved, tcache, nzexpression->expression);
-			
-			struct task* task = new_task(nzexpression->name, nzexpression->expression, unresolved);
-			
-			if (unresolved_is_nonempty(unresolved))
-			{
-				unresolved_foreach(unresolved, ({
-					void runme(struct string* name)
-					{
-						dpvs(name);
-						
-						struct avl_node_t* node = avl_search(dependents, &name);
-						
-						if (node)
-						{
-							TODO;
-						}
-						else
-						{
-							struct dependents* new = new_dependents(name, task);
-							avl_insert(dependents, new);
-						}
-					}
-					runme;
-				}));
-				
-				ddprintf("going into waiting...\n");
-				
-				waiting++;
-			}
-			else
-			{
-				ddprintf("going into ready...\n");
-				quack_append(ready, task);
-			}
-			
-			// CHECK_NTH(4);
-			
-			free_unresolved(unresolved);
-			
-			EXIT;
-		}
-		runme;
-	}));
-	
-	while (quack_is_nonempty(ready))
-	{
-		struct task* task = quack_pop(ready);
-		
-		assert(!task->count);
-		
-		unresolved_foreach(task->unresolved, ({
-			void runme(struct string* name)
-			{
-				dpvs(name);
-				
-				struct avl_node_t* node = avl_search(typed_declares, &name);
-				
-				assert(node);
-				
-				struct named_expression *ne = node->item;
-				
-				struct expression* e = ne->expression;
-				
-				if (e->kind == ek_literal)
-				{
-					struct literal_expression* le = (void*) e;
-					
-					unresolved_resolve(task->unresolved, name, vek_declare, e->type, le->value);
-				}
-				else
-				{
-					unresolved_resolve(task->unresolved, name, vek_declare, e->type, NULL);
-				}
-			}
-			runme;
-		}));
-		
-		struct expression* typed = specialize_expression(tcache, &sshared, task->expression);
-		
-		expression_print(typed), puts("");
-		
-		struct named_expression* declare = new_named_expression(task->name, typed);
-		
-		struct avl_node_t* node = avl_search(typed_forwards, &task->name);
-		
-		if (node)
-		{
-			struct named_type* ntype = node->item;
-			
-			if (ntype->type != typed->type)
-			{
-				TODO;
-				exit(1);
-			}
-		}
-		
-		struct avl_node_t* in = avl_insert(typed_declares, declare);
-		
-		assert(in);
-		
-		node = avl_search(dependents, &task->name);
-		
-		if (node)
-		{
-			struct dependents* deps = node->item;
-			
-			ptrset_foreach(deps->tasks, ({
-				void runme(void* ptr)
-				{
-					struct task* task = ptr;
-					
-					if (!--task->count)
-					{
-						quack_append(ready, task);
-						waiting--;
-					}
-				}
-				runme;
-			}));
-		}
-		
-		free_task(task);
-		
-		free_expression(typed);
-	}
-	
-	if (waiting)
-	{
-		fprintf(stderr, ""
-			"maia: cannot resolve declarations with uses!" "\n"
-			"This may be caused by either a missing declaration, or a circular reference" "\n"
-		"");
-		exit(1);
-	}
-	
-	quack_foreach(raw_assertions, ({
-		void runme(void* ptr)
-		{
-			struct raw_assertion* raw_assertion = ptr;
-			
-			struct unresolved* unresolved = new_unresolved();
-			
-			resolve_variables(unresolved, tcache, raw_assertion->expression);
-			
-			unresolved_foreach(unresolved, ({
-				void runme(struct string* name)
-				{
-					dpvs(name);
-					
-					struct avl_node_t* node = avl_search(typed_declares, &name);
-					
-					if (!node)
-					{
-						TODO;
-						exit(1);
-					}
-					
-					struct named_expression *ne = node->item;
-					
-					struct expression* e = ne->expression;
-					
-					if (e->kind == ek_literal)
-					{
-						struct literal_expression* le = (void*) e;
-						
-						unresolved_resolve(unresolved, name, vek_declare, e->type, le->value);
-					}
-					else
-					{
-						unresolved_resolve(unresolved, name, vek_declare, e->type, NULL);
-					}
-				}
-				runme;
-			}));
-			
-			struct expression* specialized = specialize_expression(tcache, &sshared, raw_assertion->expression);
-			
-			expression_print(specialized), puts("");
-			
-			if (specialized->type->kind != tk_bool)
-			{
-				fprintf(stderr, "%s: every assertion should return a bool!\n", argv0);
-				exit(e_bad_input_file);
-			}
-			
-			if (specialized->kind == ek_literal)
-			{
-				struct literal_expression* literal = (void*) specialized;
-				
-				struct bool_value* value = (struct bool_value*) literal->value;
-				
-				if (!value->value)
-				{
-					fprintf(stderr, "%s: assertion constant-folded to false value!\n", argv0);
-					exit(e_bad_input_file);
-				}
-			}
-			else
-			{
-				struct assertion* assertion = new_assertion(raw_assertion->kind, specialized);
-				
-				quack_append(typed_assertions, assertion);
-			}
-			
-			free_expression(specialized);
-			
-			free_unresolved(unresolved);
-		}
-		runme;
-	}));
-	
-	avl_free_tree(dependents);
-	
-	avl_free_tree(typed_forwards);
-	
-	free_quack(ready);
-	#endif
-	
+
+
+
+
+
+
+
+
+
+
 
 
 

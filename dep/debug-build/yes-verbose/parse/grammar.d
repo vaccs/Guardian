@@ -17,7 +17,7 @@ bin/debug-build/yes-verbose/./parse/grammar.o: parse/grammar.c debug.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h gegex/nfa_to_dfa.h gegex/gbundle.h \
- gegex/simplify_dfa.h gegex/combine_structinfos.h gegex/free.h \
- yacc/structinfo/free.h named/grammar/new.h named/structinfo/new.h \
- parse/grammar/3.root.h gegex/gbundle.h parse/parse.h parse/grammar.h
+ gegex/nfa_to_dfa.h gegex/gbundle.h gegex/simplify_dfa.h \
+ gegex/combine_structinfos.h gegex/free.h yacc/structinfo/free.h \
+ named/grammar/new.h named/structinfo/new.h parse/grammar/3.root.h \
+ gegex/gbundle.h parse/parse.h parse/grammar.h

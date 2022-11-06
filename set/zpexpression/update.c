@@ -15,8 +15,9 @@ void zpexpressionset_update(
 {
 	ENTER;
 	
-	struct avl_node_t* an = a->tree->head;
-	struct avl_node_t* bn = b->tree->head;
+	assert(a != b);
+	
+	struct avl_node_t *an = a->tree->head, *bn = b->tree->head;
 	
 	while (an && bn)
 	{
@@ -28,8 +29,7 @@ void zpexpressionset_update(
 		}
 		else if (ae > be)
 		{
-			avl_insert(a->tree, be);
-			inc_zebu_primary_expression(be);
+			avl_insert(a->tree, inc_zebu_primary_expression(be));
 			bn = bn->next;
 		}
 		else
@@ -41,8 +41,7 @@ void zpexpressionset_update(
 	
 	while (bn)
 	{
-		avl_insert(a->tree, bn->item);
-		inc_zebu_primary_expression(bn->item);
+		avl_insert(a->tree, inc_zebu_primary_expression(bn->item));
 		bn = bn->next;
 	}
 	

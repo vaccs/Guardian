@@ -17,9 +17,8 @@ bin/test-build/yes-verbose/./expression/ternary/new.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/inc.h type/free.h \
- expression/ternary/../new.h expression/ternary/../kind.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h expression/inc.h \
+ type/free.h expression/ternary/../new.h expression/ternary/../kind.h \
  expression/ternary/inheritance.h expression/ternary/../inheritance.h \
  expression/ternary/struct.h expression/ternary/../struct.h \
  expression/ternary/new.h

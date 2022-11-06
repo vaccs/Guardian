@@ -11,13 +11,11 @@
 struct expression* specialize_implication_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
-	struct zebu_expression* zexpression)
+	struct zebu_implication_expression* zexpression)
 {
 	struct expression* retval;
 	ENTER;
 	
-	TODO;
-	#if 0
 	if (zexpression->implies)
 	{
 		TODO;
@@ -29,6 +27,5 @@ struct expression* specialize_implication_expression(
 	
 	EXIT;
 	return retval;
-	#endif
 }
 

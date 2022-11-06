@@ -18,8 +18,7 @@ bin/debug-build/yes-verbose/./parse/grammar/0.highest.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/grammar/../parse.h \
- parse/grammar/3.root.h gegex/gbundle.h \
+ parse/grammar/../parse.h parse/grammar/3.root.h gegex/gbundle.h \
  parse/grammar/0.highest/character.h parse/grammar/0.highest/string.h \
  parse/grammar/0.highest/regex.h parse/grammar/0.highest/name.h \
  parse/grammar/0.highest.h

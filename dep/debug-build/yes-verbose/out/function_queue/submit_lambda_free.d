@@ -18,6 +18,6 @@ bin/debug-build/yes-verbose/./out/function_queue/submit_lambda_free.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h out/function_queue/funcdata/struct.h \
- out/function_queue/funcdata/kind.h out/function_queue/funcdata/new.h \
- out/function_queue/struct.h out/function_queue/submit_lambda_free.h
+ out/function_queue/funcdata/struct.h out/function_queue/funcdata/kind.h \
+ out/function_queue/funcdata/new.h out/function_queue/struct.h \
+ out/function_queue/submit_lambda_free.h

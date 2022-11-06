@@ -17,11 +17,11 @@ bin/debug-build/yes-verbose/./yacc/yacc.o: yacc/yacc.c debug.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h named/trie/compare.h named/trie/free.h \
- named/grammar/struct.h cmdln/minimize_lexer.h set/unsigned/new.h \
- set/unsigned/add.h set/unsigned/free.h set/unsigned/foreach.h \
- set/unsigned/update.h set/unsigned/clone.h set/unsigned/head.h \
- set/unsignedset/foreach.h set/unsignedset/free.h lex/struct.h \
+ named/trie/compare.h named/trie/free.h named/grammar/struct.h \
+ cmdln/minimize_lexer.h set/unsigned/new.h set/unsigned/add.h \
+ set/unsigned/free.h set/unsigned/foreach.h set/unsigned/update.h \
+ set/unsigned/clone.h set/unsigned/head.h set/unsignedset/foreach.h \
+ set/unsignedset/free.h lex/struct.h \
  lex/build_tokenizer/build_tokenizer.h lex/minimize_lexer.h \
  named/structinfo/struct.h named/trie/struct.h yacc/trie/struct.h \
  yacc/stateinfo/new.h yacc/stateinfo/add.h yacc/stateinfo/compare.h \

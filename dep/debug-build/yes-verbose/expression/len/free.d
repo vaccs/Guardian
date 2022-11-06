@@ -18,6 +18,6 @@ bin/debug-build/yes-verbose/./expression/len/free.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/len/../free.h \
- expression/len/struct.h expression/len/../struct.h \
- expression/len/../kind.h expression/len/free.h
+ expression/len/../free.h expression/len/struct.h \
+ expression/len/../struct.h expression/len/../kind.h \
+ expression/len/free.h

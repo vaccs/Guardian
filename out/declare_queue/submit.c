@@ -10,10 +10,13 @@ void declare_queue_submit(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	if (stringset_add(this->queued, name))
 	{
 		quack_append(this->todo, name);
 	}
+	#endif
 	
 	EXIT;
 }

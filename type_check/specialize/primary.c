@@ -98,6 +98,10 @@ static struct expression* specialize_primary_identifier_expression(
 	{
 		struct string* name = new_string_from_token(zexpression->identifier);
 		
+		dpvs(name);
+		
+		assert(zexpression->type);
+		
 		retval = new_variable_expression(zexpression->type, zexpression->kind, name);
 		
 		free_string(name);

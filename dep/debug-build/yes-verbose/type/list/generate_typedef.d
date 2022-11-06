@@ -18,5 +18,5 @@ bin/debug-build/yes-verbose/./type/list/generate_typedef.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h out/type_queue/submit.h type/list/struct.h \
- type/list/../struct.h type/list/../kind.h type/list/generate_typedef.h
+ out/type_queue/submit.h type/list/struct.h type/list/../struct.h \
+ type/list/../kind.h type/list/generate_typedef.h

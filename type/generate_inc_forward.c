@@ -18,7 +18,7 @@ struct stringtree* type_generate_inc_forward(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static struct type_%u* func_%u(struct type_%u*);"
+		"auto struct type_%u* func_%u(struct type_%u*);"
 	"", type_id, func_id, type_id);
 	
 	EXIT;

@@ -18,9 +18,8 @@ bin/debug-build/yes-verbose/./type_check/specialize_grammar_types.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h named/structinfo/struct.h named/type/new.h \
- parse/parse.h type_cache/get_type/grammar.h \
- type_cache/get_type/charlist.h yacc/structinfo/node/struct.h \
- yacc/structinfo/node/type.h yacc/structinfo/foreach.h \
- type/grammar/add_field.h type_check/build_type.h \
- type_check/specialize_grammar_types.h
+ named/structinfo/struct.h named/type/new.h parse/parse.h \
+ type_cache/get_type/grammar.h type_cache/get_type/charlist.h \
+ yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
+ yacc/structinfo/foreach.h type/grammar/add_field.h \
+ type_check/build_type.h type_check/specialize_grammar_types.h

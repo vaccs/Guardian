@@ -16,7 +16,7 @@ bin/debug-build/yes-verbose/./value/list/new.o: value/list/new.c debug.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h list/value/inc.h value/list/../new.h \
- value/list/struct.h value/list/../struct.h value/list/../kind.h \
- value/list/inheritance.h value/list/../inheritance.h value/list/new.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h list/value/inc.h \
+ value/list/../new.h value/list/struct.h value/list/../struct.h \
+ value/list/../kind.h value/list/inheritance.h \
+ value/list/../inheritance.h value/list/new.h

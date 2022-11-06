@@ -16,8 +16,7 @@ bin/test-build/yes-verbose/./expression/sum/new.o: expression/sum/new.c \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/inc.h type/free.h \
- expression/sum/../new.h expression/sum/../kind.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h expression/inc.h \
+ type/free.h expression/sum/../new.h expression/sum/../kind.h \
  expression/sum/inheritance.h expression/sum/../inheritance.h \
  expression/sum/struct.h expression/sum/../struct.h expression/sum/new.h

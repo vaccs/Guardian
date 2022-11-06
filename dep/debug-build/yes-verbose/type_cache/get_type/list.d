@@ -18,6 +18,6 @@ bin/debug-build/yes-verbose/./type_cache/get_type/list.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/list/struct.h type/list/../struct.h \
- type/list/../kind.h type/list/new.h type_cache/get_type/../struct.h \
+ type/list/struct.h type/list/../struct.h type/list/../kind.h \
+ type/list/new.h type_cache/get_type/../struct.h \
  type_cache/get_type/list.h

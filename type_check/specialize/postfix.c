@@ -67,6 +67,8 @@ struct expression* specialize_postfix_expression(
 	{
 		struct expression* sub = specialize_postfix_expression(tcache, sshared, zexpression->sub);
 		
+		assert(sub);
+		
 		if (zexpression->index)
 		{
 			struct expression* index = specialize_expression(tcache, sshared, zexpression->index);
@@ -157,6 +159,8 @@ struct expression* specialize_postfix_expression(
 		}
 		else if (zexpression->call)
 		{
+			assert(sub->type);
+			
 			if (sub->type->kind != tk_lambda)
 			{
 				TODO;

@@ -17,4 +17,4 @@ bin/debug-build/yes-verbose/./list/parameter/inc.o: list/parameter/inc.c \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h list/parameter/struct.h list/parameter/inc.h
+ list/parameter/struct.h list/parameter/inc.h

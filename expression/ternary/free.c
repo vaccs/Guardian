@@ -11,12 +11,11 @@ void free_ternary_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct ternary_expression* this = (void*) super;
 	
-	free_expression(this->list);
-	#endif
+	free_expression(this->conditional);
+	free_expression(this->true_case);
+	free_expression(this->false_case);
 	
 	EXIT;
 }

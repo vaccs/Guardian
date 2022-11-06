@@ -18,5 +18,4 @@ bin/test-build/yes-verbose/./yacc/stateinfo/node/compare.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h yacc/stateinfo/node/struct.h \
- yacc/stateinfo/node/compare.h
+ yacc/stateinfo/node/struct.h yacc/stateinfo/node/compare.h

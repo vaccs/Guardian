@@ -18,6 +18,6 @@ bin/test-build/yes-verbose/./parse/grammar/2.juxtaposition.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h gegex/add_lambda_transition.h \
- parse/grammar/../parse.h parse/grammar/1.postfix.h gegex/gbundle.h \
+ gegex/add_lambda_transition.h parse/grammar/../parse.h \
+ parse/grammar/1.postfix.h gegex/gbundle.h \
  parse/grammar/2.juxtaposition.h

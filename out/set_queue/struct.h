@@ -6,6 +6,7 @@ struct set_queue
 	struct stringset* queued;
 	
 	struct stringtree* init_text;
+	struct stringtree* assign_text;
 	struct stringtree* uninit_text;
 };
 

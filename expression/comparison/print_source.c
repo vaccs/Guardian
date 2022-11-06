@@ -27,6 +27,8 @@
 
 static const char* lookup[] = {
 	[cek_equal_to] = "==",
+	[cek_less_than] = "<",
+	[cek_greater_than] = ">",
 };
 
 struct stringtree* comparison_expression_print_source(
@@ -61,6 +63,11 @@ struct stringtree* comparison_expression_print_source(
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
 	unsigned compare_id = function_queue_submit_compare(shared->fqueue, this->type);
+	
+	if (!lookup[this->kind])
+	{
+		TODO;
+	}
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u* compare = func_%u(func_%u(left, right) %s 0);"

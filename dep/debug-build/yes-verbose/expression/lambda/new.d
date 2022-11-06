@@ -18,8 +18,7 @@ bin/debug-build/yes-verbose/./expression/lambda/new.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h list/parameter/inc.h \
- type_check/unresolved/inc.h expression/lambda/../new.h \
+ list/parameter/inc.h list/capture/inc.h expression/lambda/../new.h \
  expression/lambda/../kind.h expression/lambda/../inc.h \
  expression/lambda/inheritance.h expression/lambda/../inheritance.h \
  expression/lambda/struct.h expression/lambda/../struct.h \

@@ -17,8 +17,7 @@ bin/debug-build/yes-verbose/./yacc/calc_firsts.o: yacc/calc_firsts.c \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h named/stringset/struct.h named/stringset/new.h \
- named/stringset/compare.h named/stringset/free.h named/trie/struct.h \
- set/unsigned/new.h set/unsigned/add.h set/unsigned/update.h \
- set/unsigned/inc.h set/unsigned/free.h yacc/trie/struct.h \
- yacc/calc_firsts.h
+ named/stringset/struct.h named/stringset/new.h named/stringset/compare.h \
+ named/stringset/free.h named/trie/struct.h set/unsigned/new.h \
+ set/unsigned/add.h set/unsigned/update.h set/unsigned/inc.h \
+ set/unsigned/free.h yacc/trie/struct.h yacc/calc_firsts.h

@@ -18,5 +18,5 @@ bin/debug-build/yes-verbose/./type/bool/generate_free_func.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/bool/struct.h type/bool/../struct.h \
- type/bool/../kind.h type/bool/generate_free_func.h
+ type/bool/struct.h type/bool/../struct.h type/bool/../kind.h \
+ type/bool/generate_free_func.h

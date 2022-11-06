@@ -12,7 +12,7 @@
 
 #include <expression/print_source.h>
 
-#include <type_check/unresolved/foreach.h>
+#include <list/capture/is_nonempty.h>
 
 /*#include <out/function_queue/submit_lambda_evaluate.h>*/
 /*#include <out/function_queue/submit_lambda_free.h>*/
@@ -38,7 +38,7 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 	unsigned rettype_id = ltype->rettype->id;
 	
 	stringtree_append_printf(tree, ""
-		"static struct type_%u* func_%u(struct type_%u* super"
+		"struct type_%u* func_%u(struct type_%u* super"
 	"", rettype_id, func_id, type_id);
 	
 	parameter_list_foreach(this->parameters, ({
@@ -56,9 +56,18 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 	stringtree_append_printf(tree, ""
 			")"
 		"{"
-			"struct subtype_%u* this = (void*) super;"
+	"");
+	
+	if (capture_list_is_nonempty(this->captured))
+	{
+		stringtree_append_printf(tree, ""
+				"struct subtype_%u* this = (void*) super;"
+		"", lambda_id);
+	}
+	
+	stringtree_append_printf(tree, ""
 			"return "
-	"", lambda_id);
+	"");
 	
 	struct stringtree* subtree = expression_print_source(this->body, shared);
 	

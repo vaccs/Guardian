@@ -17,12 +17,11 @@ bin/debug-build/yes-verbose/./type_check/specialize/additive.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/parse.h type/struct.h type/kind.h \
- expression/int_math/new.h expression/int_math/kind.h \
- expression/literal/struct.h expression/literal/../struct.h \
- expression/literal/../kind.h expression/literal/new.h \
- expression/struct.h expression/free.h mpz/add.h mpz/free.h \
- value/integer/struct.h value/integer/../struct.h value/integer/../kind.h \
- value/integer/new.h value/free.h type_check/specialize/multiplicative.h \
- type_check/specialize/additive.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h parse/parse.h \
+ type/struct.h type/kind.h expression/int_math/new.h \
+ expression/int_math/kind.h expression/literal/struct.h \
+ expression/literal/../struct.h expression/literal/../kind.h \
+ expression/literal/new.h expression/struct.h expression/free.h mpz/add.h \
+ mpz/free.h value/integer/struct.h value/integer/../struct.h \
+ value/integer/../kind.h value/integer/new.h value/free.h \
+ type_check/specialize/multiplicative.h type_check/specialize/additive.h

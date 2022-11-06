@@ -18,6 +18,5 @@ bin/test-build/yes-verbose/./value/bool/inheritance.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h value/bool/inheritance.h \
- value/bool/../inheritance.h value/bool/compare.h value/bool/print.h \
- value/bool/free.h
+ value/bool/inheritance.h value/bool/../inheritance.h \
+ value/bool/compare.h value/bool/print.h value/bool/free.h

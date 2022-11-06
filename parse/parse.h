@@ -398,7 +398,11 @@ struct zebu_regex_postfix
 struct zebu_relational_expression
 {
 	struct zebu_shift_expression* base;
+	struct zebu_token* gt;
+	struct zebu_token* gte;
 	struct zebu_relational_expression* left;
+	struct zebu_token* lt;
+	struct zebu_token* lte;
 	struct zebu_shift_expression* right;
 	unsigned refcount;
 };

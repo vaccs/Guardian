@@ -104,7 +104,7 @@ void parse_driver(
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
 	struct avl_tree_t* declares,
-	struct quack* assertions,
+	struct raw_assertion_list* assertions,
 	struct type_cache* tcache,
 	const char* input_path)
 {

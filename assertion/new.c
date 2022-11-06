@@ -18,6 +18,8 @@ struct assertion* new_assertion(
 	
 	this->expression = inc_expression(expression);
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }

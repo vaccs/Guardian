@@ -22,7 +22,7 @@ struct stringtree* char_type_generate_compare_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static int func_%u(const type_%u* a, const type_%u* b)"
+		"int func_%u(const type_%u* a, const type_%u* b)"
 		"{"
 			"return mpz_cmp(a->value, b->value);"
 		"}"

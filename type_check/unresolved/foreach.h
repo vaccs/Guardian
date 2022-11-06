@@ -21,3 +21,18 @@ void unresolved_foreach3(
 	void (*runme)(
 		struct string* name,
 		struct type* type));
+	
+void unresolved_foreach4(
+	const struct unresolved* this,
+	void (*runme)(
+		struct string* name,
+		enum variable_expression_kind kind,
+		struct type* type));
+		
+void unresolved_foreach5(
+	const struct unresolved* this,
+	void (*runme)(
+		struct string* name,
+		enum variable_expression_kind kind,
+		struct type* type,
+		struct value* value));

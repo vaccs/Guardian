@@ -17,9 +17,8 @@ bin/test-build/yes-verbose/./expression/lambda/generate_free_func.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/struct.h type/kind.h \
- type_check/unresolved/foreach.h expression/variable/kind.h out/shared.h \
- out/subtype_queue/submit.h out/function_queue/submit_free.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h type/struct.h \
+ type/kind.h list/capture/is_nonempty.h list/capture/foreach.h \
+ out/shared.h out/subtype_queue/submit.h out/function_queue/submit_free.h \
  expression/lambda/struct.h expression/lambda/../struct.h \
  expression/lambda/../kind.h expression/lambda/generate_new_func.h

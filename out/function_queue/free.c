@@ -11,6 +11,7 @@ void free_function_queue(struct function_queue* this)
 	free_quack(this->todo);
 	
 	avl_free_tree(this->queued);
+	
 	avl_free_tree(this->done);
 	
 	free_stringtree(this->text);

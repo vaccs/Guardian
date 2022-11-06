@@ -3,5 +3,5 @@ struct ptrset;
 struct zebu_assertion;
 
 void process_assertion(
-	struct quack* assertions,
-	struct zebu_assertion* entry);
+	struct raw_assertion_list* assertions,
+	struct zebu_assertion* assertion);

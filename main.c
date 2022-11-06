@@ -32,6 +32,15 @@
 #include <named/structinfo/compare.h>
 #include <named/structinfo/free.h>
 
+#include <list/raw_assertion/new.h>
+#include <list/raw_assertion/free.h>
+
+#include <list/declaration/new.h>
+#include <list/declaration/free.h>
+
+#include <list/assertion/new.h>
+#include <list/assertion/free.h>
+
 #include <quack/new.h>
 #include <quack/foreach.h>
 #include <quack/free.h>
@@ -64,7 +73,7 @@ int main(int argc, char* const* argv)
 	
 	struct type_cache* tcache = new_type_cache();
 	
-	struct quack* raw_assertions = new_quack();
+	struct raw_assertion_list* raw_assertions = new_raw_assertion_list();
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
 	struct avl_tree_t* structinfos = avl_alloc_tree(compare_named_structinfos, free_named_structinfo);
@@ -74,20 +83,20 @@ int main(int argc, char* const* argv)
 	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	specialize_grammar_types(types, tcache, structinfos);
 	
-/*	struct quack* typed_assertions = new_quack();*/
-/*	struct avl_tree_t* typed_declares = avl_alloc_tree(compare_named_expressions, free_named_expression);*/
-	type_check(tcache, types, raw_declares, raw_assertions);
+	struct stringset* grammar_sets = new_stringset();
 	
-	TODO;
-	#if 0
+	struct declaration_list* declarations = new_declaration_list();
+	
+	struct assertion_list* assertions = new_assertion_list();
+	
+	type_check(
+		tcache, types,
+		raw_declares, raw_assertions,
+		grammar_sets, declarations, assertions);
+	
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
-	struct stringtree* content = out(
-		tcache, types,
-		raw_forwards,
-		typed_declares,
-		typed_assertions,
-		start);
+	struct stringtree* content = out(tcache, types, grammar_sets, declarations, assertions, start);
 	
 	FILE* stream = fopen(flags->output_path, "w");
 	
@@ -101,29 +110,17 @@ int main(int argc, char* const* argv)
 	
 	fclose(stream);
 	
-	quack_foreach(raw_assertions, ({
-		void runme(void* ptr) {
-			free_raw_assertion(ptr);
-		}
-		runme;
-	}));
+	free_raw_assertion_list(raw_assertions);
 	
-	quack_foreach(typed_assertions, ({
-		void runme(void* ptr) {
-			free_assertion(ptr);
-		}
-		runme;
-	}));
+	free_declaration_list(declarations);
 	
-	avl_free_tree(typed_declares);
+	free_assertion_list(assertions);
 	
-	free_quack(typed_assertions);
+	free_stringset(grammar_sets);
 	
 	avl_free_tree(raw_declares);
 	
 	avl_free_tree(structinfos);
-	
-	free_quack(raw_assertions);
 	
 	free_stringtree(content);
 	
@@ -141,7 +138,6 @@ int main(int argc, char* const* argv)
 	
 	EXIT;
 	return 0;
-	#endif
 }
 
 

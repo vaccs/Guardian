@@ -16,6 +16,5 @@ bin/test-build/yes-verbose/./type_cache/new.o: type_cache/new.c debug.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/compare.h type/free.h type_cache/struct.h \
- type_cache/new.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h type/compare.h \
+ type/free.h type_cache/struct.h type_cache/new.h

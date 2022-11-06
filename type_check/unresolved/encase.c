@@ -19,7 +19,9 @@ void unresolved_encase(
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 	{
 		struct unresolved_node* ele = node->item;
+		
 		zpexpressionset_update(ele->layers.deeper, ele->layers.current);
+		
 		zpexpressionset_clear(ele->layers.current);
 	}
 	

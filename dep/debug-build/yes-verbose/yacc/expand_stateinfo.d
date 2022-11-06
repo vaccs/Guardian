@@ -18,8 +18,8 @@ bin/debug-build/yes-verbose/./yacc/expand_stateinfo.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h named/trie/struct.h set/unsigned/new.h \
- set/unsigned/add.h set/unsigned/update.h set/unsigned/free.h \
- yacc/trie/struct.h yacc/stateinfo/node/struct.h \
- yacc/stateinfo/get_lookaheads.h yacc/stateinfo/foreach.h \
- yacc/stateinfo/add.h yacc/calc_firsts.h yacc/expand_stateinfo.h
+ named/trie/struct.h set/unsigned/new.h set/unsigned/add.h \
+ set/unsigned/update.h set/unsigned/free.h yacc/trie/struct.h \
+ yacc/stateinfo/node/struct.h yacc/stateinfo/get_lookaheads.h \
+ yacc/stateinfo/foreach.h yacc/stateinfo/add.h yacc/calc_firsts.h \
+ yacc/expand_stateinfo.h

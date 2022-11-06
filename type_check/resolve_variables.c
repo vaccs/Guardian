@@ -275,7 +275,8 @@ static void resolve_variables_relational(
 	}
 	else if (expression->left)
 	{
-		TODO;
+		resolve_variables_relational(unresolved, tcache, expression->left);
+		resolve_variables_shift(unresolved, tcache, expression->right);
 	}
 	else
 	{

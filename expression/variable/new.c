@@ -14,6 +14,8 @@ struct expression* new_variable_expression(
 {
 	ENTER;
 	
+	assert(type);
+	
 	struct variable_expression* this = (void*) new_expression(
 		ek_variable,
 		&variable_expression_inheritance,

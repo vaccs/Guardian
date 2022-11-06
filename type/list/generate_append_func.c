@@ -26,7 +26,7 @@ struct stringtree* list_type_generate_append_func(
 	unsigned inc_id = function_queue_submit_inc(shared->fqueue, this->element_type);
 	
 	stringtree_append_printf(text, ""
-		"static void func_%u(struct type_%u* list, struct type_%u* element)"
+		"void func_%u(struct type_%u* list, struct type_%u* element)"
 		"{"
 			"if (list->n == list->cap)"
 			"{"

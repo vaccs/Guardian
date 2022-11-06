@@ -18,7 +18,6 @@ bin/debug-build/yes-verbose/./expression/ternary/inheritance.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/ternary/print_source.h \
- expression/ternary/inheritance.h expression/ternary/../inheritance.h \
- expression/ternary/evaluate.h expression/ternary/print.h \
- expression/ternary/free.h
+ expression/ternary/print_source.h expression/ternary/inheritance.h \
+ expression/ternary/../inheritance.h expression/ternary/evaluate.h \
+ expression/ternary/print.h expression/ternary/free.h

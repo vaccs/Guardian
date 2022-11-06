@@ -12,6 +12,10 @@
 #include <out/function_queue/submit_lambda_evaluate.h>
 #include <out/function_queue/submit_lambda_free.h>
 
+#include <capture/struct.h>
+
+#include <list/capture/foreach.h>
+
 #include "struct.h"
 #include "generate_new_func.h"
 
@@ -29,25 +33,29 @@ struct stringtree* lambda_expression_generate_new_func(
 	unsigned type_id = this->super.type->id;
 	
 	stringtree_append_printf(tree, ""
-		"static struct type_%u* func_%u("
+		"struct type_%u* func_%u("
 	"", type_id, func_id);
 	
-	bool first = true;
-	unresolved_foreach3(this->captured, ({
-		void runme(struct string* name, struct type* type)
+	capture_list_foreach(this->captured, ({
+		void runme(struct capture* capture)
 		{
-			dpvs(name);
-			
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(tree, ", ");
+			TODO;
+			#if 0
+			struct type* type = capture->type;
 			
 			type_queue_submit(shared->tqueue, type);
+			
+			struct string* name = capture->name;
 			
 			stringtree_append_printf(tree, ""
 				"struct type_%u* $%.*s"
 			"", type->id, name->len, name->chars);
+			
+			if (another)
+			{
+				stringtree_append_printf(tree, ", ");
+			}
+			#endif
 		}
 		runme;
 	}));
@@ -66,9 +74,11 @@ struct stringtree* lambda_expression_generate_new_func(
 			"this->super.refcount = 1;"
 	"", lambda_id, evaluate_id, free_id);
 	
-	unresolved_foreach3(this->captured, ({
-		void runme(struct string* name, struct type* type)
+	capture_list_foreach(this->captured, ({
+		void runme(struct capture* capture)
 		{
+			TODO;
+			#if 0
 			dpvs(name);
 			
 			unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
@@ -78,6 +88,7 @@ struct stringtree* lambda_expression_generate_new_func(
 			stringtree_append_printf(tree, ""
 				"this->$%.*s = func_%u($%.*s);"
 			"", name->len, name->chars, inc_id, name->len, name->chars);
+			#endif
 		}
 		runme;
 	}));

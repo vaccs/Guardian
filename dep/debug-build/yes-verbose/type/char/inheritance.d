@@ -18,8 +18,7 @@ bin/debug-build/yes-verbose/./type/char/inheritance.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/char/generate_typedef.h \
- type/char/generate_new_func.h type/char/generate_compare_func.h \
- type/char/generate_free_func.h type/char/inheritance.h \
- type/char/../inheritance.h type/char/compare.h type/char/print.h \
- type/char/free.h
+ type/char/generate_typedef.h type/char/generate_new_func.h \
+ type/char/generate_compare_func.h type/char/generate_free_func.h \
+ type/char/inheritance.h type/char/../inheritance.h type/char/compare.h \
+ type/char/print.h type/char/free.h

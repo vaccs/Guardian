@@ -135,6 +135,14 @@ int main(int argc, char* const* argv)
 	// create sets:
 	{{INIT_SETS}}
 	
+	// "struct* $x = NULL;"
+	{{INIT_DECLARES}}
+
+	// new()s, inc()s, free()s, compare()s, index()s, ...
+	{{FUNCTIONS}}
+	
+	{{ASSIGN_SETS}}
+	
 	struct { unsigned* data, n, cap; } yacc = {};
 	struct { void** data; unsigned n, cap; } data = {};
 	struct { unsigned char* data; unsigned n, cap; } lexer = {};
@@ -366,14 +374,8 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	// "struct* $x = NULL;"
-	{{DECLARES}}
-
-	// new()s, inc()s, free()s, compare()s, index()s, ...
-	{{FUNCTIONS}}
-
 	// "$x = malloc()";
-	{{INIT_DECLARES}}
+	{{ASSIGN_DECLARES}}
 	
 	// assertions:
 	{{ASSERTIONS}}

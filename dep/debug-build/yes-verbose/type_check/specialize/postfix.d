@@ -17,16 +17,16 @@ bin/debug-build/yes-verbose/./type_check/specialize/postfix.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/parse.h type/struct.h type/kind.h \
- list/expression/new.h list/expression/append.h list/expression/free.h \
- expression/literal/struct.h expression/literal/../struct.h \
- expression/literal/../kind.h expression/literal/new.h \
- expression/funccall/new.h expression/list_index/new.h \
- expression/fieldaccess/new.h expression/free.h list/expression/struct.h \
- list/type/struct.h mpz/struct.h list/value/struct.h list/value/new.h \
- list/value/append.h list/value/free.h type/lambda/struct.h \
- type/lambda/../struct.h type/grammar/get_field.h value/integer/struct.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h parse/parse.h \
+ type/struct.h type/kind.h list/expression/new.h list/expression/append.h \
+ list/expression/free.h expression/literal/struct.h \
+ expression/literal/../struct.h expression/literal/../kind.h \
+ expression/literal/new.h expression/funccall/new.h \
+ expression/list_index/new.h expression/fieldaccess/new.h \
+ expression/free.h list/expression/struct.h list/type/struct.h \
+ mpz/struct.h list/value/struct.h list/value/new.h list/value/append.h \
+ list/value/free.h type/lambda/struct.h type/lambda/../struct.h \
+ type/grammar/get_field.h value/integer/struct.h \
  value/integer/../struct.h value/integer/../kind.h value/list/struct.h \
  value/list/../struct.h value/lambda/call.h value/free.h \
  type_check/specialize/expression.h type_check/specialize/primary.h \

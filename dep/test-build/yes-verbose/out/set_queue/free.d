@@ -17,4 +17,4 @@ bin/test-build/yes-verbose/./out/set_queue/free.o: out/set_queue/free.c \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h out/set_queue/struct.h out/set_queue/free.h
+ out/set_queue/struct.h out/set_queue/free.h

@@ -83,6 +83,10 @@
 	struct zebu_tokentype;
 	struct zebu_possession_expression;
 	struct zebu_inclusion_expression;
+	struct raw_assertion_list;
+	struct assertion_list;
+	struct declaration_list;
+	struct capture_list;
 	
 	#include <memory/smalloc.h>
 	#include <memory/srealloc.h>
@@ -162,8 +166,6 @@
 	#include <type_cache/get_type/int.h>
 	#include <type_cache/get_type/list.h>
 	#include <type_cache/get_type/lambda.h>
-	
-	#include <misc/default_sighandler.h>
 #endif
 
 #ifdef DEBUGGING

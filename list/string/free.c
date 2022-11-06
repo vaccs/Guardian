@@ -7,5 +7,13 @@
 void free_string_list(
 	struct string_list* this)
 {
-	TODO;
+	ENTER;
+	
+	for (unsigned i = 0, n = this->n; i < n; i++)
+		free_string(this->data[i]);
+	
+	free(this->data);
+	free(this);
+	
+	EXIT;
 }

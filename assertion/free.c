@@ -11,9 +11,12 @@ void free_assertion(
 {
 	ENTER;
 	
-	free_expression(this->expression);
-	
-	free(this);
+	if (this && !--this->refcount)
+	{
+		free_expression(this->expression);
+		
+		free(this);
+	}
 	
 	EXIT;
 }

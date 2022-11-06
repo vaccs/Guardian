@@ -11,9 +11,12 @@ void free_raw_assertion(
 {
 	ENTER;
 	
-	free_zebu_expression(this->expression);
-	
-	free(this);
+	if (this && !--this->refcount)
+	{
+		free_zebu_expression(this->expression);
+		
+		free(this);
+	}
 	
 	EXIT;
 }

@@ -18,15 +18,14 @@
 #include "../shared.h"
 #include "../type_queue/submit.h"
 #include "../string_to_id/string_to_id.h"
-#include "../set_queue/has_processed.h"
 
 #include "struct.h"
 #include "print_source.h"
 
 struct stringtree* reducerule_to_id_print_source(
-	struct type_cache* tcache,
 	struct reducerule_to_id* this,
 	struct string_to_id* stoi,
+	struct stringset* grammar_sets,
 	struct out_shared* shared)
 {
 	ENTER;
@@ -47,7 +46,7 @@ struct stringtree* reducerule_to_id_print_source(
 			"{"
 		"", ele->id);
 		
-		struct type* type = type_cache_get_grammar_type(tcache, ele->grammar);
+		struct type* type = type_cache_get_grammar_type(shared->tcache, ele->grammar);
 		
 		type_queue_submit(shared->tqueue, type);
 		
@@ -56,11 +55,11 @@ struct stringtree* reducerule_to_id_print_source(
 			"value->refcount = 1;" "\n"
 		"", type->id);
 		
-		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, tcache, shared, ele->grammar->chars);
+		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, shared, ele->grammar->chars);
 		
-		if (set_queue_has_processed(shared->squeue, ele->grammar))
+		if (stringset_contains(grammar_sets, ele->grammar))
 		{
-			struct type* ltype = type_cache_get_list_type(tcache, type);
+			struct type* ltype = type_cache_get_list_type(shared->tcache, type);
 			
 			unsigned append_id = function_queue_submit_append(shared->fqueue, ltype);
 			

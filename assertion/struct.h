@@ -6,5 +6,7 @@ struct assertion
 	enum assertion_kind kind;
 	
 	struct expression* expression;
+	
+	unsigned refcount;
 };
 

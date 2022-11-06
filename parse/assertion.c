@@ -3,14 +3,17 @@
 
 #include <quack/append.h>
 
+#include <list/raw_assertion/append.h>
+
 #include "assertion/new.h"
+#include "assertion/free.h"
 
 #include "assertion.h"
 
 #include "parse.h"
 
 void process_assertion(
-	struct quack* assertions,
+	struct raw_assertion_list* assertions,
 	struct zebu_assertion* assertion)
 {
 	ENTER;
@@ -26,7 +29,11 @@ void process_assertion(
 	else if (assertion->error)
 		kind = ak_error;
 	
-	quack_append(assertions, new_raw_assertion(kind, assertion->expression));
+	struct raw_assertion* rassertion = new_raw_assertion(kind, assertion->expression);
+	
+	raw_assertion_list_append(assertions, rassertion);
+	
+	free_raw_assertion(rassertion);
 	
 	EXIT;
 }

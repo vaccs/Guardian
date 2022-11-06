@@ -9,6 +9,8 @@ struct raw_assertion
 	enum assertion_kind kind;
 	
 	struct zebu_expression* expression; // owned. free when done.
+	
+	unsigned refcount;
 };
 
 #endif

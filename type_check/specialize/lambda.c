@@ -31,6 +31,14 @@
 #include <list/parameter/append.h>
 #include <list/parameter/free.h>
 
+#include <capture/new.h>
+#include <capture/free.h>
+
+#include <list/capture/new.h>
+#include <list/capture/append.h>
+#include <list/capture/is_nonempty.h>
+#include <list/capture/free.h>
+
 #include <type_cache/get_type/lambda.h>
 
 #include <expression/struct.h>	
@@ -57,10 +65,7 @@ struct expression* specialize_lambda_expression(
 	
 	if (zexpression->base)
 	{
-		TODO;
-		#if 0
 		retval = specialize_conditional_expression(tcache, sshared, zexpression->base);
-		#endif
 	}
 	else if (zexpression->lambda)
 	{
@@ -120,10 +125,49 @@ struct expression* specialize_lambda_expression(
 			TODO;
 			exit(1);
 		}
-		else if (unresolved_is_nonempty(zexpression->lambda_captures))
+		
+		struct capture_list* captures = new_capture_list();
+		
+		unresolved_foreach5(zexpression->lambda_captures, ({
+			void runme(
+				struct string* name,
+				enum variable_expression_kind kind,
+				struct type* type,
+				struct value* value)
+			{
+				if (!value)
+				{
+					switch (kind)
+					{
+						case vek_parameter:
+						case vek_captured:
+						{
+							struct capture* capture = new_capture(name, kind, type);
+							
+							capture_list_append(captures, capture);
+							
+							free_capture(capture);
+							break;
+						}
+						
+						case vek_declare:
+						case vek_grammar_rule:
+							break;
+						
+						default:
+							TODO;
+							break;
+					}
+				}
+			}
+			runme;
+		}));
+		
+		// if (capture_list_is_nonempty(captures))
 		{
-			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, zexpression->lambda_captures, body);
+			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, captures, body);
 		}
+		#if 0
 		else
 		{
 			struct value* new = new_lambda_value(type, parameters, NULL, body);
@@ -132,6 +176,9 @@ struct expression* specialize_lambda_expression(
 			
 			free_value(new);
 		}
+		#endif
+		
+		free_capture_list(captures);
 		
 		free_type_list(parameter_types);
 		

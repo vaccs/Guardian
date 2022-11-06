@@ -17,5 +17,5 @@ bin/debug-build/yes-verbose/./type/list/free.o: type/list/free.c debug.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/list/../free.h type/list/struct.h \
- type/list/../struct.h type/list/../kind.h type/list/free.h
+ type/list/../free.h type/list/struct.h type/list/../struct.h \
+ type/list/../kind.h type/list/free.h

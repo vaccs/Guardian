@@ -17,10 +17,10 @@ bin/test-build/yes-verbose/./type_check/specialize/equality.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/parse.h expression/literal/struct.h \
- expression/literal/../struct.h expression/literal/../kind.h \
- expression/literal/new.h expression/comparison/new.h \
- expression/comparison/kind.h expression/free.h value/bool/new.h \
- value/compare.h value/free.h type_cache/get_type/bool.h type/free.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h parse/parse.h \
+ expression/literal/struct.h expression/literal/../struct.h \
+ expression/literal/../kind.h expression/literal/new.h \
+ expression/comparison/new.h expression/comparison/kind.h \
+ expression/free.h value/bool/new.h value/compare.h value/free.h \
+ type_cache/get_type/bool.h type/free.h \
  type_check/specialize/relational.h type_check/specialize/equality.h

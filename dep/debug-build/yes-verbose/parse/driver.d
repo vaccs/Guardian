@@ -17,6 +17,6 @@ bin/debug-build/yes-verbose/./parse/driver.o: parse/driver.c debug.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h misc/break_and_open_path.h lex/add_EOF_token.h \
- parse/skip.h parse/start.h parse/parse.h parse/driver.h parse/grammar.h \
+ misc/break_and_open_path.h lex/add_EOF_token.h parse/skip.h \
+ parse/start.h parse/parse.h parse/driver.h parse/grammar.h \
  parse/declare.h parse/assertion.h

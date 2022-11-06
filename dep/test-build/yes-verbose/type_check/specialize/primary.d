@@ -17,11 +17,11 @@ bin/test-build/yes-verbose/./type_check/specialize/primary.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/parse.h type/struct.h type/kind.h \
- builtin/map/evaluate.h list/expression/struct.h list/expression/new.h \
- list/expression/append.h list/expression/free.h expression/struct.h \
- expression/kind.h expression/variable/new.h expression/variable/kind.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h parse/parse.h \
+ type/struct.h type/kind.h builtin/map/evaluate.h \
+ list/expression/struct.h list/expression/new.h list/expression/append.h \
+ list/expression/free.h expression/struct.h expression/kind.h \
+ expression/variable/new.h expression/variable/kind.h \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/new.h expression/len/new.h expression/list/new.h \
  expression/sum/new.h expression/parenthesis/new.h expression/map/new.h \

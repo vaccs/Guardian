@@ -17,8 +17,7 @@ bin/test-build/yes-verbose/./expression/fieldaccess/evaluate.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h value/struct.h value/kind.h \
- value/integer/new.h expression/fieldaccess/../evaluate.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h value/struct.h \
+ value/kind.h value/integer/new.h expression/fieldaccess/../evaluate.h \
  expression/fieldaccess/struct.h expression/fieldaccess/../struct.h \
  expression/fieldaccess/../kind.h expression/fieldaccess/evaluate.h

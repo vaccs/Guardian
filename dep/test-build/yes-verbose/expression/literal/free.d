@@ -17,7 +17,6 @@ bin/test-build/yes-verbose/./expression/literal/free.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h value/free.h expression/literal/struct.h \
- expression/literal/../struct.h expression/literal/../kind.h \
- expression/literal/free.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h value/free.h \
+ expression/literal/struct.h expression/literal/../struct.h \
+ expression/literal/../kind.h expression/literal/free.h

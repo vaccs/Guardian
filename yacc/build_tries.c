@@ -147,35 +147,9 @@ void build_tries(
 		avl_insert(named_tries, new);
 	}
 	
-	#ifdef VERBOSE
-	unsigned completed = 0;
-	
-	void handler1(int _)
-	{
-		char buffer[1000] = {};
-		
-		unsigned total = completed + quack_len(explore);
-		
-		size_t len = snprintf(buffer, sizeof(buffer),
-			"\e[K" "zebu: building tries (explore): %u of %u (%.2f%%)\r",
-				completed, total, (double) completed * 100 / total);
-		
-		if (write(1, buffer, len) != len)
-		{
-			abort();
-		}
-	}
-	
-	signal(SIGALRM, handler1);
-	#endif
-	
 	// explore:
 	while (quack_is_nonempty(explore))
 	{
-		#ifdef VERBOSE
-		completed++;
-		#endif
-		
 		struct gegex* state = quack_pop(explore);
 		
 		void process_to(struct gegex* to)
@@ -211,41 +185,11 @@ void build_tries(
 		{
 			process_to(state->grammars.data[i]->to);
 		}
-		
-		#ifdef DOTOUT
-		explore_dotout(start, seen, gegex_to_trie, state);
-		#endif
 	}
-	
-	#ifdef VERBOSE
-	completed = 0;
-	
-	void handler2(int _)
-	{
-		char buffer[1000] = {};
-		
-		unsigned total = completed + quack_len(expand);
-		
-		size_t len = snprintf(buffer, sizeof(buffer),
-			"\e[K" "zebu: building tries (expand): %u of %u (%.2f%%)\r",
-				completed, total, (double) completed * 100 / total);
-		
-		if (write(1, buffer, len) != len)
-		{
-			abort();
-		}
-	}
-	
-	signal(SIGALRM, handler2);
-	#endif
 	
 	// we have one pass that fills-out all the tries:
 	while (quack_is_nonempty(expand))
 	{
-		#ifdef VERBOSE
-		completed++;
-		#endif
-		
 		struct expand_bundle* bundle = quack_pop(expand);
 		
 		void expand_helper(
@@ -331,16 +275,8 @@ void build_tries(
 		
 		expand_helper(bundle->trie, bundle->gegex, NULL);
 		
-		#ifdef DOTOUT
-		expand_dotout(bundle->trie);
-		#endif
-		
 		free(bundle);
 	}
-	
-	#if VERBOSE
-	signal(SIGALRM, default_sighandler);
-	#endif
 	
 	avl_free_tree(gegex_to_trie);
 	

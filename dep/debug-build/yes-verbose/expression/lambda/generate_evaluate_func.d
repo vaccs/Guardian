@@ -17,11 +17,10 @@ bin/debug-build/yes-verbose/./expression/lambda/generate_evaluate_func.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/struct.h type/kind.h type/lambda/struct.h \
- type/lambda/../struct.h list/parameter/foreach.h out/shared.h \
- out/subtype_queue/submit.h out/type_queue/submit.h \
- expression/print_source.h type_check/unresolved/foreach.h \
- expression/variable/kind.h expression/lambda/struct.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h type/struct.h \
+ type/kind.h type/lambda/struct.h type/lambda/../struct.h \
+ list/parameter/foreach.h out/shared.h out/subtype_queue/submit.h \
+ out/type_queue/submit.h expression/print_source.h \
+ list/capture/is_nonempty.h expression/lambda/struct.h \
  expression/lambda/../struct.h expression/lambda/../kind.h \
  expression/lambda/generate_evaluate_func.h

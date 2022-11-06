@@ -17,15 +17,16 @@ bin/debug-build/yes-verbose/./type_check/specialize/lambda.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/parse.h named/type/new.h \
- named/type/compare.h named/type/free.h type/free.h value/lambda/new.h \
- value/free.h parameter/new.h parameter/free.h list/type/new.h \
- list/type/append.h list/type/free.h list/parameter/new.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h parse/parse.h \
+ named/type/new.h named/type/compare.h named/type/free.h type/free.h \
+ value/lambda/new.h value/free.h parameter/new.h parameter/free.h \
+ list/type/new.h list/type/append.h list/type/free.h list/parameter/new.h \
  list/parameter/is_nonempty.h list/parameter/append.h \
- list/parameter/free.h expression/struct.h expression/kind.h \
- expression/lambda/new.h expression/literal/new.h expression/free.h \
- type_check/specialize/../unresolved/foreach.h expression/variable/kind.h \
+ list/parameter/free.h capture/new.h expression/variable/kind.h \
+ capture/free.h list/capture/new.h list/capture/append.h \
+ list/capture/is_nonempty.h list/capture/free.h expression/struct.h \
+ expression/kind.h expression/lambda/new.h expression/literal/new.h \
+ expression/free.h type_check/specialize/../unresolved/foreach.h \
  type_check/specialize/../unresolved/is_nonempty.h \
  type_check/specialize/../build_type.h type_check/specialize/shared.h \
  type_check/specialize/conditional.h type_check/specialize/lambda.h

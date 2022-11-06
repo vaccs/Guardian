@@ -17,5 +17,4 @@ bin/debug-build/yes-verbose/./gegex/grammar/free.o: gegex/grammar/free.c \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h yacc/structinfo/free.h gegex/grammar/struct.h \
- gegex/grammar/free.h
+ yacc/structinfo/free.h gegex/grammar/struct.h gegex/grammar/free.h

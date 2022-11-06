@@ -15,7 +15,7 @@
 #include <expression/ternary/new.h>
 
 #include "expression.h"
-#include "logical_or.h"
+#include "implication.h"
 #include "conditional.h"
 
 struct expression* specialize_conditional_expression(
@@ -28,9 +28,7 @@ struct expression* specialize_conditional_expression(
 	
 	if (zexpression->qmark)
 	{
-		TODO;
-		#if 0
-		struct expression* conditional = specialize_logical_or_expression(tcache, zexpression->base);
+		struct expression* conditional = specialize_implication_expression(tcache, sshared, zexpression->base);
 		
 		if (conditional->type->kind != tk_bool)
 		{
@@ -38,14 +36,16 @@ struct expression* specialize_conditional_expression(
 			exit(1);
 		}
 		
-		struct expression* true_case = specialize_expression(tcache, zexpression->true_case);
+		struct expression* true_case = specialize_expression(tcache, sshared, zexpression->true_case);
 		
-		struct expression* false_case = specialize_conditional_expression(tcache, zexpression->false_case);
+		struct expression* false_case = specialize_conditional_expression(tcache, sshared, zexpression->false_case);
 		
 		if (true_case->type != false_case->type)
 		{
-			fprintf(stderr, "maia: incompatiable data types in true and false case of "
-				"ternary: \n\t(");
+			fprintf(stderr, ""
+				"%s: incompatiable data types in true and false case of ternary:"
+				"\n\t("
+			"", argv0);
 			
 			type_print(true_case->type);
 			printf(") ");
@@ -57,19 +57,22 @@ struct expression* specialize_conditional_expression(
 			exit(1);
 		}
 		
-		retval = new_ternary_expression(true_case->type, conditional, true_case, false_case);
+		if (conditional->kind == ek_literal)
+		{
+			TODO;
+		}
+		else
+		{
+			retval = new_ternary_expression(true_case->type, conditional, true_case, false_case);
+		}
 		
 		free_expression(conditional);
 		free_expression(true_case);
 		free_expression(false_case);
-		#endif
 	}
 	else
 	{
-		TODO;
-		#if 0
-		retval = specialize_logical_or_expression(tcache, sshared, zexpression->base);
-		#endif
+		retval = specialize_implication_expression(tcache, sshared, zexpression->base);
 	}
 	
 	EXIT;

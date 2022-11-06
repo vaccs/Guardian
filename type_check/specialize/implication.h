@@ -1,9 +1,5 @@
 
-struct type_cache;
-struct specialize_shared;
-struct zebu_expression;
-
 struct expression* specialize_implication_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
-	struct zebu_expression* zexpression);
+	struct zebu_implication_expression* zexpression);

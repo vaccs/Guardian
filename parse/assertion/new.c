@@ -18,6 +18,8 @@ struct raw_assertion* new_raw_assertion(
 	
 	this->expression = inc_zebu_expression(expression);
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }

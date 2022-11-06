@@ -17,9 +17,9 @@ bin/test-build/yes-verbose/./expression/int_math/new.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/free.h expression/int_math/../new.h \
- expression/int_math/../kind.h expression/int_math/../inc.h \
- expression/int_math/struct.h expression/int_math/../struct.h \
- expression/int_math/kind.h expression/int_math/inheritance.h \
- expression/int_math/../inheritance.h expression/int_math/new.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h type/free.h \
+ expression/int_math/../new.h expression/int_math/../kind.h \
+ expression/int_math/../inc.h expression/int_math/struct.h \
+ expression/int_math/../struct.h expression/int_math/kind.h \
+ expression/int_math/inheritance.h expression/int_math/../inheritance.h \
+ expression/int_math/new.h

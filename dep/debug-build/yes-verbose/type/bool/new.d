@@ -17,6 +17,6 @@ bin/debug-build/yes-verbose/./type/bool/new.o: type/bool/new.c debug.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/bool/../new.h type/bool/../kind.h \
- type/bool/inheritance.h type/bool/../inheritance.h type/bool/struct.h \
- type/bool/../struct.h type/bool/new.h
+ type/bool/../new.h type/bool/../kind.h type/bool/inheritance.h \
+ type/bool/../inheritance.h type/bool/struct.h type/bool/../struct.h \
+ type/bool/new.h

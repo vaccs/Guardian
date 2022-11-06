@@ -19,51 +19,62 @@ struct stringtree* ternary_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == ek_ternary);
+	
 	struct ternary_expression* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
-	struct expression* list = this->list;
-	
 	struct type* rtype = super->type;
 	
-	struct type* ltype = list->type;
-	
 	type_queue_submit(shared->tqueue, rtype);
-	type_queue_submit(shared->tqueue, ltype);
 	
-	unsigned rtype_id = rtype->id;
-	unsigned ltype_id = ltype->id;
+	struct type* btype = this->conditional->type;
+	
+	type_queue_submit(shared->tqueue, btype);
 	
 	stringtree_append_printf(tree, ""
 		"({"
-			"type_%u* list = "
-	"", ltype_id);
+			"struct type_%u* conditional = "
+	"", btype->id);
 	
-	struct stringtree* expression = expression_print_source(this->list, shared);
+	struct stringtree* conditional = expression_print_source(this->conditional, shared);
 	
-	stringtree_append_tree(tree, expression);
-	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, rtype);
-	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
+	stringtree_append_tree(tree, conditional);
 	
 	stringtree_append_printf(tree, ""
-			";"
-			"type_%u* ternary = func_%u();"
-			"mpz_set_ui(ternary->value, list->n);"
-			"func_%u(list);"
-			"ternary;"
-		"})"
-	"", rtype_id, new_id, free_id);
+		";"
+	"");
 	
-	free_stringtree(expression);
+	stringtree_append_printf(tree, ""
+		"struct type_%u* result = conditional->value ? ("
+	"", rtype->id);
+	
+	struct stringtree* true_case = expression_print_source(this->true_case, shared);
+	
+	stringtree_append_tree(tree, true_case);
+	
+	stringtree_append_printf(tree, ") : (");
+	
+	struct stringtree* false_case = expression_print_source(this->false_case, shared);
+	
+	stringtree_append_tree(tree, false_case);
+	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, btype);
+	
+	stringtree_append_printf(tree, ""
+				");"
+			"func_%u(conditional);"
+			"result;"
+		"})"
+	"", free_id);
+	
+	free_stringtree(conditional);
+	free_stringtree(true_case);
+	free_stringtree(false_case);
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

@@ -7,6 +7,7 @@
 #include <type/generate_inc_func.h>
 #include <type/generate_inc_forward.h>
 #include <type/generate_compare_func.h>
+#include <type/generate_compare_forward.h>
 #include <type/generate_free_func.h>
 #include <type/generate_free_forward.h>
 
@@ -53,13 +54,20 @@ void function_queue_process(
 					subtext = type_generate_inc_forward(fdata->type, fdata->id);
 					break;
 				
+				case fk_compare:
+					subtext = type_generate_compare_forward(fdata->type, fdata->id);
+					break;
+				
 				case fk_free:
 					subtext = type_generate_free_forward(fdata->type, fdata->id);
 					break;
 				
 				default:
+				{
+					dpv(fdata->kind);
 					TODO;
 					break;
+				}
 			}
 		}
 		else

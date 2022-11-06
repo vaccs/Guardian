@@ -3,21 +3,11 @@
 
 number: /int: ['0'-'9']+/ #value;
 
-// %start: number{3};
-%start: number number number;
+%start: number;
 
-_1 = 1;
-_2 = 1;
-_3 = _1 + _2;
-_4 = _2 + _3;
-_5 = _3 + _4;
+x = number[0].value;
 
-a = number[0].value;
-b = number[1].value;
-
-x = number[2].value;
-
-fib = $int x -> int: x == 0 ? a : x == 1 ? b : fib(x - 1) + fib(x - 2);
+fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
 
 %error: fib(x) > 30;
 

@@ -22,6 +22,8 @@ void unresolved_update(
 {
 	ENTER;
 	
+	assert(a != b);
+	
 	struct avl_node_t* an = a->tree->head;
 	struct avl_node_t* bn = b->tree->head;
 	

@@ -18,6 +18,5 @@ bin/test-build/yes-verbose/./type_check/specialize/possession.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/has/new.h expression/free.h \
- parse/parse.h type_check/specialize/inclusion.h \
- type_check/specialize/possession.h
+ expression/has/new.h expression/free.h parse/parse.h \
+ type_check/specialize/inclusion.h type_check/specialize/possession.h

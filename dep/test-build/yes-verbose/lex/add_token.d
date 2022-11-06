@@ -16,8 +16,7 @@ bin/test-build/yes-verbose/./lex/add_token.o: lex/add_token.c debug.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h regex/set_kind.h regex/free.h \
- lex/token_to_id_node/struct.h lex/token_to_id_node/new.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h regex/set_kind.h \
+ regex/free.h lex/token_to_id_node/struct.h lex/token_to_id_node/new.h \
  lex/id_to_token_node/struct.h lex/id_to_token_node/new.h lex/struct.h \
  lex/add_token.h

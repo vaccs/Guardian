@@ -62,10 +62,10 @@ shift_expression
 
 relational_expression
 	: shift_expression #base
-	| relational_expression #left '<'  shift_expression #right
-	| relational_expression #left '>'  shift_expression #right
-	| relational_expression #left "<=" shift_expression #right
-	| relational_expression #left ">=" shift_expression #right
+	| relational_expression #left '<'  #lt  shift_expression #right
+	| relational_expression #left '>'  #gt  shift_expression #right
+	| relational_expression #left "<=" #lte shift_expression #right
+	| relational_expression #left ">=" #gte shift_expression #right
 	;
 
 equality_expression

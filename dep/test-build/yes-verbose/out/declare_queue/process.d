@@ -18,8 +18,9 @@ bin/test-build/yes-verbose/./out/declare_queue/process.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h named/expression/struct.h expression/struct.h \
- expression/kind.h expression/print_source.h type/struct.h type/kind.h \
- out/declare_queue/../shared.h out/declare_queue/../type_queue/submit.h \
+ named/expression/struct.h expression/struct.h expression/kind.h \
+ expression/print_source.h type/struct.h type/kind.h declaration/struct.h \
+ list/declaration/struct.h out/declare_queue/../shared.h \
+ out/declare_queue/../type_queue/submit.h \
  out/declare_queue/../function_queue/submit_free.h \
  out/declare_queue/struct.h out/declare_queue/process.h

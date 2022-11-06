@@ -88,6 +88,52 @@ void unresolved_foreach3(
 	EXIT;
 }
 
+void unresolved_foreach4(
+	const struct unresolved* this,
+	void (*runme)(
+		struct string* name,
+		enum variable_expression_kind kind,
+		struct type* type))
+{
+	ENTER;
+	
+	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
+	{
+		struct unresolved_node* ele = node->item;
+		
+		struct zebu_primary_expression* use = zpexpressionset_is_nonempty(ele->layers.current)
+			? zpexpressionset_get_head(ele->layers.current)
+			: zpexpressionset_get_head(ele->layers.deeper);
+		
+		runme(ele->name, use->kind, use->type);
+	}
+	
+	EXIT;
+}
+
+void unresolved_foreach5(
+	const struct unresolved* this,
+	void (*runme)(
+		struct string* name,
+		enum variable_expression_kind kind,
+		struct type* type,
+		struct value* value))
+{
+	ENTER;
+	
+	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
+	{
+		struct unresolved_node* ele = node->item;
+		
+		struct zebu_primary_expression* use = zpexpressionset_is_nonempty(ele->layers.current)
+			? zpexpressionset_get_head(ele->layers.current)
+			: zpexpressionset_get_head(ele->layers.deeper);
+		
+		runme(ele->name, use->kind, use->type, use->value);
+	}
+	
+	EXIT;
+}
 
 
 

@@ -23,7 +23,7 @@ struct stringtree* bool_type_generate_new_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static struct type_%u* func_%u(bool value) {"
+		"struct type_%u* func_%u(bool value) {"
 			"struct type_%u* this = malloc(sizeof(*this));"
 			"this->value = value;"
 			"this->refcount = 1;"

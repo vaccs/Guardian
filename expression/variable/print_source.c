@@ -28,9 +28,9 @@ struct stringtree* variable_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
+	
+	type_queue_submit(shared->tqueue, super->type);
 	
 	struct variable_expression* this = (void*) super;
 	
@@ -38,29 +38,38 @@ struct stringtree* variable_expression_print_source(
 	
 	switch (this->kind)
 	{
-		case vek_parameter:
-			break;
-		
 		case vek_captured:
+		{
+			TODO;
 			break;
+		}
 		
+		case vek_parameter:
 		case vek_declare:
-		case vek_forward:
-			declare_queue_submit(shared->dqueue, this->name);
-			break;
-		
 		case vek_grammar_rule:
-			set_queue_submit(shared->squeue, this->name);
+		{
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, ""
+				"func_%u($%.*s)"
+			"", inc_id, this->name->len, this->name->chars);
 			break;
+		}
 		
 		default:
 			TODO;
 			break;
 	}
 	
-	type_queue_submit(shared->tqueue, super->type);
+	EXIT;
+	return tree;
+}
+
+
+
+
+	#if 0
 	
-	unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
 	
 	if (this->kind == vek_captured)
 	{
@@ -78,11 +87,6 @@ struct stringtree* variable_expression_print_source(
 	EXIT;
 	return tree;
 	#endif
-}
-
-
-
-
 
 
 

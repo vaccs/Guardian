@@ -17,13 +17,13 @@ bin/debug-build/yes-verbose/./out/function_queue/process.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/struct.h type/kind.h \
- type/generate_new_func.h type/generate_new_forward.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h type/struct.h \
+ type/kind.h type/generate_new_func.h type/generate_new_forward.h \
  type/generate_inc_func.h type/generate_inc_forward.h \
- type/generate_compare_func.h type/generate_free_func.h \
- type/generate_free_forward.h type/list/generate_index_func.h \
- type/list/generate_append_func.h expression/lambda/generate_new_func.h \
+ type/generate_compare_func.h type/generate_compare_forward.h \
+ type/generate_free_func.h type/generate_free_forward.h \
+ type/list/generate_index_func.h type/list/generate_append_func.h \
+ expression/lambda/generate_new_func.h \
  expression/lambda/generate_evaluate_func.h \
  expression/lambda/generate_free_func.h value/lambda/generate_new_func.h \
  value/lambda/generate_evaluate_func.h \

@@ -17,6 +17,6 @@ bin/test-build/yes-verbose/./gegex/add_grammar_transition.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h gegex/struct.h gegex/add_grammar_transition.h \
- gegex/grammar/struct.h gegex/grammar/new.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h gegex/struct.h \
+ gegex/add_grammar_transition.h gegex/grammar/struct.h \
+ gegex/grammar/new.h

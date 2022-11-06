@@ -17,6 +17,6 @@ bin/test-build/yes-verbose/./value/lambda/free.o: value/lambda/free.c \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h list/parameter/free.h expression/free.h \
- scope/free.h value/lambda/struct.h value/lambda/../struct.h \
- value/lambda/../kind.h value/lambda/free.h
+ list/parameter/free.h expression/free.h scope/free.h \
+ value/lambda/struct.h value/lambda/../struct.h value/lambda/../kind.h \
+ value/lambda/free.h

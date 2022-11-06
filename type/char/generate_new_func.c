@@ -24,7 +24,7 @@ struct stringtree* char_type_generate_new_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static type_%u* func_%u() {"
+		"type_%u* func_%u() {"
 			"type_%u* this = malloc(sizeof(*this));"
 			"mpz_init(this->value);"
 			"this->refcount = 1;"

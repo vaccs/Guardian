@@ -18,16 +18,21 @@ bin/test-build/yes-verbose/./type_check/type_check.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/struct.h expression/kind.h \
- expression/literal/struct.h expression/literal/../struct.h \
- named/type/struct.h named/expression/new.h named/expression/compare.h \
- named/expression/free.h named/zebu_expression/struct.h named/type/new.h \
- named/type/compare.h named/type/free.h list/zebu_expression/new.h \
+ expression/struct.h expression/kind.h expression/print.h \
+ expression/inc.h expression/literal/struct.h \
+ expression/literal/../struct.h expression/free.h named/type/struct.h \
+ named/expression/struct.h named/expression/new.h \
+ named/expression/compare.h named/expression/free.h \
+ named/zebu_expression/struct.h assertion/new.h enums/assertion_kind.h \
+ assertion/free.h named/type/new.h named/type/compare.h named/type/free.h \
+ list/assertion/append.h list/zebu_expression/new.h \
  list/zebu_expression/append.h list/zebu_expression/free.h \
- type_check/unresolved/new.h type_check/unresolved/inc.h \
- type_check/unresolved/discard.h type_check/unresolved/resolve.h \
- expression/variable/kind.h type_check/unresolved/foreach.h \
- type_check/unresolved/free.h type_check/specialize/expression.h \
- type_check/specialize/shared.h type_check/determine_type/expression.h \
- type_check/resolve_variables.h type_check/determine_direct_uses.h \
- type_check/type_check.h
+ list/string/foreach.h list/raw_assertion/foreach.h \
+ list/declaration/append.h declaration/new.h declaration/free.h \
+ parse/assertion/struct.h type_check/unresolved/new.h \
+ type_check/unresolved/inc.h type_check/unresolved/discard.h \
+ type_check/unresolved/resolve.h expression/variable/kind.h \
+ type_check/unresolved/foreach.h type_check/unresolved/free.h \
+ type_check/specialize/expression.h type_check/specialize/shared.h \
+ type_check/determine_type/expression.h type_check/resolve_variables.h \
+ type_check/determine_direct_uses.h type_check/type_check.h

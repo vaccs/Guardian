@@ -16,6 +16,8 @@
 
 #include <type_cache/get_type/grammar.h>
 
+#include <list/assertion/foreach.h>
+
 #include "ystate_to_id/new.h"
 #include "ystate_to_id/ystate_to_id.h"
 #include "ystate_to_id/free.h"
@@ -80,9 +82,9 @@
 struct stringtree* out(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
-	struct avl_tree_t* forwards,
-	struct avl_tree_t* declares,
-	struct quack* assertions,
+	struct stringset* grammar_sets,
+	struct declaration_list* declarations,
+	struct assertion_list* assertions,
 	struct yacc_state* yacc_start)
 {
 	ENTER;
@@ -244,17 +246,15 @@ struct stringtree* out(
 	
 	shared.fqueue = new_function_queue();
 	
-	shared.squeue = new_set_queue();
+	struct set_queue* squeue = new_set_queue();
 	
-	shared.dqueue = new_declare_queue();
+	struct declare_queue* dqueue = new_declare_queue();
 	
 	struct stringtree* assertions_text = new_stringtree();
 	
-	quack_foreach(assertions, ({
-		void runme(void* ptr)
+	assertion_list_foreach(assertions, ({
+		void runme(struct assertion* assertion)
 		{
-			struct assertion* assertion = ptr;
-			
 			struct stringtree* text = assertion_print_source(assertion, &shared);
 			
 			stringtree_append_tree(assertions_text, text);
@@ -264,38 +264,27 @@ struct stringtree* out(
 		runme;
 	}));
 	
-	declare_queue_process(shared.dqueue, forwards, declares, &shared);
+	declare_queue_process(dqueue, declarations, &shared);
 	
-	set_queue_process(shared.squeue, tcache, grammar_types, &shared);
+	set_queue_process(squeue, grammar_types, grammar_sets, &shared);
 	
-	struct stringtree* reductionrules_text = reducerule_to_id_print_source(tcache, rrtoi, stoi, &shared);
+	struct stringtree* reductionrules_text = reducerule_to_id_print_source(rrtoi, stoi, grammar_sets, &shared);
 	
 	struct stringtree* free_start_text = new_stringtree();
 	
+	struct string* start_string = new_string("$start", 6);
+	
 	{
-		struct string* name = new_string("$start", 6);
-		struct type* type = type_cache_get_grammar_type(tcache, name);
+		struct type* type = type_cache_get_grammar_type(tcache, start_string);
 		unsigned free_id = function_queue_submit_free(shared.fqueue, type);
 		stringtree_append_printf(free_start_text, "func_%u", free_id);
-		free_string(name);
 	}
 	
 	function_queue_process(shared.fqueue, &shared);
 	
-	// maybe a forwar-declare queue?
-	
 	subtype_queue_process(shared.stqueue, shared.tqueue);
 	
 	type_queue_process(shared.tqueue);
-	
-	#if 0
-	struct stringtree* reduction_rules_text = new_stringtree();
-	
-	// generate reduction-rule text
-	// if grammar name is in list of needed sets, add code for appending to
-		// set-list
-	TODO;
-	#endif
 	
 	struct stringtree* root = new_stringtree();
 	
@@ -356,9 +345,7 @@ struct stringtree* out(
 			}
 			else if (!strncmp(old, "START_GRAMMAR_ID", len))
 			{
-				struct string* start = new_string("$start", 6);
-				stringtree_append_printf(root, "%u", string_to_id(stoi, start));
-				free_string(start);
+				stringtree_append_printf(root, "%u", string_to_id(stoi, start_string));
 			}
 			else if (!strncmp(old, "FREE_START", len))
 			{
@@ -380,25 +367,29 @@ struct stringtree* out(
 			{
 				stringtree_append_tree(root, shared.fqueue->text);
 			}
-			else if (!strncmp(old, "FORWARD_DECLARES", len))
-			{
-				stringtree_append_tree(root, shared.dqueue->forward_text);
-			}
 			else if (!strncmp(old, "INIT_DECLARES", len))
 			{
-				stringtree_append_tree(root, shared.dqueue->init_text);
+				stringtree_append_tree(root, dqueue->init_text);
+			}
+			else if (!strncmp(old, "ASSIGN_DECLARES", len))
+			{
+				stringtree_append_tree(root, dqueue->assign_text);
 			}
 			else if (!strncmp(old, "UNINIT_DECLARES", len))
 			{
-				stringtree_append_tree(root, shared.dqueue->uninit_text);
+				stringtree_append_tree(root, dqueue->uninit_text);
 			}
 			else if (!strncmp(old, "INIT_SETS", len))
 			{
-				stringtree_append_tree(root, shared.squeue->init_text);
+				stringtree_append_tree(root, squeue->init_text);
+			}
+			else if (!strncmp(old, "ASSIGN_SETS", len))
+			{
+				stringtree_append_tree(root, squeue->assign_text);
 			}
 			else if (!strncmp(old, "UNINIT_SETS", len))
 			{
-				stringtree_append_tree(root, shared.squeue->uninit_text);
+				stringtree_append_tree(root, squeue->uninit_text);
 			}
 			else if (!strncmp(old, "ASSERTIONS", len))
 			{
@@ -416,7 +407,11 @@ struct stringtree* out(
 		stringtree_append_strndup(root, last, end - last);
 	}
 	
+	free_string(start_string);
+	
 	free_stringtree(reductionrules_text);
+	
+	free_stringtree(free_start_text);
 	
 	free_type_queue(shared.tqueue);
 	
@@ -424,9 +419,9 @@ struct stringtree* out(
 	
 	free_function_queue(shared.fqueue);
 	
-	free_set_queue(shared.squeue);
+	free_set_queue(squeue);
 	
-	free_declare_queue(shared.dqueue);
+	free_declare_queue(dqueue);
 	
 	free_stringtree(assertions_text);
 	
@@ -460,78 +455,3 @@ struct stringtree* out(
 	return root;
 }
 
-#if 0
-
-	ptrset_foreach(assertions, ({
-		void runme(void* ptr)
-		{
-			ENTER;
-			
-			struct stringtree* sub = assertion_print_source(ptr, shared);
-			
-			stringtree_append_tree(root, sub);
-			
-			EXIT;
-		}
-		runme;
-	}));
-	#endif
-
-	// generate output (in some kind of string-builder data structure):
-		// needs some kind of variable-name generator to be passed around
-		
-		// start with the assertions:
-			// generate their source code
-			// based on what they need:
-				// add used types to type source-generation queue
-				// add used declares to value-declare source-generation queue
-		
-		// for all declares:
-			// (prepend) their generated source code
-			// based on what they need:
-				// add used types to type source-generation queue
-				// add used declares to value-declare source-generation queue
-		
-		// generate source code for parser:
-			// create sets for each kind of grammar-rule
-			// insert code for reduction rules
-		
-		// for all types:
-			// (prepend) their generated source code
-			// based on what they need:
-				// add used types to type source-generation queue
-			
-	
-	
-	#if 0
-	// print source for all types
-	
-	// print source for parser and set-building
-	
-	// print source for value-declares
-	
-	// boolean, integers, float, and char types become `bool`, `float`, `int`, and `char`
-	
-	// lists become a typed-pointer with a reference-count
-	// lambdas become a struct:
-		// with a reference-count
-		// with a function-pointer
-		// and a struct of "captured" values
-		// first parameter of function-pointer is the struct
-	
-	// if other code-generating stuff sees its invoking a lambda literal
-	// the lambda can be inlined.
-	
-	// iterate through assertions, generating their code.
-		// for every global value or named-lambda that' used, add them to
-		// the todo for code generation, their code will be prepended.
-		// for any structs that are used, add the to todo, their code will
-		// be prepended before both.
-		
-		// in the file:
-			// 0. structs
-			// 1. parsing and set-building
-			// 2. globals and lambdas
-			// 3. assertions
-	#endif
-	

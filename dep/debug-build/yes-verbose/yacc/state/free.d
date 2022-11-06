@@ -16,7 +16,6 @@ bin/debug-build/yes-verbose/./yacc/state/free.o: yacc/state/free.c \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h lex/state/free.h set/unsigned/free.h \
- yacc/reductioninfo/free.h yacc/structinfo/free.h yacc/state/struct.h \
- yacc/state/free.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h lex/state/free.h \
+ set/unsigned/free.h yacc/reductioninfo/free.h yacc/structinfo/free.h \
+ yacc/state/struct.h yacc/state/free.h

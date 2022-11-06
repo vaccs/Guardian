@@ -17,9 +17,9 @@ bin/test-build/yes-verbose/./gegex/nfa_to_dfa.o: gegex/nfa_to_dfa.c \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h set/ptr/compare.h set/unsigned/new.h \
- set/unsigned/update.h set/unsigned/free.h yacc/structinfo/new.h \
- yacc/structinfo/update.h yacc/structinfo/free.h heap/head.h \
- gegex/struct.h gegex/new.h gegex/nfa_to_dfa.h gegex/gbundle.h \
- gegex/add_transition.h gegex/add_grammar_transition.h \
- gegex/transition/struct.h gegex/grammar/struct.h
+ set/ptr/compare.h set/unsigned/new.h set/unsigned/update.h \
+ set/unsigned/free.h yacc/structinfo/new.h yacc/structinfo/update.h \
+ yacc/structinfo/free.h heap/head.h gegex/struct.h gegex/new.h \
+ gegex/nfa_to_dfa.h gegex/gbundle.h gegex/add_transition.h \
+ gegex/add_grammar_transition.h gegex/transition/struct.h \
+ gegex/grammar/struct.h

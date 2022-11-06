@@ -17,9 +17,8 @@ bin/debug-build/yes-verbose/./expression/fieldaccess/new.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/inc.h type/free.h \
- expression/fieldaccess/../new.h expression/fieldaccess/../kind.h \
- expression/fieldaccess/inheritance.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h expression/inc.h \
+ type/free.h expression/fieldaccess/../new.h \
+ expression/fieldaccess/../kind.h expression/fieldaccess/inheritance.h \
  expression/fieldaccess/../inheritance.h expression/fieldaccess/struct.h \
  expression/fieldaccess/../struct.h expression/fieldaccess/new.h

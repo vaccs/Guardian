@@ -3,7 +3,8 @@
 
 #include <type/struct.h>
 
-#include <type_check/unresolved/foreach.h>
+#include <list/capture/is_nonempty.h>
+#include <list/capture/foreach.h>
 
 #include <out/shared.h>
 #include <out/subtype_queue/submit.h>
@@ -29,24 +30,34 @@ struct stringtree* lambda_expression_generate_free_func(
 	unsigned lambda_id = this->id;
 	
 	stringtree_append_printf(tree, ""
-		"static void func_%u(struct type_%u* super)"
+		"void func_%u(struct type_%u* super)"
 		"{"
-			"struct subtype_%u* this = (void*) super;"
-	"", func_id, type_id, lambda_id);
+	"", func_id, type_id);
 	
-	unresolved_foreach3(this->captured, ({
-		void runme(struct string* name, struct type* type)
-		{
-			dpvs(name);
+	if (capture_list_is_nonempty(this->captured))
+	{
+		stringtree_append_printf(tree, ""
+			"struct subtype_%u* this = (void*) super;"
+		"", lambda_id);
+		
+		capture_list_foreach(this->captured, ({
+			void runme(struct capture* capture)
+			{
+				TODO;
+				#if 0
+				dpvs(name);
+				
+				unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+				
+				stringtree_append_printf(tree, ""
+					"func_%u(this->$%.*s);"
+				"", free_id, name->len, name->chars);
+				#endif
+			}
 			
-			unsigned free_id = function_queue_submit_free(shared->fqueue, type);
-			
-			stringtree_append_printf(tree, ""
-				"func_%u(this->$%.*s);"
-			"", free_id, name->len, name->chars);
-		}
-		runme;
-	}));
+			runme;
+		}));
+	}
 	
 	stringtree_append_printf(tree, ""
 		"}"

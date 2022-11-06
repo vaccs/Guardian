@@ -32,7 +32,7 @@ struct stringtree* list_type_generate_index_func(
 	unsigned inc_id = function_queue_submit_inc(shared->fqueue, this->element_type);
 	
 	stringtree_append_printf(text, ""
-		"static struct type_%u* func_%u(struct type_%u* list, struct type_%u* index)"
+		"struct type_%u* func_%u(struct type_%u* list, struct type_%u* index)"
 		"{"
 			"unsigned native_index;"
 			""

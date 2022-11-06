@@ -3,7 +3,7 @@
 
 #include <list/parameter/inc.h>
 
-#include <type_check/unresolved/inc.h>
+#include <list/capture/inc.h>
 
 #include "../new.h"
 #include "../inc.h"
@@ -16,7 +16,7 @@ struct expression* new_lambda_expression(
 	struct type* type,
 	unsigned id,
 	struct parameter_list* parameters,
-	struct unresolved* captured,
+	struct capture_list* captured,
 	struct expression* body)
 {
 	ENTER;
@@ -28,7 +28,7 @@ struct expression* new_lambda_expression(
 		sizeof(*this));
 	
 	this->parameters = inc_parameter_list(parameters);
-	this->captured = inc_unresolved(captured);
+	this->captured = inc_capture_list(captured);
 	this->body = inc_expression(body);
 	
 	this->id = id;

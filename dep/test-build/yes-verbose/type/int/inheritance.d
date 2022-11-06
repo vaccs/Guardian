@@ -18,8 +18,8 @@ bin/test-build/yes-verbose/./type/int/inheritance.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h type/int/generate_typedef.h \
- type/int/generate_new_func.h type/int/generate_new_forward.h \
- type/int/generate_compare_func.h type/int/generate_free_func.h \
- type/int/inheritance.h type/int/../inheritance.h type/int/compare.h \
- type/int/print.h type/int/free.h
+ type/int/generate_typedef.h type/int/generate_new_func.h \
+ type/int/generate_new_forward.h type/int/generate_compare_func.h \
+ type/int/generate_free_func.h type/int/inheritance.h \
+ type/int/../inheritance.h type/int/compare.h type/int/print.h \
+ type/int/free.h

@@ -10,6 +10,10 @@
 
 #include <type_check/unresolved/foreach.h>
 
+#include <capture/struct.h>
+
+#include <list/capture/foreach.h>
+
 #include "struct.h"
 #include "print_source.h"
 
@@ -31,14 +35,17 @@ struct stringtree* lambda_expression_print_source(
 		"func_%u("
 	"", new_id);
 	
-	unresolved_foreach2(this->captured, ({
-		void runme(struct string* name, enum variable_expression_kind kind, bool another)
+	capture_list_foreach(this->captured, ({
+		void runme(struct capture* capture)
 		{
-			dpvs(name);
+			dpvs(capture->name);
 			
+			TODO;
+			#if 0
 			switch (kind)
 			{
 				case vek_parameter:
+				case vek_declare:
 					stringtree_append_printf(tree, "$%.*s", name->len, name->chars);
 					break;
 				
@@ -53,6 +60,7 @@ struct stringtree* lambda_expression_print_source(
 			
 			if (another)
 				stringtree_append_printf(tree, ", ");
+			#endif
 		}
 		runme;
 	}));

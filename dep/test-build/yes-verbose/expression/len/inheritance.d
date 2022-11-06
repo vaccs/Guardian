@@ -18,6 +18,6 @@ bin/test-build/yes-verbose/./expression/len/inheritance.o: \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h expression/len/print_source.h \
- expression/len/inheritance.h expression/len/../inheritance.h \
- expression/len/evaluate.h expression/len/print.h expression/len/free.h
+ expression/len/print_source.h expression/len/inheritance.h \
+ expression/len/../inheritance.h expression/len/evaluate.h \
+ expression/len/print.h expression/len/free.h

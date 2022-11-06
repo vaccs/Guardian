@@ -6,8 +6,8 @@ struct declare_queue
 	struct stringset* queued;
 	struct stringset* done;
 	
-	struct stringtree* forward_text;
 	struct stringtree* init_text;
+	struct stringtree* assign_text;
 	struct stringtree* uninit_text;
 };
 

@@ -18,7 +18,7 @@ struct stringtree* type_generate_inc_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"static struct type_%u* func_%u(struct type_%u* val) {"
+		"struct type_%u* func_%u(struct type_%u* val) {"
 			"val->refcount++;"
 			"return val;"
 		"}"

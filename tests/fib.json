@@ -1,0 +1,50 @@
+
+[{
+	"files": {
+		"./maia": "bin/test-build/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			"number: /int: ['0'-'9']+/ #value;",
+			"%start: number;",
+			"x = number[0].value;",
+			"fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);",
+			"%error: fib(x) > 30;",
+		],
+		
+		"./test.txt": [
+			"1"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+	"exit-code": 1
+}{
+	"files": {
+		"./maia": "bin/test-build/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			"number: /int: ['0'-'9']+/ #value;",
+			"%start: number;",
+			"x = number[0].value;",
+			"fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);",
+			"%error: fib(x) > 30;",
+		],
+		
+		"./test.txt": [
+			"9"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	]
+}]
+
+
+

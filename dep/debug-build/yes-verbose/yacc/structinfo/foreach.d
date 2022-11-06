@@ -17,6 +17,5 @@ bin/debug-build/yes-verbose/./yacc/structinfo/foreach.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h avl/tree.h yacc/structinfo/struct.h \
- yacc/structinfo/foreach.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h avl/tree.h \
+ yacc/structinfo/struct.h yacc/structinfo/foreach.h

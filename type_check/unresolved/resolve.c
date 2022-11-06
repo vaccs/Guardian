@@ -22,7 +22,11 @@ void unresolved_resolve_type(
 {
 	ENTER;
 	
+	assert(type);
+	
 	struct avl_node_t* node = avl_search(this->tree, &name);
+	
+	dpv(node);
 	
 	if (node)
 	{
@@ -31,6 +35,8 @@ void unresolved_resolve_type(
 		zpexpressionset_foreach(ele->layers.current, ({
 			void runme(struct zebu_primary_expression* use)
 			{
+				dpv(use);
+				
 				use->kind = kind;
 				use->type = type;
 			}
@@ -47,13 +53,13 @@ void unresolved_resolve_type(
 		zpexpressionset_foreach(ele->layers.deeper, ({
 			void runme(struct zebu_primary_expression* use)
 			{
+				dpv(use);
+				
 				use->kind = deeper_kind;
 				use->type = type;
 			}
 			runme;
 		}));
-		
-		this->n--;
 	}
 	
 	EXIT;

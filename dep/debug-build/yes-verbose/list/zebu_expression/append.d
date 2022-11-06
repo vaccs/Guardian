@@ -17,6 +17,5 @@ bin/debug-build/yes-verbose/./list/zebu_expression/append.o: \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h parse/parse.h list/zebu_expression/struct.h \
- list/zebu_expression/append.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h parse/parse.h \
+ list/zebu_expression/struct.h list/zebu_expression/append.h

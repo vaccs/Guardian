@@ -3,7 +3,7 @@
 
 #include <list/parameter/free.h>
 
-#include <type_check/unresolved/free.h>
+#include <list/capture/free.h>
 
 #include "../free.h"
 
@@ -19,7 +19,7 @@ void free_lambda_expression(
 	
 	free_parameter_list(this->parameters);
 	
-	free_unresolved(this->captured);
+	free_capture_list(this->captured);
 	
 	free_expression(this->body);
 	

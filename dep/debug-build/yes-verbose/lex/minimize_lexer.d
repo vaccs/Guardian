@@ -16,8 +16,7 @@ bin/debug-build/yes-verbose/./lex/minimize_lexer.o: lex/minimize_lexer.c \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h set/ptr/clone.h set/unsigned/compare.h \
- set/unsigned/inc.h yacc/state/struct.h lex/struct.h lex/minimize_lexer.h \
- lex/state/struct.h lex/state/new.h lex/state/free.h \
- lex/build_tokenizer/node/struct.h
+ type_cache/get_type/list.h type_cache/get_type/lambda.h set/ptr/clone.h \
+ set/unsigned/compare.h set/unsigned/inc.h yacc/state/struct.h \
+ lex/struct.h lex/minimize_lexer.h lex/state/struct.h lex/state/new.h \
+ lex/state/free.h lex/build_tokenizer/node/struct.h

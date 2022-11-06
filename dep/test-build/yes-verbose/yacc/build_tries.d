@@ -16,10 +16,9 @@ bin/test-build/yes-verbose/./yacc/build_tries.o: yacc/build_tries.c \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h named/trie/new.h gegex/grammar/struct.h \
- gegex/transition/struct.h gegex/struct.h yacc/reductioninfo/new.h \
- yacc/reductioninfo/kind.h yacc/reductioninfo/inc.h \
- yacc/reductioninfo/free.h yacc/structinfo/inc.h yacc/trie/struct.h \
- yacc/trie/new.h yacc/trie/add_transition.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h named/trie/new.h \
+ gegex/grammar/struct.h gegex/transition/struct.h gegex/struct.h \
+ yacc/reductioninfo/new.h yacc/reductioninfo/kind.h \
+ yacc/reductioninfo/inc.h yacc/reductioninfo/free.h yacc/structinfo/inc.h \
+ yacc/trie/struct.h yacc/trie/new.h yacc/trie/add_transition.h \
  yacc/trie/add_grammar_transition.h yacc/build_tries.h

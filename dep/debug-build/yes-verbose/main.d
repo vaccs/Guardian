@@ -16,15 +16,16 @@ bin/debug-build/yes-verbose/./main.o: main.c debug.h memory/smalloc.h \
  stringtree/free.h heap/new.h heap/is_nonempty.h heap/push.h heap/pop.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
- type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h cmdln/flags.h cmdln/process.h cmdln/free.h \
- parse/driver.h parse/assertion/free.h assertion/free.h \
- named/grammar/compare.h named/grammar/free.h named/type/compare.h \
- named/type/free.h named/zebu_expression/compare.h \
+ type_cache/get_type/list.h type_cache/get_type/lambda.h cmdln/flags.h \
+ cmdln/process.h cmdln/free.h parse/driver.h parse/assertion/free.h \
+ assertion/free.h named/grammar/compare.h named/grammar/free.h \
+ named/type/compare.h named/type/free.h named/zebu_expression/compare.h \
  named/zebu_expression/free.h named/zebu_type/compare.h \
  named/zebu_type/free.h named/expression/compare.h \
  named/expression/free.h named/structinfo/compare.h \
- named/structinfo/free.h quack/foreach.h lex/new.h lex/free.h \
- type_cache/new.h type_cache/free.h type_check/specialize_grammar_types.h \
- type_check/type_check.h yacc/yacc.h yacc/state/free.h out/out.h \
- stringtree/stream.h
+ named/structinfo/free.h list/raw_assertion/new.h \
+ list/raw_assertion/free.h list/declaration/new.h list/declaration/free.h \
+ list/assertion/new.h list/assertion/free.h quack/foreach.h lex/new.h \
+ lex/free.h type_cache/new.h type_cache/free.h \
+ type_check/specialize_grammar_types.h type_check/type_check.h \
+ yacc/yacc.h yacc/state/free.h out/out.h stringtree/stream.h

@@ -60,9 +60,19 @@ struct stringtree* int_math_expression_print_source(
 			"");
 			break;
 		
+		case imek_subtract:
+			stringtree_append_printf(tree, ""
+				"mpz_sub(result->value, left->value, right->value);"
+			"");
+			break;
+		
 		default:
+		{
+			dpv(this->kind);
+			
 			TODO;
 			break;
+		}
 	}
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);

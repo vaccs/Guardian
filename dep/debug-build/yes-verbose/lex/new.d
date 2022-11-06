@@ -17,7 +17,7 @@ bin/debug-build/yes-verbose/./lex/new.o: lex/new.c debug.h \
  heap/free.h quack/new.h quack/is_nonempty.h quack/append.h quack/len.h \
  quack/pop.h quack/free.h type/print.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/lambda.h \
- misc/default_sighandler.h lex/token_to_id_node/compare.h \
- lex/token_to_id_node/free.h lex/id_to_token_node/compare.h \
- lex/id_to_token_node/free.h lex/build_tokenizer/node/compare.h \
- lex/build_tokenizer/node/free.h lex/struct.h lex/new.h
+ lex/token_to_id_node/compare.h lex/token_to_id_node/free.h \
+ lex/id_to_token_node/compare.h lex/id_to_token_node/free.h \
+ lex/build_tokenizer/node/compare.h lex/build_tokenizer/node/free.h \
+ lex/struct.h lex/new.h
