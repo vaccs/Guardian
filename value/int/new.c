@@ -3,9 +3,11 @@
 
 #include <debug.h>
 
+#include <type_cache/get_type/int.h>
+
 #include <mpz/inc.h>
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
 #include "../new.h"
 
@@ -14,17 +16,15 @@
 #include "new.h"
 
 struct value* new_int_value(
-	struct type* type,
+	struct type_cache* tcache,
 	struct mpz* integer)
 {
 	ENTER;
 	
 	dpv(integer);
 	
-	assert(type->kind == tk_int);
-	
 	struct int_value* this = (void*) new_value(
-		type,
+		type_cache_get_int_type(tcache),
 		vk_int,
 		&int_value_inheritance,
 		sizeof(*this));

@@ -23,6 +23,12 @@ struct type_cache* new_type_cache()
 	
 	this->bool_type = NULL;
 	
+	this->char_type = NULL;
+	
+	this->charlist_type = NULL;
+	
+	this->float_type = NULL;
+	
 	this->next = 0;
 	
 	EXIT;

@@ -297,17 +297,13 @@ struct zebu_postfix_expression
 	struct zebu_token* field;
 	struct zebu_expression* index;
 	struct zebu_postfix_expression* sub;
+	struct zebu_token* tupleindex;
 	unsigned refcount;
 };
 
 struct zebu_primary_expression
 {
-	struct zebu_token* all;
-	struct zebu_token* any;
-	struct {
-		struct zebu_expression** data;
-		unsigned n, cap;
-	} args;
+	struct zebu_expression* arg;
 	struct zebu_token* character_literal;
 	struct {
 		struct zebu_expression** data;
@@ -315,29 +311,20 @@ struct zebu_primary_expression
 	} elements;
 	struct zebu_type* emptytype;
 	struct zebu_token* false_literal;
-	struct zebu_token* filter;
+	struct zebu_token* float_form;
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
 	struct zebu_token* integer_literal;
 	unsigned kind;
-	struct zebu_token* len;
+	struct zebu_token* len_form;
 	struct zebu_token* list;
-	struct zebu_token* map;
-	struct zebu_token* max;
-	struct zebu_token* min;
 	struct zebu_token* paren;
-	struct zebu_token* product;
-	struct zebu_token* range;
-	struct zebu_token* reduce;
-	struct zebu_token* sort;
 	struct zebu_token* string_literal;
-	struct zebu_token* sum;
+	struct zebu_expression* subexpression;
 	struct zebu_token* true_literal;
 	struct zebu_token* tuple;
 	struct type* type;
-	struct zebu_token* unique;
 	struct value* value;
-	struct zebu_token* zip;
 	unsigned refcount;
 };
 

@@ -4,6 +4,8 @@
 #include <debug.h>
 
 /*#include <out/function_lookup/lookup_free.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include "struct.h"
 #include "generate_free_func.h"
@@ -15,9 +17,7 @@ struct stringtree* char_type_generate_free_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	assert(super->kind == tk_int);
+	assert(super->kind == tk_char);
 	
 	struct stringtree* text = new_stringtree();
 	
@@ -26,7 +26,6 @@ struct stringtree* char_type_generate_free_func(
 		"{"
 			"if (this && !--this->refcount)"
 			"{"
-				"mpz_clear(this->value);"
 				"free(this);"
 			"}"
 		"}"
@@ -34,6 +33,5 @@ struct stringtree* char_type_generate_free_func(
 	
 	EXIT;
 	return text;
-	#endif
 }
 

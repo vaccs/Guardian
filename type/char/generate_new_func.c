@@ -3,6 +3,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "struct.h"
 #include "generate_new_func.h"
 
@@ -13,20 +16,16 @@ struct stringtree* char_type_generate_new_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == tk_char);
+	
 	unsigned type_id = super->id;
-	
-	assert(super->kind == tk_int);
-	
-	struct int_type* this = (void*) super;
 	
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"type_%u* func_%u() {"
-			"type_%u* this = malloc(sizeof(*this));"
-			"mpz_init(this->value);"
+		"struct type_%u* func_%u(unsigned code) {"
+			"struct type_%u* this = malloc(sizeof(*this));"
+			"this->code = code;"
 			"this->refcount = 1;"
 			"return this;"
 		"}"
@@ -34,6 +33,5 @@ struct stringtree* char_type_generate_new_func(
 	
 	EXIT;
 	return text;
-	#endif
 }
 

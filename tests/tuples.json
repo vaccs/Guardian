@@ -1,1 +1,47 @@
-[]
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"number: /int: ['0'-'9']+/ #value;",
+			
+			"string: /['a'-'z','A'-'Z']+/ #value;",
+			
+			"%start: number string;",
+			
+			"t = (number[0].value, string[0].value);",
+			
+			"q = (true, );",
+			"w = (3.14, );",
+			
+			"s = t + (q + w);",
+			
+			"%error: len!(s) == 4;",
+			
+			"%error: float!(s.0) + s.3 > 10.0;",
+		],
+		
+		"./input.txt": [
+			"12 abc"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./input.txt"
+	],
+}]
+
+
+
+
+
+
+
+
+
+
+
+

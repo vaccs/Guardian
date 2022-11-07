@@ -9,9 +9,12 @@ enum expression_kind
 	ek_map,
 	ek_sum,
 	ek_list,
+	ek_tuple,
+	ek_float,
 	ek_lambda,
 	ek_literal,
 	ek_ternary,
+	ek_float_math,
 	ek_product,
 	ek_int_math,
 	ek_variable,
@@ -21,6 +24,8 @@ enum expression_kind
 	ek_list_index,
 	ek_fieldaccess,
 	ek_parenthesis,
+	ek_tuple_concat,
+	ek_tuple_index,
 };
 
 #endif

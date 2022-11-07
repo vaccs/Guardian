@@ -30,3 +30,32 @@ struct mpz* new_mpz_from_string(
 	return this;
 }
 
+struct mpz* new_mpz_from_unsigned(
+	unsigned number)
+{
+	ENTER;
+	
+	struct mpz* this = smalloc(sizeof(*this));
+	
+	mpz_init(this->mpz);
+	
+	mpz_set_ui(this->mpz, number);
+	
+	this->refcount = 1;
+	
+	EXIT;
+	return this;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,12 +11,15 @@
 
 #include <type_cache/get_type/grammar.h>
 #include <type_cache/get_type/int.h>
+#include <type_cache/get_type/char.h>
+#include <type_cache/get_type/charlist.h>
 
 #include <parse/parse.h>
 
 #include <out/shared.h>
 #include <out/function_queue/submit_new.h>
 #include <out/function_queue/submit_free.h>
+#include <out/function_queue/submit_append.h>
 
 /*#include <yacc/structinfo/struct.h>*/
 #include <yacc/structinfo/foreach.h>
@@ -56,12 +59,32 @@ void reductioninfo_print_source(
 						{
 							if (!node->tokentype)
 							{
-								TODO;
-								#if 0
-								fprintf(stream, ""
-									"\t" "\t" "free_%s_token(value->%s), value->%s = inc_%s_token(token);" "\n"
-								"", prefix, name, name, prefix);
-								#endif
+								struct type* stype = type_cache_get_charlist_type(shared->tcache);
+								struct type* ctype = type_cache_get_char_type(shared->tcache);
+								
+								unsigned new_string_id = function_queue_submit_new(shared->fqueue, stype);
+								unsigned new_char_id = function_queue_submit_new(shared->fqueue, ctype);
+								
+								unsigned append_id = function_queue_submit_append(shared->fqueue, stype);
+								
+								unsigned free_char_id = function_queue_submit_free(shared->fqueue, ctype);
+								
+								stringtree_append_printf(tree, ""
+									"{"
+										"struct type_%u* string = func_%u();"
+										"for (unsigned i = 0, n = token->len; i < n; i++)"
+										"{"
+											"struct type_%u* character = func_%u(token->data[i]);"
+											"func_%u(string, character);"
+											"func_%u(character);"
+										"}"
+										"value->$%.*s = string;"
+									"}"
+								"", stype->id, new_string_id,
+								ctype->id, new_char_id,
+								append_id,
+								free_char_id,
+								name->len, name->chars);
 							}
 							else if (node->tokentype->char_)
 							{
@@ -75,12 +98,12 @@ void reductioninfo_print_source(
 								
 								stringtree_append_printf(tree, ""
 									"{"
-										"struct type_%u* i = func_%u();"
-										"if (mpz_set_str(i->value, (char*) token->data, 10) < 0)"
+										"struct type_%u* integer = func_%u();"
+										"if (mpz_set_str(integer->value, (char*) token->data, 10) < 0)"
 										"{"
 											"assert(!\"TODO: mpz_set_str(): failed!\");"
 										"}"
-										"value->$%.*s = i;"
+										"value->$%.*s = integer;"
 									"}"
 								"", type->id, new_id, name->len, name->chars);
 							}

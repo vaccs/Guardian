@@ -1,4 +1,5 @@
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -20,8 +21,11 @@
 #include <expression/literal/new.h>
 #include <expression/funccall/new.h>
 #include <expression/list_index/new.h>
+#include <expression/tuple_index/new.h>
 #include <expression/fieldaccess/new.h>
 #include <expression/free.h>
+
+#include <type/tuple/struct.h>
 
 #include <list/expression/struct.h>
 
@@ -156,6 +160,47 @@ struct expression* specialize_postfix_expression(
 			retval = new_fieldaccess_expression(fieldtype, sub, fieldname);
 			
 			free_string(fieldname);
+		}
+		else if (zexpression->tupleindex)
+		{
+			if (sub->type->kind != tk_tuple)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			struct tuple_type* tupletype = (void*) sub->type;
+			
+			errno = 0;
+			
+			char* m;
+			long index = strtol((char*) zexpression->tupleindex->data, &m, 0);
+			
+			if (errno || *m)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			dpv(index);
+			
+			if (0 <= index && index < tupletype->subtypes->n)
+			{
+				if (sub->kind == ek_literal)
+				{
+					TODO;
+				}
+				else
+				{
+					struct type* type = tupletype->subtypes->data[index];
+					
+					retval = new_tuple_index_expression(type, sub, index);
+				}
+			}
+			else
+			{
+				TODO;
+			}
 		}
 		else if (zexpression->call)
 		{

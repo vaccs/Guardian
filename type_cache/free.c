@@ -26,6 +26,9 @@ void free_type_cache(struct type_cache* this)
 	avl_free_tree(this->tree);
 	
 	free_type2(this->int_type);
+	
+	free_type2(this->float_type);
+	
 	free_type2(this->bool_type);
 	
 	free(this);

@@ -23,7 +23,9 @@ static void determine_direct_uses_primary(
 		|| expression->integer_literal
 		|| expression->float_literal
 		|| expression->character_literal
-		|| expression->string_literal)
+		|| expression->string_literal
+		|| expression->true_literal
+		|| expression->false_literal)
 	{
 		;
 	}
@@ -36,36 +38,29 @@ static void determine_direct_uses_primary(
 		free_string(string);
 	}
 	else if (false
-		|| expression->all
-		|| expression->any
-		|| expression->filter
-		|| expression->len
-		|| expression->map
-		|| expression->max
-		|| expression->min
-		|| expression->product
-		|| expression->range
-		|| expression->reduce
-		|| expression->sort
-		|| expression->sum
-		|| expression->unique
-		|| expression->zip)
+		|| expression->len_form)
 	{
 		TODO;
 	}
+	#if 0
+	else if (false
+		|| expression->all_form
+	{
+		TODO;
+	}
+	#endif
 	else if (expression->paren)
 	{
-		if (expression->emptytype)
+		if (expression->tuple)
 		{
-			TODO;
-		}
-		else if (expression->tuple)
-		{
-			TODO;
+			for (unsigned i = 0, n = expression->elements.n; i < n; i++)
+			{
+				determine_direct_uses(direct_uses, expression->elements.data[i]);
+			}
 		}
 		else
 		{
-			TODO;
+			determine_direct_uses(direct_uses, expression->elements.data[0]);
 		}
 	}
 	else if (expression->list)

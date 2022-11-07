@@ -33,6 +33,10 @@
 
 #include <list/string/struct.h>
 
+#include <type/struct.h>
+
+#include <value/bool/struct.h>
+
 #include <set/ptr/new.h>
 #include <set/ptr/add.h>
 #include <set/ptr/foreach.h>
@@ -782,8 +786,10 @@ void type_check(
 						
 						if (!node)
 						{
-							// "could not find defintition for {name}"!
-							TODO;
+							fprintf(stderr, ""
+								"%s: could not find defintition"
+								" for variable '%.*s'!\n"
+							"", argv0, name->len, name->chars);
 							exit(1);
 						}
 						
@@ -813,13 +819,33 @@ void type_check(
 			
 			struct expression* typed = specialize_expression(tcache, &sshared, element->expression);
 			
-			struct assertion* assertion = new_assertion(element->kind, typed);
+			if (typed->type->kind != tk_bool)
+			{
+				TODO;
+				exit(1);
+			}
 			
-			assertion_list_append(assertions, assertion);
+			if (typed->kind == ek_literal)
+			{
+				struct literal_expression* literal = (void*) typed;
+				
+				struct bool_value* value = (void*) literal->value;
+				
+				if (!value->value)
+				{
+					TODO;
+				}
+			}
+			else
+			{
+				struct assertion* assertion = new_assertion(element->kind, typed);
+				
+				assertion_list_append(assertions, assertion);
+				
+				free_assertion(assertion);
+			}
 			
 			free_expression(typed);
-			
-			free_assertion(assertion);
 			
 			free_unresolved(unresolved);
 			

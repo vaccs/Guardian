@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <value/struct.h>
@@ -13,6 +15,9 @@
 struct expression* new_literal_expression(struct value* value)
 {
 	ENTER;
+	
+	assert(value);
+	assert(value->type);
 	
 	struct literal_expression* this = (void*) new_expression(
 		ek_literal,

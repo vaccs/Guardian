@@ -59,6 +59,18 @@ void declare_queue_process(
 			"struct type_%u* $%.*s = NULL;"
 		"", type_id, name->len, name->chars);
 		
+		#if 0
+		struct stringtree* source_text = expression_print(expression);
+		
+		stringtree_append_printf(this->assign_text, ""
+			"// \"%.*s = "
+		"", name->len, name->chars);
+		
+		stringtree_append_tree(this->assign_text, source_text);
+		
+		stringtree_append_printf(this->assign_text, "\":\n");
+		#endif
+		
 		stringtree_append_printf(this->assign_text, ""
 			"$%.*s = "
 		"", name->len, name->chars);
@@ -78,6 +90,8 @@ void declare_queue_process(
 		"", free_id, name->len, name->chars);
 		
 		free_stringtree(subtext);
+		
+/*		free_stringtree(source_text);*/
 	}
 	
 	EXIT;

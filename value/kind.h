@@ -8,6 +8,8 @@ enum value_kind
 	vk_bool,
 	vk_char,
 	vk_list,
+	vk_float,
+	vk_tuple,
 	vk_lambda,
 	vk_string,
 };

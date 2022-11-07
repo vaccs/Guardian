@@ -1,9 +1,14 @@
 %skip: ' ' | '\n';
 number: /int: ['0'-'9']+/ #value;
-%start: number number;
-x = number[0].value;
-y = number[1].value;
-iseven = $int a -> bool: a == 0 ? true  : isodd(a - 1);
-isodd  = $int a -> bool: a == 0 ? false : iseven(a - 1);
-%error: iseven(x);
-%error: isodd(y);
+string: /['a'-'z','A'-'Z']+/ #value;
+%start: number string;
+t = (number[0].value, string[0].value);
+q = (true, );
+w = (3.14, );
+s = t + (q + w);
+%error: len!(s) == 4;
+%error: float!(s.0) + s.3 > 10.0;
+
+
+
+

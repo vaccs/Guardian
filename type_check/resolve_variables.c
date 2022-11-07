@@ -69,22 +69,33 @@ static void resolve_variables_primary(
 		
 		free_string(name);
 	}
-	else if (expression->len || expression->map || expression->sum || expression->product)
+	else if (false
+		|| expression->len_form
+		|| expression->float_form)
+	{
+		resolve_variables(unresolved, tcache, expression->arg);
+	}
+	#if 0
+	else if (expression->map)
 	{
 		for (unsigned i = 0, n = expression->args.n; i < n; i++)
 		{
 			resolve_variables(unresolved, tcache, expression->args.data[i]);
 		}
 	}
+	#endif
 	else if (expression->paren)
 	{
 		if (expression->tuple)
 		{
-			TODO;
+			for (unsigned i = 0, n = expression->elements.n; i < n; i++)
+			{
+				resolve_variables(unresolved, tcache, expression->elements.data[i]);
+			}
 		}
 		else
 		{
-			resolve_variables(unresolved, tcache, expression->elements.data[0]);
+			resolve_variables(unresolved, tcache, expression->subexpression);
 		}
 	}
 	else if (expression->list)
@@ -122,6 +133,10 @@ static void resolve_variables_postfix(
 			resolve_variables(unresolved, tcache, expression->index);
 		}
 		else if (expression->field)
+		{
+			;
+		}
+		else if (expression->tupleindex)
 		{
 			;
 		}

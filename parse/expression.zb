@@ -13,11 +13,35 @@ primary_expression
 	| "true" #true_literal
 	| "false" #false_literal
 	| `identifier` #identifier
-	| ("all" #all | "any" #any | "filter" #filter | "len" #len | "map" #map
-	  | "max" #max | "min" #min | "product" #product | "range" #range
-	  | "reduce" #reduce | "sort" #sort | "sum" #sum | "unique" #unique
-	  | "zip" #zip) '(' expression #args[]  (',' expression #args[])* ')'
-	| '(' #paren expression #elements[] (',' #tuple (expression #elements[] (',' expression #elements[])*)?)? ')'
+//	| "all!"          #all_form '(' ... ')'
+//	| "andmap!"       #andmap_form '(' ... ')'
+//	| "any!"          #any_form '(' ... ')'
+//	| "bool!"         #bool_form '(' ... ')'
+//	| "call!"         #call_form '(' ... ')'
+//	| "char!"         #char_form '(' ... ')'
+//	| "cross!"        #cross_form '(' ... ')' // [a, b] x [c, d] => [(a, c), (a, d), (b, c), (b, d)]
+//	| "difference!"   #difference_form '(' ... ')'
+//	| "filter!"       #filter_form '(' ... ')'
+	| "float!"        #float_form '(' expression #arg ')'
+//	| "intersectmap!" #intersectmap_form '(' ... ')'
+//	| "intersect!"    #intersect_form '(' ... ')'
+//	| "int!"          #int_form '(' .... ')'
+	| "len!"          #len_form '(' expression #arg ')'
+//	| "map!"          #map_form '(' ... ')'
+//	| "max!"          #max_form '(' ... ')'
+//	| "min!"          #min_form '(' ... ')'
+//	| "ormap!"        #ormap_form '(' ... ')'
+//	| "product!"      #product_form '(' ... ')'
+//	| "range!"        #range_form '(' ... ')'
+//	| "reduce!"       #reduce_form '(' ... ')'
+//	| "set!"          #set_form '(' ... ')'
+//	| "sort!"         #sort_form '(' ... ')'
+//	| "sum!"          #sum_form '(' ... ')'
+//	| "unionmap!"     #unionmap_form '(' ... ')'
+//	| "union!"        #union_form '(' ... ')'
+//	| "zip!"          #zip_form '(' expression #args[]  (',' expression #args[])* ')'
+	| '(' #paren expression #subexpression ')'
+	| '(' #paren expression #elements[] ',' #tuple (expression #elements[] (',' expression #elements[])*)? ')'
 	| '[' #list ':' type #emptytype ':' ']'
 	| '[' #list expression #elements[]  (',' expression #elements[])* ']'
 	;
@@ -25,6 +49,7 @@ primary_expression
 postfix_expression
 	: primary_expression #base
 	| postfix_expression #sub '[' expression #index ']'
+	| postfix_expression #sub '.' `int` #tupleindex
 	| postfix_expression #sub '.' `identifier` #field
 	| postfix_expression #sub '(' #call (expression #args[] (',' expression #args[])*)? ')'
 	;
