@@ -4,7 +4,7 @@
 #include <debug.h>
 
 #include <value/struct.h>
-#include <value/integer/new.h>
+/*#include <value/integer/new.h>*/
 /*#include <value/free.h>*/
 
 /*#include <mpz/add.h>*/

@@ -10,12 +10,13 @@ primary_expression
 	| `float` #float_literal
 	| `char` #character_literal
 	| `string` #string_literal
+	| "true" #true_literal
+	| "false" #false_literal
 	| `identifier` #identifier
 	| ("all" #all | "any" #any | "filter" #filter | "len" #len | "map" #map
 	  | "max" #max | "min" #min | "product" #product | "range" #range
 	  | "reduce" #reduce | "sort" #sort | "sum" #sum | "unique" #unique
 	  | "zip" #zip) '(' expression #args[]  (',' expression #args[])* ')'
-	| '(' #paren ':' type #emptytype ':' ')'
 	| '(' #paren expression #elements[] (',' #tuple (expression #elements[] (',' expression #elements[])*)?)? ')'
 	| '[' #list ':' type #emptytype ':' ']'
 	| '[' #list expression #elements[]  (',' expression #elements[])* ']'

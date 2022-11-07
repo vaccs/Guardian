@@ -4,6 +4,6 @@ bin/test-build/yes-verbose/./type_check/specialize/additive.o: \
  expression/int_math/kind.h expression/literal/struct.h \
  expression/literal/../struct.h expression/literal/../kind.h \
  expression/literal/new.h expression/struct.h expression/free.h mpz/add.h \
- mpz/free.h value/integer/struct.h value/integer/../struct.h \
- value/integer/../kind.h value/integer/new.h value/free.h \
- type_check/specialize/multiplicative.h type_check/specialize/additive.h
+ mpz/free.h value/int/struct.h value/int/../struct.h value/int/../kind.h \
+ value/int/new.h value/free.h type_check/specialize/multiplicative.h \
+ type_check/specialize/additive.h

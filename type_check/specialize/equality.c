@@ -59,9 +59,7 @@ struct expression* specialize_equality_expression(
 			
 			dpvb(is_equal);
 			
-			struct type* type = type_cache_get_bool_type(tcache);
-			
-			struct value* value = new_bool_value(type, is_equal);
+			struct value* value = new_bool_value(tcache, is_equal);
 			
 			retval = new_literal_expression(value);
 			

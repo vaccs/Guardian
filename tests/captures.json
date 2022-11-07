@@ -1,6 +1,6 @@
 [{
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
 			"%start: \"abc\";"
@@ -14,13 +14,16 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			"number: /int: ['0'-'9']+/ #value;",
 			"%start: number number;",
-			"f = $int x: $: $int y: $: x + y;",
+			"f = $int x -> ($ -> ($int -> ($ -> int))):",
+				"$ -> ($int -> ($ -> int)): ",
+					"$int y -> ($ -> int): ",
+						"$ -> int: x + y;",
 			"x = number[0].value;",
 			"y = number[1].value;",
 			"%error: f(x)()(y)() == 7;"
@@ -34,13 +37,16 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
-			"%skip: ' ';",
+			"%skip: ' ' | '\\n';",
 			"number: /int: ['0'-'9']+/ #value;",
 			"%start: number number;",
-			"f = $int x: $: $int y: $: x + y;",
+			"f = $int x -> ($ -> ($int -> ($ -> int))):",
+				"$ -> ($int -> ($ -> int)): ",
+					"$int y -> ($ -> int): ",
+						"$ -> int: x + y;",
 			"x = number[0];",
 			"y = number[1];",
 			"%error: f(x)()(y)() == 7;"
@@ -52,13 +58,16 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			"number: /int: ['0'-'9']+/ #value;",
 			"%start: number number;",
-			"f = $int x: $: $int y: $: x + y;",
+			"f = $int x -> ($ -> ($int -> ($ -> int))):",
+				"$ -> ($int -> ($ -> int)): ",
+					"$int y -> ($ -> int): ",
+						"$ -> int: x + y;",
 			"x = number[0].value;",
 			"y = number[1].value;",
 			"%error: f(x)()(y)() == 7;"
@@ -75,13 +84,16 @@
 	]
 }, {
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			"number: /int: ['0'-'9']+/ #value;",
 			"%start: number number;",
-			"f = $int x: $: $int y: $: x + y;",
+			"f = $int x -> ($ -> ($int -> ($ -> int))):",
+				"$ -> ($int -> ($ -> int)): ",
+					"$int y -> ($ -> int): ",
+						"$ -> int: x + y;",
 			"x = number[0].value;",
 			"y = number[1].value;",
 			"%error: f(x)()(y)() == 7;"

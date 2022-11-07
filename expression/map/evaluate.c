@@ -4,7 +4,7 @@
 #include <debug.h>
 
 #include <value/struct.h>
-#include <value/integer/new.h>
+#include <value/int/new.h>
 /*#include <value/free.h>*/
 
 /*#include <mpz/add.h>*/
@@ -50,7 +50,7 @@ struct value* map_expression_evaluate(
 			break;
 	}
 	
-	struct value* value = new_integer_value(super->type, number);
+	struct value* value = new_int_value(super->type, number);
 	
 	free_value(left), free_value(right);
 	

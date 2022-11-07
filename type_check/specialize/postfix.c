@@ -41,7 +41,7 @@
 #include <type/print.h>
 #include <type/grammar/get_field.h>
 
-#include <value/integer/struct.h>
+#include <value/int/struct.h>
 #include <value/list/struct.h>
 #include <value/lambda/call.h>
 /*#include <value/inc.h>*/
@@ -89,7 +89,7 @@ struct expression* specialize_postfix_expression(
 						struct literal_expression* spef_index = (void*) index;
 						
 						struct list_value* list = (void*) spef_sub->value;
-						struct integer_value* index = (void*) spef_index->value;
+						struct int_value* index = (void*) spef_index->value;
 						
 						if (mpz_fits_uint_p(index->integer->mpz))
 						{

@@ -51,6 +51,14 @@ static void resolve_variables_primary(
 	{
 		;
 	}
+	else if (expression->true_literal)
+	{
+		;
+	}
+	else if (expression->false_literal)
+	{
+		;
+	}
 	else if (expression->identifier)
 	{
 		struct string* name = new_string_from_token(expression->identifier);

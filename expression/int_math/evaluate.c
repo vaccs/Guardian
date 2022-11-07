@@ -3,8 +3,8 @@
 
 #include <debug.h>
 
-#include <value/integer/struct.h>
-#include <value/integer/new.h>
+#include <value/int/struct.h>
+#include <value/int/new.h>
 #include <value/free.h>
 
 #include <mpz/add.h>
@@ -28,11 +28,11 @@ struct value* int_math_expression_evaluate(
 	struct value* left = expression_evaluate(this->left, scope);
 	struct value* right = expression_evaluate(this->right, scope);
 	
-	assert(left->kind == vk_integer);
-	assert(right->kind == vk_integer);
+	assert(left->kind == vk_int);
+	assert(right->kind == vk_int);
 	
-	struct integer_value* spef_left = (void*) left;
-	struct integer_value* spef_right = (void*) right;
+	struct int_value* spef_left = (void*) left;
+	struct int_value* spef_right = (void*) right;
 	
 	struct mpz* number;
 	
@@ -51,7 +51,7 @@ struct value* int_math_expression_evaluate(
 			break;
 	}
 	
-	struct value* value = new_integer_value(super->type, number);
+	struct value* value = new_int_value(super->type, number);
 	
 	free_value(left), free_value(right);
 	

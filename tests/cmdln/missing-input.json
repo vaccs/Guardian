@@ -1,7 +1,7 @@
 
 [{
 	"files": {
-		"./maia": "bin/test-build/maia"
+		"./maia": "bin/test-build/yes-verbose/maia"
 	},
 	
 	"commands": [

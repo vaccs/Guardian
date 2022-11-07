@@ -49,6 +49,11 @@ struct stringtree* lambda_expression_print_source(
 		{
 			dpvs(capture->name);
 			
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
 			struct string* name = capture->name;
 			
 			switch (capture->kind)
@@ -65,11 +70,6 @@ struct stringtree* lambda_expression_print_source(
 					TODO;
 					break;
 			}
-			
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(tree, ", ");
 		}
 		runme;
 	}));

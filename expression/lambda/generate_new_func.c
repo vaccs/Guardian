@@ -55,14 +55,14 @@ struct stringtree* lambda_expression_generate_new_func(
 			
 			struct string* name = capture->name;
 			
-			stringtree_append_printf(tree, ""
-				"struct type_%u* $%.*s"
-			"", type->id, name->len, name->chars);
-			
 			if (first)
 				first = false;
 			else
 				stringtree_append_printf(tree, ", ");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* $%.*s"
+			"", type->id, name->len, name->chars);
 		}
 		runme;
 	}));

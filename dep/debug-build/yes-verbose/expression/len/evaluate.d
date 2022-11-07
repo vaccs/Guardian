@@ -1,5 +1,5 @@
 bin/debug-build/yes-verbose/./expression/len/evaluate.o: \
  expression/len/evaluate.c debug.h string/struct.h value/struct.h \
- value/kind.h value/integer/new.h expression/len/../evaluate.h \
+ value/kind.h value/int/new.h expression/len/../evaluate.h \
  expression/len/struct.h expression/len/../struct.h \
  expression/len/../kind.h expression/len/evaluate.h

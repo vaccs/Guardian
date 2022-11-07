@@ -251,12 +251,14 @@ void type_check(
 				
 				dpvs(nexp->name);
 				
+				#ifdef VERBOSE
 				if (verbose)
 				{
 					struct string* name = nexp->name;
 					
 					printf("%s: determining direct variable usages of '%.*s':", argv0, name->len, name->chars);
 				}
+				#endif
 				
 				struct stringset* direct_uses = new_stringset();
 				
@@ -272,6 +274,7 @@ void type_check(
 				
 				if (stringset_is_nonempty(direct_uses))
 				{
+					#ifdef VERBOSE
 					if (verbose)
 					{
 						stringset_foreach(direct_uses, ({
@@ -284,6 +287,7 @@ void type_check(
 						
 						puts("");
 					}
+					#endif
 					
 					struct task* task = new_task(nexp->name, nexp->expression, stringset_len(direct_uses));
 					
@@ -548,8 +552,10 @@ void type_check(
 						
 						if (!node)
 						{
-							// "could not find defintition for {name}"!
-							TODO;
+							fprintf(stderr, ""
+								"%s: could not find defintition"
+								" for variable '%.*s'!\n"
+							"", argv0, name->len, name->chars);
 							exit(1);
 						}
 						

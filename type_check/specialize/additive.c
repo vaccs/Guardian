@@ -17,8 +17,8 @@
 #include <mpz/add.h>
 #include <mpz/free.h>
 
-#include <value/integer/struct.h>
-#include <value/integer/new.h>
+#include <value/int/struct.h>
+#include <value/int/new.h>
 #include <value/free.h>
 
 #include "multiplicative.h"
@@ -61,8 +61,8 @@ struct expression* specialize_additive_expression(
 			{
 				case tk_int:
 				{
-					struct integer_value* left_value = (void*) spef_left->value;
-					struct integer_value* right_value = (void*) spef_right->value;
+					struct int_value* left_value = (void*) spef_left->value;
+					struct int_value* right_value = (void*) spef_right->value;
 					
 					struct mpz* number;
 					
@@ -75,7 +75,7 @@ struct expression* specialize_additive_expression(
 						TODO;
 					}
 					
-					value = new_integer_value(left->type, number);
+					value = new_int_value(left->type, number);
 					
 					free_mpz(number);
 					break;

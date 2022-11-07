@@ -4,7 +4,7 @@
 #include <debug.h>
 
 #include <value/struct.h>
-#include <value/integer/new.h>
+#include <value/int/new.h>
 /*#include <value/free.h>*/
 
 /*#include <mpz/add.h>*/
@@ -38,19 +38,19 @@ struct value* has_expression_evaluate(
 	switch (this->kind)
 	{
 		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
+			number = new_mpz_from_add(spef_left->int, spef_right->int);
 			break;
 		
 		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
+			number = new_mpz_from_subtract(spef_left->int, spef_right->int);
 			break;
 		
 		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
+			number = new_mpz_from_multiply(spef_left->int, spef_right->int);
 			break;
 	}
 	
-	struct value* value = new_integer_value(super->type, number);
+	struct value* value = new_int_value(super->type, number);
 	
 	free_value(left), free_value(right);
 	

@@ -9,7 +9,7 @@
 
 #include <type/struct.h>
 
-#include <builtin/map/evaluate.h>
+/*#include <builtin/map/evaluate.h>*/
 
 #include <string/new.h>
 #include <string/free.h>
@@ -49,7 +49,8 @@
 #include <list/value/append.h>
 #include <list/value/free.h>
 
-#include <value/integer/new.h>
+#include <value/bool/new.h>
+#include <value/int/new.h>
 #include <value/list/new.h>
 #include <value/free.h>
 
@@ -71,7 +72,7 @@ static struct expression* specialize_primary_integer_expression(
 	
 	struct mpz* mpz = new_mpz_from_string((char*) integer->data);
 	
-	struct value* value = new_integer_value(type, mpz);
+	struct value* value = new_int_value(type, mpz);
 	
 	struct expression* retval = new_literal_expression(value);
 	
@@ -459,6 +460,22 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->string_literal)
 	{
 		TODO;
+	}
+	else if (zexpression->true_literal)
+	{
+		struct value* value = new_bool_value(tcache, true);
+		
+		retval = new_literal_expression(value);
+		
+		free_value(value);
+	}
+	else if (zexpression->false_literal)
+	{
+		struct value* value = new_bool_value(tcache, false);
+		
+		retval = new_literal_expression(value);
+		
+		free_value(value);
 	}
 	else if (zexpression->identifier)
 	{

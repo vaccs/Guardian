@@ -1,7 +1,7 @@
 
 [{
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -22,9 +22,9 @@
 		"./out ./test.txt"
 	],
 	"exit-code": 1
-}{
+}, {
 	"files": {
-		"./maia": "bin/test-build/maia",
+		"./maia": "bin/test-build/yes-verbose/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",

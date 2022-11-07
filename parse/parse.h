@@ -314,6 +314,7 @@ struct zebu_primary_expression
 		unsigned n, cap;
 	} elements;
 	struct zebu_type* emptytype;
+	struct zebu_token* false_literal;
 	struct zebu_token* filter;
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
@@ -331,6 +332,7 @@ struct zebu_primary_expression
 	struct zebu_token* sort;
 	struct zebu_token* string_literal;
 	struct zebu_token* sum;
+	struct zebu_token* true_literal;
 	struct zebu_token* tuple;
 	struct type* type;
 	struct zebu_token* unique;

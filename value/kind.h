@@ -4,12 +4,12 @@
 
 enum value_kind
 {
+	vk_int,
 	vk_bool,
 	vk_char,
 	vk_list,
 	vk_lambda,
 	vk_string,
-	vk_integer,
 };
 
 #endif

@@ -20,7 +20,7 @@ void bool_value_print(
 	}
 	else
 	{
-		TODO;
+		printf("false");
 	}
 	
 	EXIT;
