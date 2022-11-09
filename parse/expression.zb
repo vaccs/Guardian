@@ -1,7 +1,7 @@
 
-%extra_field: primary_expression, "unsigned", kind;
-%extra_field: primary_expression, "struct type*", type;
-%extra_field: primary_expression, "struct value*", value, free_value();
+// %extra_field: primary_expression, "unsigned", kind;
+// %extra_field: primary_expression, "struct type*", type;
+// %extra_field: primary_expression, "struct value*", value, free_value();
 
 %include "type.zb"
 
@@ -140,7 +140,7 @@ conditional_expression
 
 %include "type.zb"
 
-%extra_field: lambda_expression, "struct unresolved*", lambda_captures, free_unresolved();
+// %extra_field: lambda_expression, "struct unresolved*", lambda_captures, free_unresolved();
 
 lambda_expression
 	: conditional_expression #base
@@ -149,7 +149,35 @@ lambda_expression
 			"->" type #rettype ':' lambda_expression #lambda)
 	;
 
-expression: lambda_expression #base;
+let_expression
+	: lambda_expression #base
+	| %parameter: `identifier` #name '=' expression #expression:
+		("let!" #let (parameter #parameters[]) (',' parameter #parameters[])* ':' let_expression #body)
+	;
+
+expression: let_expression #base;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

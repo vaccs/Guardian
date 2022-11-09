@@ -7,17 +7,17 @@
 #include <string/new.h>
 #include <string/free.h>
 
-#include <avl/search.h>
-#include <avl/insert.h>
+#include <list/raw_declaration/append.h>
 
-#include <named/zebu_expression/new.h>
+#include "declaration/new.h"
+#include "declaration/free.h"
 
 #include "parse.h"
 #include "declare.h"
 
 void process_declare(
 	struct avl_tree_t* grammar,
-	struct avl_tree_t* declares,
+	struct raw_declaration_list* declarations,
 	struct zebu_value_declare* declare)
 {
 	ENTER;
@@ -27,16 +27,32 @@ void process_declare(
 	
 	struct string* name = new_string_from_token(declare->name);
 	
-	if (avl_search(grammar, &name) || avl_search(declares, &name))
-	{
-		TODO;
-		exit(1);
-	}
+	struct raw_declaration* declaration = new_raw_declaration(
+		name, declare->expression);
 	
-	avl_insert(declares, new_named_zebu_expression(name, declare->expression));
+	raw_declaration_list_append(declarations, declaration);
+	
+	free_raw_declaration(declaration);
 	
 	free_string(name);
 	
 	EXIT;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

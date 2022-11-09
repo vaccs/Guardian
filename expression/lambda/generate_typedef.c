@@ -3,20 +3,20 @@
 
 #include <debug.h>
 
-#include <string/struct.h>
+/*#include <string/struct.h>*/
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
-#include <type_check/unresolved/foreach.h>
+/*#include <type_check/unresolved/foreach.h>*/
 
-#include <out/type_queue/submit.h>
+/*#include <out/type_queue/submit.h>*/
 
-#include <capture/struct.h>
+/*#include <capture/struct.h>*/
 
-#include <list/capture/foreach.h>
+/*#include <list/capture/foreach.h>*/
 
 #include "struct.h"
 #include "generate_typedef.h"
@@ -28,6 +28,8 @@ struct stringtree* lambda_expression_generate_generate_typedef(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	// type_queue_submit(shared->stqueue, this);
@@ -64,6 +66,7 @@ struct stringtree* lambda_expression_generate_generate_typedef(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

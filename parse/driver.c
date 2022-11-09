@@ -114,9 +114,8 @@ void parse_driver(
 	struct lex* lex,
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
-	struct avl_tree_t* declares,
+	struct raw_declaration_list* declarations,
 	struct raw_assertion_list* assertions,
-	struct type_cache* tcache,
 	const char* input_path)
 {
 	ENTER;
@@ -169,12 +168,12 @@ void parse_driver(
 		
 		for (unsigned i = 0, n = start->grammars.n; i < n; i++)
 		{
-			process_grammar(lex, grammar, types, declares, start->grammars.data[i]);
+			process_grammar(lex, grammar, types, start->grammars.data[i]);
 		}
 		
 		for (unsigned i = 0, n = start->declares.n; i < n; i++)
 		{
-			process_declare(grammar, declares, start->declares.data[i]);
+			process_declare(grammar, declarations, start->declares.data[i]);
 		}
 		
 		for (unsigned i = 0, n = start->assertions.n; i < n; i++)

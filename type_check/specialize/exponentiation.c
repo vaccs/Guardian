@@ -11,6 +11,7 @@
 struct expression* specialize_exponentiation_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
+	struct type_check_scope* scope,
 	struct zebu_exponentiation_expression* zexpression)
 {
 	struct expression* retval;
@@ -18,7 +19,7 @@ struct expression* specialize_exponentiation_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_unary_expression(tcache, sshared, zexpression->base);
+		retval = specialize_unary_expression(tcache, sshared, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{

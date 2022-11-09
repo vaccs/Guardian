@@ -135,9 +135,6 @@ int main(int argc, char* const* argv)
 	// create sets:
 	{{INIT_SETS}}
 	
-	// "struct* $x = NULL;"
-	{{INIT_DECLARES}}
-
 	// new()s, inc()s, free()s, compare()s, index()s, ...
 	{{FUNCTIONS}}
 	
@@ -374,6 +371,9 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
+	// "struct* $x = NULL;"
+	{{INIT_ENVIRONMENT}}
+	
 	// "$x = malloc()";
 	{{ASSIGN_DECLARES}}
 	
@@ -381,7 +381,7 @@ int main(int argc, char* const* argv)
 	{{ASSERTIONS}}
 	
 	// clean up declarations:
-	{{UNINIT_DECLARES}}
+	{{UNINIT_ENVIRONMENT}}
 	
 	// free parse-tree:
 	{{FREE_START}}(start);

@@ -11,6 +11,7 @@
 struct expression* specialize_implication_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
+	struct type_check_scope* scope,
 	struct zebu_implication_expression* zexpression)
 {
 	struct expression* retval;
@@ -22,7 +23,7 @@ struct expression* specialize_implication_expression(
 	}
 	else
 	{
-		retval = specialize_possession_expression(tcache, sshared, zexpression->base);
+		retval = specialize_possession_expression(tcache, sshared, scope, zexpression->base);
 	}
 	
 	EXIT;

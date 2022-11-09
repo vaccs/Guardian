@@ -1,8 +1,9 @@
 
+struct raw_declaration_list;
 struct avl_tree_t;
 struct zebu_value_declare;
 
 void process_declare(
 	struct avl_tree_t* grammar,
-	struct avl_tree_t* declares,
-	struct zebu_value_declare* entry);
+	struct raw_declaration_list* declarations,
+	struct zebu_value_declare* declare);

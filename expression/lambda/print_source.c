@@ -3,23 +3,23 @@
 
 #include <debug.h>
 
-#include <string/struct.h>
+/*#include <string/struct.h>*/
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
 
-#include <out/shared.h>
-#include <out/function_queue/submit_lambda_new.h>
+/*#include <out/shared.h>*/
+/*#include <out/function_queue/submit_lambda_new.h>*/
 
-#include <parameter/struct.h>
+/*#include <parameter/struct.h>*/
 
-#include <list/parameter/struct.h>
+/*#include <list/parameter/struct.h>*/
 
-#include <type_check/unresolved/foreach.h>
+/*#include <type_check/unresolved/foreach.h>*/
 
-#include <capture/struct.h>
+/*#include <capture/struct.h>*/
 
-#include <list/capture/foreach.h>
+/*#include <list/capture/foreach.h>*/
 
 #include "struct.h"
 #include "print_source.h"
@@ -30,6 +30,8 @@ struct stringtree* lambda_expression_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_lambda);
 	
 	struct lambda_expression* this = (void*) super;
@@ -80,6 +82,7 @@ struct stringtree* lambda_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

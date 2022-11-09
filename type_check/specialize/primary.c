@@ -1,4 +1,64 @@
 
+/*#include <type/struct.h>*/
+
+/*#include <builtin/map/evaluate.h>*/
+
+/*#include <list/expression/struct.h>*/
+/*#include <list/expression/new.h>*/
+/*#include <list/expression/append.h>*/
+/*#include <list/expression/free.h>*/
+
+/*#include <expression/struct.h>*/
+/*#include <expression/variable/new.h>*/
+/*#include <expression/literal/struct.h>*/
+/*#include <expression/literal/new.h>*/
+/*#include <expression/len/new.h>*/
+/*#include <expression/list/new.h>*/
+/*#include <expression/sum/new.h>*/
+/*#include <expression/parenthesis/new.h>*/
+/*#include <expression/tuple/new.h>*/
+/*#include <expression/map/new.h>*/
+/*#include <expression/product/new.h>*/
+/*#include <expression/float/new.h>*/
+/*#include <expression/free.h>*/
+/*#include <expression/inc.h>*/
+
+/*#include <type_cache/get_type/list.h>*/
+/*#include <type_cache/get_type/int.h>*/
+/*#include <type_cache/get_type/float.h>*/
+/*#include <type_cache/get_type/tuple.h>*/
+
+/*#include <list/type/new.h>*/
+
+/*#include <type/lambda/struct.h>*/
+/*#include <type/list/struct.h>*/
+/*#include <type/print.h>*/
+/*#include <type/free.h>*/
+
+/*#include <parameter/struct.h>*/
+
+/*#include <list/parameter/struct.h>*/
+
+/*#include <list/type/struct.h>*/
+/*#include <list/type/append.h>*/
+/*#include <list/type/free.h>*/
+
+/*#include <type/tuple/struct.h>*/
+
+/*#include <list/value/new.h>*/
+/*#include <list/value/append.h>*/
+/*#include <list/value/free.h>*/
+
+/*#include <value/tuple/new.h>*/
+/*#include <value/bool/new.h>*/
+/*#include <value/int/new.h>*/
+/*#include <value/list/new.h>*/
+/*#include <value/float/new.h>*/
+/*#include <value/free.h>*/
+
+/*#include <mpz/new.h>*/
+/*#include <mpz/free.h>*/
+
 #include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -6,11 +66,9 @@
 
 #include <debug.h>
 
+#include <avl/search.h>
+
 #include <parse/parse.h>
-
-#include <type/struct.h>
-
-/*#include <builtin/map/evaluate.h>*/
 
 #include <string/new.h>
 #include <string/free.h>
@@ -20,57 +78,43 @@
 #include <list/expression/append.h>
 #include <list/expression/free.h>
 
-#include <expression/struct.h>
-#include <expression/variable/new.h>
-#include <expression/literal/struct.h>
-#include <expression/literal/new.h>
-#include <expression/len/new.h>
-#include <expression/list/new.h>
-#include <expression/sum/new.h>
-#include <expression/parenthesis/new.h>
-#include <expression/tuple/new.h>
-#include <expression/map/new.h>
-#include <expression/product/new.h>
-#include <expression/float/new.h>
-#include <expression/free.h>
-#include <expression/inc.h>
-
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/int.h>
-#include <type_cache/get_type/float.h>
-#include <type_cache/get_type/tuple.h>
-
 #include <list/type/new.h>
-
-#include <type/lambda/struct.h>
-#include <type/list/struct.h>
-#include <type/print.h>
-#include <type/free.h>
-
-#include <parameter/struct.h>
-
-#include <list/parameter/struct.h>
-
-#include <list/type/struct.h>
 #include <list/type/append.h>
 #include <list/type/free.h>
-
-#include <type/tuple/struct.h>
 
 #include <list/value/new.h>
 #include <list/value/append.h>
 #include <list/value/free.h>
 
-#include <value/tuple/new.h>
-#include <value/bool/new.h>
+#include <named/type/struct.h>
+
+#include <named/expression/struct.h>
+
+/*#include <type_cache/get_type/bool.h>*/
+#include <type_cache/get_type/tuple.h>
+#include <type_cache/get_type/list.h>
+
+#include <expression/struct.h>
+#include <expression/literal/struct.h>
+#include <expression/literal/new.h>
+#include <expression/tuple/new.h>
+#include <expression/variable/new.h>
+#include <expression/parenthesis/new.h>
+#include <expression/inc.h>
+#include <expression/free.h>
+
 #include <value/int/new.h>
-#include <value/list/new.h>
+#include <value/bool/new.h>
+#include <value/tuple/new.h>
 #include <value/float/new.h>
 #include <value/free.h>
 
 #include <mpz/new.h>
 #include <mpz/free.h>
 
+#include "../scope/lookup.h"
+
+#include "shared.h"
 #include "expression.h"
 #include "primary.h"
 
@@ -130,35 +174,81 @@ static struct expression* specialize_primary_float_expression(
 
 static struct expression* specialize_primary_identifier_expression(
 	struct type_cache* tcache,
+	struct type_check_scope* scope,
 	struct zebu_primary_expression* zexpression)
 {
 	struct expression* retval;
 	ENTER;
 	
-	if (zexpression->value)
+	struct string* name = new_string_from_token(zexpression->identifier);
+	
+	struct type* type = NULL;
+	struct value* value = NULL;
+	
+	if (type_check_scope_lookup(scope, name, &type, &value))
 	{
-		retval = new_literal_expression(zexpression->value);
+		if (value)
+		{
+			TODO;
+		}
+		else
+		{
+			TODO;
+		}
 	}
 	else
 	{
-		struct string* name = new_string_from_token(zexpression->identifier);
-		
-		dpvs(name);
-		
-		assert(zexpression->type);
-		
-		retval = new_variable_expression(zexpression->type, zexpression->kind, name);
-		
-		free_string(name);
+		TODO;
 	}
 	
-	EXIT;
+	free_value(value);
+	
+	TODO;
+	#if 0
+	struct avl_node_t* node = avl_search(sshared->name_to_expression, &name);
+	
+	if (node)
+	{
+		struct named_expression *nexpression = node->item;
+		
+		struct expression* expression = nexpression->expression;
+		
+		if (expression->kind == ek_literal)
+		{
+			retval = inc_expression(expression);
+		}
+		else
+		{
+			retval = new_variable_expression(expression->type, vek_declare, name);
+		}
+	}
+	else if ((node = avl_search(sshared->name_to_type, &name)))
+	{
+		TODO;
+	}
+	else if ((node = avl_search(sshared->grammar_types, &name)))
+	{
+		struct named_type* ntype = node->item;
+		
+		struct type* ltype = type_cache_get_list_type(tcache, ntype->type);
+		
+		retval = new_variable_expression(ltype, vek_grammar_rule, name);
+	}
+	else
+	{
+		TODO;
+	}
+	
+	free_string(name);
+	
 	return retval;
+	#endif
 }
 
 static struct expression* specialize_tuple_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
+	struct type_check_scope* scope,
 	struct zebu_primary_expression* zexpression)
 {
 	struct expression* retval;
@@ -175,7 +265,7 @@ static struct expression* specialize_tuple_expression(
 	for (i = 0, n = zexpression->elements.n; i < n; i++)
 	{
 		struct expression* subexpression = specialize_expression(
-			tcache, sshared, zexpression->elements.data[i]);
+			tcache, sshared, scope, zexpression->elements.data[i]);
 		
 		if (subexpression->kind != ek_literal)
 			all_literals = false;
@@ -227,10 +317,10 @@ static struct expression* specialize_primary_list_form_expression(
 {
 	ENTER;
 	
-	dpv(len);
-	
 	assert(len);
 	
+	TODO;
+	#if 0
 	struct type* element_type = NULL;
 	
 	struct expression_list* elements = new_expression_list();
@@ -294,6 +384,7 @@ static struct expression* specialize_primary_list_form_expression(
 	
 	EXIT;
 	return retval;
+	#endif
 }
 
 static struct expression* specialize_primary_len_form_expression(
@@ -304,6 +395,8 @@ static struct expression* specialize_primary_len_form_expression(
 	struct expression* retval;
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct expression* list = specialize_expression(tcache, sshared, raw_argument);
 	
 	switch (list->type->kind)
@@ -350,6 +443,7 @@ static struct expression* specialize_primary_len_form_expression(
 	
 	EXIT;
 	return retval;
+	#endif
 }
 
 static struct expression* specialize_primary_float_form_expression(
@@ -360,6 +454,8 @@ static struct expression* specialize_primary_float_form_expression(
 	struct expression* retval;
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct expression* whatever = specialize_expression(tcache, sshared, raw_argument);
 	
 	switch (whatever->type->kind)
@@ -389,6 +485,7 @@ static struct expression* specialize_primary_float_form_expression(
 	
 	EXIT;
 	return retval;
+	#endif
 }
 
 #if 0
@@ -607,6 +704,7 @@ static struct expression* specialize_primary_product_expression(
 struct expression* specialize_primary_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
+	struct type_check_scope* scope,
 	struct zebu_primary_expression* zexpression)
 {
 	struct expression* retval;
@@ -646,18 +744,18 @@ struct expression* specialize_primary_expression(
 	}
 	else if (zexpression->identifier)
 	{
-		retval = specialize_primary_identifier_expression(tcache, zexpression);
+		retval = specialize_primary_identifier_expression(tcache, scope, zexpression);
 	}
 	else if (zexpression->paren)
 	{
 		if (zexpression->tuple)
 		{
-			retval = specialize_tuple_expression(tcache, sshared, zexpression);
+			retval = specialize_tuple_expression(tcache, sshared, scope, zexpression);
 		}
 		else
 		{
 			struct expression* sub = specialize_expression(tcache,
-				sshared, zexpression->subexpression);
+				sshared, scope, zexpression->subexpression);
 			
 			if (sub->kind == ek_literal)
 			{

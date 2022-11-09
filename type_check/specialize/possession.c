@@ -15,6 +15,7 @@
 struct expression* specialize_possession_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
+	struct type_check_scope* scope,
 	struct zebu_possession_expression* zexpression)
 {
 	struct expression* retval;
@@ -22,7 +23,7 @@ struct expression* specialize_possession_expression(
 	
 	if (zexpression->has)
 	{
-		struct expression* object = specialize_inclusion_expression(tcache, sshared, zexpression->base);
+		struct expression* object = specialize_inclusion_expression(tcache, sshared, scope, zexpression->base);
 		
 		struct string* fieldname = new_string_from_token(zexpression->has);
 		
@@ -34,7 +35,7 @@ struct expression* specialize_possession_expression(
 	}
 	else
 	{
-		retval = specialize_inclusion_expression(tcache, sshared, zexpression->base);
+		retval = specialize_inclusion_expression(tcache, sshared, scope, zexpression->base);
 	}
 	
 	EXIT;

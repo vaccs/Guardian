@@ -1,13 +1,49 @@
+
 %skip: ' ' | '\n';
+
 number: /int: ['0'-'9']+/ #value;
-string: /['a'-'z','A'-'Z']+/ #value;
+
 %start: number string;
+
 t = (number[0].value, string[0].value);
+
 q = (true, );
+
 w = (3.14, );
+
 s = t + (q + w);
+
+fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
+
+bar = $int x, y, z -> int: ($int a -> int: ($int b -> int: ($int c -> int: a + b + c)(z))(y))(x);
+
+a = 2;
+
+boo = let! b = a + 2, c = b + 2: b + c;
+
+%error: boo > 1;
+
 %error: len!(s) == 4;
+
+string: /['a'-'z', 'A'-'Z']+/ #value;
+
 %error: float!(s.0) + s.3 > 10.0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

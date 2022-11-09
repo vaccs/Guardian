@@ -16,9 +16,12 @@ void free_named_type(void* ptr)
 	
 	struct named_type* this = ptr;
 	
-	free_string(this->name);
-	
-	free(this);
+	if (this && !--this->refcount)
+	{
+		free_string(this->name);
+		
+		free(this);
+	}
 	
 	EXIT;
 }

@@ -259,6 +259,12 @@ struct stringtree* out(
 		}
 	}
 	
+	// look through declarations, build environment struct
+	// and destructors
+	// all in the declaration-queue, right?
+	
+	TODO;
+	#if 0
 	struct out_shared shared;
 	
 	shared.tcache = tcache;
@@ -477,5 +483,6 @@ struct stringtree* out(
 	
 	EXIT;
 	return root;
+	#endif
 }
 

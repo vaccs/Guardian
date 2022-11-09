@@ -1,4 +1,39 @@
 
+
+/*#include <named/type/new.h>*/
+/*#include <named/type/compare.h>*/
+/*#include <named/type/free.h>*/
+
+/*#include <type/free.h>*/
+
+/*#include <value/lambda/new.h>*/
+/*#include <value/free.h>*/
+
+/*#include <list/type/free.h>*/
+
+/*#include <type/print.h>*/
+
+/*#include <list/parameter/is_nonempty.h>*/
+/*#include <list/parameter/free.h>*/
+
+/*#include <capture/new.h>*/
+/*#include <capture/free.h>*/
+
+/*#include <list/capture/new.h>*/
+/*#include <list/capture/append.h>*/
+/*#include <list/capture/is_nonempty.h>*/
+/*#include <list/capture/free.h>*/
+
+/*#include <expression/struct.h>	*/
+/*#include <expression/lambda/new.h>*/
+/*#include <expression/literal/new.h>*/
+/*#include <expression/free.h>*/
+
+/*#include "../unresolved/foreach.h"*/
+/*#include "../unresolved/is_nonempty.h"*/
+
+/*#include "shared.h"*/
+
 #include <stdlib.h>
 
 #include <assert.h>
@@ -7,59 +42,38 @@
 
 #include <parse/parse.h>
 
-#include <string/new.h>
-#include <string/free.h>
-
-#include <named/type/new.h>
-#include <named/type/compare.h>
-#include <named/type/free.h>
-
-#include <type/free.h>
-
-#include <value/lambda/new.h>
-#include <value/free.h>
-
-#include <parameter/new.h>
-#include <parameter/free.h>
-
 #include <list/type/new.h>
-#include <list/type/append.h>
-#include <list/type/free.h>
-
-#include <type/print.h>
 
 #include <list/parameter/new.h>
-#include <list/parameter/is_nonempty.h>
+
+#include <string/new.h>
+
+#include <parameter/new.h>
+
 #include <list/parameter/append.h>
-#include <list/parameter/free.h>
 
-#include <capture/new.h>
-#include <capture/free.h>
+#include <list/type/append.h>
 
-#include <list/capture/new.h>
-#include <list/capture/append.h>
-#include <list/capture/is_nonempty.h>
-#include <list/capture/free.h>
+#include <parameter/free.h>
+
+#include <string/free.h>
+
+#include <string/free.h>
 
 #include <type_cache/get_type/lambda.h>
 
-#include <expression/struct.h>	
-#include <expression/lambda/new.h>
-#include <expression/literal/new.h>
-#include <expression/free.h>
-
-#include "../unresolved/foreach.h"
-#include "../unresolved/is_nonempty.h"
-
-#include "../build_type.h"
-
-#include "shared.h"
 #include "conditional.h"
 #include "lambda.h"
+
+#include "../scope/push.h"
+#include "../scope/pop.h"
+
+#include "../build_type.h"
 
 struct expression* specialize_lambda_expression(
 	struct type_cache* tcache,
 	struct specialize_shared *sshared,
+	struct type_check_scope* scope,
 	struct zebu_lambda_expression* zexpression)
 {
 	struct expression* retval;
@@ -67,13 +81,15 @@ struct expression* specialize_lambda_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_conditional_expression(tcache, sshared, zexpression->base);
+		retval = specialize_conditional_expression(tcache, sshared, scope, zexpression->base);
 	}
 	else if (zexpression->lambda)
 	{
 		struct type_list* parameter_types = new_type_list();
 		
 		struct parameter_list* parameters = new_parameter_list();
+		
+		type_check_scope_push(scope);
 		
 		if (zexpression->name)
 		{
@@ -116,12 +132,19 @@ struct expression* specialize_lambda_expression(
 			}
 		}
 		
+		// help with sshared->environment
+		
+		// make environment type
+		TODO;
+		
 		struct type* rettype = build_type(tcache, zexpression->rettype);
 		
 		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, rettype);
 		
-		struct expression* body = specialize_lambda_expression(tcache, sshared, zexpression->lambda);
+		struct expression* body = specialize_lambda_expression(tcache, sshared, scope, zexpression->lambda);
 		
+		TODO;
+		#if 0
 		if (rettype != body->type)
 		{
 			TODO;
@@ -185,6 +208,9 @@ struct expression* specialize_lambda_expression(
 		free_parameter_list(parameters);
 		
 		free_expression(body);
+		#endif
+		
+		type_check_scope_pop(scope);
 	}
 	else
 	{
@@ -193,6 +219,7 @@ struct expression* specialize_lambda_expression(
 	
 	EXIT;
 	return retval;
+	
 }
 
 

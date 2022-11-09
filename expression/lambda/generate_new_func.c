@@ -4,25 +4,25 @@
 
 #include <debug.h>
 
-#include <string/struct.h>
+/*#include <string/struct.h>*/
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
-#include <type_check/unresolved/foreach.h>
+/*#include <type_check/unresolved/foreach.h>*/
 
-#include <out/shared.h>
-#include <out/subtype_queue/submit.h>
-#include <out/type_queue/submit.h>
-#include <out/function_queue/submit_inc.h>
-#include <out/function_queue/submit_lambda_evaluate.h>
-#include <out/function_queue/submit_lambda_free.h>
+/*#include <out/shared.h>*/
+/*#include <out/subtype_queue/submit.h>*/
+/*#include <out/type_queue/submit.h>*/
+/*#include <out/function_queue/submit_inc.h>*/
+/*#include <out/function_queue/submit_lambda_evaluate.h>*/
+/*#include <out/function_queue/submit_lambda_free.h>*/
 
-#include <capture/struct.h>
+/*#include <capture/struct.h>*/
 
-#include <list/capture/foreach.h>
+/*#include <list/capture/foreach.h>*/
 
 #include "struct.h"
 #include "generate_new_func.h"
@@ -34,6 +34,8 @@ struct stringtree* lambda_expression_generate_new_func(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	subtype_queue_submit(shared->stqueue, this);
@@ -106,6 +108,7 @@ struct stringtree* lambda_expression_generate_new_func(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

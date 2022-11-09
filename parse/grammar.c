@@ -34,7 +34,6 @@ void process_grammar(
 	struct lex* lex,
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
-	struct avl_tree_t* declares,
 	struct zebu_grammar_rule* rule)
 {
 	ENTER;
@@ -45,7 +44,7 @@ void process_grammar(
 	
 	dpvs(name);
 	
-	if (avl_search(grammar, &name) || avl_search(declares, &name))
+	if (avl_search(grammar, &name))
 	{
 		TODO;
 		exit(1);

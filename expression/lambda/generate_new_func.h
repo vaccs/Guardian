@@ -1,4 +1,5 @@
 
+struct out_shared;
 struct lambda_expression;
 
 struct stringtree* lambda_expression_generate_new_func(

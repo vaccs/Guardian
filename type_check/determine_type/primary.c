@@ -28,12 +28,13 @@
 struct type* determine_type_of_primary_expression(
 	struct zebu_primary_expression* expression,
 	struct type_cache* tcache,
-	struct avl_tree_t* grammar_types,
-	struct avl_tree_t* name_to_type)
+	struct type_check_scope* scope)
 {
 	struct type* type;
 	ENTER;
 	
+	TODO;
+	#if 0
 	if (expression->integer_literal)
 	{
 		type = type_cache_get_int_type(tcache);
@@ -66,17 +67,17 @@ struct type* determine_type_of_primary_expression(
 		
 		dpvs(name);
 		
-		if ((node = avl_search(grammar_types, &name)))
-		{
-			struct named_type* ntype = node->item;
-			
-			type = type_cache_get_list_type(tcache, ntype->type);
-		}
-		else if ((node = avl_search(name_to_type, &name)))
+		if ((node = avl_search(name_to_type, &name)))
 		{
 			struct named_type* ntype = node->item;
 			
 			type = ntype->type;
+		}
+		else if ((node = avl_search(grammar_types, &name)))
+		{
+			struct named_type* ntype = node->item;
+			
+			type = type_cache_get_list_type(tcache, ntype->type);
 		}
 		else
 		{
@@ -95,6 +96,8 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->paren)
 	{
+		TODO;
+		#if 0
 		if (expression->tuple)
 		{
 			struct type_list* subtypes = new_type_list();
@@ -118,6 +121,7 @@ struct type* determine_type_of_primary_expression(
 				expression->subexpression,
 				tcache, grammar_types, name_to_type);
 		}
+		#endif
 	}
 	else if (expression->list)
 	{
@@ -137,6 +141,7 @@ struct type* determine_type_of_primary_expression(
 	
 	EXIT;
 	return type;
+	#endif
 }
 
 

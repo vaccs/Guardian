@@ -1,4 +1,30 @@
 
+/*#include <parse/assertion/free.h>*/
+
+/*#include <assertion/free.h>*/
+
+/*#include <named/zebu_expression/compare.h>*/
+/*#include <named/zebu_expression/free.h>*/
+
+/*#include <named/zebu_type/compare.h>*/
+/*#include <named/zebu_type/free.h>*/
+
+/*#include <named/expression/compare.h>*/
+/*#include <named/expression/free.h>*/
+
+/*#include <quack/new.h>*/
+/*#include <quack/foreach.h>*/
+/*#include <quack/free.h>*/
+
+/*#include <yacc/yacc.h>*/
+
+/*#include <yacc/state/free.h>*/
+
+/*#include <out/out.h>*/
+
+/*#include <stringtree/stream.h>*/
+/*#include <stringtree/free.h>*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -9,38 +35,36 @@
 #include <cmdln/process.h>
 #include <cmdln/free.h>
 
+#include <lex/new.h>
+#include <lex/free.h>
+
 #include <avl/alloc_tree.h>
 #include <avl/free_tree.h>
-
-#include <set/string/new.h>
-#include <set/string/free.h>
-
-#include <parse/driver.h>
-
-#include <parse/assertion/free.h>
-
-#include <assertion/free.h>
 
 #include <named/grammar/compare.h>
 #include <named/grammar/free.h>
 
-#include <named/type/compare.h>
-#include <named/type/free.h>
-
-#include <named/zebu_expression/compare.h>
-#include <named/zebu_expression/free.h>
-
-#include <named/zebu_type/compare.h>
-#include <named/zebu_type/free.h>
-
-#include <named/expression/compare.h>
-#include <named/expression/free.h>
-
 #include <named/structinfo/compare.h>
 #include <named/structinfo/free.h>
 
+#include <list/raw_declaration/new.h>
+#include <list/raw_declaration/free.h>
+
 #include <list/raw_assertion/new.h>
 #include <list/raw_assertion/free.h>
+
+#include <parse/driver.h>
+
+#include <type_cache/new.h>
+#include <type_cache/free.h>
+
+#include <named/type/compare.h>
+#include <named/type/free.h>
+
+#include <type_check/specialize_grammar_types.h>
+
+#include <set/string/new.h>
+#include <set/string/free.h>
 
 #include <list/declaration/new.h>
 #include <list/declaration/free.h>
@@ -48,27 +72,7 @@
 #include <list/assertion/new.h>
 #include <list/assertion/free.h>
 
-#include <quack/new.h>
-#include <quack/foreach.h>
-#include <quack/free.h>
-
-#include <lex/new.h>
-#include <lex/free.h>
-
-#include <type_cache/new.h>
-#include <type_cache/free.h>
-
-#include <type_check/specialize_grammar_types.h>
 #include <type_check/type_check.h>
-
-#include <yacc/yacc.h>
-
-#include <yacc/state/free.h>
-
-#include <out/out.h>
-
-#include <stringtree/stream.h>
-#include <stringtree/free.h>
 
 int main(int argc, char* const* argv)
 {
@@ -78,16 +82,20 @@ int main(int argc, char* const* argv)
 	
 	struct lex* lex = new_lex();
 	
-	struct type_cache* tcache = new_type_cache();
+	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
+	
+	struct avl_tree_t* structinfos = avl_alloc_tree(compare_named_structinfos, free_named_structinfo);
+	
+	struct raw_declaration_list* raw_declarations = new_raw_declaration_list();
 	
 	struct raw_assertion_list* raw_assertions = new_raw_assertion_list();
 	
-	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
-	struct avl_tree_t* structinfos = avl_alloc_tree(compare_named_structinfos, free_named_structinfo);
-	struct avl_tree_t* raw_declares = avl_alloc_tree(compare_named_zebu_expressions, free_named_zebu_expression);
-	parse_driver(lex, grammar, structinfos, raw_declares, raw_assertions, tcache, flags->input_path);
+	parse_driver(lex, grammar, structinfos, raw_declarations, raw_assertions, flags->input_path);
+	
+	struct type_cache* tcache = new_type_cache();
 	
 	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
+	
 	specialize_grammar_types(types, tcache, structinfos);
 	
 	struct stringset* grammar_sets = new_stringset();
@@ -98,9 +106,11 @@ int main(int argc, char* const* argv)
 	
 	type_check(
 		tcache, types,
-		raw_declares, raw_assertions,
+		raw_declarations, raw_assertions,
 		grammar_sets, declarations, assertions);
 	
+	TODO;
+	#if 0
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
 	struct stringtree* content = out(tcache, types, grammar_sets, declarations, assertions, start);
@@ -145,6 +155,7 @@ int main(int argc, char* const* argv)
 	
 	EXIT;
 	return 0;
+	#endif
 }
 
 
