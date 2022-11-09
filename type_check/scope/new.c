@@ -6,14 +6,11 @@
 #include "struct.h"
 #include "new.h"
 
-struct type_check_scope* new_type_check_scope(
-	struct avl_tree_t* grammar_types)
+struct type_check_scope* new_type_check_scope()
 {
 	ENTER;
 	
 	struct type_check_scope* this = smalloc(sizeof(*this));
-	
-	this->grammar_types = grammar_types;
 	
 	this->head = NULL;
 	

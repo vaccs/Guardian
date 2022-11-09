@@ -16,19 +16,16 @@ struct type* determine_type_of_logical_and_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
 	if (expression->left)
 	{
 		TODO;
 	}
 	else
 	{
-		type = determine_type_of_inclusive_or_expression(expression->base, tcache, grammar_types, name_to_type);
+		type = determine_type_of_inclusive_or_expression(expression->base, tcache, scope);
 	}
 	
 	EXIT;
 	return type;
-	#endif
 }
 

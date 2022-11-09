@@ -3,7 +3,7 @@
 
 #include <parse/parse.h>
 
-#include "lambda.h"
+#include "let.h"
 #include "expression.h"
 
 struct type* determine_type_of_expression(
@@ -13,12 +13,9 @@ struct type* determine_type_of_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct type* type = determine_type_of_lambda_expression(expression->base, tcache, scope);
+	struct type* type = determine_type_of_let_expression(expression->base, tcache, scope);
 	
 	EXIT;
 	return type;
-	#endif
 }
 

@@ -10,6 +10,7 @@
 
 #include <type/struct.h>
 #include <type/list/struct.h>
+#include <type/lambda/struct.h>
 #include <type/grammar/get_field.h>
 
 #include "primary.h"
@@ -23,17 +24,15 @@ struct type* determine_type_of_postfix_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
 	if (expression->base)
 	{
-		type = determine_type_of_primary_expression(expression->base, tcache, grammar_types, name_to_type);
+		type = determine_type_of_primary_expression(expression->base, tcache, scope);
 	}
-	else
+	else if (expression->sub)
 	{
 		if (expression->index)
 		{
-			struct type* ltype_generic = determine_type_of_postfix_expression(expression->sub, tcache, grammar_types, name_to_type);
+			struct type* ltype_generic = determine_type_of_postfix_expression(expression->sub, tcache, scope);
 			
 			if (ltype_generic->kind != tk_list)
 			{
@@ -44,9 +43,13 @@ struct type* determine_type_of_postfix_expression(
 			
 			type = ltype->element_type;
 		}
+		else if (expression->tupleindex)
+		{
+			TODO;
+		}
 		else if (expression->field)
 		{
-			struct type* gtype_generic = determine_type_of_postfix_expression(expression->sub, tcache, grammar_types, name_to_type);
+			struct type* gtype_generic = determine_type_of_postfix_expression(expression->sub, tcache, scope);
 			
 			if (gtype_generic->kind != tk_grammar)
 			{
@@ -69,17 +72,29 @@ struct type* determine_type_of_postfix_expression(
 		}
 		else if (expression->call)
 		{
-			TODO;
+			struct type* ftype_generic = determine_type_of_postfix_expression(expression->sub, tcache, scope);
+			
+			if (ftype_generic->kind != tk_lambda)
+			{
+				TODO;
+			}
+			
+			struct lambda_type* ftype = (void*) ftype_generic;
+			
+			type = ftype->rettype;
 		}
 		else
 		{
 			TODO;
 		}
 	}
+	else
+	{
+		TODO;
+	}
 	
 	EXIT;
 	return type;
-	#endif
 }
 
 

@@ -10,7 +10,7 @@
 
 #include <parse/parse.h>
 
-#include <named/type/struct.h>
+/*#include <named/type/struct.h>*/
 
 #include <list/type/new.h>
 #include <list/type/append.h>
@@ -21,6 +21,8 @@
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/tuple.h>
+
+#include <type_check/scope/lookup.h>
 
 #include "expression.h"
 #include "primary.h"
@@ -33,8 +35,6 @@ struct type* determine_type_of_primary_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
 	if (expression->integer_literal)
 	{
 		type = type_cache_get_int_type(tcache);
@@ -67,19 +67,7 @@ struct type* determine_type_of_primary_expression(
 		
 		dpvs(name);
 		
-		if ((node = avl_search(name_to_type, &name)))
-		{
-			struct named_type* ntype = node->item;
-			
-			type = ntype->type;
-		}
-		else if ((node = avl_search(grammar_types, &name)))
-		{
-			struct named_type* ntype = node->item;
-			
-			type = type_cache_get_list_type(tcache, ntype->type);
-		}
-		else
+		if (!type_check_scope_lookup_type(scope, name, &type))
 		{
 			TODO;
 		}
@@ -96,8 +84,6 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->paren)
 	{
-		TODO;
-		#if 0
 		if (expression->tuple)
 		{
 			struct type_list* subtypes = new_type_list();
@@ -105,8 +91,7 @@ struct type* determine_type_of_primary_expression(
 			for (unsigned i = 0, n = expression->elements.n; i < n; i++)
 			{
 				struct type* subtype = determine_type_of_expression(
-					expression->elements.data[i],
-					tcache, grammar_types, name_to_type);
+					expression->elements.data[i], tcache, scope);
 				
 				type_list_append(subtypes, subtype);
 			}
@@ -118,10 +103,8 @@ struct type* determine_type_of_primary_expression(
 		else
 		{
 			type = determine_type_of_expression(
-				expression->subexpression,
-				tcache, grammar_types, name_to_type);
+				expression->subexpression, tcache, scope);
 		}
-		#endif
 	}
 	else if (expression->list)
 	{
@@ -141,7 +124,6 @@ struct type* determine_type_of_primary_expression(
 	
 	EXIT;
 	return type;
-	#endif
 }
 
 

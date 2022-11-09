@@ -9,9 +9,8 @@ bin/debug-build/yes-verbose/./type_check/specialize/primary.o: \
  type_cache/get_type/list.h expression/struct.h expression/kind.h \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/new.h expression/tuple/new.h \
- expression/variable/new.h expression/variable/kind.h \
- expression/parenthesis/new.h expression/inc.h expression/free.h \
- value/int/new.h value/bool/new.h value/tuple/new.h value/float/new.h \
- value/free.h mpz/new.h mpz/free.h \
+ expression/variable/new.h expression/parenthesis/new.h expression/inc.h \
+ expression/free.h value/int/new.h value/bool/new.h value/tuple/new.h \
+ value/float/new.h value/free.h mpz/new.h mpz/free.h \
  type_check/specialize/../scope/lookup.h type_check/specialize/shared.h \
  type_check/specialize/expression.h type_check/specialize/primary.h

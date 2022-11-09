@@ -1,4 +1,5 @@
 
+struct environment_type;
 struct type_check_scope_layer;
 struct type_check_scope;
 struct avl_tree_t;
@@ -8,5 +9,6 @@ struct type;
 
 struct type* type_cache_get_environment_type(
 	struct type_cache* this,
-	struct type* prev_environment,
-	struct type_check_scope_layer* layer);
+	struct environment_type* prev,
+	struct avl_tree_t* variables);
+

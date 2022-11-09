@@ -85,6 +85,8 @@ struct expression* specialize_lambda_expression(
 	}
 	else if (zexpression->lambda)
 	{
+		TODO;
+		#if 0
 		struct type_list* parameter_types = new_type_list();
 		
 		struct parameter_list* parameters = new_parameter_list();
@@ -211,6 +213,7 @@ struct expression* specialize_lambda_expression(
 		#endif
 		
 		type_check_scope_pop(scope);
+		#endif
 	}
 	else
 	{

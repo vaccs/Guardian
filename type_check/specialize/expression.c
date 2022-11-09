@@ -3,7 +3,7 @@
 
 #include <parse/parse.h>
 
-#include "lambda.h"
+#include "let.h"
 #include "expression.h"
 
 struct expression* specialize_expression(
@@ -15,13 +15,10 @@ struct expression* specialize_expression(
 	struct expression* retval;
 	ENTER;
 	
-	TODO;
-	#if 0
-	retval = specialize_lambda_expression(tcache, sshared, scope, zexpression->base);
+	retval = specialize_let_expression(tcache, sshared, scope, zexpression->base);
 	
 	EXIT;
 	return retval;
-	#endif
 }
 
 

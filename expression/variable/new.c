@@ -13,7 +13,6 @@
 
 struct expression* new_variable_expression(
 	struct type* type,
-	enum variable_expression_kind kind,
 	struct string* name)
 {
 	ENTER;
@@ -25,8 +24,6 @@ struct expression* new_variable_expression(
 		&variable_expression_inheritance,
 		type,
 		sizeof(struct variable_expression));
-	
-	this->kind = kind;
 	
 	this->name = inc_string(name);
 	

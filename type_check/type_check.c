@@ -45,8 +45,6 @@
 /*#include <list/string/append.h>*/
 /*#include <list/string/index.h>*/
 
-/*#include <type_cache/get_type/list.h>*/
-
 /*#include <set/string/add.h>*/
 
 /*#include <memory/srealloc.h>*/
@@ -129,7 +127,9 @@
 
 /*#include <avl/alloc_tree.h>*/
 /*#include <avl/insert.h>*/
+#include <avl/foreach.h>
 
+#include <named/type/struct.h>
 /*#include <named/type/new.h>*/
 /*#include <named/type/compare.h>*/
 /*#include <named/type/free.h>*/
@@ -149,9 +149,14 @@
 
 #include <type_cache/get_type/environment.h>
 
+#include <type_cache/get_type/list.h>
+
+#include "scope/layer.h"
 #include "scope/struct.h"
 #include "scope/new.h"
 #include "scope/push.h"
+#include "scope/declare.h"
+/*#include "scope/lookup.h"*/
 #include "scope/pop.h"
 #include "scope/free.h"
 
@@ -175,9 +180,33 @@ void type_check(
 {
 	ENTER;
 	
-	struct type_check_scope* scope = new_type_check_scope(grammar_types);
+	struct type_check_scope* scope = new_type_check_scope();
 	
 	type_check_scope_push(scope);
+	
+	avl_foreach(grammar_types, ({
+		void runme(void* ptr)
+		{
+			struct named_type* ntype = ptr;
+			
+			struct type* ltype = type_cache_get_list_type(tcache, ntype->type);
+			
+			type_check_scope_declare(scope, ntype->name);
+			
+			type_check_scope_declare_type(scope, ntype->name, ltype);
+		}
+		runme;
+	}));
+	
+	raw_declaration_list_foreach(raw_declarations, ({
+		void runme(struct raw_declaration* raw_declaration)
+		{
+			struct string* name = raw_declaration->name;
+			
+			type_check_scope_declare(scope, name);
+		}
+		runme;
+	}));
 	
 	raw_declaration_list_foreach(raw_declarations, ({
 		void runme(struct raw_declaration* raw_declaration)
@@ -193,20 +222,19 @@ void type_check(
 			type_print(type), puts("");
 			#endif
 			
-			// add types to scope
-			TODO;
+			type_check_scope_declare_type(scope, name, type);
 		}
 		runme;
 	}));
 	
-	struct type* environment = type_cache_get_environment_type(tcache, NULL, scope->head);
+	struct type* environment = type_cache_get_environment_type(tcache, NULL, scope->head->tree);
 	
 	dpv(environment);
 	
-	// ask type_cache for environment type
-	TODO;
-	
-	struct specialize_shared sshared = {};
+	struct specialize_shared sshared = {
+		.lambda_id = 0,
+		.environment = environment,
+	};
 	
 	raw_declaration_list_foreach(raw_declarations, ({
 		void runme(struct raw_declaration* raw_declaration)

@@ -132,13 +132,18 @@ int main(int argc, char* const* argv)
 		exit(1);
 	}
 	
-	// create sets:
-	{{INIT_SETS}}
+	// declare root environment:
+	// struct *root;
+	{{DECLARE_ENVIRONMENT}}
 	
 	// new()s, inc()s, free()s, compare()s, index()s, ...
 	{{FUNCTIONS}}
 	
-	{{ASSIGN_SETS}}
+	// allocate root environment, init all fields to NULL:
+	{{INIT_ENVIRONMENT}}
+	
+	// assign sets:
+	{{INIT_SETS}}
 	
 	struct { unsigned* data, n, cap; } yacc = {};
 	struct { void** data; unsigned n, cap; } data = {};
@@ -371,23 +376,17 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	// "struct* $x = NULL;"
-	{{INIT_ENVIRONMENT}}
-	
 	// "$x = malloc()";
 	{{ASSIGN_DECLARES}}
 	
 	// assertions:
 	{{ASSERTIONS}}
 	
-	// clean up declarations:
-	{{UNINIT_ENVIRONMENT}}
-	
 	// free parse-tree:
 	{{FREE_START}}(start);
 	
-	// "free($x);
-	{{UNINIT_SETS}}
+	// clean up declarations:
+	{{UNINIT_ENVIRONMENT}}
 	
 	free(yacc.data);
 	free(data.data);

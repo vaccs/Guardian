@@ -12,7 +12,7 @@
  */
 void avl_free_tree(avl_tree_t *avltree)
 {
-	if (avltree)
+	if (avltree && !--avltree->refcount)
 	{
 		avl_free_nodes(avltree);
 		

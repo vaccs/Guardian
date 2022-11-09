@@ -16,19 +16,20 @@ struct type* determine_type_of_multiplicative_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
-	if (expression->left)
+	if (expression->base)
+	{
+		type = determine_type_of_exponentiation_expression(expression->base, tcache, scope);
+	}
+	else if (expression->left)
 	{
 		TODO;
 	}
 	else
 	{
-		type = determine_type_of_exponentiation_expression(expression->base, tcache, grammar_types, name_to_type);
+		TODO;
 	}
 	
 	EXIT;
 	return type;
-	#endif
 }
 

@@ -12,6 +12,7 @@ enum type_kind
 	tk_tuple,
 	tk_lambda,
 	tk_grammar,
+	tk_environment,
 };
 
 #endif

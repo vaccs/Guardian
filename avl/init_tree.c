@@ -17,6 +17,8 @@ avl_tree_t *avl_init_tree(
 		rc->cmp = cmp;
 		
 		rc->freeitem = freeitem;
+		
+		rc->refcount = 1;
 	}
 	return rc;
 }

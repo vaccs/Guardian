@@ -24,11 +24,9 @@ struct type* determine_type_of_lambda_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
 	if (expression->base)
 	{
-		type = determine_type_of_conditional_expression(expression->base, tcache, grammar_types, name_to_type);
+		type = determine_type_of_conditional_expression(expression->base, tcache, scope);
 	}
 	else if (expression->lambda)
 	{
@@ -68,7 +66,6 @@ struct type* determine_type_of_lambda_expression(
 	
 	EXIT;
 	return type;
-	#endif
 }
 
 

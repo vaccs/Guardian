@@ -40,6 +40,8 @@ struct stringtree* variable_expression_print_source(
 	
 	dpvs(this->name);
 	
+	TODO;
+	#if 0
 	switch (this->kind)
 	{
 		case vek_captured:
@@ -71,6 +73,7 @@ struct stringtree* variable_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

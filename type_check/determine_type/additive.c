@@ -29,15 +29,17 @@ struct type* determine_type_of_additive_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
-	if (expression->left)
+	if (expression->base)
+	{
+		type = determine_type_of_multiplicative_expression(expression->base, tcache, scope);
+	}
+	else if (expression->left)
 	{
 		struct type* left = determine_type_of_additive_expression(
-			expression->left, tcache, grammar_types, name_to_type);
+			expression->left, tcache, scope);
 		
 		struct type* right = determine_type_of_multiplicative_expression(
-			expression->right, tcache, grammar_types, name_to_type);
+			expression->right, tcache, scope);
 		
 		if (left->kind == tk_tuple && right->kind == tk_tuple)
 		{
@@ -70,12 +72,11 @@ struct type* determine_type_of_additive_expression(
 	}
 	else
 	{
-		type = determine_type_of_multiplicative_expression(expression->base, tcache, grammar_types, name_to_type);
+		TODO;
 	}
 	
 	EXIT;
 	return type;
-	#endif
 }
 
 

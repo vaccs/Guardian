@@ -14,6 +14,8 @@ typedef struct avl_tree_t {
 	avl_compare_t cmp;
 	
 	avl_freeitem_t freeitem;
+	
+	unsigned refcount;
 } avl_tree_t;
 
 #endif
