@@ -1,4 +1,7 @@
 
+struct stateinfo;
+struct trie;
+struct unsignedset;
 struct stateinfo_node;
 
 void stateinfo_foreach(

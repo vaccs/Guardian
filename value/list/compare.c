@@ -27,7 +27,7 @@ int compare_list_value(
 		struct value* ae = A->elements->data[i];
 		struct value* be = B->elements->data[i];
 		
-		cmp = compare_value(ae, be);
+		cmp = compare_values(ae, be);
 		
 		i++;
 	}

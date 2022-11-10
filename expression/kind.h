@@ -10,6 +10,7 @@ enum expression_kind
 	ek_let,
 	ek_sum,
 	ek_list,
+	ek_dict,
 	ek_tuple,
 	ek_float,
 	ek_lambda,

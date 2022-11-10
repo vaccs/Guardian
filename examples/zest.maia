@@ -44,6 +44,26 @@ boo3 = let! b = u + 2, c = b + 2: bar(u, b, c);
 %error: boo2 > 1;
 %error: boo3 > 1;
 
+list1 = [1, 2, 3, 4];
+list2 = [<int>];
+
+dict1 = {1: 2, 2: 3, 4: 5};
+dict2 = {<int: float>};
+
+f = $int a, b -> int -> int: {0: a, 1: b};
+
+%error: f(3, 4) == {0:3, 1:4};
+%error: f(u, 4) == {0:u, 1:4};
+
+compose =
+	$($int -> int) f -> $($int -> int) -> $int -> int:
+	$($int -> int) g -> $int -> int:
+	$int x -> int: f(g(x));
+
+%error: compose($int x -> int: x + 3)($int y -> int: y + 2)(5) == 10;
+%error: compose($int x -> int: x + 2)($int y -> int: y + 3)(u) == u + 5;
+%error: compose($int x -> int: x + u)($int y -> int: y + 3)(2) == u + 5;
+
 %error:
 	let! factory = $int a, b -> $int -> int:
 		let! basis = {0: a, 1: b},

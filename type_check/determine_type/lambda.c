@@ -34,7 +34,7 @@ struct type* determine_type_of_lambda_expression(
 		
 		if (expression->type)
 		{
-			struct type* type = build_type(tcache, expression->type);
+			struct type* type = build_primitive_type(tcache, expression->type);
 			
 			type_list_append(parameter_types, type);
 			

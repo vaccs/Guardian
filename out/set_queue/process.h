@@ -1,4 +1,5 @@
 
+struct out_shared;
 struct avl_tree_t;
 
 void set_queue_process(

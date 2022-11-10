@@ -3,26 +3,26 @@
 
 #include <debug.h>
 
-#include <avl/search.h>
+/*#include <avl/search.h>*/
 
-#include <string/struct.h>
+/*#include <string/struct.h>*/
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
 
-#include <set/string/foreach.h>
+/*#include <set/string/foreach.h>*/
 
-#include <named/type/struct.h>
+/*#include <named/type/struct.h>*/
 
-#include <type_cache/get_type/list.h>
+/*#include <type_cache/get_type/list.h>*/
 
-#include <type/struct.h>
-#include <type/free.h>
+/*#include <type/struct.h>*/
+/*#include <type/free.h>*/
 
-#include "../shared.h"
-#include "../type_queue/submit.h"
-#include "../function_queue/submit_new.h"
-#include "../function_queue/submit_free.h"
+/*#include "../shared.h"*/
+/*#include "../type_queue/submit.h"*/
+/*#include "../function_queue/submit_new.h"*/
+/*#include "../function_queue/submit_free.h"*/
 
 #include "struct.h"
 #include "process.h"
@@ -35,6 +35,8 @@ void set_queue_process(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	this->init_text = new_stringtree();
 	
 	this->assign_text = new_stringtree();
@@ -77,6 +79,7 @@ void set_queue_process(
 		}
 		runme;
 	}));
+	#endif
 	
 	EXIT;
 }

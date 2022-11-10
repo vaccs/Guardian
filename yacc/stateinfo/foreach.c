@@ -1,11 +1,13 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-#include <avl/tree.h>
+/*#include <avl/tree.h>*/
 
-#include "node/struct.h"
+/*#include "node/struct.h"*/
 
-#include "struct.h"
+/*#include "struct.h"*/
 #include "foreach.h"
 
 void stateinfo_foreach(
@@ -14,11 +16,14 @@ void stateinfo_foreach(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 	{
 		struct stateinfo_node* ele = node->item;
 		runme(ele->trie, ele->tokens);
 	}
+	#endif
 	
 	EXIT;
 }
@@ -30,10 +35,13 @@ void stateinfo_foreach2(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 	{
 		runme(node->item);
 	}
+	#endif
 	
 	EXIT;
 }

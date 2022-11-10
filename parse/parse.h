@@ -46,7 +46,7 @@ struct zebu_0$keyvalue
 struct zebu_1$parameter
 {
 	struct zebu_token* name;
-	struct zebu_type* type;
+	struct zebu_primitive_type* type;
 	unsigned refcount;
 };
 
@@ -264,7 +264,7 @@ struct zebu_lambda_expression
 		unsigned n, cap;
 	} parameters;
 	struct zebu_type* rettype;
-	struct zebu_type* type;
+	struct zebu_primitive_type* type;
 	unsigned refcount;
 };
 
@@ -330,12 +330,15 @@ struct zebu_primary_expression
 {
 	struct zebu_expression* arg;
 	struct zebu_token* character_literal;
+	struct zebu_token* comma;
 	struct zebu_token* curly;
 	struct {
 		struct zebu_expression** data;
 		unsigned n, cap;
 	} elements;
+	struct zebu_type* emptykey;
 	struct zebu_type* emptytype;
+	struct zebu_type* emptyvalue;
 	struct zebu_token* false_literal;
 	struct zebu_token* float_form;
 	struct zebu_token* float_literal;
@@ -344,22 +347,21 @@ struct zebu_primary_expression
 	struct {
 		struct zebu_0$keyvalue** data;
 		unsigned n, cap;
-	} keyvalue;
+	} keyvalues;
 	struct zebu_token* len_form;
 	struct zebu_token* list;
 	struct zebu_token* paren;
 	struct zebu_token* string_literal;
-	struct zebu_expression* subexpression;
 	struct zebu_token* true_literal;
-	struct zebu_token* tuple;
 	unsigned refcount;
 };
 
-struct zebu_primary_type
+struct zebu_primitive_type
 {
-	struct zebu_primary_type* array;
+	struct zebu_primitive_type* array;
 	struct zebu_token* bool_type;
 	struct zebu_token* char_type;
+	struct zebu_token* comma;
 	struct {
 		struct zebu_type** data;
 		unsigned n, cap;
@@ -368,7 +370,6 @@ struct zebu_primary_type
 	struct zebu_token* grammar;
 	struct zebu_token* int_type;
 	struct zebu_token* paren;
-	struct zebu_token* tuple;
 	unsigned refcount;
 };
 
@@ -454,12 +455,14 @@ struct zebu_tokentype
 struct zebu_type
 {
 	struct {
-		struct zebu_type** data;
+		struct zebu_primitive_type** data;
 		unsigned n, cap;
 	} args;
-	struct zebu_primary_type* base;
+	struct zebu_primitive_type* base;
+	struct zebu_primitive_type* keytype;
 	struct zebu_token* lambda;
 	struct zebu_type* rettype;
+	struct zebu_type* valuetype;
 	unsigned refcount;
 };
 
@@ -520,7 +523,7 @@ extern struct zebu_multiplicative_expression* inc_zebu_multiplicative_expression
 extern struct zebu_possession_expression* inc_zebu_possession_expression(struct zebu_possession_expression* ptree);
 extern struct zebu_postfix_expression* inc_zebu_postfix_expression(struct zebu_postfix_expression* ptree);
 extern struct zebu_primary_expression* inc_zebu_primary_expression(struct zebu_primary_expression* ptree);
-extern struct zebu_primary_type* inc_zebu_primary_type(struct zebu_primary_type* ptree);
+extern struct zebu_primitive_type* inc_zebu_primitive_type(struct zebu_primitive_type* ptree);
 extern struct zebu_regex* inc_zebu_regex(struct zebu_regex* ptree);
 extern struct zebu_regex_highest* inc_zebu_regex_highest(struct zebu_regex_highest* ptree);
 extern struct zebu_regex_juxtaposition* inc_zebu_regex_juxtaposition(struct zebu_regex_juxtaposition* ptree);
@@ -605,7 +608,7 @@ extern void free_zebu_postfix_expression(struct zebu_postfix_expression* ptree);
 
 extern void free_zebu_primary_expression(struct zebu_primary_expression* ptree);
 
-extern void free_zebu_primary_type(struct zebu_primary_type* ptree);
+extern void free_zebu_primitive_type(struct zebu_primitive_type* ptree);
 
 extern void free_zebu_regex(struct zebu_regex* ptree);
 

@@ -14,14 +14,16 @@
 
 #include <type_cache/get_type/int.h>
 #include <type_cache/get_type/bool.h>
+#include <type_cache/get_type/dict.h>
+#include <type_cache/get_type/float.h>
 #include <type_cache/get_type/lambda.h>
 #include <type_cache/get_type/grammar.h>
 
 #include "build_type.h"
 
-static struct type* helper(
+struct type* build_primitive_type(
 	struct type_cache* tcache,
-	struct zebu_primary_type* type)
+	struct zebu_primitive_type* type)
 {
 	if (type->int_type)
 	{
@@ -37,7 +39,7 @@ static struct type* helper(
 	}
 	else if (type->float_type)
 	{
-		TODO;
+		return type_cache_get_float_type(tcache);
 	}
 	else if (type->grammar)
 	{
@@ -57,8 +59,9 @@ static struct type* helper(
 	}
 	else if (type->paren)
 	{
-		if (type->tuple)
+		if (type->elements.n != 1 || type->comma)
 		{
+			// build tuple
 			TODO;
 		}
 		else
@@ -76,19 +79,24 @@ struct type* build_type(
 	struct type_cache* tcache,
 	struct zebu_type* type)
 {
-	if (type->base)
+	if (type->valuetype)
 	{
-		return helper(tcache, type->base);
+		struct type* key = build_primitive_type(tcache, type->keytype);
+		struct type* val = build_type(tcache, type->valuetype);
+		
+		return type_cache_get_dict_type(tcache, key, val);
+	}
+	else if (type->base)
+	{
+		return build_primitive_type(tcache, type->base);
 	}
 	else if (type->lambda)
 	{
-		// '$' #lambda (type #args[] (',' type #args[])*)? ':' type #rettype
-		
 		struct type_list* tlist = new_type_list();
 		
 		for (unsigned i = 0, n = type->args.n; i < n; i++)
 		{
-			struct type* arg = build_type(tcache, type->args.data[i]);
+			struct type* arg = build_primitive_type(tcache, type->args.data[i]);
 			
 			type_list_append(tlist, arg);
 		}

@@ -1,11 +1,13 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-#include <avl/tree.h>
+/*#include <avl/tree.h>*/
 
-#include <set/unsigned/compare.h>
+/*#include <set/unsigned/compare.h>*/
 
-#include "node/struct.h"
+/*#include "node/struct.h"*/
 
 #include "struct.h"
 #include "compare.h"
@@ -14,6 +16,8 @@ int compare_stateinfo(
 	const struct stateinfo *a,
 	const struct stateinfo *b)
 {
+	TODO;
+	#if 0
 	int cmp;
 	
 	struct avl_node_t *an = a->tree->head;
@@ -46,6 +50,7 @@ int compare_stateinfo(
 		return -1;
 	else
 		return 0;
+	#endif
 }
 
 

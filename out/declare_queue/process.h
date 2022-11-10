@@ -1,4 +1,5 @@
 
+struct out_shared;
 struct declaration_list;
 
 void declare_queue_process(

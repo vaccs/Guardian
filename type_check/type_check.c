@@ -126,14 +126,14 @@
 #include <assertion/new.h>
 #include <assertion/free.h>
 
-/*#include <avl/alloc_tree.h>*/
-/*#include <avl/insert.h>*/
+#include <avl/alloc_tree.h>
+#include <avl/insert.h>
 #include <avl/foreach.h>
 
 #include <named/type/struct.h>
-/*#include <named/type/new.h>*/
-/*#include <named/type/compare.h>*/
-/*#include <named/type/free.h>*/
+#include <named/type/new.h>
+#include <named/type/compare.h>
+#include <named/type/free.h>
 
 #include <parse/assertion/struct.h>
 
@@ -153,9 +153,9 @@
 
 #include <string/struct.h>
 
-/*#include <named/expression/new.h>*/
-/*#include <named/expression/compare.h>*/
-/*#include <named/expression/free.h>*/
+#include <named/expression/new.h>
+#include <named/expression/compare.h>
+#include <named/expression/free.h>
 
 #include <expression/literal/struct.h>
 #include <expression/struct.h>
@@ -175,7 +175,7 @@
 #include "scope/new.h"
 #include "scope/push.h"
 #include "scope/declare.h"
-/*#include "scope/lookup.h"*/
+#include "scope/lookup.h"
 #include "scope/pop.h"
 #include "scope/free.h"
 

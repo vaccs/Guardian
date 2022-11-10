@@ -7,12 +7,18 @@
 
 primary_expression
 	: `int` #integer_literal
+	
 	| `float` #float_literal
+	
 	| `char` #character_literal
+	
 	| `string` #string_literal
+	
 	| "true" #true_literal
 	| "false" #false_literal
+	
 	| `identifier` #identifier
+	
 //	| "all!"          #all_form '(' ... ')'
 //	| "andmap!"       #andmap_form '(' ... ')'
 //	| "any!"          #any_form '(' ... ')'
@@ -40,11 +46,17 @@ primary_expression
 //	| "unionmap!"     #unionmap_form '(' ... ')'
 //	| "union!"        #union_form '(' ... ')'
 //	| "zip!"          #zip_form '(' expression #args[]  (',' expression #args[])* ')'
+	
 	| %keyvalue: expression #key ':' expression #value:
-		('{' #curly ((keyvalue #keyvalue[]) (',' keyvalue #keyvalue[])*)? '}')
-	| '(' #paren expression #subexpression ')'
-	| '(' #paren expression #elements[] ',' #tuple (expression #elements[] (',' expression #elements[])*)? ')'
-	| '[' #list ':' type #emptytype ':' ']'
+		('{' #curly (keyvalue #keyvalues[]) (',' keyvalue #keyvalues[])* '}')
+	| '{' #curly '<' type #emptykey ':' type #emptyvalue '>' '}'
+	
+	| '(' #paren                                                             ')'
+	| '(' #paren expression #elements[]                                      ')'
+	| '(' #paren expression #elements[]  ',' #comma                          ')'
+	| '(' #paren expression #elements[] (',' #comma expression #elements[])+ ')'
+	
+	| '[' #list '<' type #emptytype '>' ']'
 	| '[' #list expression #elements[]  (',' expression #elements[])* ']'
 	;
 
@@ -146,8 +158,8 @@ conditional_expression
 
 lambda_expression
 	: conditional_expression #base
-	| %parameter: (type #type)? `identifier` #name:
-		('$' (type #type `identifier` #name (',' parameter #parameters[])*)?
+	| %parameter: (primitive_type #type)? `identifier` #name:
+		('$' (primitive_type #type `identifier` #name (',' parameter #parameters[])*)?
 			"->" type #rettype ':' let_expression #lambda)
 	;
 

@@ -1,27 +1,29 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-#include <named/expression/struct.h>
+/*#include <named/expression/struct.h>*/
 
-#include <expression/struct.h>
-#include <expression/print_source.h>
+/*#include <expression/struct.h>*/
+/*#include <expression/print_source.h>*/
 
-#include <string/struct.h>
+/*#include <string/struct.h>*/
 
-#include <stringtree/new.h>
-#include <stringtree/append_printf.h>
-#include <stringtree/append_tree.h>
-#include <stringtree/free.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_printf.h>*/
+/*#include <stringtree/append_tree.h>*/
+/*#include <stringtree/free.h>*/
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
-#include <declaration/struct.h>
+/*#include <declaration/struct.h>*/
 
-#include <list/declaration/struct.h>
+/*#include <list/declaration/struct.h>*/
 
-#include "../shared.h"
-#include "../type_queue/submit.h"
-#include "../function_queue/submit_free.h"
+/*#include "../shared.h"*/
+/*#include "../type_queue/submit.h"*/
+/*#include "../function_queue/submit_free.h"*/
 
 #include "struct.h"
 #include "process.h"
@@ -33,6 +35,8 @@ void declare_queue_process(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	this->init_text = new_stringtree();
 	
 	this->assign_text = new_stringtree();
@@ -93,6 +97,7 @@ void declare_queue_process(
 		
 /*		free_stringtree(source_text);*/
 	}
+	#endif
 	
 	EXIT;
 }

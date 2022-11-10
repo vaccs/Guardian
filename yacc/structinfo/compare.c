@@ -1,9 +1,11 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-#include <avl/free_tree.h>
+/*#include <avl/free_tree.h>*/
 
-#include <string/compare.h>
+/*#include <string/compare.h>*/
 
 #include "node/struct.h"
 #include "node/compare.h"
@@ -15,6 +17,8 @@ int compare_structinfos(
 	const struct structinfo* a,
 	const struct structinfo* b)
 {
+	TODO;
+	#if 0
 	int cmp = 0;
 	ENTER;
 	
@@ -50,5 +54,6 @@ int compare_structinfos(
 	
 	EXIT;
 	return cmp;
+	#endif
 }
 

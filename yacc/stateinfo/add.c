@@ -1,18 +1,20 @@
 
+#include <assert.h>
+
 #include <stddef.h>
 
 #include <debug.h>
 
-#include <avl/insert.h>
-#include <avl/search.h>
+/*#include <avl/insert.h>*/
+/*#include <avl/search.h>*/
 
-#include <set/unsigned/update.h>
-#include <set/unsigned/free.h>
+/*#include <set/unsigned/update.h>*/
+/*#include <set/unsigned/free.h>*/
 
-#include "node/struct.h"
-#include "node/new.h"
+/*#include "node/struct.h"*/
+/*#include "node/new.h"*/
 
-#include "struct.h"
+/*#include "struct.h"*/
 #include "add.h"
 
 struct stateinfo_node* stateinfo_add(
@@ -22,6 +24,8 @@ struct stateinfo_node* stateinfo_add(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct avl_node_t* node = avl_search(this->tree, &trie);
 	
 	if (node)
@@ -42,6 +46,7 @@ struct stateinfo_node* stateinfo_add(
 		EXIT;
 		return node;
 	}
+	#endif
 }
 
 

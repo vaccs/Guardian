@@ -1,4 +1,5 @@
 
+struct type_cache;
 struct avl_tree_t;
 
 void specialize_grammar_types(

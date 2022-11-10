@@ -53,7 +53,7 @@ struct expression* specialize_equality_expression(
 		{
 			struct literal_expression* spef_left = (void*) left, *spef_right = (void*) right;
 			
-			bool is_equal = !compare_value(spef_left->value, spef_right->value);
+			bool is_equal = !compare_values(spef_left->value, spef_right->value);
 			
 			if (zexpression->not)
 				is_equal = !is_equal;

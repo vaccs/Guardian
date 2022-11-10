@@ -3,9 +3,9 @@
 
 #include <debug.h>
 
-#include <avl/tree.h>
+/*#include <avl/tree.h>*/
 
-#include <named/value/struct.h>
+/*#include <named/value/struct.h>*/
 
 #include "struct.h"
 #include "foreach.h"
@@ -16,6 +16,8 @@ void scope_foreach(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(this);
 	assert(this->tree);
 	
@@ -25,6 +27,7 @@ void scope_foreach(
 		
 		runme(ele->name, ele->value);
 	}
+	#endif
 	
 	EXIT;
 }

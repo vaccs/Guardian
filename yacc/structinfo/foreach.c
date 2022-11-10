@@ -3,7 +3,7 @@
 
 #include <avl/tree.h>
 
-/*#include "node/struct.h"*/
+#include "node/struct.h"
 
 #include "struct.h"
 #include "foreach.h"

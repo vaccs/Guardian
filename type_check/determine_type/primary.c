@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <assert.h>
 
 #include <debug.h>
@@ -10,7 +11,7 @@
 
 #include <parse/parse.h>
 
-/*#include <named/type/struct.h>*/
+#include <named/type/struct.h>
 
 #include <list/type/new.h>
 #include <list/type/append.h>
@@ -18,11 +19,14 @@
 
 #include <type_cache/get_type/int.h>
 #include <type_cache/get_type/bool.h>
+#include <type_cache/get_type/dict.h>
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/tuple.h>
 
 #include <type_check/scope/lookup.h>
+
+#include "../build_type.h"
 
 #include "expression.h"
 #include "primary.h"
@@ -72,6 +76,41 @@ struct type* determine_type_of_primary_expression(
 		
 		free_string(name);
 	}
+	else if (expression->curly)
+	{
+		if (expression->emptykey)
+		{
+			struct type* key = build_type(tcache, expression->emptykey);
+			struct type* value = build_type(tcache, expression->emptyvalue);
+			
+			type = type_cache_get_dict_type(tcache, key, value);
+		}
+		else
+		{
+			assert(expression->keyvalues.n >= 1);
+			
+			struct type* key_type = determine_type_of_expression(
+				expression->keyvalues.data[0]->key, tcache, scope);
+			struct type* value_type = determine_type_of_expression(
+				expression->keyvalues.data[0]->value, tcache, scope);
+			
+			for (unsigned i = 1, n = expression->keyvalues.n; i < n; i++)
+			{
+				struct type* ktype = determine_type_of_expression(
+					expression->keyvalues.data[i]->key, tcache, scope);
+				struct type* vtype = determine_type_of_expression(
+					expression->keyvalues.data[i]->value, tcache, scope);
+				
+				if (key_type != ktype || value_type != vtype)
+				{
+					TODO;
+					exit(1);
+				}
+			}
+			
+			type = type_cache_get_dict_type(tcache, key_type, value_type);
+		}
+	}
 	else if (expression->len_form)
 	{
 		TODO;
@@ -82,7 +121,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->paren)
 	{
-		if (expression->tuple)
+		if (expression->elements.n != 1 || expression->comma)
 		{
 			struct type_list* subtypes = new_type_list();
 			
@@ -101,18 +140,37 @@ struct type* determine_type_of_primary_expression(
 		else
 		{
 			type = determine_type_of_expression(
-				expression->subexpression, tcache, scope);
+				expression->elements.data[0], tcache, scope);
 		}
 	}
 	else if (expression->list)
 	{
 		if (expression->emptytype)
 		{
-			TODO;
+			struct type* element_type = build_type(tcache, expression->emptytype);
+			
+			type = type_cache_get_list_type(tcache, element_type);
 		}
 		else
 		{
-			TODO;
+			assert(expression->elements.n >= 1);
+			
+			struct type* element_type = determine_type_of_expression(
+				expression->elements.data[0], tcache, scope);
+			
+			for (unsigned i = 1, n = expression->elements.n; i < n; i++)
+			{
+				struct type* type = determine_type_of_expression(
+					expression->elements.data[i], tcache, scope);
+				
+				if (element_type != type)
+				{
+					TODO;
+					exit(1);
+				}
+			}
+			
+			type = type_cache_get_list_type(tcache, element_type);
 		}
 	}
 	else

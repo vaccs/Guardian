@@ -39,6 +39,8 @@
 
 #include <debug.h>
 
+#include <defines/argv0.h>
+
 #include <parse/parse.h>
 
 #include <string/new.h>
@@ -58,6 +60,8 @@
 
 #include <type_cache/get_type/environment.h>
 #include <type_cache/get_type/lambda.h>
+
+#include <type/print.h>
 
 #include <expression/struct.h>
 #include <expression/lambda/new.h>
@@ -104,7 +108,7 @@ struct expression* specialize_lambda_expression(
 		
 		if (zexpression->name)
 		{
-			struct type* type = build_type(tcache, zexpression->type);
+			struct type* type = build_primitive_type(tcache, zexpression->type);
 			
 			struct string* name = new_string_from_token(zexpression->name);
 			
@@ -128,7 +132,7 @@ struct expression* specialize_lambda_expression(
 				
 				if (raw_parameter->type)
 				{
-					struct type* new = build_type(tcache, raw_parameter->type);
+					struct type* new = build_primitive_type(tcache, raw_parameter->type);
 					
 					type = new;
 				}
@@ -167,7 +171,21 @@ struct expression* specialize_lambda_expression(
 		
 		if (rettype != body->type)
 		{
-			TODO;
+			puts(""), fflush(stdout);
+			
+			fprintf(stderr, ""
+				"%s: incompatiable types: lambda return type does not match "
+					"type returned by lambda body!\n"
+			"", argv0);
+			
+			printf(""
+				"%s: lambda return type: "
+			"", argv0), type_print(rettype), puts("");
+			
+			printf(""
+				"%s: lambda body type: "
+			"", argv0), type_print(body->type), puts("");
+			
 			exit(1);
 		}
 		

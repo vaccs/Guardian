@@ -1,16 +1,26 @@
 
-primary_type
+primitive_type
 	: "int" #int_type
+	
 	| "char" #char_type
+	
 	| "bool" #bool_type
+	
 	| "float" #float_type
+	
 	| `identifier` #grammar
-	| primary_type #array "[]"
-	| '(' #paren type #elements[] (',' #tuple (type #elements[] (',' type #elements[])*)?)? ')'
+	
+	| primitive_type #array "[]"
+	
+	| '(' #paren                                                ')'
+	| '(' #paren type #elements[]                                ')'
+	| '(' #paren type #elements[]  ',' #comma                    ')'
+	| '(' #paren type #elements[] (',' #comma type #elements[])+ ')'
 	;
 
 type
-	: primary_type #base
-	| '$' #lambda (type #args[] (',' type #args[])*)? "->" type #rettype
+	: primitive_type #base
+	| primitive_type #keytype "->" type #valuetype
+	| '$' #lambda (primitive_type #args[] (',' primitive_type #args[])*)? "->" type #rettype
 	;
 

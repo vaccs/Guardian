@@ -5,78 +5,83 @@
 
 #include <debug.h>
 
-#include <defines/argv0.h>
+/*#include <defines/argv0.h>*/
 
-#include <enums/error.h>
+/*#include <enums/error.h>*/
 
-#include <memory/smalloc.h>
+/*#include <memory/smalloc.h>*/
 
-#include <avl/alloc_tree.h>
-#include <avl/search.h>
-#include <avl/insert.h>
-#include <avl/foreach.h>
-#include <avl/free_tree.h>
+/*#include <avl/alloc_tree.h>*/
+/*#include <avl/search.h>*/
+/*#include <avl/insert.h>*/
+/*#include <avl/foreach.h>*/
+/*#include <avl/free_tree.h>*/
 
-#include <string/new.h>
-#include <string/inc.h>
-#include <string/are_equal.h>
-#include <string/compare.h>
-#include <string/free.h>
+/*#include <string/new.h>*/
+/*#include <string/inc.h>*/
+/*#include <string/are_equal.h>*/
+/*#include <string/compare.h>*/
+/*#include <string/free.h>*/
 
-#include <quack/new.h>
-#include <quack/pop.h>
-#include <quack/append.h>
-#include <quack/is_nonempty.h>
-#include <quack/free.h>
+/*#include <quack/new.h>*/
+/*#include <quack/pop.h>*/
+/*#include <quack/append.h>*/
+/*#include <quack/is_nonempty.h>*/
+/*#include <quack/free.h>*/
 
-#include <named/trie/compare.h>
-#include <named/trie/free.h>
+/*#include <named/trie/compare.h>*/
+/*#include <named/trie/free.h>*/
 
-#include <named/grammar/struct.h>
+/*#include <named/grammar/struct.h>*/
 
-#include <cmdln/minimize_lexer.h>
+/*#include <cmdln/minimize_lexer.h>*/
 
-#include <set/unsigned/new.h>
-#include <set/unsigned/add.h>
-#include <set/unsigned/free.h>
-#include <set/unsigned/foreach.h>
-#include <set/unsigned/update.h>
-#include <set/unsigned/clone.h>
-#include <set/unsigned/head.h>
+/*#include <set/unsigned/new.h>*/
+/*#include <set/unsigned/add.h>*/
+/*#include <set/unsigned/free.h>*/
+/*#include <set/unsigned/foreach.h>*/
+/*#include <set/unsigned/update.h>*/
+/*#include <set/unsigned/clone.h>*/
+/*#include <set/unsigned/head.h>*/
 
-#include <set/unsignedset/foreach.h>
-#include <set/unsignedset/free.h>
+/*#include <set/unsignedset/foreach.h>*/
+/*#include <set/unsignedset/free.h>*/
 
-#include <lex/struct.h>
-#include <lex/build_tokenizer/build_tokenizer.h>
-#include <lex/minimize_lexer.h>
+/*#include <lex/struct.h>*/
+/*#include <lex/build_tokenizer/build_tokenizer.h>*/
+/*#include <lex/minimize_lexer.h>*/
 
-#include <named/structinfo/struct.h>
+/*#include <named/structinfo/struct.h>*/
 
-#include <named/trie/struct.h>
+/*#include <named/trie/struct.h>*/
 
-#include "trie/struct.h"
+/*#include "trie/struct.h"*/
 
-#include "stateinfo/new.h"
-#include "stateinfo/add.h"
-#include "stateinfo/compare.h"
-#include "stateinfo/inc.h"
-#include "stateinfo/free.h"
-#include "stateinfo/foreach.h"
+/*#include "stateinfo/new.h"*/
+/*#include "stateinfo/add.h"*/
+/*#include "stateinfo/compare.h"*/
+/*#include "stateinfo/inc.h"*/
+/*#include "stateinfo/free.h"*/
+/*#include "stateinfo/foreach.h"*/
 
-#include "structinfo/free.h"
+/*#include "structinfo/free.h"*/
 
-#include "state/struct.h"
-#include "state/new.h"
-#include "state/add_transition.h"
-#include "state/add_reduce_transition.h"
-#include "state/add_grammar_transition.h"
+/*#include "state/struct.h"*/
+/*#include "state/new.h"*/
+/*#include "state/add_transition.h"*/
+/*#include "state/add_reduce_transition.h"*/
+/*#include "state/add_grammar_transition.h"*/
 
-#include "build_tries.h"
-#include "expand_stateinfo.h"
-#include "calc_firsts.h"
+/*#include "build_tries.h"*/
+/*#include "expand_stateinfo.h"*/
+/*#include "calc_firsts.h"*/
 #include "yacc.h"
 
+struct unsignedset;
+struct trie;
+struct lex_state;
+
+#if 0
 struct mapping
 {
 	struct stateinfo* stateinfo;
@@ -92,6 +97,8 @@ static struct mapping* new_mapping(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct mapping* this = smalloc(sizeof(*this));
 	
 	this->stateinfo = inc_stateinfo(stateinfo);
@@ -99,23 +106,30 @@ static struct mapping* new_mapping(
 	
 	EXIT;
 	return this;
+	#endif
 }
 
 static int compare_mappings(const void* a, const void* b)
 {
+	TODO;
+	#if 0
 	const struct mapping *A = a, *B = b;
 	return compare_stateinfo(A->stateinfo, B->stateinfo);
+	#endif
 }
 
 static void free_mapping(void* ptr)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct mapping* this = ptr;
 	
 	free_stateinfo(this->stateinfo);
 	
 	free(this);
+	#endif
 	
 	EXIT;
 }
@@ -152,6 +166,8 @@ static struct shift_node* new_shift_node(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct shift_node* this = smalloc(sizeof(*this));
 	
 	this->token = token;
@@ -160,10 +176,13 @@ static struct shift_node* new_shift_node(
 	
 	EXIT;
 	return this;
+	#endif
 }
 
 static int compare_shift_nodes(const void* a, const void* b)
 {
+	TODO;
+	#if 0
 	const struct shift_node* A = a, *B = b;
 	
 	if (A->token > B->token)
@@ -172,16 +191,19 @@ static int compare_shift_nodes(const void* a, const void* b)
 		return -1;
 	else
 		return 0;
+	#endif
 }
 
 static void free_shift_node(void* ptr)
 {
+	TODO;
+	#if 0
 	struct shift_node* const this = ptr;
 	ENTER;
 	
 	free_stateinfo(this->stateinfo);
-	
 	free(this);
+	#endif
 	
 	EXIT;
 }
@@ -195,6 +217,8 @@ static struct reduce_node* new_reduce_node(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(grammar);
 	
 	struct reduce_node* this = smalloc(sizeof(*this));
@@ -211,10 +235,13 @@ static struct reduce_node* new_reduce_node(
 	
 	EXIT;
 	return this;
+	#endif
 }
 
 static int compare_reduce_nodes(const void* a, const void* b)
 {
+	TODO;
+	#if 0
 	const struct reduce_node* A = a, *B = b;
 	
 	if (A->token > B->token)
@@ -223,12 +250,15 @@ static int compare_reduce_nodes(const void* a, const void* b)
 		return -1;
 	else
 		return +0;
+	#endif
 }
 
 static void free_reduce_node(void* ptr)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct reduce_node* node = ptr;
 	
 	free_string(node->reduce_as);
@@ -236,6 +266,7 @@ static void free_reduce_node(void* ptr)
 	free_string(node->grammar);
 	
 	free(node);
+	#endif
 	
 	EXIT;
 }
@@ -244,6 +275,8 @@ static struct subgrammar_node* new_subgrammar_node(struct string* grammar)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct subgrammar_node* this = smalloc(sizeof(*this));
 	
 	this->grammar = inc_string(grammar);
@@ -252,17 +285,23 @@ static struct subgrammar_node* new_subgrammar_node(struct string* grammar)
 	
 	EXIT;
 	return this;
+	#endif
 }
 
 static int compare_subgrammar_nodes(const void* a, const void* b)
 {
+	TODO;
+	#if 0
 	const struct subgrammar_node* A = a, *B = b;
 	
 	return compare_strings(A->grammar, B->grammar);
+	#endif
 }
 
 static void free_subgrammar_node(void* ptr)
 {
+	TODO;
+	#if 0
 	struct subgrammar_node* const this = ptr;
 	ENTER;
 	
@@ -271,6 +310,7 @@ static void free_subgrammar_node(void* ptr)
 	free_stateinfo(this->stateinfo);
 	
 	free(this);
+	#endif
 	
 	EXIT;
 }
@@ -283,6 +323,8 @@ static void add_shift(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct avl_node_t* node = avl_search(shift_tokens, &token);
 	
 	struct unsignedset* tokens_dup = unsignedset_clone(tokens);
@@ -303,6 +345,7 @@ static void add_shift(
 	}
 	
 	free_unsignedset(tokens_dup);
+	#endif
 	
 	EXIT;
 }
@@ -317,6 +360,8 @@ static void add_reduce(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	dpv(token);
 	
 	struct avl_node_t* node = avl_search(reduce_tokens, &token);
@@ -339,6 +384,7 @@ static void add_reduce(
 		
 		avl_insert(reduce_tokens, new);
 	}
+	#endif
 	
 	EXIT;
 }
@@ -352,6 +398,8 @@ static void add_subgrammar(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	dpvs(grammar);
 	
 	struct avl_node_t* node = avl_search(subgrammars, &grammar);
@@ -374,6 +422,7 @@ static void add_subgrammar(
 	}
 	
 	free_unsignedset(tokens_dup);
+	#endif
 	
 	EXIT;
 }
@@ -396,7 +445,7 @@ static void shift_reduce_error(
 	exit(e_shift_reduce_error);
 	#endif
 }
-
+#endif
 
 struct yacc_state* yacc(
 	struct lex* lex,
@@ -405,6 +454,8 @@ struct yacc_state* yacc(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct avl_tree_t* named_tries = avl_alloc_tree(compare_named_tries, free_named_trie);
 	
 	avl_foreach(grammar, ({
@@ -730,6 +781,7 @@ struct yacc_state* yacc(
 	
 	EXIT;
 	return start;
+	#endif
 }
 
 

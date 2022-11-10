@@ -1,4 +1,5 @@
 
+struct string;
 struct scope;
 struct value;
 

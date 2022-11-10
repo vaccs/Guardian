@@ -20,6 +20,8 @@ void lambda_type_print(
 	
 	struct lambda_type* this = (void*) super;
 	
+	printf("(");
+	
 	printf("$");
 	
 	for (unsigned i = 0, n = this->parameters->n; i < n; i++)
@@ -33,6 +35,8 @@ void lambda_type_print(
 	printf(" -> ");
 	
 	type_print(this->rettype);
+	
+	printf(")");
 	
 	EXIT;
 }

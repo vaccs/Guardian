@@ -1,12 +1,14 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
-#include <avl/alloc_tree.h>
+/*#include <avl/alloc_tree.h>*/
 
-#include <memory/smalloc.h>
+/*#include <memory/smalloc.h>*/
 
-#include "node/compare.h"
-#include "node/free.h"
+/*#include "node/compare.h"*/
+/*#include "node/free.h"*/
 
 #include "struct.h"
 #include "new.h"
@@ -15,6 +17,8 @@ struct stateinfo* new_stateinfo()
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stateinfo* this = smalloc(sizeof(*this));
 	
 	this->tree = avl_alloc_tree(compare_stateinfo_nodes, free_stateinfo_node);
@@ -23,5 +27,6 @@ struct stateinfo* new_stateinfo()
 	
 	EXIT;
 	return this;
+	#endif
 }
 

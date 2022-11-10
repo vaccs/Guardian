@@ -3,10 +3,10 @@
 
 #include <debug.h>
 
-#include <avl/tree.h>
-#include <avl/insert.h>
+/*#include <avl/tree.h>*/
+/*#include <avl/insert.h>*/
 
-#include <parse/parse.h>
+/*#include <parse/parse.h>*/
 
 #include "struct.h"
 #include "update.h"
@@ -17,6 +17,8 @@ void zpexpressionset_update(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(a != b);
 	
 	struct avl_node_t *an = a->tree->head, *bn = b->tree->head;
@@ -46,6 +48,7 @@ void zpexpressionset_update(
 		avl_insert(a->tree, inc_zebu_primary_expression(bn->item));
 		bn = bn->next;
 	}
+	#endif
 	
 	EXIT;
 }

@@ -1,0 +1,26 @@
+
+#include <stdlib.h>
+
+#include <debug.h>
+
+#include <expression/free.h>
+
+#include "struct.h"
+#include "free.h"
+
+void free_expression_pair(
+	struct expression_pair* this)
+{
+	ENTER;
+	
+	if (this && !--this->refcount)
+	{
+		free_expression(this->first);
+		free_expression(this->second);
+		
+		free(this);
+	}
+	
+	EXIT;
+}
+
