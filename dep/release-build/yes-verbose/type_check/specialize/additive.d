@@ -10,5 +10,6 @@ bin/release-build/yes-verbose/./type_check/specialize/additive.o: \
  type_cache/get_type/int.h type_cache/get_type/tuple.h list/type/new.h \
  list/type/extend.h list/type/free.h value/tuple/struct.h \
  value/tuple/../struct.h value/tuple/../kind.h value/tuple/new.h \
- value/int/struct.h value/int/../struct.h value/int/new.h value/free.h \
+ value/int/struct.h value/int/../struct.h value/int/new.h \
+ value/dict/new.h value/dict/foreach.h value/free.h \
  type_check/specialize/multiplicative.h type_check/specialize/additive.h

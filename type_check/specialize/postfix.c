@@ -21,6 +21,7 @@
 #include <expression/literal/new.h>
 #include <expression/funccall/new.h>
 #include <expression/list_index/new.h>
+#include <expression/dict_index/new.h>
 #include <expression/tuple_index/new.h>
 #include <expression/fieldaccess/new.h>
 #include <expression/free.h>
@@ -43,6 +44,8 @@
 #include <type/lambda/struct.h>
 
 #include <type/print.h>
+#include <type/list/struct.h>
+#include <type/dict/struct.h>
 #include <type/grammar/get_field.h>
 
 #include <value/int/struct.h>
@@ -78,16 +81,18 @@ struct expression* specialize_postfix_expression(
 		{
 			struct expression* index = specialize_expression(tcache, sshared, scope, zexpression->index);
 			
-			if (index->type->kind != tk_int)
-			{
-				TODO;
-				exit(1);
-			}
-			
 			switch (sub->type->kind)
 			{
 				case tk_list:
 				{
+					struct list_type* ltype = (void*) sub->type;
+					
+					if (index->type->kind != tk_int)
+					{
+						TODO;
+						exit(1);
+					}
+					
 					if (sub->kind == ek_literal && index->kind == ek_literal)
 					{
 						struct literal_expression* spef_sub = (void*) sub;
@@ -120,14 +125,29 @@ struct expression* specialize_postfix_expression(
 					}
 					else
 					{
-						retval = new_list_index_expression(sub, index);
+						retval = new_list_index_expression(ltype->element_type, sub, index);
 					}
 					break;
 				}
 				
-				case tk_tuple:
+				case tk_dict:
 				{
-					TODO;
+					struct dict_type* dtype = (void*) sub->type;
+					
+					if (dtype->key != index->type)
+					{
+						TODO;
+						exit(1);
+					}
+					
+					if (sub->kind == ek_literal && index->kind == ek_literal)
+					{
+						TODO;
+					}
+					else
+					{
+						retval = new_dict_index_expression(dtype->value, sub, index);
+					}
 					break;
 				}
 				

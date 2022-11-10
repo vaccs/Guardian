@@ -3,11 +3,11 @@
 
 #include <debug.h>
 
-/*#include <mpz/struct.h>*/
+#include <avl/tree.h>
 
-/*#include <dict/value/struct.h>*/
+#include <pair/value/struct.h>
 
-/*#include "../compare.h"*/
+#include "../compare.h"
 
 #include "struct.h"
 #include "compare.h"
@@ -16,37 +16,34 @@ int compare_dict_value(
 	const struct value* a,
 	const struct value* b)
 {
-	TODO;
-	#if 0
 	int cmp = 0;
 	ENTER;
 	
 	const struct dict_value* A = (const void*) a;
 	const struct dict_value* B = (const void*) b;
 	
-	unsigned i = 0, a_n = A->elements->n, b_n = B->elements->n;
+	struct avl_node_t* an = A->tree->head;
+	struct avl_node_t* bn = B->tree->head;
 	
-	while (!cmp && i < a_n && i < b_n)
+	while (!cmp && an && bn)
 	{
-		struct value* ae = A->elements->data[i];
-		struct value* be = B->elements->data[i];
+		struct value_pair *ae = an->item, *be = bn->item;
 		
-		cmp = compare_values(ae, be);
+		cmp = compare_values(ae->first, be->first);
 		
-		i++;
+		an = an->next, bn = bn->next;
 	}
 	
 	if (!cmp)
 	{
-		if (a_n > b_n)
+		if (an)
 			cmp = +1;
-		else if (a_n < b_n)
+		else if (bn)
 			cmp = -1;
 	}
 	
 	EXIT;
 	return cmp;
-	#endif
 }
 
 

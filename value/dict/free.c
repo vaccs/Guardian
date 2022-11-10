@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-/*#include <dict/value/free.h>*/
+#include <avl/free_tree.h>
 
 #include "struct.h"
 #include "free.h"
@@ -13,12 +13,9 @@ void free_dict_value(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct dict_value* this = (void*) super;
 	
-	free_value_dict(this->elements);
-	#endif
+	avl_free_tree(this->tree);
 	
 	EXIT;
 }
