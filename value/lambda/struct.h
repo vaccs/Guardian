@@ -10,5 +10,7 @@ struct lambda_value
 	struct scope* captured;
 	
 	struct expression* body;
+	
+	unsigned id; // gotten from function_queue
 };
 

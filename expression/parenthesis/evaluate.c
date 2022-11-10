@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-#include <value/inc.h>
+#include "../evaluate.h"
 
 #include "struct.h"
 #include "evaluate.h"
@@ -14,10 +14,12 @@ struct value* parenthesis_expression_evaluate(
 {
 	ENTER;
 	
-	// struct parenthesis_expression* this = (void*) super;
+	assert(super->kind == ek_parenthesis);
 	
-	TODO;
+	struct parenthesis_expression* this = (void*) super;
+	
+	struct value* result = expression_evaluate(this->expression, scope);
 	
 	EXIT;
-/*	return result;*/
+	return result;
 }

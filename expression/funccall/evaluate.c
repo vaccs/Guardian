@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <debug.h>
 
-/*#include <value/struct.h>*/
+#include <value/struct.h>
 /*#include <value/integer/new.h>*/
 /*#include <value/free.h>*/
 
@@ -10,6 +10,15 @@
 /*#include <mpz/subtract.h>*/
 /*#include <mpz/multiply.h>*/
 /*#include <mpz/free.h>*/
+
+#include <list/value/new.h>
+#include <list/value/append.h>
+#include <list/value/free.h>
+
+#include <list/expression/struct.h>
+
+#include <value/lambda/call.h>
+#include <value/free.h>
 
 #include "../evaluate.h"
 
@@ -22,42 +31,31 @@ struct value* funccall_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct funccall_expression* this = (void*) super;
 	
-	struct value* funccall = expression_evaluate(this->funccall, scope);
+	struct value* lambda = expression_evaluate(this->lambda, scope);
 	
-	assert(funccall->kind == vk_funccall);
+	assert(lambda->kind == vk_lambda);
 	
-	struct funccall_value* spef_funccall = (void*) spef_funccall;
+	struct value_list* arguments = new_value_list();
 	
-	struct mpz* number;
-	
-	switch (this->kind)
+	for (unsigned i = 0, n = this->arguments->n; i < n; i++)
 	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
+		struct value* argument = expression_evaluate(this->arguments->data[i], scope);
 		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
+		value_list_append(arguments, argument);
 		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
+		free_value(argument);
 	}
 	
-	struct value* value = new_integer_value(super->type, number);
+	struct value* result = lambda_value_call((void*) lambda, arguments);
 	
-	free_value(left), free_value(right);
+	free_value(lambda);
 	
-	free_mpz(number);
+	free_value_list(arguments);
 	
 	EXIT;
-	return value;
-	#endif
+	return result;
 }
 
 

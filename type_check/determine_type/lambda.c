@@ -40,7 +40,7 @@ struct type* determine_type_of_lambda_expression(
 			
 			for (unsigned i = 0, n = expression->parameters.n; i < n; i++)
 			{
-				struct zebu_0$parameter* ele = expression->parameters.data[i];
+				struct zebu_1$parameter* ele = expression->parameters.data[i];
 				
 				if (ele->type)
 				{

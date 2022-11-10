@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <stringtree/new.h>
@@ -19,8 +21,6 @@
 
 #include <expression/print_source.h>
 
-#include <list/capture/is_nonempty.h>
-
 /*#include <out/function_queue/submit_lambda_evaluate.h>*/
 /*#include <out/function_queue/submit_lambda_free.h>*/
 
@@ -34,6 +34,8 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	subtype_queue_submit(shared->stqueue, this);
@@ -89,6 +91,7 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

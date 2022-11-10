@@ -22,6 +22,8 @@ struct named_expression* new_named_expression(
 	
 	this->expression = inc_expression(expression);
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }

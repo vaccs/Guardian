@@ -26,6 +26,8 @@ struct function_queue* new_function_queue()
 	
 	this->done = avl_alloc_tree(compare_funcdata, free);
 	
+	this->lambda_id = 0;
+	
 	this->next = 1;
 	
 	EXIT;

@@ -25,6 +25,7 @@
 
 #include <type/tuple/struct.h>
 
+#include <type_cache/get_type/int.h>
 #include <type_cache/get_type/tuple.h>
 
 #include <list/type/new.h>
@@ -96,7 +97,7 @@ struct expression* specialize_additive_expression(
 						TODO;
 					}
 					
-					value = new_int_value(tcache, number);
+					value = new_int_value(type_cache_get_int_type(tcache), number);
 					
 					free_mpz(number);
 					break;

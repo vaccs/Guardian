@@ -36,14 +36,21 @@ struct zebu_$start
 	unsigned refcount;
 };
 
-struct zebu_0$parameter
+struct zebu_0$keyvalue
+{
+	struct zebu_expression* key;
+	struct zebu_expression* value;
+	unsigned refcount;
+};
+
+struct zebu_1$parameter
 {
 	struct zebu_token* name;
 	struct zebu_type* type;
 	unsigned refcount;
 };
 
-struct zebu_1$parameter
+struct zebu_2$parameter
 {
 	struct zebu_expression* expression;
 	struct zebu_token* name;
@@ -250,10 +257,10 @@ struct zebu_inclusive_or_expression
 struct zebu_lambda_expression
 {
 	struct zebu_conditional_expression* base;
-	struct zebu_lambda_expression* lambda;
+	struct zebu_let_expression* lambda;
 	struct zebu_token* name;
 	struct {
-		struct zebu_0$parameter** data;
+		struct zebu_1$parameter** data;
 		unsigned n, cap;
 	} parameters;
 	struct zebu_type* rettype;
@@ -267,7 +274,7 @@ struct zebu_let_expression
 	struct zebu_let_expression* body;
 	struct zebu_token* let;
 	struct {
-		struct zebu_1$parameter** data;
+		struct zebu_2$parameter** data;
 		unsigned n, cap;
 	} parameters;
 	unsigned refcount;
@@ -323,6 +330,7 @@ struct zebu_primary_expression
 {
 	struct zebu_expression* arg;
 	struct zebu_token* character_literal;
+	struct zebu_token* curly;
 	struct {
 		struct zebu_expression** data;
 		unsigned n, cap;
@@ -333,6 +341,10 @@ struct zebu_primary_expression
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
 	struct zebu_token* integer_literal;
+	struct {
+		struct zebu_0$keyvalue** data;
+		unsigned n, cap;
+	} keyvalue;
 	struct zebu_token* len_form;
 	struct zebu_token* list;
 	struct zebu_token* paren;
@@ -475,8 +487,9 @@ struct zebu_value_declare
 
 extern struct zebu_token* inc_zebu_token(struct zebu_token* token);
 extern struct zebu_$start* inc_zebu_$start(struct zebu_$start* ptree);
-extern struct zebu_0$parameter* inc_zebu_0$parameter(struct zebu_0$parameter* ptree);
+extern struct zebu_0$keyvalue* inc_zebu_0$keyvalue(struct zebu_0$keyvalue* ptree);
 extern struct zebu_1$parameter* inc_zebu_1$parameter(struct zebu_1$parameter* ptree);
+extern struct zebu_2$parameter* inc_zebu_2$parameter(struct zebu_2$parameter* ptree);
 extern struct zebu_additive_expression* inc_zebu_additive_expression(struct zebu_additive_expression* ptree);
 extern struct zebu_and_expression* inc_zebu_and_expression(struct zebu_and_expression* ptree);
 extern struct zebu_assertion* inc_zebu_assertion(struct zebu_assertion* ptree);
@@ -526,9 +539,11 @@ extern struct zebu_value_declare* inc_zebu_value_declare(struct zebu_value_decla
 extern void free_zebu_token(struct zebu_token* token);
 extern void free_zebu_$start(struct zebu_$start* ptree);
 
-extern void free_zebu_0$parameter(struct zebu_0$parameter* ptree);
+extern void free_zebu_0$keyvalue(struct zebu_0$keyvalue* ptree);
 
 extern void free_zebu_1$parameter(struct zebu_1$parameter* ptree);
+
+extern void free_zebu_2$parameter(struct zebu_2$parameter* ptree);
 
 extern void free_zebu_additive_expression(struct zebu_additive_expression* ptree);
 

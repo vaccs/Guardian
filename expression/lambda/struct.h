@@ -7,10 +7,10 @@ struct lambda_expression
 	
 	struct parameter_list* parameters;
 	
-	struct capture_list* captured;
+	struct type* environment;
 	
 	struct expression* body;
 	
-	unsigned id;
+	unsigned id; // gotten from function_queue
 };
 

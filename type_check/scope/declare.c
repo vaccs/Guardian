@@ -1,10 +1,14 @@
 
+#include <assert.h>
+
 #include <stdlib.h>
 
 #include <debug.h>
 
 #include <avl/search.h>
 #include <avl/insert.h>
+
+#include <value/inc.h>
 
 #include "node/struct.h"
 #include "node/new.h"
@@ -62,8 +66,41 @@ void type_check_scope_declare_value(
 	struct string* name,
 	struct value* value)
 {
-	TODO;
+	ENTER;
+	
+	assert(this->head);
+	
+	struct avl_node_t* node = avl_search(this->head->tree, &name);
+	
+	if (node)
+	{
+		struct type_check_scope_node* element = node->item;
+		
+		element->value = inc_value(value);
+	}
+	else
+	{
+		TODO;
+	}
+	
+	EXIT;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

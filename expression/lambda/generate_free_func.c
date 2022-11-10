@@ -10,11 +10,6 @@
 
 #include <type/struct.h>
 
-#include <capture/struct.h>
-
-#include <list/capture/is_nonempty.h>
-#include <list/capture/foreach.h>
-
 #include <out/shared.h>
 #include <out/subtype_queue/submit.h>
 #include <out/function_queue/submit_free.h>
@@ -30,6 +25,8 @@ struct stringtree* lambda_expression_generate_free_func(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	subtype_queue_submit(shared->stqueue, this);
@@ -73,6 +70,7 @@ struct stringtree* lambda_expression_generate_free_func(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

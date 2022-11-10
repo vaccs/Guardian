@@ -3,8 +3,6 @@
 
 #include <list/parameter/inc.h>
 
-#include <list/capture/inc.h>
-
 #include "../new.h"
 #include "../inc.h"
 
@@ -14,9 +12,8 @@
 
 struct expression* new_lambda_expression(
 	struct type* type,
-	unsigned id,
 	struct parameter_list* parameters,
-	struct capture_list* captured,
+	struct type* environment,
 	struct expression* body)
 {
 	ENTER;
@@ -28,10 +25,10 @@ struct expression* new_lambda_expression(
 		sizeof(*this));
 	
 	this->parameters = inc_parameter_list(parameters);
-	this->captured = inc_capture_list(captured);
-	this->body = inc_expression(body);
 	
-	this->id = id;
+	this->environment = environment;
+	
+	this->body = inc_expression(body);
 	
 	EXIT;
 	return (void*) this;

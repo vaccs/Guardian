@@ -10,13 +10,13 @@
 #include "new.h"
 
 struct value* new_bool_value(
-	struct type_cache* tcache,
+	struct type* type,
 	bool value)
 {
 	ENTER;
 	
 	struct bool_value* this = (void*) new_value(
-		type_cache_get_bool_type(tcache),
+		type,
 		vk_bool,
 		&bool_value_inheritance,
 		sizeof(*this));

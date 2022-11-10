@@ -40,6 +40,8 @@ primary_expression
 //	| "unionmap!"     #unionmap_form '(' ... ')'
 //	| "union!"        #union_form '(' ... ')'
 //	| "zip!"          #zip_form '(' expression #args[]  (',' expression #args[])* ')'
+	| %keyvalue: expression #key ':' expression #value:
+		('{' #curly ((keyvalue #keyvalue[]) (',' keyvalue #keyvalue[])*)? '}')
 	| '(' #paren expression #subexpression ')'
 	| '(' #paren expression #elements[] ',' #tuple (expression #elements[] (',' expression #elements[])*)? ')'
 	| '[' #list ':' type #emptytype ':' ']'
@@ -146,7 +148,7 @@ lambda_expression
 	: conditional_expression #base
 	| %parameter: (type #type)? `identifier` #name:
 		('$' (type #type `identifier` #name (',' parameter #parameters[])*)?
-			"->" type #rettype ':' lambda_expression #lambda)
+			"->" type #rettype ':' let_expression #lambda)
 	;
 
 let_expression

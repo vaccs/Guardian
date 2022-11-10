@@ -15,6 +15,9 @@ void free_scope(struct scope* this)
 	if (this && !--this->refcount)
 	{
 		avl_free_tree(this->tree);
+		
+		free_scope(this->prev);
+		
 		free(this);
 	}
 	

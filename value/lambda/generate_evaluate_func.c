@@ -34,6 +34,8 @@ struct stringtree* lambda_value_generate_evaluate_func(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	unsigned type_id = this->super.type->id;
@@ -128,6 +130,7 @@ struct stringtree* lambda_value_generate_evaluate_func(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

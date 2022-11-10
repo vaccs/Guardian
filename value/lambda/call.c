@@ -23,8 +23,7 @@ struct value* lambda_value_call(
 {
 	ENTER;
 	
-	struct scope* scope = new_scope(
-		/* prev: */ this->captured);
+	struct scope* scope = new_scope(this->captured);
 	
 	assert(this->parameters->n == arguments->n);
 	

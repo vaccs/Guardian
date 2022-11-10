@@ -4,6 +4,6 @@
 struct type_cache;
 
 struct value* new_bool_value(
-	struct type_cache* tcache,
+	struct type* type,
 	bool value);
 

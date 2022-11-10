@@ -93,8 +93,6 @@
 
 /*#include <list/string/foreach.h>*/
 
-/*#include <list/raw_assertion/foreach.h>	*/
-
 /*#include <list/declaration/append.h>*/
 
 /*#include <declaration/new.h>*/
@@ -125,6 +123,9 @@
 
 #include <defines/argv0.h>
 
+#include <assertion/new.h>
+#include <assertion/free.h>
+
 /*#include <avl/alloc_tree.h>*/
 /*#include <avl/insert.h>*/
 #include <avl/foreach.h>
@@ -134,18 +135,36 @@
 /*#include <named/type/compare.h>*/
 /*#include <named/type/free.h>*/
 
+#include <parse/assertion/struct.h>
+
 #include <parse/declaration/struct.h>
 
 #include <list/raw_declaration/foreach.h>
 
 #include <type/print.h>
+#include <type/struct.h>
+
+#include <value/bool/struct.h>
+
+#include <declaration/new.h>
+#include <declaration/free.h>
+
+#include <list/declaration/append.h>
+
+#include <string/struct.h>
 
 /*#include <named/expression/new.h>*/
 /*#include <named/expression/compare.h>*/
 /*#include <named/expression/free.h>*/
 
+#include <expression/literal/struct.h>
+#include <expression/struct.h>
 #include <expression/print.h>
 #include <expression/free.h>
+
+#include <list/assertion/append.h>
+
+#include <list/raw_assertion/foreach.h>
 
 #include <type_cache/get_type/environment.h>
 
@@ -232,7 +251,6 @@ void type_check(
 	dpv(environment);
 	
 	struct specialize_shared sshared = {
-		.lambda_id = 0,
 		.environment = environment,
 	};
 	
@@ -248,97 +266,33 @@ void type_check(
 			
 			expression_print(typed), puts("");
 			
-			TODO;
+			if (typed->kind == ek_literal)
+			{
+				struct literal_expression* spef = (void*) typed;
+				
+				type_check_scope_declare_value(scope, name, spef->value);
+			}
+			
+			struct declaration* declaration = new_declaration(name, typed);
+			
+			declaration_list_append(declarations, declaration);
+			
+			free_declaration(declaration);
 			
 			free_expression(typed);
 		}
 		runme;
 	}));
 	
-	// in original order:
-		// specialize assertions
-	TODO;
-	
-	type_check_scope_pop(scope);
-	
-	free_type_check_scope(scope);
-	
-	EXIT;
-}
-
-
-	#if 0
-	
 	raw_assertion_list_foreach(raw_assertions, ({
-		void runme(struct raw_assertion* element)
+		void runme(struct raw_assertion* raw_assertion)
 		{
-			ENTER;
+			printf("%s: specializing assertion: ", argv0);
 			
-			dpv(element);
+			struct expression* typed = specialize_expression(
+				tcache, &sshared, scope, raw_assertion->expression);
 			
-			struct unresolved* unresolved = new_unresolved();
-			
-			resolve_variables(unresolved, tcache, element->expression);
-			
-			unresolved_foreach(unresolved, ({
-				void runme(struct string* name)
-				{
-					ENTER;
-					
-					dpvs(name);
-					
-					struct avl_node_t* node = avl_search(grammar_types, &name);
-					
-					if (node)
-					{
-						struct named_type* ntype = node->item;
-						
-						struct type* list = type_cache_get_list_type(tcache, ntype->type);
-						
-						TODO;
-						
-						unresolved_resolve_type(unresolved, ntype->name, vek_grammar_rule, list);
-						
-						unresolved_discard(unresolved, ntype->name);
-					}
-					else
-					{
-						node = avl_search(name_to_expression, &name);
-						
-						if (!node)
-						{
-							fprintf(stderr, ""
-								"%s: could not find defintition"
-								" for variable '%.*s'!\n"
-							"", argv0, name->len, name->chars);
-							exit(1);
-						}
-						
-						struct named_expression* nexpression = node->item;
-						
-						struct expression* expression = nexpression->expression;
-						
-						if (expression->kind == ek_literal)
-						{
-							struct literal_expression* literal = (void*) expression;
-							
-							assert(literal->value);
-							
-							unresolved_resolve_type(unresolved, name, vek_declare, expression->type);
-							unresolved_resolve_value(unresolved, name, literal->value);
-						}
-						else
-						{
-							unresolved_resolve_type(unresolved, name, vek_declare, expression->type);
-						}
-					}
-					
-					EXIT;
-				}
-				runme;
-			}));
-			
-			struct expression* typed = specialize_expression(tcache, &sshared, element->expression);
+			expression_print(typed), puts("");
 			
 			if (typed->type->kind != tk_bool)
 			{
@@ -359,7 +313,7 @@ void type_check(
 			}
 			else
 			{
-				struct assertion* assertion = new_assertion(element->kind, typed);
+				struct assertion* assertion = new_assertion(raw_assertion->kind, typed);
 				
 				assertion_list_append(assertions, assertion);
 				
@@ -368,21 +322,19 @@ void type_check(
 			
 			free_expression(typed);
 			
-			free_unresolved(unresolved);
-			
-			EXIT;
 		}
 		runme;
 	}));
 	
-	free_stringset(cyclic_variables);
+	type_check_scope_pop(scope);
 	
-	free_string_list(source_order);
+	free_type_check_scope(scope);
 	
-	avl_free_tree(name_to_expression);
-	
-	avl_free_tree(name_to_type);
-	#endif
+	EXIT;
+}
+
+
+
 
 
 

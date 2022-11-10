@@ -17,19 +17,32 @@ struct value* scope_lookup(
 	struct scope* this,
 	struct string* name)
 {
+	struct value* retval = NULL;
 	ENTER;
 	
-	struct avl_node_t* node = avl_search(this->tree, &name);
+	dpvs(name);
 	
-	if (!node)
+	for (struct scope* moving = this; moving; moving = moving->prev)
+	{
+		dpv(moving);
+		
+		struct avl_node_t* node = avl_search(moving->tree, &name);
+		
+		if (node)
+		{
+			struct named_value* nvalue = node->item;
+			
+			retval = inc_value(nvalue->value);
+		}
+	}
+	
+	if (!retval)
 	{
 		TODO;
 		exit(1);
 	}
 	
-	struct named_value* nvalue = node->item;
-	
 	EXIT;
-	return inc_value(nvalue->value);
+	return retval;
 }
 

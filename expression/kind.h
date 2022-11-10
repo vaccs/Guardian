@@ -7,6 +7,7 @@ enum expression_kind
 	ek_len,
 	ek_has,
 	ek_map,
+	ek_let,
 	ek_sum,
 	ek_list,
 	ek_tuple,
@@ -24,6 +25,7 @@ enum expression_kind
 	ek_list_index,
 	ek_fieldaccess,
 	ek_parenthesis,
+	ek_logical_and,
 	ek_tuple_concat,
 	ek_tuple_index,
 };

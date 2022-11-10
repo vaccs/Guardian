@@ -13,7 +13,7 @@
 
 struct type* type_cache_get_environment_type(
 	struct type_cache* this,
-	struct environment_type* prev,
+	struct type* prev,
 	struct avl_tree_t* variables)
 {
 	struct type* retval;

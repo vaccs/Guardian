@@ -16,13 +16,16 @@ void free_named_expression(void* ptr)
 	
 	struct named_expression* this = ptr;
 	
-	dpvs(this->name);
-	
-	free_string(this->name);
-	
-	free_expression(this->expression);
-	
-	free(this);
+	if (this && !--this->refcount)
+	{
+		dpvs(this->name);
+		
+		free_string(this->name);
+		
+		free_expression(this->expression);
+		
+		free(this);
+	}
 	
 	EXIT;
 }

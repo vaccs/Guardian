@@ -1,4 +1,5 @@
 
+struct zebu_type;
 struct type_cache;
 
 struct type* build_type(

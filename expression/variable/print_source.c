@@ -32,6 +32,8 @@ struct stringtree* variable_expression_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	type_queue_submit(shared->tqueue, super->type);
@@ -40,8 +42,6 @@ struct stringtree* variable_expression_print_source(
 	
 	dpvs(this->name);
 	
-	TODO;
-	#if 0
 	switch (this->kind)
 	{
 		case vek_captured:

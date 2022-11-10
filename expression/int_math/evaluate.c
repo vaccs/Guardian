@@ -31,8 +31,6 @@ struct value* int_math_expression_evaluate(
 	assert(left->kind == vk_int);
 	assert(right->kind == vk_int);
 	
-	TODO;
-	#if 0
 	struct int_value* spef_left = (void*) left;
 	struct int_value* spef_right = (void*) right;
 	
@@ -61,7 +59,6 @@ struct value* int_math_expression_evaluate(
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

@@ -252,8 +252,6 @@ struct expression* specialize_postfix_expression(
 			
 			if (all_literals)
 			{
-				TODO;
-				#if 0
 				struct literal_expression* spef = (void*) sub;
 				
 				struct lambda_value* lambda = (void*) spef->value;
@@ -278,9 +276,7 @@ struct expression* specialize_postfix_expression(
 				retval = new_literal_expression(result);
 				
 				free_value(result);
-				
 				free_value_list(valargs);
-				#endif
 			}
 			else
 			{

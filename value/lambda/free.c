@@ -17,9 +17,9 @@ void free_lambda_value(
 	
 	struct lambda_value* this = (void*) super;
 	
-	free_parameter_list(this->parameters);
-	
 	free_scope(this->captured);
+	
+	free_parameter_list(this->parameters);
 	
 	free_expression(this->body);
 	

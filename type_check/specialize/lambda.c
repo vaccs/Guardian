@@ -35,36 +35,47 @@
 /*#include "shared.h"*/
 
 #include <stdlib.h>
-
 #include <assert.h>
 
 #include <debug.h>
 
 #include <parse/parse.h>
 
-#include <list/type/new.h>
-
-#include <list/parameter/new.h>
-
 #include <string/new.h>
+#include <string/free.h>
 
 #include <parameter/new.h>
 
+#include <list/parameter/new.h>
 #include <list/parameter/append.h>
+#include <list/parameter/free.h>
 
+#include <list/type/new.h>
 #include <list/type/append.h>
+#include <list/type/free.h>
 
 #include <parameter/free.h>
 
-#include <string/free.h>
-
-#include <string/free.h>
-
+#include <type_cache/get_type/environment.h>
 #include <type_cache/get_type/lambda.h>
 
+#include <expression/struct.h>
+#include <expression/lambda/new.h>
+#include <expression/literal/new.h>
+#include <expression/free.h>
+
+#include <value/lambda/new.h>
+#include <value/free.h>
+
 #include "conditional.h"
+#include "let.h"
+#include "shared.h"
 #include "lambda.h"
 
+#include "../scope/layer.h"
+#include "../scope/struct.h"
+#include "../scope/is_head_pure.h"
+#include "../scope/declare.h"
 #include "../scope/push.h"
 #include "../scope/pop.h"
 
@@ -85,8 +96,6 @@ struct expression* specialize_lambda_expression(
 	}
 	else if (zexpression->lambda)
 	{
-		TODO;
-		#if 0
 		struct type_list* parameter_types = new_type_list();
 		
 		struct parameter_list* parameters = new_parameter_list();
@@ -101,9 +110,13 @@ struct expression* specialize_lambda_expression(
 			
 			struct parameter* parameter = new_parameter(name, type);
 			
+			type_list_append(parameter_types, type);
+			
 			parameter_list_append(parameters, parameter);
 			
-			type_list_append(parameter_types, type);
+			type_check_scope_declare(scope, name);
+			
+			type_check_scope_declare_type(scope, name, type);
 			
 			free_parameter(parameter);
 			
@@ -111,7 +124,7 @@ struct expression* specialize_lambda_expression(
 			
 			for (unsigned i = 0, n = zexpression->parameters.n; i < n; i++)
 			{
-				struct zebu_0$parameter* raw_parameter = zexpression->parameters.data[i];
+				struct zebu_1$parameter* raw_parameter = zexpression->parameters.data[i];
 				
 				if (raw_parameter->type)
 				{
@@ -128,73 +141,37 @@ struct expression* specialize_lambda_expression(
 				
 				parameter_list_append(parameters, parameter);
 				
+				type_check_scope_declare(scope, name);
+				
+				type_check_scope_declare_type(scope, name, type);
+				
 				free_parameter(parameter);
 				
 				free_string(name);
 			}
 		}
 		
-		// help with sshared->environment
+		struct type* environment = type_cache_get_environment_type(
+			tcache, sshared->environment, scope->head->tree);
 		
-		// make environment type
-		TODO;
+		dpv(environment);
+		
+		struct type* old_env = sshared->environment;
+		sshared->environment = environment;
+		struct expression* body = specialize_let_expression(tcache, sshared, scope, zexpression->lambda);
+		sshared->environment = old_env;
 		
 		struct type* rettype = build_type(tcache, zexpression->rettype);
 		
 		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, rettype);
 		
-		struct expression* body = specialize_lambda_expression(tcache, sshared, scope, zexpression->lambda);
-		
-		TODO;
-		#if 0
 		if (rettype != body->type)
 		{
 			TODO;
 			exit(1);
 		}
 		
-		struct capture_list* captures = new_capture_list();
-		
-		unresolved_foreach5(zexpression->lambda_captures, ({
-			void runme(
-				struct string* name,
-				enum variable_expression_kind kind,
-				struct type* type,
-				struct value* value)
-			{
-				if (!value)
-				{
-					switch (kind)
-					{
-						case vek_parameter:
-						case vek_captured:
-						{
-							struct capture* capture = new_capture(name, kind, type);
-							
-							capture_list_append(captures, capture);
-							
-							free_capture(capture);
-							break;
-						}
-						
-						case vek_declare:
-						case vek_grammar_rule:
-							break;
-						
-						default:
-							TODO;
-							break;
-					}
-				}
-			}
-			runme;
-		}));
-		
-		if (capture_list_is_nonempty(captures))
-		{
-			retval = new_lambda_expression(type, sshared->lambda_id++, parameters, captures, body);
-		}
-		else
+		if (type_check_scope_is_head_pure(scope))
 		{
 			struct value* new = new_lambda_value(type, parameters, NULL, body);
 			
@@ -202,18 +179,20 @@ struct expression* specialize_lambda_expression(
 			
 			free_value(new);
 		}
-		
-		free_capture_list(captures);
+		else
+		{
+			dpv(sshared->environment);
+			
+			retval = new_lambda_expression(type, parameters, environment, body);
+		}
 		
 		free_type_list(parameter_types);
 		
 		free_parameter_list(parameters);
 		
 		free_expression(body);
-		#endif
 		
 		type_check_scope_pop(scope);
-		#endif
 	}
 	else
 	{

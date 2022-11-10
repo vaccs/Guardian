@@ -61,8 +61,6 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->identifier)
 	{
-		struct avl_node_t* node;
-		
 		struct string* name = new_string_from_token(expression->identifier);
 		
 		dpvs(name);

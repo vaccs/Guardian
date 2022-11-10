@@ -90,8 +90,9 @@
 
 #include <named/expression/struct.h>
 
-/*#include <type_cache/get_type/bool.h>*/
+#include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/tuple.h>
+#include <type_cache/get_type/int.h>
 #include <type_cache/get_type/list.h>
 
 #include <expression/struct.h>
@@ -128,7 +129,7 @@ static struct expression* specialize_primary_integer_expression(
 	
 	struct mpz* mpz = new_mpz_from_string((char*) integer->data);
 	
-	struct value* value = new_int_value(tcache, mpz);
+	struct value* value = new_int_value(type_cache_get_int_type(tcache), mpz);
 	
 	struct expression* retval = new_literal_expression(value);
 	
@@ -189,11 +190,11 @@ static struct expression* specialize_primary_identifier_expression(
 	{
 		if (value)
 		{
-			TODO;
+			retval = new_literal_expression(value);
 		}
 		else
 		{
-			TODO;
+			retval = new_variable_expression(type, name);
 		}
 	}
 	else
@@ -203,46 +204,7 @@ static struct expression* specialize_primary_identifier_expression(
 	
 	free_value(value);
 	
-	TODO;
-	#if 0
-	struct avl_node_t* node = avl_search(sshared->name_to_expression, &name);
-	
-	if (node)
-	{
-		struct named_expression *nexpression = node->item;
-		
-		struct expression* expression = nexpression->expression;
-		
-		if (expression->kind == ek_literal)
-		{
-			retval = inc_expression(expression);
-		}
-		else
-		{
-			retval = new_variable_expression(expression->type, vek_declare, name);
-		}
-	}
-	else if ((node = avl_search(sshared->name_to_type, &name)))
-	{
-		TODO;
-	}
-	else if ((node = avl_search(sshared->grammar_types, &name)))
-	{
-		struct named_type* ntype = node->item;
-		
-		struct type* ltype = type_cache_get_list_type(tcache, ntype->type);
-		
-		retval = new_variable_expression(ltype, vek_grammar_rule, name);
-	}
-	else
-	{
-		TODO;
-	}
-	
-	free_string(name);
-	
 	return retval;
-	#endif
 }
 
 static struct expression* specialize_tuple_expression(
@@ -392,7 +354,7 @@ static struct expression* specialize_primary_len_form_expression(
 	struct specialize_shared* sshared,
 	struct zebu_expression* raw_argument)
 {
-	struct expression* retval;
+/*	struct expression* retval;*/
 	ENTER;
 	
 	TODO;
@@ -451,7 +413,7 @@ static struct expression* specialize_primary_float_form_expression(
 	struct specialize_shared* sshared,
 	struct zebu_expression* raw_argument)
 {
-	struct expression* retval;
+/*	struct expression* retval;*/
 	ENTER;
 	
 	TODO;
@@ -728,7 +690,9 @@ struct expression* specialize_primary_expression(
 	}
 	else if (zexpression->true_literal)
 	{
-		struct value* value = new_bool_value(tcache, true);
+		struct type* type = type_cache_get_bool_type(tcache);
+		
+		struct value* value = new_bool_value(type, true);
 		
 		retval = new_literal_expression(value);
 		
@@ -736,7 +700,9 @@ struct expression* specialize_primary_expression(
 	}
 	else if (zexpression->false_literal)
 	{
-		struct value* value = new_bool_value(tcache, false);
+		struct type* type = type_cache_get_bool_type(tcache);
+		
+		struct value* value = new_bool_value(type, false);
 		
 		retval = new_literal_expression(value);
 		
@@ -745,6 +711,10 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->identifier)
 	{
 		retval = specialize_primary_identifier_expression(tcache, scope, zexpression);
+	}
+	else if (zexpression->curly)
+	{
+		TODO;
 	}
 	else if (zexpression->paren)
 	{

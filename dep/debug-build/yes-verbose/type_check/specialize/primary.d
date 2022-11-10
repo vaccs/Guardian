@@ -5,7 +5,8 @@ bin/debug-build/yes-verbose/./type_check/specialize/primary.o: \
  list/expression/new.h list/expression/append.h list/expression/free.h \
  list/type/new.h list/type/append.h list/type/free.h list/value/new.h \
  list/value/append.h list/value/free.h named/type/struct.h \
- named/expression/struct.h type_cache/get_type/tuple.h \
+ named/expression/struct.h type_cache/get_type/bool.h \
+ type_cache/get_type/tuple.h type_cache/get_type/int.h \
  type_cache/get_type/list.h expression/struct.h expression/kind.h \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/new.h expression/tuple/new.h \

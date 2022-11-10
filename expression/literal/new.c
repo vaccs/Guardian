@@ -12,7 +12,8 @@
 #include "struct.h"
 #include "new.h"
 
-struct expression* new_literal_expression(struct value* value)
+struct expression* new_literal_expression(
+	struct value* value)
 {
 	ENTER;
 	

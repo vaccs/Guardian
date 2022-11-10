@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-#include <type_cache/get_type/int.h>
+/*#include <type_cache/get_type/int.h>*/
 
 #include <mpz/inc.h>
 
@@ -16,7 +16,7 @@
 #include "new.h"
 
 struct value* new_int_value(
-	struct type_cache* tcache,
+	struct type* type,
 	struct mpz* integer)
 {
 	ENTER;
@@ -24,7 +24,7 @@ struct value* new_int_value(
 	dpv(integer);
 	
 	struct int_value* this = (void*) new_value(
-		type_cache_get_int_type(tcache),
+		type,
 		vk_int,
 		&int_value_inheritance,
 		sizeof(*this));

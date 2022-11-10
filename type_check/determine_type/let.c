@@ -1,5 +1,9 @@
 
+#include <assert.h>
+
 #include <debug.h>
+
+#include <string/struct.h>
 
 #include <defines/argv0.h>
 
