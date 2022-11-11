@@ -35,7 +35,6 @@ isodd  = $int x -> bool: x == 0 ? false : iseven(x - 1);
 
 %error: isodd(7) && iseven(4);
 %error: isodd(a + 1) && iseven(a + 0);
-
 a = 2;
 
 boo1 = let! b = a + 2, c = b + 2: a + b + c;
@@ -71,14 +70,14 @@ compose =
 %error: compose($int x -> int: x + 2)($int y -> int: y + 3)(u) == u + 5;
 %error: compose($int x -> int: x + u)($int y -> int: y + 3)(2) == u + 5;
 
-%error:
-	let! factory = $int a, b -> $int -> int:
-		let! basis = {0: a, 1: b},
-		fib = $int x -> int: x < 2 ? basis[x] : fib(x - 1) + fib(x - 2):
-		fib,
-	fact1 = factory(1, 2),
-	fact2 = factory(u + 2, u + 3):
-	fact1(5) > 5 && fact2(5) > 5;
+//%error:
+//	let! factory = $int a, b -> $int -> int:
+//		let! basis = {0: a, 1: b},
+//		fib = $int x -> int: x < 2 ? basis[x] : fib(x - 1) + fib(x - 2):
+//		fib,
+//	fact1 = factory(1, 2),
+//	fact2 = factory(u + 2, u + 3):
+//	fact1(5) > 5 && fact2(5) > 5;
 
 %error: len!(s) == 4;
 

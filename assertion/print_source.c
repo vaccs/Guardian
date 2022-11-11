@@ -28,7 +28,8 @@ const char* lookup[] = {
 
 struct stringtree* assertion_print_source(
 	struct assertion* this,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
@@ -47,7 +48,8 @@ struct stringtree* assertion_print_source(
 			"struct type_%u* assertion = "
 	"", tid);
 	
-	struct stringtree* subtext = expression_print_source(this->expression, shared);
+	struct stringtree* subtext = expression_print_source(
+		this->expression, shared, environment);
 	
 	stringtree_append_tree(text, subtext);
 	

@@ -12,13 +12,14 @@
 
 struct stringtree* literal_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
 	struct literal_expression* this = (void*) super;
 	
-	struct stringtree* tree = value_print_source(this->value, shared);
+	struct stringtree* tree = value_print_source(this->value, shared, environment);
 	
 	EXIT;
 	return tree;

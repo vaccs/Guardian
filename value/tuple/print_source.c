@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <stdbool.h>
 
 #include <debug.h>
@@ -31,10 +33,13 @@
 
 struct stringtree* tuple_value_print_source(
 	struct value* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct tuple_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -99,6 +104,7 @@ struct stringtree* tuple_value_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

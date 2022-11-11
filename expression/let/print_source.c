@@ -5,8 +5,8 @@
 
 /*#include <string/struct.h>*/
 
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_printf.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 /*#include <out/shared.h>*/
 /*#include <out/function_queue/submit_let_new.h>*/
@@ -26,11 +26,28 @@
 
 struct stringtree* let_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
-	TODO;
+	assert(super->kind == ek_let);
+	
+	struct stringtree* tree = new_stringtree();
+	
+/*	struct let_expression* this = (void*) super;*/
+	
+	stringtree_append_printf(tree, "({"
+		"assert(!\"TODO: let-print-source\");"
+		"NULL;"
+	"})");
+	
+	EXIT;
+	return tree;
+}
+
+
+
 	#if 0
 	assert(super->kind == ek_let);
 	
@@ -83,10 +100,6 @@ struct stringtree* let_expression_print_source(
 	EXIT;
 	return tree;
 	#endif
-}
-
-
-
 
 
 

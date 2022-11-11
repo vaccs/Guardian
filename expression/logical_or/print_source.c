@@ -33,10 +33,13 @@
 
 struct stringtree* logical_or_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_logical_or);
 	
 	struct stringtree* tree = new_stringtree();
@@ -83,6 +86,7 @@ struct stringtree* logical_or_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

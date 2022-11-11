@@ -166,7 +166,6 @@
 
 #include <list/raw_assertion/foreach.h>
 
-#include <type_cache/get_type/environment.h>
 #include <type_cache/get_type/list.h>
 
 #include "scope/layer.h"
@@ -186,18 +185,19 @@
 
 void type_check(
 	struct type_cache* tcache,
+	
 	struct avl_tree_t* grammar_types, // named types
+	struct stringset* grammar_sets,
 	
 	struct raw_declaration_list* raw_declarations,
 	struct raw_assertion_list* raw_assertions,
 	
-	struct stringset* grammar_sets,
 	struct declaration_list* declarations,
 	struct assertion_list* assertions)
 {
 	ENTER;
 	
-	struct type_check_scope* scope = new_type_check_scope();
+	struct type_check_scope* scope = new_type_check_scope(grammar_sets);
 	
 	type_check_scope_push(scope);
 	

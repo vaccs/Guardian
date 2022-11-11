@@ -23,7 +23,8 @@
 
 struct stringtree* funccall_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
@@ -40,7 +41,7 @@ struct stringtree* funccall_expression_print_source(
 	type_queue_submit(shared->tqueue, ltype);
 	
 	stringtree_append_printf(tree, "struct type_%u* function = ", ltype->id);
-	struct stringtree* ltree = expression_print_source(this->lambda, shared);
+	struct stringtree* ltree = expression_print_source(this->lambda, shared, environment);
 	stringtree_append_tree(tree, ltree);
 	stringtree_append_printf(tree, ";");
 	
@@ -56,7 +57,7 @@ struct stringtree* funccall_expression_print_source(
 		
 		stringtree_append_printf(tree, "struct type_%u* arg_%u = ", atid, i);
 		
-		struct stringtree* atree = expression_print_source(argument, shared);
+		struct stringtree* atree = expression_print_source(argument, shared, environment);
 		
 		stringtree_append_tree(tree, atree);
 		stringtree_append_printf(tree, ";");

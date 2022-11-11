@@ -1,3 +1,0 @@
-bin/test-build/yes-verbose/./out/declare_queue/process.o: \
- out/declare_queue/process.c debug.h string/struct.h \
- out/declare_queue/struct.h out/declare_queue/process.h

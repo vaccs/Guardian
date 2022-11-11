@@ -23,10 +23,31 @@
 
 struct stringtree* float_value_print_source(
 	struct value* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
+	assert(super->kind == vk_float);
+	
+	struct stringtree* tree = new_stringtree();
+	
+/*	struct float_value* this = (void*) super;*/
+	
+	stringtree_append_printf(tree, "({"
+		"assert(!\"TODO: float-value\");"
+		"NULL;"
+	"})");
+	
+	EXIT;
+	return tree;
+}
+
+
+
+
+
+	#if 0
 	struct float_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -39,12 +60,7 @@ struct stringtree* float_value_print_source(
 	
 	EXIT;
 	return tree;
-}
-
-
-
-
-
+	#endif
 
 
 

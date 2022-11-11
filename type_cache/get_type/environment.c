@@ -11,12 +11,12 @@
 
 #include "environment.h"
 
-struct type* type_cache_get_environment_type2(
+struct environment_type* type_cache_get_environment_type2(
 	struct type_cache* this,
-	struct type* prev,
+	struct environment_type* prev,
 	struct avl_tree_t* variables)
 {
-	struct type* retval;
+	struct environment_type* retval;
 	ENTER;
 	
 	struct avl_node_t* node = avl_search(this->tree, &(struct environment_type){
@@ -31,7 +31,7 @@ struct type* type_cache_get_environment_type2(
 	}
 	else
 	{
-		struct type* environment = new_environment_type(
+		struct environment_type* environment = new_environment_type(
 			this->next++, prev, variables);
 		
 		avl_insert(this->tree, environment);

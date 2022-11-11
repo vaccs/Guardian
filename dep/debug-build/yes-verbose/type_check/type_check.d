@@ -12,9 +12,8 @@ bin/debug-build/yes-verbose/./type_check/type_check.o: \
  expression/literal/../struct.h expression/literal/../kind.h \
  expression/struct.h expression/print.h expression/free.h \
  list/assertion/append.h list/raw_assertion/foreach.h \
- type_cache/get_type/environment.h type_cache/get_type/list.h \
- type_check/scope/layer.h type_check/scope/struct.h \
- type_check/scope/new.h type_check/scope/push.h \
+ type_cache/get_type/list.h type_check/scope/layer.h \
+ type_check/scope/struct.h type_check/scope/new.h type_check/scope/push.h \
  type_check/scope/declare.h type_check/scope/lookup.h \
  type_check/scope/pop.h type_check/scope/free.h \
  type_check/specialize/expression.h \

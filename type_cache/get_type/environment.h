@@ -7,8 +7,7 @@ struct type_cache;
 struct type_list;
 struct type;
 
-struct type* type_cache_get_environment_type2(
+struct environment_type* type_cache_get_environment_type2(
 	struct type_cache* this,
-	struct type* prev,
+	struct environment_type* prev,
 	struct avl_tree_t* variables);
-

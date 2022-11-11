@@ -9,7 +9,8 @@
 
 struct stringtree* value_print_source(
 	struct value* this,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
@@ -21,7 +22,7 @@ struct stringtree* value_print_source(
 	
 	assert(this->inheritance->print_source);
 	
-	struct stringtree* tree = (this->inheritance->print_source)(this, shared);
+	struct stringtree* tree = (this->inheritance->print_source)(this, shared, environment);
 	
 	EXIT;
 	return tree;

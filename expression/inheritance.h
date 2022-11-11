@@ -1,4 +1,5 @@
 
+struct environment_type;
 struct expression;
 struct scope;
 struct value;
@@ -13,7 +14,8 @@ struct expression_inheritance
 	
 	struct stringtree* (*print_source)(
 		struct expression*,
-		struct out_shared*);
+		struct out_shared*,
+		struct environment_type*);
 	
 	void (*print)(
 		struct expression*);

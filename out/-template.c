@@ -140,10 +140,10 @@ int main(int argc, char* const* argv)
 	{{FUNCTIONS}}
 	
 	// allocate root environment, init all fields to NULL:
-	{{INIT_ENVIRONMENT}}
+	{{ASSIGN_ENVIRONMENT}}
 	
 	// assign sets:
-	{{INIT_SETS}}
+	{{ASSIGN_SETS}}
 	
 	struct { unsigned* data, n, cap; } yacc = {};
 	struct { void** data; unsigned n, cap; } data = {};
@@ -325,7 +325,7 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	void* start = NULL;
+	{{START_TYPE}}* start = NULL;
 	
 	unsigned y = 1, s, r;
 	push_state(y), read_token(1);
@@ -386,7 +386,7 @@ int main(int argc, char* const* argv)
 	{{FREE_START}}(start);
 	
 	// clean up declarations:
-	{{UNINIT_ENVIRONMENT}}
+	{{FREE_ENVIRONMENT}}
 	
 	free(yacc.data);
 	free(data.data);

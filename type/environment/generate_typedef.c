@@ -15,21 +15,17 @@ struct stringtree* environment_type_generate_typedef(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	dpv(super->id);
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
-			"environment value;"
-			"unsigned refcount;"
+			""
 		"};"
 	"", super->id);
 	
 	EXIT;
 	return tree;
-	#endif
 }
 

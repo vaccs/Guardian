@@ -37,7 +37,8 @@ static const char* lookup[] = {
 
 struct stringtree* comparison_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
@@ -54,9 +55,9 @@ struct stringtree* comparison_expression_print_source(
 	unsigned rid = super->type->id;
 	unsigned tid = this->type->id;
 	
-	struct stringtree* left = expression_print_source(this->left, shared);
+	struct stringtree* left = expression_print_source(this->left, shared, environment);
 	
-	struct stringtree* right = expression_print_source(this->right, shared);
+	struct stringtree* right = expression_print_source(this->right, shared, environment);
 	
 	stringtree_append_printf(tree, "struct type_%u *left = ", tid);
 	stringtree_append_tree(tree, left);

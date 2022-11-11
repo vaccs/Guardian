@@ -22,10 +22,13 @@
 
 struct stringtree* ternary_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_ternary);
 	
 	struct ternary_expression* this = (void*) super;
@@ -82,6 +85,7 @@ struct stringtree* ternary_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

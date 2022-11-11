@@ -16,11 +16,6 @@
 /*#include <quack/foreach.h>*/
 /*#include <quack/free.h>*/
 
-/*#include <out/out.h>*/
-
-/*#include <stringtree/stream.h>*/
-/*#include <stringtree/free.h>*/
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -74,6 +69,11 @@
 
 #include <yacc/state/free.h>
 
+#include <out/out.h>
+
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
+
 int main(int argc, char* const* argv)
 {
 	ENTER;
@@ -105,14 +105,12 @@ int main(int argc, char* const* argv)
 	struct assertion_list* assertions = new_assertion_list();
 	
 	type_check(
-		tcache, types,
+		tcache, types, grammar_sets,
 		raw_declarations, raw_assertions,
-		grammar_sets, declarations, assertions);
+		declarations, assertions);
 	
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
-	TODO;
-	#if 0
 	struct stringtree* content = out(tcache, types, grammar_sets, declarations, assertions, start);
 	
 	FILE* stream = fopen(flags->output_path, "w");
@@ -128,7 +126,6 @@ int main(int argc, char* const* argv)
 	free_stringtree(content);
 	
 	fclose(stream);
-	#endif
 	
 	free_raw_declaration_list(raw_declarations);
 	
@@ -138,8 +135,6 @@ int main(int argc, char* const* argv)
 	
 	free_assertion_list(assertions);
 	
-	free_stringset(grammar_sets);
-	
 	avl_free_tree(structinfos);
 	
 	free_type_cache(tcache);
@@ -147,6 +142,8 @@ int main(int argc, char* const* argv)
 	avl_free_tree(grammar);
 	
 	free_yacc_state(start);
+	
+	free_stringset(grammar_sets);
 	
 	avl_free_tree(types);
 	

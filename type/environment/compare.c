@@ -3,7 +3,7 @@
 
 #include <avl/tree.h>
 
-#include <type_check/scope/node/struct.h>
+#include <named/type/struct.h>
 
 #include <string/compare.h>
 
@@ -26,21 +26,15 @@ int compare_environment_types(
 	{
 		struct avl_node_t *an = A->variables->head, *bn = B->variables->head;
 		
-		struct type_check_scope_node *ae, *be;
-		
-		while (an && (ae = an->item)->value) an = an->next;
-		while (bn && (be = bn->item)->value) bn = bn->next;
-		
 		while (an && bn)
 		{
+			struct named_type *ae = an->item, *be = bn->item;
+		
 			int cmp = 0
 				?: compare_strings(ae->name, be->name)
 				?: compare_types(ae->type, be->type);
 			
 			if (cmp) return cmp;
-			
-			do an = an->next; while (an && (ae = an->item)->value);
-			do bn = bn->next; while (bn && (be = bn->item)->value);
 		}
 		
 		if (an)

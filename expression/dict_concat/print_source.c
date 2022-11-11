@@ -7,9 +7,9 @@
 
 /*#include <string/struct.h>*/
 
-/*#include <stringtree/new.h>*/
+#include <stringtree/new.h>
 /*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/append_printf.h>*/
+#include <stringtree/append_printf.h>
 
 /*#include <set/string/add.h>*/
 
@@ -33,19 +33,24 @@
 
 struct stringtree* dict_concat_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_dict_concat);
 	
 	struct stringtree* tree = new_stringtree();
 	
-	type_queue_submit(shared->tqueue, super->type);
+/*	struct dict_concat_expression* this = (void*) super;*/
 	
-	struct dict_concat_expression* this = (void*) super;
+	stringtree_append_printf(tree, "({"
+		"assert(!\"TODO: dict-concat\");"
+		"NULL;"
+	"})");
+	
+	#if 0
+	type_queue_submit(shared->tqueue, super->type);
 	
 	struct type* btype = type_cache_get_bool_type(shared->tcache);
 	
@@ -82,10 +87,10 @@ struct stringtree* dict_concat_expression_print_source(
 			"result;"
 		"})"
 	"");
+	#endif
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

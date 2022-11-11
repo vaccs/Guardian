@@ -25,10 +25,13 @@
 
 struct stringtree* fieldaccess_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_fieldaccess);
 	
 	struct fieldaccess_expression* this = (void*) super;
@@ -77,6 +80,7 @@ struct stringtree* fieldaccess_expression_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

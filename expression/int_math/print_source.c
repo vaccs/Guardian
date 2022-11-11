@@ -24,10 +24,23 @@
 
 struct stringtree* int_math_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* environment)
 {
 	ENTER;
 	
+	assert(super->kind == ek_int_math);
+	
+	struct stringtree* tree = new_stringtree();
+	
+/*	struct dict_concat_expression* this = (void*) super;*/
+	
+	stringtree_append_printf(tree, "({"
+		"assert(!\"TODO: int-math\");"
+		"NULL;"
+	"})");
+	
+	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct int_math_expression* this = (void*) super;
@@ -86,6 +99,7 @@ struct stringtree* int_math_expression_print_source(
 	stringtree_append_printf(tree, "})");
 	
 	free_stringtree(left), free_stringtree(right);
+	#endif
 	
 	EXIT;
 	return tree;

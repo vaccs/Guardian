@@ -24,10 +24,36 @@
 
 struct stringtree* float_math_expression_print_source(
 	struct expression* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct environment_type* enviroment)
 {
 	ENTER;
 	
+	assert(super->kind == ek_float_math);
+	
+	struct stringtree* tree = new_stringtree();
+	
+/*	struct float_math_expression* this = (void*) super;*/
+	
+	stringtree_append_printf(tree, "({"
+		"assert(!\"TODO: float_math-expression\");"
+		"NULL;"
+	"})");
+	
+	EXIT;
+	return tree;
+}
+
+
+
+
+
+
+
+
+
+
+	#if 0
 	assert(super->kind == ek_float_math);
 	
 	struct stringtree* tree = new_stringtree();
@@ -95,17 +121,7 @@ struct stringtree* float_math_expression_print_source(
 	
 	EXIT;
 	return tree;
-}
-
-
-
-
-
-
-
-
-
-
+	#endif
 
 
 
