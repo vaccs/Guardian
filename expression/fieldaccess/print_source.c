@@ -30,13 +30,9 @@ struct stringtree* fieldaccess_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_fieldaccess);
 	
 	struct fieldaccess_expression* this = (void*) super;
-	
-	struct stringtree* tree = new_stringtree();
 	
 	struct expression* object = this->object;
 
@@ -46,14 +42,19 @@ struct stringtree* fieldaccess_expression_print_source(
 	type_queue_submit(shared->tqueue, ftype);
 	type_queue_submit(shared->tqueue, otype);
 	
+	struct stringtree* tree = new_stringtree();
+	
 	stringtree_append_printf(tree, ""
 		"({"
-			"struct type_%u* object = "
+	"");
+	
+	stringtree_append_printf(tree, ""
+		"struct type_%u* object = "
 	"", otype->id);
 	
-	struct stringtree* expression = expression_print_source(this->object, shared);
+	struct stringtree* subtree = expression_print_source(this->object, shared, environment);
 	
-	stringtree_append_tree(tree, expression);
+	stringtree_append_tree(tree, subtree);
 	
 	struct string* fieldname = this->fieldname;
 	
@@ -76,13 +77,11 @@ struct stringtree* fieldaccess_expression_print_source(
 		"})"
 	"", free_id);
 	
-	free_stringtree(expression);
+	free_stringtree(subtree);
 	
 	EXIT;
 	return tree;
-	#endif
 }
-
 
 
 

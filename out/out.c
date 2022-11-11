@@ -54,6 +54,8 @@
 #include <type_cache/get_type/environment.h>
 #include <type_cache/get_type/grammar.h>
 
+#include <expression/print_source.h>
+
 #include <list/assertion/foreach.h>
 
 #include <declaration/struct.h>
@@ -107,6 +109,7 @@
 
 #include "function_queue/struct.h"
 #include "function_queue/new.h"
+#include "function_queue/submit_new.h"
 #include "function_queue/submit_free.h"
 #include "function_queue/process.h"
 #include "function_queue/free.h"
@@ -129,7 +132,6 @@
 struct stringtree* out(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
-	struct stringset* grammar_sets,
 	struct declaration_list* declarations,
 	struct assertion_list* assertions,
 	struct yacc_state* yacc_start)
@@ -335,13 +337,17 @@ struct stringtree* out(
 			"struct type_%u* environment = NULL;"
 		"", environment_type->super.id);
 		
+		unsigned new_id = function_queue_submit_new(shared.fqueue, (struct type*) environment_type);
+		
 		stringtree_append_printf(assign_environment_text, ""
-			"assert(!\"TODO: assign-environment\");"
-		"");
+			"environment = func_%u();"
+		"", new_id);
+		
+		unsigned free_id = function_queue_submit_free(shared.fqueue, (struct type*) environment_type);
 		
 		stringtree_append_printf(free_environment_text, ""
-			"assert(!\"TODO: free-environment\");"
-		"");
+			"func_%u(environment);"
+		"", free_id);
 		
 		avl_free_tree(environment_tree);
 	}
@@ -349,117 +355,52 @@ struct stringtree* out(
 	
 	struct stringtree* assign_sets_text = new_stringtree();
 	{
-		stringtree_append_printf(assign_sets_text, ""
-			"assert(!\"TODO: assign-sets\");"
-		"");
-		
-		#if 0
-		
-		this->uninit_text = new_stringtree();
-		
-		// generate text for declaring lists of grammar data
-		stringset_foreach(grammar_sets, ({
-			void runme(struct string* name)
+		avl_foreach(grammar_types, ({
+			void runme(void* ptr)
 			{
-				dpvs(name);
-				
-				struct avl_node_t* node = avl_search(grammar_types, &name);
-				
-				assert(node);
-				
-				struct named_type* ntype = node->item;
+				struct named_type* ntype = ptr;
 				
 				struct type* type = ntype->type;
 				
-				struct type* ltype = type_cache_get_list_type(shared->tcache, type);
+				struct type* ltype = type_cache_get_list_type(tcache, type);
 				
-				type_queue_submit(shared->tqueue, ltype);
+				unsigned new_id = function_queue_submit_new(shared.fqueue, ltype);
 				
-				unsigned new_id = function_queue_submit_new(shared->fqueue, ltype);
-				
-				unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
-				
-				stringtree_append_printf(this->init_text, ""
-					"struct type_%u* $%.*s = NULL;"
-				"", ltype->id, name->len, name->chars);
-				
-				stringtree_append_printf(this->assign_text, ""
-					"$%.*s = func_%u();"
-				"", name->len, name->chars, new_id);
-				
-				stringtree_append_printf(this->uninit_text, ""
-					"func_%u($%.*s);"
-				"", free_id, name->len, name->chars);
+				stringtree_append_printf(assign_sets_text, ""
+					"environment->%.*s = func_%u();"
+				"", ntype->name->len, ntype->name->chars, new_id);
 			}
 			runme;
 		}));
-		#endif
 	}
 	
 	struct stringtree* assign_declarations_text = new_stringtree();
-	{
-		stringtree_append_printf(assign_declarations_text, ""
-			"assert(!\"TODO: assign-declarations\");"
-		"");
-		
-		#if 0
-		for (unsigned i = 0, n = declarations->n; i < n; i++)
+	declaration_list_foreach(declarations, ({
+		void runme(struct declaration* declaration)
 		{
-			struct declaration* declaration = declarations->data[i];
-			
 			dpvs(declaration->name);
 			
 			struct string* name = declaration->name;
 			
 			struct expression* expression = declaration->expression;
 			
-			struct type* type = expression->type;
-			
-			type_queue_submit(shared->tqueue, type);
-			
-			unsigned type_id = type->id;
-			
-			stringtree_append_printf(this->init_text, ""
-				"struct type_%u* $%.*s = NULL;"
-			"", type_id, name->len, name->chars);
-			
-			#if 0
-			struct stringtree* source_text = expression_print(expression);
-			
-			stringtree_append_printf(this->assign_text, ""
-				"// \"%.*s = "
+			stringtree_append_printf(assign_declarations_text, ""
+				"environment->%.*s = "
 			"", name->len, name->chars);
 			
-			stringtree_append_tree(this->assign_text, source_text);
+			struct stringtree* subtext =
+				expression_print_source(expression, &shared, environment_type);
 			
-			stringtree_append_printf(this->assign_text, "\":\n");
-			#endif
+			stringtree_append_tree(assign_declarations_text, subtext);
 			
-			stringtree_append_printf(this->assign_text, ""
-				"$%.*s = "
-			"", name->len, name->chars);
-			
-			struct stringtree* subtext = expression_print_source(expression, shared);
-			
-			stringtree_append_tree(this->assign_text, subtext);
-			
-			stringtree_append_printf(this->assign_text, ""
+			stringtree_append_printf(assign_declarations_text, ""
 				";"
 			"");
 			
-			unsigned free_id = function_queue_submit_free(shared->fqueue, type);
-			
-			stringtree_append_printf(this->uninit_text, ""
-				"func_%u($%.*s);"
-			"", free_id, name->len, name->chars);
-			
 			free_stringtree(subtext);
-			
-	/*		free_stringtree(source_text);*/
 		}
-		#endif
-		
-	}
+		runme;
+	}));
 	
 	struct stringtree* assertions_text = new_stringtree();
 	{
@@ -477,7 +418,8 @@ struct stringtree* out(
 		}));
 	}
 	
-	struct stringtree* reductionrules_text = reducerule_to_id_print_source(rrtoi, stoi, grammar_sets, &shared);
+	struct stringtree* reductionrules_text =
+		reducerule_to_id_print_source(rrtoi, stoi, &shared);
 	
 	struct stringtree* start_type_text = new_stringtree();
 	struct stringtree* free_start_text = new_stringtree();

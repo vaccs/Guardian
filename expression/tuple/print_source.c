@@ -42,8 +42,6 @@ struct stringtree* tuple_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_tuple);
 	
 	struct tuple_expression* this = (void*) super;
@@ -63,7 +61,7 @@ struct stringtree* tuple_expression_print_source(
 		{
 			type_queue_submit(shared->tqueue, subexpression->type);
 			
-			struct stringtree* subtree = expression_print_source(subexpression, shared);
+			struct stringtree* subtree = expression_print_source(subexpression, shared, environment);
 			
 			stringtree_append_printf(tree, ""
 				"struct type_%u* arg%u = "
@@ -125,7 +123,6 @@ struct stringtree* tuple_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

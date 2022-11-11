@@ -3,29 +3,29 @@
 
 #include <debug.h>
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
-#include <string/struct.h>
+/*#include <string/struct.h>*/
 
 #include <stringtree/new.h>
-#include <stringtree/append_tree.h>
+/*#include <stringtree/append_tree.h>*/
 #include <stringtree/append_printf.h>
-#include <stringtree/free.h>
+/*#include <stringtree/free.h>*/
 
-#include <set/string/add.h>
+/*#include <set/string/add.h>*/
 
-#include <quack/append.h>
+/*#include <quack/append.h>*/
 
-#include <type_cache/get_type/bool.h>
+/*#include <type_cache/get_type/bool.h>*/
 
-#include <out/shared.h>
+/*#include <out/shared.h>*/
 /*#include <out/function_lookup/lookup_inc.h>*/
 /*#include <out/declare_queue/submit.h>*/
 /*#include <out/set_queue/submit.h>*/
-#include <out/type_queue/submit.h>
-#include <out/function_queue/submit_free.h>
+/*#include <out/type_queue/submit.h>*/
+/*#include <out/function_queue/submit_free.h>*/
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
 #include "../print_source.h"
 
@@ -43,6 +43,33 @@ struct stringtree* list_concat_expression_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
+	stringtree_append_printf(tree, ""
+		"({"
+			"assert(!\"TODO: list concat!\");"
+			"NULL;"
+		"})"
+	"");
+	
+	EXIT;
+	return tree;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if 0
+
 	type_queue_submit(shared->tqueue, super->type);
 	
 	struct list_concat_expression* this = (void*) super;
@@ -85,25 +112,7 @@ struct stringtree* list_concat_expression_print_source(
 	
 	free_stringtree(left_text), free_stringtree(right_text);
 	
-	EXIT;
-	return tree;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	#endif
 
 
 

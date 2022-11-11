@@ -30,7 +30,6 @@
 struct stringtree* reducerule_to_id_print_source(
 	struct reducerule_to_id* this,
 	struct string_to_id* stoi,
-	struct stringset* grammar_sets,
 	struct out_shared* shared)
 {
 	ENTER;
@@ -62,14 +61,13 @@ struct stringtree* reducerule_to_id_print_source(
 		
 		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, shared, ele->grammar->chars);
 		
-		if (stringset_contains(grammar_sets, ele->grammar))
 		{
 			struct type* ltype = type_cache_get_list_type(shared->tcache, type);
 			
 			unsigned append_id = function_queue_submit_append(shared->fqueue, ltype);
 			
 			stringtree_append_printf(tree, ""
-				"func_%u($%.*s, value);"
+				"func_%u(environment->%.*s, value);"
 			"", append_id, ele->grammar->len, ele->grammar->chars);
 		}
 		

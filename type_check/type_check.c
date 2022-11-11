@@ -187,7 +187,6 @@ void type_check(
 	struct type_cache* tcache,
 	
 	struct avl_tree_t* grammar_types, // named types
-	struct stringset* grammar_sets,
 	
 	struct raw_declaration_list* raw_declarations,
 	struct raw_assertion_list* raw_assertions,
@@ -197,7 +196,7 @@ void type_check(
 {
 	ENTER;
 	
-	struct type_check_scope* scope = new_type_check_scope(grammar_sets);
+	struct type_check_scope* scope = new_type_check_scope();
 	
 	type_check_scope_push(scope);
 	

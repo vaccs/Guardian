@@ -32,8 +32,8 @@ struct stringtree* dict_type_generate_free_func(
 				"for (unsigned i = 0, n = this->n; i < n; i++)"
 				"{"
 					"assert(!\"TODO: free dict type\");"
-					"// func_%%u(this->data[i].key);"
-					"// func_%%u(this->data[i].value);"
+/*					"// func_%%u(this->data[i].key);"*/
+/*					"// func_%%u(this->data[i].value);"*/
 				"}"
 				
 				"free(this->data);"

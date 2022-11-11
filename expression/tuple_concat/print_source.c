@@ -33,8 +33,6 @@ struct stringtree* tuple_concat_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct tuple_concat_expression* this = (void*) super;
@@ -53,9 +51,11 @@ struct stringtree* tuple_concat_expression_print_source(
 	
 	unsigned right_id = this->right->type->id;
 	
-	struct stringtree* left_tree = expression_print_source(this->left, shared);
+	struct stringtree* left_tree =
+		expression_print_source(this->left, shared, environment);
 	
-	struct stringtree* right_tree = expression_print_source(this->right, shared);
+	struct stringtree* right_tree =
+		expression_print_source(this->right, shared, environment);
 	
 	stringtree_append_printf(tree, "struct type_%u *left = ", left_id);
 	stringtree_append_tree(tree, left_tree);
@@ -115,7 +115,6 @@ struct stringtree* tuple_concat_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

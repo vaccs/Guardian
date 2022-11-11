@@ -3,10 +3,14 @@
 
 #include <debug.h>
 
+#include <avl/foreach.h>
+
+#include <named/type/struct.h>
+
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
 
-/*#include <out/function_lookup/lookup_free.h>*/
+#include <out/function_queue/submit_free.h>
 
 #include "struct.h"
 #include "generate_free_func.h"
@@ -18,24 +22,53 @@ struct stringtree* environment_type_generate_free_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_environment);
+	
+	struct environment_type* this = (void*) super;
 	
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
 		"void func_%u(struct type_%u* this)"
 		"{"
-			"if (this && !--this->refcount)"
+			"if (this && !--this->__refcount)"
 			"{"
+	"", func_id, super->id);
+	
+	avl_foreach(this->variables, ({
+		void runme(void* ptr)
+		{
+			struct named_type* ntype = ptr;
+			
+			unsigned free_id = function_queue_submit_free(flookup, ntype->type);
+			
+			stringtree_append_printf(text, ""
+				"func_%u(this->%.*s);"
+			"", free_id, ntype->name->len, ntype->name->chars);
+		}
+		runme;
+	}));
+	stringtree_append_printf(text, ""
 				"free(this);"
 			"}"
 		"}"
-	"", func_id, super->id);
+	"");
 	
 	EXIT;
 	return text;
-	#endif
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

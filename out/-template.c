@@ -133,7 +133,6 @@ int main(int argc, char* const* argv)
 	}
 	
 	// declare root environment:
-	// struct *root;
 	{{DECLARE_ENVIRONMENT}}
 	
 	// new()s, inc()s, free()s, compare()s, index()s, ...
@@ -376,7 +375,7 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	// "$x = malloc()";
+	// declarations:
 	{{ASSIGN_DECLARES}}
 	
 	// assertions:

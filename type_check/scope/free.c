@@ -4,8 +4,6 @@
 
 #include <debug.h>
 
-#include <set/string/free.h>
-
 #include "struct.h"
 #include "pop.h"
 #include "free.h"
@@ -19,8 +17,6 @@ void free_type_check_scope(
 	{
 		type_check_scope_pop(this);
 	}
-	
-	free_stringset(this->grammar_sets);
 	
 	free(this);
 	

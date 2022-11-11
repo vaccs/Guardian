@@ -98,20 +98,18 @@ int main(int argc, char* const* argv)
 	
 	specialize_grammar_types(types, tcache, structinfos);
 	
-	struct stringset* grammar_sets = new_stringset();
-	
 	struct declaration_list* declarations = new_declaration_list();
 	
 	struct assertion_list* assertions = new_assertion_list();
 	
 	type_check(
-		tcache, types, grammar_sets,
+		tcache, types,
 		raw_declarations, raw_assertions,
 		declarations, assertions);
 	
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
-	struct stringtree* content = out(tcache, types, grammar_sets, declarations, assertions, start);
+	struct stringtree* content = out(tcache, types, declarations, assertions, start);
 	
 	FILE* stream = fopen(flags->output_path, "w");
 	
@@ -142,8 +140,6 @@ int main(int argc, char* const* argv)
 	avl_free_tree(grammar);
 	
 	free_yacc_state(start);
-	
-	free_stringset(grammar_sets);
 	
 	avl_free_tree(types);
 	

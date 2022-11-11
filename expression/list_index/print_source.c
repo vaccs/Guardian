@@ -29,11 +29,11 @@ struct stringtree* list_index_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct stringtree* tree = new_stringtree();
+	assert(super->kind == ek_list_index);
 	
 	struct list_index_expression* this = (void*) super;
+	
+	struct stringtree* tree = new_stringtree();
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
@@ -42,7 +42,7 @@ struct stringtree* list_index_expression_print_source(
 	struct type* list_type = this->list->type;
 	type_queue_submit(shared->tqueue, list_type);
 	
-	struct stringtree* list_tree = expression_print_source(this->list, shared);
+	struct stringtree* list_tree = expression_print_source(this->list, shared, environment);
 	stringtree_append_printf(tree, "struct type_%u* list = ", list_type->id);
 	stringtree_append_tree(tree, list_tree);
 	stringtree_append_printf(tree, ";");
@@ -51,7 +51,7 @@ struct stringtree* list_index_expression_print_source(
 	struct type* index_type = this->index->type;
 	type_queue_submit(shared->tqueue, index_type);
 	
-	struct stringtree* index_tree = expression_print_source(this->index, shared);
+	struct stringtree* index_tree = expression_print_source(this->index, shared, environment);
 	stringtree_append_printf(tree, "struct type_%u* index = ", index_type->id);
 	stringtree_append_tree(tree, index_tree);
 	stringtree_append_printf(tree, ";");
@@ -77,20 +77,9 @@ struct stringtree* list_index_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 
-/*	stringtree_append_printf(tree, "unsigned long idx;");*/
-/*	*/
-/*	stringtree_append_printf(tree, "if (mpz_fits_ulong_p(index) || (idx = mpz_get_ui(index)) >= list->n) {");*/
-/*	*/
-/*	stringtree_append_printf(tree, "assert(!\"TODO\");");*/
-/*	*/
-/*	stringtree_append_printf(tree, "}");*/
-/*	*/
-/*	stringtree_append_printf(tree, "type_%u* element = inc_type_%u(list->data[idx]);", rettype_id, rettype_id);*/
-/*	*/
 
 
 

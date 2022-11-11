@@ -36,21 +36,6 @@ struct stringtree* lambda_value_generate_evaluate_func(
 	
 	struct stringtree* tree = new_stringtree();
 	
-	stringtree_append_printf(tree, ""
-		"assert(!\"TODO: lambda-value\");"
-	"");
-	
-	EXIT;
-	return tree;
-}
-
-
-
-
-
-
-	#if 0
-	
 	unsigned type_id = this->super.type->id;
 	
 	type_queue_submit(shared->tqueue, this->super.type);
@@ -80,6 +65,25 @@ struct stringtree* lambda_value_generate_evaluate_func(
 	stringtree_append_printf(tree, ""
 		") {"
 	"");
+	
+	stringtree_append_printf(tree, ""
+		"assert(!\"TODO: lambda evaluate value\");"
+	"");
+	
+	stringtree_append_printf(tree, ""
+		"}"
+	"");
+	
+	EXIT;
+	return tree;
+}
+
+
+
+
+
+
+	#if 0
 	
 	if (this->captured)
 	{
@@ -136,10 +140,6 @@ struct stringtree* lambda_value_generate_evaluate_func(
 		
 		free_stringtree(subtree);
 	}
-	
-	stringtree_append_printf(tree, ""
-		"}"
-	"");
 	
 	EXIT;
 	return tree;

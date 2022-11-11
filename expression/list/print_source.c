@@ -65,11 +65,11 @@ struct stringtree* list_expression_print_source(
 	expression_list_foreach(this->elements, ({
 		void runme(struct expression* expression)
 		{
-			stringtree_append_printf(tree, "({");
+			stringtree_append_printf(tree, "{");
 			
 			stringtree_append_printf(tree, ""
 				"struct type_%u* element = "
-			"", type->id);
+			"", etype->id);
 			
 			struct stringtree* subtree = expression_print_source(expression, shared, environment);
 			
@@ -84,13 +84,14 @@ struct stringtree* list_expression_print_source(
 				"func_%u(element);"
 			"", free_id);
 			
-			stringtree_append_printf(tree, "})");
+			stringtree_append_printf(tree, "}");
 			
 			free_stringtree(subtree);
 		}
 		runme;
 	}));
 	
+	stringtree_append_printf(tree, "list;");
 	stringtree_append_printf(tree, "})");
 	
 	EXIT;

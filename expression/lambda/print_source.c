@@ -35,12 +35,9 @@ struct stringtree* lambda_expression_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
-/*	struct lambda_expression* this = (void*) super;*/
+	struct lambda_expression* this = (void*) super;
 	
-	stringtree_append_printf(tree, "({"
-		"assert(!\"TODO: lambda-expression\");"
-		"NULL;"
-	"})");
+	TODO;
 	
 	EXIT;
 	return tree;
