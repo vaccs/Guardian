@@ -7,8 +7,8 @@ bin/debug-build/no-verbose/./type_check/specialize/lambda.o: \
  type/print.h expression/struct.h expression/kind.h \
  expression/lambda/new.h expression/literal/new.h expression/free.h \
  value/lambda/new.h value/free.h type_check/specialize/conditional.h \
- type_check/specialize/let.h type_check/specialize/shared.h \
- type_check/specialize/lambda.h type_check/specialize/../scope/layer.h \
+ type_check/specialize/let.h type_check/specialize/lambda.h \
+ type_check/specialize/../scope/layer.h \
  type_check/specialize/../scope/struct.h \
  type_check/specialize/../scope/is_head_pure.h \
  type_check/specialize/../scope/declare.h \

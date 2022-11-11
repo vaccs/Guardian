@@ -5,59 +5,56 @@
 
 #include <debug.h>
 
-/*#include <memory/smalloc.h>*/
+#include <memory/smalloc.h>
 
-/*#include <string/inc.h>*/
-/*#include <string/compare.h>*/
-/*#include <string/free.h>*/
+#include <string/inc.h>
+#include <string/compare.h>
+#include <string/free.h>
 
-/*#include <avl/search.h>*/
-/*#include <avl/foreach.h>*/
-/*#include <avl/alloc_tree.h>*/
-/*#include <avl/insert.h>*/
-/*#include <avl/free_tree.h>*/
+#include <avl/alloc_tree.h>
+#include <avl/search.h>
+#include <avl/foreach.h>
+#include <avl/insert.h>
+#include <avl/free_tree.h>
 
-/*#include <quack/new.h>*/
-/*#include <quack/append.h>*/
-/*#include <quack/is_nonempty.h>*/
-/*#include <quack/pop.h>*/
-/*#include <quack/free.h>*/
+#include <quack/new.h>
+#include <quack/append.h>
+#include <quack/is_nonempty.h>
+#include <quack/pop.h>
+#include <quack/free.h>
 
 /*#include <named/unsignedset/struct.h>*/
 /*#include <named/unsignedset/new.h>*/
 /*#include <named/unsignedset/compare.h>*/
 /*#include <named/unsignedset/free.h>*/
 
-/*#include <named/stringset/struct.h>*/
-/*#include <named/stringset/new.h>*/
-/*#include <named/stringset/compare.h>*/
-/*#include <named/stringset/free.h>*/
+#include <named/stringset/struct.h>
+#include <named/stringset/new.h>
+#include <named/stringset/compare.h>
+#include <named/stringset/free.h>
 
-/*#include <named/trie/struct.h>*/
+#include <named/trie/struct.h>
 
-/*#include <set/unsigned/new.h>*/
-/*#include <set/unsigned/add.h>*/
-/*#include <set/unsigned/update.h>*/
-/*#include <set/unsigned/inc.h>*/
-/*#include <set/unsigned/free.h>*/
+#include <set/unsigned/new.h>
+#include <set/unsigned/add.h>
+#include <set/unsigned/update.h>
+#include <set/unsigned/inc.h>
+#include <set/unsigned/free.h>
 
-/*#include <set/string/new.h>*/
-/*#include <set/string/add.h>*/
-/*#include <set/string/foreach.h>*/
+#include <set/string/new.h>
+#include <set/string/add.h>
+#include <set/string/foreach.h>
 
-/*#include "trie/struct.h"*/
+#include "trie/struct.h"
 
 #include "calc_firsts.h"
 
-#if 0
 static struct firsts_node* new_firsts_node(
 	struct string* name,
 	struct unsignedset* tokens)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct firsts_node* this = smalloc(sizeof(*this));
 	
 	this->name = inc_string(name);
@@ -65,34 +62,25 @@ static struct firsts_node* new_firsts_node(
 	
 	EXIT;
 	return this;
-	#endif
 	
 }
 
 static int compare_firsts_nodes(const void* a, const void* b)
 {
-	TODO;
-	#if 0
 	const struct firsts_node* const A = a, *const B = b;
 	return compare_strings(A->name, B->name);
-	#endif
 }
 
 static void free_firsts_node(void* a)
 {
-	TODO;
-	#if 0
 	struct firsts_node* node = a;
 	free_string(node->name);
 	free_unsignedset(node->tokens);
 	free(node);
-	#endif
 }
 
 static struct stringset* get(struct avl_tree_t* tree, struct string* name)
 {
-	TODO;
-	#if 0
 	struct avl_node_t* node = avl_search(tree, &name);
 	
 	if (node)
@@ -109,15 +97,12 @@ static struct stringset* get(struct avl_tree_t* tree, struct string* name)
 		
 		return ss;
 	}
-	#endif
 }
 
 static void add(struct avl_tree_t* tree, struct string* name, struct string* addme)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct avl_node_t* node = avl_search(tree, &name);
 	
 	if (node)
@@ -134,28 +119,21 @@ static void add(struct avl_tree_t* tree, struct string* name, struct string* add
 		
 		avl_insert(tree, new_named_stringset(name, ss));
 	}
-	#endif
 	
 	EXIT;
 }
 
 struct firsts_node* get_firsts(struct avl_tree_t* named_firsts, struct string* name)
 {
-	TODO;
-	#if 0
 	struct avl_node_t* node = avl_search(named_firsts, &name);
 	assert(node);
 	return node->item;
-	#endif
 }
-#endif
 
 struct avl_tree_t* calc_firsts(struct avl_tree_t* named_tries)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct avl_tree_t* named_firsts = avl_alloc_tree(compare_firsts_nodes, free_firsts_node);
 	
 	struct avl_tree_t* dependent_on = avl_alloc_tree(compare_named_stringsets, free_named_stringset);
@@ -244,7 +222,6 @@ struct avl_tree_t* calc_firsts(struct avl_tree_t* named_tries)
 	
 	EXIT;
 	return named_firsts;
-	#endif
 }
 
 

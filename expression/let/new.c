@@ -12,7 +12,6 @@
 
 struct expression* new_let_expression(
 	struct type* type,
-	struct type* environment,
 	struct named_expression_list* parameters,
 	struct expression* body)
 {
@@ -23,8 +22,6 @@ struct expression* new_let_expression(
 		&let_expression_inheritance,
 		type,
 		sizeof(*this));
-	
-	this->environment = environment;
 	
 	this->parameters = inc_named_expression_list(parameters);
 	

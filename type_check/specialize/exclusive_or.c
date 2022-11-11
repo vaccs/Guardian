@@ -10,7 +10,6 @@
 
 struct expression* specialize_exclusive_or_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_exclusive_or_expression* zexpression)
 {
@@ -19,7 +18,7 @@ struct expression* specialize_exclusive_or_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_and_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_and_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{

@@ -12,6 +12,8 @@
 
 void free_named_structinfo(void* ptr)
 {
+	ENTER;
+	
 	struct named_structinfo* this = ptr;
 	
 	free_string(this->name);
@@ -19,5 +21,7 @@ void free_named_structinfo(void* ptr)
 	free_structinfo(this->structinfo);
 	
 	free(this);
+	
+	EXIT;
 }
 

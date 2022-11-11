@@ -5,7 +5,7 @@
 
 #include <value/free.h>
 #include <value/dict/new.h>
-#include <value/dict/set.h>
+#include <value/dict/assign.h>
 
 #include <pair/expression/struct.h>
 
@@ -35,7 +35,7 @@ struct value* dict_expression_evaluate(
 			struct value* key = expression_evaluate(pair->first, scope);
 			struct value* val = expression_evaluate(pair->second, scope);
 			
-			dict_value_set(value, key, val);
+			dict_value_assign(value, key, val);
 			
 			free_value(key), free_value(val);
 		}

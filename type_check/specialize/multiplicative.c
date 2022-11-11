@@ -18,7 +18,6 @@
 
 struct expression* specialize_multiplicative_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_multiplicative_expression* zexpression)
 {
@@ -27,15 +26,15 @@ struct expression* specialize_multiplicative_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_exponentiation_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_exponentiation_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
 		assert(zexpression->right);
 		
-		struct expression* left = specialize_multiplicative_expression(tcache, sshared, scope, zexpression->left);
+		struct expression* left = specialize_multiplicative_expression(tcache, scope, zexpression->left);
 		
-		struct expression* right = specialize_exponentiation_expression(tcache, sshared, scope, zexpression->right);
+		struct expression* right = specialize_exponentiation_expression(tcache, scope, zexpression->right);
 		
 		if (left->type != right->type)
 		{

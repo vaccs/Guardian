@@ -17,5 +17,5 @@ bin/debug-build/no-verbose/./type_check/type_check.o: \
  type_check/scope/new.h type_check/scope/push.h \
  type_check/scope/declare.h type_check/scope/lookup.h \
  type_check/scope/pop.h type_check/scope/free.h \
- type_check/specialize/shared.h type_check/specialize/expression.h \
+ type_check/specialize/expression.h \
  type_check/determine_type/expression.h type_check/type_check.h

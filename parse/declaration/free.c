@@ -1,7 +1,12 @@
 
+#include <stdlib.h>
 #include <assert.h>
 
 #include <debug.h>
+
+#include <string/free.h>
+
+#include <parse/parse.h>
 
 #include "struct.h"
 #include "free.h"
@@ -13,7 +18,11 @@ void free_raw_declaration(
 	
 	if (this && !--this->refcount)
 	{
-		TODO;
+		free_string(this->name);
+		
+		free_zebu_expression(this->expression);
+		
+		free(this);
 	}
 	
 	EXIT;

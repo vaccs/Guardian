@@ -15,6 +15,7 @@
 #include <type_cache/get_type/int.h>
 #include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/dict.h>
+#include <type_cache/get_type/list.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/lambda.h>
 #include <type_cache/get_type/grammar.h>
@@ -55,7 +56,9 @@ struct type* build_primitive_type(
 	}
 	else if (type->array)
 	{
-		TODO;
+		struct type* element_type = build_primitive_type(tcache, type->array);
+		
+		return type_cache_get_list_type(tcache, element_type);
 	}
 	else if (type->paren)
 	{

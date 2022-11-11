@@ -3,14 +3,14 @@
 
 #include <debug.h>
 
-/*#include <value/struct.h>*/
-/*#include <value/integer/new.h>*/
-/*#include <value/free.h>*/
+#include <list/value/new.h>
+#include <list/value/append.h>
+#include <list/value/free.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <list/expression/foreach.h>
+
+#include <value/list/new.h>
+#include <value/free.h>
 
 #include "../evaluate.h"
 
@@ -23,42 +23,30 @@ struct value* list_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == ek_list);
+	
 	struct list_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value_list* elements = new_value_list();
 	
-	assert(list->kind == vk_list);
+	expression_list_foreach(this->elements, ({
+		void runme(struct expression* expression)
+		{
+			struct value* value = expression_evaluate(expression, scope);
+			
+			value_list_append(elements, value);
+			
+			free_value(value);
+		}
+		runme;
+	}));
 	
-	struct list_value* spef_list = (void*) spef_list;
+	struct value* value = new_list_value(super->type, elements);
 	
-	struct mpz* number;
-	
-	switch (this->kind)
-	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
-	}
-	
-	struct value* value = new_integer_value(super->type, number);
-	
-	free_value(left), free_value(right);
-	
-	free_mpz(number);
+	free_value_list(elements);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

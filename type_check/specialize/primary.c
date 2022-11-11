@@ -113,6 +113,7 @@
 #include <type_cache/get_type/int.h>
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/dict.h>
+#include <type_cache/get_type/float.h>
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
@@ -120,10 +121,16 @@
 #include <expression/tuple/new.h>
 #include <expression/variable/new.h>
 #include <expression/parenthesis/new.h>
+#include <expression/float_form/new.h>
 #include <expression/dict/new.h>
 #include <expression/list/new.h>
 #include <expression/inc.h>
 #include <expression/free.h>
+
+#include <type/struct.h>
+#include <type/tuple/struct.h>
+
+#include <list/type/struct.h>
 
 #include <value/int/new.h>
 #include <value/bool/new.h>
@@ -131,7 +138,7 @@
 #include <value/tuple/new.h>
 #include <value/float/new.h>
 #include <value/dict/new.h>
-#include <value/dict/set.h>
+#include <value/dict/assign.h>
 #include <value/compare.h>
 #include <value/free.h>
 
@@ -141,7 +148,6 @@
 #include "../scope/lookup.h"
 #include "../build_type.h"
 
-#include "shared.h"
 #include "expression.h"
 #include "primary.h"
 
@@ -231,14 +237,15 @@ static struct expression* specialize_primary_identifier_expression(
 		TODO;
 	}
 	
+	free_string(name);
 	free_value(value);
 	
+	EXIT;
 	return retval;
 }
 
 static struct expression* specialize_primary_dict_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
 	struct type_check_scope* scope,
 	struct zebu_primary_expression* expression)
 {
@@ -256,10 +263,10 @@ static struct expression* specialize_primary_dict_expression(
 	for (unsigned i = 0, n = expression->keyvalues.n; i < n; i++)
 	{
 		struct expression* key_exp = specialize_expression(
-			tcache, sshared, scope, expression->keyvalues.data[i]->key);
+			tcache, scope, expression->keyvalues.data[i]->key);
 		
 		struct expression* val_exp = specialize_expression(
-			tcache, sshared, scope, expression->keyvalues.data[i]->value);
+			tcache, scope, expression->keyvalues.data[i]->value);
 		
 		if (!key_type)
 		{
@@ -302,7 +309,7 @@ static struct expression* specialize_primary_dict_expression(
 			struct literal_expression* keylit = (void*) element->first;
 			struct literal_expression* vallit = (void*) element->second;
 			
-			dict_value_set(new, keylit->value, vallit->value);
+			dict_value_assign(new, keylit->value, vallit->value);
 		}
 		
 		retval = new_literal_expression(new);
@@ -322,7 +329,6 @@ static struct expression* specialize_primary_dict_expression(
 
 static struct expression* specialize_tuple_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_primary_expression* zexpression)
 {
@@ -340,7 +346,7 @@ static struct expression* specialize_tuple_expression(
 	for (i = 0, n = zexpression->elements.n; i < n; i++)
 	{
 		struct expression* subexpression = specialize_expression(
-			tcache, sshared, scope, zexpression->elements.data[i]);
+			tcache, scope, zexpression->elements.data[i]);
 		
 		if (subexpression->kind != ek_literal)
 			all_literals = false;
@@ -348,6 +354,8 @@ static struct expression* specialize_tuple_expression(
 		type_list_append(subtypes, subexpression->type);
 		
 		expression_list_append(subexpressions, subexpression);
+		
+		free_expression(subexpression);
 	}
 	
 	struct type* type = type_cache_get_tuple_type(tcache, subtypes);
@@ -387,7 +395,6 @@ static struct expression* specialize_tuple_expression(
 
 static struct expression* specialize_primary_list_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
 	struct type_check_scope* scope,
 	struct zebu_primary_expression* expression)
 {
@@ -404,7 +411,7 @@ static struct expression* specialize_primary_list_expression(
 	for (unsigned i = 0, n = expression->elements.n; i < n; i++)
 	{
 		struct expression* element = specialize_expression(
-			tcache, sshared, scope, expression->elements.data[i]);
+			tcache, scope, expression->elements.data[i]);
 		
 		if (!element_type)
 		{
@@ -465,20 +472,20 @@ static struct expression* specialize_primary_list_expression(
 
 static struct expression* specialize_primary_len_form_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
+	struct type_check_scope* scope,
 	struct zebu_expression* raw_argument)
 {
-/*	struct expression* retval;*/
+	struct expression* retval;
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct expression* list = specialize_expression(tcache, sshared, raw_argument);
+	struct expression* object = specialize_expression(tcache, scope, raw_argument);
 	
-	switch (list->type->kind)
+	switch (object->type->kind)
 	{
 		case tk_list:
 		{
+			TODO;
+			#if 0
 			if (list->kind == ek_literal)
 			{
 				TODO;
@@ -487,12 +494,13 @@ static struct expression* specialize_primary_len_form_expression(
 			{
 				retval = new_len_expression(tcache, list);
 			}
+			#endif
 			break;
 		}
 		
 		case tk_tuple:
 		{
-			struct tuple_type* ttype = (void*) list->type;
+			struct tuple_type* ttype = (void*) object->type;
 			
 			unsigned len = ttype->subtypes->n;
 			
@@ -500,7 +508,9 @@ static struct expression* specialize_primary_len_form_expression(
 			
 			struct mpz* mpz = new_mpz_from_unsigned(len);
 			
-			struct value* value = new_int_value(tcache, mpz);
+			struct type* type = type_cache_get_int_type(tcache);
+			
+			struct value* value = new_int_value(type, mpz);
 			
 			retval = new_literal_expression(value);
 			
@@ -510,39 +520,46 @@ static struct expression* specialize_primary_len_form_expression(
 			break;
 		}
 		
+		case tk_dict:
+		{
+			TODO;
+			break;
+		}
+		
 		default:
 			TODO;
 			break;
 	}
 	
-	free_expression(list);
+	free_expression(object);
 	
 	EXIT;
 	return retval;
-	#endif
 }
 
 static struct expression* specialize_primary_float_form_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
+	struct type_check_scope* scope,
 	struct zebu_expression* raw_argument)
 {
-/*	struct expression* retval;*/
+	struct expression* retval;
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct expression* whatever = specialize_expression(tcache, sshared, raw_argument);
+	struct expression* object = specialize_expression(tcache, scope, raw_argument);
 	
-	switch (whatever->type->kind)
+	switch (object->type->kind)
 	{
 		case tk_float:
-			retval = inc_expression(whatever);
+			retval = inc_expression(object);
 			break;
 		
 		case tk_int:
-			retval = new_float_expression(tcache, whatever);
+		{
+			struct type* type = type_cache_get_float_type(tcache);
+			
+			retval = new_float_form_expression(type, object);
 			break;
+		}
 		
 		case tk_lambda:
 		{
@@ -557,17 +574,15 @@ static struct expression* specialize_primary_float_form_expression(
 			break;
 	}
 	
-	free_expression(whatever);
+	free_expression(object);
 	
 	EXIT;
 	return retval;
-	#endif
 }
 
 #if 0
 static struct expression* specialize_primary_sum_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -581,7 +596,7 @@ static struct expression* specialize_primary_sum_expression(
 	
 	bool all_literals = true;
 	
-	struct expression* list_exp = specialize_expression(tcache, sshared, raw_arguments[0]);
+	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
 	
 	if (list_exp->kind != ek_literal)
 		all_literals = false;
@@ -615,7 +630,6 @@ static struct expression* specialize_primary_sum_expression(
 
 static struct expression* specialize_primary_map_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -629,7 +643,7 @@ static struct expression* specialize_primary_map_expression(
 	
 	bool all_literals = true;
 	
-	struct expression* lambda_exp = specialize_expression(tcache, sshared, raw_arguments[0]);
+	struct expression* lambda_exp = specialize_expression(tcache, raw_arguments[0]);
 	
 	if (lambda_exp->kind != ek_literal)
 		all_literals = false;
@@ -654,7 +668,7 @@ static struct expression* specialize_primary_map_expression(
 	
 	for (unsigned i = 0, n = raw_len; i < n; i++)
 	{
-		struct expression* arg = specialize_expression(tcache, sshared, raw_arguments[i]);
+		struct expression* arg = specialize_expression(tcache, raw_arguments[i]);
 		
 		if (arg->kind != ek_literal)
 			all_literals = false;
@@ -730,7 +744,6 @@ static struct expression* specialize_primary_map_expression(
 
 static struct expression* specialize_primary_product_expression(
 	struct type_cache* tcache,
-	struct specialize_shared* sshared,
 	struct zebu_expression** raw_arguments, unsigned raw_len)
 {
 	struct expression* retval;
@@ -744,7 +757,7 @@ static struct expression* specialize_primary_product_expression(
 	
 	bool all_literals = true;
 	
-	struct expression* list_exp = specialize_expression(tcache, sshared, raw_arguments[0]);
+	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
 	
 	if (list_exp->kind != ek_literal)
 		all_literals = false;
@@ -779,7 +792,6 @@ static struct expression* specialize_primary_product_expression(
 
 struct expression* specialize_primary_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_primary_expression* zexpression)
 {
@@ -847,21 +859,21 @@ struct expression* specialize_primary_expression(
 		}
 		else
 		{
-			retval = specialize_primary_dict_expression(tcache, sshared, scope, zexpression);
+			retval = specialize_primary_dict_expression(tcache, scope, zexpression);
 		}
 	}
 	else if (zexpression->paren)
 	{
 		if (zexpression->elements.n != 1 || zexpression->comma)
 		{
-			retval = specialize_tuple_expression(tcache, sshared, scope, zexpression);
+			retval = specialize_tuple_expression(tcache, scope, zexpression);
 		}
 		else
 		{
 			assert(zexpression->elements.n == 1);
 			
 			struct expression* sub = specialize_expression(tcache,
-				sshared, scope, zexpression->elements.data[0]);
+				scope, zexpression->elements.data[0]);
 			
 			if (sub->kind == ek_literal)
 			{
@@ -894,18 +906,18 @@ struct expression* specialize_primary_expression(
 		else
 		{
 			retval = specialize_primary_list_expression(tcache,
-				sshared, scope, zexpression);
+				scope, zexpression);
 		}
 	}
 	else if (zexpression->len_form)
 	{
 		retval = specialize_primary_len_form_expression(tcache,
-			sshared, zexpression->arg);
+			scope, zexpression->arg);
 	}
 	else if (zexpression->float_form)
 	{
 		retval = specialize_primary_float_form_expression(tcache,
-			sshared, zexpression->arg);
+			scope, zexpression->arg);
 	}
 	#if 0
 	else if (zexpression->sum)

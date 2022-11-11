@@ -4,6 +4,9 @@
 
 #include <debug.h>
 
+#include <defines/argv0.h>
+
+#include <string/struct.h>
 #include <string/new.h>
 #include <string/free.h>
 
@@ -30,14 +33,16 @@
 #include <expression/inc.h>
 #include <expression/free.h>
 
-#include "shared.h"
+#include <type_check/determine_type/expression.h>
+
+#include <type/print.h>
+
 #include "expression.h"
 #include "lambda.h"
 #include "let.h"
 
 struct expression* specialize_let_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_let_expression* zexpression)
 {
@@ -46,7 +51,7 @@ struct expression* specialize_let_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_lambda_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_lambda_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->let)
 	{
@@ -61,6 +66,22 @@ struct expression* specialize_let_expression(
 			free_string(name);
 		}
 		
+		for (unsigned i = 0, n = zexpression->parameters.n; i < n; i++)
+		{
+			struct string* name = new_string_from_token(zexpression->parameters.data[i]->name);
+			
+			printf("%s: determining type of '%.*s': ", argv0, name->len, name->chars);
+			
+			struct type* type = determine_type_of_expression(
+				zexpression->parameters.data[i]->expression, tcache, scope);
+			
+			type_print(type), puts("");
+			
+			type_check_scope_declare_type(scope, name, type);
+			
+			free_string(name);
+		}
+		
 		struct named_expression_list* parameters = new_named_expression_list();
 		
 		bool all_literals = true;
@@ -70,10 +91,8 @@ struct expression* specialize_let_expression(
 			struct string* name = new_string_from_token(zexpression->parameters.data[i]->name);
 			
 			struct expression* expression = specialize_expression(
-				tcache, sshared, scope,
+				tcache, scope,
 				zexpression->parameters.data[i]->expression);
-			
-			type_check_scope_declare_type(scope, name, expression->type);
 			
 			struct named_expression* nexpression = new_named_expression(name, expression);
 			
@@ -95,19 +114,12 @@ struct expression* specialize_let_expression(
 			free_string(name);
 		}
 		
-		// make environment type
-		struct type* environment = type_cache_get_environment_type(
-			tcache, sshared->environment, scope->head->tree);
-		
-		struct type* old = sshared->environment;
-		sshared->environment = environment;
-		struct expression* body = specialize_let_expression(tcache, sshared, scope, zexpression->body);
-		sshared->environment = old;
+		struct expression* body = specialize_let_expression(tcache, scope, zexpression->body);
 		
 		if (all_literals)
 			retval = inc_expression(body);
 		else
-			retval = new_let_expression(body->type, environment, parameters, body);
+			retval = new_let_expression(body->type, parameters, body);
 		
 		free_named_expression_list(parameters);
 		type_check_scope_pop(scope);

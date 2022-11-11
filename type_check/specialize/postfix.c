@@ -60,7 +60,6 @@
 
 struct expression* specialize_postfix_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_postfix_expression* zexpression)
 {
@@ -69,17 +68,17 @@ struct expression* specialize_postfix_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_primary_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_primary_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->sub)
 	{
-		struct expression* sub = specialize_postfix_expression(tcache, sshared, scope, zexpression->sub);
+		struct expression* sub = specialize_postfix_expression(tcache, scope, zexpression->sub);
 		
 		assert(sub);
 		
 		if (zexpression->index)
 		{
-			struct expression* index = specialize_expression(tcache, sshared, scope, zexpression->index);
+			struct expression* index = specialize_expression(tcache, scope, zexpression->index);
 			
 			switch (sub->type->kind)
 			{
@@ -247,7 +246,7 @@ struct expression* specialize_postfix_expression(
 			
 			for (unsigned i = 0, n = zexpression->args.n; i < n; i++)
 			{
-				struct expression* arg = specialize_expression(tcache, sshared, scope, zexpression->args.data[i]);
+				struct expression* arg = specialize_expression(tcache, scope, zexpression->args.data[i]);
 				
 				if (arg->kind != ek_literal)
 					all_literals = false;

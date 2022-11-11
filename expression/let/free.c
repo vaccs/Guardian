@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-/*#include <list/parameter/free.h>*/
+#include <list/named_expression/free.h>
 
 #include "../free.h"
 
@@ -15,14 +15,11 @@ void free_let_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct let_expression* this = (void*) super;
 	
-	free_parameter_list(this->parameters);
+	free_named_expression_list(this->parameters);
 	
 	free_expression(this->body);
-	#endif
 	
 	EXIT;
 }

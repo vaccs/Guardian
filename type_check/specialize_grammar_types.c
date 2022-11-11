@@ -116,7 +116,8 @@ void specialize_grammar_types(
 			
 			struct named_type* ntype = new_named_type(nsinfo->name, type);
 			
-			avl_insert(types, ntype);
+			void* ptr222 = avl_insert(types, ntype);
+			assert(ptr222);
 		}
 		runme;
 	}));

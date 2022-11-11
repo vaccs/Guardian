@@ -17,6 +17,8 @@
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
 #include <expression/tuple_concat/new.h>
+#include <expression/dict_concat/new.h>
+#include <expression/list_concat/new.h>
 #include <expression/float_math/new.h>
 #include <expression/struct.h>
 #include <expression/free.h>
@@ -37,7 +39,10 @@
 #include <value/tuple/new.h>
 #include <value/int/struct.h>
 #include <value/int/new.h>
+#include <value/list/struct.h>
+#include <value/list/new.h>
 #include <value/dict/new.h>
+#include <value/dict/assign.h>
 #include <value/dict/foreach.h>
 #include <value/free.h>
 
@@ -46,7 +51,6 @@
 
 struct expression* specialize_additive_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_additive_expression* zexpression)
 {
@@ -55,14 +59,14 @@ struct expression* specialize_additive_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_multiplicative_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_multiplicative_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
 		assert(zexpression->right);
 		
-		struct expression* left = specialize_additive_expression(tcache, sshared, scope, zexpression->left);
-		struct expression* right = specialize_multiplicative_expression(tcache, sshared, scope, zexpression->right);
+		struct expression* left = specialize_additive_expression(tcache, scope, zexpression->left);
+		struct expression* right = specialize_multiplicative_expression(tcache, scope, zexpression->right);
 		
 		bool all_literals = (left->kind == ek_literal && right->kind == ek_literal);
 		
@@ -139,8 +143,6 @@ struct expression* specialize_additive_expression(
 				}
 				else
 				{
-					TODO;
-					#if 0
 					if (zexpression->add)
 					{
 						retval = new_float_math_expression(tcache, fmek_add, left, right);
@@ -153,20 +155,62 @@ struct expression* specialize_additive_expression(
 					{
 						TODO;
 					}
-					#endif
+				}
+				break;
+			}
+			
+			case tk_list:
+			{
+				if (left->type != right->type)
+				{
+					TODO;
+					exit(1);
+				}
+				
+				if (zexpression->add)
+				{
+					if (all_literals)
+					{
+						struct literal_expression* spef_left = (void*) left;
+						struct literal_expression* spef_right = (void*) right;
+						
+						struct list_value*  left_list = (void*) spef_left->value;
+						struct list_value* right_list = (void*) spef_right->value;
+						
+						struct value_list* concat = new_value_list();
+						
+						value_list_extend(concat,  left_list->elements);
+						value_list_extend(concat, right_list->elements);
+						
+						struct value* value = new_list_value(left->type, concat);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+						
+						free_value_list(concat);
+					}
+					else
+					{
+						retval = new_list_concat_expression(left->type, left, right);
+					}
+				}
+				else
+				{
+					TODO;
 				}
 				break;
 			}
 			
 			case tk_tuple:
 			{
-				if (all_literals)
+				if (zexpression->add)
 				{
-					struct literal_expression* spef_left = (void*) left;
-					struct literal_expression* spef_right = (void*) right;
-					
-					if (zexpression->add)
+					if (all_literals)
 					{
+						struct literal_expression* spef_left = (void*) left;
+						struct literal_expression* spef_right = (void*) right;
+					
 						struct tuple_type* ltype = (void*) left->type;
 						struct tuple_type* rtype = (void*) right->type;
 						
@@ -195,13 +239,6 @@ struct expression* specialize_additive_expression(
 					}
 					else
 					{
-						TODO;
-					}
-				}
-				else
-				{
-					if (zexpression->add)
-					{
 						struct tuple_type* ltuple = (void*) left->type;
 						struct tuple_type* rtuple = (void*) right->type;
 						
@@ -216,10 +253,10 @@ struct expression* specialize_additive_expression(
 						
 						free_type_list(subtypes);
 					}
-					else
-					{
-						TODO;
-					}
+				}
+				else
+				{
+					TODO;
 				}
 				break;
 			}
@@ -231,14 +268,14 @@ struct expression* specialize_additive_expression(
 					TODO;
 					exit(1);
 				}
-				
-				if (all_literals)
+			
+				if (zexpression->add)
 				{
-					struct literal_expression* spef_left = (void*) left;
-					struct literal_expression* spef_right = (void*) right;
-					
-					if (zexpression->add)
+					if (all_literals)
 					{
+						struct literal_expression* spef_left = (void*) left;
+						struct literal_expression* spef_right = (void*) right;
+						
 						struct dict_value*  left_dict = (void*) spef_left->value;
 						struct dict_value* right_dict = (void*) spef_right->value;
 						
@@ -247,7 +284,7 @@ struct expression* specialize_additive_expression(
 						dict_value_foreach(left_dict, ({
 							void runme(struct value* key, struct value* value)
 							{
-								TODO;
+								dict_value_assign(concat_value, key, value);
 							}
 							runme;
 						}));
@@ -255,7 +292,7 @@ struct expression* specialize_additive_expression(
 						dict_value_foreach(right_dict, ({
 							void runme(struct value* key, struct value* value)
 							{
-								TODO;
+								dict_value_assign(concat_value, key, value);
 							}
 							runme;
 						}));
@@ -266,19 +303,12 @@ struct expression* specialize_additive_expression(
 					}
 					else
 					{
-						TODO;
+						retval = new_dict_concat_expression(left->type, left, right);
 					}
 				}
 				else
 				{
-					if (zexpression->add)
-					{
-						TODO;
-					}
-					else
-					{
-						TODO;
-					}
+					TODO;
 				}
 				break;
 			}

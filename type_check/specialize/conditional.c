@@ -24,7 +24,6 @@
 
 struct expression* specialize_conditional_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_conditional_expression* zexpression)
 {
@@ -33,7 +32,7 @@ struct expression* specialize_conditional_expression(
 	
 	if (zexpression->qmark)
 	{
-		struct expression* conditional = specialize_implication_expression(tcache, sshared, scope, zexpression->base);
+		struct expression* conditional = specialize_implication_expression(tcache, scope, zexpression->base);
 		
 		if (conditional->type->kind != tk_bool)
 		{
@@ -41,9 +40,9 @@ struct expression* specialize_conditional_expression(
 			exit(1);
 		}
 		
-		struct expression* true_case = specialize_expression(tcache, sshared, scope, zexpression->true_case);
+		struct expression* true_case = specialize_expression(tcache, scope, zexpression->true_case);
 		
-		struct expression* false_case = specialize_conditional_expression(tcache, sshared, scope, zexpression->false_case);
+		struct expression* false_case = specialize_conditional_expression(tcache, scope, zexpression->false_case);
 		
 		if (true_case->type != false_case->type)
 		{
@@ -77,7 +76,7 @@ struct expression* specialize_conditional_expression(
 	}
 	else
 	{
-		retval = specialize_implication_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_implication_expression(tcache, scope, zexpression->base);
 	}
 	
 	EXIT;

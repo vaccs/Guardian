@@ -167,7 +167,6 @@
 #include <list/raw_assertion/foreach.h>
 
 #include <type_cache/get_type/environment.h>
-
 #include <type_cache/get_type/list.h>
 
 #include "scope/layer.h"
@@ -179,7 +178,6 @@
 #include "scope/pop.h"
 #include "scope/free.h"
 
-#include "specialize/shared.h"
 #include "specialize/expression.h"
 
 #include "determine_type/expression.h"
@@ -246,14 +244,6 @@ void type_check(
 		runme;
 	}));
 	
-	struct type* environment = type_cache_get_environment_type(tcache, NULL, scope->head->tree);
-	
-	dpv(environment);
-	
-	struct specialize_shared sshared = {
-		.environment = environment,
-	};
-	
 	raw_declaration_list_foreach(raw_declarations, ({
 		void runme(struct raw_declaration* raw_declaration)
 		{
@@ -262,7 +252,7 @@ void type_check(
 			printf("%s: specializing '%.*s' declaration: ", argv0, name->len, name->chars);
 			
 			struct expression* typed = specialize_expression(
-				tcache, &sshared, scope, raw_declaration->expression);
+				tcache, scope, raw_declaration->expression);
 			
 			expression_print(typed), puts("");
 			
@@ -290,7 +280,7 @@ void type_check(
 			printf("%s: specializing assertion: ", argv0);
 			
 			struct expression* typed = specialize_expression(
-				tcache, &sshared, scope, raw_assertion->expression);
+				tcache, scope, raw_assertion->expression);
 			
 			expression_print(typed), puts("");
 			

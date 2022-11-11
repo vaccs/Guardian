@@ -16,10 +16,6 @@
 /*#include <quack/foreach.h>*/
 /*#include <quack/free.h>*/
 
-/*#include <yacc/yacc.h>*/
-
-/*#include <yacc/state/free.h>*/
-
 /*#include <out/out.h>*/
 
 /*#include <stringtree/stream.h>*/
@@ -74,6 +70,10 @@
 
 #include <type_check/type_check.h>
 
+#include <yacc/yacc.h>
+
+#include <yacc/state/free.h>
+
 int main(int argc, char* const* argv)
 {
 	ENTER;
@@ -109,10 +109,10 @@ int main(int argc, char* const* argv)
 		raw_declarations, raw_assertions,
 		grammar_sets, declarations, assertions);
 	
-	TODO;
-	#if 0
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
+	TODO;
+	#if 0
 	struct stringtree* content = out(tcache, types, grammar_sets, declarations, assertions, start);
 	
 	FILE* stream = fopen(flags->output_path, "w");
@@ -125,7 +125,12 @@ int main(int argc, char* const* argv)
 	
 	stringtree_stream(content, stream);
 	
+	free_stringtree(content);
+	
 	fclose(stream);
+	#endif
+	
+	free_raw_declaration_list(raw_declarations);
 	
 	free_raw_assertion_list(raw_assertions);
 	
@@ -135,11 +140,7 @@ int main(int argc, char* const* argv)
 	
 	free_stringset(grammar_sets);
 	
-	avl_free_tree(raw_declares);
-	
 	avl_free_tree(structinfos);
-	
-	free_stringtree(content);
 	
 	free_type_cache(tcache);
 	
@@ -154,8 +155,15 @@ int main(int argc, char* const* argv)
 	free_lex(lex);
 	
 	EXIT;
-	return 0;
+	
+	#ifdef DEBUGGING
+	if (debug_depth)
+	{
+		fflush(stdout);
+		assert(0);
+	}
 	#endif
+	return 0;
 }
 
 

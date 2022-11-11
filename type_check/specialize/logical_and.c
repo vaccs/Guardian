@@ -9,8 +9,12 @@
 
 #include <type/struct.h>
 
+#include <value/bool/struct.h>
+
 #include <expression/struct.h>
+#include <expression/literal/struct.h>
 #include <expression/logical_and/new.h>
+#include <expression/inc.h>
 #include <expression/free.h>
 
 #include "inclusive_or.h"
@@ -18,7 +22,6 @@
 
 struct expression* specialize_logical_and_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_logical_and_expression* zexpression)
 {
@@ -27,13 +30,13 @@ struct expression* specialize_logical_and_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_inclusive_or_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_inclusive_or_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
-		struct expression* left = specialize_logical_and_expression(tcache, sshared, scope, zexpression->left);
+		struct expression* left = specialize_logical_and_expression(tcache, scope, zexpression->left);
 		
-		struct expression* right = specialize_inclusive_or_expression(tcache, sshared, scope, zexpression->right);
+		struct expression* right = specialize_inclusive_or_expression(tcache, scope, zexpression->right);
 		
 		if (left->type->kind != tk_bool || right->type->kind != tk_bool)
 		{
@@ -49,7 +52,18 @@ struct expression* specialize_logical_and_expression(
 			}
 			else
 			{
-				TODO;
+				struct literal_expression* left_lit = (void*) left;
+				
+				struct bool_value* left_bool = (void*) left_lit->value;
+				
+				if (left_bool->value)
+				{
+					retval = inc_expression(right);
+				}
+				else
+				{
+					TODO;
+				}
 			}
 		}
 		else

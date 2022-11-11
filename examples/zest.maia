@@ -3,6 +3,8 @@
 
 number: /int: ['0'-'9']+/ #value;
 
+string: /['a'-'z', 'A'-'Z']+/ #value;
+
 %start: number string;
 
 u = number[0].value;
@@ -50,10 +52,15 @@ list2 = [<int>];
 dict1 = {1: 2, 2: 3, 4: 5};
 dict2 = {<int: float>};
 
-f = $int a, b -> int -> int: {0: a, 1: b};
+f = $int a, b -> int[]: [a, b];
 
-%error: f(3, 4) == {0:3} + {1:4};
-%error: f(u, 4) == {0:u} + {1:4};
+%error: f(3, 4) == [3] + [4];
+%error: f(u, 4) == [u] + [4];
+
+g = $int a, b -> int -> int: {0: a, 1: b};
+
+%error: g(3, 4) == {0:3} + {1:4};
+%error: g(u, 4) == {0:u} + {1:4};
 
 compose =
 	$($int -> int) f -> $($int -> int) -> $int -> int:
@@ -74,8 +81,6 @@ compose =
 	fact1(5) > 5 && fact2(5) > 5;
 
 %error: len!(s) == 4;
-
-string: /['a'-'z', 'A'-'Z']+/ #value;
 
 %error: float!(s.0) + s.3 > 10.0;
 

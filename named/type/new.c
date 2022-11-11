@@ -19,6 +19,8 @@ struct named_type* new_named_type(
 	this->name = inc_string(name);
 	this->type = type;
 	
+	this->refcount = 1;
+	
 	EXIT;
 	return this;
 }

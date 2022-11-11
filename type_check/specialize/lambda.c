@@ -73,7 +73,6 @@
 
 #include "conditional.h"
 #include "let.h"
-#include "shared.h"
 #include "lambda.h"
 
 #include "../scope/layer.h"
@@ -87,7 +86,6 @@
 
 struct expression* specialize_lambda_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_lambda_expression* zexpression)
 {
@@ -96,7 +94,7 @@ struct expression* specialize_lambda_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_conditional_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_conditional_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->lambda)
 	{
@@ -155,15 +153,7 @@ struct expression* specialize_lambda_expression(
 			}
 		}
 		
-		struct type* environment = type_cache_get_environment_type(
-			tcache, sshared->environment, scope->head->tree);
-		
-		dpv(environment);
-		
-		struct type* old_env = sshared->environment;
-		sshared->environment = environment;
-		struct expression* body = specialize_let_expression(tcache, sshared, scope, zexpression->lambda);
-		sshared->environment = old_env;
+		struct expression* body = specialize_let_expression(tcache, scope, zexpression->lambda);
 		
 		struct type* rettype = build_type(tcache, zexpression->rettype);
 		
@@ -199,9 +189,7 @@ struct expression* specialize_lambda_expression(
 		}
 		else
 		{
-			dpv(sshared->environment);
-			
-			retval = new_lambda_expression(type, parameters, environment, body);
+			retval = new_lambda_expression(type, parameters, body);
 		}
 		
 		free_type_list(parameter_types);

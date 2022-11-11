@@ -11,13 +11,16 @@ bin/release-build/yes-verbose/./type_check/specialize/primary.o: \
  named/expression/struct.h type_cache/get_type/bool.h \
  type_cache/get_type/tuple.h type_cache/get_type/int.h \
  type_cache/get_type/list.h type_cache/get_type/dict.h \
- expression/struct.h expression/kind.h expression/literal/struct.h \
- expression/literal/../struct.h expression/literal/new.h \
- expression/tuple/new.h expression/variable/new.h \
- expression/parenthesis/new.h expression/dict/new.h expression/list/new.h \
- expression/inc.h expression/free.h value/int/new.h value/bool/new.h \
- value/list/new.h value/tuple/new.h value/float/new.h value/dict/new.h \
- value/dict/set.h value/compare.h value/free.h mpz/new.h mpz/free.h \
+ type_cache/get_type/float.h expression/struct.h expression/kind.h \
+ expression/literal/struct.h expression/literal/../struct.h \
+ expression/literal/new.h expression/tuple/new.h \
+ expression/variable/new.h expression/parenthesis/new.h \
+ expression/float_form/new.h expression/dict/new.h expression/list/new.h \
+ expression/inc.h expression/free.h type/struct.h type/kind.h \
+ type/tuple/struct.h type/tuple/../struct.h list/type/struct.h \
+ value/int/new.h value/bool/new.h value/list/new.h value/tuple/new.h \
+ value/float/new.h value/dict/new.h value/dict/assign.h value/compare.h \
+ value/free.h mpz/new.h mpz/free.h \
  type_check/specialize/../scope/lookup.h \
- type_check/specialize/../build_type.h type_check/specialize/shared.h \
- type_check/specialize/expression.h type_check/specialize/primary.h
+ type_check/specialize/../build_type.h type_check/specialize/expression.h \
+ type_check/specialize/primary.h

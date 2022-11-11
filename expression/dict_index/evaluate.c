@@ -1,16 +1,16 @@
 
+#include <stdlib.h>
 #include <assert.h>
 
 #include <debug.h>
 
 /*#include <value/struct.h>*/
 /*#include <value/integer/new.h>*/
-/*#include <value/free.h>*/
+#include <type/dict/struct.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/struct.h>
+#include <value/dict/lookup.h>
+#include <value/free.h>
 
 #include "../evaluate.h"
 
@@ -23,43 +23,43 @@ struct value* dict_index_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	assert(super->kind == ek_dict_index);
+	
 	struct dict_index_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value* dict = expression_evaluate(this->dict, scope);
 	
-	assert(list->kind == vk_list);
+	struct value* index = expression_evaluate(this->index, scope);
 	
-	struct list_value* spef_list = (void*) spef_list;
+	assert(dict->type->kind == tk_dict);
 	
-	struct mpz* number;
+	assert(((struct dict_type*) dict->type)->key == index->type);
 	
-	switch (this->kind)
+	struct value* value = dict_value_lookup(dict, index);
+	
+	if (!value)
 	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
+		TODO;
+		exit(1);
 	}
 	
-	struct value* value = new_integer_value(super->type, number);
-	
-	free_value(left), free_value(right);
-	
-	free_mpz(number);
+	free_value(dict), free_value(index);
 	
 	EXIT;
 	return value;
-	#endif
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

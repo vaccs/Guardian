@@ -17,6 +17,7 @@ struct named_grammar* new_named_grammar(
 	struct named_grammar* this = smalloc(sizeof(*this));
 	
 	this->name = inc_string(name);
+	
 	this->grammar = grammar;
 	
 	EXIT;

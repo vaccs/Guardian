@@ -29,7 +29,6 @@
 
 struct expression* specialize_relational_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_relational_expression* zexpression)
 {
@@ -38,13 +37,13 @@ struct expression* specialize_relational_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_shift_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_shift_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
-		struct expression* left = specialize_relational_expression(tcache, sshared, scope, zexpression->left);
+		struct expression* left = specialize_relational_expression(tcache, scope, zexpression->left);
 		
-		struct expression* right = specialize_shift_expression(tcache, sshared, scope, zexpression->right);
+		struct expression* right = specialize_shift_expression(tcache, scope, zexpression->right);
 		
 		if (left->type != right->type)
 		{

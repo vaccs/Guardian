@@ -17,7 +17,6 @@
 
 struct expression* specialize_logical_or_expression(
 	struct type_cache* tcache,
-	struct specialize_shared *sshared,
 	struct type_check_scope* scope,
 	struct zebu_logical_or_expression* zexpression)
 {
@@ -26,13 +25,13 @@ struct expression* specialize_logical_or_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_logical_and_expression(tcache, sshared, scope, zexpression->base);
+		retval = specialize_logical_and_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
-		struct expression* left = specialize_logical_or_expression(tcache, sshared, scope, zexpression->left);
+		struct expression* left = specialize_logical_or_expression(tcache, scope, zexpression->left);
 		
-		struct expression* right = specialize_logical_and_expression(tcache, sshared, scope, zexpression->right);
+		struct expression* right = specialize_logical_and_expression(tcache, scope, zexpression->right);
 		
 		if (left->type->kind != tk_bool || right->type->kind != tk_bool)
 		{

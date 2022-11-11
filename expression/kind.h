@@ -4,7 +4,7 @@
 
 enum expression_kind
 {
-	ek_len,
+	ek_len_form,
 	ek_has,
 	ek_map,
 	ek_let,
@@ -12,7 +12,7 @@ enum expression_kind
 	ek_list,
 	ek_dict,
 	ek_tuple,
-	ek_float,
+	ek_float_form,
 	ek_lambda,
 	ek_literal,
 	ek_ternary,
@@ -22,6 +22,9 @@ enum expression_kind
 	ek_variable,
 	ek_funccall,
 	ek_comparison,
+	ek_list_concat,
+	ek_dict_concat,
+	ek_dict_index,
 	ek_logical_or,
 	ek_list_index,
 	ek_fieldaccess,

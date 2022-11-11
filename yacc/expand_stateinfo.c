@@ -4,39 +4,38 @@
 
 #include <debug.h>
 
-/*#include <memory/smalloc.h>*/
+#include <memory/smalloc.h>
 
-/*#include <avl/search.h>*/
-/*#include <avl/alloc_tree.h>*/
-/*#include <avl/insert.h>*/
-/*#include <avl/free_tree.h>*/
+#include <avl/search.h>
+#include <avl/alloc_tree.h>
+#include <avl/insert.h>
+#include <avl/free_tree.h>
 
-/*#include <quack/new.h>*/
-/*#include <quack/append.h>*/
-/*#include <quack/is_nonempty.h>*/
-/*#include <quack/pop.h>*/
-/*#include <quack/free.h>*/
+#include <quack/new.h>
+#include <quack/append.h>
+#include <quack/is_nonempty.h>
+#include <quack/pop.h>
+#include <quack/free.h>
 
-/*#include <named/trie/struct.h>*/
+#include <named/trie/struct.h>
 
-/*#include <set/unsigned/new.h>*/
-/*#include <set/unsigned/add.h>*/
-/*#include <set/unsigned/update.h>*/
-/*#include <set/unsigned/free.h>*/
+#include <set/unsigned/new.h>
+#include <set/unsigned/add.h>
+#include <set/unsigned/update.h>
+#include <set/unsigned/free.h>
 
-/*#include "trie/struct.h"*/
+#include "trie/struct.h"
 
-/*#include "stateinfo/node/struct.h"*/
-/*#include "stateinfo/get_lookaheads.h"*/
-/*#include "stateinfo/foreach.h"*/
-/*#include "stateinfo/add.h"*/
+#include "stateinfo/node/struct.h"
+#include "stateinfo/get_lookaheads.h"
+#include "stateinfo/foreach.h"
+#include "stateinfo/add.h"
 
-/*#include "calc_firsts.h"*/
+#include "calc_firsts.h"
 #include "expand_stateinfo.h"
 
 struct trie;
 
-#if 0
 struct trieset
 {
 	struct avl_tree_t* tree;
@@ -56,25 +55,19 @@ static struct trieset* new_trieset()
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct trieset* this = smalloc(sizeof(*this));
 	
 	this->tree = avl_alloc_tree(trieset_node_compare, NULL);
 	
 	EXIT;
 	return this;
-	#endif
 }
 
 static void trieset_add(struct trieset* this, struct trie* trie)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	avl_insert(this->tree, trie);
-	#endif
 	
 	EXIT;
 }
@@ -85,11 +78,8 @@ static void trieset_foreach(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	for (struct avl_node_t* node = this->tree->head; node; node = node->next)
 		runme(node->item);
-	#endif
 	
 	EXIT;
 }
@@ -97,11 +87,8 @@ static void trieset_foreach(
 static void free_trieset(struct trieset* this)
 {
 	ENTER;
-	TODO;
-	#if 0
 	avl_free_tree(this->tree);
 	free(this);
-	#endif
 	EXIT;
 }
 
@@ -115,8 +102,6 @@ static struct trie_to_trieset* new_trie_to_trieset(struct trie* trie, struct tri
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct trie_to_trieset* this = smalloc(sizeof(*this));
 	
 	this->trie = trie;
@@ -124,31 +109,24 @@ static struct trie_to_trieset* new_trie_to_trieset(struct trie* trie, struct tri
 	
 	EXIT;
 	return this;
-	#endif
 }
 
 static int compare_trie_to_triesets(const void* a, const void* b)
 {
-	TODO;
-	#if 0
 	const struct trie_to_trieset *A = a, *B = b;
 	if (A->trie > B->trie)
 		return +1;
 	if (A->trie < B->trie)
 		return -1;
 	return 0;
-	#endif
 }
 
 static void free_trie_to_trieset(void* ptr)
 {
 	ENTER;
-	TODO;
-	#if 0
 	struct trie_to_trieset* this = ptr;
 	free_trieset(this->trieset);
 	free(this);
-	#endif
 	EXIT;
 }
 
@@ -156,8 +134,6 @@ static void add_dep(struct avl_tree_t* tree, struct trie* trie1, struct trie* tr
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct avl_node_t* node = avl_search(tree, &trie1);
 	
 	if (node)
@@ -176,7 +152,6 @@ static void add_dep(struct avl_tree_t* tree, struct trie* trie1, struct trie* tr
 		
 		avl_insert(tree, new);
 	}
-	#endif
 	
 	EXIT;
 }
@@ -185,8 +160,6 @@ static struct trieset* get_deps(struct avl_tree_t* tree, struct trie* trie)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct avl_node_t* node = avl_search(tree, &trie);
 	
 	if (node)
@@ -204,9 +177,7 @@ static struct trieset* get_deps(struct avl_tree_t* tree, struct trie* trie)
 		EXIT;
 		return empty;
 	}
-	#endif
 }
-#endif
 
 void expand_stateinfo(
 	struct stateinfo* stateinfo,
@@ -215,8 +186,6 @@ void expand_stateinfo(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct quack* explore = new_quack();
 	
 	struct quack* percolate = new_quack();
@@ -330,7 +299,6 @@ void expand_stateinfo(
 	
 	free_quack(percolate);
 	free_quack(explore);
-	#endif
 	
 	EXIT;
 }

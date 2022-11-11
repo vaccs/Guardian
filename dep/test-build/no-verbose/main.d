@@ -8,4 +8,5 @@ bin/test-build/no-verbose/./main.o: main.c debug.h string/struct.h \
  type_cache/new.h type_cache/free.h named/type/compare.h \
  named/type/free.h type_check/specialize_grammar_types.h set/string/new.h \
  set/string/free.h list/declaration/new.h list/declaration/free.h \
- list/assertion/new.h list/assertion/free.h type_check/type_check.h
+ list/assertion/new.h list/assertion/free.h type_check/type_check.h \
+ yacc/yacc.h yacc/state/free.h

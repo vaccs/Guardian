@@ -1,4 +1,5 @@
 
+struct type;
 struct value_list;
 
 struct value* new_list_value(

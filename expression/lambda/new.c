@@ -13,7 +13,6 @@
 struct expression* new_lambda_expression(
 	struct type* type,
 	struct parameter_list* parameters,
-	struct type* environment,
 	struct expression* body)
 {
 	ENTER;
@@ -25,8 +24,6 @@ struct expression* new_lambda_expression(
 		sizeof(*this));
 	
 	this->parameters = inc_parameter_list(parameters);
-	
-	this->environment = environment;
 	
 	this->body = inc_expression(body);
 	

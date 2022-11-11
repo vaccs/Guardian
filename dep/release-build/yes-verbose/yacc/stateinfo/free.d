@@ -1,3 +1,3 @@
 bin/release-build/yes-verbose/./yacc/stateinfo/free.o: \
- yacc/stateinfo/free.c debug.h yacc/stateinfo/struct.h \
- yacc/stateinfo/free.h
+ yacc/stateinfo/free.c debug.h avl/free_tree.h avl/tree.h avl/freeitem.h \
+ avl/compare.h avl/node.h yacc/stateinfo/struct.h yacc/stateinfo/free.h

@@ -14,20 +14,17 @@ void dict_index_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_dict_index);
 	
 	struct dict_index_expression* this = (void*) super;
 	
-	expression_print(this->list);
+	expression_print(this->dict);
 	
 	printf("[");
 	
 	expression_print(this->index);
 	
 	printf("]");
-	#endif
 	
 	EXIT;
 }

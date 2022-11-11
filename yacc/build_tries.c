@@ -4,7 +4,7 @@
 
 #include <debug.h>
 
-/*#include <memory/smalloc.h>*/
+#include <memory/smalloc.h>
 
 #include <string/new.h>
 #include <string/inc.h>
@@ -65,8 +65,6 @@ static struct expand_bundle* new_explore_bundle(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct expand_bundle* bundle = smalloc(sizeof(*bundle));
 	bundle->trie_name = trie_name;
 	bundle->trie = trie;
@@ -74,7 +72,6 @@ static struct expand_bundle* new_explore_bundle(
 	
 	EXIT;
 	return bundle;
-	#endif
 }
 
 struct gegex_to_trie_name_node
@@ -88,15 +85,12 @@ static struct gegex_to_trie_name_node* new_gegex_to_trie_name(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct gegex_to_trie_name_node* this = smalloc(sizeof(*this));
 	this->gegex = gegex;
 	this->trie_name = inc_string(trie_name);
 	
 	EXIT;
 	return this;
-	#endif
 }
 
 static unsigned trie_id = 0;
