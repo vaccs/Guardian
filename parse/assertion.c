@@ -22,14 +22,18 @@ void process_assertion(
 	
 	assert(assertion->expression);
 	
-	enum assertion_kind kind = ak_warning;
+	enum assertion_kind kind;
 	
-	if (assertion->note)
+	if (assertion->debug)
+		kind = ak_debug;
+	else if (assertion->note)
 		kind = ak_note;
 	else if (assertion->warning)
 		kind = ak_warning;
 	else if (assertion->error)
 		kind = ak_error;
+	else
+		kind = ak_debug;
 	
 	struct raw_assertion* rassertion = new_raw_assertion(kind, assertion->expression);
 	
@@ -39,3 +43,16 @@ void process_assertion(
 	
 	EXIT;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,6 @@
 
+#include <stdbool.h>
+
 #include <assert.h>
 
 #include <stdio.h>
@@ -9,7 +11,7 @@
 
 #include <pair/value/struct.h>
 
-/*#include <list/value_pair/struct.h>*/
+#include <list/value_pair/foreach.h>
 
 #include "../print.h"
 
@@ -25,23 +27,26 @@ void dict_value_print(
 	
 	printf("{");
 	
-	if (this->tree->head)
-	{
-		for (struct avl_node_t* node = this->tree->head; node; node = node->next)
+	bool first = true;
+	
+	value_pair_list_foreach(this->elements, ({
+		void runme(struct value_pair* pair)
 		{
-			struct value_pair* ele = node->item;
+			if (first)
+				first = false;
+			else
+				printf(", ");
 			
-			value_print(ele->first);
+			value_print(pair->first);
 			
 			printf(": ");
 			
-			value_print(ele->second);
-			
-			if (node->next)
-				printf(", ");
+			value_print(pair->second);
 		}
-	}
-	else
+		runme;
+	}));
+	
+	if (first)
 	{
 		TODO;
 	}

@@ -10,17 +10,26 @@ primitive_type
 	
 	| `identifier` #grammar
 	
-	| primitive_type #array "[]"
-	
+	// tuple:
 	| '(' #paren                                                ')'
 	| '(' #paren type #elements[]                                ')'
 	| '(' #paren type #elements[]  ',' #comma                    ')'
 	| '(' #paren type #elements[] (',' #comma type #elements[])+ ')'
+	
+	// arrays:
+	| primitive_type #eletype "[]" #array
+	
+	// sets:
+	| primitive_type #eletype "{}" #set
 	;
 
 type
 	: primitive_type #base
+	
+	// dicts:
 	| primitive_type #keytype "->" type #valuetype
+	
+	// lambdas:
 	| '$' #lambda (primitive_type #args[] (',' primitive_type #args[])*)? "->" type #rettype
 	;
 

@@ -41,24 +41,31 @@ primary_expression
 //	| "product!"      #product_form '(' ... ')'
 //	| "range!"        #range_form '(' ... ')'
 //	| "reduce!"       #reduce_form '(' ... ')'
-//	| "set!"          #set_form '(' ... ')'
+	| "set!"          #set_form '(' expression #arg ')'
 //	| "sort!"         #sort_form '(' ... ')'
 //	| "sum!"          #sum_form '(' ... ')'
 //	| "unionmap!"     #unionmap_form '(' ... ')'
 //	| "union!"        #union_form '(' ... ')'
 //	| "zip!"          #zip_form '(' expression #args[]  (',' expression #args[])* ')'
 	
-	| %keyvalue: expression #key ':' expression #value:
-		('{' #curly (keyvalue #keyvalues[]) (',' keyvalue #keyvalues[])* '}')
-	| '{' #curly '<' type #emptykey ':' type #emptyvalue '>' '}'
-	
+	// tuples:
 	| '(' #paren                                                             ')'
 	| '(' #paren expression #elements[]                                      ')'
 	| '(' #paren expression #elements[]  ',' #comma                          ')'
 	| '(' #paren expression #elements[] (',' #comma expression #elements[])+ ')'
 	
+	// lists:
 	| '[' #list '<' type #emptytype '>' ']'
 	| '[' #list expression #elements[]  (',' expression #elements[])* ']'
+	
+	// sets:
+	| '{' #curly (expression #elements[]) (',' expression #elements[])* '}'
+	| '{' #curly '<' type #emptyset '>' '}'
+	
+	// dicts:
+	| %keyvalue: expression #key ':' expression #value:
+		('{' #curly (keyvalue #keyvalues[]) (',' keyvalue #keyvalues[])* '}')
+	| '{' #curly '<' type #emptykey ':' type #emptyvalue '>' '}'
 	;
 
 postfix_expression
@@ -71,10 +78,10 @@ postfix_expression
 
 unary_expression
 	: postfix_expression #base
-	| "+" unary_expression #sub
-	| "-" unary_expression #sub
-	| "!" unary_expression #sub
-	| "~" unary_expression #sub
+	| "+" #plus   unary_expression #sub
+	| "-" #minus  unary_expression #sub
+	| "!" #lognot unary_expression #sub
+	| "~" #bitnot unary_expression #sub
 	;
 	
 exponentiation_expression
@@ -84,9 +91,9 @@ exponentiation_expression
 
 multiplicative_expression
 	: exponentiation_expression #base
-	| multiplicative_expression #left '*' exponentiation_expression #right
-	| multiplicative_expression #left '/' exponentiation_expression #right
-	| multiplicative_expression #left '%' exponentiation_expression #right
+	| multiplicative_expression #left '%' #rdiv exponentiation_expression #right
+	| multiplicative_expression #left '/' #qdiv exponentiation_expression #right
+	| multiplicative_expression #left '*' #mult exponentiation_expression #right
 	;
 
 additive_expression
@@ -97,8 +104,8 @@ additive_expression
 
 shift_expression
 	: additive_expression #base
-	| shift_expression #left "<<" additive_expression #right
-	| shift_expression #left ">>" additive_expression #right
+	| shift_expression #left "<<" #lshift additive_expression #right
+	| shift_expression #left ">>" #rshift additive_expression #right
 	;
 
 relational_expression
@@ -140,11 +147,14 @@ logical_or_expression
 	| logical_or_expression #left "||" logical_and_expression #right
 	;
 
-inclusion_expression: logical_or_expression #base ("in" logical_or_expression #list)?;
+inclusion_expression: logical_or_expression #base ("in" logical_or_expression #container)?;
 
 possession_expression: inclusion_expression #base ("has" `identifier` #has)?;
 
-implication_expression: possession_expression #base ("implies" implication_expression #implies)?;
+implication_expression
+	: possession_expression #base
+	| possession_expression #base "implies" implication_expression #implies
+	;
 
 conditional_expression
 	: implication_expression #base

@@ -5,6 +5,8 @@
 
 #include <parse/parse.h>
 
+#include <type_cache/get_type/int.h>
+
 #include "and.h"
 #include "exclusive_or.h"
 
@@ -16,13 +18,17 @@ struct type* determine_type_of_exclusive_or_expression(
 	struct type* type;
 	ENTER;
 	
-	if (expression->left)
+	if (expression->base)
 	{
-		TODO;
+		type = determine_type_of_and_expression(expression->base, tcache, scope);
+	}
+	else if (expression->left)
+	{
+		type = type_cache_get_int_type(tcache);
 	}
 	else
 	{
-		type = determine_type_of_and_expression(expression->base, tcache, scope);
+		TODO;
 	}
 	
 	EXIT;

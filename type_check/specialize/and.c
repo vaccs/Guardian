@@ -1,9 +1,21 @@
 
+#include <stdlib.h>
 #include <assert.h>
 
 #include <debug.h>
 
 #include <parse/parse.h>
+
+#include <value/free.h>
+
+#include <expression/struct.h>
+#include <expression/literal/struct.h>
+#include <expression/literal/new.h>
+#include <expression/int_math/new.h>
+#include <expression/int_math/run.h>
+#include <expression/free.h>
+
+#include <type/struct.h>
 
 #include "equality.h"
 #include "and.h"
@@ -22,7 +34,36 @@ struct expression* specialize_and_expression(
 	}
 	else if (zexpression->left)
 	{
-		TODO;
+		struct expression* left = specialize_and_expression(tcache, scope, zexpression->left);
+		struct expression* right = specialize_equality_expression(tcache, scope, zexpression->right);
+		
+		if (left->type->kind != tk_int || right->type->kind != tk_int)
+		{
+			TODO;
+			exit(1);
+		}
+		
+		if (left->kind == ek_literal && right->kind == ek_literal)
+		{
+			struct literal_expression*  leftlit = (void*) left;
+			struct literal_expression* rightlit = (void*) right;
+			
+			struct int_value*  leftint = (void*)  leftlit->value;
+			struct int_value* rightint = (void*) rightlit->value;
+			
+			struct value* value = int_math_bitand_run(left->type, leftint, rightint);
+			
+			retval = new_literal_expression(value);
+			
+			free_value(value);
+		}
+		else
+		{
+			retval = new_int_math_expression(left->type, imek_bitand, left, right);
+		}
+		
+		free_expression(left);
+		free_expression(right);
 	}
 	else
 	{
@@ -32,4 +73,17 @@ struct expression* specialize_and_expression(
 	EXIT;
 	return retval;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,6 +1,7 @@
 
 struct type_cache;
 
+
 struct value* new_float_value(
-	struct type_cache* tcache,
+	struct type* type,
 	long double value);

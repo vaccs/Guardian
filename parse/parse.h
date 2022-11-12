@@ -77,6 +77,7 @@ struct zebu_and_expression
 
 struct zebu_assertion
 {
+	struct zebu_token* debug;
 	struct zebu_token* error;
 	struct zebu_expression* expression;
 	struct zebu_token* note;
@@ -242,7 +243,7 @@ struct zebu_implication_expression
 struct zebu_inclusion_expression
 {
 	struct zebu_logical_or_expression* base;
-	struct zebu_logical_or_expression* list;
+	struct zebu_logical_or_expression* container;
 	unsigned refcount;
 };
 
@@ -300,6 +301,9 @@ struct zebu_multiplicative_expression
 {
 	struct zebu_exponentiation_expression* base;
 	struct zebu_multiplicative_expression* left;
+	struct zebu_token* mult;
+	struct zebu_token* qdiv;
+	struct zebu_token* rdiv;
 	struct zebu_exponentiation_expression* right;
 	unsigned refcount;
 };
@@ -337,6 +341,7 @@ struct zebu_primary_expression
 		unsigned n, cap;
 	} elements;
 	struct zebu_type* emptykey;
+	struct zebu_type* emptyset;
 	struct zebu_type* emptytype;
 	struct zebu_type* emptyvalue;
 	struct zebu_token* false_literal;
@@ -351,6 +356,7 @@ struct zebu_primary_expression
 	struct zebu_token* len_form;
 	struct zebu_token* list;
 	struct zebu_token* paren;
+	struct zebu_token* set_form;
 	struct zebu_token* string_literal;
 	struct zebu_token* true_literal;
 	unsigned refcount;
@@ -358,7 +364,7 @@ struct zebu_primary_expression
 
 struct zebu_primitive_type
 {
-	struct zebu_primitive_type* array;
+	struct zebu_token* array;
 	struct zebu_token* bool_type;
 	struct zebu_token* char_type;
 	struct zebu_token* comma;
@@ -366,10 +372,12 @@ struct zebu_primitive_type
 		struct zebu_type** data;
 		unsigned n, cap;
 	} elements;
+	struct zebu_primitive_type* eletype;
 	struct zebu_token* float_type;
 	struct zebu_token* grammar;
 	struct zebu_token* int_type;
 	struct zebu_token* paren;
+	struct zebu_token* set;
 	unsigned refcount;
 };
 
@@ -428,7 +436,9 @@ struct zebu_shift_expression
 {
 	struct zebu_additive_expression* base;
 	struct zebu_shift_expression* left;
+	struct zebu_token* lshift;
 	struct zebu_additive_expression* right;
+	struct zebu_token* rshift;
 	unsigned refcount;
 };
 
@@ -469,6 +479,10 @@ struct zebu_type
 struct zebu_unary_expression
 {
 	struct zebu_postfix_expression* base;
+	struct zebu_token* bitnot;
+	struct zebu_token* lognot;
+	struct zebu_token* minus;
+	struct zebu_token* plus;
 	struct zebu_unary_expression* sub;
 	unsigned refcount;
 };

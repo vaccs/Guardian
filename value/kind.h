@@ -9,6 +9,7 @@ enum value_kind
 	vk_char,
 	vk_float,
 	
+	vk_set,
 	vk_list,
 	vk_dict,
 	vk_tuple,

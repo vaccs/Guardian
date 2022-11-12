@@ -5,14 +5,15 @@
 
 #include <debug.h>
 
-#include <mpz/compare.h>
+/*#include <mpz/compare.h>*/
 
 #include <parse/parse.h>
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
-#include <value/int/struct.h>
+/*#include <value/int/struct.h>*/
 
+#include <value/compare.h>
 #include <value/bool/new.h>
 #include <value/free.h>
 
@@ -51,68 +52,93 @@ struct expression* specialize_relational_expression(
 			exit(1);
 		}
 		
-		if (left->kind == ek_literal && right->kind == ek_literal)
+		struct type* type = type_cache_get_bool_type(tcache);
+		
+		bool all_literals = left->kind == ek_literal && right->kind == ek_literal;
+		
+		if (zexpression->lt)
 		{
-			struct literal_expression*  left_literal = (void*)  left;
-			struct literal_expression* right_literal = (void*) right;
-			
-			struct value*  left_value =  left_literal->value;
-			struct value* right_value = right_literal->value;
-			
-			bool result;
-			
-			switch (left->type->kind)
+			if (all_literals)
 			{
-				case tk_int:
-				{
-					struct int_value*  left_int = (void*)  left_value;
-					struct int_value* right_int = (void*) right_value;
-					
-					int cmp = compare_mpz(left_int->integer, right_int->integer);
-					
-					if (zexpression->lt)
-						result = cmp < 0;
-					else if (zexpression->gt)
-						result = cmp > 0;
-					else
-					{
-						TODO;
-					}
-					break;
-				}
+				struct literal_expression*  leftlit = (void*)  left;
+				struct literal_expression* rightlit = (void*) right;
 				
-				case tk_float:
-					TODO;
-					break;
+				int cmp = compare_values(leftlit->value, rightlit->value);
 				
-				default:
-					TODO;
-					break;
-			}
-			
-			struct type* bool_type = type_cache_get_bool_type(tcache);
-			struct value* value_result = new_bool_value(bool_type, result);
-			retval = new_literal_expression(value_result);
-			free_value(value_result);
-		}
-		else
-		{
-			if (zexpression->lt)
-				retval = new_comparison_expression(tcache, cek_less_than, left, right);
-			else if (zexpression->gt)
-				retval = new_comparison_expression(tcache, cek_greater_than, left, right);
-			else if (zexpression->lte)
-			{
-				TODO;
-			}
-			else if (zexpression->gte)
-			{
-				TODO;
+				struct value* value = new_bool_value(type, cmp < 0);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
 			}
 			else
 			{
-				TODO;
+				retval = new_comparison_expression(tcache, cek_less_than, left, right);
 			}
+		}
+		else if (zexpression->gt)
+		{
+			if (all_literals)
+			{
+				struct literal_expression*  leftlit = (void*)  left;
+				struct literal_expression* rightlit = (void*) right;
+				
+				int cmp = compare_values(leftlit->value, rightlit->value);
+				
+				struct value* value = new_bool_value(type, cmp > 0);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
+			}
+			else
+			{
+				retval = new_comparison_expression(tcache, cek_greater_than, left, right);
+			}
+		}
+		else if (zexpression->lte)
+		{
+			if (all_literals)
+			{
+				struct literal_expression*  leftlit = (void*)  left;
+				struct literal_expression* rightlit = (void*) right;
+				
+				int cmp = compare_values(leftlit->value, rightlit->value);
+				
+				struct value* value = new_bool_value(type, cmp <= 0);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
+			}
+			else
+			{
+				retval = new_comparison_expression(tcache, cek_less_than_equal_to, left, right);
+			}
+		}
+		else if (zexpression->gte)
+		{
+			if (all_literals)
+			{
+				struct literal_expression*  leftlit = (void*)  left;
+				struct literal_expression* rightlit = (void*) right;
+				
+				int cmp = compare_values(leftlit->value, rightlit->value);
+				
+				struct value* value = new_bool_value(type, cmp >= 0);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
+			}
+			else
+			{
+				retval = new_comparison_expression(tcache, cek_greater_than_equal_to, left, right);
+			}
+		}
+		else
+		{
+			TODO;
 		}
 		
 		free_expression(left), free_expression(right);

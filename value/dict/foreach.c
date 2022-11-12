@@ -1,4 +1,5 @@
 
+#if 0
 #include <debug.h>
 
 #include <avl/tree.h>
@@ -26,3 +27,4 @@ void dict_value_foreach(
 	EXIT;
 }
 
+#endif

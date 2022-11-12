@@ -16,6 +16,8 @@ void map_expression_print(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_map);
 	
 	struct map_expression* this = (void*) super;
@@ -32,6 +34,7 @@ void map_expression_print(
 	}
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

@@ -4,6 +4,6 @@
 struct int_value
 {
 	struct value super;
-	struct mpz* integer;
+	struct mpz* value;
 };
 

@@ -16,13 +16,17 @@ struct type* determine_type_of_inclusion_expression(
 	struct type* type;
 	ENTER;
 	
-	if (expression->list)
+	if (expression->container)
 	{
 		TODO;
 	}
-	else
+	else if (expression->base)
 	{
 		type = determine_type_of_logical_or_expression(expression->base, tcache, scope);
+	}
+	else
+	{
+		TODO;
 	}
 	
 	EXIT;

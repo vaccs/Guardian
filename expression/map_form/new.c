@@ -23,6 +23,8 @@ struct expression* new_map_expression(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct map_expression* this = (void*) new_expression(
 		ek_map,
 		&map_expression_inheritance,
@@ -35,5 +37,6 @@ struct expression* new_map_expression(
 	
 	EXIT;
 	return (void*) this;
+	#endif
 }
 

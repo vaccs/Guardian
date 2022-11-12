@@ -2,7 +2,8 @@
 %include "expression.zb"
 
 assertion: ("%"
-	( "note" #note
+	( "debug" #debug
+	| "note" #note
 	| "warning" #warning
 	| "error" #error) ":")?
 	expression #expression ';';

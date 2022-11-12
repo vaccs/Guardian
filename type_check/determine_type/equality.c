@@ -5,6 +5,8 @@
 
 #include <parse/parse.h>
 
+#include <type_cache/get_type/bool.h>
+
 #include "relational.h"
 #include "equality.h"
 
@@ -16,13 +18,17 @@ struct type* determine_type_of_equality_expression(
 	struct type* type;
 	ENTER;
 	
-	if (expression->left)
+	if (expression->base)
 	{
-		TODO;
+		type = determine_type_of_relational_expression(expression->base, tcache, scope);
+	}
+	else if (expression->left)
+	{
+		type = type_cache_get_bool_type(tcache);
 	}
 	else
 	{
-		type = determine_type_of_relational_expression(expression->base, tcache, scope);
+		TODO;
 	}
 	
 	EXIT;

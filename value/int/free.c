@@ -13,7 +13,7 @@ void free_int_value(
 	
 	struct int_value* this = (void*) super;
 	
-	free_mpz(this->integer);
+	free_mpz(this->value);
 	
 	EXIT;
 }

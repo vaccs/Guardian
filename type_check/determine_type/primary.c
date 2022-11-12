@@ -21,6 +21,8 @@
 #include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/dict.h>
 #include <type_cache/get_type/list.h>
+#include <type_cache/get_type/charlist.h>
+#include <type_cache/get_type/set.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/tuple.h>
 
@@ -53,7 +55,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->string_literal)
 	{
-		TODO;
+		type = type_cache_get_charlist_type(tcache);
 	}
 	else if (expression->true_literal)
 	{
@@ -61,7 +63,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->false_literal)
 	{
-		TODO;
+		type = type_cache_get_bool_type(tcache);
 	}
 	else if (expression->identifier)
 	{
@@ -78,7 +80,17 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->curly)
 	{
-		if (expression->emptykey)
+		if (expression->elements.n)
+		{
+			TODO;
+		}
+		else if (expression->emptyset)
+		{
+			struct type* element = build_type(tcache, expression->emptyset);
+			
+			type = type_cache_get_set_type(tcache, element);
+		}
+		else if (expression->emptykey)
 		{
 			struct type* key = build_type(tcache, expression->emptykey);
 			struct type* value = build_type(tcache, expression->emptyvalue);

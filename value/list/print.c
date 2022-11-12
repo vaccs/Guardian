@@ -1,9 +1,11 @@
 
+#include <stdbool.h>
+
 #include <stdio.h>
 
 #include <debug.h>
 
-#include <list/value/struct.h>
+#include <list/value/foreach.h>
 
 #include "../print.h"
 
@@ -15,21 +17,26 @@ void list_value_print(
 {
 	ENTER;
 	
-	struct list_value* spef = (void*) super;
+	assert(super->kind == vk_list);
 	
-	struct value_list* elements = spef->elements;
+	struct list_value* this = (void*) super;
 	
 	printf("[");
 	
-	for (unsigned i = 0, n = elements->n; i < n; i++)
-	{
-		struct value* ele = elements->data[i];
-		
-		value_print(ele);
-		
-		if (i + 1 < n)
-			printf(", ");
-	}
+	bool first = true;
+	
+	value_list_foreach(this->elements, ({
+		void runme(struct value* element)
+		{
+			if (first)
+				first = false;
+			else
+				printf(", ");
+			
+			value_print(element);
+		}
+		runme;
+	}));
 	
 	printf("]");
 	

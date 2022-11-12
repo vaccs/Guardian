@@ -7,6 +7,7 @@ CPPFLAGS += -I .
 CFLAGS += -Wall -Werror -Wfatal-errors
 
 LDLIBS += -lgmp
+LDLIBS += -lm
 
 buildtype ?= release
 
@@ -30,7 +31,7 @@ CFLAGS += -Wno-unused-label
 
 else ifeq ($(buildtype), debug)
 CPPFLAGS += -D DEBUGGING
-CPPFLAGS += -D ZEBU_DEBUG
+#CPPFLAGS += -D ZEBU_DEBUG
 
 CFLAGS += -g
 CFLAGS += -Wno-unused-variable

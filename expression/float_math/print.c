@@ -9,27 +9,43 @@
 #include "struct.h"
 #include "print.h"
 
-static const char* lookup[] = {
-	[fmek_add] = "+",
-	[fmek_subtract] = "-",
-	[fmek_multiply] = "*",
-};
-
 void float_math_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
 	struct float_math_expression* this = (void*) super;
-	
-	expression_print(this->left);
-	
-	assert(lookup[this->kind]);
-	
-	printf(" %s ", lookup[this->kind]);
-	
-	expression_print(this->right);
-	
+		switch (this->kind)
+	{
+		case fmek_negate:
+			printf("-"), expression_print(this->left);
+			break;
+		
+		case fmek_add:
+			expression_print(this->left), printf(" + "), expression_print(this->right);
+			break;
+		
+		case fmek_subtract:
+			expression_print(this->left), printf(" - "), expression_print(this->right);
+			break;
+		
+		case fmek_multiply:
+			expression_print(this->left), printf(" * "), expression_print(this->right);
+			break;
+		
+		case fmek_qdivide:
+			expression_print(this->left), printf(" / "), expression_print(this->right);
+			break;
+			
+		case fmek_rdivide:
+			expression_print(this->left), printf(" %% "), expression_print(this->right);
+			break;
+		
+		case fmek_expo:
+			expression_print(this->left), printf(" ** "), expression_print(this->right);
+			break;
+	}
+
 	EXIT;
 }
 

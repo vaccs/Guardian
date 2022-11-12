@@ -5,6 +5,6 @@ struct dict_value
 {
 	struct value super;
 	
-	struct avl_tree_t* tree;
+	struct value_pair_list* elements;
 };
 

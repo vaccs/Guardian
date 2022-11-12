@@ -9,6 +9,21 @@
 #include "struct.h"
 #include "new.h"
 
+struct mpz* new_mpz()
+{
+	ENTER;
+	
+	struct mpz* this = smalloc(sizeof(*this));
+	
+	mpz_init(this->mpz);
+	
+	this->refcount = 1;
+	
+	EXIT;
+	return this;
+}
+
+
 struct mpz* new_mpz_from_string(
 	const char* number)
 {
@@ -30,6 +45,7 @@ struct mpz* new_mpz_from_string(
 	return this;
 }
 
+#if 0
 struct mpz* new_mpz_from_unsigned(
 	unsigned number)
 {
@@ -58,4 +74,4 @@ struct mpz* new_mpz_from_unsigned(
 
 
 
-
+#endif

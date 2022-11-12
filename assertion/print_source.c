@@ -55,18 +55,25 @@ struct stringtree* assertion_print_source(
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, type);
 	
-	stringtree_append_printf(text, ""
-			";"
-			
-			"if (!assertion->value)"
-			"{"
-				"fprintf(stderr, \"%%s: %%%%%s assertion failed!\\n\", argv0);"
-				"exit(1);"
+	if (this->kind == ak_debug)
+	{
+		TODO;
+	}
+	else
+	{
+		stringtree_append_printf(text, ""
+				";"
+				
+				"if (!assertion->value)"
+				"{"
+					"fprintf(stderr, \"%%s: %%%%%s assertion failed!\\n\", argv0);"
+					"exit(1);"
+				"}"
+				
+				"func_%u(assertion);"
 			"}"
-			
-			"func_%u(assertion);"
-		"}"
-	"", lookup[this->kind], free_id);
+		"", lookup[this->kind], free_id);
+	}
 	
 	free_stringtree(subtext);
 	

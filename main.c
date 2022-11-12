@@ -107,6 +107,8 @@ int main(int argc, char* const* argv)
 		raw_declarations, raw_assertions,
 		declarations, assertions);
 	
+	TODO;
+	#if 0
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
 	struct stringtree* content = out(tcache, types, declarations, assertions, start);
@@ -146,9 +148,9 @@ int main(int argc, char* const* argv)
 	free_cmdln(flags);
 	
 	free_lex(lex);
+	#endif
 	
 	EXIT;
-	
 	#ifdef DEBUGGING
 	if (debug_depth)
 	{

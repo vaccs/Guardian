@@ -4,34 +4,66 @@
 
 enum expression_kind
 {
-	ek_len_form,
-	ek_has,
-	ek_map,
-	ek_let,
-	ek_sum,
+	ek_parenthesis,
+	
+	ek_variable,
+	ek_set,
 	ek_list,
 	ek_dict,
 	ek_tuple,
-	ek_float_form,
-	ek_lambda,
 	ek_literal,
-	ek_ternary,
-	ek_float_math,
-	ek_product,
-	ek_int_math,
-	ek_variable,
+	
+	ek_set_form,
+	ek_len_form,
+	ek_map_form,
+	ek_sum_form,
+	ek_list_form,
+	ek_dict_form,
+	ek_tuple_form,
+	ek_float_form,
+	
 	ek_funccall,
-	ek_comparison,
-	ek_list_concat,
-	ek_dict_concat,
 	ek_dict_index,
-	ek_logical_or,
 	ek_list_index,
-	ek_fieldaccess,
-	ek_parenthesis,
-	ek_logical_and,
-	ek_tuple_concat,
 	ek_tuple_index,
+	ek_fieldaccess,
+	
+	ek_bool_not,
+	
+	ek_int_math,
+	ek_float_math,
+	ek_dict_math,
+	ek_list_concat,
+	ek_tuple_concat,
+	
+	ek_comparison,
+	
+	ek_logical_or,
+	
+	ek_logical_and,
+	
+	ek_ternary,
+	
+	ek_list_contains,
+	
+	ek_has,
+	
+	ek_implication,
+	
+	ek_lambda,
+	
+	ek_let,
 };
 
 #endif
+
+
+
+
+
+
+
+
+
+
+

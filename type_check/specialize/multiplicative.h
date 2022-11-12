@@ -1,4 +1,5 @@
 
+struct type_cache;
 struct type_check_scope;
 struct specialize_shared;
 

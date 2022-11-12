@@ -1,8 +1,6 @@
 
 #include <debug.h>
 
-#include <type_cache/get_type/bool.h>
-
 #include "../new.h"
 
 #include "inheritance.h"

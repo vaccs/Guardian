@@ -10,9 +10,12 @@
 #include <type/struct.h>
 
 #include <value/bool/struct.h>
+#include <value/bool/new.h>
+#include <value/free.h>
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
+#include <expression/literal/new.h>
 #include <expression/logical_and/new.h>
 #include <expression/inc.h>
 #include <expression/free.h>
@@ -46,36 +49,43 @@ struct expression* specialize_logical_and_expression(
 		
 		if (left->kind == ek_literal)
 		{
-			if (right->kind == ek_literal)
+			struct literal_expression* leftlit = (void*) left;
+			struct bool_value* leftbool = (void*) leftlit->value;
+			
+			if (leftbool->value)
 			{
-				TODO;
+				retval = inc_expression(right);
 			}
 			else
 			{
-				struct literal_expression* left_lit = (void*) left;
+				struct value* value = new_bool_value(left->type, false);
 				
-				struct bool_value* left_bool = (void*) left_lit->value;
+				retval = new_literal_expression(value);
 				
-				if (left_bool->value)
-				{
-					retval = inc_expression(right);
-				}
-				else
-				{
-					TODO;
-				}
+				free_value(value);
+			}
+		}
+		else if (right->kind == ek_literal)
+		{
+			struct literal_expression* rightlit = (void*) right;
+			struct bool_value* rightbool = (void*) rightlit->value;
+			
+			if (rightbool->value)
+			{
+				retval = inc_expression(left);
+			}
+			else
+			{
+				struct value* value = new_bool_value(left->type, false);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
 			}
 		}
 		else
 		{
-			if (right->kind == ek_literal)
-			{
-				TODO;
-			}
-			else
-			{
-				retval = new_logical_and_expression(tcache, left, right);
-			}
+			retval = new_logical_and_expression(left->type, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

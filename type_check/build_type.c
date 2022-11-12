@@ -18,6 +18,8 @@
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/lambda.h>
+#include <type_cache/get_type/set.h>
+#include <type_cache/get_type/char.h>
 #include <type_cache/get_type/grammar.h>
 
 #include "build_type.h"
@@ -32,7 +34,7 @@ struct type* build_primitive_type(
 	}
 	else if (type->char_type)
 	{
-		TODO;
+		return type_cache_get_char_type(tcache);
 	}
 	else if (type->bool_type)
 	{
@@ -56,9 +58,13 @@ struct type* build_primitive_type(
 	}
 	else if (type->array)
 	{
-		struct type* element_type = build_primitive_type(tcache, type->array);
-		
-		return type_cache_get_list_type(tcache, element_type);
+		struct type* eletype = build_primitive_type(tcache, type->eletype);
+		return type_cache_get_list_type(tcache, eletype);
+	}
+	else if (type->set)
+	{
+		struct type* eletype = build_primitive_type(tcache, type->eletype);
+		return type_cache_get_set_type(tcache, eletype);
 	}
 	else if (type->paren)
 	{

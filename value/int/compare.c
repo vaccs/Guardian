@@ -15,7 +15,7 @@ int compare_int_value(
 	const struct int_value *A = (void*) a;
 	const struct int_value *B = (void*) b;
 	
-	int cmp = mpz_cmp(A->integer->mpz, B->integer->mpz);
+	int cmp = mpz_cmp(A->value->mpz, B->value->mpz);
 	
 	dpv(cmp);
 	

@@ -3,16 +3,16 @@
 
 #include <debug.h>
 
-#include <value/free.h>
-#include <value/dict/new.h>
-#include <value/dict/assign.h>
+/*#include <value/free.h>*/
+/*#include <value/dict/new.h>*/
+/*#include <value/dict/assign.h>*/
 
-#include <pair/expression/struct.h>
+/*#include <pair/expression/struct.h>*/
 
-#include <list/expression_pair/struct.h>
-#include <list/expression_pair/foreach.h>
+/*#include <list/expression_pair/struct.h>*/
+/*#include <list/expression_pair/foreach.h>*/
 
-#include "../evaluate.h"
+/*#include "../evaluate.h"*/
 
 #include "struct.h"
 #include "evaluate.h"
@@ -25,6 +25,8 @@ struct value* dict_expression_evaluate(
 	
 	assert(super->kind == ek_dict);
 	
+	TODO;
+	#if 0
 	struct dict_expression* this = (void*) super;
 	
 	struct value* value = new_dict_value(super->type);
@@ -44,6 +46,7 @@ struct value* dict_expression_evaluate(
 	
 	EXIT;
 	return value;
+	#endif
 }
 
 

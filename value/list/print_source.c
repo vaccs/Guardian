@@ -3,24 +3,24 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
-#include <stringtree/append_tree.h>
-#include <stringtree/append_printf.h>
-#include <stringtree/free.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_tree.h>*/
+/*#include <stringtree/append_printf.h>*/
+/*#include <stringtree/free.h>*/
 
-#include <out/type_queue/submit.h>
+/*#include <out/type_queue/submit.h>*/
 
-#include <list/value/foreach.h>
+/*#include <list/value/foreach.h>*/
 
-#include <type/struct.h>
-#include <type/list/struct.h>
+/*#include <type/struct.h>*/
+/*#include <type/list/struct.h>*/
 
-#include <out/shared.h>
-#include <out/function_queue/submit_new.h>
-#include <out/function_queue/submit_append.h>
-#include <out/function_queue/submit_free.h>
+/*#include <out/shared.h>*/
+/*#include <out/function_queue/submit_new.h>*/
+/*#include <out/function_queue/submit_append.h>*/
+/*#include <out/function_queue/submit_free.h>*/
 
-#include "../print_source.h"
+/*#include "../print_source.h"*/
 
 #include "struct.h"
 #include "print_source.h"
@@ -32,6 +32,8 @@ struct stringtree* list_value_print_source(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == vk_list);
 	
 	struct list_value* this = (void*) super;
@@ -95,6 +97,7 @@ struct stringtree* list_value_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

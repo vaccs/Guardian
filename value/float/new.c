@@ -10,13 +10,13 @@
 #include "new.h"
 
 struct value* new_float_value(
-	struct type_cache* tcache,
+	struct type* type,
 	long double value)
 {
 	ENTER;
 	
 	struct float_value* this = (void*) new_value(
-		type_cache_get_float_type(tcache),
+		type,
 		vk_float,
 		&float_value_inheritance,
 		sizeof(*this));

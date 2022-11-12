@@ -3,8 +3,6 @@
 
 #include <debug.h>
 
-#include <scope/lookup.h>
-
 #include "struct.h"
 #include "evaluate.h"
 

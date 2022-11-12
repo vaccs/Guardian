@@ -1,4 +1,6 @@
 
+#include <math.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 #include <assert.h>
@@ -9,8 +11,16 @@
 
 #include <type/struct.h>
 
+#include <value/float/struct.h>
+#include <value/float/new.h>
+#include <value/free.h>
+
 #include <expression/struct.h>
+#include <expression/literal/struct.h>
+#include <expression/literal/new.h>
+#include <expression/float_math/new.h>
 #include <expression/int_math/new.h>
+#include <expression/int_math/run.h>
 #include <expression/free.h>
 
 #include "exponentiation.h"
@@ -42,15 +52,153 @@ struct expression* specialize_multiplicative_expression(
 			exit(1);
 		}
 		
+		bool all_literals = (left->kind == ek_literal && right->kind == ek_literal);
+		
 		switch (left->type->kind)
 		{
 			case tk_int:
-				retval = new_int_math_expression(tcache, imek_multiply, left, right);
+			{
+				if (zexpression->rdiv)
+				{
+					if (all_literals)
+					{
+						struct literal_expression*  leftlit = (void*)  left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct int_value*  leftint = (void*)  leftlit->value;
+						struct int_value* rightint = (void*) rightlit->value;
+						
+						struct value* value = int_math_rdiv_run(left->type, leftint, rightint);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_int_math_expression(left->type, imek_rdivide, left, right);
+					}
+				}
+				else if (zexpression->qdiv)
+				{
+					if (all_literals)
+					{
+						struct literal_expression*  leftlit = (void*)  left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct int_value*  leftint = (void*)  leftlit->value;
+						struct int_value* rightint = (void*) rightlit->value;
+						
+						struct value* value = int_math_qdiv_run(left->type, leftint, rightint);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_int_math_expression(left->type, imek_qdivide, left, right);
+					}
+				}
+				else if (zexpression->mult)
+				{
+					if (all_literals)
+					{
+						struct literal_expression*  leftlit = (void*)  left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct int_value*  leftint = (void*)  leftlit->value;
+						struct int_value* rightint = (void*) rightlit->value;
+						
+						struct value* value = int_math_mult_run(left->type, leftint, rightint);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_int_math_expression(left->type, imek_multiply, left, right);
+					}
+				}
+				else
+				{
+					TODO;
+				}
 				break;
+			}
 			
 			case tk_float:
-				TODO;
+			{
+				if (zexpression->rdiv)
+				{
+					if (all_literals)
+					{
+						struct literal_expression*  leftlit = (void*)  left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct float_value*  leftfloat = (void*)  leftlit->value;
+						struct float_value* rightfloat = (void*) rightlit->value;
+						
+						struct value* value = new_float_value(left->type, fmodl(leftfloat->value, rightfloat->value));
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_float_math_expression(left->type, fmek_rdivide, left, right);
+					}
+				}
+				else if (zexpression->qdiv)
+				{
+					if (all_literals)
+					{
+						struct literal_expression*  leftlit = (void*)  left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct float_value*  leftfloat = (void*)  leftlit->value;
+						struct float_value* rightfloat = (void*) rightlit->value;
+						
+						struct value* value = new_float_value(left->type, leftfloat->value / rightfloat->value);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_float_math_expression(left->type, fmek_qdivide, left, right);
+					}
+				}
+				else if (zexpression->mult)
+				{
+					if (all_literals)
+					{
+						struct literal_expression*  leftlit = (void*)  left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct float_value*  leftfloat = (void*)  leftlit->value;
+						struct float_value* rightfloat = (void*) rightlit->value;
+						
+						struct value* value = new_float_value(left->type, leftfloat->value * rightfloat->value);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_float_math_expression(left->type, fmek_multiply, left, right);
+					}
+				}
+				else
+				{
+					TODO;
+				}
 				break;
+			}
 			
 			default:
 				TODO;

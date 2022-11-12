@@ -3,13 +3,7 @@
 #include <debug.h>
 
 #include <value/struct.h>
-/*#include <value/integer/new.h>*/
-/*#include <value/free.h>*/
-
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/free.h>
 
 #include <list/value/new.h>
 #include <list/value/append.h>
@@ -17,12 +11,13 @@
 
 #include <list/expression/struct.h>
 
-#include <value/lambda/call.h>
-#include <value/free.h>
+/*#include <value/lambda/call.h>*/
+/*#include <value/free.h>*/
 
 #include "../evaluate.h"
 
 #include "struct.h"
+#include "run.h"
 #include "evaluate.h"
 
 struct value* funccall_expression_evaluate(
@@ -48,7 +43,7 @@ struct value* funccall_expression_evaluate(
 		free_value(argument);
 	}
 	
-	struct value* result = lambda_value_call((void*) lambda, arguments);
+	struct value* result = funccall_run((void*) lambda, arguments);
 	
 	free_value(lambda);
 	

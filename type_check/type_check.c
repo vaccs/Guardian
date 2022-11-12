@@ -276,14 +276,18 @@ void type_check(
 	raw_assertion_list_foreach(raw_assertions, ({
 		void runme(struct raw_assertion* raw_assertion)
 		{
+			#ifdef VERBOSE
 			printf("%s: specializing assertion: ", argv0);
+			#endif
 			
 			struct expression* typed = specialize_expression(
 				tcache, scope, raw_assertion->expression);
 			
+			#ifdef VERBOSE
 			expression_print(typed), puts("");
+			#endif
 			
-			if (typed->type->kind != tk_bool)
+			if (raw_assertion->kind != ak_debug && typed->type->kind != tk_bool)
 			{
 				TODO;
 				exit(1);
@@ -291,13 +295,22 @@ void type_check(
 			
 			if (typed->kind == ek_literal)
 			{
-				struct literal_expression* literal = (void*) typed;
-				
-				struct bool_value* value = (void*) literal->value;
-				
-				if (!value->value)
+				if (raw_assertion->kind == ak_debug)
 				{
-					TODO;
+					printf("%%debug: "), expression_print(typed), puts("");
+				}
+				else
+				{
+					struct literal_expression* literal = (void*) typed;
+					
+					struct bool_value* value = (void*) literal->value;
+					
+					if (!value->value)
+					{
+						fflush(stdout);
+						fprintf(stderr, "%s: assertion constant-folded to false!\n", argv0);
+						exit(1);
+					}
 				}
 			}
 			else

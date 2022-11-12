@@ -8,8 +8,15 @@
 
 #include <type/struct.h>
 
+#include <value/bool/struct.h>
+#include <value/bool/new.h>
+#include <value/free.h>
+
 #include <expression/struct.h>
+#include <expression/literal/new.h>
+#include <expression/literal/struct.h>
 #include <expression/logical_or/new.h>
+#include <expression/inc.h>
 #include <expression/free.h>
 
 #include "logical_and.h"
@@ -41,25 +48,41 @@ struct expression* specialize_logical_or_expression(
 		
 		if (left->kind == ek_literal)
 		{
-			if (right->kind == ek_literal)
+			struct literal_expression* leftlit = (void*) left;
+			
+			struct bool_value* leftbool = (void*) leftlit->value;
+			
+			if (leftbool->value)
 			{
-				TODO;
+				struct value* value = new_bool_value(left->type, true);
+				retval = new_literal_expression(value);
+				free_value(value);
 			}
 			else
 			{
-				TODO;
+				retval = inc_expression(right);
+			}
+		}
+		else if (right->kind == ek_literal)
+		{
+			struct literal_expression* rightlit = (void*) right;
+			
+			struct bool_value* rightbool = (void*) rightlit->value;
+			
+			if (rightbool->value)
+			{
+				struct value* value = new_bool_value(left->type, true);
+				retval = new_literal_expression(value);
+				free_value(value);
+			}
+			else
+			{
+				retval = inc_expression(left);
 			}
 		}
 		else
 		{
-			if (right->kind == ek_literal)
-			{
-				TODO;
-			}
-			else
-			{
-				retval = new_logical_or_expression(tcache, left, right);
-			}
+			retval = new_logical_or_expression(tcache, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

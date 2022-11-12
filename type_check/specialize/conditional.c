@@ -12,9 +12,13 @@
 #include <type/struct.h>
 #include <type/print.h>
 
+#include <value/bool/struct.h>
+
+#include <expression/literal/struct.h>
 #include <expression/struct.h>
 #include <expression/free.h>
 #include <expression/print.h>
+#include <expression/inc.h>
 
 #include <expression/ternary/new.h>
 
@@ -63,7 +67,14 @@ struct expression* specialize_conditional_expression(
 		
 		if (conditional->kind == ek_literal)
 		{
-			TODO;
+			struct literal_expression* condlit = (void*) conditional;
+			
+			struct bool_value* condbool = (void*) condlit->value;
+			
+			if (condbool->value)
+				retval = inc_expression(true_case);
+			else
+				retval = inc_expression(false_case);
 		}
 		else
 		{

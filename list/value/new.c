@@ -6,7 +6,7 @@
 #include "struct.h"
 #include "new.h"
 
-struct value_list* new_value_list()
+struct value_list* new_value_list(void)
 {
 	ENTER;
 	

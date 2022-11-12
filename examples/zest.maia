@@ -7,9 +7,337 @@ string: /['a'-'z', 'A'-'Z']+/ #value;
 
 %start: number string;
 
-u = number[0].value;
+test1 = true  == ( true);
+test2 = false == ( false);
 
-t = (u, string[0].value);
+test3 = false == (!true);
+test4 = true  == (!false);
+
+test5 = true  == (true  || true );
+test6 = true  == (true  || false);
+test7 = true  == (false || true );
+test8 = false == (false || false);
+
+test9 = true  == (b1 || true );
+test10 = true  == (b1 || false);
+test11 = true  == (true  || b2);
+test12 = false == (false || b2);
+
+test13 = true  == (b1 || b2);
+
+test14 = true  == (true  && true );
+test15 = false == (true  && false);
+test16 = false == (false && true );
+test17 = false == (false && false);
+
+test18 = true  == (b1    && true );
+test19 = false == (b1    && false);
+test20 = false == (true  && b2   );
+test21 = false == (false && b2   );
+test22 = false == (b1    && b2   );
+
+test23 = false == (true  >  true );
+test24 = true  == (true  >  false);
+test25 = false == (false >  true );
+test26 = false == (false >  false);
+test27 = true  == (true  >= true );
+test28 = true  == (true  >= false);
+test29 = false == (false >= true );
+test30 = true  == (false >= false);
+test31 = true  == (true  == true );
+test32 = false == (true  == false);
+test33 = false == (false == true );
+test34 = true  == (false == false);
+test35 = false == (true  != true );
+test36 = true  == (true  != false);
+test37 = true  == (false != true );
+test38 = false == (false != false);
+test39 = true  == (true  <= true );
+test40 = false == (true  <= false);
+test41 = true  == (false <= true );
+test42 = true  == (false <= false);
+test43 = false == (true  <  true );
+test44 = false == (true  <  false);
+test45 = true  == (false <  true );
+test46 = false == (false <  false);
+
+test47 = true  == (true  implies true );
+test48 = false == (true  implies false);
+test49 = true  == (false implies true );
+test50 = true  == (false implies false);
+
+test47a = true  == (b1  implies true );
+test48a = false == (b1  implies false);
+test49a = false == (true  implies b2);
+test50a = true  == (false implies b2);
+
+test57 = false == (b1 implies b2);
+
+test51 = true  == (b1 >  b2);
+test52 = true  == (b1 >= b2);
+test53 = false == (b1 == b2);
+test54 = true  == (b1 != b2);
+test55 = false == (b1 <= b2);
+test56 = false == (b1 <  b2);
+
+test58 = true == ('a' <  'b');
+test59 = true == ('a' <= 'b');
+test60 = false == ('a' == 'b');
+test61 = true == ('a' != 'b');
+test62 = false == ('a' >= 'b');
+test63 = false == ('a' >  'b');
+
+test64 = 1 == (1);
+test65 = 2 == (2);
+test66 = 3 == (3);
+
+test67 = +1 == (+1);
+test68 = -2 == (-2);
+test69 = -6 == (~5);
+
+test70 = 5 == (3  + 2);
+test71 = 1 == (3  - 2);
+test72 = 6 == (3  * 2);
+test73 = 1 == (3  / 2);
+test74 = 1 == (3  % 2);
+test75 = 9 == (3 ** 2);
+
+test76a = 28 == (7 << 2);
+test76b = 1 == (7 << -2);
+test77a = 0 == (3 >> 2);
+test77b = 12 == (3 >> -2);
+
+test78 = false == (3 <  2);
+test79 = false == (3 <= 2);
+test80 = false == (3 == 2);
+test81 = true == (3 != 2);
+test82 = true == (3 >= 2);
+test83 = true == (3 >  2);
+
+test84 = 2 == (3 & 2);
+test85 = 3 == (3 | 2);
+test86 = 1 == (3 ^ 2);
+
+test87 = 2 == (true ? 2 : 3);
+test88 = 3 == (false ? 2 : 3);
+test89 = 2 == (b1 ? 2: 3);
+test90 = 3 == (b2 ? 2: 3);
+
+test91 = +7 == (+u);
+test92 = -7 == (-u);
+test93 = -8 == (~u);
+
+test94 = 9 == (u  + 2);
+test95 = 5 == (u  - 2);
+test96 = 14 == (u  * 2);
+test97 = 3 == (u  / 2);
+test98 = 1 == (u  % 2);
+test99 = 49 == (u ** 2);
+
+test100a = 14 == (u <<  2);
+test100b = 3  == (u << -2);
+test101a = 3  == (u >>  2);
+test101b = 14 == (u >> -2);
+
+test102 = false == (u <  2);
+test103 = false == (u <= 2);
+test104 = false == (u == 2);
+test105 = true == (u != 2);
+test106 = true == (u >= 2);
+test107 = true == (u >  2);
+
+test108 = 2 == (u & 2);
+test109 = 7 == (u | 2);
+test110 = 5 == (u ^ 2);
+
+test111 = u == (true ? u : 2);
+test112 = 2 == (false ? u : 2);
+test113 = u == (b1 ? u : 2);
+test114 = 2 == (b2 ? u : 2);
+
+test115 = 6.0 == (3.5  + 2.5);
+test116 = 1.0 == (3.5  - 2.5);
+test117 = 8.75 == (3.5  * 2.5);
+test118 = 1.4 == (3.5  / 2.5);
+test119 = 1.0 == (3.5  % 2.5);
+test120 = 12.25 == (3.5 ** 2.0);
+
+test121 = true == (3.5 >  2.5);
+test122 = true == (3.5 >= 2.5);
+test123 = false == (3.5 == 2.5);
+test124 = true == (3.5 != 2.5);
+test125 = false == (3.5 <= 2.5);
+test126 = false == (3.5 <  2.5);
+
+test127 = +3.0 == (+f1);
+test128 = -3.0 == (-f1);
+
+test129 = 5.5 == (f1  + 2.5);
+test130 = 0.5 == (f1  - 2.5);
+test132 = 7.5 == (f1  * 2.5);
+test133 = 1.2 == (f1  / 2.5);
+test134 = 0.5 == (f1  % 2.5);
+test135 = 9.0 == (f1 ** 2.0);
+
+test136 = true == (f1 >  2.5);
+test137 = true == (f1 >= 2.5);
+test138 = false == (f1 == 2.5);
+test139 = true == (f1 != 2.5);
+test140 = false == (f1 <= 2.5);
+test141 = false == (f1 <  2.5);
+
+test142 = [<int>] == ([<int>]);
+test143 = [1, 2, 3, 4] == ([1, 2, 3, 4]);
+
+test144 = [1, 2, 3, 4] == ([1, 2] + [3, 4]);
+test145 = [u, 2, 3, 4] == ([u, 2] + [3, 4]);
+
+test146 = false == ([1, 2] >  [3, 4]);
+test147 = false == ([1, 2] >= [3, 4]);
+test148 = true  == ([<char>] == [<char>]);
+test149 = false == ([1, 2] == [3, 4]);
+test150 = true  == ([1, 2] != [3, 4]);
+test151 = true  == ([1, 2] <= [3, 4]);
+test152 = true  == ([1, 2] <  [3, 4]);
+
+test153 = 2 == ([1, 2, 3][1]);
+test154 = u == ([1, u, 3][1]);
+test155 = 2 == ([1, 2, u][1]);
+test156 = 7 == ([1, 2, 3, 4, 5, 6, 7, 8][u]);
+
+test157 = true  == ("a" <  "b");
+test158 = true  == ("a" <= "b");
+test159 = true  == ("" == "");
+test160 = false == ("a" == "b");
+test161 = true  == ("a" != "b");
+test163 = false == ("a" >= "b");
+test164 = false == ("a" >  "b");
+test165 = false == ("abc"[1] == 'b');
+test166 = true  == ("abc"[1] == 'c');
+
+test167 = true  == (2 in [1, 2, 3]);
+test168 = false == (2 in [1, 5, 3]);
+test169 = false == (2 in [1, u, 3]);
+test170 = false == (u in [1, 2, 3]);
+
+test171 = true  == ('a' in "abc");
+test172 = false == ('d' in "abc");
+
+test173 = () == (());
+test174 = (1, 2, 3) == ((1, 2, 3));
+test175 = (1, 1.5, true) == ((1, 1.5, true));
+test176 = (1, ) == ((1, ));
+
+test177 = (1, 2, 3, 4) == ((1, 2) + (3, 4));
+
+test178 = false == ((1, 2) >  (3, 4));
+test179 = false == ((1, 2) >= (3, 4));
+test180 = true == ((    ) == (    ));
+test181 = false == ((1, 2) == (3, 4));
+test182 = true == ((1, 2) != (3, 4));
+test183 = true == ((1, 2) <= (3, 4));
+test184 = true == ((1, 2) <  (3, 4));
+
+test185 = false == ((1, u) >  (3, 4));
+test186 = false == ((1, u) >= (3, 4));
+test187 = false == ((1, u) == (3, 4));
+test188 = true == ((1, u) != (3, 4));
+test189 = true == ((1, u) <= (3, 4));
+test190 = true == ((1, u) <  (3, 4));
+
+test191 = 2 == ((1, 2, 3).1);
+test192 = u == ((1, u, 3).1);
+test193 = 2 == ((1, 2, u).1);
+
+test199 = {<int: float>} == ({<int: float>});
+test200 = {1: 2, 3: 4, 2: 3, 4: 5} == ({1: 2, 2: 3, 3: 4, 4: 5});
+
+test227 = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5} == {1: 1, 3: 3, 4: 4, 5: 5} + {2: 2, 3: 3, 5: 5};
+test228 = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5} == {1: 1, 3: 3, 4: 4, 5: 5} | {2: 2, 3: 3, 5: 5};
+test229 = {            3: 3,       5: 5} == {1: 1, 3: 3, 4: 4, 5: 5} & {2: 2, 3: 3, 5: 5};
+test230 = {1: 1, 2: 2,       4: 4      } == {1: 1, 3: 3, 4: 4, 5: 5} ^ {2: 2, 3: 3, 5: 5};
+test231 = {1: 1,             4: 4      } == {1: 1, 3: 3, 4: 4, 5: 5} - {2: 2, 3: 3, 5: 5};
+
+test232 = {u: 1, 2: 2, 3: 3, 4: 4, 5: 5} == {u: 1, 3: 3, 4: 4, 5: 5} + {2: 2, 3: 3, 5: 5};
+test233 = {u: 1, 2: 2, 3: 3, 4: 4, 5: 5} == {u: 1, 3: 3, 4: 4, 5: 5} | {2: 2, 3: 3, 5: 5};
+test234 = {            3: 3,       5: 5} == {u: 1, 3: 3, 4: 4, 5: 5} & {2: 2, 3: 3, 5: 5};
+test235 = {u: 1, 2: 2,       4: 4      } == {u: 1, 3: 3, 4: 4, 5: 5} ^ {2: 2, 3: 3, 5: 5};
+test236 = {u: 1,             4: 4      } == {u: 1, 3: 3, 4: 4, 5: 5} - {2: 2, 3: 3, 5: 5};
+
+test203 = false == ({1: 2, 2: 3} >  {3: 4, 4: 5});
+test204 = false == ({1: 2, 2: 3} >= {3: 4, 4: 5});
+test205 = true == ({<char: char>} == {<char: char>});
+test206 = false == ({1: 2, 2: 3} == {3: 4, 4: 5});
+test207 = true == ({1: 2, 2: 3} != {3: 4, 4: 5});
+test208 = true == ({1: 2, 2: 3} <= {3: 4, 4: 5});
+test209 = true == ({1: 2, 2: 3} <  {3: 4, 4: 5});
+
+test210 = false == ({1: u, 2: 3} >  {3: 4, 4: 5});
+test211 = false == ({1: u, 2: 3} >= {3: 4, 4: 5});
+test212 = false == ({1: u, 2: 3} == {3: 4, 4: 5});
+test213 = true == ({1: u, 2: 3} != {3: 4, 4: 5});
+test214 = true == ({1: u, 2: 3} <= {3: 4, 4: 5});
+test215 = true == ({1: u, 2: 3} <  {3: 4, 4: 5});
+
+test216 = 3 == ({1: 2, 2: 3, 3: 4}[2]);
+test217 = u == ({1: 2, 2: u, 3: 4}[2]);
+test218 = 3 == ({1: 2, 2: 3, 3: u}[2]);
+test219 = 4 == ({1: 2, 2: 3, 7: 4}[u]);
+
+test220 = true == (2 in {1: 2, 2: 3, 3: 4});
+test221 = false == (2 in {1: 2, 5: 3, 3: 4});
+test222 = false == (2 in {1: 2, u: 2, 3: 4});
+test223 = false == (u in {1: 2, 2: 3, 3: 4});
+
+test224 = {<int>} == ({<int>});
+test225 = {4, 3, 2, 1} == ({1, 2, 3, 4});
+test226 = {1, 7, 3, 4} == ({1, u, 3, 4});
+
+test227 = {1, 2, 3, 4, 5} == {1, 3, 4, 5} + {2, 3, 5};
+test228 = {1, 2, 3, 4, 5} == {1, 3, 4, 5} | {2, 3, 5};
+test229 = {      3,    5} == {1, 3, 4, 5} & {2, 3, 5};
+test230 = {1, 2,    4   } == {1, 3, 4, 5} ^ {2, 3, 5};
+test231 = {1,       4   } == {1, 3, 4, 5} - {2, 3, 5};
+
+test232 = {u, 2, 3, 4, 5} == {u, 3, 4, 5} + {2, 3, 5};
+test233 = {u, 2, 3, 4, 5} == {u, 3, 4, 5} | {2, 3, 5};
+test234 = {      3,    5} == {u, 3, 4, 5} & {2, 3, 5};
+test235 = {u, 2,    4   } == {u, 3, 4, 5} ^ {2, 3, 5};
+test236 = {u,       4   } == {u, 3, 4, 5} - {2, 3, 5};
+
+test237 = false == ({1, 3, 4, 5} >  {2, 3, 5});
+test238 = false == ({1, 3, 4, 5} >= {2, 3, 5});
+test239 = true == ({<(int, float)>} == {<(int, float)>});
+test240 = false == ({1, 3, 4, 5} == {2, 3, 5});
+test241 = true == ({1, 3, 4, 5} != {2, 3, 5});
+test242 = true == ({1, 3, 4, 5} <= {2, 3, 5});
+test243 = true == ({1, 3, 4, 5} <  {2, 3, 5});
+
+test244 = true == ({u, 3, 4, 5} >  {2, 3, 5});
+test245 = true == ({u, 3, 4, 5} >= {2, 3, 5});
+test246 = false == ({u, 3, 4, 5} == {2, 3, 5});
+test247 = true == ({u, 3, 4, 5} != {2, 3, 5});
+test248 = false == ({u, 3, 4, 5} <= {2, 3, 5});
+test249 = false == ({u, 3, 4, 5} <  {2, 3, 5});
+
+test250 = true == (1 in {1, 3, 4, 5});
+test251 = false == (1 in {2, 3, 4, 5});
+test252 = false == (u in {1, 3, 4, 5});
+test253 = false == (2 in {1, 3, u, 5});
+
+test254 = true == (number[0] has value);
+
+b1 = true;
+b2 = false;
+
+u = 7;
+
+s1 = "abc";
+
+f1 = 3.0;
+f2 = 2.0;
+
+t = (u, s1);
 
 q = (true, );
 
@@ -19,56 +347,61 @@ s = t + (q + w);
 
 fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
 
-//fib2 = $int x -> int: x < 2 ? k : fib2(x - 1) + fib2(x - 2);
+fib2 = $int x -> int: x < 2 ? k : fib2(x - 1) + fib2(x - 2);
 
-//k = 3;
+k = 3;
 
-//bar =
-//	$int x, y, z -> int: (
-//		$int a -> int: (
-//			$int b -> int: (
-//				$int c -> int:
-//					a + b + c)(z))(y))(x);
+bar =
+	$int x, y, z -> int: (
+		$int a -> int: (
+			$int b -> int: (
+				$int c -> int:
+					a + b + c)(z))(y))(x);
 
-//iseven = $int x -> bool: x == 0 ? true  : isodd (x - 1);
-//isodd  = $int x -> bool: x == 0 ? false : iseven(x - 1);
+iseven = $int x -> bool: x == 0 ? true  : isodd (x - 1);
+isodd  = $int x -> bool: x == 0 ? false : iseven(x - 1);
 
-//%error: isodd(7) && iseven(4);
-//%error: isodd(a + 1) && iseven(a + 0);
-//a = 2;
+%error: isodd(7) && iseven(4);
+%error: isodd(a + 1) && iseven(a + 0);
+a = 2;
 
-//boo1 = let! b = a + 2, c = b + 2: a + b + c;
-//boo2 = let! b = a + 2, c = b + 2: bar(a, b, c);
-//boo3 = let! b = u + 2, c = b + 2: bar(u, b, c);
+boo1 = let! b = a + 2, c = b + 2: a + b + c;
+boo2 = let! b = a + 2, c = b + 2: bar(a, b, c);
+boo3 = let! b = u + 2, c = b + 2: bar(u, b, c);
 
-//%error: boo1 > 1;
-//%error: boo2 > 1;
-//%error: boo3 > 1;
+%error: boo1 > 1;
+%error: boo2 > 1;
+%error: boo3 > 1;
 
-//list1 = [1, 2, 3, 4];
-//list2 = [<int>];
+list1 = [1, 2, 3, 4];
+list2 = [<int>];
 
-//dict1 = {1: 2, 2: 3, 4: 5};
-//dict2 = {<int: float>};
+dict1 = {1: 2, 2: 3, 4: 5};
+dict2 = {<int: float>};
 
-//f = $int a, b -> int[]: [a, b];
+f = $int a, b -> int[]: [a, b];
 
-//%error: f(3, 4) == [3] + [4];
-//%error: f(u, 4) == [u] + [4];
+%error: f(3, 4) == [3] + [4];
+%error: f(u, 4) == [u] + [4];
 
-//g = $int a, b -> int -> int: {0: a, 1: b};
+g = $int a, b -> int -> int: {0: a, 1: b};
 
-//%error: g(3, 4) == {0:3} + {1:4};
-//%error: g(u, 4) == {0:u} + {1:4};
+%error: g(3, 4) == {0:3} + {1:4};
+%error: g(u, 4) == {0:u} + {1:4};
 
-//compose =
-//	$($int -> int) f -> $($int -> int) -> $int -> int:
-//	$($int -> int) g -> $int -> int:
-//	$int x -> int: f(g(x));
+h = $int a, b -> int{}: {a, b};
 
-//%error: compose($int x -> int: x + 3)($int y -> int: y + 2)(5) == 10;
-//%error: compose($int x -> int: x + 2)($int y -> int: y + 3)(u) == u + 5;
-//%error: compose($int x -> int: x + u)($int y -> int: y + 3)(2) == u + 5;
+%error: h(3, 4) == {3} + {4};
+%error: h(u, 4) == {4} + {u};
+
+compose =
+	$($int -> int) f -> $($int -> int) -> $int -> int:
+	$($int -> int) g -> $int -> int:
+	$int x -> int: f(g(x));
+
+%error: compose($int x -> int: x + 3)($int y -> int: y + 2)(5) == 10;
+%error: compose($int x -> int: x + 2)($int y -> int: y + 3)(u) == u + 5;
+%error: compose($int x -> int: x + u)($int y -> int: y + 3)(2) == u + 5;
 
 //%error:
 //	let! factory = $int a, b -> $int -> int:
@@ -79,10 +412,9 @@ fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
 //	fact2 = factory(u + 2, u + 3):
 //	fact1(5) > 5 && fact2(5) > 5;
 
-//%error: len!(s) == 4;
+%error: len!(s) == 4;
 
-//%error: float!(s.0) + s.3 > 10.0;
-
+%error: float!(s.0) + s.3 > 10.0;
 
 
 

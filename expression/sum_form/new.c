@@ -20,7 +20,7 @@ struct expression* new_sum_expression(
 	ENTER;
 	
 	struct sum_expression* this = (void*) new_expression(
-		ek_sum,
+		ek_sum_form,
 		&sum_expression_inheritance,
 		type,
 		sizeof(*this));

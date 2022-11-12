@@ -13,7 +13,7 @@ void int_value_print(
 	
 	struct int_value* spef = (void*) super;
 	
-	gmp_printf("%Zi", spef->integer);
+	gmp_printf("%Zi", spef->value);
 	
 	EXIT;
 }

@@ -4,8 +4,6 @@
 
 #include <debug.h>
 
-#include <string/struct.h>
-
 #include "../print.h"
 
 #include "struct.h"

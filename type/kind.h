@@ -9,6 +9,7 @@ enum type_kind
 	tk_char,
 	tk_float,
 	
+	tk_set,
 	tk_dict,
 	tk_list,
 	tk_tuple,

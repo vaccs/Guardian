@@ -71,6 +71,7 @@
 #include <parse/parse.h>
 
 #include <string/new.h>
+#include <string/process_escapes.h>
 #include <string/free.h>
 
 #include <list/expression/struct.h>
@@ -86,6 +87,8 @@
 #include <list/value/append.h>
 #include <list/value/free.h>
 
+#include <expression/dict/run.h>
+
 #include <list/expression_pair/struct.h>
 #include <list/expression_pair/new.h>
 #include <list/expression_pair/append.h>
@@ -100,6 +103,13 @@
 #include <pair/expression/new.h>
 #include <pair/expression/free.h>
 
+#include <pair/value/new.h>
+#include <pair/value/free.h>
+
+#include <list/value_pair/new.h>
+#include <list/value_pair/append.h>
+#include <list/value_pair/free.h>
+
 /*#include <pair/value/struct.h>*/
 /*#include <pair/value/new.h>*/
 /*#include <pair/value/free.h>*/
@@ -113,7 +123,10 @@
 #include <type_cache/get_type/int.h>
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/dict.h>
+#include <type_cache/get_type/char.h>
 #include <type_cache/get_type/float.h>
+#include <type_cache/get_type/charlist.h>
+#include <type_cache/get_type/set.h>
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
@@ -122,7 +135,9 @@
 #include <expression/variable/new.h>
 #include <expression/parenthesis/new.h>
 #include <expression/float_form/new.h>
+#include <expression/set/run.h>
 #include <expression/dict/new.h>
+#include <expression/set/new.h>
 #include <expression/list/new.h>
 #include <expression/inc.h>
 #include <expression/free.h>
@@ -135,10 +150,11 @@
 #include <value/int/new.h>
 #include <value/bool/new.h>
 #include <value/list/new.h>
+#include <value/char/new.h>
 #include <value/tuple/new.h>
 #include <value/float/new.h>
+#include <value/set/new.h>
 #include <value/dict/new.h>
-#include <value/dict/assign.h>
 #include <value/compare.h>
 #include <value/free.h>
 
@@ -198,9 +214,96 @@ static struct expression* specialize_primary_float_expression(
 	
 	dpv(number);
 	
-	struct value* value = new_float_value(tcache, number);
+	struct type* type = type_cache_get_float_type(tcache);
+	
+	struct value* value = new_float_value(type, number);
 	
 	struct expression* retval = new_literal_expression(value);
+	
+	free_value(value);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_character_expression(
+	struct type_cache* tcache,
+	struct zebu_token* character_literal)
+{
+	struct expression* retval;
+	ENTER;
+	
+	dpvs(character_literal->data);
+	
+	struct type* chartype = type_cache_get_char_type(tcache);
+	
+	unsigned i = 1;
+	
+	unsigned char code = character_literal->data[i];
+	
+	dpv(code);
+	
+	if (code == '\\')
+	{
+		TODO;
+	}
+	else
+	{
+		struct value* value = new_char_value(chartype, code); i++;
+		
+		retval = new_literal_expression(value);
+	
+		free_value(value);
+	}
+	
+	if (i != character_literal->len - 1)
+	{
+		TODO;
+	}
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_string_expression(
+	struct type_cache* tcache,
+	struct zebu_token* string_literal)
+{
+	ENTER;
+	
+	dpvs(string_literal->data);
+	
+	struct type* chartype = type_cache_get_char_type(tcache);
+	
+	struct type* charlist = type_cache_get_charlist_type(tcache);
+	
+	struct value_list* elements = new_value_list();
+	
+	for (unsigned i = 1, n = string_literal->len - 1; i < n; i++)
+	{
+		unsigned char code = string_literal->data[i];
+		
+		dpv(code);
+		
+		if (code == '\\')
+		{
+			TODO;
+		}
+		else
+		{
+			struct value* letter = new_char_value(chartype, code);
+			
+			value_list_append(elements, letter);
+			
+			free_value(letter);
+		}
+	}
+	
+	struct value* value = new_list_value(charlist, elements);
+	
+	struct expression* retval = new_literal_expression(value);
+	
+	free_value_list(elements);
 	
 	free_value(value);
 	
@@ -239,6 +342,83 @@ static struct expression* specialize_primary_identifier_expression(
 	
 	free_string(name);
 	free_value(value);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_set_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_primary_expression* expression)
+{
+	ENTER;
+	
+	assert(expression->elements.n);
+	
+	struct type* eletype = NULL;
+	
+	struct expression_list* elements = new_expression_list();
+	
+	bool all_literals = true;
+	
+	for (unsigned i = 0, n = expression->elements.n; i < n; i++)
+	{
+		struct expression* eleexp = specialize_expression(
+			tcache, scope, expression->elements.data[i]);
+		
+		if (!eletype)
+		{
+			eletype = eleexp->type;
+		}
+		else if (eletype != eleexp->type)
+		{
+			TODO;
+		}
+		
+		if (eleexp->kind != ek_literal)
+			all_literals = false;
+		
+		expression_list_append(elements, eleexp);
+		
+		free_expression(eleexp);
+	}
+	
+	assert(eletype);
+	
+	struct type* type = type_cache_get_set_type(tcache, eletype);
+	
+	struct expression* retval;
+	
+	if (all_literals)
+	{
+		struct value_list* values = new_value_list();
+		
+		for (unsigned i = 0, n = expression->elements.n; i < n; i++)
+		{
+			struct expression* element = elements->data[i];
+			
+			assert(element->kind == ek_literal);
+			
+			struct literal_expression* le = (void*) element;
+			
+			value_list_append(values, le->value);
+		}
+		
+		struct value* value = set_run(type, values);
+		
+		retval = new_literal_expression(value);
+		
+		free_value(value);
+		
+		free_value_list(values);
+	}
+	else
+	{
+		retval = new_set_expression(type, elements);
+	}
+	
+	free_expression_list(elements);
 	
 	EXIT;
 	return retval;
@@ -300,7 +480,7 @@ static struct expression* specialize_primary_dict_expression(
 	
 	if (all_literals)
 	{
-		struct value* new = new_dict_value(type);
+		struct value_pair_list* valelements = new_value_pair_list();
 		
 		for (unsigned i = 0, n = expression->keyvalues.n; i < n; i++)
 		{
@@ -309,8 +489,14 @@ static struct expression* specialize_primary_dict_expression(
 			struct literal_expression* keylit = (void*) element->first;
 			struct literal_expression* vallit = (void*) element->second;
 			
-			dict_value_assign(new, keylit->value, vallit->value);
+			struct value_pair* valelement = new_value_pair(keylit->value, vallit->value);
+			
+			value_pair_list_append(valelements, valelement);
+			
+			free_value_pair(valelement);
 		}
+		
+		struct value* new = dict_run(type, valelements);
 		
 		retval = new_literal_expression(new);
 		
@@ -500,6 +686,8 @@ static struct expression* specialize_primary_len_form_expression(
 		
 		case tk_tuple:
 		{
+			TODO;
+			#if 0
 			struct tuple_type* ttype = (void*) object->type;
 			
 			unsigned len = ttype->subtypes->n;
@@ -517,6 +705,7 @@ static struct expression* specialize_primary_len_form_expression(
 			free_value(value);
 			
 			free_mpz(mpz);
+			#endif
 			break;
 		}
 		
@@ -808,11 +997,11 @@ struct expression* specialize_primary_expression(
 	}
 	else if (zexpression->character_literal)
 	{
-		TODO;
+		retval = specialize_primary_character_expression(tcache, zexpression->character_literal);
 	}
 	else if (zexpression->string_literal)
 	{
-		TODO;
+		retval = specialize_primary_string_expression(tcache, zexpression->string_literal);
 	}
 	else if (zexpression->true_literal)
 	{
@@ -840,8 +1029,30 @@ struct expression* specialize_primary_expression(
 	}
 	else if (zexpression->curly)
 	{
-		if (zexpression->emptykey)
+		if (zexpression->emptyset)
 		{
+			struct type* etype = build_type(tcache, zexpression->emptyset);
+			
+			struct type* ltype = type_cache_get_list_type(tcache, etype);
+			
+			struct value_list* set = new_value_list();
+			
+			struct value* new = new_set_value(ltype, set);
+			
+			retval = new_literal_expression(new);
+			
+			free_value(new);
+			
+			free_value_list(set);
+		}
+		else if (zexpression->elements.n)
+		{
+			retval = specialize_primary_set_expression(tcache, scope, zexpression);
+		}
+		else if (zexpression->emptykey)
+		{
+			TODO;
+			#if 0
 			struct type* key = build_type(tcache, zexpression->emptykey);
 			
 			struct type* val = build_type(tcache, zexpression->emptyvalue);
@@ -856,6 +1067,7 @@ struct expression* specialize_primary_expression(
 			
 			free_value(new);
 			free_value_list(list);
+			#endif
 		}
 		else
 		{
@@ -891,11 +1103,13 @@ struct expression* specialize_primary_expression(
 	{
 		if (zexpression->emptytype)
 		{
-			struct type* type = build_type(tcache, zexpression->emptytype);
+			struct type* etype = build_type(tcache, zexpression->emptytype);
+			
+			struct type* ltype = type_cache_get_list_type(tcache, etype);
 			
 			struct value_list* list = new_value_list();
 			
-			struct value* new = new_list_value(type, list);
+			struct value* new = new_list_value(ltype, list);
 			
 			retval = new_literal_expression(new);
 			

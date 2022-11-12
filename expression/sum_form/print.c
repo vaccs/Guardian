@@ -14,11 +14,11 @@ void sum_expression_print(
 {
 	ENTER;
 	
-	assert(super->kind == ek_sum);
+	assert(super->kind == ek_sum_form);
 	
 	struct sum_expression* this = (void*) super;
 	
-	printf("sum(");
+	printf("sum!(");
 	
 	expression_print(this->list);
 	

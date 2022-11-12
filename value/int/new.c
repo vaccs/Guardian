@@ -17,11 +17,9 @@
 
 struct value* new_int_value(
 	struct type* type,
-	struct mpz* integer)
+	struct mpz* value)
 {
 	ENTER;
-	
-	dpv(integer);
 	
 	struct int_value* this = (void*) new_value(
 		type,
@@ -29,7 +27,7 @@ struct value* new_int_value(
 		&int_value_inheritance,
 		sizeof(*this));
 	
-	this->integer = inc_mpz(integer);
+	this->value = inc_mpz(value);
 	
 	EXIT;
 	return (void*) this;

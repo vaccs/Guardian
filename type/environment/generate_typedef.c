@@ -29,6 +29,8 @@ struct stringtree* environment_type_generate_typedef(
 	
 	dpv(super->id);
 	
+	TODO;
+	#if 0
 	stringtree_append_printf(tree, ""
 		"struct type_%u"
 		"{"
@@ -55,6 +57,7 @@ struct stringtree* environment_type_generate_typedef(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

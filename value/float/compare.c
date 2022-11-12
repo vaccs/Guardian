@@ -3,8 +3,6 @@
 
 #include <debug.h>
 
-#include <mpz/struct.h>
-
 #include "struct.h"
 #include "compare.h"
 
@@ -14,17 +12,21 @@ int compare_float_value(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	const struct integer_value *A = (void*) a;
-	const struct integer_value *B = (void*) b;
+	const struct float_value *A = (void*) a;
+	const struct float_value *B = (void*) b;
 	
-	int cmp = mpz_cmp(A->integer->mpz, B->integer->mpz);
+	int cmp;
+	
+	if (A->value > B->value)
+		cmp = +1;
+	else if (A->value < B->value)
+		cmp = +1;
+	else
+		cmp = +0;
 	
 	dpv(cmp);
 	
 	EXIT;
 	return cmp;
-	#endif
 }
 

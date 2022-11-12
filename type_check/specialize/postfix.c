@@ -20,7 +20,9 @@
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
 #include <expression/funccall/new.h>
+#include <expression/funccall/run.h>
 #include <expression/list_index/new.h>
+#include <expression/list_index/run.h>
 #include <expression/dict_index/new.h>
 #include <expression/tuple_index/new.h>
 #include <expression/fieldaccess/new.h>
@@ -28,9 +30,12 @@
 
 #include <type/tuple/struct.h>
 
+#include <value/tuple/struct.h>
 #include <list/expression/struct.h>
 
 #include <list/type/struct.h>
+
+#include <value/inc.h>
 
 /*#include <parameter/struct.h>*/
 
@@ -50,7 +55,7 @@
 
 #include <value/int/struct.h>
 #include <value/list/struct.h>
-#include <value/lambda/call.h>
+/*#include <value/lambda/call.h>*/
 /*#include <value/inc.h>*/
 #include <value/free.h>
 
@@ -94,33 +99,17 @@ struct expression* specialize_postfix_expression(
 					
 					if (sub->kind == ek_literal && index->kind == ek_literal)
 					{
-						struct literal_expression* spef_sub = (void*) sub;
-						struct literal_expression* spef_index = (void*) index;
+						struct literal_expression* sublit = (void*) sub;
+						struct literal_expression* idxlit = (void*) index;
 						
-						struct list_value* list = (void*) spef_sub->value;
-						struct int_value* index = (void*) spef_index->value;
+						struct list_value* list = (void*) sublit->value;
+						struct int_value* index = (void*) idxlit->value;
 						
-						if (mpz_fits_uint_p(index->integer->mpz))
-						{
-							unsigned long raw_index = mpz_get_ui(index->integer->mpz);
-							
-							dpv(raw_index);
-							
-							if (raw_index < list->elements->n)
-							{
-								struct value* element = list->elements->data[raw_index];
-								
-								retval = new_literal_expression(element);
-							}
-							else
-							{
-								TODO;
-							}
-						}
-						else
-						{
-							TODO;
-						}
+						struct value* value = list_index_run(ltype->element_type, list, index);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
 					}
 					else
 					{
@@ -208,7 +197,15 @@ struct expression* specialize_postfix_expression(
 			{
 				if (sub->kind == ek_literal)
 				{
-					TODO;
+					struct literal_expression* sublit = (void*) sub;
+					
+					struct tuple_value* tupval = (void*) sublit->value;
+					
+					struct value* value = inc_value(tupval->subvalues->data[index]);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
 				}
 				else
 				{
@@ -288,13 +285,14 @@ struct expression* specialize_postfix_expression(
 					value_list_append(valargs, le->value);
 				}
 				
-				struct value* result = lambda_value_call(lambda, valargs);
+				struct value* result = funccall_run(lambda, valargs);
 				
 				assert(lambda_type->rettype == result->type);
 				
 				retval = new_literal_expression(result);
 				
 				free_value(result);
+				
 				free_value_list(valargs);
 			}
 			else

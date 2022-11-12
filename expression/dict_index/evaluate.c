@@ -9,7 +9,7 @@
 #include <type/dict/struct.h>
 
 #include <value/struct.h>
-#include <value/dict/lookup.h>
+/*#include <value/dict/lookup.h>*/
 #include <value/free.h>
 
 #include "../evaluate.h"
@@ -25,6 +25,8 @@ struct value* dict_index_expression_evaluate(
 	
 	assert(super->kind == ek_dict_index);
 	
+	TODO;
+	#if 0
 	struct dict_index_expression* this = (void*) super;
 	
 	struct value* dict = expression_evaluate(this->dict, scope);
@@ -47,6 +49,7 @@ struct value* dict_index_expression_evaluate(
 	
 	EXIT;
 	return value;
+	#endif
 }
 
 

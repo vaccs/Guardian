@@ -1,10 +1,7 @@
 
 #include <debug.h>
 
-#include <avl/alloc_tree.h>
-
-#include <pair/value/compare.h>
-#include <pair/value/free.h>
+#include <list/value_pair/inc.h>
 
 #include "../new.h"
 
@@ -13,7 +10,8 @@
 #include "new.h"
 
 struct value* new_dict_value(
-	struct type* type)
+	struct type* type,
+	struct value_pair_list* elements)
 {
 	ENTER;
 	
@@ -23,7 +21,7 @@ struct value* new_dict_value(
 		&dict_value_inheritance,
 		sizeof(*this));
 	
-	this->tree = avl_alloc_tree(compare_value_pairs, free_value_pair);
+	this->elements = inc_value_pair_list(elements);
 	
 	EXIT;
 	return (void*) this;

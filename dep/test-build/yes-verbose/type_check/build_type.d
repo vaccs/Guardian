@@ -4,4 +4,5 @@ bin/test-build/yes-verbose/./type_check/build_type.o: \
  list/type/free.h type_cache/get_type/int.h type_cache/get_type/bool.h \
  type_cache/get_type/dict.h type_cache/get_type/list.h \
  type_cache/get_type/float.h type_cache/get_type/lambda.h \
+ type_cache/get_type/set.h type_cache/get_type/char.h \
  type_cache/get_type/grammar.h type_check/build_type.h
