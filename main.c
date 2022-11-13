@@ -127,8 +127,6 @@ int main(int argc, char* const* argv)
 	fclose(stream);
 	
 	free_yacc_state(start);
-	
-	free_lex(lex);
 	#endif
 	
 	free_raw_declaration_list(raw_declarations);
@@ -148,6 +146,8 @@ int main(int argc, char* const* argv)
 	avl_free_tree(types);
 	
 	free_cmdln(flags);
+	
+	free_lex(lex);
 	
 	EXIT;
 	#ifdef DEBUGGING

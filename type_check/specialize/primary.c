@@ -503,6 +503,7 @@ static struct expression* specialize_primary_dict_expression(
 		retval = new_literal_expression(new);
 		
 		free_value(new);
+		free_value_pair_list(valelements);
 	}
 	else
 	{

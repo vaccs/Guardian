@@ -11,6 +11,8 @@
 void free_value_list(
 	struct value_list* this)
 {
+	ENTER;
+	
 	if (this && !--this->refcount)
 	{
 		while (this->n--)
@@ -21,5 +23,7 @@ void free_value_list(
 		free(this->data);
 		free(this);
 	}
+	
+	EXIT;
 }
 

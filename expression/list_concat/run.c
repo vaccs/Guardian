@@ -24,6 +24,8 @@ struct value* list_concat_run(
 	
 	struct value* value = new_list_value(type, concat);
 	
+	free_value_list(concat);
+	
 	EXIT;
 	return value;
 }

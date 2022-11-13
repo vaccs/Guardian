@@ -22,6 +22,8 @@ int compare_list_value(
 	
 	cmp = compare_value_lists(A->elements, B->elements);
 	
+	EXIT;
+	
 	return cmp;
 }
 
