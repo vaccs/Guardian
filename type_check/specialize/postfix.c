@@ -136,7 +136,7 @@ struct expression* specialize_postfix_expression(
 						
 						struct dict_value* dict = (void*) sublit->value;
 						
-						struct value* value = dict_index_run(dtype->value, dict, idxlit->value);
+						struct value* value = dict_index_run(dict, idxlit->value);
 						
 						retval = new_literal_expression(value);
 						

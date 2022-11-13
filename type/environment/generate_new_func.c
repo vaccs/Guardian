@@ -3,12 +3,16 @@
 
 #include <debug.h>
 
+#include <string/struct.h>
+
 #include <avl/foreach.h>
 
 #include <named/type/struct.h>
 
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
+
+#include <out/function_queue/submit_inc.h>
 
 #include "struct.h"
 #include "generate_new_func.h"
@@ -20,8 +24,6 @@ struct stringtree* environment_type_generate_new_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_environment);
 	
 	struct environment_type* this = (void*) super;
@@ -30,12 +32,9 @@ struct stringtree* environment_type_generate_new_func(
 	
 	if (this->prev)
 	{
-		TODO;
-		#if 0
 		stringtree_append_printf(text, ""
-			"struct type_%u* func_%u(environment value)"
-		"", type_id, func_id);
-		#endif
+			"struct type_%u* func_%u(struct type_%u* prev)"
+		"", super->id, func_id, this->prev->super.id);
 	}
 	else
 	{
@@ -49,27 +48,33 @@ struct stringtree* environment_type_generate_new_func(
 			"struct type_%u* this = malloc(sizeof(*this));"
 	"", super->id);
 	
+	if (this->prev)
+	{
+		unsigned inc_id = function_queue_submit_inc(flookup, &this->prev->super);
+		
+		stringtree_append_printf(text, "this->prev = func_%u(prev);", inc_id);
+	}
+	
 	avl_foreach(this->variables, ({
 		void runme(void* ptr)
 		{
 			struct named_type* ntype = ptr;
 			
 			stringtree_append_printf(text, ""
-				"this->%.*s = NULL;"
+				"this->$%.*s = NULL;"
 			"", ntype->name->len, ntype->name->chars);
 		}
 		runme;
 	}));
 	
 	stringtree_append_printf(text, ""
-			"this->__refcount = 1;"
+			"this->refcount = 1;"
 			"return this;"
 		"}"
 	"");
 	
 	EXIT;
 	return text;
-	#endif
 }
 
 

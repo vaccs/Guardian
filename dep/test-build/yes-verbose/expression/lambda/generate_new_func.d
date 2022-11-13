@@ -1,4 +1,9 @@
 bin/test-build/yes-verbose/./expression/lambda/generate_new_func.o: \
  expression/lambda/generate_new_func.c debug.h string/struct.h \
- expression/lambda/struct.h expression/lambda/../struct.h \
- expression/lambda/../kind.h expression/lambda/generate_new_func.h
+ stringtree/new.h stringtree/append_printf.h type/struct.h type/kind.h \
+ type/environment/struct.h type/environment/../struct.h out/shared.h \
+ out/subtype_queue/submit.h out/function_queue/submit_new.h \
+ out/function_queue/submit_lambda_evaluate.h \
+ out/function_queue/submit_lambda_free.h expression/lambda/struct.h \
+ expression/lambda/../struct.h expression/lambda/../kind.h \
+ expression/lambda/generate_new_func.h

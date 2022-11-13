@@ -11,6 +11,8 @@
 
 #include <type_cache/get_type/grammar.h>
 #include <type_cache/get_type/int.h>
+#include <type_cache/get_type/bool.h>
+#include <type_cache/get_type/float.h>
 #include <type_cache/get_type/char.h>
 #include <type_cache/get_type/charlist.h>
 
@@ -86,6 +88,31 @@ void reductioninfo_print_source(
 								free_char_id,
 								name->len, name->chars);
 							}
+							else if (node->tokentype->bool_)
+							{
+								struct type* type = type_cache_get_bool_type(shared->tcache);
+								
+								unsigned new_id = function_queue_submit_new(shared->fqueue, type);
+								
+								stringtree_append_printf(tree, ""
+									"{"
+										"if (token->len == 4 && !memcmp(token->data, \"true\", 4))"
+										"{"
+											"value->$%.*s = func_%u(true);"
+										"}"
+										"else if (token->len == 5 && !memcmp(token->data, \"false\", 5))"
+										"{"
+											"value->$%.*s = func_%u(false);"
+										"}"
+										"else"
+										"{"
+											"assert(!\"TODO: bad boolean input\");"
+										"}"
+									"}"
+								"",
+								name->len, name->chars, new_id,
+								name->len, name->chars, new_id);
+							}
 							else if (node->tokentype->char_)
 							{
 								TODO;
@@ -109,7 +136,22 @@ void reductioninfo_print_source(
 							}
 							else if (node->tokentype->float_)
 							{
-								TODO;
+								struct type* type = type_cache_get_float_type(shared->tcache);
+								
+								unsigned new_id = function_queue_submit_new(shared->fqueue, type);
+								
+								stringtree_append_printf(tree, ""
+									"{"
+										"errno = 0;"
+										"char* m;"
+										"long double number = strtold((char*) token->data, &m);"
+										"if (errno || *m) {"
+											"assert(!\"TODO: bad float input\");"
+											"exit(1);"
+										"}"
+										"value->$%.*s = func_%u(number);"
+									"}"
+								"", name->len, name->chars, new_id);
 							}
 							else
 							{

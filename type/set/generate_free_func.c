@@ -18,8 +18,6 @@ struct stringtree* set_type_generate_free_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_set);
 	
 	struct set_type* this = (void*) super;
@@ -46,7 +44,6 @@ struct stringtree* set_type_generate_free_func(
 	
 	EXIT;
 	return text;
-	#endif
 }
 
 

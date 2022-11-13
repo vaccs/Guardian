@@ -3,31 +3,31 @@
 
 #include <debug.h>
 
-/*#include <type/struct.h>*/
+#include <type/struct.h>
 
 /*#include <string/struct.h>*/
 
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/append_printf.h>*/
-/*#include <stringtree/free.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/free.h>
 
 /*#include <set/string/add.h>*/
 
 /*#include <quack/append.h>*/
 
-/*#include <type_cache/get_type/bool.h>*/
+#include <type_cache/get_type/bool.h>
 
-/*#include <out/shared.h>*/
-/*#include <out/function_lookup/lookup_inc.h>*/
+#include <out/shared.h>
 /*#include <out/declare_queue/submit.h>*/
 /*#include <out/set_queue/submit.h>*/
-/*#include <out/type_queue/submit.h>*/
-/*#include <out/function_queue/submit_free.h>*/
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_free.h>
 
 /*#include <type/struct.h>*/
 
-/*#include "../print_source.h"*/
+#include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
@@ -39,8 +39,6 @@ struct stringtree* implication_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_implication);
 	
 	struct stringtree* tree = new_stringtree();
@@ -79,17 +77,24 @@ struct stringtree* implication_expression_print_source(
 	stringtree_append_tree(tree, right_text);
 	stringtree_append_printf(tree, ";");
 	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, btype);
+	
 	stringtree_append_printf(tree, ""
 			"}"
+			"else"
+			"{"
+				"func_%u(result);"
+				"result = func_%u(true);"
+			"}"
+			
 			"result;"
 		"})"
-	"");
+	"", free_id, new_id);
 	
 	free_stringtree(left_text), free_stringtree(right_text);
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

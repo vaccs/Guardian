@@ -8,9 +8,9 @@
 /*#include <string/struct.h>*/
 
 #include <stringtree/new.h>
-/*#include <stringtree/append_tree.h>*/
+#include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>
-/*#include <stringtree/free.h>*/
+#include <stringtree/free.h>
 
 /*#include <set/string/add.h>*/
 
@@ -18,14 +18,13 @@
 
 /*#include <type_cache/get_type/bool.h>*/
 
-/*#include <out/shared.h>*/
-/*#include <out/function_lookup/lookup_inc.h>*/
-/*#include <out/declare_queue/submit.h>*/
-/*#include <out/set_queue/submit.h>*/
-/*#include <out/type_queue/submit.h>*/
-/*#include <out/function_queue/submit_free.h>*/
+#include <out/shared.h>
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_append.h>
+#include <out/function_queue/submit_free.h>
 
-/*#include <type/struct.h>*/
+#include <type/struct.h>
 
 #include "../print_source.h"
 
@@ -43,12 +42,46 @@ struct stringtree* list_concat_expression_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
-	stringtree_append_printf(tree, ""
-		"({"
-			"assert(!\"TODO: list concat!\");"
-			"NULL;"
-		"})"
-	"");
+	type_queue_submit(shared->tqueue, super->type);
+	
+	struct list_concat_expression* this = (void*) super;
+	
+	stringtree_append_printf(tree, "({");
+	
+	struct stringtree* left = expression_print_source(this->left, shared, environment);
+	
+	struct stringtree* right = expression_print_source(this->right, shared, environment);
+	
+	stringtree_append_printf(tree, "struct type_%u* left = ", super->type->id);
+	stringtree_append_tree(tree, left);
+	stringtree_append_printf(tree, ";");
+	
+	stringtree_append_printf(tree, "struct type_%u* right = ", super->type->id);
+	stringtree_append_tree(tree, right);
+	stringtree_append_printf(tree, ";");
+	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree, "struct type_%u* concat = func_%u();", super->type->id, new_id);
+	
+	unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree, "for (unsigned i = 0, n = left->n; i < n; i++)");
+	stringtree_append_printf(tree, "	func_%u(concat, left->data[i]);", append_id);
+	
+	stringtree_append_printf(tree, "for (unsigned i = 0, n = right->n; i < n; i++)");
+	stringtree_append_printf(tree, "	func_%u(concat, right->data[i]);", append_id);
+	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree, "func_%u(left);", free_id);
+	stringtree_append_printf(tree, "func_%u(right);", free_id);
+	
+	stringtree_append_printf(tree, "concat;");
+	
+	stringtree_append_printf(tree, "})");
+	
+	free_stringtree(left), free_stringtree(right);
 	
 	EXIT;
 	return tree;
@@ -65,54 +98,6 @@ struct stringtree* list_concat_expression_print_source(
 
 
 
-
-
-
-#if 0
-
-	type_queue_submit(shared->tqueue, super->type);
-	
-	struct list_concat_expression* this = (void*) super;
-	
-	struct type* btype = type_cache_get_bool_type(shared->tcache);
-	
-	type_queue_submit(shared->tqueue, btype);
-	
-	stringtree_append_printf(tree, ""
-		"({"
-	"");
-	
-	struct stringtree* left_text = expression_print_source(this->left, shared, environment);
-	
-	stringtree_append_printf(tree, ""
-			"struct type_%u* result = "
-	"", btype->id);
-	stringtree_append_tree(tree, left_text);
-	stringtree_append_printf(tree, ";");
-	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, btype);
-	
-	stringtree_append_printf(tree, ""
-			"if (!result->value)"
-			"{"
-				"func_%u(result);"
-				"result = "
-	"", free_id);
-	
-	struct stringtree* right_text = expression_print_source(this->right, shared, environment);
-	
-	stringtree_append_tree(tree, right_text);
-	stringtree_append_printf(tree, ";");
-	
-	stringtree_append_printf(tree, ""
-			"}"
-			"result;"
-		"})"
-	"");
-	
-	free_stringtree(left_text), free_stringtree(right_text);
-	
-	#endif
 
 
 

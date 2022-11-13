@@ -16,8 +16,6 @@ struct stringtree* dict_type_generate_new_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	unsigned type_id = super->id;
 	
 	assert(super->kind == tk_dict);
@@ -25,18 +23,17 @@ struct stringtree* dict_type_generate_new_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"struct type_%u* func_%u() {"
+		"struct type_%u* func_%u(struct type_%u_pair* data, unsigned n)"
+		"{"
 			"struct type_%u* this = malloc(sizeof(*this));"
-			"this->data = NULL;"
-			"this->n = 0;"
-			"this->cap = 0;"
+			"this->data = data;"
+			"this->n = n;"
 			"this->refcount = 1;"
 			"return this;"
 		"}"
-	"", type_id, func_id, type_id);
+	"", type_id, func_id, type_id, type_id);
 	
 	EXIT;
 	return text;
-	#endif
 }
 

@@ -3,6 +3,8 @@
 
 #include <debug.h>
 
+#include <string/struct.h>
+
 #include <avl/foreach.h>
 
 #include <stringtree/new.h>
@@ -23,8 +25,6 @@ struct stringtree* environment_type_generate_typedef(
 	
 	assert(super->kind == tk_environment);
 	
-	TODO;
-	#if 0
 	struct environment_type* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -44,20 +44,19 @@ struct stringtree* environment_type_generate_typedef(
 			type_queue_submit(tlookup, ntype->type);
 			
 			stringtree_append_printf(tree, ""
-				"struct type_%u* %.*s;"
+				"struct type_%u* $%.*s;"
 			"", ntype->type->id, ntype->name->len, ntype->name->chars);
 		}
 		runme;
 	}));
 	
 	stringtree_append_printf(tree, ""
-			"unsigned __refcount;"
+			"unsigned refcount;"
 		"};"
 	"");
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

@@ -4,6 +4,7 @@ bin/test-build/no-verbose/./type_check/specialize/exponentiation.o: \
  value/float/struct.h value/float/../struct.h value/float/../kind.h \
  value/free.h expression/struct.h expression/kind.h \
  expression/literal/struct.h expression/literal/../struct.h \
- expression/literal/new.h expression/int_math/new.h \
+ expression/literal/new.h expression/float_math/new.h \
+ expression/float_math/kind.h expression/int_math/new.h \
  expression/int_math/kind.h expression/int_math/run.h expression/free.h \
  type_check/specialize/unary.h type_check/specialize/exponentiation.h

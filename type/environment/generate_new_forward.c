@@ -15,20 +15,26 @@ struct stringtree* environment_type_generate_new_forward(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	unsigned type_id = super->id;
-	
 	assert(super->kind == tk_environment);
+	
+	struct environment_type* this = (void*) super;
 	
 	struct stringtree* text = new_stringtree();
 	
-	stringtree_append_printf(text, ""
-		"auto struct type_%u* func_%u(environment value);"
-	"", type_id, func_id);
+	if (this->prev)
+	{
+		stringtree_append_printf(text, ""
+			"auto struct type_%u* func_%u(struct type_%u* prev);"
+		"", super->id, func_id, this->prev->super.id);
+	}
+	else
+	{
+		stringtree_append_printf(text, ""
+			"auto struct type_%u* func_%u();"
+		"", super->id, func_id);
+	}
 	
 	EXIT;
 	return text;
-	#endif
 }
 

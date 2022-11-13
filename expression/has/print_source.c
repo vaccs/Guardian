@@ -3,12 +3,20 @@
 
 #include <debug.h>
 
+#include <string/struct.h>
+
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_append.h>
 #include <out/function_queue/submit_free.h>
 
 #include <type/struct.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include "../print_source.h"
 
@@ -22,51 +30,36 @@ struct stringtree* has_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct has_expression* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
-	struct expression* list = this->list;
+	type_queue_submit(shared->tqueue, super->type);
 	
-	struct type* rtype = super->type;
+	stringtree_append_printf(tree, "({");
 	
-	struct type* ltype = list->type;
+	stringtree_append_printf(tree, "struct type_%u* object = ", this->object->type->id);
 	
-	type_queue_submit(shared->tqueue, rtype);
-	type_queue_submit(shared->tqueue, ltype);
+	struct stringtree* object = expression_print_source(this->object, shared, environment);
+	stringtree_append_tree(tree, object);
+	stringtree_append_printf(tree, ";");
 	
-	unsigned rtype_id = rtype->id;
-	unsigned ltype_id = ltype->id;
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
-	stringtree_append_printf(tree, ""
-		"({"
-			"type_%u* list = "
-	"", ltype_id);
+	stringtree_append_printf(tree, "struct type_%u* result = func_%u(!!object->$%.*s);",
+		super->type->id, new_id, this->fieldname->len, this->fieldname->chars);
 	
-	struct stringtree* expression = expression_print_source(this->list, shared);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, this->object->type);
+	stringtree_append_printf(tree, "func_%u(object);", free_id);
 	
-	stringtree_append_tree(tree, expression);
+	stringtree_append_printf(tree, "result;");
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, rtype);
+	stringtree_append_printf(tree, "})");
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
-	
-	stringtree_append_printf(tree, ""
-			";"
-			"type_%u* has = func_%u();"
-			"mpz_set_ui(has->value, list->n);"
-			"func_%u(list);"
-			"has;"
-		"})"
-	"", rtype_id, new_id, free_id);
-	
-	free_stringtree(expression);
+	free_stringtree(object);
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

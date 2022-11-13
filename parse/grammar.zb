@@ -5,6 +5,7 @@
 tokentype
 	: "int" #int_
 	| "char" #char_
+	| "bool" #bool_
 	| "float" #float_
 	;
 
@@ -22,8 +23,8 @@ grammar_postfix: grammar_highest #base
 	('+' #plus | '?' #qmark | '*' #star
 	| '{' `int` #n                 '}'
 	| '{' `int` #n ',' #c          '}'
-	| '{'          ','    `int` #m '}'
-	| '{' `int` #n ','    `int` #m '}')?;
+	| '{'          ',' #c `int` #m '}'
+	| '{' `int` #n ',' #c `int` #m '}')?;
 
 grammar_juxtaposition: grammar_postfix #base (grammar_postfix #juxtapositions[])*;
 

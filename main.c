@@ -107,7 +107,6 @@ int main(int argc, char* const* argv)
 		raw_declarations, raw_assertions,
 		declarations, assertions);
 	
-	#if 0
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
 	struct stringtree* content = out(tcache, types, declarations, assertions, start);
@@ -126,9 +125,6 @@ int main(int argc, char* const* argv)
 	
 	fclose(stream);
 	
-	free_yacc_state(start);
-	#endif
-	
 	free_raw_declaration_list(raw_declarations);
 	
 	free_raw_assertion_list(raw_assertions);
@@ -140,6 +136,8 @@ int main(int argc, char* const* argv)
 	avl_free_tree(structinfos);
 	
 	free_type_cache(tcache);
+	
+	free_yacc_state(start);
 	
 	avl_free_tree(grammar);
 	

@@ -35,14 +35,16 @@ int compare_environment_types(
 				?: compare_types(ae->type, be->type);
 			
 			if (cmp) return cmp;
+			
+			an = an->next, bn = bn->next;
 		}
 		
 		if (an)
 			return +1;
 		else if (bn)
 			return -1;
-		else
-			return 0;
+			
+		return 0;
 	}
 }
 

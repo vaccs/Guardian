@@ -48,6 +48,8 @@ struct stringtree* tuple_expression_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
+	type_queue_submit(shared->tqueue, super->type);
+	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, ""

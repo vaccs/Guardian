@@ -18,6 +18,7 @@
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
+#include <expression/float_math/new.h>
 #include <expression/int_math/new.h>
 #include <expression/int_math/run.h>
 #include <expression/free.h>
@@ -95,7 +96,7 @@ struct expression* specialize_exponentiation_expression(
 				}
 				else
 				{
-					retval = new_int_math_expression(left->type, imek_expo, left, right);
+					retval = new_float_math_expression(left->type, fmek_expo, left, right);
 				}
 				break;
 			}

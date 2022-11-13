@@ -29,8 +29,6 @@ struct stringtree* list_index_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_list_index);
 	
 	struct list_index_expression* this = (void*) super;
@@ -79,7 +77,6 @@ struct stringtree* list_index_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

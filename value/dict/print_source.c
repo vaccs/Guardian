@@ -3,17 +3,22 @@
 
 #include <debug.h>
 
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/append_printf.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/free.h>
 
-/*#include <dict/value/struct.h>*/
+#include <out/shared.h>
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_new.h>
 
-/*#include <out/get_type_id.h>*/
+#include <type/struct.h>
 
-/*#include <type/dict/struct.h>*/
+#include <pair/value/struct.h>
 
-/*#include "../print_source.h"*/
+#include <list/value_pair/struct.h>
+
+#include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
@@ -25,51 +30,51 @@ struct stringtree* dict_value_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct dict_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
 	struct type* type = super->type;
 	
-	assert(type->kind == tk_dict);
+/*	struct dict_type* dtype = (void*) type;*/
 	
-	struct dict_type* ltype = (void*) type;
-	
-	struct type* etype = ltype->element_type;
-	
-	unsigned tid = out_get_type_id(shared, type);
-	
-	unsigned eid = out_get_type_id(shared, etype);
-	
-	struct value_dict* elements = this->elements;
+	type_queue_submit(shared->tqueue, type);
 	
 	stringtree_append_printf(tree, "({");
 	
-	unsigned n = elements->n;
+	struct value_pair_list* elements = this->elements;
 	
 	stringtree_append_printf(tree,
-		"type_%u* data = malloc(sizeof(*data) * %lu);", eid, n);
+		"struct type_%u_pair* data = malloc(sizeof(*data) * %u);", type->id, elements->n);
 	
-	for (unsigned i = 0; i < n; i++)
+	for (unsigned i = 0, n = elements->n; i < n; i++)
 	{
-		struct value* element = elements->data[i];
+		struct value_pair* element = elements->data[i];
 		
-		stringtree_append_printf(tree, "data[%lu] = ", i);
+		struct stringtree* key = value_print_source(element->key, shared, environment);
 		
-		stringtree_append_tree(tree, value_print_source(element, shared));
-		
+		stringtree_append_printf(tree, "data[%u].key = ", i);
+		stringtree_append_tree(tree, key);
 		stringtree_append_printf(tree, ";");
+		
+		struct stringtree* value = value_print_source(element->value, shared, environment);
+		
+		stringtree_append_printf(tree, "data[%u].value = ", i);
+		stringtree_append_tree(tree, value);
+		stringtree_append_printf(tree, ";");
+		
+		free_stringtree(key);
+		free_stringtree(value);
 	}
 	
-	stringtree_append_printf(tree, "new_type_%u(data, %lu);", tid, n);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree, "func_%u(data, %u);", new_id, elements->n);
 	
 	stringtree_append_printf(tree, "})");
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

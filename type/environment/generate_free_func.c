@@ -3,6 +3,8 @@
 
 #include <debug.h>
 
+#include <string/struct.h>
+
 #include <avl/foreach.h>
 
 #include <named/type/struct.h>
@@ -22,8 +24,6 @@ struct stringtree* environment_type_generate_free_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_environment);
 	
 	struct environment_type* this = (void*) super;
@@ -33,9 +33,16 @@ struct stringtree* environment_type_generate_free_func(
 	stringtree_append_printf(text, ""
 		"void func_%u(struct type_%u* this)"
 		"{"
-			"if (this && !--this->__refcount)"
+			"if (this && !--this->refcount)"
 			"{"
 	"", func_id, super->id);
+	
+	if (this->prev)
+	{
+		unsigned free_id = function_queue_submit_free(flookup, &this->prev->super);
+		
+		stringtree_append_printf(text, "func_%u(this->prev);", free_id);
+	}
 	
 	avl_foreach(this->variables, ({
 		void runme(void* ptr)
@@ -45,7 +52,7 @@ struct stringtree* environment_type_generate_free_func(
 			unsigned free_id = function_queue_submit_free(flookup, ntype->type);
 			
 			stringtree_append_printf(text, ""
-				"func_%u(this->%.*s);"
+				"func_%u(this->$%.*s);"
 			"", free_id, ntype->name->len, ntype->name->chars);
 		}
 		runme;
@@ -58,7 +65,6 @@ struct stringtree* environment_type_generate_free_func(
 	
 	EXIT;
 	return text;
-	#endif
 }
 
 

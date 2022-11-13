@@ -324,6 +324,8 @@ struct stringtree* out(
 		declaration_list_foreach(declarations, ({
 			void runme(struct declaration* declaration)
 			{
+				dpvs(declaration->name);
+				
 				struct named_type* new = new_named_type(declaration->name, declaration->expression->type);
 				
 				void* ptr2 = avl_insert(environment_tree, new);
@@ -369,7 +371,7 @@ struct stringtree* out(
 				unsigned new_id = function_queue_submit_new(shared.fqueue, ltype);
 				
 				stringtree_append_printf(assign_sets_text, ""
-					"environment->%.*s = func_%u();"
+					"environment->$%.*s = func_%u();"
 				"", ntype->name->len, ntype->name->chars, new_id);
 			}
 			runme;
@@ -387,7 +389,7 @@ struct stringtree* out(
 			struct expression* expression = declaration->expression;
 			
 			stringtree_append_printf(assign_declarations_text, ""
-				"environment->%.*s = "
+				"environment->$%.*s = "
 			"", name->len, name->chars);
 			
 			struct stringtree* subtext =

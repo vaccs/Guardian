@@ -273,7 +273,6 @@ void type_check(
 		runme;
 	}));
 	
-	#if 0
 	raw_assertion_list_foreach(raw_assertions, ({
 		void runme(struct raw_assertion* raw_assertion)
 		{
@@ -328,8 +327,6 @@ void type_check(
 		}
 		runme;
 	}));
-	
-	#endif
 	
 	type_check_scope_pop(scope);
 	

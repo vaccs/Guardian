@@ -27,8 +27,6 @@ struct stringtree* ternary_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_ternary);
 	
 	struct ternary_expression* this = (void*) super;
@@ -48,7 +46,7 @@ struct stringtree* ternary_expression_print_source(
 			"struct type_%u* conditional = "
 	"", btype->id);
 	
-	struct stringtree* conditional = expression_print_source(this->conditional, shared);
+	struct stringtree* conditional = expression_print_source(this->conditional, shared, environment);
 	
 	stringtree_append_tree(tree, conditional);
 	
@@ -60,13 +58,13 @@ struct stringtree* ternary_expression_print_source(
 		"struct type_%u* result = conditional->value ? ("
 	"", rtype->id);
 	
-	struct stringtree* true_case = expression_print_source(this->true_case, shared);
+	struct stringtree* true_case = expression_print_source(this->true_case, shared, environment);
 	
 	stringtree_append_tree(tree, true_case);
 	
 	stringtree_append_printf(tree, ") : (");
 	
-	struct stringtree* false_case = expression_print_source(this->false_case, shared);
+	struct stringtree* false_case = expression_print_source(this->false_case, shared, environment);
 	
 	stringtree_append_tree(tree, false_case);
 	
@@ -85,7 +83,6 @@ struct stringtree* ternary_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

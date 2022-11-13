@@ -1,4 +1,6 @@
 
+struct environment_type;
+struct expression;
 struct out_shared;
 
 struct stringtree* tuple_concat_expression_print_source(

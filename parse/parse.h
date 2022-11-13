@@ -456,6 +456,7 @@ struct zebu_start_directive
 
 struct zebu_tokentype
 {
+	struct zebu_token* bool_;
 	struct zebu_token* char_;
 	struct zebu_token* float_;
 	struct zebu_token* int_;

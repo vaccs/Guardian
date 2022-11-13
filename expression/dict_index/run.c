@@ -28,7 +28,6 @@
 #include "run.h"
 
 struct value* dict_index_run(
-	struct type* type,
 	struct dict_value* dict,
 	struct value* key)
 {

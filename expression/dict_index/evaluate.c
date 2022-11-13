@@ -14,6 +14,7 @@
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -25,8 +26,6 @@ struct value* dict_index_expression_evaluate(
 	
 	assert(super->kind == ek_dict_index);
 	
-	TODO;
-	#if 0
 	struct dict_index_expression* this = (void*) super;
 	
 	struct value* dict = expression_evaluate(this->dict, scope);
@@ -37,19 +36,12 @@ struct value* dict_index_expression_evaluate(
 	
 	assert(((struct dict_type*) dict->type)->key == index->type);
 	
-	struct value* value = dict_value_lookup(dict, index);
-	
-	if (!value)
-	{
-		TODO;
-		exit(1);
-	}
+	struct value* value = dict_index_run((struct dict_value*) dict, index);
 	
 	free_value(dict), free_value(index);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

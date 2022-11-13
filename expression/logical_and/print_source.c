@@ -39,8 +39,6 @@ struct stringtree* logical_and_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_logical_and);
 	
 	struct stringtree* tree = new_stringtree();
@@ -89,7 +87,6 @@ struct stringtree* logical_and_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

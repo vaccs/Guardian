@@ -71,7 +71,6 @@
 #include <parse/parse.h>
 
 #include <string/new.h>
-#include <string/process_escapes.h>
 #include <string/free.h>
 
 #include <list/expression/struct.h>

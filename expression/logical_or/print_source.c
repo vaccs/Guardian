@@ -10,6 +10,7 @@
 #include <stringtree/new.h>
 #include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>
+#include <stringtree/free.h>
 
 /*#include <set/string/add.h>*/
 
@@ -38,8 +39,6 @@ struct stringtree* logical_or_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_logical_or);
 	
 	struct stringtree* tree = new_stringtree();
@@ -56,7 +55,7 @@ struct stringtree* logical_or_expression_print_source(
 		"({"
 	"");
 	
-	struct stringtree* left_text = expression_print_source(this->left, shared);
+	struct stringtree* left_text = expression_print_source(this->left, shared, environment);
 	
 	stringtree_append_printf(tree, ""
 			"struct type_%u* result = "
@@ -73,7 +72,7 @@ struct stringtree* logical_or_expression_print_source(
 				"result = "
 	"", free_id);
 	
-	struct stringtree* right_text = expression_print_source(this->right, shared);
+	struct stringtree* right_text = expression_print_source(this->right, shared, environment);
 	
 	stringtree_append_tree(tree, right_text);
 	stringtree_append_printf(tree, ";");
@@ -84,9 +83,11 @@ struct stringtree* logical_or_expression_print_source(
 		"})"
 	"");
 	
+	free_stringtree(left_text);
+	free_stringtree(right_text);
+	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

@@ -40,15 +40,11 @@ struct stringtree* list_expression_print_source(
 	
 	struct type* type = super->type;
 	
-	assert(type->kind == tk_list);
-	
-	struct list_type* ltype = (void*) type;
+	struct list_type* ltype = (void*) super->type;
 	
 	struct type* etype = ltype->element_type;
 	
 	type_queue_submit(shared->tqueue, type);
-	
-	type_queue_submit(shared->tqueue, etype);
 	
 	stringtree_append_printf(tree, "({");
 	

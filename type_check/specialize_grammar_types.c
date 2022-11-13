@@ -14,7 +14,9 @@
 #include <type_cache/get_type/grammar.h>
 #include <type_cache/get_type/charlist.h>
 #include <type_cache/get_type/list.h>
+#include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/int.h>
+#include <type_cache/get_type/float.h>
 
 #include <yacc/structinfo/node/struct.h>
 #include <yacc/structinfo/foreach.h>
@@ -59,9 +61,19 @@ void specialize_grammar_types(
 								struct type* subtype = type_cache_get_charlist_type(tcache);
 								grammar_type_add_field(gtype, ele->name, subtype);
 							}
+							else if (ele->tokentype->bool_)
+							{
+								struct type* subtype = type_cache_get_bool_type(tcache);
+								grammar_type_add_field(gtype, ele->name, subtype);
+							}
 							else if (ele->tokentype->int_)
 							{
 								struct type* subtype = type_cache_get_int_type(tcache);
+								grammar_type_add_field(gtype, ele->name, subtype);
+							}
+							else if (ele->tokentype->float_)
+							{
+								struct type* subtype = type_cache_get_float_type(tcache);
 								grammar_type_add_field(gtype, ele->name, subtype);
 							}
 							else

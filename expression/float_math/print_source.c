@@ -25,7 +25,7 @@
 struct stringtree* float_math_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* enviroment)
+	struct environment_type* environment)
 {
 	ENTER;
 	
@@ -33,12 +33,199 @@ struct stringtree* float_math_expression_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
-/*	struct float_math_expression* this = (void*) super;*/
+	struct float_math_expression* this = (void*) super;
 	
-	stringtree_append_printf(tree, "({"
-		"assert(!\"TODO: float_math-expression\");"
-		"NULL;"
-	"})");
+	stringtree_append_printf(tree, "({");
+	
+	type_queue_submit(shared->tqueue, super->type);
+	
+	unsigned tid = super->type->id;
+	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	
+	switch (this->kind)
+	{
+		case fmek_negate:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(-left->value);"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left);", free_id);
+			
+			free_stringtree(left);
+			break;
+		}
+		
+		case fmek_add:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			struct stringtree* right = expression_print_source(this->right, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, "struct type_%u *right = ", tid);
+			stringtree_append_tree(tree, right);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(left->value + right->value);"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+			
+			free_stringtree(left), free_stringtree(right);
+			break;
+		}
+		
+		case fmek_subtract:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			struct stringtree* right = expression_print_source(this->right, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, "struct type_%u *right = ", tid);
+			stringtree_append_tree(tree, right);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(left->value - right->value);"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+			
+			free_stringtree(left), free_stringtree(right);
+			break;
+		}
+		
+		case fmek_multiply:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			struct stringtree* right = expression_print_source(this->right, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, "struct type_%u *right = ", tid);
+			stringtree_append_tree(tree, right);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(left->value * right->value);"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+			
+			free_stringtree(left), free_stringtree(right);
+			break;
+		}
+		
+		case fmek_qdivide:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			struct stringtree* right = expression_print_source(this->right, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, "struct type_%u *right = ", tid);
+			stringtree_append_tree(tree, right);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(left->value / right->value);"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+			
+			free_stringtree(left), free_stringtree(right);
+			break;
+		}
+		
+		case fmek_rdivide:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			struct stringtree* right = expression_print_source(this->right, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, "struct type_%u *right = ", tid);
+			stringtree_append_tree(tree, right);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(fmodl(left->value, right->value));"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+			
+			free_stringtree(left), free_stringtree(right);
+			break;
+		}
+		
+		case fmek_expo:
+		{
+			struct stringtree* left = expression_print_source(this->left, shared, environment);
+			
+			struct stringtree* right = expression_print_source(this->right, shared, environment);
+			
+			stringtree_append_printf(tree, "struct type_%u *left = ", tid);
+			stringtree_append_tree(tree, left);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, "struct type_%u *right = ", tid);
+			stringtree_append_tree(tree, right);
+			stringtree_append_printf(tree, ";");
+			
+			stringtree_append_printf(tree, ""
+				"struct type_%u* result = func_%u(powl(left->value, right->value));"
+			"", tid, new_id);
+			
+			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
+			
+			stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
+			
+			free_stringtree(left), free_stringtree(right);
+			break;
+		}
+	}
+	
+	stringtree_append_printf(tree, "result;");
+	
+	stringtree_append_printf(tree, "})");
+	
 	
 	EXIT;
 	return tree;

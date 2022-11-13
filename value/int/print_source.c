@@ -28,8 +28,6 @@ struct stringtree* int_value_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct int_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -44,9 +42,9 @@ struct stringtree* int_value_print_source(
 	
 	stringtree_append_printf(tree, "struct type_%u* new = func_%u();", tid, new_id);
 	
-	if (mpz_fits_slong_p(this->integer->mpz))
+	if (mpz_fits_slong_p(this->value->mpz))
 	{
-		signed long val = mpz_get_si(this->integer->mpz);
+		signed long val = mpz_get_si(this->value->mpz);
 		
 		stringtree_append_printf(tree, "mpz_set_si(new->value, %li);", val);
 	}
@@ -64,7 +62,6 @@ struct stringtree* int_value_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

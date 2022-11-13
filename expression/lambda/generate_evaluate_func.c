@@ -12,6 +12,7 @@
 
 #include <type/struct.h>
 #include <type/lambda/struct.h>
+#include <type/environment/struct.h>
 
 #include <list/parameter/foreach.h>
 
@@ -21,8 +22,10 @@
 
 #include <expression/print_source.h>
 
-/*#include <out/function_queue/submit_lambda_evaluate.h>*/
-/*#include <out/function_queue/submit_lambda_free.h>*/
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
+#include <out/function_queue/submit_lambda_evaluate.h>
+#include <out/function_queue/submit_lambda_free.h>
 
 #include "struct.h"
 #include "generate_evaluate_func.h"
@@ -34,21 +37,15 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	subtype_queue_submit(shared->stqueue, this);
 	
 	struct lambda_type* ltype = (void*) this->super.type;
 	
-	unsigned type_id = this->super.type->id;
-	
-	unsigned rettype_id = ltype->rettype->id;
-	
 	stringtree_append_printf(tree, ""
 		"struct type_%u* func_%u(struct type_%u* super"
-	"", rettype_id, func_id, type_id);
+	"", ltype->rettype->id, func_id, this->super.type->id);
 	
 	parameter_list_foreach(this->parameters, ({
 		void runme(struct string* name, struct type* type)
@@ -60,38 +57,46 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 		runme;
 	}));
 	
-	unsigned lambda_id = this->id;
+	stringtree_append_printf(tree, ")");
 	
-	stringtree_append_printf(tree, ""
-			")"
-		"{"
-	"");
+	stringtree_append_printf(tree, "{");
 	
-	if (capture_list_is_nonempty(this->captured))
-	{
-		stringtree_append_printf(tree, ""
-				"struct subtype_%u* this = (void*) super;"
-		"", lambda_id);
-	}
+	stringtree_append_printf(tree,
+		"struct subtype_%u* this = (void*) super;",
+		this->id);
 	
-	stringtree_append_printf(tree, ""
-			"return "
-	"");
+	unsigned new_id = function_queue_submit_new(shared->fqueue, &this->environment->super);
 	
-	struct stringtree* subtree = expression_print_source(this->body, shared);
+	stringtree_append_printf(tree,
+		"struct type_%u* environment = func_%u(prev);",
+		this->environment->super.id, new_id);
+	
+	parameter_list_foreach(this->parameters, ({
+		void runme(struct string* name, struct type* type)
+		{
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
+			
+			stringtree_append_printf(tree, ""
+				"environment->$%.*s = func_%u($%.*s);"
+			"", name->len, name->chars, inc_id, name->len, name->chars);
+		}
+		runme;
+	}));
+	
+	stringtree_append_printf(tree, "return ");
+	
+	struct stringtree* subtree = expression_print_source(this->body, shared, this->environment);
 	
 	stringtree_append_tree(tree, subtree);
 	
-	stringtree_append_printf(tree, ""
-			";"
-		"}"
-	"");
+	stringtree_append_printf(tree, ";");
+	
+	stringtree_append_printf(tree, "}");
 	
 	free_stringtree(subtree);
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

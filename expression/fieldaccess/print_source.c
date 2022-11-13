@@ -39,33 +39,26 @@ struct stringtree* fieldaccess_expression_print_source(
 	struct type* ftype = super->type;
 	struct type* otype = object->type;
 	
-	type_queue_submit(shared->tqueue, ftype);
-	type_queue_submit(shared->tqueue, otype);
-	
 	struct stringtree* tree = new_stringtree();
 	
 	stringtree_append_printf(tree, ""
 		"({"
 	"");
 	
-	stringtree_append_printf(tree, ""
-		"struct type_%u* object = "
-	"", otype->id);
-	
+	stringtree_append_printf(tree, "struct type_%u* object = ", otype->id);
 	struct stringtree* subtree = expression_print_source(this->object, shared, environment);
-	
 	stringtree_append_tree(tree, subtree);
+	stringtree_append_printf(tree, ";");
 	
 	struct string* fieldname = this->fieldname;
 	
 	unsigned inc_id = function_queue_submit_inc(shared->fqueue, ftype);
 	
 	stringtree_append_printf(tree, ""
-				";"
-			"if (!object->$%.*s) {"
-				"assert(!\"TODO: missing field!\");"
-			"}"
-			"struct type_%u* field = func_%u(object->$%.*s);"
+		"if (!object->$%.*s) {"
+			"assert(!\"TODO: missing field!\");"
+		"}"
+		"struct type_%u* field = func_%u(object->$%.*s);"
 	"", fieldname->len, fieldname->chars,
 	ftype->id, inc_id, fieldname->len, fieldname->chars);
 	

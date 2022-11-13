@@ -1,4 +1,5 @@
 
+struct type;
 struct string;
 struct parameter_list;
 

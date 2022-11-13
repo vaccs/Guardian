@@ -30,8 +30,6 @@ struct stringtree* tuple_index_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_tuple_index);
 	
 	struct stringtree* tree = new_stringtree();
@@ -42,7 +40,7 @@ struct stringtree* tuple_index_expression_print_source(
 	
 	struct type* subtype = this->tuple->type;
 	
-	struct stringtree* tuple_tree = expression_print_source(this->tuple, shared);
+	struct stringtree* tuple_tree = expression_print_source(this->tuple, shared, environment);
 	stringtree_append_printf(tree, "struct type_%u* tuple = ", subtype->id);
 	stringtree_append_tree(tree, tuple_tree);
 	stringtree_append_printf(tree, ";");
@@ -67,7 +65,6 @@ struct stringtree* tuple_index_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

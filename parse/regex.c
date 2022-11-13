@@ -51,7 +51,15 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				}
 				else if (highest->string)
 				{
-					TODO;
+					struct zebu_token* token = highest->string;
+					
+					dpvsn(token->data, token->len);
+					
+					token->len = escapes(token->data, token->len);
+					
+					dpvsn(token->data, token->len);
+					
+					retval = new_regex_from_string(token->data, token->len);
 				}
 				else if (highest->subregex)
 				{

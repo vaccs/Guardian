@@ -86,7 +86,7 @@ valrun-stop: $(buildprefix)/maia
 	valgrind --gen-suppressions=yes -- $< ${ARGS}
 
 valrun-leak: $(buildprefix)/maia
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -- $< ${ARGS}
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 -- $< ${ARGS}
 
 tracerun: $(buildprefix)/maia
 	strace $< $(ARGS)

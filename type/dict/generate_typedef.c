@@ -28,12 +28,33 @@ struct stringtree* dict_type_generate_typedef(
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
-			"struct {}* data;"
-			"unsigned n, cap, refcount;"
+			"struct type_%u_pair { "
+				"struct type_%u* key;"
+				"struct type_%u* value;"
+			"}* data;"
+			"unsigned n, refcount;"
 		"};"
-	"", super->id);
+	"", super->id, super->id, this->key->id, this->value->id);
 	
 	EXIT;
 	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

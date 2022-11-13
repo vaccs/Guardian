@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include <avl/search.h>
@@ -34,7 +36,9 @@ struct environment_type* type_cache_get_environment_type2(
 		struct environment_type* environment = new_environment_type(
 			this->next++, prev, variables);
 		
-		avl_insert(this->tree, environment);
+		void* ptr = avl_insert(this->tree, environment);
+		
+		assert(ptr);
 		
 		retval = environment;
 	}

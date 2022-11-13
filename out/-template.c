@@ -1,4 +1,5 @@
 
+#include <errno.h>
 #include <string.h>
 #include <assert.h>
 #include <unistd.h>
@@ -7,6 +8,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
+#include <math.h>
 #include <gmp.h>
 
 #define N(array) (sizeof(array) / sizeof(*array))

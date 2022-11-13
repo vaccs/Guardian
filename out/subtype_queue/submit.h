@@ -1,4 +1,5 @@
 
+struct subtype_queue;
 struct lambda_expression;
 
 void subtype_queue_submit(

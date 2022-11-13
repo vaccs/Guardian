@@ -49,22 +49,45 @@ struct stringtree* variable_expression_print_source(
 	
 	dpv(depth);
 	
+	stringtree_append_printf(tree, "({");
+	
+	stringtree_append_printf(tree, "struct type_%u* value = environment", super->type->id);
+	while (depth--) stringtree_append_printf(tree, "->prev");
+	stringtree_append_printf(tree, "->$%.*s;", this->name->len, this->name->chars);
+	
+	stringtree_append_printf(tree, "if (!value) {");
+	stringtree_append_printf(tree, "	assert(!\"TODO: use of unset variable!\");");
+	stringtree_append_printf(tree, "}");
+	
 	unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
+	stringtree_append_printf(tree, "func_%u(value);", inc_id);
 	
-	stringtree_append_printf(tree, ""
-		"func_%u(environment"
-	"", inc_id);
-	
-	while (depth--)
-		stringtree_append_printf(tree, "->prev");
-	
-	stringtree_append_printf(tree, ""
-		"->%.*s)"
-	"", this->name->len, this->name->chars);
+	stringtree_append_printf(tree, "})");
 	
 	EXIT;
 	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

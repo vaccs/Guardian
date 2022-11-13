@@ -10,10 +10,9 @@
 #include <stringtree/free.h>
 
 #include <type/struct.h>
-/*#include <type/print_source.h>*/
 #include <type/tuple/struct.h>
 
-#include <list/type/struct.h>
+#include <list/type/foreach.h>
 
 #include <out/shared.h>
 /*#include <out/type_lookup/lookup.h>*/
@@ -41,61 +40,57 @@ struct stringtree* tuple_concat_expression_print_source(
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
-	type_queue_submit(shared->tqueue, this->left->type);
+	struct stringtree* left = expression_print_source(this->left, shared, environment);
 	
-	type_queue_submit(shared->tqueue, this->right->type);
+	struct stringtree* right = expression_print_source(this->right, shared, environment);
 	
-	unsigned rid = super->type->id;
-	
-	unsigned left_id = this->left->type->id;
-	
-	unsigned right_id = this->right->type->id;
-	
-	struct stringtree* left_tree =
-		expression_print_source(this->left, shared, environment);
-	
-	struct stringtree* right_tree =
-		expression_print_source(this->right, shared, environment);
-	
-	stringtree_append_printf(tree, "struct type_%u *left = ", left_id);
-	stringtree_append_tree(tree, left_tree);
+	stringtree_append_printf(tree, "struct type_%u *left = ", this->left->type->id);
+	stringtree_append_tree(tree, left);
 	stringtree_append_printf(tree, ";\n");
 	
-	stringtree_append_printf(tree, "struct type_%u *right = ", right_id);
-	stringtree_append_tree(tree, right_tree);
+	stringtree_append_printf(tree, "struct type_%u *right = ", this->right->type->id);
+	stringtree_append_tree(tree, right);
 	stringtree_append_printf(tree, ";\n");
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u* result = func_%u("
-	"", rid, new_id);
+	"", super->type->id, new_id);
 	
 	struct tuple_type* left_type = (void*) this->left->type;
 	
 	bool first = true;
 	
-	for (unsigned i = 0, n = left_type->subtypes->n; i < n; i++)
-	{
-		if (first)
-			first = false;
-		else
-			stringtree_append_printf(tree, ", ");
-		
-		stringtree_append_printf(tree, "left->$%u", i);
-	}
-
+	unsigned argcounter = 0;
+	type_list_foreach(left_type->subtypes, ({
+		void runme(struct type* _)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			stringtree_append_printf(tree, "left->$%u", argcounter++);
+		}
+		runme;
+	}));
+	
 	struct tuple_type* right_type = (void*) this->right->type;
 	
-	for (unsigned i = 0, n = right_type->subtypes->n; i < n; i++)
-	{
-		if (first)
-			first = false;
-		else
-			stringtree_append_printf(tree, ", ");
-		
-		stringtree_append_printf(tree, "right->$%u", i);
-	}
+	argcounter = 0;
+	type_list_foreach(right_type->subtypes, ({
+		void runme(struct type* _)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			stringtree_append_printf(tree, "right->$%u", argcounter++);
+		}
+		runme;
+	}));
 	
 	stringtree_append_printf(tree, ""
 			");"
@@ -111,7 +106,7 @@ struct stringtree* tuple_concat_expression_print_source(
 	
 	stringtree_append_printf(tree, "})");
 	
-	free_stringtree(left_tree), free_stringtree(right_tree);
+	free_stringtree(left), free_stringtree(right);
 	
 	EXIT;
 	return tree;

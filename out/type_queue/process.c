@@ -45,14 +45,23 @@ void type_queue_process(
 			
 			ptrset_add(this->done, type);
 			
-			ptrset_discard(this->queued, type);
-			
 			free_stringtree(subtext);
 		}
+		
+		ptrset_discard(this->queued, type);
 	}
 	
 	this->text = text;
 	
 	EXIT;
 }
+
+
+
+
+
+
+
+
+
 

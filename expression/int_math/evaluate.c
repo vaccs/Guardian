@@ -40,13 +40,19 @@ struct value* int_math_expression_evaluate(
 			value = int_math_add_run(super->type, (void*) left, (void*) right);
 			
 			free_value(left), free_value(right);
-			
 			break;
 		}
 		
 		case imek_subtract:
 		{
-			TODO;
+			struct value* left = expression_evaluate(this->left, scope);
+			struct value* right = expression_evaluate(this->right, scope);
+			
+			assert(left->kind == vk_int && right->kind == vk_int);
+			
+			value = int_math_sub_run(super->type, (void*) left, (void*) right);
+			
+			free_value(left), free_value(right);
 			break;
 		}
 		

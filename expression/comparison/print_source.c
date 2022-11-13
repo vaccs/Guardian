@@ -28,10 +28,12 @@
 #include "struct.h"
 #include "print_source.h"
 
-static const char* lookup[] = {
+static const char* lookup[number_of_comparison_kinds] = {
+	[cek_less_than] = "<",
+	[cek_less_than_equal_to] = "<=",
 	[cek_equal_to] = "==",
 	[cek_not_equal_to] = "!=",
-	[cek_less_than] = "<",
+	[cek_greater_than_equal_to] = ">=",
 	[cek_greater_than] = ">",
 };
 

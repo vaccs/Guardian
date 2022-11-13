@@ -22,7 +22,20 @@ unsigned environment_type_find_variable(
 	
 	while (moving)
 	{
-		struct avl_node_t* node = avl_search(this->variables, &name);
+		dpv(moving);
+		
+		#ifdef DEBUGGING
+		{
+			for (struct avl_node_t* node = moving->variables->head; node; node = node->prev)
+			{
+				struct named_type* ntype = node->item;
+				
+				dpvs(ntype->name);
+			}
+		}
+		#endif
+		
+		struct avl_node_t* node = avl_search(moving->variables, &name);
 		
 		if (node)
 		{
@@ -42,4 +55,11 @@ unsigned environment_type_find_variable(
 	EXIT;
 	return depth;
 }
+
+
+
+
+
+
+
 

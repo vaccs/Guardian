@@ -9,6 +9,9 @@ struct lambda_expression
 	
 	struct expression* body;
 	
+	struct environment_type* environment;
+	
 	unsigned id; // gotten from function_queue
 };
+
 

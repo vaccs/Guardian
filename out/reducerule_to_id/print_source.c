@@ -67,7 +67,7 @@ struct stringtree* reducerule_to_id_print_source(
 			unsigned append_id = function_queue_submit_append(shared->fqueue, ltype);
 			
 			stringtree_append_printf(tree, ""
-				"func_%u(environment->%.*s, value);"
+				"func_%u(environment->$%.*s, value);"
 			"", append_id, ele->grammar->len, ele->grammar->chars);
 		}
 		

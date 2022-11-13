@@ -16,8 +16,6 @@ struct stringtree* set_type_generate_typedef(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct stringtree* tree = new_stringtree();
 	
 	struct set_type* this = (void*) super;
@@ -29,12 +27,28 @@ struct stringtree* set_type_generate_typedef(
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
 			"struct type_%u** data;"
-			"unsigned n, cap, refcount;"
+			"unsigned n, refcount;"
 		"};"
 	"", super->id, this->element_type->id);
 	
 	EXIT;
 	return tree;
-	#endif
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
