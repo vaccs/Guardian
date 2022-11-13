@@ -7,6 +7,7 @@
 #include <parse/parse.h>
 
 #include <type/struct.h>
+#include <type/print.h>
 
 #include <value/free.h>
 
@@ -15,6 +16,10 @@
 #include <expression/literal/new.h>
 #include <expression/int_math/new.h>
 #include <expression/int_math/run.h>
+#include <expression/dict_math/new.h>
+#include <expression/dict_math/run.h>
+#include <expression/set_math/new.h>
+#include <expression/set_math/run.h>
 #include <expression/free.h>
 
 #include "exclusive_or.h"
@@ -37,29 +42,93 @@ struct expression* specialize_inclusive_or_expression(
 		struct expression* left = specialize_inclusive_or_expression(tcache, scope, zexpression->left);
 		struct expression* right = specialize_exclusive_or_expression(tcache, scope, zexpression->right);
 		
-		if (left->type->kind != tk_int || right->type->kind != tk_int)
+		if (left->type != right->type)
 		{
-			TODO;
+			puts("");
+			
+			printf("maia: incompatiable types for '|' operator: ");
+			type_print(left->type);
+			printf(" with ");
+			type_print(right->type);
+			puts("");
+			
 			exit(1);
 		}
 		
-		if (left->kind == ek_literal && right->kind == ek_literal)
+		switch (left->type->kind)
 		{
-			struct literal_expression*  leftlit = (void*) left;
-			struct literal_expression* rightlit = (void*) right;
+			case tk_int:
+			{
+				if (left->kind == ek_literal && right->kind == ek_literal)
+				{
+					struct literal_expression*  leftlit = (void*) left;
+					struct literal_expression* rightlit = (void*) right;
+					
+					struct int_value*  leftint = (void*)  leftlit->value;
+					struct int_value* rightint = (void*) rightlit->value;
+					
+					struct value* value = int_math_bitor_run(left->type, leftint, rightint);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_int_math_expression(left->type, imek_bitior, left, right);
+				}
+				break;
+			}
 			
-			struct int_value*  leftint = (void*)  leftlit->value;
-			struct int_value* rightint = (void*) rightlit->value;
+			case tk_set:
+			{
+				if (left->kind == ek_literal && right->kind == ek_literal)
+				{
+					struct literal_expression*  leftlit = (void*) left;
+					struct literal_expression* rightlit = (void*) right;
+					
+					struct set_value*  leftset = (void*)  leftlit->value;
+					struct set_value* rightset = (void*) rightlit->value;
+					
+					struct value* value = set_math_union_run(left->type, leftset, rightset);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_set_math_expression(left->type, smek_union, left, right);
+				}
+				break;
+			}
 			
-			struct value* value = int_math_bitor_run(left->type, leftint, rightint);
+			case tk_dict:
+			{
+				if (left->kind == ek_literal && right->kind == ek_literal)
+				{
+					struct literal_expression*  leftlit = (void*) left;
+					struct literal_expression* rightlit = (void*) right;
+					
+					struct dict_value*  leftdict = (void*)  leftlit->value;
+					struct dict_value* rightdict = (void*) rightlit->value;
+					
+					struct value* value = dict_math_union_run(left->type, leftdict, rightdict);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_dict_math_expression(left->type, dmek_union, left, right);
+				}
+				break;
+			}
 			
-			retval = new_literal_expression(value);
-			
-			free_value(value);
-		}
-		else
-		{
-			retval = new_int_math_expression(left->type, imek_bitior, left, right);
+			default:
+				TODO;
+				break;
 		}
 		
 		free_expression(left);

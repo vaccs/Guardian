@@ -23,8 +23,6 @@ struct value* list_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_list);
 	
 	struct list_expression* this = (void*) super;
@@ -49,7 +47,6 @@ struct value* list_expression_evaluate(
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

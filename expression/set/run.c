@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <stdbool.h>
 
 #include <debug.h>
@@ -23,11 +24,16 @@ struct value* set_run(
 		
 		for (unsigned i = 0, n = elements->n - 1; i < n; i++)
 		{
-			int cmp = compare_values(elements->data[i], elements->data[i+1]);
+			struct value* this = elements->data[i];
+			struct value* that = elements->data[i+1];
+			
+			int cmp = compare_values(this, that);
 			
 			if (cmp > 0)
 			{
-				TODO;
+				elements->data[i] = that;
+				elements->data[i+1] = this;
+				changed = true;
 			}
 			else if (cmp == 0)
 			{

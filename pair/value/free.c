@@ -18,8 +18,8 @@ void free_value_pair(
 	
 	if (this && !--this->refcount)
 	{
-		free_value(this->first);
-		free_value(this->second);
+		free_value(this->key);
+		free_value(this->value);
 		
 		free(this);
 	}

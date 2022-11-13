@@ -16,10 +16,16 @@
 #include <expression/literal/struct.h>
 #include <expression/list_contains/new.h>
 #include <expression/list_contains/run.h>
+#include <expression/dict_contains/new.h>
+#include <expression/dict_contains/run.h>
+#include <expression/set_contains/new.h>
+#include <expression/set_contains/run.h>
 #include <expression/literal/new.h>
 #include <expression/free.h>
 
+#include <type/dict/struct.h>
 #include <type/list/struct.h>
+#include <type/set/struct.h>
 #include <type/struct.h>
 
 #include <type_cache/get_type/bool.h>
@@ -46,18 +52,6 @@ struct expression* specialize_inclusion_expression(
 		
 		switch (container->type->kind)
 		{
-			case tk_dict:
-			{
-				TODO;
-				break;
-			}
-			
-			case tk_set:
-			{
-				TODO;
-				break;
-			}
-			
 			case tk_list:
 			{
 				struct list_type* ltype = (void*) container->type;
@@ -83,6 +77,64 @@ struct expression* specialize_inclusion_expression(
 				else
 				{
 					retval = new_list_contains_expression(type, element, container);
+				}
+				break;
+			}
+			
+			case tk_dict:
+			{
+				struct dict_type* dtype = (void*) container->type;
+				
+				if (element->type != dtype->key)
+				{
+					TODO;
+					exit(1);
+				}
+				
+				if (all_literals)
+				{
+					struct literal_expression* elelit = (void*) element;
+					struct literal_expression* conlit = (void*) container;
+					
+					struct value* value = dict_contains_run(
+						type, elelit->value, (struct dict_value*) conlit->value);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_dict_contains_expression(type, element, container);
+				}
+				break;
+			}
+			
+			case tk_set:
+			{
+				struct set_type* stype = (void*) container->type;
+				
+				if (element->type != stype->element_type)
+				{
+					TODO;
+					exit(1);
+				}
+				
+				if (all_literals)
+				{
+					struct literal_expression* elelit = (void*) element;
+					struct literal_expression* conlit = (void*) container;
+					
+					struct value* value = set_contains_run(
+						type, elelit->value, (struct set_value*) conlit->value);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_set_contains_expression(type, element, container);
 				}
 				break;
 			}

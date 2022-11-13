@@ -94,6 +94,8 @@
 #include <list/expression_pair/append.h>
 #include <list/expression_pair/free.h>
 
+#include <mpz/struct.h>
+
 /*#include <list/value_pair/new.h>*/
 /*#include <list/value_pair/append.h>*/
 /*#include <list/value_pair/qsort.h>*/
@@ -486,8 +488,8 @@ static struct expression* specialize_primary_dict_expression(
 		{
 			struct expression_pair* element = elements->data[i];
 			
-			struct literal_expression* keylit = (void*) element->first;
-			struct literal_expression* vallit = (void*) element->second;
+			struct literal_expression* keylit = (void*) element->key;
+			struct literal_expression* vallit = (void*) element->value;
 			
 			struct value_pair* valelement = new_value_pair(keylit->value, vallit->value);
 			
@@ -686,15 +688,15 @@ static struct expression* specialize_primary_len_form_expression(
 		
 		case tk_tuple:
 		{
-			TODO;
-			#if 0
 			struct tuple_type* ttype = (void*) object->type;
 			
 			unsigned len = ttype->subtypes->n;
 			
 			dpv(len);
 			
-			struct mpz* mpz = new_mpz_from_unsigned(len);
+			struct mpz* mpz = new_mpz();
+			
+			mpz_set_ui(mpz->mpz, len);
 			
 			struct type* type = type_cache_get_int_type(tcache);
 			
@@ -705,7 +707,6 @@ static struct expression* specialize_primary_len_form_expression(
 			free_value(value);
 			
 			free_mpz(mpz);
-			#endif
 			break;
 		}
 		

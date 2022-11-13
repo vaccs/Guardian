@@ -31,8 +31,9 @@ enum expression_kind
 	ek_bool_not,
 	
 	ek_int_math,
-	ek_float_math,
+	ek_set_math,
 	ek_dict_math,
+	ek_float_math,
 	ek_list_concat,
 	ek_tuple_concat,
 	
@@ -44,7 +45,9 @@ enum expression_kind
 	
 	ek_ternary,
 	
+	ek_set_contains,
 	ek_list_contains,
+	ek_dict_contains,
 	
 	ek_has,
 	

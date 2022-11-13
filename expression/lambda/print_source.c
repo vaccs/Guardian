@@ -33,14 +33,14 @@ struct stringtree* lambda_expression_print_source(
 	
 	assert(super->kind == ek_lambda);
 	
-	struct stringtree* tree = new_stringtree();
+/*	struct stringtree* tree = new_stringtree();*/
 	
-	struct lambda_expression* this = (void*) super;
+/*	struct lambda_expression* this = (void*) super;*/
 	
 	TODO;
 	
 	EXIT;
-	return tree;
+/*	return tree;*/
 }
 
 

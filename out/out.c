@@ -20,6 +20,8 @@
 #include <set/ptr/new.h>
 #include <set/ptr/add.h>
 
+#include <string/struct.h>
+
 #include <quack/append.h>
 #include <quack/is_nonempty.h>
 #include <quack/pop.h>

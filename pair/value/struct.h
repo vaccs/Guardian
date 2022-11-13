@@ -1,8 +1,8 @@
 
 struct value_pair
 {
-	struct value* first;
-	struct value* second;
+	struct value* key;
+	struct value* value;
 	
 	unsigned refcount;
 };

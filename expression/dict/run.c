@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <stdbool.h>
 
 #include <debug.h>
@@ -28,7 +29,7 @@ struct value* dict_run(
 			struct value_pair* this = elements->data[i];
 			struct value_pair* that = elements->data[i + 1];
 			
-			int cmp = compare_values(this->first, that->first);
+			int cmp = compare_values(this->key, that->key);
 			
 			if (cmp > 0)
 			{

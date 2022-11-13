@@ -5,7 +5,9 @@ bin/test-build/yes-verbose/./type_check/specialize/additive.o: \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/../kind.h expression/literal/new.h \
  expression/tuple_concat/new.h expression/tuple_concat/run.h \
- expression/dict_math/new.h expression/dict_math/run.h \
+ expression/dict_math/new.h expression/dict_math/kind.h \
+ expression/dict_math/run.h expression/set_math/new.h \
+ expression/set_math/kind.h expression/set_math/run.h \
  expression/list_concat/new.h expression/list_concat/run.h \
  expression/float_math/new.h expression/float_math/kind.h \
  expression/struct.h expression/free.h value/float/struct.h \

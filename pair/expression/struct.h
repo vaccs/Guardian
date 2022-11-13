@@ -1,8 +1,8 @@
 
 struct expression_pair
 {
-	struct expression* first;
-	struct expression* second;
+	struct expression* key;
+	struct expression* value;
 	
 	unsigned refcount;
 };

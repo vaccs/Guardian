@@ -9,15 +9,15 @@
 #include "new.h"
 
 struct value_pair* new_value_pair(
-	struct value* first,
-	struct value* second)
+	struct value* key,
+	struct value* value)
 {
 	ENTER;
 	
 	struct value_pair* this = smalloc(sizeof(*this));
 	
-	this->first = inc_value(first);
-	this->second = inc_value(second);
+	this->key = inc_value(key);
+	this->value = inc_value(value);
 	
 	this->refcount = 1;
 	

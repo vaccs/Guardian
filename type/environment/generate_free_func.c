@@ -22,6 +22,8 @@ struct stringtree* environment_type_generate_free_func(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == tk_environment);
 	
 	struct environment_type* this = (void*) super;
@@ -56,6 +58,7 @@ struct stringtree* environment_type_generate_free_func(
 	
 	EXIT;
 	return text;
+	#endif
 }
 
 

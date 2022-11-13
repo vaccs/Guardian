@@ -30,11 +30,11 @@ void dict_expression_print(
 	{
 		for (unsigned i = 0, n = elements->n; i < n; i++)
 		{
-			expression_print(elements->data[i]->first);
+			expression_print(elements->data[i]->key);
 			
 			printf(": ");
 			
-			expression_print(elements->data[i]->second);
+			expression_print(elements->data[i]->value);
 			
 			if (i + 1 < n)
 				printf(", ");

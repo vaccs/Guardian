@@ -107,7 +107,6 @@ int main(int argc, char* const* argv)
 		raw_declarations, raw_assertions,
 		declarations, assertions);
 	
-	TODO;
 	#if 0
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
@@ -127,6 +126,11 @@ int main(int argc, char* const* argv)
 	
 	fclose(stream);
 	
+	free_yacc_state(start);
+	
+	free_lex(lex);
+	#endif
+	
 	free_raw_declaration_list(raw_declarations);
 	
 	free_raw_assertion_list(raw_assertions);
@@ -141,14 +145,9 @@ int main(int argc, char* const* argv)
 	
 	avl_free_tree(grammar);
 	
-	free_yacc_state(start);
-	
 	avl_free_tree(types);
 	
 	free_cmdln(flags);
-	
-	free_lex(lex);
-	#endif
 	
 	EXIT;
 	#ifdef DEBUGGING

@@ -12,6 +12,7 @@
 
 struct expression* new_dict_math_expression(
 	struct type* type,
+	enum dict_math_expression_kind kind,
 	struct expression* left,
 	struct expression* right)
 {
@@ -22,6 +23,8 @@ struct expression* new_dict_math_expression(
 		&dict_math_expression_inheritance,
 		type,
 		sizeof(struct dict_math_expression));
+	
+	this->kind = kind;
 	
 	this->left = inc_expression(left);
 	

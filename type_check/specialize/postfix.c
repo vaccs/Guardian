@@ -24,6 +24,7 @@
 #include <expression/list_index/new.h>
 #include <expression/list_index/run.h>
 #include <expression/dict_index/new.h>
+#include <expression/dict_index/run.h>
 #include <expression/tuple_index/new.h>
 #include <expression/fieldaccess/new.h>
 #include <expression/free.h>
@@ -130,7 +131,16 @@ struct expression* specialize_postfix_expression(
 					
 					if (sub->kind == ek_literal && index->kind == ek_literal)
 					{
-						TODO;
+						struct literal_expression* sublit = (void*) sub;
+						struct literal_expression* idxlit = (void*) index;
+						
+						struct dict_value* dict = (void*) sublit->value;
+						
+						struct value* value = dict_index_run(dtype->value, dict, idxlit->value);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
 					}
 					else
 					{

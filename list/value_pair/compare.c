@@ -22,7 +22,7 @@ int compare_value_pair_lists(
 		struct value_pair* ae = a->data[i];
 		struct value_pair* be = b->data[i];
 		
-		cmp = compare_values(ae->first, be->first);
+		cmp = compare_values(ae->key, be->key);
 		
 		i++;
 	}

@@ -12,10 +12,9 @@ void free_list_contains_expression(
 	struct list_contains_expression* const this = (void*) super;
 	ENTER;
 	
-	TODO;
-	#if 0
-	free_expression(this->expression);
-	#endif
+	free_expression(this->element);
+	
+	free_expression(this->list);
 	
 	EXIT;
 }

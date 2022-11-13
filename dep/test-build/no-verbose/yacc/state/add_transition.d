@@ -1,0 +1,4 @@
+bin/test-build/no-verbose/./yacc/state/add_transition.o: \
+ yacc/state/add_transition.c debug.h string/struct.h memory/smalloc.h \
+ memory/srealloc.h set/unsigned/compare.h set/unsigned/inc.h \
+ yacc/state/struct.h yacc/state/add_transition.h

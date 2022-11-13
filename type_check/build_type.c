@@ -20,6 +20,7 @@
 #include <type_cache/get_type/lambda.h>
 #include <type_cache/get_type/set.h>
 #include <type_cache/get_type/char.h>
+#include <type_cache/get_type/tuple.h>
 #include <type_cache/get_type/grammar.h>
 
 #include "build_type.h"
@@ -70,8 +71,20 @@ struct type* build_primitive_type(
 	{
 		if (type->elements.n != 1 || type->comma)
 		{
-			// build tuple
-			TODO;
+			struct type_list* subtypes = new_type_list();
+			
+			for (unsigned i = 0, n = type->elements.n; i < n; i++)
+			{
+				struct type* subtype = build_type(tcache, type->elements.data[i]);
+				
+				type_list_append(subtypes, subtype);
+			}
+			
+			struct type* type = type_cache_get_tuple_type(tcache, subtypes);
+			
+			free_type_list(subtypes);
+			
+			return type;
 		}
 		else
 		{

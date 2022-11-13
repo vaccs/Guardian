@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include <debug.h>
 
 #include "process_escapes.h"
@@ -8,6 +10,8 @@ void string_process_escapes(
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(this->chars[0] == '\"');
 	
 	char *start = this->chars + 1;
@@ -30,6 +34,7 @@ void string_process_escapes(
 	this->len = write - this->chars;
 	
 	dpvs(this);
+	#endif
 	
 	EXIT;
 }

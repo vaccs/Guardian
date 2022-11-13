@@ -21,6 +21,8 @@
 #include <expression/tuple_concat/run.h>
 #include <expression/dict_math/new.h>
 #include <expression/dict_math/run.h>
+#include <expression/set_math/new.h>
+#include <expression/set_math/run.h>
 #include <expression/list_concat/new.h>
 #include <expression/list_concat/run.h>
 #include <expression/float_math/new.h>
@@ -286,7 +288,7 @@ struct expression* specialize_additive_expression(
 						struct dict_value*  leftdict = (void*) leftlit->value;
 						struct dict_value* rightdict = (void*) rightlit->value;
 						
-						struct value* value = dict_math_concat_run(left->type, leftdict, rightdict);
+						struct value* value = dict_math_union_run(left->type, leftdict, rightdict);
 						
 						retval = new_literal_expression(value);
 						
@@ -294,7 +296,85 @@ struct expression* specialize_additive_expression(
 					}
 					else
 					{
-						retval = new_dict_math_expression(left->type, left, right);
+						retval = new_dict_math_expression(left->type, dmek_union, left, right);
+					}
+				}
+				else if (zexpression->sub)
+				{
+					if (all_literals)
+					{
+						struct literal_expression* leftlit = (void*) left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct dict_value*  leftdict = (void*) leftlit->value;
+						struct dict_value* rightdict = (void*) rightlit->value;
+						
+						struct value* value = dict_math_difference_run(left->type, leftdict, rightdict);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_dict_math_expression(left->type, dmek_difference, left, right);
+					}
+				}
+				else
+				{
+					TODO;
+				}
+				break;
+			}
+			
+			case tk_set:
+			{
+				if (left->type != right->type)
+				{
+					TODO;
+					exit(1);
+				}
+			
+				if (zexpression->add)
+				{
+					if (all_literals)
+					{
+						struct literal_expression* leftlit = (void*) left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct set_value*  leftset = (void*) leftlit->value;
+						struct set_value* rightset = (void*) rightlit->value;
+						
+						struct value* value = set_math_union_run(left->type, leftset, rightset);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_set_math_expression(left->type, smek_union, left, right);
+					}
+				}
+				else if (zexpression->sub)
+				{
+					if (all_literals)
+					{
+						struct literal_expression* leftlit = (void*) left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct set_value*  leftset = (void*) leftlit->value;
+						struct set_value* rightset = (void*) rightlit->value;
+						
+						struct value* value = set_math_difference_run(left->type, leftset, rightset);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_set_math_expression(left->type, smek_difference, left, right);
 					}
 				}
 				else

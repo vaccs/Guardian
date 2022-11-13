@@ -20,11 +20,25 @@ void dict_math_expression_print(
 	
 	struct dict_math_expression* this = (void*) super;
 	
-	expression_print(this->left);
+	switch (this->kind)
+	{
+		case dmek_union:
+			expression_print(this->left), printf(" | "), expression_print(this->right);
+			break;
+		
+		case dmek_intersect:
+			expression_print(this->left), printf(" & "), expression_print(this->right);
+			break;
+		
+		case dmek_difference:
+			expression_print(this->left), printf(" - "), expression_print(this->right);
+			break;
+		
+		case dmek_symdifference:
+			expression_print(this->left), printf(" ^ "), expression_print(this->right);
+			break;
+	}
 	
-	printf(" + ");
-	
-	expression_print(this->right);
 	
 	EXIT;
 }

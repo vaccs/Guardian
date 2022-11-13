@@ -11,6 +11,10 @@
 #include <expression/literal/new.h>
 #include <expression/int_math/new.h>
 #include <expression/int_math/run.h>
+#include <expression/dict_math/new.h>
+#include <expression/dict_math/run.h>
+#include <expression/set_math/new.h>
+#include <expression/set_math/run.h>
 #include <expression/free.h>
 
 #include <type/struct.h>
@@ -37,29 +41,86 @@ struct expression* specialize_exclusive_or_expression(
 		struct expression* left = specialize_exclusive_or_expression(tcache, scope, zexpression->left);
 		struct expression* right = specialize_and_expression(tcache, scope, zexpression->right);
 		
-		if (left->type->kind != tk_int || right->type->kind != tk_int)
+		if (left->type != right->type)
 		{
 			TODO;
 			exit(1);
 		}
 		
-		if (left->kind == ek_literal && right->kind == ek_literal)
+		switch (left->type->kind)
 		{
-			struct literal_expression*  leftlit = (void*) left;
-			struct literal_expression* rightlit = (void*) right;
+			case tk_int:
+			{
+				if (left->kind == ek_literal && right->kind == ek_literal)
+				{
+					struct literal_expression*  leftlit = (void*) left;
+					struct literal_expression* rightlit = (void*) right;
+					
+					struct int_value*  leftint = (void*)  leftlit->value;
+					struct int_value* rightint = (void*) rightlit->value;
+					
+					struct value* value = int_math_bitxor_run(left->type, leftint, rightint);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_int_math_expression(left->type, imek_bitxor, left, right);
+				}
+				break;
+			}
 			
-			struct int_value*  leftint = (void*)  leftlit->value;
-			struct int_value* rightint = (void*) rightlit->value;
+			case tk_dict:
+			{
+				if (left->kind == ek_literal && right->kind == ek_literal)
+				{
+					struct literal_expression*  leftlit = (void*) left;
+					struct literal_expression* rightlit = (void*) right;
+					
+					struct dict_value*  leftdict = (void*)  leftlit->value;
+					struct dict_value* rightdict = (void*) rightlit->value;
+					
+					struct value* value = dict_math_symdifference_run(left->type, leftdict, rightdict);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_dict_math_expression(left->type, dmek_symdifference, left, right);
+				}
+				break;
+			}
 			
-			struct value* value = int_math_bitxor_run(left->type, leftint, rightint);
+			case tk_set:
+			{
+				if (left->kind == ek_literal && right->kind == ek_literal)
+				{
+					struct literal_expression*  leftlit = (void*) left;
+					struct literal_expression* rightlit = (void*) right;
+					
+					struct set_value*  leftset = (void*)  leftlit->value;
+					struct set_value* rightset = (void*) rightlit->value;
+					
+					struct value* value = set_math_symdifference_run(left->type, leftset, rightset);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_set_math_expression(left->type, dmek_symdifference, left, right);
+				}
+				break;
+			}
 			
-			retval = new_literal_expression(value);
-			
-			free_value(value);
-		}
-		else
-		{
-			retval = new_int_math_expression(left->type, imek_bitxor, left, right);
+			default:
+				TODO;
+				break;
 		}
 		
 		free_expression(left);

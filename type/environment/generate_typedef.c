@@ -23,14 +23,14 @@ struct stringtree* environment_type_generate_typedef(
 	
 	assert(super->kind == tk_environment);
 	
+	TODO;
+	#if 0
 	struct environment_type* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
 	dpv(super->id);
 	
-	TODO;
-	#if 0
 	stringtree_append_printf(tree, ""
 		"struct type_%u"
 		"{"

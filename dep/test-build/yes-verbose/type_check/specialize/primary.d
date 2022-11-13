@@ -7,7 +7,7 @@ bin/test-build/yes-verbose/./type_check/specialize/primary.o: \
  list/type/free.h list/value/new.h list/value/append.h list/value/free.h \
  expression/dict/run.h list/expression_pair/struct.h \
  list/expression_pair/new.h list/expression_pair/append.h \
- list/expression_pair/free.h pair/expression/struct.h \
+ list/expression_pair/free.h mpz/struct.h pair/expression/struct.h \
  pair/expression/new.h pair/expression/free.h pair/value/new.h \
  pair/value/free.h list/value_pair/new.h list/value_pair/append.h \
  list/value_pair/free.h named/type/struct.h named/expression/struct.h \

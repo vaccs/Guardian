@@ -37,11 +37,11 @@ void dict_value_print(
 			else
 				printf(", ");
 			
-			value_print(pair->first);
+			value_print(pair->key);
 			
 			printf(": ");
 			
-			value_print(pair->second);
+			value_print(pair->value);
 		}
 		runme;
 	}));

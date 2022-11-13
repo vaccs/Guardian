@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-/*#include <set/expression/free.h>*/
+#include <list/expression/free.h>
 
 #include "struct.h"
 #include "free.h"
@@ -11,12 +11,9 @@ void free_set_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct set_expression* this = (void*) super;
 	
-	free_expression_set(this->elements);
-	#endif
+	free_expression_list(this->elements);
 	
 	EXIT;
 }

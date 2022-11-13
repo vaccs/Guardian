@@ -13,14 +13,11 @@ void free_dict_index_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct dict_index_expression* this = (void*) super;
 	
-	free_expression(this->list);
+	free_expression(this->dict);
 	
 	free_expression(this->index);
-	#endif
 	
 	EXIT;
 }

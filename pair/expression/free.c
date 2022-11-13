@@ -15,8 +15,8 @@ void free_expression_pair(
 	
 	if (this && !--this->refcount)
 	{
-		free_expression(this->first);
-		free_expression(this->second);
+		free_expression(this->key);
+		free_expression(this->value);
 		
 		free(this);
 	}
