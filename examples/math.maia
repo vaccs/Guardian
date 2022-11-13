@@ -1,8 +1,7 @@
 
 %skip: ' ' | '\t' | '\n';
 
-highest: /int: '-'? ['0'-'9']+/ #literal;
-//highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
+highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
 
 multiplicative: highest #base ('*' highest #multmes[] | '/' highest #divmes[])*;
 
@@ -12,26 +11,6 @@ root: additive #exp;
 
 %start: root #root;
 
-// %forward: eval_root = $root: int;
-
-// eval_root = $root r: eval_add(r.exp);
-
-// x = eval_root(root[0]);
-
-// %error: x != 0;
-
-a = $int x: $: $int y: $: x + y;
-
-x = highest[0].literal;
-y = highest[1].literal;
-
-// %error: a(3)()(4)() == 7;
-%error: a(x)()(y)() == 7;
-
-//%error: !all($root r: eval_root(r) != 0, root)
-
-//isprime = $int x: all(map($int m: x % m != 0, range(2, x - 1)));
-//%warning: !isprime(x);
 
 
 

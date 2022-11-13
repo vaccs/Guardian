@@ -71,8 +71,8 @@ ARGS += -m
 #ARGS += --minimize-lexer
 
 #ARGS += -i ./examples/json.maia
-#ARGS += -i ./examples/math.maia
-ARGS += -i ./examples/zest.maia
+ARGS += -i ./examples/math.maia
+#ARGS += -i ./examples/zest.maia
 
 ARGS += -o /tmp/out.c
 
