@@ -18,6 +18,8 @@
 
 /*#include <out/type_queue/submit.h>*/
 
+#include <out/type_queue/submit.h>
+
 #include <out/function_queue/submit_free.h>
 
 #include <value/print_source.h>
@@ -40,6 +42,8 @@ struct stringtree* tuple_value_print_source(
 	struct tuple_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
+	
+	type_queue_submit(shared->tqueue, super->type);
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	

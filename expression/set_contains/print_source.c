@@ -15,6 +15,8 @@
 
 #include <out/shared.h>
 #include <out/function_queue/submit_compare.h>
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_free.h>
 
 #include "struct.h"
 #include "print_source.h"
@@ -32,17 +34,15 @@ struct stringtree* set_contains_expression_print_source(
 	
 	struct set_type* stype = (void*) this->set->type;
 	
-	unsigned tid = super->type->id;
-	
 	stringtree_append_printf(tree, "({");
 	
 	struct stringtree* set = expression_print_source(this->set, shared, environment);
-	stringtree_append_printf(tree, "struct type_%u* set = ", tid);
+	stringtree_append_printf(tree, "struct type_%u* set = ", this->set->type->id);
 	stringtree_append_tree(tree, set);
 	stringtree_append_printf(tree, ";");
 	
 	struct stringtree* ele = expression_print_source(this->element, shared, environment);
-	stringtree_append_printf(tree, "struct type_%u* ele = ", tid);
+	stringtree_append_printf(tree, "struct type_%u* ele = ", this->element->type->id);
 	stringtree_append_tree(tree, ele);
 	stringtree_append_printf(tree, ";");
 	
@@ -65,8 +65,14 @@ struct stringtree* set_contains_expression_print_source(
 	stringtree_append_printf(tree, "			found = true;");
 	stringtree_append_printf(tree, "	}");
 	
-	unsigned new_id = function_queue_submit_compare(shared->fqueue, super->type);
-	stringtree_append_printf(tree, "	func_%u(value);", new_id);
+	unsigned free_set_id = function_queue_submit_free(shared->fqueue, this->set->type);
+	stringtree_append_printf(tree, "	func_%u(set);", free_set_id);
+	
+	unsigned free_ele_id = function_queue_submit_free(shared->fqueue, this->element->type);
+	stringtree_append_printf(tree, "	func_%u(ele);", free_ele_id);
+	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	stringtree_append_printf(tree, "	func_%u(found);", new_id);
 	stringtree_append_printf(tree, "})");
 	
 	free_stringtree(set), free_stringtree(ele);

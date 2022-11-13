@@ -46,13 +46,13 @@ struct stringtree* set_value_print_source(
 	struct value_list* elements = this->elements;
 	
 	stringtree_append_printf(tree,
-		"struct type_%u* elements = malloc(sizeof(*elements) * %u);", stype->element_type->id, elements->n);
+		"struct type_%u** elements = malloc(sizeof(*elements) * %u);", stype->element_type->id, elements->n);
 	
 	for (unsigned i = 0, n = elements->n; i < n; i++)
 	{
 		struct stringtree* subtree = value_print_source(elements->data[i], shared);
 		
-		stringtree_append_printf(tree, "data[%u] = ", i);
+		stringtree_append_printf(tree, "elements[%u] = ", i);
 		stringtree_append_tree(tree, subtree);
 		stringtree_append_printf(tree, ";");
 		
@@ -60,9 +60,7 @@ struct stringtree* set_value_print_source(
 	}
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
-	stringtree_append_printf(tree, "func_%u(data, %u);", new_id, elements->n);
-	
+	stringtree_append_printf(tree, "func_%u(elements, %u);", new_id, elements->n);
 	stringtree_append_printf(tree, "})");
 	
 	EXIT;

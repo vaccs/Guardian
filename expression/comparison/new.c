@@ -34,8 +34,6 @@ struct expression* new_comparison_expression(
 	this->left = inc_expression(left);
 	this->right = inc_expression(right);
 	
-	this->type = left->type;
-	
 	EXIT;
 	return (void*) this;
 }

@@ -16,6 +16,7 @@
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_compare.h>
 /*#include <out/function_queue/submit_append.h>*/
 /*#include <out/function_queue/submit_free.h>*/
 
@@ -50,13 +51,13 @@ struct stringtree* set_expression_print_source(
 	unsigned etid = stype->element_type->id;
 	
 	stringtree_append_printf(tree,
-		"struct type_%u* elements = malloc(sizeof(*elements) * %u);", etid, elements->n);
+		"struct type_%u** elements = malloc(sizeof(*elements) * %u);", etid, elements->n);
 	
 	for (unsigned i = 0, n = elements->n; i < n; i++)
 	{
 		struct stringtree* subtree = expression_print_source(elements->data[i], shared, environment);
 		
-		stringtree_append_printf(tree, "data[%u] = ", i);
+		stringtree_append_printf(tree, "elements[%u] = ", i);
 		stringtree_append_tree(tree, subtree);
 		stringtree_append_printf(tree, ";");
 		
@@ -65,17 +66,19 @@ struct stringtree* set_expression_print_source(
 	
 	stringtree_append_printf(tree, "unsigned num_elements = %u;", elements->n);
 	
+	unsigned compare_id = function_queue_submit_compare(shared->fqueue, stype->element_type);
+	
 	stringtree_append_printf(tree, "for (bool changed = true; changed; )");
 	stringtree_append_printf(tree, "{");
 	stringtree_append_printf(tree, "	changed = false;");
 	stringtree_append_printf(tree, "	for (unsigned i = 0, n = num_elements - 1; i < n; i++)");
 	stringtree_append_printf(tree, "	{");
-	stringtree_append_printf(tree, "		struct type_%u *this = elements[i];, *that = elements[i + 1];", etid);
-	stringtree_append_printf(tree, "		int cmp = compare_values(this, that);");
+	stringtree_append_printf(tree, "		struct type_%u *this = elements[i], *that = elements[i + 1];", etid);
+	stringtree_append_printf(tree, "		int cmp = func_%u(this, that);", compare_id);
 	stringtree_append_printf(tree, "		if (cmp > 0)");
 	stringtree_append_printf(tree, "		{");
-	stringtree_append_printf(tree, "			elements->data[i] = that;");
-	stringtree_append_printf(tree, "			elements->data[i + 1] = this;");
+	stringtree_append_printf(tree, "			elements[i] = that;");
+	stringtree_append_printf(tree, "			elements[i + 1] = this;");
 	stringtree_append_printf(tree, "			changed = true;");
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "		else if (cmp == 0)");
@@ -86,8 +89,7 @@ struct stringtree* set_expression_print_source(
 	stringtree_append_printf(tree, "}");
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
-	stringtree_append_printf(tree, "func_%u(data, %u);", new_id, elements->n);
+	stringtree_append_printf(tree, "func_%u(elements, %u);", new_id, elements->n);
 	
 	stringtree_append_printf(tree, "})");
 	

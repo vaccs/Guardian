@@ -24,7 +24,7 @@ struct stringtree* set_type_generate_new_forward(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"auto struct type_%u* func_%u(struct type_%u* data, unsigned n) {"
+		"auto struct type_%u* func_%u(struct type_%u** data, unsigned n);"
 	"", type_id, func_id, this->element_type->id);
 	
 	EXIT;

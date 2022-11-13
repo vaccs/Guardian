@@ -25,7 +25,7 @@ struct stringtree* set_type_generate_new_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"struct type_%u* func_%u(struct type_%u* data, unsigned n) {"
+		"struct type_%u* func_%u(struct type_%u** data, unsigned n) {"
 			"struct type_%u* this = malloc(sizeof(*this));"
 			"this->data = data;"
 			"this->n = n;"

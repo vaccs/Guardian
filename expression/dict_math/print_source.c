@@ -24,6 +24,7 @@
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_compare.h>
 #include <out/function_queue/submit_free.h>
 
@@ -68,14 +69,14 @@ struct stringtree* dict_math_expression_print_source(
 	
 	unsigned compare_key_id = function_queue_submit_compare(shared->fqueue, dtype->key);
 	
-	unsigned inc_key_id = function_queue_submit_compare(shared->fqueue, dtype->key);
-	unsigned inc_val_id = function_queue_submit_compare(shared->fqueue, dtype->key);
+	unsigned inc_key_id = function_queue_submit_inc(shared->fqueue, dtype->key);
+	unsigned inc_val_id = function_queue_submit_inc(shared->fqueue, dtype->key);
 	
 	switch (this->kind)
 	{
 		case dmek_union:
 		{
-			stringtree_append_printf(tree, "struct type_%u_pair* new = smalloc(sizeof(*new) * (n + m));", tid);
+			stringtree_append_printf(tree, "struct type_%u_pair* new = malloc(sizeof(*new) * (n + m));", tid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -123,7 +124,7 @@ struct stringtree* dict_math_expression_print_source(
 		
 		case dmek_intersect:
 		{
-			stringtree_append_printf(tree, "struct type_%u_pair* new = smalloc(sizeof(*new) * (MIN(n, m)));", tid);
+			stringtree_append_printf(tree, "struct type_%u_pair* new = malloc(sizeof(*new) * (n + m));", tid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -151,7 +152,7 @@ struct stringtree* dict_math_expression_print_source(
 		
 		case dmek_symdifference:
 		{
-			stringtree_append_printf(tree, "struct type_%u_pair* new = smalloc(sizeof(*new) * (n + m));", tid);
+			stringtree_append_printf(tree, "struct type_%u_pair* new = malloc(sizeof(*new) * (n + m));", tid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -197,7 +198,7 @@ struct stringtree* dict_math_expression_print_source(
 		
 		case dmek_difference:
 		{
-			stringtree_append_printf(tree, "struct type_%u_pair* new = smalloc(sizeof(*new) * (n + m));", tid);
+			stringtree_append_printf(tree, "struct type_%u_pair* new = malloc(sizeof(*new) * (n + m));", tid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -233,11 +234,9 @@ struct stringtree* dict_math_expression_print_source(
 	}
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
-	
 	stringtree_append_printf(tree, "func_%u(left), func_%u(right);", free_id, free_id);
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
 	stringtree_append_printf(tree, "func_%u(new, un);", new_id);
 	
 	stringtree_append_printf(tree, "})");

@@ -24,7 +24,7 @@ struct stringtree* list_type_generate_append_forward(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"auto void func_%u(struct type_%u* list, struct type_%u* element)"
+		"auto void func_%u(struct type_%u* list, struct type_%u* element);"
 	"", func_id, this->super.id, this->element_type->id);
 	
 	EXIT;

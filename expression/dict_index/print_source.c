@@ -17,7 +17,7 @@
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_compare.h>
-/*#include <out/function_queue/submit_free.h>*/
+#include <out/function_queue/submit_free.h>
 
 #include "../print_source.h"
 
@@ -67,7 +67,9 @@ struct stringtree* dict_index_expression_print_source(
 	stringtree_append_printf(tree, "		else if (cmp < 0)");
 	stringtree_append_printf(tree, "			l = mid + 1;");
 	stringtree_append_printf(tree, "		else");
-	stringtree_append_printf(tree, "			value = dict->data[mid].value;");
+	
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, dtype->value);
+	stringtree_append_printf(tree, "			value = func_%u(dict->data[mid].value);", inc_id);
 	stringtree_append_printf(tree, "	}");
 	
 	stringtree_append_printf(tree, "	if (!value)");
@@ -75,8 +77,13 @@ struct stringtree* dict_index_expression_print_source(
 	stringtree_append_printf(tree, "		assert(!\"TODO\");");
 	stringtree_append_printf(tree, "	}");
 	
-	unsigned inc_id = function_queue_submit_inc(shared->fqueue, dtype->value);
-	stringtree_append_printf(tree, "	func_%u(value);", inc_id);
+	unsigned free_dict_id = function_queue_submit_free(shared->fqueue, this->dict->type);
+	stringtree_append_printf(tree, "	func_%u(dict);", free_dict_id);
+	
+	unsigned free_key_id = function_queue_submit_free(shared->fqueue, this->index->type);
+	stringtree_append_printf(tree, "	func_%u(key);", free_key_id);
+	
+	stringtree_append_printf(tree, "	value;");
 	
 	stringtree_append_printf(tree, "})");
 	

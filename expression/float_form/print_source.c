@@ -2,19 +2,19 @@
 #include <assert.h>
 #include <debug.h>
 
-/*#include <stringtree/new.h>*/
-/*#include <stringtree/append_printf.h>*/
-/*#include <stringtree/append_tree.h>*/
-/*#include <stringtree/free.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
-/*#include <out/shared.h>*/
-/*#include <out/type_queue/submit.h>*/
-/*#include <out/function_queue/submit_new.h>*/
-/*#include <out/function_queue/submit_free.h>*/
+#include <out/shared.h>
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_free.h>
 
-/*#include <type/struct.h>*/
+#include <type/struct.h>
 
-/*#include "../print_source.h"*/
+#include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
@@ -26,40 +26,33 @@ struct stringtree* float_form_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	assert(super->kind == ek_float);
+	assert(super->kind == ek_float_form);
 	
-	struct float_expression* this = (void*) super;
+	struct float_form_expression* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
 	
-	struct expression* subexpression = this->subexpression;
+	struct expression* object = this->object;
 	
-	struct type* rtype = super->type;
+	struct type* stype = object->type;
 	
-	struct type* stype = subexpression->type;
-	
-	type_queue_submit(shared->tqueue, rtype);
-	type_queue_submit(shared->tqueue, stype);
+	type_queue_submit(shared->tqueue, super->type);
 	
 	stringtree_append_printf(tree, ""
 		"({"
 			"struct type_%u* sub = "
 	"", stype->id);
 	
-	struct stringtree* expression = expression_print_source(this->subexpression, shared);
+	struct stringtree* expression = expression_print_source(object, shared, environment);
 	
 	stringtree_append_tree(tree, expression);
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, rtype);
-	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, stype);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, ""
 			";"
 			"struct type_%u* result = func_%u("
-	"", rtype->id, new_id);
+	"", super->type->id, new_id);
 	
 	switch (stype->kind)
 	{
@@ -76,6 +69,8 @@ struct stringtree* float_form_expression_print_source(
 			break;
 	}
 	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, stype);
+	
 	stringtree_append_printf(tree, ""
 				");"
 			"func_%u(sub);"
@@ -87,7 +82,6 @@ struct stringtree* float_form_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

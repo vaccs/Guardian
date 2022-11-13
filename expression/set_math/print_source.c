@@ -16,6 +16,7 @@
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_compare.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
 
 #include <type/struct.h>
@@ -45,11 +46,12 @@ struct stringtree* set_math_expression_print_source(
 	
 	stringtree_append_printf(tree, "({");
 	
+	unsigned tid = super->type->id;
+	unsigned eid = stype->element_type->id;
+	
 	struct stringtree* left = expression_print_source(this->left, shared, environment);
 	
 	struct stringtree* right = expression_print_source(this->right, shared, environment);
-	
-	unsigned tid = super->type->id;
 	
 	stringtree_append_printf(tree, "struct type_%u* left = ", tid);
 	stringtree_append_tree(tree, left);
@@ -63,13 +65,13 @@ struct stringtree* set_math_expression_print_source(
 	
 	unsigned compare_id = function_queue_submit_compare(shared->fqueue, stype->element_type);
 	
-	unsigned inc_id = function_queue_submit_compare(shared->fqueue, stype->element_type);
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, stype->element_type);
 	
 	switch (this->kind)
 	{
 		case smek_union:
 		{
-			stringtree_append_printf(tree, "struct type_%u* new = smalloc(sizeof(*new) * (n + m));", tid);
+			stringtree_append_printf(tree, "struct type_%u** new = malloc(sizeof(*new) * (n + m));", eid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -91,7 +93,7 @@ struct stringtree* set_math_expression_print_source(
 		
 		case smek_intersect:
 		{
-			stringtree_append_printf(tree, "struct type_%u* new = smalloc(sizeof(*new) * MIN(n, m));", tid);
+			stringtree_append_printf(tree, "struct type_%u** new = malloc(sizeof(*new) * (n + m));", eid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -109,7 +111,7 @@ struct stringtree* set_math_expression_print_source(
 		
 		case smek_symdifference:
 		{
-			stringtree_append_printf(tree, "struct type_%u* new = smalloc(sizeof(*new) * (n + m));", tid);
+			stringtree_append_printf(tree, "struct type_%u** new = malloc(sizeof(*new) * (n + m));", eid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");
@@ -131,7 +133,7 @@ struct stringtree* set_math_expression_print_source(
 		
 		case smek_difference:
 		{
-			stringtree_append_printf(tree, "struct type_%u* new = smalloc(sizeof(*new) * (n + m));", tid);
+			stringtree_append_printf(tree, "struct type_%u** new = malloc(sizeof(*new) * (n + m));", eid);
 			
 			stringtree_append_printf(tree, "while (i < n && j < m)");
 			stringtree_append_printf(tree, "{");

@@ -84,6 +84,11 @@ struct stringtree* tuple_expression_print_source(
 		"struct type_%u* result = func_%u("
 	"", super->type->id, new_id);
 	
+	if (super->type->id == 18)
+	{
+		CHECK;
+	}
+	
 	arg_counter = 0;
 	bool first = true;
 	

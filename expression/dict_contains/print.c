@@ -18,7 +18,7 @@ void dict_contains_expression_print(
 	
 	struct dict_contains_expression* this = (void*) super;
 	
-	expression_print(this->element), printf(" in "), expression_print(this->dict);
+	expression_print(this->index), printf(" in "), expression_print(this->dict);
 	
 	EXIT;
 }

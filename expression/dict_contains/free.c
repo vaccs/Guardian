@@ -12,7 +12,7 @@ void free_dict_contains_expression(
 	struct dict_contains_expression* const this = (void*) super;
 	ENTER;
 	
-	free_expression(this->element);
+	free_expression(this->index);
 	
 	free_expression(this->dict);
 	

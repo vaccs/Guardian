@@ -66,7 +66,7 @@ struct stringtree* dict_value_print_source(
 		free_stringtree(value);
 	}
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, type);
 	
 	stringtree_append_printf(tree, "func_%u(data, %u);", new_id, elements->n);
 	
