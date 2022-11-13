@@ -13,6 +13,7 @@
 #include <stringtree/append_printf.h>
 
 #include <out/shared.h>
+#include <out/type_queue/submit.h>
 #include <out/function_queue/struct.h>
 #include <out/function_queue/submit_lambda_new.h>
 
@@ -58,6 +59,8 @@ struct stringtree* lambda_expression_print_source(
 	
 	struct environment_type* environment =
 		type_cache_get_environment_type2(shared->tcache, outer_environment, environment_tree);
+	
+	type_queue_submit(shared->tqueue, (struct type*) environment);
 	
 	dpv(environment);
 	

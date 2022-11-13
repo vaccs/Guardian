@@ -26,8 +26,7 @@
 
 struct stringtree* list_value_print_source(
 	struct value* super,
-	struct out_shared* shared,
-	struct environment_type* environment)
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -69,7 +68,7 @@ struct stringtree* list_value_print_source(
 			"", etype->id);
 			
 			struct stringtree* subtree =
-				value_print_source(value, shared, environment);
+				value_print_source(value, shared);
 			
 			stringtree_append_tree(tree, subtree);
 			stringtree_append_printf(tree, ";");

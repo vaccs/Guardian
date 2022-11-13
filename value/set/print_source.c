@@ -27,8 +27,7 @@
 
 struct stringtree* set_value_print_source(
 	struct value* super,
-	struct out_shared* shared,
-	struct environment_type* environment)
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -51,7 +50,7 @@ struct stringtree* set_value_print_source(
 	
 	for (unsigned i = 0, n = elements->n; i < n; i++)
 	{
-		struct stringtree* subtree = value_print_source(elements->data[i], shared, environment);
+		struct stringtree* subtree = value_print_source(elements->data[i], shared);
 		
 		stringtree_append_printf(tree, "data[%u] = ", i);
 		stringtree_append_tree(tree, subtree);

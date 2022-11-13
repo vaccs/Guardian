@@ -7,11 +7,11 @@ struct lambda_value
 	
 	struct parameter_list* parameters;
 	
-	struct environment_type* environment;
-	
 	struct scope* captured;
 	
 	struct expression* body;
+	
+	struct environment_type* captured_type;
 	
 	unsigned id; // gotten from function_queue
 };

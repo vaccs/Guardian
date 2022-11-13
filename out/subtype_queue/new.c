@@ -16,10 +16,13 @@ struct subtype_queue* new_subtype_queue()
 	
 	struct subtype_queue* this = smalloc(sizeof(*this));
 	
-	this->todo = new_quack();
+	this->values.todo = new_quack();
+	this->values.queued = new_ptrset();
+	this->values.done = new_ptrset();
 	
-	this->queued = new_ptrset();
-	this->done = new_ptrset();
+	this->expressions.todo = new_quack();
+	this->expressions.queued = new_ptrset();
+	this->expressions.done = new_ptrset();
 	
 	this->text = NULL;
 	

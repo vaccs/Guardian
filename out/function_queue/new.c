@@ -26,7 +26,7 @@ struct function_queue* new_function_queue()
 	
 	this->done = avl_alloc_tree(compare_funcdata, free);
 	
-	this->lambda_id = 0;
+	this->lambda_id = 1; // zero represents unassigned
 	
 	this->next = 1;
 	

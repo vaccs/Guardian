@@ -25,8 +25,7 @@
 
 struct stringtree* dict_value_print_source(
 	struct value* super,
-	struct out_shared* shared,
-	struct environment_type* environment)
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -51,13 +50,13 @@ struct stringtree* dict_value_print_source(
 	{
 		struct value_pair* element = elements->data[i];
 		
-		struct stringtree* key = value_print_source(element->key, shared, environment);
+		struct stringtree* key = value_print_source(element->key, shared);
 		
 		stringtree_append_printf(tree, "data[%u].key = ", i);
 		stringtree_append_tree(tree, key);
 		stringtree_append_printf(tree, ";");
 		
-		struct stringtree* value = value_print_source(element->value, shared, environment);
+		struct stringtree* value = value_print_source(element->value, shared);
 		
 		stringtree_append_printf(tree, "data[%u].value = ", i);
 		stringtree_append_tree(tree, value);

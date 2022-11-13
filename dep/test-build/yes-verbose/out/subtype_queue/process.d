@@ -4,5 +4,7 @@ bin/test-build/yes-verbose/./out/subtype_queue/process.o: \
  stringtree/new.h stringtree/prepend_tree.h stringtree/prepend_printf.h \
  stringtree/free.h expression/lambda/struct.h \
  expression/lambda/../struct.h expression/lambda/../kind.h \
- expression/lambda/generate_typedef.h out/subtype_queue/struct.h \
+ expression/lambda/generate_typedef.h value/lambda/struct.h \
+ value/lambda/../struct.h value/lambda/../kind.h \
+ value/lambda/generate_typedef.h out/subtype_queue/struct.h \
  out/subtype_queue/process.h

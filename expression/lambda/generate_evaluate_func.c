@@ -24,6 +24,7 @@
 
 #include <out/function_queue/submit_new.h>
 #include <out/function_queue/submit_inc.h>
+#include <out/function_queue/submit_free.h>
 #include <out/function_queue/submit_lambda_evaluate.h>
 #include <out/function_queue/submit_lambda_free.h>
 
@@ -38,8 +39,6 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 	ENTER;
 	
 	struct stringtree* tree = new_stringtree();
-	
-	subtype_queue_submit(shared->stqueue, this);
 	
 	struct lambda_type* ltype = (void*) this->super.type;
 	
@@ -65,10 +64,10 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 		"struct subtype_%u* this = (void*) super;",
 		this->id);
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, &this->environment->super);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, (struct type*) this->environment);
 	
 	stringtree_append_printf(tree,
-		"struct type_%u* environment = func_%u(prev);",
+		"struct type_%u* environment = func_%u(this->prev);",
 		this->environment->super.id, new_id);
 	
 	parameter_list_foreach(this->parameters, ({
@@ -83,13 +82,15 @@ struct stringtree* lambda_expression_generate_evaluate_func(
 		runme;
 	}));
 	
-	stringtree_append_printf(tree, "return ");
-	
+	stringtree_append_printf(tree, "struct type_%u* result = ", ltype->rettype->id);
 	struct stringtree* subtree = expression_print_source(this->body, shared, this->environment);
-	
 	stringtree_append_tree(tree, subtree);
-	
 	stringtree_append_printf(tree, ";");
+	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, (struct type*) this->environment);
+	stringtree_append_printf(tree, "func_%u(environment);", free_id);
+	
+	stringtree_append_printf(tree, "return result;");
 	
 	stringtree_append_printf(tree, "}");
 	

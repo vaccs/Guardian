@@ -31,3 +31,40 @@ void scope_foreach(
 	EXIT;
 }
 
+void scope_foreach_layer(
+	struct scope* this,
+	void (*runme)(struct scope*))
+{
+	ENTER;
+	
+	if (this)
+	{
+		scope_foreach_layer(this->prev, runme);
+		
+		runme(this);
+	}
+	
+	EXIT;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -33,8 +33,7 @@
 
 struct stringtree* tuple_value_print_source(
 	struct value* super,
-	struct out_shared* shared,
-	struct environment_type* environment)
+	struct out_shared* shared)
 {
 	ENTER;
 	
@@ -53,7 +52,7 @@ struct stringtree* tuple_value_print_source(
 		{
 			stringtree_append_printf(tree, "struct type_%u* arg%u = ", value->type->id, argcounter++);
 			
-			struct stringtree* subtree = value_print_source(value, shared, environment);
+			struct stringtree* subtree = value_print_source(value, shared);
 			
 			stringtree_append_tree(tree, subtree);
 			

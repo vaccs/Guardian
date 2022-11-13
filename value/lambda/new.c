@@ -33,6 +33,8 @@ struct value* new_lambda_value(
 	
 	this->body = inc_expression(body);
 	
+	this->id = 0;
+	
 	EXIT;
 	return (void*) this;
 }

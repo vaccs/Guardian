@@ -12,8 +12,7 @@ struct value_inheritance
 	
 	struct stringtree* (*print_source)(
 		struct value*,
-		struct out_shared* shared,
-		struct environment_type*);
+		struct out_shared* shared);
 	
 	void (*print)(struct value*);
 	

@@ -9,6 +9,7 @@
 #include <stringtree/append_printf.h>
 
 #include <type/struct.h>
+#include <type/environment/struct.h>
 
 #include <out/shared.h>
 /*#include <out/subtype_queue/submit.h>*/
@@ -36,10 +37,10 @@ struct stringtree* lambda_expression_generate_free_func(
 		"struct subtype_%u* this = (void*) super;"
 	"",  this->id);
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, (struct type*) this->environment);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, (struct type*) this->environment->prev);
 	
 	stringtree_append_printf(tree, ""
-		"func_%u(this->environment);"
+		"func_%u(this->prev);"
 	"",  free_id);
 	
 	stringtree_append_printf(tree, ""
@@ -49,6 +50,15 @@ struct stringtree* lambda_expression_generate_free_func(
 	EXIT;
 	return tree;
 }
+
+
+
+
+
+
+
+
+
 
 
 

@@ -16,10 +16,15 @@ void free_subtype_queue(struct subtype_queue* this)
 {
 	ENTER;
 	
-	free_quack(this->todo);
+	free_quack(this->values.todo);
 	
-	free_ptrset(this->queued);
-	free_ptrset(this->done);
+	free_ptrset(this->values.queued);
+	free_ptrset(this->values.done);
+	
+	free_quack(this->expressions.todo);
+	
+	free_ptrset(this->expressions.queued);
+	free_ptrset(this->expressions.done);
 	
 	free_stringtree(this->text);
 	

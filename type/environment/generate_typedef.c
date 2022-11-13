@@ -50,6 +50,11 @@ struct stringtree* environment_type_generate_typedef(
 		runme;
 	}));
 	
+	if (this->prev)
+	{
+		stringtree_append_printf(tree, "struct type_%u* prev; ", this->prev->super.id);
+	}
+	
 	stringtree_append_printf(tree, ""
 			"unsigned refcount;"
 		"};"

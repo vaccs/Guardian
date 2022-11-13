@@ -19,7 +19,7 @@ struct stringtree* literal_expression_print_source(
 	
 	struct literal_expression* this = (void*) super;
 	
-	struct stringtree* tree = value_print_source(this->value, shared, environment);
+	struct stringtree* tree = value_print_source(this->value, shared);
 	
 	EXIT;
 	return tree;

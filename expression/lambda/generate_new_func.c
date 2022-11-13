@@ -14,7 +14,7 @@
 
 #include <out/shared.h>
 #include <out/subtype_queue/submit.h>
-#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_lambda_evaluate.h>
 #include <out/function_queue/submit_lambda_free.h>
 
@@ -34,7 +34,7 @@ struct stringtree* lambda_expression_generate_new_func(
 	
 	struct stringtree* tree = new_stringtree();
 	
-	subtype_queue_submit(shared->stqueue, this);
+	subtype_queue_submit_expression(shared->stqueue, this);
 	
 	unsigned type_id = this->super.type->id;
 	
@@ -54,10 +54,10 @@ struct stringtree* lambda_expression_generate_new_func(
 	
 	stringtree_append_printf(tree, "this->super.refcount = 1;");
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, (struct type*) this->environment);
-	stringtree_append_printf(tree, "this->environment = func_%u(prev);", new_id);
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, (struct type*) this->environment->prev);
+	stringtree_append_printf(tree, "this->prev = func_%u(prev);", inc_id);
 	
-	stringtree_append_printf(tree, "return (void*) this;");
+	stringtree_append_printf(tree, "return &this->super;");
 	
 	stringtree_append_printf(tree, "}");
 	

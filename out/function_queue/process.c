@@ -19,7 +19,9 @@
 #include <type/generate_free_forward.h>
 
 #include <type/list/generate_index_func.h>
+
 #include <type/list/generate_append_func.h>
+#include <type/list/generate_append_forward.h>
 
 #include <quack/pop.h>
 #include <quack/is_nonempty.h>
@@ -34,6 +36,7 @@
 
 #include <value/lambda/generate_new_func.h>
 #include <value/lambda/generate_evaluate_func.h>
+#include <value/lambda/generate_free_func.h>
 
 #include "funcdata/struct.h"
 
@@ -68,6 +71,12 @@ void function_queue_process(
 				
 				case fk_compare:
 					subtext = type_generate_compare_forward(fdata->type, fdata->id);
+					break;
+				
+				case fk_append:
+					dputs("fk_append");
+					assert(fdata->type->kind == tk_list);
+					subtext = list_type_generate_append_forward((void*) fdata->type, fdata->id, shared);
 					break;
 				
 				case fk_free:
@@ -153,9 +162,7 @@ void function_queue_process(
 					if (fdata->lexpression)
 						subtext = lambda_expression_generate_free_func(fdata->lexpression, fdata->id, shared);
 					else if (fdata->lvalue)
-					{
-						TODO;
-					}
+						subtext = lambda_value_generate_free_func(fdata->lvalue, fdata->id, shared);
 					else
 					{
 						TODO;

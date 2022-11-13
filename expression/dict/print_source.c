@@ -13,10 +13,12 @@
 #include <list/expression_pair/struct.h>
 
 #include <type/struct.h>
+#include <type/dict/struct.h>
 
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_compare.h>
 
 #include "../print_source.h"
 
@@ -36,7 +38,7 @@ struct stringtree* dict_expression_print_source(
 	
 	struct type* type = super->type;
 	
-/*	struct dict_type* dtype = (void*) type;*/
+	struct dict_type* dtype = (void*) type;
 	
 	type_queue_submit(shared->tqueue, type);
 	
@@ -45,7 +47,7 @@ struct stringtree* dict_expression_print_source(
 	struct expression_pair_list* elements = this->elements;
 	
 	stringtree_append_printf(tree,
-		"struct type_%u_pair* elements = malloc(sizeof(*data) * %u);", type->id, elements->n);
+		"struct type_%u_pair* elements = malloc(sizeof(*elements) * %u);", type->id, elements->n);
 	
 	for (unsigned i = 0, n = elements->n; i < n; i++)
 	{
@@ -69,18 +71,19 @@ struct stringtree* dict_expression_print_source(
 	
 	stringtree_append_printf(tree, "unsigned num_elements = %u;", elements->n);
 	
+	unsigned compare_id = function_queue_submit_compare(shared->fqueue, dtype->key);
+	
 	stringtree_append_printf(tree, "for (bool changed = true; changed; )");
 	stringtree_append_printf(tree, "{");
 	stringtree_append_printf(tree, "	changed = false;");
 	stringtree_append_printf(tree, "	for (unsigned i = 0, n = num_elements - 1; i < n; i++)");
 	stringtree_append_printf(tree, "	{");
-	stringtree_append_printf(tree, "		struct value_pair* this = elements[i];");
-	stringtree_append_printf(tree, "		struct value_pair* that = elements[i + 1];");
-	stringtree_append_printf(tree, "		int cmp = compare_values(this->key, that->key);");
+	stringtree_append_printf(tree, "		int cmp = func_%u(elements[i].key, elements[i + 1].key);", compare_id);
 	stringtree_append_printf(tree, "		if (cmp > 0)");
 	stringtree_append_printf(tree, "		{");
-	stringtree_append_printf(tree, "			elements->data[i] = that;");
-	stringtree_append_printf(tree, "			elements->data[i + 1] = this;");
+	stringtree_append_printf(tree, "			struct type_%u_pair temp = elements[i + 1];", type->id);
+	stringtree_append_printf(tree, "			elements[i + 1] = elements[i];");
+	stringtree_append_printf(tree, "			elements[i] = temp;");
 	stringtree_append_printf(tree, "			changed = true;");
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "		else if (cmp == 0)");
