@@ -243,6 +243,8 @@ struct stringtree* out(
 		
 		dpv(lid);
 		
+		dpvb(state->accepts);
+		
 		if (state->accepts)
 		{
 			if (state->kind == tk_whitespace)
@@ -265,6 +267,8 @@ struct stringtree* out(
 			
 			if (to)
 			{
+				dpv(to);
+				
 				unsigned slid = lstate_to_id(ltoi, to);
 				
 				dyntable_set(lexer, lid, i, slid);

@@ -28,39 +28,18 @@ struct stringtree* tuple_type_generate_new_func(
 	struct tuple_type* this = (void*) super;
 	
 	stringtree_append_printf(text, ""
-		"struct type_%u* func_%u("
-	"", super->id, func_id);
+		"struct type_%u* func_%u()"
+		"{"
+			"struct type_%u* this = malloc(sizeof(*this));"
+	"", super->id, func_id, super->id);
 	
 	unsigned argcounter = 0;
-	bool first = true;
-	
 	type_list_foreach(this->subtypes, ({
 		void runme(struct type* subtype)
 		{
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(text, ", ");
-			
-			stringtree_append_printf(text, "struct type_%u* arg%u", subtype->id, argcounter++);
-		}
-		runme;
-	}));
-	
-	stringtree_append_printf(text, ""
-				") {"
-			"struct type_%u* this = malloc(sizeof(*this));"
-	"", super->id);
-	
-	argcounter = 0;
-	type_list_foreach(this->subtypes, ({
-		void runme(struct type* subtype)
-		{
-			unsigned inc_id = function_queue_submit_inc(flookup, subtype);
-			
 			stringtree_append_printf(text, ""
-				"this->$%u = func_%u(arg%u);"
-			"", argcounter, inc_id, argcounter);
+				"this->$%u = NULL;"
+			"", argcounter);
 			
 			argcounter++;
 		}

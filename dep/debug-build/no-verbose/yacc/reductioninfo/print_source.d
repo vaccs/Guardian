@@ -5,7 +5,8 @@ bin/debug-build/no-verbose/./yacc/reductioninfo/print_source.o: \
  type_cache/get_type/bool.h type_cache/get_type/float.h \
  type_cache/get_type/char.h type_cache/get_type/charlist.h parse/parse.h \
  out/shared.h out/function_queue/submit_new.h \
- out/function_queue/submit_free.h out/function_queue/submit_append.h \
- yacc/structinfo/foreach.h yacc/structinfo/node/struct.h \
- yacc/structinfo/node/type.h yacc/reductioninfo/struct.h \
- yacc/reductioninfo/kind.h yacc/reductioninfo/print_source.h
+ out/function_queue/submit_inc.h out/function_queue/submit_free.h \
+ out/function_queue/submit_append.h yacc/structinfo/foreach.h \
+ yacc/structinfo/node/struct.h yacc/structinfo/node/type.h \
+ yacc/reductioninfo/struct.h yacc/reductioninfo/kind.h \
+ yacc/reductioninfo/print_source.h

@@ -4,6 +4,8 @@
 
 #include <debug.h>
 
+#include <string/struct.h>
+
 #include <avl/alloc_tree.h>
 #include <avl/insert.h>
 #include <avl/free_tree.h>

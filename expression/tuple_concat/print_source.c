@@ -18,6 +18,7 @@
 /*#include <out/type_lookup/lookup.h>*/
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
 
 #include "../print_source.h"
@@ -55,49 +56,39 @@ struct stringtree* tuple_concat_expression_print_source(
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, ""
-		"struct type_%u* result = func_%u("
+		"struct type_%u* result = func_%u();"
 	"", super->type->id, new_id);
 	
 	struct tuple_type* left_type = (void*) this->left->type;
 	
-	bool first = true;
-	
 	unsigned argcounter = 0;
+	
 	type_list_foreach(left_type->subtypes, ({
-		void runme(struct type* _)
+		void runme(struct type* subtype)
 		{
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(tree, ", ");
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, subtype);
 			
-			stringtree_append_printf(tree, "left->$%u", argcounter++);
+			stringtree_append_printf(tree, "result->$%u = func_%u(left->$%u);", argcounter, inc_id, argcounter);
+			
+			argcounter++;
 		}
 		runme;
 	}));
 	
 	struct tuple_type* right_type = (void*) this->right->type;
 	
-	argcounter = 0;
+	unsigned right_argcounter = 0;
 	type_list_foreach(right_type->subtypes, ({
-		void runme(struct type* _)
+		void runme(struct type* subtype)
 		{
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(tree, ", ");
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, subtype);
 			
-			stringtree_append_printf(tree, "right->$%u", argcounter++);
+			stringtree_append_printf(tree, "result->$%u = func_%u(right->$%u);", argcounter++, inc_id, right_argcounter++);
 		}
 		runme;
 	}));
 	
-	stringtree_append_printf(tree, ""
-			");"
-	"");
-	
 	unsigned left_free_id = function_queue_submit_free(shared->fqueue, this->left->type);
-	
 	unsigned right_free_id = function_queue_submit_free(shared->fqueue, this->right->type);
 	
 	stringtree_append_printf(tree, "func_%u(left), func_%u(right);", left_free_id, right_free_id);

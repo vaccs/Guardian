@@ -3,13 +3,34 @@
 
 highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
 
-multiplicative: highest #base ('*' highest #multmes[] | '/' highest #divmes[])*;
+multiplicative
+	: highest #base
+	| highest #base '*' highest #multme
+	| highest #base '/' highest #divme
+	;
 
-additive: multiplicative #base ('+' multiplicative #addmes[] | '-' multiplicative #submes[])*;
+additive
+	: multiplicative #base
+	| multiplicative #base '+' additive #addme
+	| multiplicative #base '-' additive #subme
+	;
 
 root: additive #exp;
 
 %start: root #root;
+
+
+//%skip: ' ' | '\t' | '\n';
+
+//highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
+
+//multiplicative: highest #base ('*' highest #multmes[] | '/' highest #divmes[])*;
+
+//additive: multiplicative #base ('+' multiplicative #addmes[] | '-' multiplicative #submes[])*;
+
+//root: additive #exp;
+
+//%start: root #root;
 
 
 

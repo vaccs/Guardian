@@ -20,6 +20,7 @@
 
 #include <out/shared.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
 #include <out/function_queue/submit_append.h>
 
@@ -165,13 +166,13 @@ void reductioninfo_print_source(
 							TODO;
 							#if 0
 							fprintf(stream, ""
-								"\t" "\t" "if (value->%s.n == value->%s.cap)" "\n"
-								"\t" "\t" "{" "\n"
-								"\t" "\t" "\t" "value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"\t" "\t" "\t" "value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
-								"\t" "\t" "}" "\n"
-								"\t" "\t" "memmove(value->%s.data + 1, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
-								"\t" "\t" "value->%s.data[0] = inc_%s_token(token), value->%s.n++;" "\n"
+								"if (value->%s.n == value->%s.cap)" "\n"
+								"{" "\n"
+								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
+								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
+								"}" "\n"
+								"memmove(value->%s.data + 1, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
+								"value->%s.data[0] = inc_%s_token(token), value->%s.n++;" "\n"
 							"", name, name,
 							name, name,
 							name, name, name, name,
@@ -208,35 +209,39 @@ void reductioninfo_print_source(
 			structinfo_foreach(this->structinfo, ({
 				void runme(struct structinfo_node* node)
 				{
-					TODO;
-					#if 0
-					const char* name = node->name->chars;
+					struct string* name = node->name;
 					
 					switch (node->type)
 					{
 						case snt_grammar_scalar:
 						{
-							fprintf(stream, ""
-								"\t" "\t" "free_%s_%s(value->%s), value->%s = inc_%s_%s(subgrammar);" "\n"
-							"", prefix, type, name, name, prefix, type);
+							unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
+							unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+							
+							stringtree_append_printf(tree, ""
+								"func_%u(value->$%.*s), value->$%.*s = func_%u(subgrammar);" "\n"
+							"", free_id, name->len, name->chars, name->len, name->chars, inc_id);
 							break;
 						}
 						
 						case snt_grammar_array:
 						{
+							TODO;
+							#if 0
 							fprintf(stream, ""
-								"\t" "\t" "if (value->%s.n == value->%s.cap)" "\n"
-								"\t" "\t" "{" "\n"
-								"\t" "\t" "\t" "value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"\t" "\t" "\t" "value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
-								"\t" "\t" "}" "\n"
-								"\t" "\t" "memmove(value->%s.data + 1, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
-								"\t" "\t" "value->%s.data[0] = inc_%s_%s(subgrammar), value->%s.n++;" "\n"
+								"if (value->%s.n == value->%s.cap)" "\n"
+								"{" "\n"
+								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
+								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
+								"}" "\n"
+								"memmove(value->%s.data + 1, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
+								"value->%s.data[0] = inc_%s_%s(subgrammar), value->%s.n++;" "\n"
 							"", name, name,
 							name, name,
 							name, name, name, name,
 							name, name, name, name,
 							name, prefix, type, name);
+							#endif
 							break;
 						}
 						
@@ -244,7 +249,6 @@ void reductioninfo_print_source(
 							TODO;
 							break;
 					}
-					#endif
 				}
 				runme;
 			}));
@@ -260,47 +264,52 @@ void reductioninfo_print_source(
 		
 		case rik_trie:
 		{
-			TODO;
-			#if 0
 			dpvs(this->grammar);
 			
 			assert(this->grammar);
 			
-			fprintf(stream, ""
-				"\t" "\t" "{" "\n"
-				"\t" "\t" "\t" "struct %s_%s* trie = data.data[--yacc.n, --data.n];" "\n"
-			"", prefix, grammar);
+			struct type* type = type_cache_get_grammar_type(shared->tcache, this->grammar);
+			
+			stringtree_append_printf(tree, ""
+				"{" "\n"
+				"struct type_%u* trie = data.data[--yacc.n, --data.n];"
+			"", type->id);
 			
 			structinfo_foreach(structinfo, ({
 				void runme(struct structinfo_node* node)
 				{
-					const char* const name = node->name->chars;
+					struct string* name = node->name;
 					
 					switch (node->type)
 					{
 						case snt_token_scalar:
 						{
+							TODO;
+							#if 0
 							fprintf(stream, ""
-								"\t" "\t" "\t" "if (trie->%s) { free_%s_token(value->%s); value->%s = inc_%s_token(trie->%s); }" "\n"
+								"if (trie->%s) { free_%s_token(value->%s); value->%s = inc_%s_token(trie->%s); }" "\n"
 							"", name, prefix, name, name, prefix, name);
+							#endif
 							break;
 						}
 						
 						case snt_token_array:
 						{
+							TODO;
+							#if 0
 							fprintf(stream, ""
-								"\t" "\t" "\t" "if (trie->%s.n)"
-								"\t" "\t" "\t" "{" "\n"
-								"\t" "\t" "\t" "\t" "while (value->%s.n + trie->%s.n > value->%s.cap)" "\n"
-								"\t" "\t" "\t" "\t" "{" "\n"
-								"\t" "\t" "\t" "\t" "\t" "value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"\t" "\t" "\t" "\t" "\t" "value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
-								"\t" "\t" "\t" "\t" "}" "\n"
-								"\t" "\t" "\t" "\t" "memmove(value->%s.data + trie->%s.n, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
-								"\t" "\t" "\t" "\t" "for (unsigned i = 0, n = trie->%s.n; i < n; i++)" "\n"
-								"\t" "\t" "\t" "\t" "\t" "value->%s.data[i] = inc_%s_token(trie->%s.data[i]);" "\n"
-								"\t" "\t" "\t" "\t" "value->%s.n += trie->%s.n;" "\n"
-								"\t" "\t" "\t" "}" "\n"
+								"if (trie->%s.n)"
+								"{" "\n"
+								"while (value->%s.n + trie->%s.n > value->%s.cap)" "\n"
+								"{" "\n"
+								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
+								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
+								"}" "\n"
+								"memmove(value->%s.data + trie->%s.n, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
+								"for (unsigned i = 0, n = trie->%s.n; i < n; i++)" "\n"
+								"value->%s.data[i] = inc_%s_token(trie->%s.data[i]);" "\n"
+								"value->%s.n += trie->%s.n;" "\n"
+								"}" "\n"
 							"", name,
 							name, name, name,
 							name, name,
@@ -309,35 +318,43 @@ void reductioninfo_print_source(
 							name,
 							name, prefix, name,
 							name, name);
+							#endif
 							break;
 						}
 						
 						case snt_grammar_scalar:
 						{
-							const char* const type = node->grammar.name->chars;
-							fprintf(stream, ""
-								"\t" "\t" "\t" "if (trie->%s) { free_%s_%s(value->%s); value->%s = inc_%s_%s(trie->%s); }" "\n"
-							"", name, prefix, type, name, name, prefix, type, name);
+							struct type* scalar = type_cache_get_grammar_type(shared->tcache, node->grammar);
+							
+							unsigned inc_id = function_queue_submit_inc(shared->fqueue, scalar);
+							
+							unsigned free_id = function_queue_submit_free(shared->fqueue, scalar);
+							
+							stringtree_append_printf(tree, ""
+								"if (trie->$%.*s) { func_%u(value->$%.*s); value->$%.*s = func_%u(trie->$%.*s); }" "\n"
+							"", name->len, name->chars, free_id, name->len, name->chars, name->len, name->chars, inc_id, name->len, name->chars);
 							break;
 						}
 						
 						case snt_grammar_array:
 						{
+							TODO;
+							#if 0
 							const char* const type = node->grammar.name->chars;
 							
 							fprintf(stream, ""
-								"\t" "\t" "\t" "if (trie->%s.n)" "\n"
-								"\t" "\t" "\t" "{" "\n"
-								"\t" "\t" "\t" "\t" "while (value->%s.n + trie->%s.n > value->%s.cap)" "\n"
-								"\t" "\t" "\t" "\t" "{" "\n"
-								"\t" "\t" "\t" "\t" "\t" "value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"\t" "\t" "\t" "\t" "\t" "value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
-								"\t" "\t" "\t" "\t" "}" "\n"
-								"\t" "\t" "\t" "\t" "memmove(value->%s.data + trie->%s.n, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
-								"\t" "\t" "\t" "\t" "for (unsigned i = 0, n = trie->%s.n; i < n; i++)" "\n"
-								"\t" "\t" "\t" "\t" "\t" "value->%s.data[i] = inc_%s_%s(trie->%s.data[i]);" "\n"
-								"\t" "\t" "\t" "\t" "value->%s.n += trie->%s.n;" "\n"
-								"\t" "\t" "\t" "}" "\n"
+								"if (trie->%s.n)" "\n"
+								"{" "\n"
+								"while (value->%s.n + trie->%s.n > value->%s.cap)" "\n"
+								"{" "\n"
+								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
+								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
+								"}" "\n"
+								"memmove(value->%s.data + trie->%s.n, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
+								"for (unsigned i = 0, n = trie->%s.n; i < n; i++)" "\n"
+								"value->%s.data[i] = inc_%s_%s(trie->%s.data[i]);" "\n"
+								"value->%s.n += trie->%s.n;" "\n"
+								"}" "\n"
 							"", name,
 							name, name, name,
 							name, name,
@@ -346,25 +363,9 @@ void reductioninfo_print_source(
 							name,
 							name, prefix, type, name,
 							name, name);
+							#endif
 							break;
 						}
-						
-						case snt_scanf_scalar:
-						{
-							fprintf(stream, ""
-								"\t" "\t" "\t" "if (trie->%s) { value->%s = trie->%s; }" "\n"
-							"", name, name, name);
-							break;
-						}
-						
-						case snt_scanf_array:
-						{
-							TODO;
-							break;
-						}
-						
-						case snt_user_defined:
-							break;
 						
 						default:
 							TODO;
@@ -374,11 +375,12 @@ void reductioninfo_print_source(
 				runme;
 			}));
 			
-			fprintf(stream, ""
-				"\t" "\t" "\t" "free_%s_%s(trie);" "\n"
-				"\t" "\t" "}" "\n"
-			"", prefix, grammar);
-			#endif
+			unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+			
+			stringtree_append_printf(tree, ""
+					"func_%u(trie);"
+				"}"
+			"", free_id);
 			break;
 		}
 		

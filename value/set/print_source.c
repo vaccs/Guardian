@@ -35,10 +35,42 @@ struct stringtree* set_value_print_source(
 {
 	ENTER;
 	
+	struct stringtree* tree = new_stringtree();
+	
 	unsigned value_id;
 	if (value_to_id_add(vtoi, &value_id, super))
 	{
-		TODO;
+		struct set_value* this = (void*) super;
+		
+		type_queue_submit(shared->tqueue, super->type);
+		
+		struct set_type* stype = (void*) super->type;
+		
+		stringtree_append_printf(tree, "({");
+		
+		unsigned n = this->elements->n;
+		
+		stringtree_append_printf(tree,
+			"struct type_%u** elements = malloc(sizeof(*elements) * %u);", stype->element_type->id, n);
+		
+		unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+		
+		stringtree_append_printf(tree,
+			"struct type_%u* value_%u = func_%u(elements, %u);", super->type->id, value_id, new_id, n);
+		
+		for (unsigned i = 0; i < n; i++)
+		{
+			struct stringtree* subtree = value_print_source(this->elements->data[i], shared, vtoi);
+			
+			stringtree_append_printf(tree, "elements[%u] = ", i);
+			stringtree_append_tree(tree, subtree);
+			stringtree_append_printf(tree, ";");
+			
+			free_stringtree(subtree);
+		}
+		
+		stringtree_append_printf(tree, "value_%u;", value_id);
+		
 		value_to_id_discard(vtoi, super);
 	}
 	else
@@ -46,43 +78,10 @@ struct stringtree* set_value_print_source(
 		TODO;
 	}
 	
-	TODO;
-	#if 0
-	struct set_value* this = (void*) super;
-	
-	struct stringtree* tree = new_stringtree();
-	
-	struct type* type = super->type;
-	
-	type_queue_submit(shared->tqueue, type);
-	
-	struct set_type* stype = (void*) type;
-	
-	stringtree_append_printf(tree, "({");
-	
-	struct value_list* elements = this->elements;
-	
-	stringtree_append_printf(tree,
-		"struct type_%u** elements = malloc(sizeof(*elements) * %u);", stype->element_type->id, elements->n);
-	
-	for (unsigned i = 0, n = elements->n; i < n; i++)
-	{
-		struct stringtree* subtree = value_print_source(elements->data[i], shared);
-		
-		stringtree_append_printf(tree, "elements[%u] = ", i);
-		stringtree_append_tree(tree, subtree);
-		stringtree_append_printf(tree, ";");
-		
-		free_stringtree(subtree);
-	}
-	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	stringtree_append_printf(tree, "func_%u(elements, %u);", new_id, elements->n);
 	stringtree_append_printf(tree, "})");
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

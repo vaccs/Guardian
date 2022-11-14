@@ -50,11 +50,15 @@ struct stringtree* tuple_expression_print_source(
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
 	stringtree_append_printf(tree, ""
 		"({"
 	"");
+	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree, ""
+		"struct type_%u* result = func_%u();"
+	"", super->type->id, new_id);
 	
 	unsigned arg_counter = 0;
 	
@@ -66,8 +70,8 @@ struct stringtree* tuple_expression_print_source(
 			struct stringtree* subtree = expression_print_source(subexpression, shared, environment);
 			
 			stringtree_append_printf(tree, ""
-				"struct type_%u* arg%u = "
-			"", subexpression->type->id, arg_counter++);
+				"result->$%u = "
+			"", arg_counter++);
 			
 			stringtree_append_tree(tree, subtree);
 			
@@ -76,49 +80,6 @@ struct stringtree* tuple_expression_print_source(
 			"");
 			
 			free_stringtree(subtree);
-		}
-		runme;
-	}));
-	
-	stringtree_append_printf(tree, ""
-		"struct type_%u* result = func_%u("
-	"", super->type->id, new_id);
-	
-	if (super->type->id == 18)
-	{
-		CHECK;
-	}
-	
-	arg_counter = 0;
-	bool first = true;
-	
-	expression_list_foreach(this->subexpressions, ({
-		void runme(struct expression* subexpression)
-		{
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(tree, ", ");
-			
-			stringtree_append_printf(tree, "arg%u", arg_counter++);
-		}
-		runme;
-	}));
-	
-	stringtree_append_printf(tree, ""
-		");"
-	"");
-	
-	arg_counter = 0;
-	
-	expression_list_foreach(this->subexpressions, ({
-		void runme(struct expression* subexpression)
-		{
-			unsigned free_id = function_queue_submit_free(shared->fqueue, subexpression->type);
-			
-			stringtree_append_printf(tree, ""
-				"func_%u(arg%u);"
-			"", free_id, arg_counter++);
 		}
 		runme;
 	}));

@@ -77,8 +77,8 @@ struct stringtree* list_value_print_source(
 				stringtree_append_printf(tree, ";");
 				
 				stringtree_append_printf(tree, ""
-					"func_%u(list, element);"
-				"", append_id);
+					"func_%u(value_%u, element);"
+				"", append_id, value_id);
 				
 				stringtree_append_printf(tree, ""
 					"func_%u(element);"

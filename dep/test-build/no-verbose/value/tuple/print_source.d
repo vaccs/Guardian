@@ -4,5 +4,6 @@ bin/test-build/no-verbose/./value/tuple/print_source.o: \
  type/struct.h type/kind.h out/shared.h list/value/foreach.h \
  out/type_queue/submit.h out/function_queue/submit_free.h \
  value/print_source.h out/function_queue/submit_new.h \
+ misc/value_to_id/add.h misc/value_to_id/discard.h \
  value/tuple/../print_source.h value/tuple/struct.h \
  value/tuple/../struct.h value/tuple/../kind.h value/tuple/print_source.h

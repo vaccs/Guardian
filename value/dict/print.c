@@ -13,6 +13,9 @@
 
 #include <list/value_pair/foreach.h>
 
+#include <type/dict/struct.h>
+#include <type/print.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -48,7 +51,9 @@ void dict_value_print(
 	
 	if (first)
 	{
-		TODO;
+		struct dict_type* dtype = (void*) super->type;
+		
+		printf("<"), type_print(dtype->key), printf(": "), type_print(dtype->value), printf(">");
 	}
 	
 	printf("}");

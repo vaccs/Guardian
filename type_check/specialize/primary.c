@@ -1030,7 +1030,24 @@ struct expression* specialize_primary_expression(
 	}
 	else if (zexpression->curly)
 	{
-		if (zexpression->emptyset)
+		if (zexpression->emptyvalue)
+		{
+			struct type* key = build_type(tcache, zexpression->emptykey);
+			
+			struct type* val = build_type(tcache, zexpression->emptyvalue);
+			
+			struct type* type = type_cache_get_dict_type(tcache, key, val);
+			
+			struct value_pair_list* list = new_value_pair_list();
+			
+			struct value* new = new_dict_value(type, list);
+			
+			retval = new_literal_expression(new);
+			
+			free_value(new);
+			free_value_pair_list(list);
+		}
+		else if (zexpression->emptyset)
 		{
 			struct type* etype = build_type(tcache, zexpression->emptyset);
 			
@@ -1050,29 +1067,13 @@ struct expression* specialize_primary_expression(
 		{
 			retval = specialize_primary_set_expression(tcache, scope, zexpression);
 		}
-		else if (zexpression->emptykey)
+		else if (zexpression->keyvalues.n)
 		{
-			TODO;
-			#if 0
-			struct type* key = build_type(tcache, zexpression->emptykey);
-			
-			struct type* val = build_type(tcache, zexpression->emptyvalue);
-			
-			struct type* type = type_cache_get_dict_type(tcache, key, val);
-			
-			struct value_list* list = new_value_list();
-			
-			struct value* new = new_list_value(type, list);
-			
-			retval = new_literal_expression(new);
-			
-			free_value(new);
-			free_value_list(list);
-			#endif
+			retval = specialize_primary_dict_expression(tcache, scope, zexpression);
 		}
 		else
 		{
-			retval = specialize_primary_dict_expression(tcache, scope, zexpression);
+			TODO;
 		}
 	}
 	else if (zexpression->paren)

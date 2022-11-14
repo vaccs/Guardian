@@ -15,6 +15,12 @@ string: /['a'-'z', 'A'-'Z']+/ #value;
 b1 = boolean[0].value;
 b2 = boolean[1].value;
 
+u = integer[0].value;
+
+f1 = decimal[0].value;
+f2 = decimal[1].value;
+s1 = string[0].value;
+
 test01 = true  == ( true);
 test02 = false == ( false);
 
@@ -130,8 +136,6 @@ test88 = 3 == (false ? 2 : 3);
 test89 = 2 == (b1 ? 2: 3);
 test90 = 3 == (b2 ? 2: 3);
 
-u = integer[0].value;
-
 test91 = +7 == (+u);
 test92 = -7 == (-u);
 test93 = -8 == (~u);
@@ -164,8 +168,6 @@ test112 = 2 == (false ? u : 2);
 test113 = u == (b1 ? u : 2);
 test114 = 2 == (b2 ? u : 2);
 
-f1 = decimal[0].value;
-f2 = decimal[1].value;
 
 test115 =  6.0  == (3.5  + 2.5);
 test116 =  1.0  == (3.5  - 2.5);
@@ -216,8 +218,6 @@ test153 = 2 == ([1, 2, 3][1]);
 test154 = u == ([1, u, 3][1]);
 test155 = 2 == ([1, 2, u][1]);
 test156 = 7 == ([1, 2, 3, 4, 5, 6, 7, 8][u]);
-
-s1 = string[0].value;
 
 test157 = true  == ("a" <  "b");
 test158 = true  == ("a" <= "b");
@@ -350,11 +350,11 @@ w = (3.14, );
 
 s = t + (q + w);
 
-fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
+//fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2);
 
-fib2 = $int x -> int: x < 2 ? k : fib2(x - 1) + fib2(x - 2);
+//fib2 = $int x -> int: x < 2 ? k : fib2(x - 1) + fib2(x - 2);
 
-k = 3;
+//k = 3;
 
 bar =
 	$int x, y, z -> int: (
@@ -363,11 +363,11 @@ bar =
 				$int c -> int:
 					a + b + c)(z))(y))(x);
 
-iseven = $int x -> bool: x == 0 ? true  : isodd (x - 1);
-isodd  = $int x -> bool: x == 0 ? false : iseven(x - 1);
+//iseven = $int x -> bool: x == 0 ? true  : isodd (x - 1);
+//isodd  = $int x -> bool: x == 0 ? false : iseven(x - 1);
 
-%error: isodd(7) && iseven(8);
-%error: isodd(u) && iseven(u + 1);
+//%error: isodd(7) && iseven(8);
+//%error: isodd(u) && iseven(u + 1);
 
 a = 2;
 
@@ -392,8 +392,8 @@ f = $int a, b -> int[]: [a, b];
 
 g = $int a, b -> int -> int: {0: a, 1: b};
 
-%error: g(3, 4) == {0:3} + {1:4};
-%error: g(u, 4) == {0:u} + {1:4};
+%error: g(3, 4) == {0: 3} + {1: 4};
+%error: g(u, 4) == {0: u} + {1: 4};
 
 h = $int a, b -> int{}: {a, b};
 
@@ -413,14 +413,14 @@ compose =
 
 %error: float!(s.0) + s.3 > 10.0;
 
-%error:
-	let! factory = $int a, b -> $int -> int:
-		let! basis = {0: a, 1: b},
-		fib = $int x -> int: x < 2 ? basis[x] : fib(x - 1) + fib(x - 2):
-		fib,
-	fact1 = factory(1, 2),
-	fact2 = factory(u + 2, u + 3):
-	fact1(5) > 5 && fact2(5) > 5;
+//%error:
+//	let! factory = $int a, b -> $int -> int:
+//		let! basis = {0: a, 1: b},
+//		fib = $int x -> int: x < 2 ? basis[x] : fib(x - 1) + fib(x - 2):
+//		fib,
+//	fact1 = factory(1, 2),
+//	fact2 = factory(u + 2, u + 3):
+//	fact1(5) > 5 && fact2(5) > 5;
 
 
 

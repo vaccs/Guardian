@@ -181,6 +181,7 @@ int main(int argc, char* const* argv)
 		lexer.data[lexer.n++] = c;
 	}
 	
+	#ifdef MAIA_DEBUG
 	void ddprintf(const char* fmt, ...)
 	{
 		for (unsigned i = 0, n = yacc.n; i < n; i++)
@@ -193,6 +194,7 @@ int main(int argc, char* const* argv)
 		vprintf(fmt, va);
 		va_end(va);
 	}
+	#endif
 	
 	unsigned t;
 	void* td;
@@ -203,7 +205,9 @@ int main(int argc, char* const* argv)
 		
 		t = 0, td = NULL;
 		
+		#ifdef MAIA_DEBUG
 		ddprintf("lexer: \"%.*s\": l = %u\n", lexer.n, lexer.data, l);
+		#endif
 		
 		while (1)
 		{
@@ -215,7 +219,9 @@ int main(int argc, char* const* argv)
 				
 				escape(escaped, c);
 				
+				#ifdef MAIA_DEBUG
 				ddprintf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);
+				#endif
 				
 				a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
 			}
@@ -227,7 +233,9 @@ int main(int argc, char* const* argv)
 				
 				escape(escaped, c);
 				
+				#ifdef MAIA_DEBUG
 				ddprintf("lexer: c = '%s' (0x%02hhX)\n", escaped, c);
+				#endif
 				
 				a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
 			}
@@ -235,48 +243,64 @@ int main(int argc, char* const* argv)
 			{
 				c = EOF;
 				
+				#ifdef MAIA_DEBUG
 				ddprintf("lexer: c = <EOF>\n");
+				#endif
 				
 				a = l < N(lexer_EOFs) ? lexer_EOFs[l] : 0;
 			}
 			
 			b = l < N(lexer_accepts) ? lexer_accepts[l] : 0;
 			
+			#ifdef MAIA_DEBUG
 			ddprintf("lexer: \"%.*s\" (%u): a = %u, b = %u\n", lexer.n, lexer.data, i, a, b);
+			#endif
 			
 			if (a)
 			{
 				if (b)
 				{
-					l = a, t = b, f = i++;
+					l = a, t = b, t = i++;
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: l = %u\n", l);
+					#endif
 				}
 				else
 				{
 					l = a, i++;
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: l = %u\n", l);
+					#endif
 				}
 			}
 			else if (b)
 			{
+				#ifdef MAIA_DEBUG
 				ddprintf("lexer: token: \"%.*s\"\n", i, lexer.data);
+				#endif
 				
 				if (!lexer.n)
 				{
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: EOF.\n");
+					#endif
 					t = b, td = NULL;
 					break;
 				}
 				else if (b == 1)
 				{
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: whitespace\n");
+					#endif
 					
 					l = original_l, t = 0;
 					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i, i = 0;
 				}
 				else
 				{
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: i = %u\n", i);
+					#endif
 					
 					struct token* token = malloc(sizeof(*token));
 					token->data = memcpy(malloc(i + 1), lexer.data, i);
@@ -288,14 +312,14 @@ int main(int argc, char* const* argv)
 					break;
 				}
 			}
-			else if (f)
+			else if (t)
 			{
 				if (t == 1)
 				{
-					assert(!"TODO: 291");
-					#if 0
 					ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
 					
+					assert(!"TODO: 291");
+					#if 0
 					l = original_l, t = 0;
 					memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0, i = 0;
 					#endif
@@ -335,17 +359,23 @@ int main(int argc, char* const* argv)
 	{
 		if (y < N(shifts) && t < N(*shifts) && (s = shifts[y][t]))
 		{
+			#ifdef MAIA_DEBUG
 			ddprintf("s == %u\n", s);
+			#endif
 			
 			y = s, push_state(y), push_data(td);
 			
 			read_token(lexer_starts[y]);
 			
+			#ifdef MAIA_DEBUG
 			ddprintf("t = %u\n", t);
+			#endif
 		}
 		else if (y < N(reduces) && t < N(*reduces) && (r = reduces[y][t]))
 		{
+			#ifdef MAIA_DEBUG
 			ddprintf("r == %u\n", r);
+			#endif
 			
 			unsigned g;
 			void* d;
@@ -360,13 +390,17 @@ int main(int argc, char* const* argv)
 			{
 				y = yacc.data[yacc.n - 1];
 				
+				#ifdef MAIA_DEBUG
 				ddprintf("y = %u\n", y);
+				#endif
 				
 				assert(y < N(gotos) && g < N(*gotos));
 				
 				s = gotos[y][g];
 				
+				#ifdef MAIA_DEBUG
 				ddprintf("s = %u\n", s);
+				#endif
 				
 				y = s, push_state(y), push_data(d);
 			}
