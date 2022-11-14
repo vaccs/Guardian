@@ -20,6 +20,9 @@
 /*#include <out/function_queue/submit_append.h>*/
 /*#include <out/function_queue/submit_free.h>*/
 
+#include <misc/value_to_id/add.h>
+#include <misc/value_to_id/discard.h>
+
 #include "../print_source.h"
 
 #include "struct.h"
@@ -27,10 +30,24 @@
 
 struct stringtree* set_value_print_source(
 	struct value* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct value_to_id* vtoi)
 {
 	ENTER;
 	
+	unsigned value_id;
+	if (value_to_id_add(vtoi, &value_id, super))
+	{
+		TODO;
+		value_to_id_discard(vtoi, super);
+	}
+	else
+	{
+		TODO;
+	}
+	
+	TODO;
+	#if 0
 	struct set_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -65,6 +82,7 @@ struct stringtree* set_value_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

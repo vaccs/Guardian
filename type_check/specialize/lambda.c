@@ -179,7 +179,6 @@ struct expression* specialize_lambda_expression(
 			exit(1);
 		}
 		
-		#if 0
 		if (type_check_scope_is_head_pure(scope))
 		{
 			struct value* new = new_lambda_value(type, parameters, NULL, body);
@@ -189,7 +188,6 @@ struct expression* specialize_lambda_expression(
 			free_value(new);
 		}
 		else
-		#endif
 		{
 			retval = new_lambda_expression(type, parameters, body);
 		}

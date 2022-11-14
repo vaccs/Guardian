@@ -1,4 +1,5 @@
 
+struct value_to_id;
 struct environment_type;
 struct out_shared;
 struct shared;
@@ -12,7 +13,8 @@ struct value_inheritance
 	
 	struct stringtree* (*print_source)(
 		struct value*,
-		struct out_shared* shared);
+		struct out_shared* shared,
+		struct value_to_id* vtoi);
 	
 	void (*print)(struct value*);
 	

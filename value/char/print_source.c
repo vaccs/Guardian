@@ -17,10 +17,13 @@
 
 struct stringtree* char_value_print_source(
 	struct value* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct value_to_id* vtoi)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct char_value* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -33,6 +36,7 @@ struct stringtree* char_value_print_source(
 	
 	EXIT;
 	return tree;
+	#endif
 }
 
 

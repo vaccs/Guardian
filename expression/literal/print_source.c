@@ -5,6 +5,9 @@
 
 #include <value/print_source.h>
 
+#include <misc/value_to_id/new.h>
+#include <misc/value_to_id/free.h>
+
 /*#include "../print_source.h"*/
 
 #include "struct.h"
@@ -19,7 +22,11 @@ struct stringtree* literal_expression_print_source(
 	
 	struct literal_expression* this = (void*) super;
 	
-	struct stringtree* tree = value_print_source(this->value, shared);
+	struct value_to_id* vtoi = new_value_to_id();
+	
+	struct stringtree* tree = value_print_source(this->value, shared, vtoi);
+	
+	free_value_to_id(vtoi);
 	
 	EXIT;
 	return tree;

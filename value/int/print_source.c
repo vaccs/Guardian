@@ -18,44 +18,58 @@
 
 #include <mpz/struct.h>
 
+#include <misc/value_to_id/add.h>
+#include <misc/value_to_id/discard.h>
+
 #include "struct.h"
 #include "print_source.h"
 
 struct stringtree* int_value_print_source(
 	struct value* super,
-	struct out_shared* shared)
+	struct out_shared* shared,
+	struct value_to_id* vtoi)
 {
 	ENTER;
 	
-	struct int_value* this = (void*) super;
-	
 	struct stringtree* tree = new_stringtree();
+	
+	struct int_value* this = (void*) super;
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
 	stringtree_append_printf(tree, "({");
 	
-	unsigned tid = super->type->id;
-	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
-	stringtree_append_printf(tree, "struct type_%u* new = func_%u();", tid, new_id);
-	
-	if (mpz_fits_slong_p(this->value->mpz))
+	unsigned valid;
+	if (value_to_id_add(vtoi, &valid, super))
 	{
-		signed long val = mpz_get_si(this->value->mpz);
+		unsigned tid = super->type->id;
 		
-		stringtree_append_printf(tree, "mpz_set_si(new->value, %li);", val);
+		unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+		
+		stringtree_append_printf(tree, "struct type_%u* value_%u = func_%u();", tid, valid, new_id);
+		
+		if (mpz_fits_slong_p(this->value->mpz))
+		{
+			signed long val = mpz_get_si(this->value->mpz);
+			
+			stringtree_append_printf(tree, "mpz_set_si(value_%u->value, %li);", valid, val);
+		}
+		else
+		{
+			TODO;
+			#if 0
+			stringtree_append_printf(tree, "mpz_set_str(new->mpz);");
+			#endif
+		}
+		
+		stringtree_append_printf(tree, "value_%u;", valid);
+		
+		value_to_id_discard(vtoi, super);
 	}
 	else
 	{
 		TODO;
-		#if 0
-		stringtree_append_printf(tree, "mpz_set_str(new->mpz);");
-		#endif
 	}
-	
-	stringtree_append_printf(tree, "new;");
 	
 	stringtree_append_printf(tree, "})");
 	
