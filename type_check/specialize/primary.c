@@ -136,6 +136,7 @@
 #include <expression/variable/new.h>
 #include <expression/parenthesis/new.h>
 #include <expression/float_form/new.h>
+#include <expression/len_form/new.h>
 #include <expression/set/run.h>
 #include <expression/dict/new.h>
 #include <expression/set/new.h>
@@ -672,17 +673,14 @@ static struct expression* specialize_primary_len_form_expression(
 	{
 		case tk_list:
 		{
-			TODO;
-			#if 0
-			if (list->kind == ek_literal)
+			if (object->kind == ek_literal)
 			{
 				TODO;
 			}
 			else
 			{
-				retval = new_len_expression(tcache, list);
+				retval = new_len_form_expression(tcache, object);
 			}
-			#endif
 			break;
 		}
 		

@@ -15,6 +15,8 @@
 #include <type/generate_inc_forward.h>
 #include <type/generate_compare_func.h>
 #include <type/generate_compare_forward.h>
+#include <type/generate_print_forward.h>
+#include <type/generate_print_func.h>
 #include <type/generate_free_func.h>
 #include <type/generate_free_forward.h>
 
@@ -73,6 +75,10 @@ void function_queue_process(
 					subtext = type_generate_compare_forward(fdata->type, fdata->id);
 					break;
 				
+				case fk_print:
+					subtext = type_generate_print_forward(fdata->type, fdata->id);
+					break;
+				
 				case fk_append:
 					dputs("fk_append");
 					assert(fdata->type->kind == tk_list);
@@ -116,6 +122,11 @@ void function_queue_process(
 					dputs("fk_append");
 					assert(fdata->type->kind == tk_list);
 					subtext = list_type_generate_append_func((void*) fdata->type, fdata->id, shared);
+					break;
+				
+				case fk_print:
+					dputs("fk_print");
+					subtext = type_generate_print_func(fdata->type, fdata->id, this);
 					break;
 				
 				case fk_compare:

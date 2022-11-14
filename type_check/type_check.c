@@ -293,24 +293,17 @@ void type_check(
 				exit(1);
 			}
 			
-			if (typed->kind == ek_literal)
+			if (raw_assertion->kind != ak_debug && typed->kind == ek_literal)
 			{
-				if (raw_assertion->kind == ak_debug)
+				struct literal_expression* literal = (void*) typed;
+				
+				struct bool_value* value = (void*) literal->value;
+				
+				if (!value->value)
 				{
-					printf("%%debug: "), expression_print(typed), puts("");
-				}
-				else
-				{
-					struct literal_expression* literal = (void*) typed;
-					
-					struct bool_value* value = (void*) literal->value;
-					
-					if (!value->value)
-					{
-						fflush(stdout);
-						fprintf(stderr, "%s: assertion constant-folded to false!\n", argv0);
-						exit(1);
-					}
+					fflush(stdout);
+					fprintf(stderr, "%s: assertion constant-folded to false!\n", argv0);
+					exit(1);
 				}
 			}
 			else

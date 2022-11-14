@@ -32,6 +32,11 @@ struct type_inheritance
 		unsigned,
 		struct function_queue*);
 	
+	struct stringtree* (*generate_print_func)(
+		struct type*,
+		unsigned func_id,
+		struct function_queue*);
+	
 	struct stringtree* (*generate_free_func)(
 		struct type*,
 		unsigned,
@@ -43,4 +48,15 @@ struct type_inheritance
 	void (*free)(
 		struct type*);
 };
+
+
+
+
+
+
+
+
+
+
+
 

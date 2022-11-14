@@ -1,0 +1,9 @@
+
+test58 = true == ('a' <  'b');
+test59 = true == ('a' <= 'b');
+test60 = false == ('a' == 'b');
+test61 = true == ('a' != 'b');
+test62 = false == ('a' >= 'b');
+test63 = false == ('a' >  'b');
+
+

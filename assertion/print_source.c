@@ -16,6 +16,7 @@
 /*#include <out/type_lookup/lookup.h>*/
 /*#include <out/function_lookup/lookup_free.h>*/
 #include <out/type_queue/submit.h>
+#include <out/function_queue/submit_print.h>
 #include <out/function_queue/submit_free.h>
 
 #include "struct.h"
@@ -44,37 +45,38 @@ struct stringtree* assertion_print_source(
 	
 	struct stringtree* text = new_stringtree();
 	
-	stringtree_append_printf(text, ""
-		"{"
-			"struct type_%u* assertion = "
-	"", tid);
+	stringtree_append_printf(text, "{");
+	
+	stringtree_append_printf(text, "struct type_%u* assertion = ", tid);
 	
 	struct stringtree* subtext = expression_print_source(
 		this->expression, shared, environment);
 	
 	stringtree_append_tree(text, subtext);
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+	stringtree_append_printf(text, ";");
 	
 	if (this->kind == ak_debug)
 	{
-		TODO;
+		unsigned print_id = function_queue_submit_print(shared->fqueue, type);
+		
+		stringtree_append_printf(text, "printf(\"%%%%debug: \"), func_%u(assertion), puts(\"\");", print_id);
 	}
 	else
 	{
 		stringtree_append_printf(text, ""
-				";"
-				
-				"if (!assertion->value)"
-				"{"
-					"fprintf(stderr, \"%%s: %%%%%s assertion failed!\\n\", argv0);"
-					"exit(1);"
-				"}"
-				
-				"func_%u(assertion);"
+			"if (!assertion->value)"
+			"{"
+				"fprintf(stderr, \"%%s: %%%%%s assertion failed!\\n\", argv0);"
+				"exit(1);"
 			"}"
-		"", lookup[this->kind], free_id);
+		"", lookup[this->kind]);
 	}
+	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, type);
+	stringtree_append_printf(text, "func_%u(assertion);", free_id);
+	
+	stringtree_append_printf(text, "}");
 	
 	free_stringtree(subtext);
 	

@@ -8,6 +8,9 @@
 
 /*#include <type/struct.h>*/
 
+#include <misc/value_to_id/add.h>
+#include <misc/value_to_id/discard.h>
+
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
@@ -22,21 +25,28 @@ struct stringtree* char_value_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct char_value* this = (void*) super;
-	
 	struct stringtree* tree = new_stringtree();
 	
-	type_queue_submit(shared->tqueue, super->type);
-	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
-	stringtree_append_printf(tree, "func_%u(%u)", new_id, this->value);
+	unsigned value_id;
+	if (value_to_id_add(vtoi, &value_id, super))
+	{
+		struct char_value* this = (void*) super;
+		
+		type_queue_submit(shared->tqueue, super->type);
+		
+		unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+		
+		stringtree_append_printf(tree, "func_%u(%u)", new_id, this->value);
+		
+		value_to_id_discard(vtoi, super);
+	}
+	else
+	{
+		TODO;
+	}
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

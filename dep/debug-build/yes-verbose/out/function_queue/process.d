@@ -4,7 +4,8 @@ bin/debug-build/yes-verbose/./out/function_queue/process.o: \
  avl/search.h type/struct.h type/kind.h type/generate_new_func.h \
  type/generate_new_forward.h type/generate_inc_func.h \
  type/generate_inc_forward.h type/generate_compare_func.h \
- type/generate_compare_forward.h type/generate_free_func.h \
+ type/generate_compare_forward.h type/generate_print_forward.h \
+ type/generate_print_func.h type/generate_free_func.h \
  type/generate_free_forward.h type/list/generate_index_func.h \
  type/list/generate_append_func.h type/list/generate_append_forward.h \
  quack/pop.h quack/is_nonempty.h stringtree/new.h \

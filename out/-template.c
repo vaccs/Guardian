@@ -316,7 +316,7 @@ int main(int argc, char* const* argv)
 			{
 				if (t == 1)
 				{
-					ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
+					printf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
 					
 					assert(!"TODO: 291");
 					#if 0

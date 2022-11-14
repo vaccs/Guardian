@@ -1,0 +1,40 @@
+
+decimal: /float: ['0'-'9']+ '.' ['0'-'9']+/ #value;
+
+
+// true false 7 3.0 2.0 abc
+%start: boolean boolean integer decimal decimal string;
+
+
+test115 =  6.0  == (3.5  + 2.5);
+test116 =  1.0  == (3.5  - 2.5);
+test117 =  8.75 == (3.5  * 2.5);
+test118 =  1.4  == (3.5  / 2.5);
+test119 =  1.0  == (3.5  % 2.5);
+test120 = 12.25 == (3.5 ** 2.0);
+
+test121 = true  == (3.5 >  2.5);
+test122 = true  == (3.5 >= 2.5);
+test123 = false == (3.5 == 2.5);
+test124 = true  == (3.5 != 2.5);
+test125 = false == (3.5 <= 2.5);
+test126 = false == (3.5 <  2.5);
+
+test127 = +3.0 == (+f1);
+test128 = -3.0 == (-f1);
+
+test129 = 5.5 == (f1  + 2.5);
+test130 = 0.5 == (f1  - 2.5);
+test132 = 7.5 == (f1  * 2.5);
+test133 = 1.2 == (f1  / 2.5);
+test134 = 0.5 == (f1  % 2.5);
+test135 = 9.0 == (f1 ** 2.0);
+
+test136 = true  == (f1 >  2.5);
+test137 = true  == (f1 >= 2.5);
+test138 = false == (f1 == 2.5);
+test139 = true  == (f1 != 2.5);
+test140 = false == (f1 <= 2.5);
+test141 = false == (f1 <  2.5);
+
+

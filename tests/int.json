@@ -1,0 +1,71 @@
+
+test64 = 1 == (1);
+test65 = 2 == (2);
+test66 = 3 == (3);
+
+test67 = +1 == (+1);
+test68 = -2 == (-2);
+test69 = -6 == (~5);
+
+test70 = 5 == (3  + 2);
+test71 = 1 == (3  - 2);
+test72 = 6 == (3  * 2);
+test73 = 1 == (3  / 2);
+test74 = 1 == (3  % 2);
+test75 = 9 == (3 ** 2);
+
+test76a = 28 == (7 << 2);
+test76b = 1 == (7 << -2);
+test77a = 0 == (3 >> 2);
+test77b = 12 == (3 >> -2);
+
+test78 = false == (3 <  2);
+test79 = false == (3 <= 2);
+test80 = false == (3 == 2);
+test81 = true == (3 != 2);
+test82 = true == (3 >= 2);
+test83 = true == (3 >  2);
+
+test84 = 2 == (3 & 2);
+test85 = 3 == (3 | 2);
+test86 = 1 == (3 ^ 2);
+
+test87 = 2 == (true ? 2 : 3);
+test88 = 3 == (false ? 2 : 3);
+test89 = 2 == (b1 ? 2: 3);
+test90 = 3 == (b2 ? 2: 3);
+
+test91 = +7 == (+u);
+test92 = -7 == (-u);
+test93 = -8 == (~u);
+
+test94 =  9 == (u  + 2);
+test95 =  5 == (u  - 2);
+test96 = 14 == (u  * 2);
+test97 =  3 == (u  / 2);
+test98 =  1 == (u  % 2);
+test99 = 49 == (u ** 2);
+
+test100a = 14 == (u <<  2);
+test100b = 3  == (u << -2);
+test101a = 3  == (u >>  2);
+test101b = 14 == (u >> -2);
+
+test102 = false == (u <  2);
+test103 = false == (u <= 2);
+test104 = false == (u == 2);
+test105 = true == (u != 2);
+test106 = true == (u >= 2);
+test107 = true == (u >  2);
+
+test108 = 2 == (u & 2);
+test109 = 7 == (u | 2);
+test110 = 5 == (u ^ 2);
+
+test111 = u == (true ? u : 2);
+test112 = 2 == (false ? u : 2);
+test113 = u == (b1 ? u : 2);
+test114 = 2 == (b2 ? u : 2);
+
+
+
