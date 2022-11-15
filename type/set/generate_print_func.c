@@ -28,7 +28,7 @@ struct stringtree* set_type_generate_print_func(
 	unsigned print_id = function_queue_submit_print(flookup, this->element_type);
 	
 	stringtree_append_printf(text, ""
-		"void func_%u(struct type_%u* this)"
+		"void func_%u(const struct type_%u* this)"
 		"{"
 			"printf(\"{\");"
 			

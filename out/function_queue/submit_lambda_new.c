@@ -34,11 +34,29 @@ unsigned function_queue_submit_lambda_value_new(
 	}
 	else
 	{
-		struct funcdata* fdata = new_funcdata(fk_lambda_new, NULL, NULL, lvalue, id = this->next++);
+		node = avl_search(this->done, &(struct funcdata) {
+			.kind = fk_lambda_new,
+			.lvalue = lvalue,
+		});
 		
-		quack_append(this->todo, fdata);
-		
-		avl_insert(this->queued, fdata);
+		if (node)
+		{
+			struct funcdata* fdata = node->item;
+			
+			id = fdata->id;
+			
+			quack_append(this->todo, fdata);
+			
+			avl_insert(this->queued, fdata);
+		}
+		else
+		{
+			struct funcdata* fdata = new_funcdata(fk_lambda_new, NULL, NULL, lvalue, id = this->next++);
+			
+			quack_append(this->todo, fdata);
+			
+			avl_insert(this->queued, fdata);
+		}
 	}
 	
 	EXIT;

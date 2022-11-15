@@ -23,7 +23,7 @@ struct stringtree* bool_type_generate_print_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"void func_%u(struct type_%u* this)"
+		"void func_%u(const struct type_%u* this)"
 		"{"
 			"printf(\"%%s\", this->value ? \"true\" : \"false\");"
 		"}"

@@ -1,36 +1,71 @@
 
-%skip: ' ' | '\t' | '\n';
+%skip: ' ' | '\n';
 
-highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
+highest
+	: (/int: ['0'-'9']+/ #literal | /['0'-'9']+/ #strliteral)
+	| '(' add #subexp ')'
+	;
 
-multiplicative
+multiply
 	: highest #base
-	| highest #base '*' highest #multme
-	| highest #base '/' highest #divme
+	| multiply #sub "*" highest #mutme
+	| multiply #sub "/" highest #divme
 	;
 
-additive
-	: multiplicative #base
-	| multiplicative #base '+' additive #addme
-	| multiplicative #base '-' additive #subme
+add	: multiply #base
+	| add #sub "+" multiply #addme
+	| add #sub "-" multiply #subme
 	;
 
-root: additive #exp;
+start: add #add;
 
-%start: root #root;
+%start: start;
 
+hightostr = $highest h -> char[]:
+	h has literal
+		? h.strliteral
+		: "(" + addtostr(h.subexp) + ")";
 
-//%skip: ' ' | '\t' | '\n';
+multostr = $multiply m -> char[]:
+	m has base
+		? hightostr(m.base)
+		: (multostr(m.sub) +
+			(m has mutme
+				? " * " + hightostr(m.mutme)
+				: " / " + hightostr(m.divme)));
 
-//highest: /int: '-'? ['0'-'9']+/ #literal | '(' root #subexp ')';
+addtostr = $add a -> char[]:
+	a has base
+		? multostr(a.base)
+		: (addtostr(a.sub) +
+			(a has addme
+				? " + " + multostr(a.addme)
+				: " - " + multostr(a.subme)));
 
-//multiplicative: highest #base ('*' highest #multmes[] | '/' highest #divmes[])*;
+%debug: addtostr(start[0].add);
 
-//additive: multiplicative #base ('+' multiplicative #addmes[] | '-' multiplicative #submes[])*;
+evalhigh = $highest h -> int:
+	h has literal
+		? h.literal
+		: evaladd(h.subexp);
 
-//root: additive #exp;
+evalmult = $multiply m -> int:
+	m has base
+		? evalhigh(m.base)
+		: (m has mutme
+			? evalmult(m.sub) * evalhigh(m.mutme)
+			: evalmult(m.sub) / evalhigh(m.divme));
 
-//%start: root #root;
+evaladd = $add a -> int:
+	a has base
+		? evalmult(a.base)
+		: (a has addme
+			? evaladd(a.sub) + evalmult(a.addme)
+			: evaladd(a.sub) - evalmult(a.subme));
+
+result = evaladd(start[0].add);
+
+%debug: result;
 
 
 

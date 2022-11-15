@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <debug.h>
 
-#include <regex/new_from_string.h>
 
 #include <lex/struct.h>
 #include <lex/add_token.h>
@@ -17,6 +16,15 @@
 
 #include <gegex/new.h>
 #include <gegex/add_transition.h>
+
+#include <regex/new_from_string.h>
+#include <regex/nfa_to_dfa.h>
+#include <regex/simplify_dfa.h>
+#include <regex/free.h>
+
+#ifdef DOTOUT
+#include <regex/dotout.h>
+#endif
 
 #include "../../parse.h"
 #include "../../misc/escapes.h"
@@ -39,13 +47,27 @@ struct gbundle read_grammar_highest_string(
 	
 	dpvsn(string->data, string->len);
 	
-	struct rbundle regex = new_regex_from_string(string->data, string->len);
+	struct rbundle nfa = new_regex_from_string(string->data, string->len);
 	
-	unsigned token_id = lex_add_token(lex, regex.start, tk_literal);
+	#ifdef DOTOUT
+	regex_dotout(nfa.start, nfa.accepts);
+	#endif
+	
+	struct regex* dfa = regex_nfa_to_dfa(nfa);
+	
+	#ifdef DOTOUT
+	regex_dotout(dfa, NULL);
+	#endif
+	
+	struct regex* simp = regex_simplify_dfa(dfa);
+	
+	#ifdef DOTOUT
+	regex_dotout(simp, NULL);
+	#endif
+	
+	unsigned token_id = lex_add_token(lex, simp, tk_literal);
 	
 	dpv(token_id);
-	
-	dpv(highest->tags.n);
 	
 	struct structinfo* structinfo = new_structinfo();
 	
@@ -71,6 +93,8 @@ struct gbundle read_grammar_highest_string(
 	}
 	
 	gegex_add_transition(start, token_id, structinfo, end);
+	
+	free_regex(nfa.start), free_regex(dfa);
 	
 	free_structinfo(structinfo);
 	

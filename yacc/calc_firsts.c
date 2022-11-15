@@ -175,9 +175,7 @@ struct avl_tree_t* calc_firsts(struct avl_tree_t* named_tries)
 		runme;
 	}));
 	
-	#ifdef DOTOUT
-	dotout(named_firsts, dependent_of, NULL);
-	#endif
+/*	dotout(named_firsts, dependent_of, NULL);*/
 	
 	// percolate:
 	while (quack_is_nonempty(todo))
@@ -209,9 +207,7 @@ struct avl_tree_t* calc_firsts(struct avl_tree_t* named_tries)
 			}));
 		}
 		
-		#ifdef DOTOUT
-		dotout(named_firsts, dependent_of, name);
-		#endif
+/*		dotout(named_firsts, dependent_of, name);*/
 	}
 	
 	free_quack(todo);

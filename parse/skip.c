@@ -11,6 +11,10 @@
 #include <regex/simplify_dfa.h>
 #include <regex/free.h>
 
+#ifdef DOTOUT
+#include <regex/dotout.h>
+#endif
+
 #include "regex.h"
 #include "parse.h"
 #include "skip.h"
@@ -27,9 +31,21 @@ void process_skip(
 	
 	regex_add_lambda_transition(nfa.accepts, nfa.start);
 	
+	#ifdef DOTOUT
+	regex_dotout(nfa.start, nfa.accepts);
+	#endif
+	
 	struct regex* dfa = regex_nfa_to_dfa(nfa);
 	
+	#ifdef DOTOUT
+	regex_dotout(dfa, NULL);
+	#endif
+	
 	struct regex* simp = regex_simplify_dfa(dfa);
+	
+	#ifdef DOTOUT
+	regex_dotout(simp, NULL);
+	#endif
 	
 	unsigned token_id = lex_add_token(lex, simp, tk_whitespace);
 	

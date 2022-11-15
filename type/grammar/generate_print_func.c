@@ -30,7 +30,7 @@ struct stringtree* grammar_type_generate_print_func(
 	struct grammar_type* this = (void*) super;
 	
 	stringtree_append_printf(text, ""
-		"void func_%u(struct type_%u* this)"
+		"void func_%u(const struct type_%u* this)"
 		"{"
 			"bool first = true;"
 	"", func_id, super->id);

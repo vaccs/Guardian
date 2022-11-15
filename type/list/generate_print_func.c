@@ -25,30 +25,89 @@ struct stringtree* list_type_generate_print_func(
 	
 	struct list_type* this = (void*) super;
 	
-	unsigned print_id = function_queue_submit_print(flookup, this->element_type);
-	
-	stringtree_append_printf(text, ""
-		"void func_%u(struct type_%u* this)"
-		"{"
-			"printf(\"[\");"
-			
-			"unsigned n = this->n;"
-			
-			"for (unsigned i = 0; i < n; i++)"
+	if (this->element_type->kind == tk_char)
+	{
+		stringtree_append_printf(text, ""
+			"void func_%u(const struct type_%u* this)"
 			"{"
-				"if (i) printf(\", \");"
-				"func_%u(this->data[i]);"
+				"printf(\"\\\"\");"
+				""
+				"for (unsigned i = 0, n = this->n; i < n; i++)"
+				"{"
+					"unsigned code = this->data[i]->code;"
+					""
+					"switch (code)"
+					"{"
+						"case ' ':"
+						"case '~':"
+						"case '`':"
+						"case '!':"
+						"case '@':"
+						"case '#':"
+						"case '$':"
+						"case '%%':"
+						"case '^':"
+						"case '&':"
+						"case '*':"
+						"case '(':"
+						"case ')':"
+						"case '_':"
+						"case '-':"
+						"case '+':"
+						"case '=':"
+						"case '[':"
+						"case ']':"
+						"case '{':"
+						"case '}':"
+						"case ':':"
+						"case ';':"
+						"case '0' ... '9':"
+						"case 'a' ... 'z':"
+						"case 'A' ... 'Z':"
+						"{"
+							"printf(\"%%c\", code);"
+							"break;"
+						"}"
+						""
+						"default:"
+						"{"
+							"printf(\"\\\\x%%02hhX\", code);"
+							"break;"
+						"}"
+					"}"
+				"}"
+				""
+				"printf(\"\\\"\");"
 			"}"
-			
-			"if (!n)"
+		"", func_id, super->id);
+	}
+	else
+	{
+		unsigned print_id = function_queue_submit_print(flookup, this->element_type);
+		
+		stringtree_append_printf(text, ""
+			"void func_%u(const struct type_%u* this)"
 			"{"
-				"printf(\"<\");"
-				"printf(\">\");"
+				"printf(\"[\");"
+				
+				"unsigned n = this->n;"
+				
+				"for (unsigned i = 0; i < n; i++)"
+				"{"
+					"if (i) printf(\", \");"
+					"func_%u(this->data[i]);"
+				"}"
+				
+				"if (!n)"
+				"{"
+					"printf(\"<\");"
+					"printf(\">\");"
+				"}"
+				
+				"printf(\"]\");"
 			"}"
-			
-			"printf(\"]\");"
-		"}"
-	"", func_id, super->id, print_id);
+		"", func_id, super->id, print_id);
+	}
 	
 	EXIT;
 	return text;

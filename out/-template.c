@@ -344,7 +344,15 @@ int main(int argc, char* const* argv)
 			}
 			else
 			{
-				fprintf(stderr, "%s: unexpected '%c' when reading ...'%.*s'!\n", argv0, c, i, lexer.data);
+				if (c == EOF)
+				{
+					fprintf(stderr, "%s: unexpected <EOF> when reading ...'%.*s'!\n", argv0, i, lexer.data);
+				}
+				else
+				{
+					fprintf(stderr, "%s: unexpected '%c' when reading ...'%.*s'!\n", argv0, c, i, lexer.data);
+				}
+				
 				abort();
 			}
 		}

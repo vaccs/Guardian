@@ -24,6 +24,10 @@
 #include <gegex/new.h>
 #include <gegex/add_transition.h>
 
+#ifdef DOTOUT
+#include <regex/dotout.h>
+#endif
+
 #include "../../parse.h"
 #include "../../regex.h"
 
@@ -39,9 +43,21 @@ struct gbundle read_grammar_highest_regex(
 	
 	struct rbundle nfa = process_regex(highest->regex);
 	
+	#ifdef DOTOUT
+	regex_dotout(nfa.start, nfa.accepts);
+	#endif
+	
 	struct regex* dfa = regex_nfa_to_dfa(nfa);
 	
+	#ifdef DOTOUT
+	regex_dotout(dfa, NULL);
+	#endif
+	
 	struct regex* simp = regex_simplify_dfa(dfa);
+	
+	#ifdef DOTOUT
+	regex_dotout(simp, NULL);
+	#endif
 	
 	unsigned token_id = lex_add_token(lex, simp, tk_regex);
 	

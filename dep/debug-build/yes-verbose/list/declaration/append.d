@@ -1,3 +1,0 @@
-bin/debug-build/yes-verbose/./list/declaration/append.o: \
- list/declaration/append.c debug.h string/struct.h memory/srealloc.h \
- declaration/inc.h list/declaration/struct.h list/declaration/append.h

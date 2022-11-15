@@ -106,10 +106,8 @@ int regex_compare_simplified(
 		
 		if (is_a_numbered && is_b_numbered)
 		{
-			TODO;
-			#if 0
 			unsigned a_number = ((struct node*) is_a_numbered->item)->number;
-			unsigned b_number = ((struct node*) is_a_numbered->item)->number;
+			unsigned b_number = ((struct node*) is_b_numbered->item)->number;
 			
 			dpv(a_number);
 			dpv(b_number);
@@ -118,7 +116,6 @@ int regex_compare_simplified(
 				cmp = +1;
 			else if (a_number < b_number)
 				cmp = -1;
-			#endif
 		}
 		else if (is_a_numbered)
 		{

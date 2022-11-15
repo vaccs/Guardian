@@ -40,6 +40,8 @@
 
 #include <regex/struct.h>
 
+#include <lex/state/dotout.h>
+
 #include "dfas_to_dfa.h"
 
 struct mapping
@@ -104,6 +106,10 @@ struct unsignedsetset* dfas_to_dfa(
 	
 	while (quack_is_nonempty(todo))
 	{
+		#ifdef DOTOUT
+		lex_state_dotout(start);
+		#endif
+		
 		struct mapping* const mapping = quack_pop(todo);
 		
 		struct ptrset* const stateset = mapping->ptrset;
@@ -229,6 +235,10 @@ struct unsignedsetset* dfas_to_dfa(
 		
 		free_unsignedset(accepts);
 	}
+	
+	#ifdef DOTOUT
+	lex_state_dotout(start);
+	#endif
 	
 	avl_free_tree(mappings);
 	

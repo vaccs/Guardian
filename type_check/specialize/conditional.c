@@ -50,6 +50,8 @@ struct expression* specialize_conditional_expression(
 		
 		if (true_case->type != false_case->type)
 		{
+			fflush(stdout), puts("");
+			
 			fprintf(stderr, ""
 				"%s: incompatiable data types in true and false case of ternary:"
 				"\n\t("

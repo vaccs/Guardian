@@ -37,6 +37,7 @@
 #include <expression/lambda/generate_free_func.h>
 
 #include <value/lambda/generate_new_func.h>
+#include <value/lambda/generate_new_forward.h>
 #include <value/lambda/generate_evaluate_func.h>
 #include <value/lambda/generate_free_func.h>
 
@@ -79,15 +80,49 @@ void function_queue_process(
 					subtext = type_generate_print_forward(fdata->type, fdata->id);
 					break;
 				
+				case fk_index:
+					TODO;
+					break;
+				
 				case fk_append:
 					dputs("fk_append");
 					assert(fdata->type->kind == tk_list);
-					subtext = list_type_generate_append_forward((void*) fdata->type, fdata->id, shared);
+					subtext = list_type_generate_append_forward((void*) fdata->type, fdata->id);
 					break;
 				
 				case fk_free:
 					subtext = type_generate_free_forward(fdata->type, fdata->id);
 					break;
+				
+				case fk_lambda_new:
+				{
+					if (fdata->lexpression)
+					{
+						TODO;
+/*						subtext = lambda_expression_generate_new_func(fdata->lexpression, fdata->id, shared);*/
+					}
+					else if (fdata->lvalue)
+					{
+						subtext = lambda_value_generate_new_forward(fdata->lvalue, fdata->id);
+					}
+					else
+					{
+						TODO;
+					}
+					break;
+				}
+				
+				case fk_lambda_evaluate:
+				{
+					TODO;
+					break;
+				}
+				
+				case fk_lambda_free:
+				{
+					TODO;
+					break;
+				}
 				
 				default:
 				{

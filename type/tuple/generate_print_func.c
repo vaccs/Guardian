@@ -29,7 +29,7 @@ struct stringtree* tuple_type_generate_print_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"void func_%u(struct type_%u* this)"
+		"void func_%u(const struct type_%u* this)"
 		"{"
 			"printf(\"(\");"
 	"", func_id, super->id);

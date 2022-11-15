@@ -51,6 +51,14 @@ else
 $(error "invalid verbose!");
 endif
 
+dotout ?= no
+ifeq ($(dotout), yes)
+CPPFLAGS += -D DOTOUT
+else ifeq ($(dotout), no)
+else
+$(error "invalid dotout!");
+endif
+
 on_error ?= do_nothing
 ifeq ($(on_error), do_nothing)
 ON_ERROR =
@@ -60,8 +68,8 @@ else
 $(error "invalid on_error option!");
 endif
 
-buildprefix = bin/$(buildtype)-build/$(verbose)-verbose
-depprefix   = dep/$(buildtype)-build/$(verbose)-verbose
+buildprefix = bin/$(buildtype)-build/$(verbose)-verbose/$(dotout)-dotout
+depprefix   = dep/$(buildtype)-build/$(verbose)-verbose/$(dotout)-dotout
 
 default: $(buildprefix)/maia
 
@@ -71,8 +79,8 @@ ARGS += -v
 #ARGS += --minimize-lexer
 
 #ARGS += -i ./examples/json.maia
-#ARGS += -i ./examples/math.maia
-ARGS += -i ./examples/zest.maia
+ARGS += -i ./examples/math.maia
+#ARGS += -i ./examples/zest.maia
 
 ARGS += -o /tmp/out.c
 

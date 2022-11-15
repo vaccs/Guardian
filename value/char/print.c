@@ -22,10 +22,13 @@ void char_value_print(
 		case 'a' ... 'z':
 		case 'A' ... 'Z':
 		case ':':
+		case '+':
+		case '*':
 		case ' ':
 		case '-':
 		case '(':
 		case ')':
+		case '/':
 			printf("'%c'", this->value);
 			break;
 		

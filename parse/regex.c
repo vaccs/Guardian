@@ -88,7 +88,7 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				
 				struct regex* new_accepts = new_regex();
 				
-				regex_add_lambda_transition(retval.start, new_accepts);
+				regex_add_lambda_transition(retval.accepts, new_accepts);
 				
 				retval.accepts = new_accepts;
 			}
@@ -103,7 +103,7 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				
 				struct regex* new_accepts = new_regex();
 				
-				regex_add_lambda_transition(retval.start, new_accepts);
+				regex_add_lambda_transition(retval.accepts, new_accepts);
 				
 				retval.accepts = new_accepts;
 			}
