@@ -1,8 +1,0 @@
-%skip: ' ' | '\n';
-boolean: /bool: "true" | "false"/ #value;
-%start: boolean boolean;
-b1 = boolean[0].value;
-%error: 3 == len!([1, 2, 3]);
-%error: 2 == len!([b1, b1]);
-%error: 2 == len!({0: b1, 1: b1});
-%error: 1 == len!({b1, b1});
