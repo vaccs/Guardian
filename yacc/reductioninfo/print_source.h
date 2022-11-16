@@ -8,4 +8,4 @@ void reductioninfo_print_source(
 	struct reductioninfo* this,
 	struct structinfo* structinfo,
 	struct out_shared* shared,
-	const char* grammar);
+	struct string* grammar);

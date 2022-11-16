@@ -2,7 +2,7 @@
 %skip: ' ' | '\n';
 
 highest
-	: (/int: ['0'-'9']+/ #literal | /['0'-'9']+/ #strliteral)
+	: /['0'-'9']+/ #literal
 	| '(' add #subexp ')'
 	;
 
@@ -21,9 +21,12 @@ start: add #add;
 
 %start: start;
 
+// 2 + 3 - 5 * 11 / 7
+// ((2 + (3)))
+
 hightostr = $highest h -> char[]:
 	h has literal
-		? h.strliteral
+		? h.literal
 		: "(" + addtostr(h.subexp) + ")";
 
 multostr = $multiply m -> char[]:
@@ -46,7 +49,7 @@ addtostr = $add a -> char[]:
 
 evalhigh = $highest h -> int:
 	h has literal
-		? h.literal
+		? int!(h.literal)
 		: evaladd(h.subexp);
 
 evalmult = $multiply m -> int:

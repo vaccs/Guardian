@@ -6,6 +6,7 @@
 
 #include <memory/smalloc.h>
 
+#include <avl/foreach.h>
 #include <avl/alloc_tree.h>
 #include <avl/search.h>
 #include <avl/insert.h>
@@ -539,20 +540,17 @@ struct regex* regex_simplify_dfa(struct regex* original)
 			
 			if (node)
 			{
-				TODO;
-				#if 0
 				struct dependent_of_node* dep = node->item;
 				
 				unsigned hopcount = task->hopcount + 1;
 				
-				avl_tree_foreach(dep->dependent_of, ({
+				avl_foreach(dep->dependent_of, ({
 					void runme(void* ptr) {
 						const struct pair* pair = ptr;
-						heap_push(todo, new_simplify_task(pair->a, pair->b, hopcount));
+						heap_push(todo, new_task(pair->a, pair->b, hopcount));
 					}
 					runme;
 				}));
-				#endif
 			}
 		}
 		

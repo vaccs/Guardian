@@ -1,7 +1,7 @@
 bin/test-build/no-verbose/yes-dotout/./regex/simplify_dfa.o: \
  regex/simplify_dfa.c debug.h string/struct.h memory/smalloc.h \
- avl/alloc_tree.h avl/tree.h avl/freeitem.h avl/compare.h avl/node.h \
- avl/search.h avl/insert.h avl/free_tree.h quack/new.h \
+ avl/foreach.h avl/alloc_tree.h avl/tree.h avl/freeitem.h avl/compare.h \
+ avl/node.h avl/search.h avl/insert.h avl/free_tree.h quack/new.h \
  quack/is_nonempty.h quack/append.h quack/pop.h quack/free.h heap/new.h \
  heap/is_nonempty.h heap/pop.h heap/push.h heap/free.h regex/struct.h \
  enums/token_kind.h regex/new.h set/ptr/new.h set/ptr/add.h \

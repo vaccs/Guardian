@@ -1,84 +1,120 @@
 
-boolean: /bool: "true" | "false"/ #value;
+[{
+	"files": {
+		"./maia": "bin/release-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"boolean: /bool: \"true\" | \"false\"/ #value;",
+			
+			"%start: boolean boolean;",
+			
+			"b1 = boolean[0].value;",
+			"b2 = boolean[1].value;",
+			"b3 = true;",
+			"b4 = false;",
+			
+			"%error: true  == ( true);",
+			"%error: false == ( false);",
+			
+			"%error: false == (!true);",
+			"%error: true  == (!false);",
+			
+			"%error: true  == (true  || true );",
+			"%error: true  == (true  || false);",
+			"%error: true  == (false || true );",
+			"%error: false == (false || false);",
+			
+			"%error: true  == (b1 || true );",
+			"%error: true  == (b1 || false);",
+			"%error: true  == (true  || b2);",
+			"%error: false == (false || b2);",
+			
+			"%error: true  == (b1 || b2);",
+			
+			"%error: true  == (true  && true );",
+			"%error: false == (true  && false);",
+			"%error: false == (false && true );",
+			"%error: false == (false && false);",
+			
+			"%error: true  == (b1    && true );",
+			"%error: false == (b1    && false);",
+			"%error: false == (true  && b2   );",
+			"%error: false == (false && b2   );",
+			"%error: false == (b1    && b2   );",
+			
+			"%error: false == (true  >  true );",
+			"%error: true  == (true  >  false);",
+			"%error: false == (false >  true );",
+			"%error: false == (false >  false);",
+			
+			"%error: true  == (true  >= true );",
+			"%error: true  == (true  >= false);",
+			"%error: false == (false >= true );",
+			"%error: true  == (false >= false);",
+			
+			"%error: true  == (true  == true );",
+			"%error: false == (true  == false);",
+			"%error: false == (false == true );",
+			"%error: true  == (false == false);",
+			
+			"%error: false == (true  != true );",
+			"%error: true  == (true  != false);",
+			"%error: true  == (false != true );",
+			"%error: false == (false != false);",
+			
+			"%error: true  == (true  <= true );",
+			"%error: false == (true  <= false);",
+			"%error: true  == (false <= true );",
+			"%error: true  == (false <= false);",
+			
+			"%error: false == (true  <  true );",
+			"%error: false == (true  <  false);",
+			"%error: true  == (false <  true );",
+			"%error: false == (false <  false);",
+
+			"%error: true  == (true  implies true );",
+			"%error: false == (true  implies false);",
+			"%error: true  == (false implies true );",
+			"%error: true  == (false implies false);",
+
+			"%error: true  == (b1    implies true );",
+			"%error: false == (b1    implies false);",
+			"%error: false == (true  implies b2   );",
+			"%error: true  == (false implies b2   );",
+			"%error: false == (b1    implies b2   );",
+
+			"%error: true  == (b1 >  b2);",
+			"%error: true  == (b1 >= b2);",
+			"%error: false == (b1 == b2);",
+			"%error: true  == (b1 != b2);",
+			"%error: false == (b1 <= b2);",
+			"%error: false == (b1 <  b2);",
+		],
+		
+		"./test.txt": [
+			"true false"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]
 
 
-// true false 7 3.0 2.0 abc
-%start: boolean boolean integer decimal decimal string;
-
-b1 = boolean[0].value;
-b2 = boolean[1].value;
 
 
-test01 = true  == ( true);
-test02 = false == ( false);
 
-test03 = false == (!true);
-test04 = true  == (!false);
 
-test05 = true  == (true  || true );
-test06 = true  == (true  || false);
-test07 = true  == (false || true );
-test08 = false == (false || false);
 
-test09 = true  == (b1 || true );
-test10 = true  == (b1 || false);
-test11 = true  == (true  || b2);
-test12 = false == (false || b2);
 
-test13 = true  == (b1 || b2);
 
-test14 = true  == (true  && true );
-test15 = false == (true  && false);
-test16 = false == (false && true );
-test17 = false == (false && false);
 
-test18 = true  == (b1    && true );
-test19 = false == (b1    && false);
-test20 = false == (true  && b2   );
-test21 = false == (false && b2   );
-test22 = false == (b1    && b2   );
 
-test23 = false == (true  >  true );
-test24 = true  == (true  >  false);
-test25 = false == (false >  true );
-test26 = false == (false >  false);
-test27 = true  == (true  >= true );
-test28 = true  == (true  >= false);
-test29 = false == (false >= true );
-test30 = true  == (false >= false);
-test31 = true  == (true  == true );
-test32 = false == (true  == false);
-test33 = false == (false == true );
-test34 = true  == (false == false);
-test35 = false == (true  != true );
-test36 = true  == (true  != false);
-test37 = true  == (false != true );
-test38 = false == (false != false);
-test39 = true  == (true  <= true );
-test40 = false == (true  <= false);
-test41 = true  == (false <= true );
-test42 = true  == (false <= false);
-test43 = false == (true  <  true );
-test44 = false == (true  <  false);
-test45 = true  == (false <  true );
-test46 = false == (false <  false);
 
-test47 = true  == (true  implies true );
-test48 = false == (true  implies false);
-test49 = true  == (false implies true );
-test50 = true  == (false implies false);
 
-test47a = true  == (b1    implies true );
-test48a = false == (b1    implies false);
-test49a = false == (true  implies b2   );
-test50a = true  == (false implies b2   );
-test57  = false == (b1    implies b2   );
-
-test51 = true  == (b1 >  b2);
-test52 = true  == (b1 >= b2);
-test53 = false == (b1 == b2);
-test54 = true  == (b1 != b2);
-test55 = false == (b1 <= b2);
-test56 = false == (b1 <  b2);
 
 

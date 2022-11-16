@@ -1,49 +1,83 @@
 
-test142 = [<int>] == ([<int>]);
-test143 = [1, 2, 3, 4] == ([1, 2, 3, 4]);
+[{
+	"files": {
+		"./maia": "bin/release-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"integer: /int: ['0'-'9']+/ #value;",
+			
+			"%start: integer;",
+			
+			"u = integer[0].value;",
+			
+			"%error: [<int>] == ([<int>]);",
+			"%error: [1, 2, 3, 4] == ([1, 2, 3, 4]);",
+			
+			"%error: [1, 2, 3, 4] == ([1, 2] + [3, 4]);",
+			"%error: [u, 2, 3, 4] == ([u, 2] + [3, 4]);",
+			
+			"%error: false == ([1, 2] >  [3, 4]);",
+			"%error: false == ([1, 2] >= [3, 4]);",
+			"%error: true  == ([<char>] == [<char>]);",
+			"%error: false == ([1, 2] == [3, 4]);",
+			"%error: true  == ([1, 2] != [3, 4]);",
+			"%error: true  == ([1, 2] <= [3, 4]);",
+			"%error: true  == ([1, 2] <  [3, 4]);",
+			
+			"%error: 2 == ([1, 2, 3][1]);",
+			"%error: u == ([1, u, 3][1]);",
+			"%error: 2 == ([1, 2, u][1]);",
+			"%error: 7 == ([1, 2, 3, 4, 5, 6, 7, 8][u]);",
+			
+			"%error: true  == (\"a\" <  \"b\");",
+			"%error: true  == (\"a\" <= \"b\");",
+			"%error: true  == ("" == "");",
+			"%error: false == (\"a\" == \"b\");",
+			"%error: true  == (\"a\" != \"b\");",
+			"%error: false == (\"a\" >= \"b\");",
+			"%error: false == (\"a\" >  \"b\");",
+			"%error: false == (\"abc\"[1] == 'b');",
+			"%error: true  == (\"abc\"[1] == 'c');",
+		
+			"%error: true  == (2 in [1, 2, 3]);",
+			"%error: false == (2 in [1, 5, 3]);",
+			"%error: false == (2 in [1, u, 3]);",
+			"%error: false == (u in [1, 2, 3]);",
+			
+			"%error: true  == ('a' in \"abc\");",
+			"%error: false == ('d' in \"abc\");",
+			
+			"f = $int a, b -> int[]: [a, b];",
+			
+			"%error: f(3, 4) == [3] + [4];",
+			"%error: f(u, 4) == [u] + [4];",
+		],
+		
+		"./test.txt": [
+			"7"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]
 
-test144 = [1, 2, 3, 4] == ([1, 2] + [3, 4]);
-test145 = [u, 2, 3, 4] == ([u, 2] + [3, 4]);
-
-test146 = false == ([1, 2] >  [3, 4]);
-test147 = false == ([1, 2] >= [3, 4]);
-test148 = true  == ([<char>] == [<char>]);
-test149 = false == ([1, 2] == [3, 4]);
-test150 = true  == ([1, 2] != [3, 4]);
-test151 = true  == ([1, 2] <= [3, 4]);
-test152 = true  == ([1, 2] <  [3, 4]);
-
-test153 = 2 == ([1, 2, 3][1]);
-test154 = u == ([1, u, 3][1]);
-test155 = 2 == ([1, 2, u][1]);
-test156 = 7 == ([1, 2, 3, 4, 5, 6, 7, 8][u]);
 
 
-test157 = true  == ("a" <  "b");
-test158 = true  == ("a" <= "b");
-test159 = true  == ("" == "");
-test160 = false == ("a" == "b");
-test161 = true  == ("a" != "b");
-test163 = false == ("a" >= "b");
-test164 = false == ("a" >  "b");
-test165 = false == ("abc"[1] == 'b');
-test166 = true  == ("abc"[1] == 'c');
-
-test167 = true  == (2 in [1, 2, 3]);
-test168 = false == (2 in [1, 5, 3]);
-test169 = false == (2 in [1, u, 3]);
-test170 = false == (u in [1, 2, 3]);
-
-test171 = true  == ('a' in "abc");
-test172 = false == ('d' in "abc");
 
 
-list1 = [1, 2, 3, 4];
-list2 = [<int>];
 
-f = $int a, b -> int[]: [a, b];
 
-%error: f(3, 4) == [3] + [4];
-%error: f(u, 4) == [u] + [4];
+
+
+
+
+
+
+
 
 

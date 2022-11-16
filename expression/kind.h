@@ -16,6 +16,7 @@ enum expression_kind
 	ek_set_form,
 	ek_len_form,
 	ek_map_form,
+	ek_int_form,
 	ek_sum_form,
 	ek_list_form,
 	ek_dict_form,

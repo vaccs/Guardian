@@ -16,6 +16,8 @@
 #include <type_cache/get_type/list.h>
 
 #include <yacc/structinfo/struct.h>
+
+/*#include <yacc/reductioninfo/struct.h>*/
 #include <yacc/reductioninfo/print_source.h>
 
 #include <out/function_queue/submit_append.h>
@@ -59,9 +61,12 @@ struct stringtree* reducerule_to_id_print_source(
 			"value->refcount = 1;" "\n"
 		"", type->id);
 		
-		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, shared, ele->grammar->chars);
+		reductioninfo_print_source(tree, ele->reductioninfo, ele->structinfo, shared, ele->grammar);
 		
+		if (ele->reduce_as->chars[0] != '(')
 		{
+			dpvs(ele->reduce_as);
+			
 			struct type* ltype = type_cache_get_list_type(shared->tcache, type);
 			
 			unsigned append_id = function_queue_submit_append(shared->fqueue, ltype);

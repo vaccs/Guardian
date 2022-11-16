@@ -1,4 +1,5 @@
 
+#include <stdbool.h>
 #include <assert.h>
 
 #include <debug.h>
@@ -32,15 +33,22 @@ struct stringtree* grammar_type_generate_print_func(
 	stringtree_append_printf(text, ""
 		"void func_%u(const struct type_%u* this)"
 		"{"
-			"bool first = true;"
 	"", func_id, super->id);
 	
 	stringtree_append_printf(text, "printf(\"#%.*s(\");",
 		this->name->len, this->name->chars);
 	
+	bool first = true;
+	
 	parameter_list_foreach(this->fields, ({
 		void runme(struct string* name, struct type* type)
 		{
+			if (first)
+			{
+				stringtree_append_printf(text, "bool first = true;");
+				first = false;
+			}
+			
 			unsigned print_id = function_queue_submit_print(flookup, type);
 			
 			stringtree_append_printf(text, ""

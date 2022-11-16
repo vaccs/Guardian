@@ -3,7 +3,8 @@
 
 #include <debug.h>
 
-/*#include <out/function_lookup/lookup_free.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
 
 #include "struct.h"
 #include "generate_compare_func.h"
@@ -15,21 +16,29 @@ struct stringtree* char_type_generate_compare_func(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	assert(super->kind == tk_int);
+	assert(super->kind == tk_char);
 	
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"int func_%u(const type_%u* a, const type_%u* b)"
+		"int func_%u(const struct type_%u* a, const struct type_%u* b)"
 		"{"
-			"return mpz_cmp(a->value, b->value);"
+			"if (a->code > b->code)"
+			"{"
+				"return +1;"
+			"}"
+			"else if (a->code < b->code)"
+			"{"
+				"return -1;"
+			"}"
+			"else"
+			"{"
+				"return +0;"
+			"}"
 		"}"
 	"", func_id, super->id, super->id);
 	
 	EXIT;
 	return text;
-	#endif
 }
 

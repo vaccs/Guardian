@@ -1,99 +1,7 @@
 
-// %using "set-templates.maia"
+%skip: ' ' | '\n';
 
-// builtin "special-forms":
-	// all
-	// any
-	// map
-	// filter
-	// min
-	// max
-	// unique
-	// reduce
-	// zip
-	// call
-	// bool
-	// int
-	// float
-	// sort
-	// range
-
-// types:
-	// char
-	// bool
-	// int
-	// float
-	// list
-	// tuple
-	// lambda
-	// grammar-rule
-
-// expression operators:
-	// boolean literals, numeric literals, string literals, [set construction],
-		// (tuple construction, ), parenthesis
-	
-	// '$1($2, ...)`: function-call
-	// '$1.field': field-access
-	// '$1[index]': list-index
-	
-	// ' +': positive
-	// ' -': negative
-	// ' !': logical-not
-	// ' ~': bitwise-not
-	// '**': exponentiation
-	// ' *': multiplication, '/': division, '%': remainder
-	// ' +': addition or concatenation, '-' subtraction
-	// ' <<': leftbitshift, '>>': rightbitshift
-	// ' <': less-than, '<=': less-than-equal-to, '>': greater-than, '>=': greater-than-equal-to
-	// ' ==': equal-to, '!=': not-equal-to
-	// ' &': bitwise-and
-	// ' ^': bitwise-xor
-	// ' |': bitwise-or
-	// ' &&': logical-and
-	// ' ||': logical-or
-	// ' ?' & ':': ternary-conditional
-	// "in"-operator
-	// "has"-operator
-	// "implies"-operator
-
-// charset operators:
-	// character-literal, parenthesis
-	// '!': complement
-	// ':': range
-	// '&': intersection
-	// '^': symmetric-difference
-	// '|': union
-
-// regular-expression operators:
-	// [charset], string literal, numeric literal, parenthesis
-	// '+', '*', '?', '{' expression '}'
-	// ' ' juxtaposition
-	// '|'-or
-
-// grammar operators:
-	// /regex/, [charset], string literal, numeric literal, parenthesis
-	// '+', '*', '?', '{' expression '}'
-	// ' ' juxtaposition
-	// '|'-or
-
-// syntactic-rule:
-// name -> grammar rule;
-
-// value-define, gets evaluated immediately
-// name = expression;
-
-// evaluated on runtime
-// ("(require)" | "(warn)" | "(info)") expression;
-
-%skip: ' ' | '\t' | '\n';
-
-// "boolean" as a type refers to a thing with two strings.
-// "boolean" as a variable refers to the list of those types that were parsed.
-boolean: "true" #true_ | "false" #false_;
-
-integer: / ['-', '+']? ['1'-'9'] ['0'-'9']* / #literal;
-
-string: /'\"' [!'\"']* '\"'/ #literal;
+string: /'\"' [!'\"']* '\"'/ #value;
 
 list: '[' (value #elements[] (',' value #elements[])*)? ']';
 
@@ -101,123 +9,43 @@ keyvalue: string #key ':' value #value;
 
 dict: '{' (keyvalue #entries[] (',' keyvalue #entries[])*)? '}';
 
-value: boolean #b | integer #i | string #s | list #l | dict #d;
+value
+	: /bool: "true" | "false"/ #boolean
+	| /int: ['-', '+']? ['0'-'9']+/ #integer
+	| /float: ['-', '+']? ['0'-'9']+ '.' ['0'-'9']+/ #decimal
+	| string #string
+	| list #list
+	| dict #dict
+	;
 
-%start: value;
+// [true, 2, 3.4]
 
-//bewteen = $int[] a, b: b + a + b;
+start: value #value;
 
-//bewteen = $<T>[] a, b: b + a + b;
+%start: start;
 
-//a = bewteen(int[], [1, 2, 3]);
+%error: start[0].value has list;
 
-//%error: a == 0;
+x = start[0].value.list.elements;
 
-// %debug: 10 + 010 + 0x10 + 0b10 == 36;
+%error: len!(x) == 3;
 
-// z = 4;
+%error: x[0] has boolean;
+%error: x[0].boolean == true;
 
-// foo = [$int x, y: x + y, $int x, int y: x - y * z];
+%error: x[1] has integer;
+%error: x[1].integer == 2;
 
-// %debug: foo[0](1, 2) == 3;
+%error: x[2] has decimal;
+%error: x[2].decimal == 3.4;
 
-// %debug: foo[1](13, 2) == 5;
 
-// %debug: map($int x: x + z, [1, z, 3]) == [5, z + z, 7];
 
-//z2 = len(value);
 
-// foo2 = [$int x, y: x + y, $int x, y: (x - y) * z2];
 
-// %note: foo2[0](1, 2) == 3;
 
-// %note: foo2[1](13, 2) == 5;
 
-// %error: z2 == 3;
-//%error: z2 == 0;
-// %error: [1, 2, z2] == [1, 2, 3];
 
-//bar = $int x, float y: (float(x) + y + 2.3);
-//har = $ ($int, float: float) f, int x, float y: f(x, y);
-
-//har(bar, 3, 3.14);
-
-// lambda has a list of parameters
-// and a list of variables they want to "capture"
-// this is a *union* of what they need directly, and what any of their
-// children-lambdas need.
-// This will make a tree-like shape.
-
-//jim = $int x: $: $: x;
-
-//jim1 = jim(3);
-
-//jim2 = jim(4);
-
-//%debug: (jim1()(), jim2()()) == (3, 4);
-
-// if we use zebu for this, we'll need it to support inserting fields
-// into it's generated structs. I'm okay with it setting them to NULL,
-// but I will need to be able to set the deconstructor.
-
-// parse file into parse-tree
-	// all grammar rules
-	// all value-declarations
-	// all assertions
-
-// parse-tree-expressions have no datatype, so variable-references only have
-	// a string
-
-// for each value-declare and assertion:
-	// traverse through expression, looking for lambdas
-		// for each lambda, make a dict from variable-name to the
-		// variable-expressions using them.
-		// union-in needs of children lambdas
-		// for your parameters, you know the types, set those expression's
-		// datatype and cross those off the list
-		// pass that list back
-	// for all entries remaining on list when we reach root-scope
-	// should be looked-up and filled-out, error if we can't.
-	// this way each lambda will know exactly what it needs to capture and what
-	// datatype the captured variables are.
-
-// now we can do type-checking, and conversion to typed-expressions
-	// literals and variables know their type
-	// complex expressions learn their type, from their children expressions
-
-// when we do code-generation:
-	// when building a lambda, which now knows it's needs.
-	// if the creator is another lambda:
-		// it will hand either stuff from parameters or it's own captured
-			// variables. It has to be either one of those. and the names
-			// can't be reused.
-	// if the creator is root scope:
-		// hand stuff with the same name as root scope. no confusion there
-		// either!
-
-// another = $int x: $: [$int y: (x - y), $int y: (x + y)];
-
-// blacklist = map($char[] c: ("\"" + c + "\""), ["abc", "def", "ghi"]);
-
-// len(blacklist);
-
-// no key of any dictionary can be equal to "abc", "def", or "ghi":
-// %error: all($char[] s, b: s != b, keyvalue.key, blacklist);
-
-// %error: all($dict d: all($keyvalue e: len(filter($keyvalue f: e.key == f.key, d.entries)) == 1, d.entries), dict);
-
-// every integer read from the file must be prime:
-//%warning: all(map($int u: u > 1 implies all($int n: u % n != 0, range(1, u)), integer.literal));
-/*%warning: all(map($int u: u <= 1 || all($int n: u % n != 0, range(2, u)), integer.literal));*/
-
-// the number of "true"s read has to be equal to the number "false"s read:
-// %warning: len(boolean.true_) == len(boolean.false_);
-// %warning: sum($boolean b: int(b has true_), boolean) == sum($boolean b: int(b has false_), boolean);
-
-// keys of the same dictionary can't start with the same letter:
-// nonrepeating = $char[] list: all($int i, j: i != j implies list[i] != list[j], range(list), range(list));
-
-// %warning: all($dict d: nonrepeating(map($char[] s: s[0], d.keyvalue.string)), dict);
 
 
 

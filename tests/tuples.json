@@ -5,26 +5,41 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"number: /int: ['0'-'9']+/ #value;",
+			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"string: /['a'-'z','A'-'Z']+/ #value;",
+			"%start: integer;",
 			
-			"%start: number string;",
+			"u = integer[0].value;",
 			
-			"t = (number[0].value, string[0].value);",
+			"%error: () == (());",
+			"%error: (1, 2, 3) == ((1, 2, 3));",
+			"%error: (1, 1.5, true) == ((1, 1.5, true));",
+			"%error: (1, ) == ((1, ));",
 			
-			"q = (true, );",
-			"w = (3.14, );",
+			"%error: (1, 2, 3, 4) == ((1, 2) + (3, 4));",
 			
-			"s = t + (q + w);",
+			"%error: false == ((1, 2) >  (3, 4));",
+			"%error: false == ((1, 2) >= (3, 4));",
+			"%error: true == ((    ) == (    ));",
+			"%error: false == ((1, 2) == (3, 4));",
+			"%error: true == ((1, 2) != (3, 4));",
+			"%error: true == ((1, 2) <= (3, 4));",
+			"%error: true == ((1, 2) <  (3, 4));",
 			
-			"%error: len!(s) == 4;",
+			"%error: false == ((1, u) >  (3, 4));",
+			"%error: false == ((1, u) >= (3, 4));",
+			"%error: false == ((1, u) == (3, 4));",
+			"%error: true == ((1, u) != (3, 4));",
+			"%error: true == ((1, u) <= (3, 4));",
+			"%error: true == ((1, u) <  (3, 4));",
 			
-			"%error: float!(s.0) + s.3 > 10.0;",
+			"%error: 2 == ((1, 2, 3).1);",
+			"%error: u == ((1, u, 3).1);",
+			"%error: 2 == ((1, 2, u).1);",
 		],
 		
 		"./input.txt": [
-			"12 abc"
+			"7"
 		]
 	},
 	"commands": [
@@ -36,31 +51,6 @@
 
 
 
-test173 = () == (());
-test174 = (1, 2, 3) == ((1, 2, 3));
-test175 = (1, 1.5, true) == ((1, 1.5, true));
-test176 = (1, ) == ((1, ));
-
-test177 = (1, 2, 3, 4) == ((1, 2) + (3, 4));
-
-test178 = false == ((1, 2) >  (3, 4));
-test179 = false == ((1, 2) >= (3, 4));
-test180 = true == ((    ) == (    ));
-test181 = false == ((1, 2) == (3, 4));
-test182 = true == ((1, 2) != (3, 4));
-test183 = true == ((1, 2) <= (3, 4));
-test184 = true == ((1, 2) <  (3, 4));
-
-test185 = false == ((1, u) >  (3, 4));
-test186 = false == ((1, u) >= (3, 4));
-test187 = false == ((1, u) == (3, 4));
-test188 = true == ((1, u) != (3, 4));
-test189 = true == ((1, u) <= (3, 4));
-test190 = true == ((1, u) <  (3, 4));
-
-test191 = 2 == ((1, 2, 3).1);
-test192 = u == ((1, u, 3).1);
-test193 = 2 == ((1, 2, u).1);
 
 
 

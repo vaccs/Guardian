@@ -16,13 +16,17 @@ struct type* determine_type_of_possession_expression(
 	struct type* type;
 	ENTER;
 	
-	if (expression->has)
+	if (expression->base)
+	{
+		type = determine_type_of_inclusion_expression(expression->base, tcache, scope);
+	}
+	else if (expression->has)
 	{
 		TODO;
 	}
 	else
 	{
-		type = determine_type_of_inclusion_expression(expression->base, tcache, scope);
+		TODO;
 	}
 	
 	EXIT;

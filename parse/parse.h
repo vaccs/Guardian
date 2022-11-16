@@ -348,6 +348,7 @@ struct zebu_primary_expression
 	struct zebu_token* float_form;
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
+	struct zebu_token* int_form;
 	struct zebu_token* integer_literal;
 	struct {
 		struct zebu_0$keyvalue** data;

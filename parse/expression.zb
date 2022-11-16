@@ -32,7 +32,7 @@ primary_expression
 	| "float!"        #float_form '(' expression #arg ')'
 //	| "intersectmap!" #intersectmap_form '(' ... ')'
 //	| "intersect!"    #intersect_form '(' ... ')'
-//	| "int!"          #int_form '(' .... ')'
+	| "int!"          #int_form '(' expression #arg ')'
 	| "len!"          #len_form '(' expression #arg ')'
 //	| "map!"          #map_form '(' ... ')'
 //	| "max!"          #max_form '(' ... ')'

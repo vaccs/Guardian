@@ -136,6 +136,7 @@
 #include <expression/variable/new.h>
 #include <expression/parenthesis/new.h>
 #include <expression/float_form/new.h>
+#include <expression/int_form/new.h>
 #include <expression/len_form/new.h>
 #include <expression/set/run.h>
 #include <expression/dict/new.h>
@@ -145,12 +146,16 @@
 #include <expression/free.h>
 
 #include <type/struct.h>
+#include <type/list/struct.h>
 #include <type/tuple/struct.h>
 
 #include <list/type/struct.h>
 
+#include <list/value/struct.h>
+
 #include <value/int/new.h>
 #include <value/bool/new.h>
+#include <value/list/struct.h>
 #include <value/list/new.h>
 #include <value/char/new.h>
 #include <value/tuple/new.h>
@@ -669,18 +674,38 @@ static struct expression* specialize_primary_len_form_expression(
 	
 	struct expression* object = specialize_expression(tcache, scope, raw_argument);
 	
+	struct type* type = type_cache_get_int_type(tcache);
+	
 	switch (object->type->kind)
 	{
 		case tk_list:
 		{
 			if (object->kind == ek_literal)
 			{
-				TODO;
+				struct literal_expression* objlit = (void*) object;
+				struct list_value* lvalue = (void*) objlit->value;
+				struct mpz* mpz = new_mpz();
+				mpz_set_ui(mpz->mpz, lvalue->elements->n);
+				struct value* value = new_int_value(type, mpz);
+				retval = new_literal_expression(value);
+				free_value(value);
 			}
 			else
 			{
 				retval = new_len_form_expression(tcache, object);
 			}
+			break;
+		}
+		
+		case tk_set:
+		{
+			TODO;
+			break;
+		}
+		
+		case tk_dict:
+		{
+			TODO;
 			break;
 		}
 		
@@ -696,8 +721,6 @@ static struct expression* specialize_primary_len_form_expression(
 			
 			mpz_set_ui(mpz->mpz, len);
 			
-			struct type* type = type_cache_get_int_type(tcache);
-			
 			struct value* value = new_int_value(type, mpz);
 			
 			retval = new_literal_expression(value);
@@ -708,11 +731,6 @@ static struct expression* specialize_primary_len_form_expression(
 			break;
 		}
 		
-		case tk_dict:
-		{
-			TODO;
-			break;
-		}
 		
 		default:
 			TODO;
@@ -743,9 +761,82 @@ static struct expression* specialize_primary_float_form_expression(
 		
 		case tk_int:
 		{
-			struct type* type = type_cache_get_float_type(tcache);
-			
-			retval = new_float_form_expression(type, object);
+			if (object->kind == ek_literal)
+			{
+				TODO;
+			}
+			else
+			{
+				struct type* type = type_cache_get_float_type(tcache);
+				retval = new_float_form_expression(type, object);
+			}
+			break;
+		}
+		
+		case tk_lambda:
+		{
+			// "cannot cast lambda to float!"
+			TODO;
+			exit(1);
+			break;
+		}
+		
+		default:
+			TODO;
+			break;
+	}
+	
+	free_expression(object);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_int_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression* raw_argument)
+{
+	struct expression* retval;
+	ENTER;
+	
+	struct expression* object = specialize_expression(tcache, scope, raw_argument);
+	
+	struct type* type = type_cache_get_int_type(tcache);
+	
+	switch (object->type->kind)
+	{
+		case tk_int:
+			retval = inc_expression(object);
+			break;
+		
+		case tk_float:
+		{
+			if (object->kind == ek_literal)
+			{
+				TODO;
+			}
+			else
+			{
+				TODO;
+				#if 0
+				retval = new_float_form_expression(type, object);
+				#endif
+			}
+			break;
+		}
+		
+		case tk_list:
+		{
+			struct list_type* ltype = (void*) object->type;
+			if (ltype->element_type->kind == tk_char)
+			{
+				retval = new_int_form_expression(type, object);
+			}
+			else
+			{
+				TODO;
+			}
 			break;
 		}
 		
@@ -1131,6 +1222,11 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->float_form)
 	{
 		retval = specialize_primary_float_form_expression(tcache,
+			scope, zexpression->arg);
+	}
+	else if (zexpression->int_form)
+	{
+		retval = specialize_primary_int_form_expression(tcache,
 			scope, zexpression->arg);
 	}
 	#if 0

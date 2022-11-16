@@ -16,6 +16,7 @@
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/int.h>
+#include <type_cache/get_type/char.h>
 #include <type_cache/get_type/float.h>
 
 #include <yacc/structinfo/node/struct.h>
@@ -64,6 +65,11 @@ void specialize_grammar_types(
 							else if (ele->tokentype->bool_)
 							{
 								struct type* subtype = type_cache_get_bool_type(tcache);
+								grammar_type_add_field(gtype, ele->name, subtype);
+							}
+							else if (ele->tokentype->char_)
+							{
+								struct type* subtype = type_cache_get_char_type(tcache);
 								grammar_type_add_field(gtype, ele->name, subtype);
 							}
 							else if (ele->tokentype->int_)

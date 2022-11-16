@@ -18,13 +18,15 @@ bin/release-build/yes-verbose/yes-dotout/./type_check/specialize/primary.o: \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/new.h expression/tuple/new.h \
  expression/variable/new.h expression/parenthesis/new.h \
- expression/float_form/new.h expression/len_form/new.h \
- expression/set/run.h expression/dict/new.h expression/set/new.h \
- expression/list/new.h expression/inc.h expression/free.h type/struct.h \
- type/kind.h type/tuple/struct.h type/tuple/../struct.h \
- list/type/struct.h value/int/new.h value/bool/new.h value/list/new.h \
- value/char/new.h value/tuple/new.h value/float/new.h value/set/new.h \
- value/dict/new.h value/compare.h value/free.h mpz/new.h mpz/free.h \
- type_check/specialize/../scope/lookup.h \
+ expression/float_form/new.h expression/int_form/new.h \
+ expression/len_form/new.h expression/set/run.h expression/dict/new.h \
+ expression/set/new.h expression/list/new.h expression/inc.h \
+ expression/free.h type/struct.h type/kind.h type/list/struct.h \
+ type/list/../struct.h type/tuple/struct.h type/tuple/../struct.h \
+ list/type/struct.h list/value/struct.h value/int/new.h value/bool/new.h \
+ value/list/struct.h value/list/../struct.h value/list/../kind.h \
+ value/list/new.h value/char/new.h value/tuple/new.h value/float/new.h \
+ value/set/new.h value/dict/new.h value/compare.h value/free.h mpz/new.h \
+ mpz/free.h type_check/specialize/../scope/lookup.h \
  type_check/specialize/../build_type.h type_check/specialize/expression.h \
  type_check/specialize/primary.h

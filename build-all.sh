@@ -1,4 +1,5 @@
 set -ev
+unset on_error
 make -j buildtype=debug   verbose=no  dotout=no
 make -j buildtype=debug   verbose=no  dotout=yes
 make -j buildtype=debug   verbose=yes dotout=no

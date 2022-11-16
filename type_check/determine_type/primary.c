@@ -22,6 +22,7 @@
 #include <type_cache/get_type/dict.h>
 #include <type_cache/get_type/list.h>
 #include <type_cache/get_type/charlist.h>
+#include <type_cache/get_type/char.h>
 #include <type_cache/get_type/set.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/tuple.h>
@@ -51,7 +52,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->character_literal)
 	{
-		TODO;
+		type = type_cache_get_char_type(tcache);
 	}
 	else if (expression->string_literal)
 	{
@@ -128,6 +129,10 @@ struct type* determine_type_of_primary_expression(
 		TODO;
 	}
 	else if (expression->float_form)
+	{
+		TODO;
+	}
+	else if (expression->int_form)
 	{
 		TODO;
 	}

@@ -14,6 +14,7 @@
 #include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/float.h>
 #include <type_cache/get_type/char.h>
+#include <type_cache/get_type/list.h>
 #include <type_cache/get_type/charlist.h>
 
 #include <parse/parse.h>
@@ -36,7 +37,7 @@ void reductioninfo_print_source(
 	struct reductioninfo* this,
 	struct structinfo* structinfo,
 	struct out_shared* shared,
-	const char* grammar)
+	struct string* grammar)
 {
 	ENTER;
 	
@@ -116,7 +117,19 @@ void reductioninfo_print_source(
 							}
 							else if (node->tokentype->char_)
 							{
-								TODO;
+								struct type* type = type_cache_get_char_type(shared->tcache);
+								
+								unsigned new_id = function_queue_submit_new(shared->fqueue, type);
+								
+								stringtree_append_printf(tree, ""
+									"{"
+										"if (token->len != 1)"
+										"{"
+											"assert(!\"TODO: bad char token!\");"
+										"}"
+										"value->$%.*s = func_%u(token->data[0]);"
+									"}"
+								"", name->len, name->chars, new_id);
 							}
 							else if (node->tokentype->int_)
 							{
@@ -166,10 +179,10 @@ void reductioninfo_print_source(
 							TODO;
 							#if 0
 							fprintf(stream, ""
-								"if (value->%s.n == value->%s.cap)" "\n"
+								"if (value->%s.n == value->%s->cap)" "\n"
 								"{" "\n"
-								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
+								"value->%s->cap = value->%s->cap << 1 ?: 1;" "\n"
+								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s->cap);" "\n"
 								"}" "\n"
 								"memmove(value->%s.data + 1, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
 								"value->%s.data[0] = inc_%s_token(token), value->%s.n++;" "\n"
@@ -216,32 +229,42 @@ void reductioninfo_print_source(
 						case snt_grammar_scalar:
 						{
 							unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
+							
 							unsigned free_id = function_queue_submit_free(shared->fqueue, type);
 							
 							stringtree_append_printf(tree, ""
-								"func_%u(value->$%.*s), value->$%.*s = func_%u(subgrammar);" "\n"
+								"func_%u(value->$%.*s), value->$%.*s = func_%u(subgrammar);"
 							"", free_id, name->len, name->chars, name->len, name->chars, inc_id);
 							break;
 						}
 						
 						case snt_grammar_array:
 						{
-							TODO;
-							#if 0
-							fprintf(stream, ""
-								"if (value->%s.n == value->%s.cap)" "\n"
-								"{" "\n"
-								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
-								"}" "\n"
-								"memmove(value->%s.data + 1, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
-								"value->%s.data[0] = inc_%s_%s(subgrammar), value->%s.n++;" "\n"
-							"", name, name,
-							name, name,
-							name, name, name, name,
-							name, name, name, name,
-							name, prefix, type, name);
-							#endif
+							unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
+							
+							struct type* list = type_cache_get_list_type(shared->tcache, type);
+							
+							unsigned new_id = function_queue_submit_new(shared->fqueue, list);
+							
+							unsigned append_id = function_queue_submit_append(shared->fqueue, list);
+							
+							#define N name->len, name->chars
+							stringtree_append_printf(tree, "if (value->$%.*s)", N);
+							stringtree_append_printf(tree, "{");
+							stringtree_append_printf(tree, "	if (value->$%.*s->n == value->$%.*s->cap)", N, N);
+							stringtree_append_printf(tree, "	{");
+							stringtree_append_printf(tree, "		value->$%.*s->cap = value->$%.*s->cap << 1 ?: 1;", N, N);
+							stringtree_append_printf(tree, "		value->$%.*s->data = realloc(value->$%.*s->data, sizeof(*value->$%.*s->data) * value->$%.*s->cap);", N, N, N, N);
+							stringtree_append_printf(tree, "	}");
+							stringtree_append_printf(tree, "	memmove(value->$%.*s->data + 1, value->$%.*s->data, sizeof(*value->$%.*s->data) * value->$%.*s->n);", N, N, N, N);
+							stringtree_append_printf(tree, "	value->$%.*s->data[0] = func_%u(subgrammar), value->$%.*s->n++;", N, inc_id, N);
+							stringtree_append_printf(tree, "}");
+							stringtree_append_printf(tree, "else");
+							stringtree_append_printf(tree, "{");
+							stringtree_append_printf(tree, "	value->$%.*s = func_%u();", N, new_id);
+							stringtree_append_printf(tree, "	func_%u(value->$%.*s, subgrammar);", append_id, N);
+							stringtree_append_printf(tree, "}");
+							#undef N
 							break;
 						}
 						
@@ -265,10 +288,9 @@ void reductioninfo_print_source(
 		case rik_trie:
 		{
 			dpvs(this->grammar);
-			
 			assert(this->grammar);
 			
-			struct type* type = type_cache_get_grammar_type(shared->tcache, this->grammar);
+			struct type* type = type_cache_get_grammar_type(shared->tcache, grammar);
 			
 			stringtree_append_printf(tree, ""
 				"{" "\n"
@@ -330,40 +352,47 @@ void reductioninfo_print_source(
 							
 							unsigned free_id = function_queue_submit_free(shared->fqueue, scalar);
 							
-							stringtree_append_printf(tree, ""
-								"if (trie->$%.*s) { func_%u(value->$%.*s); value->$%.*s = func_%u(trie->$%.*s); }" "\n"
-							"", name->len, name->chars, free_id, name->len, name->chars, name->len, name->chars, inc_id, name->len, name->chars);
+							stringtree_append_printf(tree, "if (trie->$%.*s)", name->len, name->chars);
+							stringtree_append_printf(tree, "{");
+							stringtree_append_printf(tree, "	func_%u(value->$%.*s); ", free_id, name->len, name->chars);
+							stringtree_append_printf(tree, "	value->$%.*s = func_%u(trie->$%.*s); ", name->len, name->chars, inc_id, name->len, name->chars);
+							stringtree_append_printf(tree, "}");
 							break;
 						}
 						
 						case snt_grammar_array:
 						{
-							TODO;
-							#if 0
-							const char* const type = node->grammar.name->chars;
+							struct type* element = type_cache_get_grammar_type(shared->tcache, node->grammar);
 							
-							fprintf(stream, ""
-								"if (trie->%s.n)" "\n"
-								"{" "\n"
-								"while (value->%s.n + trie->%s.n > value->%s.cap)" "\n"
-								"{" "\n"
-								"value->%s.cap = value->%s.cap << 1 ?: 1;" "\n"
-								"value->%s.data = realloc(value->%s.data, sizeof(*value->%s.data) * value->%s.cap);" "\n"
-								"}" "\n"
-								"memmove(value->%s.data + trie->%s.n, value->%s.data, sizeof(*value->%s.data) * value->%s.n);" "\n"
-								"for (unsigned i = 0, n = trie->%s.n; i < n; i++)" "\n"
-								"value->%s.data[i] = inc_%s_%s(trie->%s.data[i]);" "\n"
-								"value->%s.n += trie->%s.n;" "\n"
-								"}" "\n"
-							"", name,
-							name, name, name,
-							name, name,
-							name, name, name, name,
-							name, name, name, name, name,
-							name,
-							name, prefix, type, name,
-							name, name);
-							#endif
+							struct type* list = type_cache_get_list_type(shared->tcache, element);
+							
+							unsigned inc_id = function_queue_submit_inc(shared->fqueue, element);
+							
+							unsigned inc_array_id = function_queue_submit_inc(shared->fqueue, list);
+							
+							#define N name->len, name->chars
+							stringtree_append_printf(tree, "if (trie->$%.*s)", N);
+							stringtree_append_printf(tree, "{");
+							stringtree_append_printf(tree, "	if (value->$%.*s)", N);
+							stringtree_append_printf(tree, "	{");
+							stringtree_append_printf(tree, "		while (value->$%.*s->n + trie->$%.*s->n > value->$%.*s->cap)", N, N, N);
+							stringtree_append_printf(tree, "		{");
+							stringtree_append_printf(tree, "			value->$%.*s->cap = value->$%.*s->cap << 1 ?: 1;", N, N);
+							stringtree_append_printf(tree, "			value->$%.*s->data = realloc(value->$%.*s->data, sizeof(*value->$%.*s->data) * value->$%.*s->cap);", N, N, N, N);
+							stringtree_append_printf(tree, "		}");
+							stringtree_append_printf(tree, "		memmove(value->$%.*s->data + trie->$%.*s->n, value->$%.*s->data, sizeof(*value->$%.*s->data) * value->$%.*s->n);", N, N, N, N, N);
+							stringtree_append_printf(tree, "		for (unsigned i = 0, n = trie->$%.*s->n; i < n; i++)", N);
+							stringtree_append_printf(tree, "		{");
+							stringtree_append_printf(tree, "			value->$%.*s->data[i] = func_%u(trie->$%.*s->data[i]);", N, inc_id, N);
+							stringtree_append_printf(tree, "		}");
+							stringtree_append_printf(tree, "		value->$%.*s->n += trie->$%.*s->n;", N, N);
+							stringtree_append_printf(tree, "	}");
+							stringtree_append_printf(tree, "	else");
+							stringtree_append_printf(tree, "	{");
+							stringtree_append_printf(tree, "		value->$%.*s = func_%u(trie->$%.*s);", N, inc_array_id, N);
+							stringtree_append_printf(tree, "	}");
+							stringtree_append_printf(tree, "}");
+							#undef N
 							break;
 						}
 						

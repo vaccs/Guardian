@@ -1,12 +1,12 @@
 
 
-%skip: /' ' | '\t' | '\n'/;
+%skip: /' ' | '\t'/;
 
 cell: /[!',']+ | '\"' [!'\"']* '\"'/ #content;
 
-row: cell (',' cell)*;
+row: cell #cell[] (',' cell #cell[])* "\n";
 
-%start: row+;
+%start: (row #row[])+;
 
 // the number of cells of each row must be equal:
 all_equal = $int[] list: all($int e: e == list[0], list);
@@ -14,8 +14,13 @@ all_equal = $int[] list: all($int e: e == list[0], list);
 %error: all_equal(map($row r: len(r.cell), row));
 
 // every cell along the diagonal must have the same length:
-%error: all_equal(map($i: len(row[i].cell[i]), range(len(row)));
+%error: all_equal(map($int i: len(row[i].cell[i]), range(len(row)));
 
 // all cells must have the same number of letters:
 %error: all_equal(map($cell c: len(c.content), row.cell));
+
+all_equal([1, 2, 3, 4]);
+
+int x = 3 + 4;
+int y = x + 3;
 

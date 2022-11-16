@@ -1,7 +1,7 @@
 
 [{
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -24,7 +24,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
