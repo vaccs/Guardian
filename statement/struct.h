@@ -14,5 +14,7 @@ struct statement
 	struct expression* expression;
 	
 	unsigned refcount;
+	
+	unsigned line;
 };
 

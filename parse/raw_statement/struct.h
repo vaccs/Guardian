@@ -13,6 +13,6 @@ struct raw_statement
 	
 	struct zebu_expression* expression;
 	
-	unsigned refcount;
+	unsigned refcount, line;
 };
 

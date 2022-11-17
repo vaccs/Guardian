@@ -11,6 +11,7 @@
 #include "new.h"
 
 struct statement* new_assert_statement(
+	unsigned line,
 	enum assertion_kind assertion_kind,
 	struct expression* expression)
 {
@@ -25,6 +26,8 @@ struct statement* new_assert_statement(
 	this->expression = inc_expression(expression);
 	
 	this->refcount = 1;
+	
+	this->line = line;
 	
 	EXIT;
 	return this;

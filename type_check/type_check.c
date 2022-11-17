@@ -326,6 +326,7 @@ void type_check(
 					else
 					{
 						struct statement* statement = new_assert_statement(
+							raw_statement->line,
 							raw_statement->assertion_kind, specialized);
 						
 						statement_list_append(statements, statement);
@@ -371,7 +372,8 @@ void type_check(
 						type_check_scope_declare_value(scope, name, spef->value);
 					}
 					
-					struct statement* statement = new_declare_statement(name, specialized);
+					struct statement* statement = new_declare_statement(
+						name, specialized);
 					
 					statement_list_append(statements, statement);
 					

@@ -47,6 +47,7 @@ static void free_token(struct token* token)
 
 {{GOTO_TABLE}}
 
+#ifdef MAIA_DEBUG
 static void escape(char *out, unsigned char in)
 {
 	switch (in)
@@ -95,6 +96,7 @@ static void escape(char *out, unsigned char in)
 			break;
 	}
 }
+#endif
 
 int main(int argc, char* const* argv)
 {
@@ -148,7 +150,9 @@ int main(int argc, char* const* argv)
 	
 	struct { unsigned* data, n, cap; } yacc = {};
 	struct { void** data; unsigned n, cap; } data = {};
-	struct { unsigned char* data; unsigned n, cap; } lexer = {};
+	struct { unsigned char* data; unsigned n, cap; unsigned line; } lexer = {
+		.line = 1,
+	};
 	
 	void push_state(unsigned y)
 	{
@@ -203,6 +207,8 @@ int main(int argc, char* const* argv)
 	{
 		unsigned original_l = l, i = 0, a, b, c, f = 0;
 		
+		unsigned line = lexer.line;
+		
 		t = 0, td = NULL;
 		
 		#ifdef MAIA_DEBUG
@@ -215,11 +221,11 @@ int main(int argc, char* const* argv)
 			{
 				c = lexer.data[i];
 				
+				#ifdef MAIA_DEBUG
 				char escaped[10];
 				
 				escape(escaped, c);
 				
-				#ifdef MAIA_DEBUG
 				ddprintf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);
 				#endif
 				
@@ -229,11 +235,11 @@ int main(int argc, char* const* argv)
 			{
 				push_char(c);
 				
+				#ifdef MAIA_DEBUG
 				char escaped[10];
 				
 				escape(escaped, c);
 				
-				#ifdef MAIA_DEBUG
 				ddprintf("lexer: c = '%s' (0x%02hhX)\n", escaped, c);
 				#endif
 				
@@ -272,6 +278,14 @@ int main(int argc, char* const* argv)
 					ddprintf("lexer: l = %u\n", l);
 					#endif
 				}
+				
+				if (c == '\n')
+				{
+					line++;
+					#ifdef ZEBU_DEBUG
+					ddprintf("lexer: line: %u\n", line);
+					#endif
+				}
 			}
 			else if (b)
 			{
@@ -293,7 +307,7 @@ int main(int argc, char* const* argv)
 					ddprintf("lexer: whitespace\n");
 					#endif
 					
-					l = original_l, t = 0;
+					l = original_l, t = 0, lexer.line = line;
 					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i, i = 0;
 				}
 				else
@@ -308,6 +322,7 @@ int main(int argc, char* const* argv)
 					token->len = i;
 					t = b, td = token;
 					
+					lexer.line = line;
 					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i;
 					break;
 				}
@@ -316,22 +331,20 @@ int main(int argc, char* const* argv)
 			{
 				if (t == 1)
 				{
-					printf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
-					
-					assert(!"TODO: 291");
-					#if 0
-					l = original_l, t = 0;
-					memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0, i = 0;
+					#ifdef ZEBU_DEBUG
+					ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
 					#endif
+					
+					l = original_l, t = 0, line = lexer.line;
+					memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0, i = 0;
 				}
 				else
 				{
-					assert(!"TODO: 301");
-					#if 0
+					#ifdef ZEBU_DEBUG
 					ddprintf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
+					#endif
 					
 					struct token* token = malloc(sizeof(*token));
-					token->refcount = 1;
 					token->data = memcpy(malloc(f + 1), lexer.data, f);
 					token->data[f] = 0;
 					token->len = f;
@@ -339,21 +352,16 @@ int main(int argc, char* const* argv)
 					
 					memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0;
 					break;
-					#endif
 				}
 			}
 			else
 			{
-				if (c == EOF)
-				{
-					fprintf(stderr, "%s: unexpected <EOF> when reading ...'%.*s'!\n", argv0, i, lexer.data);
-				}
+				if (c == (unsigned) EOF)
+					fprintf(stderr, "%s: unexpected '<EOF>' when reading '%.*s' on line %u!\n", argv0, i, lexer.data, line);
 				else
-				{
-					fprintf(stderr, "%s: unexpected '%c' when reading ...'%.*s'!\n", argv0, c, i, lexer.data);
-				}
+					fprintf(stderr, "%s: unexpected '%c' when reading '%.*s' on line %u!\n", argv0, c, i, lexer.data, line);
 				
-				abort();
+				exit(1);
 			}
 		}
 	}

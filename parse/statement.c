@@ -26,7 +26,9 @@ void process_statement(
 	
 	if (zstatement->error)
 	{
-		struct raw_statement* statement = new_raw_assertion(ak_error, zstatement->expression);
+		struct raw_statement* statement = new_raw_assertion(
+			zstatement->error->line,
+			ak_error, zstatement->expression);
 		
 		raw_statement_list_append(statements, statement);
 		
@@ -34,7 +36,9 @@ void process_statement(
 	}
 	else if (zstatement->warning)
 	{
-		struct raw_statement* statement = new_raw_assertion(ak_warning, zstatement->expression);
+		struct raw_statement* statement = new_raw_assertion(
+			zstatement->warning->line,
+			ak_warning, zstatement->expression);
 		
 		raw_statement_list_append(statements, statement);
 		
@@ -42,7 +46,9 @@ void process_statement(
 	}
 	else if (zstatement->note)
 	{
-		struct raw_statement* statement = new_raw_assertion(ak_note, zstatement->expression);
+		struct raw_statement* statement = new_raw_assertion(
+			zstatement->note->line,
+			ak_note, zstatement->expression);
 		
 		raw_statement_list_append(statements, statement);
 		
@@ -52,7 +58,8 @@ void process_statement(
 	{
 		struct string* name = new_string_from_token(zstatement->name);
 		
-		struct raw_statement* statement = new_raw_declaration(name, zstatement->expression);
+		struct raw_statement* statement = new_raw_declaration(
+			name, zstatement->expression);
 		
 		raw_statement_list_append(statements, statement);
 		

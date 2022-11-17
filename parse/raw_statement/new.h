@@ -4,6 +4,7 @@
 struct zebu_expression;
 
 struct raw_statement* new_raw_assertion(
+	unsigned line,
 	enum assertion_kind kind,
 	struct zebu_expression* expression);
 

@@ -427,25 +427,37 @@ struct stringtree* out(
 						case ak_error:
 						{
 							stringtree_append_printf(statements_text, ""
-								"fprintf(stderr, \"\\e[31m\" \"%%s: %%%%error: assertion failed on line ###!\" \"\\e[m\" \"\\n\", argv0);"
+								"fprintf(stderr, "
+									"\"\\e[1m\" \"%%s:\" \"\\e[m \""
+									"\"\\e[31m\" \"%%%%error: \""
+									"\"assertion failed on line %u!\""
+									" \"\\e[m\" \"\\n\", argv0);"
 								"exit(1);"
-							"");
+							"", statement->line);
 							break;
 						}
 						
 						case ak_warning:
 						{
 							stringtree_append_printf(statements_text, ""
-								"fprintf(stderr, \"\\e[33m\" \"%%s: %%%%warning: assertion failed on line ###!\" \"\\e[m\" \"\\n\", argv0);"
-							"");
+								"fprintf(stderr, "
+									"\"\\e[1m\" \"%%s:\" \"\\e[m \""
+									"\"\\e[33m\" \"%%%%warning: \" \"\\e[m\""
+									"\"assertion failed on line %u!\""
+									"\"\\n\", argv0);"
+							"", statement->line);
 							break;
 						}
 						
 						case ak_note:
 						{
 							stringtree_append_printf(statements_text, ""
-								"fprintf(stderr, \"\\e[36m\" \"%%s: %%%%note: assertion failed on line ###!\" \"\\e[m\" \"\\n\", argv0);"
-							"");
+								"fprintf(stderr, "
+									"\"\\e[1m\" \"%%s:\" \"\\e[m \""
+									"\"\\e[36m\" \"%%%%note: \" \"\\e[m\""
+									"\"assertion failed on line %u!\""
+									"\"\\n\", argv0);"
+							"", statement->line);
 							break;
 						}
 						

@@ -5,6 +5,7 @@ struct string;
 struct expression;
 
 struct statement* new_assert_statement(
+	unsigned line,
 	enum assertion_kind assertion_kind,
 	struct expression* expression);
 	

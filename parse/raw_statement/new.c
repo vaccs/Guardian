@@ -11,6 +11,7 @@
 #include "new.h"
 
 struct raw_statement* new_raw_assertion(
+	unsigned line,
 	enum assertion_kind kind,
 	struct zebu_expression* expression)
 {
@@ -25,6 +26,8 @@ struct raw_statement* new_raw_assertion(
 	this->expression = inc_zebu_expression(expression);
 	
 	this->refcount = 1;
+	
+	this->line = line;
 	
 	EXIT;
 	return this;
