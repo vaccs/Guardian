@@ -1,0 +1,3 @@
+bin/release-build/no-verbose/yes-dotout/./list/statement/append.o: \
+ list/statement/append.c debug.h memory/srealloc.h statement/inc.h \
+ list/statement/struct.h list/statement/append.h
