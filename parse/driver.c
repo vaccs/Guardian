@@ -27,8 +27,7 @@
 #include "parse.h"
 #include "driver.h"
 #include "grammar.h"
-#include "declare.h"
-#include "assertion.h"
+#include "statement.h"
 
 struct file_descriptor
 {
@@ -114,8 +113,7 @@ void parse_driver(
 	struct lex* lex,
 	struct avl_tree_t* grammar,
 	struct avl_tree_t* types,
-	struct raw_declaration_list* declarations,
-	struct raw_assertion_list* assertions,
+	struct raw_statement_list* statements,
 	const char* input_path)
 {
 	ENTER;
@@ -158,7 +156,7 @@ void parse_driver(
 		
 		for (unsigned i = 0, n = start->skips.n; i < n; i++)
 		{
-			process_skip(lex,  start->skips.data[i]);
+			process_skip(lex, start->skips.data[i]);
 		}
 		
 		for (unsigned i = 0, n = start->starts.n; i < n; i++)
@@ -171,14 +169,9 @@ void parse_driver(
 			process_grammar(lex, grammar, types, start->grammars.data[i]);
 		}
 		
-		for (unsigned i = 0, n = start->declares.n; i < n; i++)
+		for (unsigned i = 0, n = start->statements.n; i < n; i++)
 		{
-			process_declare(grammar, declarations, start->declares.data[i]);
-		}
-		
-		for (unsigned i = 0, n = start->assertions.n; i < n; i++)
-		{
-			process_assertion(assertions, start->assertions.data[i]);
+			process_statement(grammar, statements, start->statements.data[i]);
 		}
 		
 		free_zebu_$start(start);

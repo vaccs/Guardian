@@ -1,0 +1,21 @@
+[{
+	"files": {
+		"input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"integer: /int: ['0'-'9']+/ #value;",
+			
+			"%start: integer integer;",
+			
+			"numerator = integer[0].value;",
+			
+			"denominator = integer[1].value;",
+			
+			"%error: denominator != 0;",
+			
+			"ratio = float!(numerator) / float!(denominator);",
+			
+			"%debug: ratio;"
+		]
+	}
+}]

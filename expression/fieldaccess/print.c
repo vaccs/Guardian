@@ -6,6 +6,11 @@
 
 #include <string/struct.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -16,19 +21,22 @@ struct stringtree* fieldaccess_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
+	
 	assert(super->kind == ek_fieldaccess);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct fieldaccess_expression* this = (void*) super;
 	
-	expression_print(this->object);
+	struct stringtree* subtree = expression_print2(this->object);
 	
-	printf(".");
+	stringtree_append_tree(tree, subtree);
 	
-	printf("%.*s", this->fieldname->len, this->fieldname->chars);
-	#endif
+	stringtree_append_printf(tree, ".%.*s", this->fieldname->len, this->fieldname->chars);
+	
+	free_stringtree(subtree);
 	
 	EXIT;
+	return tree;
 }
 

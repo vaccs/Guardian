@@ -4,6 +4,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "print.h"
 
 struct stringtree* float_type_print(
@@ -11,11 +14,11 @@ struct stringtree* float_type_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	printf("float");
-	#endif
+	struct stringtree* tree = new_stringtree();
+	
+	stringtree_append_printf(tree, "float");
 	
 	EXIT;
+	return tree;
 }
 

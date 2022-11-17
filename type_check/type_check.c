@@ -123,8 +123,8 @@
 
 #include <defines/argv0.h>
 
-#include <assertion/new.h>
-#include <assertion/free.h>
+/*#include <assertion/new.h>*/
+/*#include <assertion/free.h>*/
 
 #include <avl/alloc_tree.h>
 #include <avl/insert.h>
@@ -135,21 +135,19 @@
 #include <named/type/compare.h>
 #include <named/type/free.h>
 
-#include <parse/assertion/struct.h>
+#include <parse/raw_statement/struct.h>
 
-#include <parse/declaration/struct.h>
-
-#include <list/raw_declaration/foreach.h>
+/*#include <list/raw_declaration/foreach.h>*/
 
 #include <type/print.h>
 #include <type/struct.h>
 
 #include <value/bool/struct.h>
 
-#include <declaration/new.h>
-#include <declaration/free.h>
+/*#include <declaration/new.h>*/
+/*#include <declaration/free.h>*/
 
-#include <list/declaration/append.h>
+/*#include <list/declaration/append.h>*/
 
 #include <string/struct.h>
 
@@ -162,11 +160,24 @@
 #include <expression/print.h>
 #include <expression/free.h>
 
-#include <list/assertion/append.h>
+/*#include <list/assertion/append.h>*/
 
-#include <list/raw_assertion/foreach.h>
+#include <list/statement/append.h>
+
+#include <statement/free.h>
+
+#include <list/raw_statement/foreach.h>
 
 #include <type_cache/get_type/list.h>
+
+#include <statement/new.h>
+#include <statement/free.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
 
 #include "scope/layer.h"
 #include "scope/struct.h"
@@ -185,14 +196,9 @@
 
 void type_check(
 	struct type_cache* tcache,
-	
 	struct avl_tree_t* grammar_types, // named types
-	
-	struct raw_declaration_list* raw_declarations,
-	struct raw_assertion_list* raw_assertions,
-	
-	struct declaration_list* declarations,
-	struct assertion_list* assertions)
+	struct raw_statement_list* raw_statements,
+	struct statement_list* statements)
 {
 	ENTER;
 	
@@ -214,106 +220,186 @@ void type_check(
 		runme;
 	}));
 	
-	raw_declaration_list_foreach(raw_declarations, ({
-		void runme(struct raw_declaration* raw_declaration)
+	raw_statement_list_foreach(raw_statements, ({
+		void runme(struct raw_statement* raw_statement)
 		{
-			struct string* name = raw_declaration->name;
-			
-			type_check_scope_declare(scope, name);
-		}
-		runme;
-	}));
-	
-	raw_declaration_list_foreach(raw_declarations, ({
-		void runme(struct raw_declaration* raw_declaration)
-		{
-			TODO;
-			#if 0
-			struct string* name = raw_declaration->name;
-			
-			printf("%s: determining type of '%.*s': ", argv0, name->len, name->chars);
-			
-			struct type* type = determine_type_of_expression(
-				raw_declaration->expression, tcache, scope);
-			
-			#ifdef VERBOSE
-			type_print(type), puts("");
-			#endif
-			
-			type_check_scope_declare_type(scope, name, type);
-			#endif
-		}
-		runme;
-	}));
-	
-	raw_declaration_list_foreach(raw_declarations, ({
-		void runme(struct raw_declaration* raw_declaration)
-		{
-			TODO;
-			#if 0
-			struct string* name = raw_declaration->name;
-			
-			printf("%s: specializing '%.*s' declaration: ", argv0, name->len, name->chars);
-			
-			struct expression* typed = specialize_expression(
-				tcache, scope, raw_declaration->expression);
-			
-			expression_print(typed), puts("");
-			
-			if (typed->kind == ek_literal)
+			switch (raw_statement->kind)
 			{
-				struct literal_expression* spef = (void*) typed;
+				case rsk_assertion:
+					break;
 				
-				type_check_scope_declare_value(scope, name, spef->value);
-			}
-			
-			struct declaration* declaration = new_declaration(name, typed);
-			
-			declaration_list_append(declarations, declaration);
-			
-			free_declaration(declaration);
-			
-			free_expression(typed);
-			#endif
-		}
-		runme;
-	}));
-	
-	raw_assertion_list_foreach(raw_assertions, ({
-		void runme(struct raw_assertion* raw_assertion)
-		{
-			struct expression* typed = specialize_expression(
-				tcache, scope, raw_assertion->expression);
-			
-			if (raw_assertion->kind != ak_debug && typed->type->kind != tk_bool)
-			{
-				TODO;
-				exit(1);
-			}
-			
-			if (raw_assertion->kind != ak_debug && typed->kind == ek_literal)
-			{
-				struct literal_expression* literal = (void*) typed;
-				
-				struct bool_value* value = (void*) literal->value;
-				
-				if (!value->value)
+				case rsk_declaration:
 				{
-					fflush(stdout);
-					fprintf(stderr, "%s: assertion constant-folded to false!\n", argv0);
-					exit(1);
+					struct string* name = raw_statement->name;
+					type_check_scope_declare(scope, name);
+					break;
 				}
+				
+				case rsk_print:
+					break;
+				
+				default:
+					TODO;
+					break;
 			}
-			else
+		}
+		runme;
+	}));
+	
+	raw_statement_list_foreach(raw_statements, ({
+		void runme(struct raw_statement* raw_statement)
+		{
+			switch (raw_statement->kind)
 			{
-				struct assertion* assertion = new_assertion(raw_assertion->kind, typed);
+				case rsk_assertion:
+					break;
 				
-				assertion_list_append(assertions, assertion);
+				case rsk_declaration:
+				{
+					struct string* name = raw_statement->name;
+					
+					struct type* type = determine_type_of_expression(
+						raw_statement->expression, tcache, scope);
+					
+					#ifdef VERBOSE
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree, "%s: type of '%.*s' is: ",
+						argv0, name->len, name->chars);
+					
+					struct stringtree* subtree = type_print2(type);
+					
+					stringtree_append_tree(tree, subtree);
+					
+					stringtree_append_printf(tree, "\n");
+					
+					stringtree_stream(tree, stdout);
+					
+					free_stringtree(subtree);
+					free_stringtree(tree);
+					#endif
+					
+					type_check_scope_declare_type(scope, name, type);
+					break;
+				}
 				
-				free_assertion(assertion);
+				case rsk_print:
+					break;
+				
+				default:
+					TODO;
+					break;
 			}
-			
-			free_expression(typed);
+		}
+		runme;
+	}));
+	
+	raw_statement_list_foreach(raw_statements, ({
+		void runme(struct raw_statement* raw_statement)
+		{
+			switch (raw_statement->kind)
+			{
+				case rsk_assertion:
+				{
+					struct expression* specialized = specialize_expression(
+						tcache, scope, raw_statement->expression);
+					
+					if (specialized->type->kind != tk_bool)
+					{
+						TODO;
+						exit(1);
+					}
+					
+					if (specialized->kind == ek_literal)
+					{
+						struct literal_expression* literal = (void*) specialized;
+						
+						struct bool_value* value = (void*) literal->value;
+						
+						if (raw_statement->assertion_kind == ak_error && !value->value)
+						{
+							fflush(stdout);
+							fprintf(stderr, "%s: %%error: assertion constant-folded to false!\n", argv0);
+							exit(1);
+						}
+					}
+					else
+					{
+						struct statement* statement = new_assert_statement(
+							raw_statement->assertion_kind, specialized);
+						
+						statement_list_append(statements, statement);
+						
+						free_statement(statement);
+					}
+					
+					free_expression(specialized);
+					break;
+				}
+				
+				case rsk_declaration:
+				{
+					struct string* name = raw_statement->name;
+					
+					struct expression* specialized = specialize_expression(
+						tcache, scope, raw_statement->expression);
+					
+					#ifdef VERBOSE
+					
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree,
+						"%s: specialized '%.*s' expression: ",
+						argv0, name->len, name->chars);
+					
+					struct stringtree* subtree = expression_print2(specialized);
+					
+					stringtree_append_tree(tree, subtree);
+					
+					stringtree_append_printf(tree, "\n");
+					
+					stringtree_stream(tree, stdout);
+					
+					free_stringtree(tree);
+					free_stringtree(subtree);
+					#endif
+					
+					if (specialized->kind == ek_literal)
+					{
+						struct literal_expression* spef = (void*) specialized;
+						
+						type_check_scope_declare_value(scope, name, spef->value);
+					}
+					
+					struct statement* statement = new_declare_statement(name, specialized);
+					
+					statement_list_append(statements, statement);
+					
+					free_statement(statement);
+					
+					free_expression(specialized);
+					break;
+				}
+				
+				case rsk_print:
+				{
+					struct expression* specialized = specialize_expression(
+						tcache, scope, raw_statement->expression);
+					
+					struct statement* statement = new_print_statement(specialized);
+					
+					statement_list_append(statements, statement);
+					
+					free_statement(statement);
+					
+					free_expression(specialized);
+					break;
+				}
+				
+				default:
+					TODO;
+					break;
+			}
 		}
 		runme;
 	}));

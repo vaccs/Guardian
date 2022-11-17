@@ -130,7 +130,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->float_form)
 	{
-		TODO;
+		type = type_cache_get_float_type(tcache);
 	}
 	else if (expression->int_form)
 	{

@@ -38,11 +38,8 @@
 #include <named/structinfo/compare.h>
 #include <named/structinfo/free.h>
 
-#include <list/raw_declaration/new.h>
-#include <list/raw_declaration/free.h>
-
-#include <list/raw_assertion/new.h>
-#include <list/raw_assertion/free.h>
+#include <list/raw_statement/new.h>
+#include <list/raw_statement/free.h>
 
 #include <parse/driver.h>
 
@@ -57,11 +54,8 @@
 #include <set/string/new.h>
 #include <set/string/free.h>
 
-#include <list/declaration/new.h>
-#include <list/declaration/free.h>
-
-#include <list/assertion/new.h>
-#include <list/assertion/free.h>
+#include <list/statement/new.h>
+#include <list/statement/free.h>
 
 #include <type_check/type_check.h>
 
@@ -86,11 +80,10 @@ int main(int argc, char* const* argv)
 	
 	struct avl_tree_t* structinfos = avl_alloc_tree(compare_named_structinfos, free_named_structinfo);
 	
-	struct raw_declaration_list* raw_declarations = new_raw_declaration_list();
+	struct raw_statement_list* raw_statements = new_raw_statement_list();
 	
-	struct raw_assertion_list* raw_assertions = new_raw_assertion_list();
+	parse_driver(lex, grammar, structinfos, raw_statements, flags->input_path);
 	
-	parse_driver(lex, grammar, structinfos, raw_declarations, raw_assertions, flags->input_path);
 	
 	struct type_cache* tcache = new_type_cache();
 	
@@ -98,18 +91,16 @@ int main(int argc, char* const* argv)
 	
 	specialize_grammar_types(types, tcache, structinfos);
 	
-	struct declaration_list* declarations = new_declaration_list();
 	
-	struct assertion_list* assertions = new_assertion_list();
+	struct statement_list* statements = new_statement_list();
 	
-	type_check(
-		tcache, types,
-		raw_declarations, raw_assertions,
-		declarations, assertions);
+	type_check(tcache, types, raw_statements, statements);
+	
 	
 	struct yacc_state* start = yacc(lex, structinfos, grammar);
 	
-	struct stringtree* content = out(tcache, types, declarations, assertions, start);
+	
+	struct stringtree* content = out(tcache, types, statements, start);
 	
 	FILE* stream = fopen(flags->output_path, "w");
 	
@@ -125,13 +116,9 @@ int main(int argc, char* const* argv)
 	
 	fclose(stream);
 	
-	free_raw_declaration_list(raw_declarations);
+	free_raw_statement_list(raw_statements);
 	
-	free_raw_assertion_list(raw_assertions);
-	
-	free_declaration_list(declarations);
-	
-	free_assertion_list(assertions);
+	free_statement_list(statements);
 	
 	avl_free_tree(structinfos);
 	

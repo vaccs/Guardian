@@ -30,6 +30,10 @@
 #include <string/new.h>
 #include <string/free.h>
 
+#include <statement/struct.h>
+
+#include <list/statement/foreach.h>
+
 #include <expression/struct.h>
 
 #include <stringtree/new.h>
@@ -44,7 +48,7 @@
 
 #include <yacc/state/struct.h>
 
-#include <assertion/print_source.h>
+/*#include <assertion/print_source.h>*/
 
 #include <named/type/struct.h>
 
@@ -58,11 +62,11 @@
 
 #include <expression/print_source.h>
 
-#include <list/assertion/foreach.h>
+/*#include <list/assertion/foreach.h>*/
 
-#include <declaration/struct.h>
+/*#include <declaration/struct.h>*/
 
-#include <list/declaration/foreach.h>
+/*#include <list/declaration/foreach.h>*/
 
 #include <named/type/new.h>
 #include <named/type/compare.h>
@@ -112,6 +116,7 @@
 #include "function_queue/struct.h"
 #include "function_queue/new.h"
 #include "function_queue/submit_new.h"
+#include "function_queue/submit_print.h"
 #include "function_queue/submit_free.h"
 #include "function_queue/process.h"
 #include "function_queue/free.h"
@@ -134,8 +139,7 @@
 struct stringtree* out(
 	struct type_cache* tcache,
 	struct avl_tree_t* grammar_types,
-	struct declaration_list* declarations,
-	struct assertion_list* assertions,
+	struct statement_list* statements,
 	struct yacc_state* yacc_start)
 {
 	ENTER;
@@ -325,16 +329,28 @@ struct stringtree* out(
 			runme;
 		}));
 		
-		declaration_list_foreach(declarations, ({
-			void runme(struct declaration* declaration)
+		statement_list_foreach(statements, ({
+			void runme(struct statement* statement)
 			{
-				dpvs(declaration->name);
-				
-				struct named_type* new = new_named_type(declaration->name, declaration->expression->type);
-				
-				void* ptr2 = avl_insert(environment_tree, new);
-				
-				assert(ptr2);
+				switch (statement->kind)
+				{
+					case sk_assertion:
+						break;
+					
+					case sk_declaration:
+					{
+						dpvs(statement->name);
+						
+						struct named_type* new = new_named_type(statement->name, statement->expression->type);
+						
+						void* ptr2 = avl_insert(environment_tree, new);
+						
+						assert(ptr2);
+						break;
+					}
+					case sk_print:
+						break;
+				}
 			}
 			runme;
 		}));
@@ -382,49 +398,143 @@ struct stringtree* out(
 		}));
 	}
 	
-	struct stringtree* assign_declarations_text = new_stringtree();
-	declaration_list_foreach(declarations, ({
-		void runme(struct declaration* declaration)
+	struct stringtree* statements_text = new_stringtree();
+	statement_list_foreach(statements, ({
+		void runme(struct statement* statement)
 		{
-			dpvs(declaration->name);
+			switch (statement->kind)
+			{
+				case sk_assertion:
+				{
+					stringtree_append_printf(statements_text, "{");
+					
+					stringtree_append_printf(statements_text,
+						"struct type_%u* assertion = ",
+						statement->expression->type->id);
+					
+					struct stringtree* subtext = expression_print_source(
+						statement->expression, &shared, environment_type);
+					
+					stringtree_append_tree(statements_text, subtext);
+					
+					stringtree_append_printf(statements_text, ";");
+					
+					stringtree_append_printf(statements_text,
+						"if (!assertion->value) {");
+					
+					switch (statement->assertion_kind)
+					{
+						case ak_error:
+						{
+							stringtree_append_printf(statements_text, ""
+								"fprintf(stderr, \"\\e[31m\" \"%%s: %%%%error: assertion failed on line ###!\" \"\\e[m\" \"\\n\", argv0);"
+								"exit(1);"
+							"");
+							break;
+						}
+						
+						case ak_warning:
+						{
+							stringtree_append_printf(statements_text, ""
+								"fprintf(stderr, \"\\e[33m\" \"%%s: %%%%warning: assertion failed on line ###!\" \"\\e[m\" \"\\n\", argv0);"
+							"");
+							break;
+						}
+						
+						case ak_note:
+						{
+							stringtree_append_printf(statements_text, ""
+								"fprintf(stderr, \"\\e[36m\" \"%%s: %%%%note: assertion failed on line ###!\" \"\\e[m\" \"\\n\", argv0);"
+							"");
+							break;
+						}
+						
+						default:
+							TODO;
+							break;
+					}
+					
+					stringtree_append_printf(statements_text, "}");
+					
+					unsigned free_id = function_queue_submit_free(
+						shared.fqueue, statement->expression->type);
+					
+					stringtree_append_printf(statements_text,
+						"func_%u(assertion);", free_id);
+					
+					stringtree_append_printf(statements_text, "}");
+					
+					free_stringtree(subtext);
+					break;
+				}
+				
+				case sk_declaration:
+				{
+					dpvs(statement->name);
+					
+					struct string* name = statement->name;
+					
+					struct expression* expression = statement->expression;
+					
+					stringtree_append_printf(statements_text, ""
+						"environment->$%.*s = "
+					"", name->len, name->chars);
+					
+					struct stringtree* subtext =
+						expression_print_source(expression, &shared, environment_type);
+					
+					stringtree_append_tree(statements_text, subtext);
+					
+					stringtree_append_printf(statements_text, ";");
+					
+					free_stringtree(subtext);
+					break;
+				}
+				
+				case sk_print:
+				{
+					stringtree_append_printf(statements_text, "{");
+					
+					stringtree_append_printf(statements_text,
+						"struct type_%u* printme = ",
+						statement->expression->type->id);
+					
+					struct stringtree* subtext = expression_print_source(
+						statement->expression, &shared, environment_type);
+					
+					stringtree_append_tree(statements_text, subtext);
+					
+					stringtree_append_printf(statements_text, ";");
+					
+					unsigned print_id = function_queue_submit_print(
+						shared.fqueue, statement->expression->type);
+					
+					stringtree_append_printf(statements_text,
+						"printf(\"%%%%print: \"), func_%u(printme), puts(\"\");",
+						print_id);
+					
+					unsigned free_id = function_queue_submit_free(
+						shared.fqueue, statement->expression->type);
+					
+					stringtree_append_printf(statements_text,
+						"func_%u(printme);", free_id);
+					
+					stringtree_append_printf(statements_text, "}");
+					
+					free_stringtree(subtext);
+					break;
+				}
+				
+				default:
+				{
+					TODO;
+					break;
+				}
+			}
 			
-			struct string* name = declaration->name;
-			
-			struct expression* expression = declaration->expression;
-			
-			stringtree_append_printf(assign_declarations_text, ""
-				"environment->$%.*s = "
-			"", name->len, name->chars);
-			
-			struct stringtree* subtext =
-				expression_print_source(expression, &shared, environment_type);
-			
-			stringtree_append_tree(assign_declarations_text, subtext);
-			
-			stringtree_append_printf(assign_declarations_text, ""
-				";"
-			"");
-			
-			free_stringtree(subtext);
 		}
 		runme;
 	}));
-	
-	struct stringtree* assertions_text = new_stringtree();
-	{
-		assertion_list_foreach(assertions, ({
-			void runme(struct assertion* assertion)
-			{
-				struct stringtree* text =
-					assertion_print_source(assertion, &shared, environment_type);
-				
-				stringtree_append_tree(assertions_text, text);
-				
-				free_stringtree(text);
-			}
-			runme;
-		}));
-	}
 	
 	struct stringtree* reductionrules_text =
 		reducerule_to_id_print_source(rrtoi, stoi, &shared);
@@ -543,13 +653,9 @@ struct stringtree* out(
 			{
 				stringtree_append_tree(root, assign_sets_text);
 			}
-			else if (!strncmp(old, "ASSIGN_DECLARES", len))
+			else if (!strncmp(old, "STATEMENTS", len))
 			{
-				stringtree_append_tree(root, assign_declarations_text);
-			}
-			else if (!strncmp(old, "ASSERTIONS", len))
-			{
-				stringtree_append_tree(root, assertions_text);
+				stringtree_append_tree(root, statements_text);
 			}
 			else if (!strncmp(old, "FREE_START", len))
 			{
@@ -579,9 +685,7 @@ struct stringtree* out(
 	
 	free_stringtree(assign_sets_text);
 	
-	free_stringtree(assign_declarations_text);
-	
-	free_stringtree(assertions_text);
+	free_stringtree(statements_text);
 	
 	free_stringtree(reductionrules_text);
 	

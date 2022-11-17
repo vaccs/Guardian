@@ -6,6 +6,9 @@
 
 #include <string/struct.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "struct.h"
 #include "print.h"
 
@@ -14,17 +17,17 @@ struct stringtree* variable_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_variable);
 	
 	struct variable_expression* this = (void*) super;
 	
+	struct stringtree* tree = new_stringtree();
+	
 	struct string* name = this->name;
 	
-	printf("%.*s", name->len, name->chars);
-	#endif
+	stringtree_append_printf(tree, "%.*s", name->len, name->chars);
 	
 	EXIT;
+	return tree;
 }
 

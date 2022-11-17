@@ -419,11 +419,8 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	// declarations:
-	{{ASSIGN_DECLARES}}
-	
-	// assertions:
-	{{ASSERTIONS}}
+	// statements:
+	{{STATEMENTS}}
 	
 	// free parse-tree:
 	{{FREE_START}}(start);

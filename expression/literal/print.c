@@ -13,15 +13,13 @@ struct stringtree* literal_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_literal);
 	
 	struct literal_expression* this = (void*) super;
 	
-	value_print(this->value);
-	#endif
+	struct stringtree* tree = value_print2(this->value);
 	
 	EXIT;
+	return tree;
 }
 

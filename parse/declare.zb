@@ -1,5 +1,0 @@
-
-%include "expression.zb"
-
-value_declare: `identifier` #name '=' expression #expression ';';
-

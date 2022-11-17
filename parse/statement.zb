@@ -1,0 +1,13 @@
+
+%include "expression.zb"
+
+statement
+	: "%"   "print" #print   ':' expression #expression ';'
+	| "%"    "note" #note    ':' expression #expression ';'
+	| "%" "warning" #warning ':' expression #expression ';'
+	| "%"   "error" #error   ':' expression #expression ';'
+	|                        ':' expression #expression ';'
+	| `identifier` #name     '=' expression #expression ';'
+	;
+
+

@@ -24,18 +24,15 @@
 
 %include "grammar.zb"
 
-%include "declare.zb"
-
 %include "directives.zb"
 
-%include "assertion.zb"
+%include "statement.zb"
 
 %start: ( using_directive #usings[]
 	| skip_directive #skips[]
 	| start_directive #starts[]
 	| grammar_rule #grammars[]
-	| value_declare #declares[]
-	| assertion #assertions[] )+;
+	| statement #statements[] )+;
 
 
 
