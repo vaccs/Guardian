@@ -1,1 +1,23 @@
-[]
+[{
+	"files": {
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"integer: /int: ['0'-'9']+/ #value;",
+			
+			"%start: integer;",
+			
+			"%error: any!([false, false, true, false]) == true;",
+			
+			"%error: any!([false, false, false, false]) == false;",
+			
+			"%error: any!([]) == false;",
+			
+			"x = integer[0].value",
+			
+			"%error: any!([x % 2 == 5, x % 3 == 2, x % 5 == 3]) == true;",
+			
+			"%error: any!([x % 2 == 0, x % 3 == 0, x % 5 == 0]) == false;",
+		],
+	}
+}]
