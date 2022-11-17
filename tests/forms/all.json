@@ -1,5 +1,7 @@
 [{
 	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
@@ -11,13 +13,23 @@
 			
 			"%error: all!([true, true, true, true]) == true;",
 			
-			"%error: all!([]) == true;",
+			"%error: all!([<bool>]) == true;",
 			
-			"x = integer[0].value",
+			"x = integer[0].value;",
 			
 			"%error: all!([x % 2 == 5, x % 3 == 2, x % 5 == 3]) == false;",
 			
 			"%error: all!([x % 2 == 0, x % 3 == 0, x % 5 == 0]) == true;",
 		],
-	}
+		
+		"./test.txt": [
+			"30"
+		]
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
 }]

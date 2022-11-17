@@ -318,16 +318,21 @@ struct zebu_postfix_expression
 
 struct zebu_primary_expression
 {
+	struct zebu_token* all_form;
 	struct zebu_token* andmap_form;
+	struct zebu_token* any_form;
 	struct zebu_expression* arg;
 	struct {
 		struct zebu_expression** data;
 		unsigned n, cap;
 	} args;
+	struct zebu_token* bool_form;
+	struct zebu_token* char_form;
 	struct zebu_token* character_literal;
 	struct zebu_token* comma;
 	struct zebu_token* crossmap_form;
 	struct zebu_token* curly;
+	struct zebu_token* dictmap_form;
 	struct {
 		struct zebu_expression** data;
 		unsigned n, cap;
@@ -337,6 +342,7 @@ struct zebu_primary_expression
 	struct zebu_type* emptytype;
 	struct zebu_type* emptyvalue;
 	struct zebu_token* false_literal;
+	struct zebu_token* filter_form;
 	struct zebu_token* float_form;
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
@@ -349,10 +355,15 @@ struct zebu_primary_expression
 	struct zebu_token* len_form;
 	struct zebu_token* list;
 	struct zebu_token* map_form;
+	struct zebu_token* max_form;
+	struct zebu_token* min_form;
 	struct zebu_token* ormap_form;
 	struct zebu_token* paren;
+	struct zebu_token* range_form;
+	struct zebu_token* reduce_form;
 	struct zebu_token* set_form;
 	struct zebu_token* string_literal;
+	struct zebu_token* sum_form;
 	struct zebu_token* true_literal;
 	unsigned refcount, startline, endline;
 };

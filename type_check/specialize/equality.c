@@ -6,10 +6,18 @@
 
 #include <parse/parse.h>
 
+#include <defines/argv0.h>
+
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
 #include <expression/comparison/new.h>
 #include <expression/free.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
 
 #include <value/bool/new.h>
 #include <value/compare.h>
@@ -17,7 +25,7 @@
 
 #include <type_cache/get_type/bool.h>
 
-#include <type/free.h>
+#include <type/print.h>
 
 #include "relational.h"
 #include "equality.h"
@@ -44,8 +52,29 @@ struct expression* specialize_equality_expression(
 		
 		if (left->type != right->type)
 		{
-			TODO;
+			fflush(stdout);
+			
+			struct stringtree* tree = new_stringtree();
+			
+			stringtree_append_printf(tree, "%s: incompatible types for comparision '", argv0);
+			
+			struct stringtree* lefttree = type_print2(left->type);
+			
+			stringtree_append_tree(tree, lefttree);
+			stringtree_append_printf(tree, "' and '");
+			
+			struct stringtree* righttree = type_print2(right->type);
+			
+			stringtree_append_tree(tree, righttree);
+			stringtree_append_printf(tree, "'!\n");
+			
+			stringtree_stream(tree, stderr);
+			
 			exit(1);
+			
+			free_stringtree(lefttree);
+			free_stringtree(righttree);
+			free_stringtree(tree);
 		}
 		
 		if (left->kind == ek_literal && right->kind == ek_literal)

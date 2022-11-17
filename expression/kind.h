@@ -13,6 +13,7 @@ enum expression_kind
 	ek_tuple,
 	ek_literal,
 	
+	ek_all_form,
 	ek_set_form,
 	ek_len_form,
 	ek_map_form,
