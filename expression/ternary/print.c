@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void ternary_expression_print(
+struct stringtree* ternary_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_ternary);
 	
 	struct ternary_expression* this = (void*) super;
@@ -27,6 +29,7 @@ void ternary_expression_print(
 	printf(" : ");
 	
 	expression_print(this->false_case);
+	#endif
 	
 	EXIT;
 }

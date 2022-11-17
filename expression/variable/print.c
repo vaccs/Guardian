@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void variable_expression_print(
+struct stringtree* variable_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_variable);
 	
 	struct variable_expression* this = (void*) super;
@@ -21,6 +23,7 @@ void variable_expression_print(
 	struct string* name = this->name;
 	
 	printf("%.*s", name->len, name->chars);
+	#endif
 	
 	EXIT;
 }

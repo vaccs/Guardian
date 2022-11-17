@@ -42,7 +42,7 @@ struct type_inheritance
 		unsigned,
 		struct function_queue*);
 	
-	void (*print)(
+	struct stringtree* (*print)(
 		struct type*);
 	
 	void (*free)(

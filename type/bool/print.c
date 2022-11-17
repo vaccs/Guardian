@@ -1,16 +1,20 @@
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <debug.h>
 
 #include "print.h"
 
-void bool_type_print(
+struct stringtree* bool_type_print(
 	struct type* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	printf("bool");
+	#endif
 	
 	EXIT;
 }

@@ -15,7 +15,7 @@
 
 struct expression* new_len_form_expression(
 	struct type_cache* tcache,
-	struct expression* list)
+	struct expression* object)
 {
 	ENTER;
 	
@@ -27,7 +27,7 @@ struct expression* new_len_form_expression(
 		type,
 		sizeof(*this));
 	
-	this->list = inc_expression(list);
+	this->object = inc_expression(object);
 	
 	EXIT;
 	return (void*) this;

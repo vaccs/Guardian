@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void dict_type_print(
+struct stringtree* dict_type_print(
 	struct type* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == tk_dict);
 	
 	struct dict_type* this = (void*) super;
@@ -27,6 +29,7 @@ void dict_type_print(
 	type_print(this->value);
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

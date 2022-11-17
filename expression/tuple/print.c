@@ -20,11 +20,13 @@
 #include "struct.h"
 #include "print.h"
 
-void tuple_expression_print(
+struct stringtree* tuple_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_tuple);
 	
 	struct tuple_expression* this = (void*) super;
@@ -45,6 +47,7 @@ void tuple_expression_print(
 		printf(", ");
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

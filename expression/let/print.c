@@ -22,11 +22,13 @@
 #include "struct.h"
 #include "print.h"
 
-void let_expression_print(
+struct stringtree* let_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_let);
 	
 	struct let_expression* this = (void*) super;
@@ -50,6 +52,7 @@ void let_expression_print(
 	printf(": ");
 	
 	expression_print(this->body);
+	#endif
 	
 	EXIT;
 }

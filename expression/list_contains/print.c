@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void list_contains_expression_print(
+struct stringtree* list_contains_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_list_contains);
 	
 	struct list_contains_expression* this = (void*) super;
@@ -23,6 +25,7 @@ void list_contains_expression_print(
 	printf(" in ");
 	
 	expression_print(this->list);
+	#endif
 	
 	EXIT;
 }

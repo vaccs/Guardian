@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void parenthesis_expression_print(
+struct stringtree* parenthesis_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_parenthesis);
 	
 	struct parenthesis_expression* this = (void*) super;
@@ -23,6 +25,7 @@ void parenthesis_expression_print(
 	expression_print(this->expression);
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

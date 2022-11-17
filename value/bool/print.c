@@ -7,11 +7,13 @@
 #include "struct.h"
 #include "print.h"
 
-void bool_value_print(
+struct stringtree* bool_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct bool_value* spef = (void*) super;
 	
 	if (spef->value)
@@ -22,6 +24,7 @@ void bool_value_print(
 	{
 		printf("false");
 	}
+	#endif
 	
 	EXIT;
 }

@@ -1,4 +1,5 @@
 
+#include <string.h>
 #include <assert.h>
 #include <stdbool.h>
 
@@ -9,6 +10,7 @@
 #include <value/set/new.h>
 
 #include <value/compare.h>
+#include <value/free.h>
 
 #include "run.h"
 
@@ -37,7 +39,12 @@ struct value* set_run(
 			}
 			else if (cmp == 0)
 			{
-				TODO;
+				free_value(this);
+				memmove(
+					elements->data + i,
+					elements->data + i + 1,
+					sizeof(*elements->data) * (n - i));
+				elements->n--, n--;
 			}
 		}
 	}
@@ -47,4 +54,15 @@ struct value* set_run(
 	EXIT;
 	return value;
 }
+
+
+
+
+
+
+
+
+
+
+
 

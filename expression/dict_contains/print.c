@@ -9,16 +9,19 @@
 #include "struct.h"
 #include "print.h"
 
-void dict_contains_expression_print(
+struct stringtree* dict_contains_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_dict_contains);
 	
 	struct dict_contains_expression* this = (void*) super;
 	
 	expression_print(this->index), printf(" in "), expression_print(this->dict);
+	#endif
 	
 	EXIT;
 }

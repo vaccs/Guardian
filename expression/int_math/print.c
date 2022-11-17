@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void int_math_expression_print(
+struct stringtree* int_math_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct int_math_expression* this = (void*) super;
 	
 	switch (this->kind)
@@ -70,6 +72,7 @@ void int_math_expression_print(
 			expression_print(this->left), printf(" >> "), expression_print(this->right);
 			break;
 	}
+	#endif
 	
 	EXIT;
 }

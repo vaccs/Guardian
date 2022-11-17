@@ -3,15 +3,21 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "print.h"
 
-void int_type_print(
+struct stringtree* int_type_print(
 	struct type* super)
 {
 	ENTER;
 	
-	printf("int");
+	struct stringtree* tree = new_stringtree();
+	
+	stringtree_append_printf(tree, "int");
 	
 	EXIT;
+	return tree;
 }
 

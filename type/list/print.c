@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void list_type_print(
+struct stringtree* list_type_print(
 	struct type* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == tk_list);
 	
 	struct list_type* this = (void*) super;
@@ -21,6 +23,7 @@ void list_type_print(
 	type_print(this->element_type);
 	
 	printf("[]");
+	#endif
 	
 	EXIT;
 }

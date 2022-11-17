@@ -1,3 +1,3 @@
 
-void dict_expression_print(
+struct stringtree* dict_expression_print(
 	struct expression* super);

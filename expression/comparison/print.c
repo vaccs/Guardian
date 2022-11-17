@@ -9,18 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-static const char* lookup[] = {
-	[cek_equal_to] = "==",
-	[cek_less_than] = "<",
-	[cek_greater_than] = ">",
-	[cek_not_equal_to] = "!=",
-};
-
-void comparison_expression_print(
+struct stringtree* comparison_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_comparison);
 	
 	struct comparison_expression* this = (void*) super;
@@ -35,6 +30,7 @@ void comparison_expression_print(
 	printf(" %s ", lookup[this->kind]);
 	
 	expression_print(this->right);
+	#endif
 	
 	EXIT;
 }

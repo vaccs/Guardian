@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <debug.h>
@@ -16,11 +17,13 @@
 #include "struct.h"
 #include "print.h"
 
-void lambda_expression_print(
+struct stringtree* lambda_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct lambda_expression* this = (void*) super;
 	
 	printf("$");
@@ -46,6 +49,7 @@ void lambda_expression_print(
 	printf(": ");
 	
 	expression_print(this->body);
+	#endif
 	
 	EXIT;
 }

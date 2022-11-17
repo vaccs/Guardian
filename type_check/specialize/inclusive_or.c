@@ -44,6 +44,8 @@ struct expression* specialize_inclusive_or_expression(
 		
 		if (left->type != right->type)
 		{
+			TODO;
+			#if 0
 			puts("");
 			
 			printf("maia: incompatiable types for '|' operator: ");
@@ -53,6 +55,7 @@ struct expression* specialize_inclusive_or_expression(
 			puts("");
 			
 			exit(1);
+			#endif
 		}
 		
 		switch (left->type->kind)

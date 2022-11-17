@@ -1,3 +1,3 @@
 
-void lambda_type_print(
+struct stringtree* lambda_type_print(
 	struct type* super);

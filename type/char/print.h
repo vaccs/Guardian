@@ -1,5 +1,5 @@
 
 struct type;
 
-void char_type_print(
+struct stringtree* char_type_print(
 	struct type* super);

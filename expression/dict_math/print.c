@@ -11,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void dict_math_expression_print(
+struct stringtree* dict_math_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_dict_math);
 	
 	struct dict_math_expression* this = (void*) super;
@@ -38,7 +40,7 @@ void dict_math_expression_print(
 			expression_print(this->left), printf(" ^ "), expression_print(this->right);
 			break;
 	}
-	
+	#endif
 	
 	EXIT;
 }

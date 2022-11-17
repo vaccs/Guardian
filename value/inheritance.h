@@ -16,7 +16,7 @@ struct value_inheritance
 		struct out_shared* shared,
 		struct value_to_id* vtoi);
 	
-	void (*print)(struct value*);
+	struct stringtree* (*print)(struct value*);
 	
 	void (*free)(struct value*);
 };

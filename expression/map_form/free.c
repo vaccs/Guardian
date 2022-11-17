@@ -3,22 +3,23 @@
 
 #include <debug.h>
 
+#include <list/expression/free.h>
+
 #include "../free.h"
 
 #include "struct.h"
 #include "free.h"
 
-void free_map_expression(
+void free_map_form_expression(
 	struct expression* super)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct len_expression* this = (void*) super;
+	struct map_form_expression* this = (void*) super;
 	
-	free_expression(this->list);
-	#endif
+	free_expression(this->lambda);
+	
+	free_expression_list(this->arguments);
 	
 	EXIT;
 }

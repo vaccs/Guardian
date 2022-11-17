@@ -59,12 +59,15 @@ struct type* determine_type_of_additive_expression(
 		{
 			if (left != right)
 			{
+				TODO;
+				#if 0
 				puts(""), fflush(stdout);
 				fprintf(stderr, ""
 					"%s: '+' operator invoked with unequal types! ("
 				"", argv0);
 				type_print(left), printf(" + "), type_print(right), puts(")");
 				exit(1);
+				#endif
 			}
 			
 			type = left;

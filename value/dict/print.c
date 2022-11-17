@@ -21,11 +21,13 @@
 #include "struct.h"
 #include "print.h"
 
-void dict_value_print(
+struct stringtree* dict_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct dict_value* this = (void*) super;
 	
 	printf("{");
@@ -57,6 +59,7 @@ void dict_value_print(
 	}
 	
 	printf("}");
+	#endif
 	
 	EXIT;
 }

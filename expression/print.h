@@ -1,7 +1,7 @@
 
 struct expression;
 
-void expression_print(
+struct stringtree* expression_print2(
 	struct expression* this);
 
 

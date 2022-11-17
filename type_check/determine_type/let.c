@@ -51,6 +51,8 @@ struct type* determine_type_of_let_expression(
 		
 		for (unsigned i = 0, n = expression->parameters.n; i < n; i++)
 		{
+			TODO;
+			#if 0
 			struct string* name = new_string_from_token(expression->parameters.data[i]->name);
 			
 			if (i) printf(", ");
@@ -66,6 +68,7 @@ struct type* determine_type_of_let_expression(
 			type_check_scope_declare_type(scope, name, type);
 			
 			free_string(name);
+			#endif
 		}
 		
 		printf(": ");

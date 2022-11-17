@@ -9,20 +9,23 @@
 #include "struct.h"
 #include "print.h"
 
-void len_form_expression_print(
+struct stringtree* len_form_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_len_form);
 	
 	struct len_form_expression* this = (void*) super;
 	
-	printf("len(");
+	printf("len!(");
 	
-	expression_print(this->list);
+	expression_print(this->object);
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

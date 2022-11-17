@@ -1,3 +1,3 @@
 
-void free_map_expression(
+void free_map_form_expression(
 	struct expression* super);

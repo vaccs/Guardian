@@ -50,6 +50,8 @@ struct expression* specialize_conditional_expression(
 		
 		if (true_case->type != false_case->type)
 		{
+			TODO;
+			#if 0
 			fflush(stdout), puts("");
 			
 			fprintf(stderr, ""
@@ -65,6 +67,7 @@ struct expression* specialize_conditional_expression(
 			expression_print(false_case), puts(".");
 			
 			exit(1);
+			#endif
 		}
 		
 		if (conditional->kind == ek_literal)

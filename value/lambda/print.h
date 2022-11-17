@@ -1,3 +1,3 @@
 
-void lambda_value_print(
+struct stringtree* lambda_value_print(
 	struct value* super);

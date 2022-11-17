@@ -7,11 +7,13 @@
 #include "struct.h"
 #include "print.h"
 
-void char_value_print(
+struct stringtree* char_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == vk_char);
 	
 	struct char_value* this = (void*) super;
@@ -39,6 +41,7 @@ void char_value_print(
 			break;
 		}
 	}
+	#endif
 	
 	EXIT;
 }

@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <debug.h>
@@ -18,11 +19,13 @@
 #include "struct.h"
 #include "print.h"
 
-void lambda_value_print(
+struct stringtree* lambda_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct lambda_value* spef = (void*) super;
 	
 	printf("$");
@@ -48,7 +51,11 @@ void lambda_value_print(
 	printf(": ");
 	
 	expression_print(spef->body);
+	#endif
 	
 	EXIT;
 }
+
+
+
 

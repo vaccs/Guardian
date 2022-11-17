@@ -13,11 +13,13 @@
 #include "struct.h"
 #include "print.h"
 
-void list_value_print(
+struct stringtree* list_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == vk_list);
 	
 	struct list_value* this = (void*) super;
@@ -40,6 +42,7 @@ void list_value_print(
 	}));
 	
 	printf("]");
+	#endif
 	
 	EXIT;
 }

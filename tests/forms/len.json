@@ -1,7 +1,7 @@
 
 [{
 	"files": {
-		"./maia": "bin/release-build/yes-verbose/no-dotout/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -13,17 +13,16 @@
 			"b = boolean[0].value;",
 			
 			"%error: 3 == len!([1, 2, 3]);",
-			
 			"%error: 2 == len!([b, b]);",
 			
 			"%error: 2 == len!({0: 0, 1: 1});",
-			
 			"%error: 2 == len!({0: b, 1: b});",
 			
 			"%error: 2 == len!((0, 1));",
-			
 			"%error: 2 == len!((b, b));",
 			
+			"%error: 1 == len!({2, 2});",
+			"%error: 2 == len!({2, 3});",
 			"%error: 1 == len!({b, b});",
 		],
 		

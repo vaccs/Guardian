@@ -1,7 +1,7 @@
 
 [{
 	"files": {
-		"./maia": "bin/release-build/yes-verbose/no-dotout/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -10,27 +10,23 @@
 			
 			"%start: character character;",
 			
-			"test01 = true == ('a' <  'b');",
-			"test02 = true == ('a' <= 'b');",
-			"test03 = false == ('a' == 'b');",
-			"test04 = true == ('a' != 'b');",
-			"test05 = false == ('a' >= 'b');",
-			"test06 = false == ('a' >  'b');",
-			
-			"%error: test01 && test02 && test03 && test04 && test05 && test06;",
+			"%error:  true == ('a' <  'b');",
+			"%error:  true == ('a' <= 'b');",
+			"%error: false == ('a' == 'b');",
+			"%error:  true == ('a' != 'b');",
+			"%error: false == ('a' >= 'b');",
+			"%error: false == ('a' >  'b');",
 			
 			"a = character[0].value;",
 			"b = character[1].value;",
 			"c = 'c';",
 			
-			"test07 = true == (a <  b);",
-			"test08 = true == (a <= b);",
-			"test09 = false == (a == b);",
-			"test10 = true == (a != b);",
-			"test11 = false == (a >= b);",
-			"test12 = false == (a >  b);",
-			
-			"%error: test07 && test08 && test09 && test10 && test11 && test12;",
+			"%error:  true == (a <  b);",
+			"%error:  true == (a <= b);",
+			"%error: false == (a == b);",
+			"%error:  true == (a != b);",
+			"%error: false == (a >= b);",
+			"%error: false == (a >  b);",
 		],
 		
 		"./test.txt": [

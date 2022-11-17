@@ -17,7 +17,7 @@ struct expression_inheritance
 		struct out_shared*,
 		struct environment_type*);
 	
-	void (*print)(
+	struct stringtree* (*print)(
 		struct expression*);
 		
 	void (*free)(

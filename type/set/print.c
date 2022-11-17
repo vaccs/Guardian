@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void set_type_print(
+struct stringtree* set_type_print(
 	struct type* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == tk_set);
 	
 	struct set_type* this = (void*) super;
@@ -21,6 +23,7 @@ void set_type_print(
 	type_print(this->element_type);
 	
 	printf("{}");
+	#endif
 	
 	EXIT;
 }

@@ -88,7 +88,7 @@ struct stringtree* dict_expression_print_source(
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "		else if (cmp == 0)");
 	stringtree_append_printf(tree, "		{");
-	stringtree_append_printf(tree, "			assert(!\"TODO\");");
+	stringtree_append_printf(tree, "			assert(!\"TODO: dict expression\");");
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "	}");
 	stringtree_append_printf(tree, "}");

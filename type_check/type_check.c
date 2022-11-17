@@ -227,6 +227,8 @@ void type_check(
 	raw_declaration_list_foreach(raw_declarations, ({
 		void runme(struct raw_declaration* raw_declaration)
 		{
+			TODO;
+			#if 0
 			struct string* name = raw_declaration->name;
 			
 			printf("%s: determining type of '%.*s': ", argv0, name->len, name->chars);
@@ -239,6 +241,7 @@ void type_check(
 			#endif
 			
 			type_check_scope_declare_type(scope, name, type);
+			#endif
 		}
 		runme;
 	}));
@@ -246,6 +249,8 @@ void type_check(
 	raw_declaration_list_foreach(raw_declarations, ({
 		void runme(struct raw_declaration* raw_declaration)
 		{
+			TODO;
+			#if 0
 			struct string* name = raw_declaration->name;
 			
 			printf("%s: specializing '%.*s' declaration: ", argv0, name->len, name->chars);
@@ -269,6 +274,7 @@ void type_check(
 			free_declaration(declaration);
 			
 			free_expression(typed);
+			#endif
 		}
 		runme;
 	}));
@@ -276,16 +282,8 @@ void type_check(
 	raw_assertion_list_foreach(raw_assertions, ({
 		void runme(struct raw_assertion* raw_assertion)
 		{
-			#ifdef VERBOSE
-			printf("%s: specializing assertion: ", argv0);
-			#endif
-			
 			struct expression* typed = specialize_expression(
 				tcache, scope, raw_assertion->expression);
-			
-			#ifdef VERBOSE
-			expression_print(typed), puts("");
-			#endif
 			
 			if (raw_assertion->kind != ak_debug && typed->type->kind != tk_bool)
 			{
@@ -316,7 +314,6 @@ void type_check(
 			}
 			
 			free_expression(typed);
-			
 		}
 		runme;
 	}));

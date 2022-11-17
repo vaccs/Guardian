@@ -10,6 +10,8 @@
 
 #include <type/struct.h>
 
+#include <defines/argv0.h>
+
 #include <string/new.h>
 #include <string/free.h>
 
@@ -39,6 +41,12 @@
 #include <value/inc.h>
 
 /*#include <parameter/struct.h>*/
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
 
 #include <mpz/struct.h>
 
@@ -235,8 +243,24 @@ struct expression* specialize_postfix_expression(
 			
 			if (sub->type->kind != tk_lambda)
 			{
-				TODO;
+				struct stringtree* tree = new_stringtree();
+				
+				stringtree_append_printf(tree,
+					"%s: cannot make function call on '", argv0);
+				
+				{
+					struct stringtree* subtree = type_print2(sub->type);
+					stringtree_append_tree(tree, subtree);
+					free_stringtree(subtree);
+				}
+				
+				stringtree_append_printf(tree, "' type!\n");
+				
+				stringtree_stream(tree, stderr);
+				
 				exit(1);
+				
+				free_stringtree(tree);
 			}
 			
 			struct lambda_type* lambda_type = (void*) sub->type;
@@ -260,6 +284,8 @@ struct expression* specialize_postfix_expression(
 				
 				if (lambda_type->parameters->data[i] != arg->type)
 				{
+					TODO;
+					#if 0
 					printf("maia: function call with incorrect types!\n");
 					printf("maia: function type:\n");
 					type_print(sub->type);
@@ -269,6 +295,7 @@ struct expression* specialize_postfix_expression(
 					
 					puts("");
 					exit(1);
+					#endif
 				}
 				
 				expression_list_append(arguments, arg);

@@ -13,7 +13,7 @@ void free_len_form_expression(
 	
 	struct len_form_expression* this = (void*) super;
 	
-	free_expression(this->list);
+	free_expression(this->object);
 	
 	EXIT;
 }

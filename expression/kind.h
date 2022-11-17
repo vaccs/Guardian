@@ -22,6 +22,7 @@ enum expression_kind
 	ek_dict_form,
 	ek_tuple_form,
 	ek_float_form,
+	ek_crossmap_form,
 	
 	ek_funccall,
 	ek_dict_index,

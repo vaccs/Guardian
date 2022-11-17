@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <debug.h>
@@ -10,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void funccall_expression_print(
+struct stringtree* funccall_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct funccall_expression* this = (void*) super;
 	
 	expression_print(this->lambda);
@@ -32,6 +35,7 @@ void funccall_expression_print(
 	}
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

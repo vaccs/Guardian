@@ -1,7 +1,7 @@
 bin/release-build/no-verbose/no-dotout/./type_check/specialize/postfix.o: \
  type_check/specialize/postfix.c debug.h parse/parse.h type/struct.h \
- type/kind.h string/new.h string/free.h list/expression/new.h \
- list/expression/append.h list/expression/free.h \
+ type/kind.h defines/argv0.h string/new.h string/free.h \
+ list/expression/new.h list/expression/append.h list/expression/free.h \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/literal/../kind.h expression/literal/new.h \
  expression/funccall/new.h expression/funccall/run.h \
@@ -10,11 +10,13 @@ bin/release-build/no-verbose/no-dotout/./type_check/specialize/postfix.o: \
  expression/tuple_index/new.h expression/fieldaccess/new.h \
  expression/free.h type/tuple/struct.h type/tuple/../struct.h \
  value/tuple/struct.h value/tuple/../struct.h value/tuple/../kind.h \
- list/expression/struct.h list/type/struct.h value/inc.h mpz/struct.h \
- list/value/struct.h list/value/new.h list/value/append.h \
- list/value/free.h type/lambda/struct.h type/lambda/../struct.h \
- type/print.h type/list/struct.h type/list/../struct.h type/dict/struct.h \
- type/dict/../struct.h type/grammar/get_field.h value/int/struct.h \
- value/int/../struct.h value/list/struct.h value/list/../struct.h \
- value/free.h type_check/specialize/expression.h \
- type_check/specialize/primary.h type_check/specialize/postfix.h
+ list/expression/struct.h list/type/struct.h value/inc.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h stringtree/stream.h \
+ stringtree/free.h mpz/struct.h list/value/struct.h list/value/new.h \
+ list/value/append.h list/value/free.h type/lambda/struct.h \
+ type/lambda/../struct.h type/print.h type/list/struct.h \
+ type/list/../struct.h type/dict/struct.h type/dict/../struct.h \
+ type/grammar/get_field.h value/int/struct.h value/int/../struct.h \
+ value/list/struct.h value/list/../struct.h value/free.h \
+ type_check/specialize/expression.h type_check/specialize/primary.h \
+ type_check/specialize/postfix.h

@@ -7,11 +7,13 @@
 #include "struct.h"
 #include "print.h"
 
-void value_print(
+struct stringtree* value_print(
 	struct value* this)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(this);
 	
 	dpv(this->kind);
@@ -21,6 +23,7 @@ void value_print(
 	assert(this->inheritance->print);
 	
 	(this->inheritance->print)(this);
+	#endif
 	
 	EXIT;
 }

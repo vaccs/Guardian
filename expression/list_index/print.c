@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void list_index_expression_print(
+struct stringtree* list_index_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_list_index);
 	
 	struct list_index_expression* this = (void*) super;
@@ -25,6 +27,7 @@ void list_index_expression_print(
 	expression_print(this->index);
 	
 	printf("]");
+	#endif
 	
 	EXIT;
 }

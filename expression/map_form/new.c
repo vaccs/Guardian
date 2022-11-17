@@ -17,18 +17,16 @@
 #include "struct.h"
 #include "new.h"
 
-struct expression* new_map_expression(
+struct expression* new_map_form_expression(
 	struct type* type,
 	struct expression* lambda,
 	struct expression_list* arguments)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct map_expression* this = (void*) new_expression(
-		ek_map,
-		&map_expression_inheritance,
+	struct map_form_expression* this = (void*) new_expression(
+		ek_map_form,
+		&map_form_expression_inheritance,
 		type,
 		sizeof(*this));
 	
@@ -38,6 +36,5 @@ struct expression* new_map_expression(
 	
 	EXIT;
 	return (void*) this;
-	#endif
 }
 

@@ -1,3 +1,3 @@
 
-void bool_value_print(
+struct stringtree* bool_value_print(
 	struct value* super);

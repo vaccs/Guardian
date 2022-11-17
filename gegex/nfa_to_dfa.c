@@ -341,14 +341,11 @@ struct gegex* gegex_nfa_to_dfa(struct gbundle original)
 				
 				if (node)
 				{
-					TODO;
-					#if 0
 					struct mapping* old = node->item;
 					
 					gegex_add_grammar_transition(state, min_grammar, structinfo, old->combined_state);
 					
 					free_ptrset(subptrset);
-					#endif
 				}
 				else
 				{

@@ -7,7 +7,7 @@
 #include "struct.h"
 #include "print.h"
 
-void expression_print(
+struct stringtree* expression_print2(
 	struct expression* this)
 {
 	ENTER;
@@ -19,8 +19,9 @@ void expression_print(
 	assert(this->inheritance);
 	assert(this->inheritance->print);
 	
-	(this->inheritance->print)(this);
+	struct stringtree* tree = (this->inheritance->print)(this);
 	
 	EXIT;
+	return tree;
 }
 

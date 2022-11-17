@@ -11,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void has_expression_print(
+struct stringtree* has_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_has);
 	
 	struct has_expression* this = (void*) super;
@@ -23,6 +25,7 @@ void has_expression_print(
 	expression_print(this->object);
 	
 	printf(" has %.*s", this->fieldname->len, this->fieldname->chars);
+	#endif
 	
 	EXIT;
 }

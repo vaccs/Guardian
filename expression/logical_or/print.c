@@ -11,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void logical_or_expression_print(
+struct stringtree* logical_or_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_logical_or);
 	
 	struct logical_or_expression* this = (void*) super;
@@ -25,6 +27,7 @@ void logical_or_expression_print(
 	printf(" || ");
 	
 	expression_print(this->right);
+	#endif
 	
 	EXIT;
 }

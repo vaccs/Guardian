@@ -33,27 +33,46 @@ struct stringtree* len_form_expression_print_source(
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
-	stringtree_append_printf(tree, ""
-		"({"
-			"struct type_%u* list = "
-	"", this->list->type->id);
+	stringtree_append_printf(tree, "({");
 	
-	struct stringtree* subtree = expression_print_source(this->list, shared, environment);
+	stringtree_append_printf(tree, "struct type_%u* object = ", this->object->type->id);
+	
+	struct stringtree* subtree = expression_print_source(this->object, shared, environment);
 	
 	stringtree_append_tree(tree, subtree);
 	
+	stringtree_append_printf(tree, ";");
+	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, this->list->type);
+	stringtree_append_printf(tree, "struct type_%u* len = func_%u();", super->type->id, new_id);
 	
-	stringtree_append_printf(tree, ""
-			";"
-			"struct type_%u* len = func_%u();"
-			"mpz_set_ui(len->value, list->n);"
-			"func_%u(list);"
-			"len;"
-		"})"
-	"", super->type->id, new_id, free_id);
+	switch (this->object->type->kind)
+	{
+		case tk_list:
+			stringtree_append_printf(tree, "mpz_set_ui(len->value, object->n);");
+			break;
+		
+		case tk_dict:
+			stringtree_append_printf(tree, "mpz_set_ui(len->value, object->n);");
+			break;
+		
+		case tk_set:
+			stringtree_append_printf(tree, "mpz_set_ui(len->value, object->n);");
+			break;
+		
+		default:
+			TODO;
+			break;
+	}
+	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, this->object->type);
+	
+	stringtree_append_printf(tree, "func_%u(object);", free_id);
+	
+	stringtree_append_printf(tree, "len;");
+	
+	stringtree_append_printf(tree, "})");
 	
 	free_stringtree(subtree);
 	

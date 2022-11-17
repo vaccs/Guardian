@@ -14,11 +14,13 @@
 #include "struct.h"
 #include "print.h"
 
-void set_value_print(
+struct stringtree* set_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == vk_set);
 	
 	struct set_value* this = (void*) super;
@@ -42,10 +44,14 @@ void set_value_print(
 	
 	if (first)
 	{
+		TODO;
+		#if 0
 		printf("<"), type_print(super->type), printf(">");
+		#endif
 	}
 	
 	printf("}");
+	#endif
 	
 	EXIT;
 }

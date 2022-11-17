@@ -23,13 +23,9 @@ struct value* len_form_expression_evaluate(
 {
 	ENTER;
 	
-	struct len_form_expression* this = (void*) super;
+/*	struct len_form_expression* this = (void*) super;*/
 	
-	struct value* list = expression_evaluate(this->list, scope);
-	
-	assert(list->kind == vk_list);
-	
-	struct list_value* spef_list = (void*) spef_list;
+/*	struct value* object = expression_evaluate(this->object, scope);*/
 	
 	TODO;
 	#if 0

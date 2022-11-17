@@ -11,18 +11,18 @@
 #include "struct.h"
 #include "print.h"
 
-void map_expression_print(
+struct stringtree* map_form_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
 	TODO;
 	#if 0
-	assert(super->kind == ek_map);
+	assert(super->kind == ek_map_form);
 	
-	struct map_expression* this = (void*) super;
+	struct map_form_expression* this = (void*) super;
 	
-	printf("map(");
+	printf("map!(");
 	
 	expression_print(this->lambda);
 	

@@ -11,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void list_concat_expression_print(
+struct stringtree* list_concat_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_list_concat);
 	
 	struct list_concat_expression* this = (void*) super;
@@ -25,6 +27,7 @@ void list_concat_expression_print(
 	printf(" + ");
 	
 	expression_print(this->right);
+	#endif
 	
 	EXIT;
 }

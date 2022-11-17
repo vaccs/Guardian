@@ -1,7 +1,7 @@
 
 #include "../struct.h"
 
-struct map_expression
+struct map_form_expression
 {
 	struct expression super;
 	

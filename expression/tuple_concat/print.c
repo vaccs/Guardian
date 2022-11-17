@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void tuple_concat_expression_print(
+struct stringtree* tuple_concat_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct tuple_concat_expression* this = (void*) super;
 	
 	expression_print(this->left);
@@ -21,6 +23,7 @@ void tuple_concat_expression_print(
 	printf(" + ");
 	
 	expression_print(this->right);
+	#endif
 	
 	EXIT;
 }

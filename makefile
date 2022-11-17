@@ -75,7 +75,7 @@ default: $(buildprefix)/maia
 
 ARGS += -v
 
-#ARGS += -m
+ARGS += -m
 #ARGS += --minimize-lexer
 
 #ARGS += -i ./examples/json.maia

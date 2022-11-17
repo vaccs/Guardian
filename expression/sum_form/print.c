@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void sum_expression_print(
+struct stringtree* sum_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_sum_form);
 	
 	struct sum_expression* this = (void*) super;
@@ -23,6 +25,7 @@ void sum_expression_print(
 	expression_print(this->list);
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

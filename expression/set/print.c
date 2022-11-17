@@ -12,11 +12,13 @@
 #include "struct.h"
 #include "print.h"
 
-void set_expression_print(
+struct stringtree* set_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_set);
 	
 	struct set_expression* this = (void*) super;
@@ -44,6 +46,7 @@ void set_expression_print(
 	}
 	
 	printf("}");
+	#endif
 	
 	EXIT;
 }

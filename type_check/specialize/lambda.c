@@ -161,6 +161,8 @@ struct expression* specialize_lambda_expression(
 		
 		if (rettype != body->type)
 		{
+			TODO;
+			#if 0
 			puts(""), fflush(stdout);
 			
 			fprintf(stderr, ""
@@ -177,6 +179,7 @@ struct expression* specialize_lambda_expression(
 			"", argv0), type_print(body->type), puts("");
 			
 			exit(1);
+			#endif
 		}
 		
 		if (type_check_scope_is_head_pure(scope))

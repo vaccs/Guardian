@@ -11,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void lambda_type_print(
+struct stringtree* lambda_type_print(
 	struct type* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == tk_lambda);
 	
 	struct lambda_type* this = (void*) super;
@@ -37,6 +39,7 @@ void lambda_type_print(
 	type_print(this->rettype);
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

@@ -1,3 +1,3 @@
 
-void char_value_print(
+struct stringtree* char_value_print(
 	struct value* super);

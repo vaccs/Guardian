@@ -9,13 +9,15 @@
 #include "struct.h"
 #include "print.h"
 
-void float_math_expression_print(
+struct stringtree* float_math_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	struct float_math_expression* this = (void*) super;
-		switch (this->kind)
+	switch (this->kind)
 	{
 		case fmek_negate:
 			printf("-"), expression_print(this->left);
@@ -45,7 +47,8 @@ void float_math_expression_print(
 			expression_print(this->left), printf(" ** "), expression_print(this->right);
 			break;
 	}
-
+	#endif
+	
 	EXIT;
 }
 

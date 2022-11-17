@@ -332,9 +332,15 @@ struct zebu_postfix_expression
 
 struct zebu_primary_expression
 {
+	struct zebu_token* andmap_form;
 	struct zebu_expression* arg;
+	struct {
+		struct zebu_expression** data;
+		unsigned n, cap;
+	} args;
 	struct zebu_token* character_literal;
 	struct zebu_token* comma;
+	struct zebu_token* crossmap_form;
 	struct zebu_token* curly;
 	struct {
 		struct zebu_expression** data;
@@ -356,6 +362,8 @@ struct zebu_primary_expression
 	} keyvalues;
 	struct zebu_token* len_form;
 	struct zebu_token* list;
+	struct zebu_token* map_form;
+	struct zebu_token* ormap_form;
 	struct zebu_token* paren;
 	struct zebu_token* set_form;
 	struct zebu_token* string_literal;

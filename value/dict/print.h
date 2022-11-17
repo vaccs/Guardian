@@ -1,3 +1,3 @@
 
-void dict_value_print(
+struct stringtree* dict_value_print(
 	struct value* super);

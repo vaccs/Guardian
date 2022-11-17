@@ -1,0 +1,44 @@
+
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"A: /int: ['0'-'9']+/ #value;",
+			
+			"B: /int: ['0'-'9']+/ #value;",
+			
+			"%start: A+ '|' B+;",
+			
+			"%error: [6, 9, 12] == map!($int x, y -> int: x * 2 + y, [1, 2, 3], [4, 5, 6]);",
+			
+			"%error: [6, 9, 12] == map!($A a, B b -> int: a.value * 2 + b.value, A, B);",
+		],
+		
+		"./test.txt": [
+			"1 2 3 | 4 5 6"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

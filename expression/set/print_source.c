@@ -18,7 +18,7 @@
 #include <out/function_queue/submit_new.h>
 #include <out/function_queue/submit_compare.h>
 /*#include <out/function_queue/submit_append.h>*/
-/*#include <out/function_queue/submit_free.h>*/
+#include <out/function_queue/submit_free.h>
 
 #include <list/expression/struct.h>
 
@@ -68,13 +68,18 @@ struct stringtree* set_expression_print_source(
 	
 	unsigned compare_id = function_queue_submit_compare(shared->fqueue, stype->element_type);
 	
+	unsigned free_id = function_queue_submit_free(shared->fqueue, stype->element_type);
+	
 	stringtree_append_printf(tree, "for (bool changed = true; changed; )");
 	stringtree_append_printf(tree, "{");
 	stringtree_append_printf(tree, "	changed = false;");
+	stringtree_append_printf(tree, "	");
 	stringtree_append_printf(tree, "	for (unsigned i = 0, n = num_elements - 1; i < n; i++)");
 	stringtree_append_printf(tree, "	{");
 	stringtree_append_printf(tree, "		struct type_%u *this = elements[i], *that = elements[i + 1];", etid);
+	stringtree_append_printf(tree, "		");
 	stringtree_append_printf(tree, "		int cmp = func_%u(this, that);", compare_id);
+	stringtree_append_printf(tree, "		");
 	stringtree_append_printf(tree, "		if (cmp > 0)");
 	stringtree_append_printf(tree, "		{");
 	stringtree_append_printf(tree, "			elements[i] = that;");
@@ -83,13 +88,15 @@ struct stringtree* set_expression_print_source(
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "		else if (cmp == 0)");
 	stringtree_append_printf(tree, "		{");
-	stringtree_append_printf(tree, "			assert(!\"TODO\");");
+	stringtree_append_printf(tree, "			func_%u(this);", free_id);
+	stringtree_append_printf(tree, "			memmove(elements + i, elements + i + 1, sizeof(*elements) * (n - i));");
+	stringtree_append_printf(tree, "			num_elements--, n--;");
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "	}");
 	stringtree_append_printf(tree, "}");
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	stringtree_append_printf(tree, "func_%u(elements, %u);", new_id, elements->n);
+	stringtree_append_printf(tree, "func_%u(elements, num_elements);", new_id);
 	
 	stringtree_append_printf(tree, "})");
 	

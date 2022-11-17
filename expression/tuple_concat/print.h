@@ -1,3 +1,3 @@
 
-void tuple_concat_expression_print(
+struct stringtree* tuple_concat_expression_print(
 	struct expression* super);

@@ -22,11 +22,13 @@
 #include "struct.h"
 #include "print.h"
 
-void tuple_value_print(
+struct stringtree* tuple_value_print(
 	struct value* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == vk_tuple);
 	
 	struct tuple_value* this = (void*) super;
@@ -47,6 +49,7 @@ void tuple_value_print(
 		printf(", ");
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

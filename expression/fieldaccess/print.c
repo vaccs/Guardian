@@ -11,11 +11,13 @@
 #include "struct.h"
 #include "print.h"
 
-void fieldaccess_expression_print(
+struct stringtree* fieldaccess_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_fieldaccess);
 	
 	struct fieldaccess_expression* this = (void*) super;
@@ -25,6 +27,7 @@ void fieldaccess_expression_print(
 	printf(".");
 	
 	printf("%.*s", this->fieldname->len, this->fieldname->chars);
+	#endif
 	
 	EXIT;
 }

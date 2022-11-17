@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void int_form_expression_print(
+struct stringtree* int_form_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_int_form);
 	
 	struct int_form_expression* this = (void*) super;
@@ -23,6 +25,7 @@ void int_form_expression_print(
 	expression_print(this->object);
 	
 	printf(")");
+	#endif
 	
 	EXIT;
 }

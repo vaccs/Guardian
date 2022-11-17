@@ -9,11 +9,13 @@
 #include "struct.h"
 #include "print.h"
 
-void logical_and_expression_print(
+struct stringtree* logical_and_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
+	TODO;
+	#if 0
 	assert(super->kind == ek_logical_and);
 	
 	struct logical_and_expression* this = (void*) super;
@@ -23,6 +25,7 @@ void logical_and_expression_print(
 	printf(" && ");
 	
 	expression_print(this->right);
+	#endif
 	
 	EXIT;
 }
