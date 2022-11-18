@@ -31,8 +31,6 @@ struct value* crossmap_form_run(
 	
 	unsigned N = args->n;
 	
-	assert(args->n == N);
-	
 	struct value_list* lambda_args = new_value_list();
 	
 	for (unsigned i = 0; i < N; i++)

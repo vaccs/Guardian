@@ -6,6 +6,11 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include <list/value/foreach.h>
 
 #include "../print.h"
@@ -18,13 +23,13 @@ struct stringtree* list_value_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == vk_list);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct list_value* this = (void*) super;
 	
-	printf("[");
+	stringtree_append_printf(tree, "[");
 	
 	bool first = true;
 	
@@ -34,16 +39,34 @@ struct stringtree* list_value_print(
 			if (first)
 				first = false;
 			else
-				printf(", ");
+				stringtree_append_printf(tree, ", ");
 			
-			value_print(element);
+			struct stringtree* subtree = value_print2(element);
+			
+			stringtree_append_tree(tree, subtree);
+			
+			free_stringtree(subtree);
 		}
 		runme;
 	}));
 	
-	printf("]");
-	#endif
+	if (first)
+	{
+		TODO;
+	}
+	
+	stringtree_append_printf(tree, "]");
 	
 	EXIT;
+	return tree;
 }
+
+
+
+
+
+
+
+
+
 

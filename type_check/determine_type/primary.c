@@ -17,6 +17,9 @@
 #include <list/type/append.h>
 #include <list/type/free.h>
 
+#include <type/struct.h>
+#include <type/lambda/struct.h>
+
 #include <type_cache/get_type/int.h>
 #include <type_cache/get_type/bool.h>
 #include <type_cache/get_type/dict.h>
@@ -124,18 +127,6 @@ struct type* determine_type_of_primary_expression(
 			type = type_cache_get_dict_type(tcache, key_type, value_type);
 		}
 	}
-	else if (expression->len_form)
-	{
-		TODO;
-	}
-	else if (expression->float_form)
-	{
-		type = type_cache_get_float_type(tcache);
-	}
-	else if (expression->int_form)
-	{
-		TODO;
-	}
 	else if (expression->paren)
 	{
 		if (expression->elements.n != 1 || expression->comma)
@@ -189,6 +180,32 @@ struct type* determine_type_of_primary_expression(
 			
 			type = type_cache_get_list_type(tcache, element_type);
 		}
+	}
+	else if (expression->len_form)
+	{
+		TODO;
+	}
+	else if (expression->float_form)
+	{
+		type = type_cache_get_float_type(tcache);
+	}
+	else if (expression->int_form)
+	{
+		TODO;
+	}
+	else if (expression->crossmap_form)
+	{
+		struct type* generic = determine_type_of_expression(expression->args.data[0], tcache, scope);
+		
+		if (generic->kind != tk_lambda)
+		{
+			TODO;
+			exit(1);
+		}
+		
+		struct lambda_type* lambda = (void*) generic;
+		
+		type = type_cache_get_list_type(tcache, lambda->rettype);
 	}
 	else
 	{

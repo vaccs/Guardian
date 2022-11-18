@@ -27,64 +27,52 @@ struct value* map_form_run(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(args->n >= 1);
 	
-	unsigned N = args->n;
+	unsigned n = args->n, m = -1;
 	
-	assert(args->n == N);
-	
-	struct value_list* lambda_args = new_value_list();
-	
-	for (unsigned i = 0; i < N; i++)
+	for (unsigned i = 0; i < n; i++)
 	{
-		value_list_append(lambda_args, NULL);
+		struct value* generic = args->data[i];
+		
+		assert(generic->kind == vk_list);
+		
+		struct list_value* list = (void*) generic;
+		
+		if (list->elements->n < m)
+			m = list->elements->n;
 	}
+	
+	dpv(m);
 	
 	struct value_list* elements = new_value_list();
 	
-	void helper(unsigned I)
+	for (unsigned j = 0; j < m; j++)
 	{
-		ENTER;
+		struct value_list* call_args = new_value_list();
 		
-		dpv(I);
-		
-		if (I < N)
+		for (unsigned i = 0; i < n; i++)
 		{
-			struct list_value* list = (void*) args->data[I];
+			struct list_value* list = (void*) args->data[i];
 			
-			for (unsigned i = 0, n = list->elements->n; i < n; i++)
-			{
-				lambda_args->data[I] = list->elements->data[i];
-				helper(I + 1);
-			}
-			
-			lambda_args->data[I] = NULL;
-		}
-		else
-		{
-			struct value* result = funccall_run(lambda, lambda_args);
-			
-			value_list_append(elements, result);
-			
-			free_value(result);
+			value_list_append(call_args, list->elements->data[j]);
 		}
 		
-		EXIT;
+		struct value* result = funccall_run(lambda, call_args);
+		
+		value_list_append(elements, result);
+		
+		free_value(result);
+		
+		free_value_list(call_args);
 	}
-	
-	helper(0);
 	
 	struct value* retval = new_list_value(type, elements);
 	
 	free_value_list(elements);
 	
-	free_value_list(lambda_args);
-	
 	EXIT;
 	return retval;
-	#endif
 }
 
 

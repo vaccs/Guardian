@@ -144,6 +144,8 @@
 #include <expression/crossmap_form/run.h>
 #include <expression/all_form/new.h>
 #include <expression/all_form/run.h>
+#include <expression/any_form/new.h>
+#include <expression/any_form/run.h>
 #include <expression/set/run.h>
 #include <expression/dict/new.h>
 #include <expression/set/new.h>
@@ -853,6 +855,55 @@ static struct expression* specialize_primary_all_form_expression(
 	return retval;
 }
 
+static struct expression* specialize_primary_any_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression* raw_argument)
+{
+	struct expression* retval;
+	ENTER;
+	
+	struct expression* list = specialize_expression(tcache, scope, raw_argument);
+	
+	if (list->type->kind != tk_list)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct list_type* ltype = (void*) list->type;
+	
+	if (ltype->element_type->kind != tk_bool)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = type_cache_get_bool_type(tcache);
+	
+	if (list->kind == ek_literal)
+	{
+		struct literal_expression* listlit = (void*) list;
+		
+		struct list_value* lvalue = (void*) listlit->value;
+		
+		struct value* value = any_form_run(type, lvalue);
+		
+		retval = new_literal_expression(value);
+		
+		free_value(value);
+	}
+	else
+	{
+		retval = new_any_form_expression(type, list);
+	}
+	
+	free_expression(list);
+	
+	EXIT;
+	return retval;
+}
+
 static struct expression* specialize_primary_float_form_expression(
 	struct type_cache* tcache,
 	struct type_check_scope* scope,
@@ -1188,8 +1239,6 @@ static struct expression* specialize_primary_map_form_expression(
 	
 	if (all_literals)
 	{
-		TODO;
-		#if 0
 		struct literal_expression* le = (void*) lambda_exp;
 		
 		struct lambda_value* lambda = (void*) le->value;
@@ -1214,7 +1263,6 @@ static struct expression* specialize_primary_map_form_expression(
 		free_value(result);
 		
 		free_value_list(valargs);
-		#endif
 	}
 	else
 	{
@@ -1402,6 +1450,11 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->all_form)
 	{
 		retval = specialize_primary_all_form_expression(tcache,
+			scope, zexpression->arg);
+	}
+	else if (zexpression->any_form)
+	{
+		retval = specialize_primary_any_form_expression(tcache,
 			scope, zexpression->arg);
 	}
 	#if 0

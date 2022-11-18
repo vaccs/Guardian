@@ -5,9 +5,13 @@
 
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include <out/shared.h>
 #include <out/function_queue/submit_print.h>
+
+#include <type/print.h>
 
 #include "struct.h"
 #include "generate_print_func.h"
@@ -85,6 +89,8 @@ struct stringtree* list_type_generate_print_func(
 	{
 		unsigned print_id = function_queue_submit_print(flookup, this->element_type);
 		
+		struct stringtree* subtree = type_print2(this->element_type);
+		
 		stringtree_append_printf(text, ""
 			"void func_%u(const struct type_%u* this)"
 			"{"
@@ -101,12 +107,21 @@ struct stringtree* list_type_generate_print_func(
 				"if (!n)"
 				"{"
 					"printf(\"<\");"
+		"", func_id, super->id, print_id);
+		
+		stringtree_append_printf(text, "printf(\"%%s\", \"");
+		stringtree_append_tree(text, subtree);
+		stringtree_append_printf(text, "\");");
+		
+		stringtree_append_printf(text, ""
 					"printf(\">\");"
 				"}"
 				
 				"printf(\"]\");"
 			"}"
-		"", func_id, super->id, print_id);
+		"");
+		
+		free_stringtree(subtree);
 	}
 	
 	EXIT;

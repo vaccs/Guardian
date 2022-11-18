@@ -33,15 +33,24 @@ struct stringtree* all_form_expression_print_source(
 	
 	stringtree_append_printf(tree, "({");
 	
-	stringtree_append_printf(tree, "struct type_%u* list = ", this->list->type->id);
-	
 	struct stringtree* subtree = expression_print_source(this->list, shared, environment);
+	
+	stringtree_append_printf(tree, "struct type_%u* list = ", this->list->type->id);
 	
 	stringtree_append_tree(tree, subtree);
 	
 	stringtree_append_printf(tree, ";");
 	
-	TODO;
+	stringtree_append_printf(tree, "bool all = true;");
+	
+	stringtree_append_printf(tree, "for (unsigned i = 0, n = list->n; all && i < n; i++)");
+	stringtree_append_printf(tree, "{");
+	stringtree_append_printf(tree, "	all = list->data[i]->value;");
+	stringtree_append_printf(tree, "}");
+	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree, "struct type_%u* result = func_%u(all);", super->type->id, new_id);
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, this->list->type);
 	

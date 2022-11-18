@@ -2,7 +2,8 @@ bin/debug-build/yes-verbose/yes-dotout/./type_check/determine_type/primary.o: \
  type_check/determine_type/primary.c debug.h string/struct.h avl/search.h \
  avl/tree.h avl/freeitem.h avl/compare.h avl/node.h string/new.h \
  string/free.h parse/parse.h named/type/struct.h list/type/new.h \
- list/type/append.h list/type/free.h type_cache/get_type/int.h \
+ list/type/append.h list/type/free.h type/struct.h type/kind.h \
+ type/lambda/struct.h type/lambda/../struct.h type_cache/get_type/int.h \
  type_cache/get_type/bool.h type_cache/get_type/dict.h \
  type_cache/get_type/list.h type_cache/get_type/charlist.h \
  type_cache/get_type/char.h type_cache/get_type/set.h \

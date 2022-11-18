@@ -282,7 +282,7 @@ int main(int argc, char* const* argv)
 				if (c == '\n')
 				{
 					line++;
-					#ifdef ZEBU_DEBUG
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: line: %u\n", line);
 					#endif
 				}
@@ -331,7 +331,7 @@ int main(int argc, char* const* argv)
 			{
 				if (t == 1)
 				{
-					#ifdef ZEBU_DEBUG
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
 					#endif
 					
@@ -340,7 +340,7 @@ int main(int argc, char* const* argv)
 				}
 				else
 				{
-					#ifdef ZEBU_DEBUG
+					#ifdef MAIA_DEBUG
 					ddprintf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
 					#endif
 					

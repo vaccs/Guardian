@@ -1,6 +1,6 @@
 [{
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%start: \"abc\";"
@@ -14,7 +14,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -42,7 +42,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -68,7 +68,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -99,7 +99,7 @@
 	]
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -131,7 +131,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -160,7 +160,7 @@
 	],
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -200,7 +200,7 @@
 	],
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
@@ -232,7 +232,7 @@
 	],
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",

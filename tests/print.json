@@ -1,0 +1,51 @@
+[{
+	"files": {
+		"./input.maia": [
+			"%start \"abc\";",
+			
+			"%print: 1;",
+			
+			"%print: 3.14;",
+			
+			"%print: 'a';",
+			"%print: 'b';",
+			"%print: 'c';",
+			"%print: '\\t';",
+			"%print: '\\n';",
+			"%print: '\\\\';",
+			
+			"%print: ()",
+			"%print: (1, )",
+			"%print: (1, 2, 3)",
+			
+			"%print: [1, 2, 3];",
+			"%print: [<int>];",
+			"%print: [<char>];",
+			"%print: [<float>];",
+			"%print: [<int[]>];",
+			"%print: [<int{}>];",
+			"%print: [<(bool, char)>];",
+			"%print: [<bool -> char>];",
+			"%print: [<$bool -> char>];",
+			
+			"%print: \"\";",
+			"%print: \"abc\";",
+			
+			"%print: {<int>};",
+			"%print: {1, 2, 3};",
+			
+			"%print: {<int: int>};",
+			"%print: {1: 2, 2: 3, 3: 4};",
+		]
+	}
+}]
+
+
+
+
+
+
+
+
+
+

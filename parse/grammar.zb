@@ -19,12 +19,16 @@ grammar_highest
 	| '(' grammar #subgrammar ')'
 	;
 
-grammar_postfix: grammar_highest #base
-	('+' #plus | '?' #qmark | '*' #star
-	| '{' `int` #n                 '}'
-	| '{' `int` #n ',' #c          '}'
-	| '{'          ',' #c `int` #m '}'
-	| '{' `int` #n ',' #c `int` #m '}')?;
+grammar_postfix
+	: grammar_highest #base
+	| grammar_highest #base '+' #plus
+	| grammar_highest #base '*' #star
+	| grammar_highest #base '?' #qmark
+	| grammar_highest #base '{' `int` #n                 '}'
+	| grammar_highest #base '{' `int` #n ',' #c          '}'
+	| grammar_highest #base '{'          ',' #c `int` #m '}'
+	| grammar_highest #base '{' `int` #n ',' #c `int` #m '}'
+	;
 
 grammar_juxtaposition: grammar_postfix #base (grammar_postfix #juxtapositions[])*;
 

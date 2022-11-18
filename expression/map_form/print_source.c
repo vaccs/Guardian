@@ -31,8 +31,6 @@ struct stringtree* map_form_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct map_form_expression* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -55,11 +53,7 @@ struct stringtree* map_form_expression_print_source(
 		free_stringtree(subtree);
 	}
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
-	stringtree_append_printf(tree,
-		"struct type_%u* result = func_%u();",
-		super->type->id, new_id);
+	stringtree_append_printf(tree, "unsigned n = -1;");
 	
 	unsigned counter = 0;
 	
@@ -71,28 +65,29 @@ struct stringtree* map_form_expression_print_source(
 			
 			stringtree_append_printf(tree, ""
 				"struct type_%u* list_%u = "
-			"", expression->type->id, counter++);
+			"", expression->type->id, counter);
 			stringtree_append_tree(tree, subtree);
 			stringtree_append_printf(tree, ";");
 			
+			stringtree_append_printf(tree,
+				"if (list_%u->n < n) n = list_%u->n;",
+				counter, counter);
+			
 			free_stringtree(subtree);
-		}
-		runme;
-	}));
-	
-	counter = 0;
-	expression_list_foreach(this->arguments, ({
-		void runme(struct expression* expression)
-		{
-			stringtree_append_printf(tree, ""
-				"for (unsigned i_%u = 0, n_%u = list_%u->n; i_%u < n_%u; i_%u++)"
-				"{"
-			"", counter, counter, counter, counter, counter, counter);
 			
 			counter++;
 		}
 		runme;
 	}));
+	
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+	
+	stringtree_append_printf(tree,
+		"struct type_%u* result = func_%u();",
+		super->type->id, new_id);
+	
+	stringtree_append_printf(tree, "for (unsigned i = 0; i < n; i++)");
+	stringtree_append_printf(tree, "{");
 	
 	struct type* subresult_type = ((struct lambda_type*) this->lambda->type)->rettype;
 	
@@ -104,7 +99,7 @@ struct stringtree* map_form_expression_print_source(
 	expression_list_foreach(this->arguments, ({
 		void runme(struct expression* expression)
 		{
-			stringtree_append_printf(tree, ", list_%u->data[i_%u]", counter, counter);
+			stringtree_append_printf(tree, ", list_%u->data[i]", counter);
 			counter++;
 		}
 		runme;
@@ -112,23 +107,19 @@ struct stringtree* map_form_expression_print_source(
 	
 	stringtree_append_printf(tree, ");");
 	
-	unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
+	{
+		unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
+		
+		stringtree_append_printf(tree, "func_%u(result, subresult);", append_id);
+	}
 	
-	stringtree_append_printf(tree, "func_%u(result, subresult);", append_id);
+	{
+		unsigned free_id = function_queue_submit_free(shared->fqueue, subresult_type);
+		
+		stringtree_append_printf(tree, "func_%u(subresult);", free_id);
+	}
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, subresult_type);
-	
-	stringtree_append_printf(tree, "func_%u(subresult);", free_id);
-	
-	expression_list_foreach(this->arguments, ({
-		void runme(struct expression* expression)
-		{
-			stringtree_append_printf(tree, ""
-				"}"
-			"");
-		}
-		runme;
-	}));
+	stringtree_append_printf(tree, "}");
 	
 	counter = 0;
 	expression_list_foreach(this->arguments, ({
@@ -156,7 +147,6 @@ struct stringtree* map_form_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

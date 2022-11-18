@@ -1,10 +1,16 @@
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include <debug.h>
 
-#include <list/type/struct.h>
+#include <list/type/foreach.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include "../print.h"
 
@@ -16,31 +22,56 @@ struct stringtree* lambda_type_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_lambda);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct lambda_type* this = (void*) super;
 	
-	printf("(");
+	stringtree_append_printf(tree, "(");
 	
-	printf("$");
+	stringtree_append_printf(tree, "$");
 	
-	for (unsigned i = 0, n = this->parameters->n; i < n; i++)
-	{
-		type_print(this->parameters->data[i]);
-		
-		if (i + 1 < n)
-			printf(", ");
-	}
+	bool first = true;
 	
-	printf(" -> ");
+	type_list_foreach(this->parameters, ({
+		void runme(struct type* type)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			struct stringtree* subtree = type_print2(type);
+			
+			stringtree_append_tree(tree, subtree);
+			
+			free_stringtree(subtree);
+		}
+		runme;
+	}));
 	
-	type_print(this->rettype);
+	stringtree_append_printf(tree, " -> ");
 	
-	printf(")");
-	#endif
+	struct stringtree* subtree = type_print2(this->rettype);
+	stringtree_append_tree(tree, subtree);
+	stringtree_append_printf(tree, ")");
+	
+	free_stringtree(subtree);
 	
 	EXIT;
+	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

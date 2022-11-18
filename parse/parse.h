@@ -420,6 +420,9 @@ struct zebu_regex_juxtaposition
 struct zebu_regex_postfix
 {
 	struct zebu_regex_highest* base;
+	struct zebu_token* c;
+	struct zebu_token* m;
+	struct zebu_token* n;
 	struct zebu_token* plus;
 	struct zebu_token* qmark;
 	struct zebu_token* star;

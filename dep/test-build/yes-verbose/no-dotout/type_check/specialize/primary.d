@@ -22,7 +22,8 @@ bin/test-build/yes-verbose/no-dotout/./type_check/specialize/primary.o: \
  expression/int_form/new.h expression/len_form/new.h \
  expression/map_form/new.h expression/map_form/run.h \
  expression/crossmap_form/new.h expression/crossmap_form/run.h \
- expression/all_form/new.h expression/all_form/run.h expression/set/run.h \
+ expression/all_form/new.h expression/all_form/run.h \
+ expression/any_form/new.h expression/any_form/run.h expression/set/run.h \
  expression/dict/new.h expression/set/new.h expression/list/new.h \
  expression/inc.h expression/free.h type/struct.h type/kind.h \
  type/list/struct.h type/list/../struct.h type/tuple/struct.h \

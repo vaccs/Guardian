@@ -1,21 +1,17 @@
 
+#include <stdbool.h>
 #include <assert.h>
 
 #include <stdio.h>
 
 #include <debug.h>
 
-/*#include <string/struct.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
-/*#include <list/parameter/struct.h>*/
-
-/*#include <parameter/struct.h>*/
-
-/*#include <type/print.h>*/
-
-/*#include <expression/print.h>*/
-
-#include <list/value/struct.h>
+#include <list/value/foreach.h>
 
 #include "../print.h"
 
@@ -27,31 +23,47 @@ struct stringtree* tuple_value_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == vk_tuple);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct tuple_value* this = (void*) super;
 	
-	printf("(");
+	stringtree_append_printf(tree, "(");
 	
-	unsigned i, n;
+	bool first = true;
+	bool second = true;
 	
-	for (i = 0, n = this->subvalues->n; i < n; i++)
+	value_list_foreach(this->subvalues, ({
+		void runme(struct value* subvalue)
+		{
+			if (first)
+				first = false;
+			else
+			{
+				stringtree_append_printf(tree, ", ");
+				
+				second = false;
+			}
+			
+			struct stringtree* subtree = value_print2(subvalue);
+			
+			stringtree_append_tree(tree, subtree);
+			
+			free_stringtree(subtree);
+		}
+		runme;
+	}));
+	
+	if (second)
 	{
-		value_print(this->subvalues->data[i]);
-		
-		if (i + 1 < n)
-			printf(", ");
+		stringtree_append_printf(tree, ", ");
 	}
 	
-	if (n == 1)
-		printf(", ");
-	
-	printf(")");
-	#endif
+	stringtree_append_printf(tree, ")");
 	
 	EXIT;
+	return tree;
 }
 
 

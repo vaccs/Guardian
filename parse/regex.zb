@@ -9,7 +9,16 @@ regex_highest
 	| '[' charset #charset ']'
 	;
 
-regex_postfix: regex_highest #base ('+' #plus | '?' #qmark | '*' #star)?;
+regex_postfix
+	: regex_highest #base
+	| regex_highest #base '+' #plus
+	| regex_highest #base '*' #star
+	| regex_highest #base '?' #qmark
+	| regex_highest #base '{' `int` #n                 '}'
+	| regex_highest #base '{' `int` #n ',' #c          '}'
+	| regex_highest #base '{'          ',' #c `int` #m '}'
+	| regex_highest #base '{' `int` #n ',' #c `int` #m '}'
+	;
 
 regex_juxtaposition: regex_postfix #base (regex_postfix #juxtapositions[])*;
 
