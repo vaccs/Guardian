@@ -39,6 +39,9 @@ CFLAGS += -Wno-unused-function
 CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wno-unused-label
 
+CFLAGS += -fsanitize=address
+LDFLAGS += -fsanitize=address
+
 else
 $(error "invalid buildtype!");
 endif
