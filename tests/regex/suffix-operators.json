@@ -1,9 +1,58 @@
 [{
 	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
 			"%start: /\"a\"+ \"b\"* \"c\"? \"d\"{2,5} \"e\"{2,} \"f\"{,5} \"g\"{2}/;",
 		],
-	}
+		
+		"./test.txt": [
+			"addeegg"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"%start: /\"a\"+ \"b\"* \"c\"? \"d\"{2,5} \"e\"{2,} \"f\"{,5} \"g\"{2}/;",
+		],
+		
+		"./test.txt": [
+			"aabbcddeeffgg"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"%start: /\"a\"+ \"b\"* \"c\"? \"d\"{2,5} \"e\"{2,} \"f\"{,5} \"g\"{2}/;",
+		],
+		
+		"./test.txt": [
+			"aaaabbbbcdddddeeeeeefffffgg"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
 }]

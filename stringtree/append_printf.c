@@ -34,8 +34,8 @@ void stringtree_append_printf(
 	
 	struct stringtree_node* node = smalloc(sizeof(*node));
 	
-	node->is_branch = false;
-	node->string = string;
+	node->kind = snk_cstring;
+	node->cstring = string;
 	node->next = NULL;
 	
 	if (this->tail)

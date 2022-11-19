@@ -1,0 +1,4 @@
+bin/release-build/no-verbose/yes-dotout/./type/generate_print_forward.o: \
+ type/generate_print_forward.c debug.h stringtree/new.h \
+ stringtree/append_printf.h type/inheritance.h type/struct.h type/kind.h \
+ type/generate_print_forward.h

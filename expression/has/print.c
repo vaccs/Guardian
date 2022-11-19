@@ -4,7 +4,9 @@
 
 #include <debug.h>
 
-#include <string/struct.h>
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_string.h>
 
 #include "../print.h"
 
@@ -16,17 +18,17 @@ struct stringtree* has_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_has);
 	
 	struct has_expression* this = (void*) super;
 	
-	expression_print(this->object);
+	struct stringtree* tree = expression_print2(this->object);
 	
-	printf(" has %.*s", this->fieldname->len, this->fieldname->chars);
-	#endif
+	stringtree_append_printf(tree, " has ");
+	
+	stringtree_append_string(tree, this->fieldname);
 	
 	EXIT;
+	return tree;
 }
 

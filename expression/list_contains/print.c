@@ -4,6 +4,10 @@
 
 #include <debug.h>
 
+#include <stringtree/free.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+
 #include <expression/print.h>
 
 #include "struct.h"
@@ -14,19 +18,21 @@ struct stringtree* list_contains_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_list_contains);
 	
 	struct list_contains_expression* this = (void*) super;
 	
-	expression_print(this->element);
+	struct stringtree* tree = expression_print2(this->element);
 	
-	printf(" in ");
+	stringtree_append_printf(tree, " in ");
 	
-	expression_print(this->list);
-	#endif
+	struct stringtree* sub = expression_print2(this->list);
+	
+	stringtree_append_tree(tree, sub);
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 

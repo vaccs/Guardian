@@ -4,6 +4,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "struct.h"
 #include "print.h"
 
@@ -12,20 +15,13 @@ struct stringtree* bool_value_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct bool_value* spef = (void*) super;
+	struct stringtree* tree = new_stringtree();
 	
-	if (spef->value)
-	{
-		printf("true");
-	}
-	else
-	{
-		printf("false");
-	}
-	#endif
+	struct bool_value* this = (void*) super;
+	
+	stringtree_append_printf(tree, "%s", this->value ? "true" : "false");
 	
 	EXIT;
+	return tree;
 }
 

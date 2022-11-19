@@ -17,8 +17,8 @@ void stringtree_append_strndup(
 	
 	struct stringtree_node* node = smalloc(sizeof(*node));
 	
-	node->is_branch = false;
-	node->string = strndup(chars, length);
+	node->kind = snk_cstring;
+	node->cstring = strndup(chars, length);
 	node->next = NULL;
 	
 	if (this->tail)

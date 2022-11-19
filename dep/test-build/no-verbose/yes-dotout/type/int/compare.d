@@ -1,0 +1,2 @@
+bin/test-build/no-verbose/yes-dotout/./type/int/compare.o: \
+ type/int/compare.c debug.h string/struct.h type/int/compare.h

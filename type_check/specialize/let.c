@@ -19,6 +19,10 @@
 #include <list/named_expression/append.h>
 #include <list/named_expression/free.h>
 
+#include <stringtree/free.h>
+#include <stringtree/stream.h>
+#include <stringtree/append_printf.h>
+
 #include <type_check/scope/struct.h>
 #include <type_check/scope/layer.h>
 #include <type_check/scope/push.h>
@@ -68,21 +72,30 @@ struct expression* specialize_let_expression(
 		
 		for (unsigned i = 0, n = zexpression->parameters.n; i < n; i++)
 		{
-			TODO;
-			#if 0
 			struct string* name = new_string_from_token(zexpression->parameters.data[i]->name);
 			
+			#ifdef VERBOSE
 			printf("%s: determining type of '%.*s': ", argv0, name->len, name->chars);
+			#endif
 			
 			struct type* type = determine_type_of_expression(
 				zexpression->parameters.data[i]->expression, tcache, scope);
 			
-			type_print(type), puts("");
+			#ifdef VERBOSE
+			{
+				struct stringtree* tree = type_print2(type);
+				
+				stringtree_append_printf(tree, "\n");
+				
+				stringtree_stream(tree, stdout);
+				
+				free_stringtree(tree);
+			}
+			#endif
 			
 			type_check_scope_declare_type(scope, name, type);
 			
 			free_string(name);
-			#endif
 		}
 		
 		struct named_expression_list* parameters = new_named_expression_list();

@@ -1,5 +1,7 @@
 [{
 	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
 		"input.maia": [
 			"%skip: ' ' | '\\n';",
 			
@@ -15,7 +17,20 @@
 			
 			"ratio = float!(numerator) / float!(denominator);",
 			
-			"%debug: ratio;"
+			"%print: ratio;"
+			
+			"%error: ratio == 3.5;",
+		],
+		
+		"./test.txt": [
+			"14 4"
 		]
-	}
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
 }]
+

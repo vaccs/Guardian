@@ -4,9 +4,14 @@
 struct stringtree
 {
 	struct stringtree_node {
-		bool is_branch;
+		enum {
+			snk_cstring,
+			snk_string,
+			snk_subtree,
+		} kind;
 		union {
-			char* string;
+			char* cstring;
+			struct string* string;
 			struct stringtree* tree;
 		};
 		struct stringtree_node* next;

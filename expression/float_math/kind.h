@@ -13,6 +13,8 @@ enum float_math_expression_kind
 	fmek_rdivide,
 	
 	fmek_expo,
+	
+	number_of_float_math_expression_kinds,
 };
 
 #endif

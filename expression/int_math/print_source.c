@@ -426,6 +426,10 @@ struct stringtree* int_math_expression_print_source(
 			free_stringtree(left), free_stringtree(right);
 			break;
 		}
+		
+		default:
+			TODO;
+			break;
 	}
 	
 	stringtree_append_printf(tree, "result;");

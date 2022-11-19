@@ -4,6 +4,9 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,17 +17,15 @@ struct stringtree* set_type_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_set);
 	
 	struct set_type* this = (void*) super;
 	
-	type_print(this->element_type);
+	struct stringtree* tree = type_print2(this->element_type);
 	
-	printf("{}");
-	#endif
+	stringtree_append_printf(tree, "{}");
 	
 	EXIT;
+	return tree;
 }
 

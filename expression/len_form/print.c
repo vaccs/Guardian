@@ -4,6 +4,11 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,19 +19,23 @@ struct stringtree* len_form_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_len_form);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct len_form_expression* this = (void*) super;
 	
-	printf("len!(");
+	stringtree_append_printf(tree, "len!(");
 	
-	expression_print(this->object);
+	struct stringtree* sub = expression_print2(this->object);
 	
-	printf(")");
-	#endif
+	stringtree_append_tree(tree, sub);
+	
+	stringtree_append_printf(tree, ")");
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 

@@ -150,6 +150,10 @@ struct stringtree* set_math_expression_print_source(
 			stringtree_append_printf(tree, "while (i < n) new[un++] = func_%u(left->data[i++]);", inc_id);
 			break;
 		}
+		
+		default:
+			TODO;
+			break;
 	}
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);

@@ -10,6 +10,11 @@
 			
 			"%start: character character;",
 			
+			"%print: 'a';",
+			"%print: '\\\\';",
+			"%print: '\\t';",
+			"%print: '\\n';",
+			
 			"%error:  true == ('a' <  'b');",
 			"%error:  true == ('a' <= 'b');",
 			"%error: false == ('a' == 'b');",
@@ -38,7 +43,52 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%start: \"abc\";",
+			
+			"%print: '\\';",
+		],
+		
+		"./test.txt": [
+			"abc"
+		]
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+	
+	"exit-code": 1,
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%start: \"abc\";",
+			
+			"%print: '\\j';",
+		],
+		
+		"./test.txt": [
+			"abc"
+		]
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+	
+	"exit-code": 1,
 }]
+
 
 
 

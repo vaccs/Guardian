@@ -4,6 +4,10 @@
 
 #include <debug.h>
 
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,15 +18,21 @@ struct stringtree* implication_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_implication);
 	
 	struct implication_expression* this = (void*) super;
 	
-	expression_print(this->left), printf(" implies "), expression_print(this->right);
-	#endif
+	struct stringtree* tree = expression_print2(this->left);
+	
+	stringtree_append_printf(tree, " implies ");
+	
+	struct stringtree* sub = expression_print2(this->right);
+	
+	stringtree_append_tree(tree, sub);
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 

@@ -1,17 +1,20 @@
 
 #include <stdbool.h>
-
 #include <assert.h>
-
 #include <stdio.h>
 
 #include <debug.h>
 
-#include <avl/tree.h>
+/*#include <avl/tree.h>*/
 
 #include <pair/value/struct.h>
 
 #include <list/value_pair/foreach.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include <type/dict/struct.h>
 #include <type/print.h>
@@ -26,11 +29,11 @@ struct stringtree* dict_value_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct dict_value* this = (void*) super;
 	
-	printf("{");
+	struct stringtree* tree = new_stringtree();
+	
+	stringtree_append_printf(tree, "{");
 	
 	bool first = true;
 	
@@ -40,13 +43,21 @@ struct stringtree* dict_value_print(
 			if (first)
 				first = false;
 			else
-				printf(", ");
+				stringtree_append_printf(tree, ", ");
 			
-			value_print(pair->key);
+			{
+				struct stringtree* sub = value_print2(pair->key);
+				stringtree_append_tree(tree, sub);
+				free_stringtree(sub);
+			}
 			
-			printf(": ");
+			stringtree_append_printf(tree, ": ");
 			
-			value_print(pair->value);
+			{
+				struct stringtree* sub = value_print2(pair->value);
+				stringtree_append_tree(tree, sub);
+				free_stringtree(sub);
+			}
 		}
 		runme;
 	}));
@@ -55,13 +66,25 @@ struct stringtree* dict_value_print(
 	{
 		struct dict_type* dtype = (void*) super->type;
 		
-		printf("<"), type_print(dtype->key), printf(": "), type_print(dtype->value), printf(">");
+		stringtree_append_printf(tree, "<");
+		
+		struct stringtree* key = type_print2(dtype->key);
+		stringtree_append_tree(tree, key);
+		free_stringtree(key);
+		
+		stringtree_append_printf(tree, ": ");
+		
+		struct stringtree* val = type_print2(dtype->value);
+		stringtree_append_tree(tree, val);
+		
+		stringtree_append_printf(tree, ">");
+		free_stringtree(val);
 	}
 	
 	printf("}");
-	#endif
 	
 	EXIT;
+	return tree;
 }
 
 

@@ -1,12 +1,18 @@
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include <pair/expression/struct.h>
 
-#include <list/expression_pair/struct.h>
+#include <list/expression_pair/foreach.h>
 
 #include "../print.h"
 
@@ -18,39 +24,50 @@ struct stringtree* dict_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_dict);
 	
 	struct dict_expression* this = (void*) super;
 	
-	struct expression_pair_list* elements = this->elements;
+	struct stringtree* tree = new_stringtree();
 	
-	printf("{");
+	stringtree_append_printf(tree, "{");
 	
-	if (elements->n)
-	{
-		for (unsigned i = 0, n = elements->n; i < n; i++)
+	bool first = true;
+	
+	expression_pair_list_foreach(this->elements, ({
+		void runme(struct expression_pair* pair)
 		{
-			expression_print(elements->data[i]->key);
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
 			
-			printf(": ");
+			{
+				struct stringtree* key = expression_print2(pair->key);
+				stringtree_append_tree(tree, key);
+				free_stringtree(key);
+			}
 			
-			expression_print(elements->data[i]->value);
+			stringtree_append_printf(tree, ": ");
 			
-			if (i + 1 < n)
-				printf(", ");
+			{
+				struct stringtree* value = expression_print2(pair->value);
+				stringtree_append_tree(tree, value);
+				free_stringtree(value);
+			}
 		}
-	}
-	else
+		runme;
+	}));
+	
+	if (first)
 	{
 		TODO;
 	}
 	
-	printf("}");
-	#endif
+	stringtree_append_printf(tree, "}");
 	
 	EXIT;
+	return tree;
 }
 
 

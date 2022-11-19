@@ -304,6 +304,27 @@ void type_check(
 					struct expression* specialized = specialize_expression(
 						tcache, scope, raw_statement->expression);
 					
+					#ifdef VERBOSE
+					{
+						struct stringtree* tree = new_stringtree();
+						
+						stringtree_append_printf(tree,
+							"%s: specialized assert statement on line %u: ",
+							argv0, raw_statement->line);
+						
+						struct stringtree* subtree = expression_print2(specialized);
+						
+						stringtree_append_tree(tree, subtree);
+						
+						stringtree_append_printf(tree, "\n");
+						
+						stringtree_stream(tree, stdout);
+						
+						free_stringtree(tree);
+						free_stringtree(subtree);
+					}
+					#endif
+					
 					if (specialized->type->kind != tk_bool)
 					{
 						TODO;
@@ -346,23 +367,24 @@ void type_check(
 						tcache, scope, raw_statement->expression);
 					
 					#ifdef VERBOSE
-					
-					struct stringtree* tree = new_stringtree();
-					
-					stringtree_append_printf(tree,
-						"%s: specialized '%.*s' expression: ",
-						argv0, name->len, name->chars);
-					
-					struct stringtree* subtree = expression_print2(specialized);
-					
-					stringtree_append_tree(tree, subtree);
-					
-					stringtree_append_printf(tree, "\n");
-					
-					stringtree_stream(tree, stdout);
-					
-					free_stringtree(tree);
-					free_stringtree(subtree);
+					{
+						struct stringtree* tree = new_stringtree();
+						
+						stringtree_append_printf(tree,
+							"%s: specialized '%.*s' declaration: ",
+							argv0, name->len, name->chars);
+						
+						struct stringtree* subtree = expression_print2(specialized);
+						
+						stringtree_append_tree(tree, subtree);
+						
+						stringtree_append_printf(tree, "\n");
+						
+						stringtree_stream(tree, stdout);
+						
+						free_stringtree(tree);
+						free_stringtree(subtree);
+					}
 					#endif
 					
 					if (specialized->kind == ek_literal)
@@ -387,6 +409,27 @@ void type_check(
 				{
 					struct expression* specialized = specialize_expression(
 						tcache, scope, raw_statement->expression);
+					
+					#ifdef VERBOSE
+					{
+						struct stringtree* tree = new_stringtree();
+						
+						stringtree_append_printf(tree,
+							"%s: specialized print statement: ",
+							argv0);
+						
+						struct stringtree* subtree = expression_print2(specialized);
+						
+						stringtree_append_tree(tree, subtree);
+						
+						stringtree_append_printf(tree, "\n");
+						
+						stringtree_stream(tree, stdout);
+						
+						free_stringtree(tree);
+						free_stringtree(subtree);
+					}
+					#endif
 					
 					struct statement* statement = new_print_statement(specialized);
 					

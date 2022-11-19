@@ -1,21 +1,19 @@
 
+#include <stdbool.h>
 #include <assert.h>
-
 #include <stdio.h>
 
 #include <debug.h>
 
-#include <string/struct.h>
-
-/*#include <list/parameter/struct.h>*/
-
-/*#include <parameter/struct.h>*/
-
-/*#include <type/print.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_string.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include <named/expression/struct.h>
 
-#include <list/named_expression/struct.h>
+#include <list/named_expression/foreach.h>
 
 #include "../print.h"
 
@@ -27,34 +25,47 @@ struct stringtree* let_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_let);
 	
 	struct let_expression* this = (void*) super;
 	
-	printf("let! ");
+	struct stringtree* tree = new_stringtree();
 	
-	struct named_expression_list* parameters = this->parameters;
+	stringtree_append_printf(tree, "let! ");
 	
-	for (unsigned i = 0, n = parameters->n; i < n; i++)
-	{
-		struct named_expression* ele = parameters->data[i];
-		
-		printf("%.*s = ", ele->name->len, ele->name->chars);
-		
-		expression_print(ele->expression);
-		
-		if (i + 1 < n)
-			printf(", ");
-	}
+	bool first = true;
 	
-	printf(": ");
+	named_expression_list_foreach(this->parameters, ({
+		void runme(struct named_expression* ele)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			stringtree_append_string(tree, ele->name);
+			
+			stringtree_append_printf(tree, " = ");
+			
+			struct stringtree* sub = expression_print2(ele->expression);
+			
+			stringtree_append_tree(tree, sub);
+			
+			free_stringtree(sub);
+		}
+		runme;
+	}));
 	
-	expression_print(this->body);
-	#endif
+	stringtree_append_printf(tree, ": ");
+	
+	struct stringtree* sub = expression_print2(this->body);
+	
+	stringtree_append_tree(tree, sub);
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 
 

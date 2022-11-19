@@ -4,6 +4,10 @@
 
 #include <debug.h>
 
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,23 +18,29 @@ struct stringtree* ternary_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_ternary);
 	
 	struct ternary_expression* this = (void*) super;
 	
-	expression_print(this->conditional);
+	struct stringtree* tree = expression_print2(this->conditional);
 	
-	printf(" ? ");
+	stringtree_append_printf(tree, " ? ");
 	
-	expression_print(this->true_case);
+	{
+		struct stringtree* sub = expression_print2(this->true_case);
+		stringtree_append_tree(tree, sub);
+		free_stringtree(sub);
+	}
 	
-	printf(" : ");
+	stringtree_append_printf(tree, " : ");
 	
-	expression_print(this->false_case);
-	#endif
+	{
+		struct stringtree* sub = expression_print2(this->false_case);
+		stringtree_append_tree(tree, sub);
+		free_stringtree(sub);
+	}
 	
 	EXIT;
+	return tree;
 }
 

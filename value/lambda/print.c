@@ -1,14 +1,17 @@
 
+#include <stdbool.h>
 #include <assert.h>
 #include <stdio.h>
 
 #include <debug.h>
 
-#include <string/struct.h>
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_string.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
-#include <list/parameter/struct.h>
-
-#include <parameter/struct.h>
+#include <list/parameter/foreach.h>
 
 #include <type/print.h>
 
@@ -24,37 +27,63 @@ struct stringtree* lambda_value_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct lambda_value* spef = (void*) super;
+	assert(super->kind == vk_lambda);
 	
-	printf("$");
+	struct stringtree* tree = new_stringtree();
 	
-	struct parameter_list* parameters = spef->parameters;
+	struct lambda_value* this = (void*) super;
 	
-	for (unsigned i = 0, n = parameters->n; i < n; i++)
-	{
-		struct parameter* ele = parameters->data[i];
-		
-		if (ele->type)
+	stringtree_append_printf(tree, "$");
+	
+	bool first = true;
+	
+	parameter_list_foreach(this->parameters, ({
+		void runme(struct string* name, struct type* type)
 		{
-			type_print(ele->type);
-			printf(" ");
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			if (type)
+			{
+				struct stringtree* sub = type_print2(type);
+				
+				stringtree_append_tree(tree, sub);
+				stringtree_append_printf(tree, " ");
+				
+				free_stringtree(sub);
+			}
+			
+			stringtree_append_string(tree, name);
 		}
-		
-		printf("%.*s", ele->name->len, ele->name->chars);
-		
-		if (i + 1 < n)
-			printf(", ");
-	}
+		runme;
+	}));
 	
-	printf(": ");
+	stringtree_append_printf(tree, ": ");
 	
-	expression_print(spef->body);
-	#endif
+	struct stringtree* sub = expression_print2(this->body);
+	
+	stringtree_append_tree(tree, sub);
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

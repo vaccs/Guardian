@@ -106,15 +106,13 @@ struct stringtree* list_type_generate_print_func(
 				
 				"if (!n)"
 				"{"
-					"printf(\"<\");"
 		"", func_id, super->id, print_id);
 		
-		stringtree_append_printf(text, "printf(\"%%s\", \"");
+		stringtree_append_printf(text, "printf(\"<%%s>\", \"");
 		stringtree_append_tree(text, subtree);
 		stringtree_append_printf(text, "\");");
 		
 		stringtree_append_printf(text, ""
-					"printf(\">\");"
 				"}"
 				
 				"printf(\"]\");"

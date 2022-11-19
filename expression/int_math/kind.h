@@ -20,6 +20,8 @@ enum int_math_expression_kind
 	
 	imek_lshift,
 	imek_rshift,
+	
+	number_of_int_math_expression_kinds,
 };
 
 #endif

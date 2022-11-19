@@ -1,70 +1,12 @@
 
-/*#include <type/struct.h>*/
-
-/*#include <builtin/map/evaluate.h>*/
-
-/*#include <list/expression/struct.h>*/
-/*#include <list/expression/new.h>*/
-/*#include <list/expression/append.h>*/
-/*#include <list/expression/free.h>*/
-
-/*#include <expression/struct.h>*/
-/*#include <expression/variable/new.h>*/
-/*#include <expression/literal/struct.h>*/
-/*#include <expression/literal/new.h>*/
-/*#include <expression/len/new.h>*/
-/*#include <expression/list/new.h>*/
-/*#include <expression/sum/new.h>*/
-/*#include <expression/parenthesis/new.h>*/
-/*#include <expression/tuple/new.h>*/
-/*#include <expression/map/new.h>*/
-/*#include <expression/product/new.h>*/
-/*#include <expression/float/new.h>*/
-/*#include <expression/free.h>*/
-/*#include <expression/inc.h>*/
-
-/*#include <type_cache/get_type/list.h>*/
-/*#include <type_cache/get_type/int.h>*/
-/*#include <type_cache/get_type/float.h>*/
-/*#include <type_cache/get_type/tuple.h>*/
-
-/*#include <list/type/new.h>*/
-
-/*#include <type/lambda/struct.h>*/
-/*#include <type/list/struct.h>*/
-/*#include <type/print.h>*/
-/*#include <type/free.h>*/
-
-/*#include <parameter/struct.h>*/
-
-/*#include <list/parameter/struct.h>*/
-
-/*#include <list/type/struct.h>*/
-/*#include <list/type/append.h>*/
-/*#include <list/type/free.h>*/
-
-/*#include <type/tuple/struct.h>*/
-
-/*#include <list/value/new.h>*/
-/*#include <list/value/append.h>*/
-/*#include <list/value/free.h>*/
-
-/*#include <value/tuple/new.h>*/
-/*#include <value/bool/new.h>*/
-/*#include <value/int/new.h>*/
-/*#include <value/list/new.h>*/
-/*#include <value/float/new.h>*/
-/*#include <value/free.h>*/
-
-/*#include <mpz/new.h>*/
-/*#include <mpz/free.h>*/
-
 #include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 
 #include <debug.h>
+
+#include <defines/argv0.h>
 
 #include <avl/search.h>
 
@@ -95,11 +37,6 @@
 
 #include <mpz/struct.h>
 
-/*#include <list/value_pair/new.h>*/
-/*#include <list/value_pair/append.h>*/
-/*#include <list/value_pair/qsort.h>*/
-/*#include <list/value_pair/free.h>*/
-
 #include <pair/expression/struct.h>
 #include <pair/expression/new.h>
 #include <pair/expression/free.h>
@@ -110,10 +47,6 @@
 #include <list/value_pair/new.h>
 #include <list/value_pair/append.h>
 #include <list/value_pair/free.h>
-
-/*#include <pair/value/struct.h>*/
-/*#include <pair/value/new.h>*/
-/*#include <pair/value/free.h>*/
 
 #include <named/type/struct.h>
 
@@ -257,29 +190,43 @@ static struct expression* specialize_primary_character_expression(
 	
 	struct type* chartype = type_cache_get_char_type(tcache);
 	
-	unsigned i = 1;
+	unsigned i = 1, n = character_literal->len - 1;
 	
-	unsigned char code = character_literal->data[i];
+	unsigned char c = character_literal->data[i];
 	
-	dpv(code);
+	unsigned code;
 	
-	if (code == '\\')
+	if (c != '\\')
+	{
+		code = c, i++;
+	}
+	else if (i + 1 == n)
 	{
 		TODO;
+		exit(1);
 	}
-	else
+	else switch ((c = character_literal->data[++i]))
 	{
-		struct value* value = new_char_value(chartype, code); i++;
+		case 't': code = 't', i++; break;
 		
-		retval = new_literal_expression(value);
-	
-		free_value(value);
+		case 'n': code = 'n', i++; break;
+		
+		case '\\': code = '\\', i++; break;
+		
+		default:
+			fprintf(stderr, "%s: invalid character-escape '\\%c'!\n", argv0, c);
+			exit(1);
+			break;
 	}
 	
-	if (i != character_literal->len - 1)
+	if (i != n)
 	{
 		TODO;
 	}
+	
+	struct value* value = new_char_value(chartype, code);
+	retval = new_literal_expression(value);
+	free_value(value);
 	
 	EXIT;
 	return retval;

@@ -231,6 +231,10 @@ struct stringtree* dict_math_expression_print_source(
 			stringtree_append_printf(tree, "}");
 			break;
 		}
+		
+		default:
+			TODO;
+			break;
 	}
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);

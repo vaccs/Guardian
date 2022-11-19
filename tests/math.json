@@ -1,0 +1,120 @@
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"highest",
+			"	: /['0'-'9']+/ #literal",
+			"	| '(' add #subexp ')'",
+			"	;",
+			
+			"multiply",
+			"	: highest #base",
+			"	| multiply #sub \"*\" highest #mutme",
+			"	| multiply #sub \"/\" highest #divme",
+			"	;",
+			
+			"add",
+			"	: multiply #base",
+			"	| add #sub \"+\" multiply #addme",
+			"	| add #sub \"-\" multiply #subme",
+			"	;",
+			
+			"start: add #add;",
+			
+			"%start: start;",
+			
+			"hightostr = $highest h -> char[]:",
+			"	h has literal",
+			"		? h.literal",
+			"		: \"(\" + addtostr(h.subexp) + \")\";",
+			
+			"multostr = $multiply m -> char[]:",
+			"	m has base",
+			"		? hightostr(m.base)",
+			"		: (multostr(m.sub) +",
+			"			(m has mutme",
+			"				? \" * \" + hightostr(m.mutme)",
+			"				: \" / \" + hightostr(m.divme)));",
+			
+			"addtostr = $add a -> char[]:",
+			"	a has base",
+			"		? multostr(a.base)",
+			"		: (addtostr(a.sub) +",
+			"			(a has addme",
+			"				? \" + \" + multostr(a.addme)",
+			"				: \" - \" + multostr(a.subme)));",
+			
+			"text = addtostr(start[0].add);",
+			
+			"%print: text;",
+			
+			"%error: text == \"2 + (3 - 5) * 11 / 7\";",
+			
+			"evalhigh = $highest h -> int:",
+			"	h has literal",
+			"		? int!(h.literal)",
+			"		: evaladd(h.subexp);",
+			
+			"evalmult = $multiply m -> int:",
+			"	m has base",
+			"		? evalhigh(m.base)",
+			"		: (m has mutme",
+			"			? evalmult(m.sub) * evalhigh(m.mutme)",
+			"			: evalmult(m.sub) / evalhigh(m.divme));",
+			
+			"evaladd = $add a -> int:",
+			"	a has base",
+			"		? evalmult(a.base)",
+			"		: (a has addme",
+			"			? evaladd(a.sub) + evalmult(a.addme)",
+			"			: evaladd(a.sub) - evalmult(a.subme));",
+			
+			"result = evaladd(start[0].add);",
+			
+			"%print: result;",
+			
+			"%error: result == -2;",
+		],
+		
+		"./input.txt": [
+			"2 + (3 - 5) * 11 / 7"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./input.txt"
+	],
+}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,6 +8,7 @@ enum dict_math_expression_kind
 	dmek_intersect,
 	dmek_difference,
 	dmek_symdifference,
+	number_of_dict_math_expression_kinds,
 };
 
 #endif

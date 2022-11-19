@@ -4,6 +4,11 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,23 +19,47 @@ struct stringtree* dict_type_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == tk_dict);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct dict_type* this = (void*) super;
 	
-	printf("(");
+	stringtree_append_printf(tree, "(");
 	
-	type_print(this->key);
+	{
+		struct stringtree* key = type_print2(this->key);
+		
+		stringtree_append_tree(tree, key);
+		
+		free_stringtree(key);
+	}
 	
-	printf(" -> ");
+	stringtree_append_printf(tree, " -> ");
 	
-	type_print(this->value);
+	{
+		struct stringtree* value = type_print2(this->value);
+		
+		stringtree_append_tree(tree, value);
+		
+		free_stringtree(value);
+	}
 	
-	printf(")");
-	#endif
+	stringtree_append_printf(tree, ")");
 	
 	EXIT;
+	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

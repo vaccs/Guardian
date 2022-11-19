@@ -10,7 +10,8 @@ enum comparison_expression_kind
 	cek_not_equal_to,
 	cek_less_than_equal_to,
 	cek_greater_than_equal_to,
-	number_of_comparison_kinds,
+	
+	number_of_comparison_expression_kinds,
 };
 
 #endif

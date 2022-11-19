@@ -4,7 +4,10 @@
 
 #include <debug.h>
 
-/*#include <string/struct.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include "../print.h"
 
@@ -16,19 +19,21 @@ struct stringtree* list_concat_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_list_concat);
 	
 	struct list_concat_expression* this = (void*) super;
 	
-	expression_print(this->left);
+	struct stringtree* tree = expression_print2(this->left);
 	
-	printf(" + ");
+	stringtree_append_printf(tree, " + ");
 	
-	expression_print(this->right);
-	#endif
+	struct stringtree* sub = expression_print2(this->right);
+	
+	stringtree_append_tree(tree, sub);
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 

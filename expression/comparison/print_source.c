@@ -28,7 +28,7 @@
 #include "struct.h"
 #include "print_source.h"
 
-static const char* lookup[number_of_comparison_kinds] = {
+static const char* lookup[number_of_comparison_expression_kinds] = {
 	[cek_less_than] = "<",
 	[cek_less_than_equal_to] = "<=",
 	[cek_equal_to] = "==",

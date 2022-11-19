@@ -14,7 +14,7 @@ void stringtree_prepend_tree(
 	
 	struct stringtree_node* node = smalloc(sizeof(*node));
 	
-	node->is_branch = true;
+	node->kind = snk_subtree;
 	node->tree = tree, tree->refcount++;
 	node->next = NULL;
 	

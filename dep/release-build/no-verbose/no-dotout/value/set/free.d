@@ -1,0 +1,3 @@
+bin/release-build/no-verbose/no-dotout/./value/set/free.o: \
+ value/set/free.c debug.h list/value/free.h value/set/struct.h \
+ value/set/../struct.h value/set/../kind.h value/set/free.h

@@ -57,7 +57,6 @@ struct stringtree* list_value_print_source(
 			"struct type_%u* value_%u = func_%u();"
 		"", super->type->id, value_id, new_id);
 		
-		unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
 		
 		unsigned free_id = function_queue_submit_free(shared->fqueue, etype);
 		
@@ -75,6 +74,8 @@ struct stringtree* list_value_print_source(
 				
 				stringtree_append_tree(tree, subtree);
 				stringtree_append_printf(tree, ";");
+				
+				unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
 				
 				stringtree_append_printf(tree, ""
 					"func_%u(value_%u, element);"

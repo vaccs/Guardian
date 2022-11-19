@@ -13,6 +13,10 @@
 
 #include <list/value/foreach.h>
 
+#include <type/print.h>
+
+#include <type/list/struct.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -52,7 +56,15 @@ struct stringtree* list_value_print(
 	
 	if (first)
 	{
-		TODO;
+		struct list_type* ltype = (void*) super->type;
+		
+		struct stringtree* sub = type_print2(ltype->element_type);
+		
+		stringtree_append_printf(tree, "<");
+		stringtree_append_tree(tree, sub);
+		stringtree_append_printf(tree, ">");
+		
+		free_stringtree(sub);
 	}
 	
 	stringtree_append_printf(tree, "]");

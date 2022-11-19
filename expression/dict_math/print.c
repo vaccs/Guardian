@@ -4,44 +4,65 @@
 
 #include <debug.h>
 
-/*#include <string/struct.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include "../print.h"
 
 #include "struct.h"
 #include "print.h"
 
+static const char* lookup[number_of_dict_math_expression_kinds] = {
+	[dmek_union] = "|",
+	[dmek_intersect] = "&",
+	[dmek_difference] = "-",
+	[dmek_symdifference] = "^",
+};
+
 struct stringtree* dict_math_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_dict_math);
 	
 	struct dict_math_expression* this = (void*) super;
 	
-	switch (this->kind)
+	struct stringtree* tree = expression_print2(this->left);
+	
+	if (!lookup[this->kind])
 	{
-		case dmek_union:
-			expression_print(this->left), printf(" | "), expression_print(this->right);
-			break;
-		
-		case dmek_intersect:
-			expression_print(this->left), printf(" & "), expression_print(this->right);
-			break;
-		
-		case dmek_difference:
-			expression_print(this->left), printf(" - "), expression_print(this->right);
-			break;
-		
-		case dmek_symdifference:
-			expression_print(this->left), printf(" ^ "), expression_print(this->right);
-			break;
+		TODO;
 	}
-	#endif
+	
+	stringtree_append_printf(tree, " %s ", lookup[this->kind]);
+	
+	struct stringtree* subtree = expression_print2(this->right);
+	
+	stringtree_append_tree(tree, subtree);
+	
+	free_stringtree(subtree);
 	
 	EXIT;
+	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

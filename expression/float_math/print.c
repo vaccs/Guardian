@@ -14,16 +14,23 @@
 #include "struct.h"
 #include "print.h"
 
+static const char* lookup[number_of_float_math_expression_kinds] = {
+	[fmek_add] = "+",
+	[fmek_subtract] = "-",
+	[fmek_multiply] = "*",
+	[fmek_qdivide] = "/",
+	[fmek_rdivide] = "%",
+	[fmek_expo] = "**",
+};
+
 struct stringtree* float_math_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
-	assert(super->kind == ek_float_math);
+	struct stringtree* tree = new_stringtree();
 	
 	struct float_math_expression* this = (void*) super;
-	
-	struct stringtree* tree = new_stringtree();
 	
 	switch (this->kind)
 	{
@@ -37,51 +44,32 @@ struct stringtree* float_math_expression_print(
 		}
 		
 		case fmek_add:
-		{
-			TODO;
-/*			expression_print(this->left), printf(" + "), expression_print(this->right);*/
-			break;
-		}
-		
 		case fmek_subtract:
-		{
-			TODO;
-/*			expression_print(this->left), printf(" - "), expression_print(this->right);*/
-			break;
-		}
-		
 		case fmek_multiply:
-		{
-			TODO;
-/*			expression_print(this->left), printf(" * "), expression_print(this->right);*/
-			break;
-		}
-		
-		case fmek_qdivide:
-		{
-			struct stringtree* left = expression_print2(this->left);
-			stringtree_append_tree(tree, left), free_stringtree(left);
-			
-			stringtree_append_printf(tree, " / ");
-			
-			struct stringtree* right = expression_print2(this->right);
-			stringtree_append_tree(tree, right), free_stringtree(right);
-			break;
-		}
-		
 		case fmek_rdivide:
-		{
-			TODO;
-/*			expression_print(this->left), printf(" %% "), expression_print(this->right);*/
-			break;
-		}
-		
+		case fmek_qdivide:
 		case fmek_expo:
 		{
-			TODO;
-/*			expression_print(this->left), printf(" ** "), expression_print(this->right);*/
+			struct stringtree* left = expression_print2(this->left);
+			stringtree_append_tree(tree, left);
+			
+			if (!lookup[this->kind])
+			{
+				TODO;
+			}
+			
+			stringtree_append_printf(tree, " %s ", lookup[this->kind]);
+			
+			struct stringtree* right = expression_print2(this->right);
+			stringtree_append_tree(tree, right);
+			
+			free_stringtree(left), free_stringtree(right);
 			break;
 		}
+		
+		default:
+			TODO;
+			break;
 	}
 	
 	EXIT;

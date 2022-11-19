@@ -616,6 +616,7 @@ srcs += ./statement/free.c
 srcs += ./statement/inc.c
 srcs += ./statement/new.c
 srcs += ./stringtree/append_printf.c
+srcs += ./stringtree/append_string.c
 srcs += ./stringtree/append_strndup.c
 srcs += ./stringtree/append_tree.c
 srcs += ./stringtree/free.c

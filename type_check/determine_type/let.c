@@ -12,6 +12,9 @@
 #include <string/new.h>
 #include <string/free.h>
 
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
+
 #include <type/print.h>
 
 #include <type_check/scope/push.h>
@@ -47,28 +50,35 @@ struct type* determine_type_of_let_expression(
 			free_string(name);
 		}
 		
+		#ifdef VERBOSE
 		printf("let: ");
+		#endif
 		
 		for (unsigned i = 0, n = expression->parameters.n; i < n; i++)
 		{
-			TODO;
-			#if 0
 			struct string* name = new_string_from_token(expression->parameters.data[i]->name);
 			
+			#ifdef VERBOSE
 			if (i) printf(", ");
 			
 			printf("'%.*s' = ", name->len, name->chars);
+			#endif
 			
 			struct type* type = determine_type_of_expression(
 				expression->parameters.data[i]->expression,
 				tcache, scope);
 			
-			type_print(type);
+			#ifdef VERBOSE
+			{
+				struct stringtree* tree = type_print2(type);
+				stringtree_stream(tree, stdout);
+				free_stringtree(tree);
+			}
+			#endif
 			
 			type_check_scope_declare_type(scope, name, type);
 			
 			free_string(name);
-			#endif
 		}
 		
 		printf(": ");

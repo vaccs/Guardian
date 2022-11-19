@@ -7,6 +7,11 @@
 
 #include <list/expression/foreach.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -17,13 +22,13 @@ struct stringtree* set_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_set);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct set_expression* this = (void*) super;
 	
-	printf("{");
+	stringtree_append_printf(tree, "{");
 	
 	bool first = true;
 	
@@ -33,9 +38,13 @@ struct stringtree* set_expression_print(
 			if (first)
 				first = false;
 			else
-				printf(", ");
+				stringtree_append_printf(tree, ", ");
 			
-			expression_print(element);
+			struct stringtree* subtree = expression_print2(element);
+			
+			stringtree_append_tree(tree, subtree);
+			
+			free_stringtree(subtree);
 		}
 		runme;
 	}));
@@ -45,10 +54,10 @@ struct stringtree* set_expression_print(
 		TODO;
 	}
 	
-	printf("}");
-	#endif
+	stringtree_append_printf(tree, "}");
 	
 	EXIT;
+	return tree;
 }
 
 

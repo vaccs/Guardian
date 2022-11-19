@@ -9,6 +9,13 @@
 
 #include <type/print.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
+#include <type/set/struct.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -19,13 +26,13 @@ struct stringtree* set_value_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == vk_set);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct set_value* this = (void*) super;
 	
-	printf("{");
+	stringtree_append_printf(tree, "{");
 	
 	bool first = true;
 	
@@ -35,25 +42,34 @@ struct stringtree* set_value_print(
 			if (first)
 				first = false;
 			else
-				printf(", ");
+				stringtree_append_printf(tree, ", ");
 			
-			value_print(element);
+			struct stringtree* sub = value_print2(element);
+			
+			stringtree_append_tree(tree, sub);
+			
+			free_stringtree(sub);
 		}
 		runme;
 	}));
 	
 	if (first)
 	{
-		TODO;
-		#if 0
-		printf("<"), type_print(super->type), printf(">");
-		#endif
+		struct set_type* stype = (void*) super->type;
+		
+		struct stringtree* sub = type_print2(stype->element_type);
+		
+		stringtree_append_printf(tree, "<");
+		stringtree_append_tree(tree, sub);
+		stringtree_append_printf(tree, ">");
+		
+		free_stringtree(sub);
 	}
 	
-	printf("}");
-	#endif
+	stringtree_append_printf(tree, "}");
 	
 	EXIT;
+	return tree;
 }
 
 

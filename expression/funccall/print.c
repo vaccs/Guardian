@@ -1,10 +1,16 @@
 
+#include <stdbool.h>
 #include <assert.h>
 #include <stdio.h>
 
 #include <debug.h>
 
-#include <list/expression/struct.h>
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
+#include <list/expression/foreach.h>
 
 #include "../print.h"
 
@@ -16,28 +22,35 @@ struct stringtree* funccall_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct funccall_expression* this = (void*) super;
 	
-	expression_print(this->lambda);
+	struct stringtree* tree = expression_print2(this->lambda);
 	
-	printf("(");
+	stringtree_append_printf(tree, "(");
 	
-	struct expression_list* arguments = this->arguments;
+	bool first = true;
 	
-	for (unsigned i = 0, n = arguments->n; i < n; i++)
-	{
-		expression_print(arguments->data[i]);
-		
-		if (i + 1 < n)
-			printf(", ");
-	}
+	expression_list_foreach(this->arguments, ({
+		void runme(struct expression* expression)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+				
+			struct stringtree* sub = expression_print2(expression);
+			
+			stringtree_append_tree(tree, sub);
+			
+			free_stringtree(sub);
+		}
+		runme;
+	}));
 	
-	printf(")");
-	#endif
+	stringtree_append_printf(tree, ")");
 	
 	EXIT;
+	return tree;
 }
 
 

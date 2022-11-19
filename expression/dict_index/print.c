@@ -4,6 +4,10 @@
 
 #include <debug.h>
 
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,21 +18,23 @@ struct stringtree* dict_index_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_dict_index);
 	
 	struct dict_index_expression* this = (void*) super;
 	
-	expression_print(this->dict);
+	struct stringtree* tree = expression_print2(this->dict);
 	
-	printf("[");
+	stringtree_append_printf(tree, "[");
 	
-	expression_print(this->index);
+	struct stringtree* sub = expression_print2(this->index);
 	
-	printf("]");
-	#endif
+	stringtree_append_tree(tree, sub);
+	
+	stringtree_append_printf(tree, "]");
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 
