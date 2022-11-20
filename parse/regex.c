@@ -8,6 +8,8 @@
 
 #include <debug.h>
 
+#include <defines/argv0.h>
+
 #include <regex/new.h>
 #include <regex/clone.h>
 #include <regex/dfa_to_nfa.h>
@@ -59,7 +61,24 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				}
 				else if (highest->integer)
 				{
-					TODO;
+					errno = 0;
+					
+					const char* token = (void*) highest->integer->data;
+					char* m;
+					unsigned long int value = strtoul(token, &m, 0);
+					
+					if (errno || *m || value > 255)
+					{
+						fprintf(stderr, "%s: invalid integer value '%s' for "
+							"character in regular expression!\n", argv0, token);
+						exit(1);
+					}
+					
+					unsigned char code = value;
+					
+					dpvc(code);
+					
+					retval = new_regex_from_string(&code, 1);
 				}
 				else if (highest->string)
 				{
@@ -75,7 +94,7 @@ struct rbundle process_regex(struct zebu_regex* regex)
 				}
 				else if (highest->subregex)
 				{
-					TODO;
+					retval = process_regex(highest->subregex);
 				}
 				else if (highest->charset)
 				{

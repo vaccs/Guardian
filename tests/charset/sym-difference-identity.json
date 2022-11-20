@@ -5,11 +5,11 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: /['a', 'b', 'c']+/;",
+			"%start: /[('a'-'p' | 'k'-'z') & (!('a'-'p') | !('k'-'z'))]+/;",
 		],
 		
 		"./test.txt": [
-			"abc"
+			"abcdefghijqurstuvwxyz"
 		]
 	},
 	"commands": [

@@ -1,1 +1,21 @@
-[]
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"%start: /['a'-'z', 'A'-'Z']+/+;",
+		],
+		
+		"./test.txt": [
+			"abcdefghijklmnopqurstuvwxyz"
+			"ABCDEFGHIJKLMNOPQURSTUVWXYZ"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]

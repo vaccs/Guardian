@@ -1,7 +1,12 @@
 
+#include <stdbool.h>
+#include <errno.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #include <debug.h>
+
+#include <defines/argv0.h>
 
 #include "misc/escapes.h"
 
@@ -64,11 +69,23 @@ charset_t process_charset(
 						}
 						else if (highest->integer)
 						{
-							TODO;
+							errno = 0;
+							
+							const char* token = (void*) highest->integer->data;
+							char* m;
+							unsigned long int value = strtoul(token, &m, 0);
+							
+							if (errno || *m || value > 255)
+							{
+								fprintf(stderr, "%s: invalid integer value '%s' for character in charset!\n", argv0, token);
+								exit(1);
+							}
+							
+							retval[value >> 4] = 1 << (value & 0xF);
 						}
 						else if (highest->subcharset)
 						{
-							TODO;
+							retval = process_charset(highest->subcharset);
 						}
 						else
 						{
@@ -110,9 +127,7 @@ charset_t process_charset(
 			charset_t retval = range(intersect->base);
 			
 			for (unsigned i = 0, n = intersect->intersects.n; i < n; i++)
-			{
-				TODO;
-			}
+				retval &= range(intersect->intersects.data[i]);
 			
 			EXIT;
 			return retval;
@@ -121,9 +136,7 @@ charset_t process_charset(
 		charset_t retval = intersect(symdiff->base);
 		
 		for (unsigned i = 0, n = symdiff->xors.n; i < n; i++)
-		{
-			TODO;
-		}
+			retval ^= intersect(symdiff->xors.data[i]);
 		
 		EXIT;
 		return retval;
@@ -132,11 +145,7 @@ charset_t process_charset(
 	charset_t retval = symdiff(root->base);
 	
 	for (unsigned i = 0, n = root->ors.n; i < n; i++)
-	{
-		charset_t or = symdiff(root->ors.data[i]);
-		
-		retval |= or;
-	}
+		retval |= symdiff(root->ors.data[i]);
 	
 	EXIT;
 	return retval;
