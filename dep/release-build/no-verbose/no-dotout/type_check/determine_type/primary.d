@@ -1,9 +1,9 @@
 bin/release-build/no-verbose/no-dotout/./type_check/determine_type/primary.o: \
  type_check/determine_type/primary.c debug.h avl/search.h avl/tree.h \
- avl/freeitem.h avl/compare.h avl/node.h string/new.h string/free.h \
- parse/parse.h named/type/struct.h list/type/new.h list/type/append.h \
- list/type/free.h type/struct.h type/kind.h type/lambda/struct.h \
- type/lambda/../struct.h type_cache/get_type/int.h \
+ avl/freeitem.h avl/compare.h avl/node.h defines/argv0.h string/new.h \
+ string/free.h parse/parse.h named/type/struct.h list/type/new.h \
+ list/type/append.h list/type/free.h type/struct.h type/kind.h \
+ type/lambda/struct.h type/lambda/../struct.h type_cache/get_type/int.h \
  type_cache/get_type/bool.h type_cache/get_type/dict.h \
  type_cache/get_type/list.h type_cache/get_type/charlist.h \
  type_cache/get_type/char.h type_cache/get_type/set.h \
