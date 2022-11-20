@@ -88,7 +88,10 @@ struct type* determine_type_of_primary_expression(
 	{
 		if (expression->elements.n)
 		{
-			TODO;
+			struct type* eletype = determine_type_of_expression(
+				expression->elements.data[0], tcache, scope);
+			
+			type = type_cache_get_set_type(tcache, eletype);
 		}
 		else if (expression->emptyset)
 		{
@@ -103,10 +106,8 @@ struct type* determine_type_of_primary_expression(
 			
 			type = type_cache_get_dict_type(tcache, key, value);
 		}
-		else
+		else if (expression->keyvalues.n >= 1)
 		{
-			assert(expression->keyvalues.n >= 1);
-			
 			struct type* key_type = determine_type_of_expression(
 				expression->keyvalues.data[0]->key, tcache, scope);
 			struct type* value_type = determine_type_of_expression(
@@ -127,6 +128,10 @@ struct type* determine_type_of_primary_expression(
 			}
 			
 			type = type_cache_get_dict_type(tcache, key_type, value_type);
+		}
+		else
+		{
+			TODO;
 		}
 	}
 	else if (expression->paren)

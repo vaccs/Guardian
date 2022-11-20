@@ -4,6 +4,8 @@
 
 #include <debug.h>
 
+#include <stringtree/append_printf.h>
+
 #include "../print.h"
 
 #include "struct.h"
@@ -14,17 +16,15 @@ struct stringtree* tuple_index_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_tuple_index);
 	
 	struct tuple_index_expression* this = (void*) super;
 	
-	expression_print(this->tuple);
+	struct stringtree* tree = expression_print2(this->tuple);
 	
-	printf(".%u", this->index);
-	#endif
+	stringtree_append_printf(tree, ".%u", this->index);
 	
 	EXIT;
+	return tree;
 }
 

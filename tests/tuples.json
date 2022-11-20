@@ -1,6 +1,6 @@
 [{
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/maia",
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",

@@ -284,18 +284,38 @@ struct expression* specialize_postfix_expression(
 				
 				if (lambda_type->parameters->data[i] != arg->type)
 				{
-					TODO;
-					#if 0
-					printf("maia: function call with incorrect types!\n");
-					printf("maia: function type:\n");
-					type_print(sub->type);
+					struct stringtree* tree = new_stringtree();
 					
-					printf("\nmaia: %uth argument type:\n", i);
-					type_print(arg->type);
+					stringtree_append_printf(tree,
+						"%s: function call with incorrect types!\n", argv0);
 					
-					puts("");
+					stringtree_append_printf(tree,
+						"%s: function type: ", argv0);
+					
+					{
+						struct stringtree* subtree = type_print2(sub->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					
+					stringtree_append_printf(tree, "\n");
+					
+					stringtree_append_printf(tree,
+						"%s: %uth argument type: ", argv0, i);
+					
+					{
+						struct stringtree* subtree = type_print2(arg->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					
+					stringtree_append_printf(tree, "\n");
+					
+					stringtree_stream(tree, stderr);
+					
 					exit(1);
-					#endif
+					
+					free_stringtree(tree);
 				}
 				
 				expression_list_append(arguments, arg);

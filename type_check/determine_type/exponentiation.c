@@ -5,6 +5,8 @@
 
 #include <parse/parse.h>
 
+#include <type/struct.h>
+
 #include "unary.h"
 #include "exponentiation.h"
 
@@ -22,7 +24,19 @@ struct type* determine_type_of_exponentiation_expression(
 	}
 	else if (expression->left)
 	{
-		TODO;
+		struct type* subtype = determine_type_of_exponentiation_expression(expression->left, tcache, scope);
+		
+		switch (subtype->kind)
+		{
+			case tk_int:
+			case tk_float:
+				type = subtype;
+				break;
+			
+			default:
+				TODO;
+				break;
+		}
 	}
 	else
 	{
