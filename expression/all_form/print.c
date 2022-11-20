@@ -1,8 +1,14 @@
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include <debug.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
 #include "../print.h"
 
@@ -14,19 +20,30 @@ struct stringtree* all_form_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_all_form);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct all_form_expression* this = (void*) super;
 	
-	printf("len!(");
+	stringtree_append_printf(tree, "all!(");
 	
-	expression_print(this->object);
+	struct stringtree* sub = expression_print2(this->list);
 	
-	printf(")");
-	#endif
+	stringtree_append_tree(tree, sub);
+	
+	free_stringtree(sub);
+	
+	stringtree_append_printf(tree, ")");
 	
 	EXIT;
+	return tree;
 }
+
+
+
+
+
+
+
 

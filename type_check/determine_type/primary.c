@@ -6,6 +6,8 @@
 
 #include <avl/search.h>
 
+#include <defines/argv0.h>
+
 #include <string/new.h>
 #include <string/free.h>
 
@@ -183,7 +185,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->len_form)
 	{
-		TODO;
+		type = type_cache_get_int_type(tcache);
 	}
 	else if (expression->float_form)
 	{
@@ -193,7 +195,7 @@ struct type* determine_type_of_primary_expression(
 	{
 		TODO;
 	}
-	else if (expression->crossmap_form)
+	else if (expression->crossmap_form || expression->map_form)
 	{
 		struct type* generic = determine_type_of_expression(expression->args.data[0], tcache, scope);
 		
@@ -206,6 +208,14 @@ struct type* determine_type_of_primary_expression(
 		struct lambda_type* lambda = (void*) generic;
 		
 		type = type_cache_get_list_type(tcache, lambda->rettype);
+	}
+	else if (expression->all_form)
+	{
+		type = type_cache_get_bool_type(tcache);
+	}
+	else if (expression->any_form)
+	{
+		type = type_cache_get_bool_type(tcache);
 	}
 	else
 	{

@@ -21,6 +21,13 @@ static const char* lookup[number_of_int_math_expression_kinds] = {
 	[imek_qdivide] = "/",
 	[imek_rdivide] = "%",
 	[imek_expo] = "**",
+	
+	[imek_bitand] = "&",
+	[imek_bitior] = "|",
+	[imek_bitxor] = "^",
+	
+	[imek_lshift] = "<<",
+	[imek_rshift] = ">>",
 };
 
 struct stringtree* int_math_expression_print(
@@ -45,8 +52,10 @@ struct stringtree* int_math_expression_print(
 		
 		case imek_bitnot:
 		{
-			TODO;
-/*			printf("~"), expression_print(this->left);*/
+			stringtree_append_printf(tree, "~");
+			struct stringtree* subtree = expression_print2(this->left);
+			stringtree_append_tree(tree, subtree);
+			free_stringtree(subtree);
 			break;
 		}
 		

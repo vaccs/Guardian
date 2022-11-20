@@ -12,6 +12,8 @@
 			
 			"%start: A+ '|' B+;",
 			
+			"_ = map!($int x, y -> int: x * 2 + y, [1, 2, 3], [4, 5, 6]);",
+			
 			"%error: [6, 9, 12] == map!($int x, y -> int: x * 2 + y, [1, 2, 3], [4, 5, 6]);",
 			
 			"%error: [6, 9, 12] == map!($A a, B b -> int: a.value * 2 + b.value, A, B);",

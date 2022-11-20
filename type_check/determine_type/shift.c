@@ -5,6 +5,8 @@
 
 #include <parse/parse.h>
 
+#include <type_cache/get_type/int.h>
+
 #include "additive.h"
 #include "shift.h"
 
@@ -18,12 +20,16 @@ struct type* determine_type_of_shift_expression(
 	
 	if (expression->left)
 	{
-		TODO;
+		type = type_cache_get_int_type(tcache);
 	}
-	else
+	else if (expression->base)
 	{
 		type = determine_type_of_additive_expression(expression->base,
 			tcache, scope);
+	}
+	else
+	{
+		TODO;
 	}
 	
 	EXIT;

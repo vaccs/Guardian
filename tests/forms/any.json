@@ -9,6 +9,8 @@
 			
 			"%start: integer;",
 			
+			"t = any!([false, false, true, false]);",
+			
 			"%error: any!([false, false, true, false]) == true;",
 			
 			"%error: any!([false, false, false, false]) == false;",

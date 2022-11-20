@@ -39,8 +39,8 @@ CFLAGS += -Wno-unused-function
 CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wno-unused-label
 
-CFLAGS += -fsanitize=address
-LDFLAGS += -fsanitize=address
+#CFLAGS += -fsanitize=address
+#LDLIBS += -fsanitize=address -static-libasan
 
 else
 $(error "invalid buildtype!");

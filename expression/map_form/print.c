@@ -1,10 +1,16 @@
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include <debug.h>
 
-#include <list/expression/struct.h>
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
+#include <list/expression/foreach.h>
 
 #include "../print.h"
 
@@ -16,26 +22,42 @@ struct stringtree* map_form_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_map_form);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct map_form_expression* this = (void*) super;
 	
-	printf("map!(");
+	stringtree_append_printf(tree, "crossmap!(");
 	
-	expression_print(this->lambda);
-	
-	for (unsigned i = 0, n = this->arguments->n; i < n; i++)
 	{
-		printf(", ");
-		
-		expression_print(this->arguments->data[i]);
+		struct stringtree* sub = expression_print2(this->lambda);
+		stringtree_append_tree(tree, sub);
+		free_stringtree(sub);
 	}
 	
-	printf(")");
-	#endif
+	bool first = true;
+	
+	expression_list_foreach(this->arguments, ({
+		void runme(struct expression* expression)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			struct stringtree* sub = expression_print2(expression);
+			
+			stringtree_append_tree(tree, sub);
+			
+			free_stringtree(sub);
+		}
+		runme;
+	}));
+	
+	stringtree_append_printf(tree, ", ");
 	
 	EXIT;
+	return tree;
 }
 

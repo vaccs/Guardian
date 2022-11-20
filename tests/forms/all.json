@@ -9,6 +9,8 @@
 			
 			"%start: integer;",
 			
+			"_ = all!([true, true, false, true]);",
+			
 			"%error: all!([true, true, false, true]) == false;",
 			
 			"%error: all!([true, true, true, true]) == true;",

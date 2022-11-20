@@ -1,19 +1,16 @@
 
+#include <stdbool.h>
 #include <assert.h>
-
 #include <stdio.h>
 
 #include <debug.h>
 
-/*#include <string/struct.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
-/*#include <list/parameter/struct.h>*/
-
-/*#include <parameter/struct.h>*/
-
-/*#include <type/print.h>*/
-
-#include <list/expression/struct.h>
+#include <list/expression/foreach.h>
 
 #include "../print.h"
 
@@ -25,31 +22,37 @@ struct stringtree* tuple_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_tuple);
+	
+	struct stringtree* tree = new_stringtree();
 	
 	struct tuple_expression* this = (void*) super;
 	
-	printf("(");
+	stringtree_append_printf(tree, "(");
 	
-	unsigned i, n;
+	bool first = true;
 	
-	for (i = 0, n = this->subexpressions->n; i < n; i++)
-	{
-		expression_print(this->subexpressions->data[i]);
-		
-		if (i + 1 < n)
-			printf(", ");
-	}
+	expression_list_foreach(this->subexpressions, ({
+		void runme(struct expression* expression)
+		{
+			if (first)
+				first = false;
+			else
+				stringtree_append_printf(tree, ", ");
+			
+			struct stringtree* subtree = expression_print2(expression);
+			
+			stringtree_append_tree(tree, subtree);
+			
+			free_stringtree(subtree);
+		}
+		runme;
+	}));
 	
-	if (n == 1)
-		printf(", ");
-	
-	printf(")");
-	#endif
+	stringtree_append_printf(tree, ")");
 	
 	EXIT;
+	return tree;
 }
 
 
