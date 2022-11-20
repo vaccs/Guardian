@@ -1,0 +1,59 @@
+
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"decimal: /float: ['0'-'9']+ '.' ['0'-'9']+/ #value;"
+			
+			"%start: decimal decimal;",
+			
+			"f1 = decimal[0].value;",
+			"f2 = decimal[1].value;",
+			
+			"test07 = (3.5 >  2.5); %error: true  == (3.5 >  2.5);",
+			"test08 = (3.5 >= 2.5); %error: true  == (3.5 >= 2.5);",
+			"test09 = (3.5 == 2.5); %error: false == (3.5 == 2.5);",
+			"test10 = (3.5 != 2.5); %error: true  == (3.5 != 2.5);",
+			"test11 = (3.5 <= 2.5); %error: false == (3.5 <= 2.5);",
+			"test12 = (3.5 <  2.5); %error: false == (3.5 <  2.5);",
+			
+			"%error: +3.0 == (+f1);",
+			"%error: -3.0 == (-f1);",
+			
+			"%error: true  == (f1 >  2.5);",
+			"%error: true  == (f1 >= 2.5);",
+			"%error: false == (f1 == 2.5);",
+			"%error: true  == (f1 != 2.5);",
+			"%error: false == (f1 <= 2.5);",
+			"%error: false == (f1 <  2.5);",
+		],
+		
+		"./test.txt": [
+			"3.0 2.31"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp -lm",
+		"./out ./test.txt"
+	],
+}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

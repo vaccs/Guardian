@@ -26,6 +26,8 @@
 			
 			"%start: start;",
 			
+			"_ = start[0].value has list;",
+			
 			"%error: start[0].value has list;",
 			
 			"x = start[0].value.list.elements;",

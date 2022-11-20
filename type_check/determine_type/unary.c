@@ -76,10 +76,6 @@ struct type* determine_type_of_unary_expression(
 				type = type_cache_get_int_type(tcache);
 				break;
 			
-			case tk_float:
-				TODO;
-				break;
-			
 			default:
 				TODO;
 				break;
@@ -93,4 +89,12 @@ struct type* determine_type_of_unary_expression(
 	EXIT;
 	return type;
 }
+
+
+
+
+
+
+
+
 

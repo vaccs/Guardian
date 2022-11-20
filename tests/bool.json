@@ -15,6 +15,8 @@
 			"b3 = true;",
 			"b4 = false;",
 			
+			"b6 = !b1;",
+			
 			"%error: true  == ( true);",
 			"%error: false == ( false);",
 			
@@ -26,12 +28,16 @@
 			"%error: true  == (false || true );",
 			"%error: false == (false || false);",
 			
+			"test01 = b1 || true;",
+			
 			"%error: true  == (b1 || true );",
 			"%error: true  == (b1 || false);",
 			"%error: true  == (true  || b2);",
 			"%error: false == (false || b2);",
 			
 			"%error: true  == (b1 || b2);",
+			
+			"test00 = true  && true;",
 			
 			"%error: true  == (true  && true );",
 			"%error: false == (true  && false);",
@@ -73,18 +79,20 @@
 			"%error: false == (true  <  false);",
 			"%error: true  == (false <  true );",
 			"%error: false == (false <  false);",
-
+			
 			"%error: true  == (true  implies true );",
 			"%error: false == (true  implies false);",
 			"%error: true  == (false implies true );",
 			"%error: true  == (false implies false);",
-
+			
+			"test02 = b1 implies true;",
+			
 			"%error: true  == (b1    implies true );",
 			"%error: false == (b1    implies false);",
 			"%error: false == (true  implies b2   );",
 			"%error: true  == (false implies b2   );",
 			"%error: false == (b1    implies b2   );",
-
+			
 			"%error: true  == (b1 >  b2);",
 			"%error: true  == (b1 >= b2);",
 			"%error: false == (b1 == b2);",

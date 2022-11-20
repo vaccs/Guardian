@@ -88,12 +88,6 @@ struct expression* specialize_additive_expression(
 		{
 			case tk_int:
 			{
-				if (left->type != right->type)
-				{
-					TODO;
-					exit(1);
-				}
-				
 				if (all_literals)
 				{
 					struct literal_expression* spef_left = (void*) left;
@@ -135,12 +129,6 @@ struct expression* specialize_additive_expression(
 			
 			case tk_float:
 			{
-				if (left->type != right->type)
-				{
-					TODO;
-					exit(1);
-				}
-				
 				if (all_literals)
 				{
 					struct literal_expression* leftlit = (void*) left;
@@ -277,7 +265,7 @@ struct expression* specialize_additive_expression(
 					TODO;
 					exit(1);
 				}
-			
+				
 				if (zexpression->add)
 				{
 					if (all_literals)
