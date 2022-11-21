@@ -111,9 +111,9 @@ void parse_driver(
 			{
 				struct zebu_statement* statement = start->statements.data[i];
 				
-				if (statement->using)
+				if (statement->include)
 				{
-					char* path = (void*) statement->using->path->data;
+					char* path = (void*) statement->include->path->data;
 					
 					path++, path[strlen(path) - 1] = 0;
 					

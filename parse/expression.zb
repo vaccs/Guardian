@@ -23,17 +23,17 @@ primary_expression
 	| "any!"          #any_form '(' expression #arg ')'
 	| "bool!"         #bool_form '(' expression #arg ')'
 //	| "call!"         #call_form '(' expression #arg ')'
-	| "char!"         #char_form '(' expression #arg ')'
+//	| "char!"         #char_form '(' expression #arg ')'
 	| "crossmap!"     #crossmap_form '(' expression #args[]  (',' expression #args[])+ ')'
-	| "dictmap!"      #dictmap_form '(' expression #arg ')'
-	| "filter!"       #filter_form '(' expression #arg ')'
+//	| "dictmap!"      #dictmap_form '(' expression #arg ')'
+//	| "filter!"       #filter_form '(' expression #arg ')'
 	| "float!"        #float_form '(' expression #arg ')'
 //	| "intersectmap!" #intersectmap_form '(' expression #arg ')'
 	| "int!"          #int_form '(' expression #arg ')'
 	| "len!"          #len_form '(' expression #arg ')'
-	| "map!"          #map_form '(' expression #args[] (',' expression #args[])+ ')'
-	| "max!"          #max_form '(' expression #args[] (',' expression #args[])? ')'
-	| "min!"          #min_form '(' expression #args[] (',' expression #args[])? ')'
+//	| "map!"          #map_form '(' expression #args[] (',' expression #args[])+ ')'
+//	| "max!"          #max_form '(' expression #args[] (',' expression #args[])? ')'
+//	| "min!"          #min_form '(' expression #args[] (',' expression #args[])? ')'
 	| "range!"        #range_form '(' expression #args[] (',' expression #args[])? ')'
 	| "reduce!"       #reduce_form '('expression #args[] ',' expression #args[] ')'
 	| "set!"          #set_form '(' expression #arg ')'
@@ -41,6 +41,11 @@ primary_expression
 	| "sum!"          #sum_form '(' expression #arg ')'
 //	| "unionmap!"     #unionmap_form '(' expression #arg ')'
 //	| "zip!"          #zip_form '(' expression #args[]  (',' expression #args[])* ')'
+
+	| "isabspath!"      #isabspath_form '(' expression #arg ')'
+	| "isdir!"          #isdir_form '(' expression #arg ')'
+	| "isaccessibleto!" #isaccessibleto_form '(' expression #args[] ',' expression #args[] ')'
+	| "isexecutableby!" #isexecutableby_form '(' expression #args[] ',' expression #args[] ')'
 	
 	// tuples:
 	| '(' #paren                                                             ')'
@@ -120,13 +125,19 @@ relational_expression
 
 equality_expression
 	: relational_expression #base
-	| equality_expression #left "==" relational_expression #right
-	| equality_expression #left "!=" #not relational_expression #right
+	| equality_expression #left "==" #e relational_expression #right
+	| equality_expression #left "!=" #n relational_expression #right
+	;
+
+match_expression
+	: equality_expression #base
+	| equality_expression #left "=~" #e equality_expression #right
+	| equality_expression #left "!~" #n equality_expression #right
 	;
 
 and_expression
-	: equality_expression #base
-	| and_expression #left '&' equality_expression #right
+	: match_expression #base
+	| and_expression #left '&' match_expression #right
 	;
 
 exclusive_or_expression

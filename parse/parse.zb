@@ -22,7 +22,7 @@
 
 %include "grammar.zb"
 
-using_directive: "%" "using" ":" `string` #path ';';
+include_directive: "%" "include" ":" `string` #path ';';
 
 skip_directive: "%" "skip" ":" regex #regex ';';
 
@@ -41,7 +41,7 @@ declare_statement: `identifier` #name '=' expression #expression ';';
 grammar_rule: `identifier` #name ':' grammar #grammar ';';
 
 statement
-	: using_directive   #using
+	: include_directive #include
 	| skip_directive    #skip
 	| assert_statement  #assert
 	| print_statement   #print

@@ -1,5 +1,5 @@
 
-%parse: "/etc/passwd" as passwd_file;
+%parse: argv as passwd_file;
 
 passwd_file: (passwd_record '\n')+;
 
@@ -26,50 +26,36 @@ directory: /[!(':', '\n')]* / #path;
 
 shell: /[!(':', '\n')]* /;
 
-%using: "./crypt.maia";
+%include: "./crypt.maia";
 
-%using: "./set-functions.maia";
-
-// map!($name n -> char[]: n.value, name);
+%include: "./set-functions.maia";
 
 %error: is_unique(map!($name n -> char[]: n.value, name));
 
 %error: any!(map!($name n -> bool: n.value == "root", name));
 
-//(warn) name : name ~ /[A-Z]/;
-
-// %warning: any!(map!($name n -> bool: n.value ~= /['A'-'Z']+/, name));
+%warning: any!(map!($name n -> bool: n.value =~ /['A'-'Z']+/, name));
 
 %error: all!(map!($uid u -> bool: u.value <= 65535, uid));
 
 %error: all!(map!($gid g -> bool: g.value <= 65535, gid));
 
-//directory : directory isAbsPath() and directory isDirectory();
-
-// %error: all!(map!(
-	// $directory d -> bool:
-		// isabspath!(d.path) and isdir!(d.path),
-	// directory));
+%error: all!(map!(
+	$directory d -> bool: isabspath!(d.path) && isdir!(d.path), directory));
 
 %error: all!(map!(
 	$passwd_record pr -> bool:
 		pr.name.value == "root" implies pr.uid.value == 0,
 	passwd_record));
 
-//passwdRecord : directory isAccessibleTo(name);
+%error: all!(map!(
+	$passwd_record pr -> bool: isaccessibleto!(pr.name, d.path), passwd_record));
 
-// %error: all!(map!(
-	// $passwd_record pr -> bool:
-		// isaccessibleto!(pr.name, d.path),
-	// passwd_record));
-
-//passwdRecord : shell != "" implies (shell is AbsPath() and shell is ExecutableBy(user));
-
-// %error: all!(map!(
-	// $passwd_record pr -> bool:
-		// pr.shell != "" implies
-			// isabspath!(pr.shell) && isexecutableby!(pr.user, pr.shell),
-	// passwd_record));
+%error: all!(map!(
+	$passwd_record pr -> bool:
+		pr.shell != "" implies
+			isabspath!(pr.shell) && isexecutableby!(pr.user, pr.shell),
+	passwd_record));
 
 
 
