@@ -24,7 +24,7 @@
 			
 			"start: value #value;",
 			
-			"%start: start;",
+			"%parse: argv as start;",
 			
 			"_ = start[0].value has list;",
 			

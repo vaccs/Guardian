@@ -296,6 +296,7 @@ struct zebu_multiplicative_expression
 
 struct zebu_parse_statement
 {
+	struct zebu_token* argv;
 	struct zebu_expression* expression;
 	struct zebu_grammar* grammar;
 	struct zebu_token* parse;

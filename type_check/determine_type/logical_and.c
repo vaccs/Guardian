@@ -5,6 +5,8 @@
 
 #include <parse/parse.h>
 
+#include <type_cache/get_type/bool.h>
+
 #include "inclusive_or.h"
 #include "logical_and.h"
 
@@ -18,7 +20,7 @@ struct type* determine_type_of_logical_and_expression(
 	
 	if (expression->left)
 	{
-		TODO;
+		type = type_cache_get_bool_type(tcache);
 	}
 	else
 	{

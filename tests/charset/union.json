@@ -5,7 +5,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: /['a'-'k' | 'p'-'z']+/;",
+			"%parse: argv as /['a'-'k' | 'p'-'z']+/;",
 		],
 		
 		"./test.txt": [

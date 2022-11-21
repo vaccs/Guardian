@@ -32,14 +32,11 @@ assert_statement
 	| "%"   "error" #error   ':' expression #expression ';'
 	;
 
-print_statement
-	:                          expression #expression ';'
-	| "%" "print" #print   ':' expression #expression ';'
-	;
+print_statement: ("%" "print" #print ':')? expression #expression ';';
 
-parse_statement: "%" "parse" #parse   ':' expression #expression "as" grammar #grammar ';';
+parse_statement: "%" "parse" #parse ':' (expression #expression | "argv" #argv) "as" grammar #grammar ';';
 
-declare_statement: `identifier` #name    '=' expression #expression ';';
+declare_statement: `identifier` #name '=' expression #expression ';';
 
 grammar_rule: `identifier` #name ':' grammar #grammar ';';
 

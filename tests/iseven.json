@@ -7,7 +7,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"x = number[0].value;",
 			"y = number[1].value;",
@@ -38,7 +38,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"x = number[0].value;",
 			"y = number[1].value;",
@@ -68,7 +68,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"x = number[0].value;",
 			"y = number[1].value;",

@@ -20,7 +20,7 @@ int compare_float_value(
 	if (A->value > B->value)
 		cmp = +1;
 	else if (A->value < B->value)
-		cmp = +1;
+		cmp = -1;
 	else
 		cmp = +0;
 	

@@ -61,6 +61,8 @@ void process_parse(
 		exit(1);
 	}
 	
+	assert(zstatement->expression || zstatement->argv);
+	
 	struct raw_statement* statement = new_raw_parse(
 		zstatement->parse->line, zstatement->expression, name, simp);
 	

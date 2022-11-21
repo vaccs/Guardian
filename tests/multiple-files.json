@@ -8,8 +8,8 @@
 			
 			"word: /['a'-'z']+/ #value;",
 			
-			"%parse: \"test1.txt\" with word;",
-			"%parse: \"test2.txt\" with word;",
+			"%parse: \"test1.txt\" as word;",
+			"%parse: \"test2.txt\" as word;",
 			
 			"%error: len!(word) == 2;",
 			
@@ -36,13 +36,73 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
+			"word: /['a'-'z']+/ #value;",
+			
+			"%parse: argv as word;",
+			"%parse: \"test2.txt\" as word;",
+			
+			"%error: len!(word) == 2;",
+			
+			"%warning: word[0].value == word[1].value;",
+		],
+		
+		"./test1.txt": [
+			"abc"
+		],
+		
+		"./test2.txt": [
+			"abc"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test1.txt"
+	]
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"word: /['a'-'z']+/ #value;",
+			
+			"%parse: argv as word;",
+			"%parse: argv as word;",
+			
+			"%error: len!(word) == 2;",
+			
+			"%warning: word[0].value == word[1].value;",
+		],
+		
+		"./test1.txt": [
+			"abc"
+		],
+		
+		"./test2.txt": [
+			"abc"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test1.txt ./test2.txt"
+	]
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
 			"boolean: /bool: \"true\" | \"false\"/ #value;",
 			
 			"%parse: \"conditional.txt\" as boolean;",
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"conditional = boolean[0].value",
+			"conditional = boolean[0].value;",
 			
 			"%parse: (conditional ? \"true_case.txt\" : \"false_case.txt\") as integer;",
 			

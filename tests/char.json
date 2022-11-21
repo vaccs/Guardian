@@ -8,7 +8,7 @@
 			
 			"character: /char: ['a'-'z']/ #value;",
 			
-			"%start: character character;",
+			"%parse: argv as character character;",
 			
 			"%print: 'a';",
 			"%print: '\\\\';",
@@ -48,7 +48,7 @@
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: '\\';",
 		],
@@ -70,7 +70,7 @@
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: '\\j';",
 		],

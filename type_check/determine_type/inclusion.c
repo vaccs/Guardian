@@ -5,6 +5,8 @@
 
 #include <parse/parse.h>
 
+#include <type_cache/get_type/bool.h>
+
 #include "logical_or.h"
 #include "inclusion.h"
 
@@ -18,7 +20,7 @@ struct type* determine_type_of_inclusion_expression(
 	
 	if (expression->container)
 	{
-		TODO;
+		type = type_cache_get_bool_type(tcache);
 	}
 	else if (expression->base)
 	{

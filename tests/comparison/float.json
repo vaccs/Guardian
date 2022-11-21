@@ -8,7 +8,7 @@
 			
 			"decimal: /float: ['0'-'9']+ '.' ['0'-'9']+/ #value;"
 			
-			"%start: decimal decimal;",
+			"%parse: argv as decimal decimal;",
 			
 			"f1 = decimal[0].value;",
 			"f2 = decimal[1].value;",

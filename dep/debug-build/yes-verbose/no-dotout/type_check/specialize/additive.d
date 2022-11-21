@@ -14,5 +14,7 @@ bin/debug-build/yes-verbose/no-dotout/./type_check/specialize/additive.o: \
  value/float/../struct.h value/float/../kind.h value/float/new.h \
  type/tuple/struct.h type/tuple/../struct.h type_cache/get_type/int.h \
  type_cache/get_type/tuple.h list/type/new.h list/type/extend.h \
- list/type/free.h value/free.h type_check/specialize/multiplicative.h \
- type_check/specialize/additive.h
+ list/type/free.h stringtree/new.h stringtree/append_printf.h \
+ stringtree/append_tree.h stringtree/free.h stringtree/stream.h \
+ type/print.h defines/argv0.h value/free.h \
+ type_check/specialize/multiplicative.h type_check/specialize/additive.h

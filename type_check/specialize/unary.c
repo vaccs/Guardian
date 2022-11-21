@@ -8,6 +8,16 @@
 
 #include <type/struct.h>
 
+#include <defines/argv0.h>
+
+#include <type/print.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
+
 #include <value/bool/struct.h>
 #include <value/bool/new.h>
 #include <value/float/struct.h>
@@ -19,6 +29,7 @@
 #include <expression/int_math/new.h>
 #include <expression/int_math/run.h>
 #include <expression/float_math/new.h>
+#include <expression/bool_not/new.h>
 #include <expression/literal/struct.h>
 #include <expression/inc.h>
 #include <expression/free.h>
@@ -52,8 +63,26 @@ struct expression* specialize_unary_expression(
 					break;
 				
 				default:
-					TODO;
+				{
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree, "%s: incompatiable types for unary-plus: '", argv0);
+					
+					{
+						struct stringtree* subtree = type_print2(subexpression->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					
+					stringtree_append_printf(tree, "'!\n");
+					
+					stringtree_stream(tree, stderr);
+					
+					exit(1);
+					
+					free_stringtree(tree);
 					break;
+				}
 			}
 		}
 		else if (zexpression->minus)
@@ -103,16 +132,49 @@ struct expression* specialize_unary_expression(
 				}
 				
 				default:
-					TODO;
+				{
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree, "%s: incompatiable types for unary-minus: '", argv0);
+					
+					{
+						struct stringtree* subtree = type_print2(subexpression->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					
+					stringtree_append_printf(tree, "'!\n");
+					
+					stringtree_stream(tree, stderr);
+					
+					exit(1);
+					
+					free_stringtree(tree);
 					break;
+				}
 			}
 		}
 		else if (zexpression->lognot)
 		{
 			if (subexpression->type->kind != tk_bool)
 			{
-				TODO;
+				struct stringtree* tree = new_stringtree();
+				
+				stringtree_append_printf(tree, "%s: incompatiable types for logical-not: '", argv0);
+				
+				{
+					struct stringtree* subtree = type_print2(subexpression->type);
+					stringtree_append_tree(tree, subtree);
+					free_stringtree(subtree);
+				}
+				
+				stringtree_append_printf(tree, "'!\n");
+				
+				stringtree_stream(tree, stderr);
+				
 				exit(1);
+				
+				free_stringtree(tree);
 			}
 			
 			if (subexpression->kind == ek_literal)
@@ -129,15 +191,30 @@ struct expression* specialize_unary_expression(
 			}
 			else
 			{
-				TODO;
+				retval = new_bool_not_expression(subexpression->type, subexpression);
 			}
 		}
 		else if (zexpression->bitnot)
 		{
 			if (subexpression->type->kind != tk_int)
 			{
-				TODO;
+				struct stringtree* tree = new_stringtree();
+				
+				stringtree_append_printf(tree, "%s: incompatiable types for bitwise-not: '", argv0);
+				
+				{
+					struct stringtree* subtree = type_print2(subexpression->type);
+					stringtree_append_tree(tree, subtree);
+					free_stringtree(subtree);
+				}
+				
+				stringtree_append_printf(tree, "'!\n");
+				
+				stringtree_stream(tree, stderr);
+				
 				exit(1);
+				
+				free_stringtree(tree);
 			}
 			
 			if (subexpression->kind == ek_literal)

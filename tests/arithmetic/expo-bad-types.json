@@ -6,7 +6,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: '3' ** [true, false];",
 		],
@@ -20,4 +20,5 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+	"exit-code": 1,
 }]

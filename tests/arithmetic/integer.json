@@ -8,7 +8,7 @@
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"%start: integer integer;",
+			"%parse: argv as integer integer;",
 			
 			"i1 = integer[0].value;",
 			"i2 = integer[1].value;",

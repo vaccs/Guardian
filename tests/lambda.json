@@ -3,7 +3,7 @@
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
 		
 		"./input.maia": [
-			"%start: \"abc\";"
+			"%parse: argv as \"abc\";"
 		]
 	},
 	"commands": [
@@ -21,7 +21,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"f = $int x -> ($ -> ($int -> ($ -> int))):",
 				"$ -> ($int -> ($ -> int)): ",
@@ -49,7 +49,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"f = $int x -> ($ -> ($int -> ($ -> int))):",
 				"$ -> ($int -> ($ -> int)): ",
@@ -75,7 +75,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"f = $int x -> ($ -> ($int -> ($ -> int))):",
 				"$ -> ($int -> ($ -> int)): ",
@@ -106,7 +106,7 @@
 			
 			"number: /int: ['0'-'9']+/ #value;",
 			
-			"%start: number number;",
+			"%parse: argv as number number;",
 			
 			"f = $int x -> ($ -> ($int -> ($ -> int))):",
 				"$ -> ($int -> ($ -> int)): ",
@@ -138,7 +138,7 @@
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"%start: integer;",
+			"%parse: argv as integer;",
 			
 			"u = integer[0].value;",
 			
@@ -167,7 +167,7 @@
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"%start: integer;",
+			"%parse: argv as integer;",
 			
 			"u = integer[0].value;",
 			
@@ -207,7 +207,7 @@
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"%start: integer;",
+			"%parse: argv as integer;",
 			
 			"u = integer[0].value;",
 			
@@ -239,7 +239,7 @@
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"%start: integer;",
+			"%parse: argv as integer;",
 			
 			"u = integer[0].value;",
 			

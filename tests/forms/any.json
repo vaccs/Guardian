@@ -7,7 +7,7 @@
 			
 			"integer: /int: ['0'-'9']+/ #value;",
 			
-			"%start: integer;",
+			"%parse: argv as integer;",
 			
 			"t = any!([false, false, true, false]);",
 			

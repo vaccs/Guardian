@@ -74,7 +74,7 @@ struct stringtree* int_form_expression_print_source(
 			
 			stringtree_append_printf(tree, "for (unsigned i = 0; i < n; i++)");
 			stringtree_append_printf(tree, "{");
-			stringtree_append_printf(tree, "	buffer[i] = sub->data[i]->code;");
+			stringtree_append_printf(tree, "	buffer[i] = sub->data[i]->value;");
 			stringtree_append_printf(tree, "}");
 			
 			stringtree_append_printf(tree, "buffer[n] = 0;");

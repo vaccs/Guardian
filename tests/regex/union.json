@@ -5,7 +5,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: /('a'|'A') ('b'|'B') ('c'|'C')/+;",
+			"%parse: argv as /('a'|'A') ('b'|'B') ('c'|'C')/+;",
 		],
 		
 		"./test.txt": [

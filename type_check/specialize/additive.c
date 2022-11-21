@@ -44,6 +44,16 @@
 #include <list/type/extend.h>
 #include <list/type/free.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+#include <stringtree/stream.h>
+
+#include <type/print.h>
+
+#include <defines/argv0.h>
+
 /*#include <value/tuple/struct.h>*/
 /*#include <value/tuple/new.h>*/
 /*#include <value/int/struct.h>*/
@@ -81,8 +91,28 @@ struct expression* specialize_additive_expression(
 		
 		if (left->type->kind != right->type->kind)
 		{
-			TODO;
+			struct stringtree* tree = new_stringtree();
+			
+			stringtree_append_printf(tree, "%s: incompatiable types for addition: '", argv0);
+			
+			{
+				struct stringtree* subtree = type_print2(left->type);
+				stringtree_append_tree(tree, subtree);
+				free_stringtree(subtree);
+			}
+			stringtree_append_printf(tree, "' and '");
+			{
+				struct stringtree* subtree = type_print2(right->type);
+				stringtree_append_tree(tree, subtree);
+				free_stringtree(subtree);
+			}
+			stringtree_append_printf(tree, "'!\n");
+			
+			stringtree_stream(tree, stderr);
+			
 			exit(1);
+			
+			free_stringtree(tree);
 		}
 		else switch (left->type->kind)
 		{
@@ -172,8 +202,28 @@ struct expression* specialize_additive_expression(
 			{
 				if (left->type != right->type)
 				{
-					TODO;
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree, "%s: incompatiable types for list concatenation: '", argv0);
+					
+					{
+						struct stringtree* subtree = type_print2(left->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					stringtree_append_printf(tree, "' and '");
+					{
+						struct stringtree* subtree = type_print2(right->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					stringtree_append_printf(tree, "'!\n");
+					
+					stringtree_stream(tree, stderr);
+					
 					exit(1);
+					
+					free_stringtree(tree);
 				}
 				
 				if (zexpression->add)
@@ -262,8 +312,28 @@ struct expression* specialize_additive_expression(
 			{
 				if (left->type != right->type)
 				{
-					TODO;
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree, "%s: incompatiable types for dict union: '", argv0);
+					
+					{
+						struct stringtree* subtree = type_print2(left->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					stringtree_append_printf(tree, "' and '");
+					{
+						struct stringtree* subtree = type_print2(right->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					stringtree_append_printf(tree, "'!\n");
+					
+					stringtree_stream(tree, stderr);
+					
 					exit(1);
+					
+					free_stringtree(tree);
 				}
 				
 				if (zexpression->add)
@@ -319,8 +389,28 @@ struct expression* specialize_additive_expression(
 			{
 				if (left->type != right->type)
 				{
-					TODO;
+					struct stringtree* tree = new_stringtree();
+					
+					stringtree_append_printf(tree, "%s: incompatiable types for set union: '", argv0);
+					
+					{
+						struct stringtree* subtree = type_print2(left->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					stringtree_append_printf(tree, "' and '");
+					{
+						struct stringtree* subtree = type_print2(right->type);
+						stringtree_append_tree(tree, subtree);
+						free_stringtree(subtree);
+					}
+					stringtree_append_printf(tree, "'!\n");
+					
+					stringtree_stream(tree, stderr);
+					
 					exit(1);
+					
+					free_stringtree(tree);
 				}
 			
 				if (zexpression->add)

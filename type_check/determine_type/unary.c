@@ -7,7 +7,7 @@
 
 #include <type/struct.h>
 
-#include <type_cache/get_type/int.h>
+#include <type_cache/get_type/bool.h>
 
 #include "postfix.h"
 #include "unary.h"
@@ -31,11 +31,8 @@ struct type* determine_type_of_unary_expression(
 		switch (subtype->kind)
 		{
 			case tk_int:
-				type = type_cache_get_int_type(tcache);
-				break;
-			
 			case tk_float:
-				TODO;
+				type = subtype;
 				break;
 			
 			default:
@@ -50,11 +47,8 @@ struct type* determine_type_of_unary_expression(
 		switch (subtype->kind)
 		{
 			case tk_int:
-				type = type_cache_get_int_type(tcache);
-				break;
-			
 			case tk_float:
-				TODO;
+				type = subtype;
 				break;
 			
 			default:
@@ -64,7 +58,7 @@ struct type* determine_type_of_unary_expression(
 	}
 	else if (expression->lognot)
 	{
-		TODO;
+		type = type_cache_get_bool_type(tcache);
 	}
 	else if (expression->bitnot)
 	{
@@ -73,7 +67,7 @@ struct type* determine_type_of_unary_expression(
 		switch (subtype->kind)
 		{
 			case tk_int:
-				type = type_cache_get_int_type(tcache);
+				type = subtype;
 				break;
 			
 			default:

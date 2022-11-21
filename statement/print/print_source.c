@@ -33,6 +33,7 @@ struct stringtree* print_statement_print_source(
 	
 	struct stringtree* tree = new_stringtree();
 	
+	stringtree_append_printf(tree, "if (verbose)");
 	stringtree_append_printf(tree, "{");
 	
 	stringtree_append_printf(tree, "struct type_%u* printme = ", this->expression->type->id);

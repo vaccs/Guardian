@@ -6,7 +6,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: 3 + '3';",
 		],
@@ -20,6 +20,7 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+	"exit-code": 1,
 }, {
 	"files": {
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
@@ -27,7 +28,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: 3 + 3.4;",
 		],
@@ -41,6 +42,7 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+	"exit-code": 1,
 }, {
 	"files": {
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
@@ -48,7 +50,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: [1, 2] + [1.1, 2.2];",
 		],
@@ -62,6 +64,7 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+	"exit-code": 1,
 }, {
 	"files": {
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
@@ -69,7 +72,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: {1, 2} + {1.1, 2.2};",
 		],
@@ -83,6 +86,7 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+	"exit-code": 1,
 }, {
 	"files": {
 		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
@@ -90,7 +94,7 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: {1: 1, 2: 2} + {3: 1.1, 4: 2.2};",
 		],
@@ -104,6 +108,7 @@
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
+	"exit-code": 1,
 }]
 
 

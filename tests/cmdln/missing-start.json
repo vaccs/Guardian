@@ -12,8 +12,7 @@
 	},
 	"commands": [
 		"./maia -i ./input.maia -o out.c",
-		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"gcc -Wall ./out.c -o ./out -lgmp",
 		"./out ./test.txt"
 	],
-	"exit-code": 3,
 }]

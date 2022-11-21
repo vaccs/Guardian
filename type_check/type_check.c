@@ -422,36 +422,41 @@ void type_check(
 				
 				case rsk_parse:
 				{
-					struct expression* specialized = specialize_expression(
-						tcache, scope, raw_statement->expression);
+					struct expression* specialized = NULL;
 					
-					#ifdef VERBOSE
+					if (raw_statement->expression)
 					{
-						struct stringtree* tree = new_stringtree();
+						specialized = specialize_expression(
+							tcache, scope, raw_statement->expression);
 						
-						stringtree_append_printf(tree,
-							"%s: specialized parse statement on line %u: ",
-							argv0, raw_statement->line);
+						#ifdef VERBOSE
+						{
+							struct stringtree* tree = new_stringtree();
+							
+							stringtree_append_printf(tree,
+								"%s: specialized parse statement on line %u: ",
+								argv0, raw_statement->line);
+							
+							struct stringtree* subtree = expression_print2(specialized);
+							
+							stringtree_append_tree(tree, subtree);
+							
+							stringtree_append_printf(tree, "\n");
+							
+							stringtree_stream(tree, stdout);
+							
+							free_stringtree(tree);
+							free_stringtree(subtree);
+						}
+						#endif
 						
-						struct stringtree* subtree = expression_print2(specialized);
+						struct type* charlist = type_cache_get_charlist_type(tcache);
 						
-						stringtree_append_tree(tree, subtree);
-						
-						stringtree_append_printf(tree, "\n");
-						
-						stringtree_stream(tree, stdout);
-						
-						free_stringtree(tree);
-						free_stringtree(subtree);
-					}
-					#endif
-					
-					struct type* charlist = type_cache_get_charlist_type(tcache);
-					
-					if (specialized->type != charlist)
-					{
-						TODO;
-						exit(1);
+						if (specialized->type != charlist)
+						{
+							TODO;
+							exit(1);
+						}
 					}
 					
 					struct statement* statement = new_parse_statement(

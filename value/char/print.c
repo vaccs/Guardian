@@ -35,6 +35,7 @@ struct stringtree* char_value_print(
 		case ')':
 		case '/':
 		case '.':
+		case '_':
 			stringtree_append_printf(tree, "'%c'", this->value);
 			break;
 		

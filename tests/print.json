@@ -5,7 +5,7 @@
 		"./input.maia": [
 			"%skip: \"\\n\";",
 			
-			"%start: \"abc\";",
+			"%parse: argv as \"abc\";",
 			
 			"%print: 1;",
 			

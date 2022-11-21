@@ -101,20 +101,25 @@ static void escape(char *out, unsigned char in)
 int main(int argc, char* const* argv)
 {
 	const char* const argv0 = argv[0];
+	bool verbose = false;
 	
 	void usage(int code)
 	{
-		fprintf(stderr, "usage: %s: [-vh] <input-file>\n", argv0);
+		fprintf(stderr, "usage: %s: [-vh] <paths...>\n", argv0);
 		exit(code);
 	}
 	
 	int opt;
-	while ((opt = getopt(argc, argv, "h")) != -1)
+	while ((opt = getopt(argc, argv, "hv")) != -1)
 	{
 		switch (opt)
 		{
 			case 'h':
 				usage(0);
+				break;
+			
+			case 'v':
+				verbose = true;
 				break;
 			
 			default:
@@ -123,20 +128,7 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
-	#if 0
-	const char* const input_path = argv[optind++];
-	
-	if (!input_path)
-		usage(1);
-	
-	FILE* stream = fopen(input_path, "r");
-	
-	if (!stream)
-	{
-		fprintf(stderr, "%s: fopen(\"%s\"): %m\n", argv0, input_path);
-		exit(1);
-	}
-	#endif
+	argv += optind;
 	
 	// declare root environment:
 	{{DECLARE_ENVIRONMENT}}
