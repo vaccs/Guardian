@@ -9,7 +9,6 @@ enum funcdata_kind
 	fk_compare,
 	fk_append,
 	fk_print,
-	fk_index,
 	fk_free,
 	
 	fk_lambda_new,

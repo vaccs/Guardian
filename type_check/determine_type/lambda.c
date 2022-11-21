@@ -44,12 +44,10 @@ struct type* determine_type_of_lambda_expression(
 				
 				if (ele->type)
 				{
-					TODO;
+					type = build_primitive_type(tcache, ele->type);
 				}
-				else
-				{
-					type_list_append(parameter_types, type);
-				}
+				
+				type_list_append(parameter_types, type);
 			}
 		}
 		

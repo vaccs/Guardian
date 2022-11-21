@@ -4,29 +4,38 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include "../print.h"
 
 #include "struct.h"
 #include "print.h"
 
-struct stringtree* sum_expression_print(
+struct stringtree* sum_form_expression_print(
 	struct expression* super)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_sum_form);
 	
-	struct sum_expression* this = (void*) super;
+	struct stringtree* tree = new_stringtree();
 	
-	printf("sum!(");
+	struct sum_form_expression* this = (void*) super;
 	
-	expression_print(this->list);
+	stringtree_append_printf(tree, "sum!(");
 	
-	printf(")");
-	#endif
+	struct stringtree* sub = expression_print2(this->list);
+	
+	stringtree_append_tree(tree, sub);
+	
+	stringtree_append_printf(tree, ")");
+	
+	free_stringtree(sub);
 	
 	EXIT;
+	return tree;
 }
 

@@ -6,10 +6,9 @@ bin/test-build/no-verbose/no-dotout/./out/function_queue/process.o: \
  type/generate_inc_forward.h type/generate_compare_func.h \
  type/generate_compare_forward.h type/generate_print_forward.h \
  type/generate_print_func.h type/generate_free_func.h \
- type/generate_free_forward.h type/list/generate_index_func.h \
- type/list/generate_append_func.h type/list/generate_append_forward.h \
- quack/pop.h quack/is_nonempty.h stringtree/new.h \
- stringtree/prepend_tree.h stringtree/free.h \
+ type/generate_free_forward.h type/list/generate_append_func.h \
+ type/list/generate_append_forward.h quack/pop.h quack/is_nonempty.h \
+ stringtree/new.h stringtree/prepend_tree.h stringtree/free.h \
  expression/lambda/generate_new_func.h \
  expression/lambda/generate_evaluate_func.h \
  expression/lambda/generate_free_func.h value/lambda/generate_new_func.h \

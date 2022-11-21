@@ -13,6 +13,7 @@
 #include <type/environment/struct.h>
 
 #include <out/shared.h>
+#include <out/type_queue/submit.h>
 #include <out/subtype_queue/submit.h>
 #include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_lambda_evaluate.h>
@@ -33,6 +34,8 @@ struct stringtree* lambda_expression_generate_new_func(
 	ENTER;
 	
 	struct stringtree* tree = new_stringtree();
+	
+	type_queue_submit(shared->tqueue, this->super.type);
 	
 	subtype_queue_submit_expression(shared->stqueue, this);
 	

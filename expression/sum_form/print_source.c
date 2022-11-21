@@ -3,70 +3,91 @@
 
 #include <debug.h>
 
-/*#include <out/shared.h>*/
-/*#include <out/type_queue/submit.h>*/
-/*#include <out/function_queue/submit_new.h>*/
-/*#include <out/function_queue/submit_free.h>*/
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
 
-/*#include <type/struct.h>*/
+#include <out/shared.h>
+#include <out/type_queue/submit.h>
+#include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_free.h>
 
-/*#include "../print_source.h"*/
+#include <type/struct.h>
+
+#include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
 
-struct stringtree* sum_expression_print_source(
+struct stringtree* sum_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
 	struct environment_type* environment)
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct product_expression* this = (void*) super;
+	assert(super->kind == ek_sum_form);
 	
 	struct stringtree* tree = new_stringtree();
 	
-	struct expression* list = this->list;
+	struct sum_form_expression* this = (void*) super;
 	
-	struct type* rtype = super->type;
+	type_queue_submit(shared->tqueue, super->type);
 	
-	struct type* ltype = list->type;
+	stringtree_append_printf(tree, "({");
 	
-	type_queue_submit(shared->tqueue, rtype);
-	type_queue_submit(shared->tqueue, ltype);
+	stringtree_append_printf(tree, "struct type_%u* list = ", this->list->type->id);
 	
-	unsigned rtype_id = rtype->id;
-	unsigned ltype_id = ltype->id;
+	{
+		struct stringtree* subtree = expression_print_source(this->list, shared, environment);
+		
+		stringtree_append_tree(tree, subtree);
+		
+		free_stringtree(subtree);
+	}
 	
-	stringtree_append_printf(tree, ""
-		"({"
-			"type_%u* list = "
-	"", ltype_id);
+	stringtree_append_printf(tree, ";");
 	
-	struct stringtree* expression = expression_print_source(this->list, shared);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
-	stringtree_append_tree(tree, expression);
+	switch (super->type->kind)
+	{
+		case tk_int:
+			stringtree_append_printf(tree, "struct type_%u* result = func_%u();", super->type->id, new_id);
+			
+			stringtree_append_printf(tree, "for (unsigned i = 0, n = list->n; i < n; i++)");
+			stringtree_append_printf(tree, "{");
+			stringtree_append_printf(tree, "	mpz_add(result->value, result->value, list->data[i]->value);");
+			stringtree_append_printf(tree, "}");
+			
+			break;
+		
+		case tk_float:
+			TODO;
+			
+			stringtree_append_printf(tree, "for (unsigned i = 0, n = list->n; i < n; i++)");
+			stringtree_append_printf(tree, "{");
+			stringtree_append_printf(tree, "	result->value += list->data[i]->value;");
+			stringtree_append_printf(tree, "}");
+			
+			break;
+		
+		default:
+			TODO;
+			break;
+	}
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, rtype);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, this->list->type);
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, ltype);
+	stringtree_append_printf(tree, "func_%u(list);", free_id);
 	
-	stringtree_append_printf(tree, ""
-			";"
-			"type_%u* product = func_%u();"
-			"mpz_set_ui(product->value, list->n);"
-			"func_%u(list);"
-			"product;"
-		"})"
-	"", rtype_id, new_id, free_id);
+	stringtree_append_printf(tree, "result;");
 	
-	free_stringtree(expression);
+	stringtree_append_printf(tree, "})");
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

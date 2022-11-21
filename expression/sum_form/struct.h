@@ -1,7 +1,7 @@
 
 #include "../struct.h"
 
-struct sum_expression
+struct sum_form_expression
 {
 	struct expression super;
 	

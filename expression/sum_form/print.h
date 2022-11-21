@@ -1,3 +1,3 @@
 
-struct stringtree* sum_expression_print(
+struct stringtree* sum_form_expression_print(
 	struct expression* super);

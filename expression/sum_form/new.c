@@ -3,9 +3,9 @@
 
 #include <expression/inc.h>
 
-#include <type_cache/get_type/int.h>
+/*#include <type_cache/get_type/int.h>*/
 
-#include <type/free.h>
+/*#include <type/free.h>*/
 
 #include "../new.h"
 
@@ -13,15 +13,15 @@
 #include "struct.h"
 #include "new.h"
 
-struct expression* new_sum_expression(
+struct expression* new_sum_form_expression(
 	struct type* type,
 	struct expression* list)
 {
 	ENTER;
 	
-	struct sum_expression* this = (void*) new_expression(
+	struct sum_form_expression* this = (void*) new_expression(
 		ek_sum_form,
-		&sum_expression_inheritance,
+		&sum_form_expression_inheritance,
 		type,
 		sizeof(*this));
 	

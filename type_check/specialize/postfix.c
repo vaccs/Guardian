@@ -25,6 +25,7 @@
 #include <expression/funccall/run.h>
 #include <expression/list_index/new.h>
 #include <expression/list_index/run.h>
+#include <expression/list_sublist/new.h>
 #include <expression/dict_index/new.h>
 #include <expression/dict_index/run.h>
 #include <expression/tuple_index/new.h>
@@ -90,7 +91,55 @@ struct expression* specialize_postfix_expression(
 		
 		assert(sub);
 		
-		if (zexpression->index)
+		if (zexpression->sublist)
+		{
+			if (sub->type->kind != tk_list)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			struct expression* startindex = NULL;
+			struct expression* endindex = NULL;
+			
+			if (zexpression->startindex)
+			{
+				startindex = specialize_expression(tcache, scope, zexpression->startindex);
+				
+				if (startindex->type->kind != tk_int)
+				{
+					TODO;
+					exit(1);
+				}
+			}
+			
+			if (zexpression->endindex)
+			{
+				endindex = specialize_expression(tcache, scope, zexpression->endindex);
+				
+				if (endindex->type->kind != tk_int)
+				{
+					TODO;
+					exit(1);
+				}
+			}
+			
+			if (true
+				&& sub->kind == ek_literal
+				&& (!startindex || startindex->kind == ek_literal)
+				&& (!  endindex ||   endindex->kind == ek_literal))
+			{
+				TODO;
+			}
+			else
+			{
+				retval = new_list_sublist_expression(sub->type, sub, startindex, endindex);
+			}
+			
+			free_expression(startindex);
+			free_expression(endindex);
+		}
+		else if (zexpression->index)
 		{
 			struct expression* index = specialize_expression(tcache, scope, zexpression->index);
 			
@@ -267,8 +316,24 @@ struct expression* specialize_postfix_expression(
 			
 			if (lambda_type->parameters->n != zexpression->args.n)
 			{
-				TODO;
+				struct stringtree* tree = new_stringtree();
+				
+				stringtree_append_printf(tree,
+					"%s: incorrect number of arguments in call on '", argv0);
+				
+				{
+					struct stringtree* subtree = type_print2(sub->type);
+					stringtree_append_tree(tree, subtree);
+					free_stringtree(subtree);
+				}
+				
+				stringtree_append_printf(tree, "' type!\n");
+				
+				stringtree_stream(tree, stderr);
+				
 				exit(1);
+				
+				free_stringtree(tree);
 			}
 			
 			struct expression_list* arguments = new_expression_list();

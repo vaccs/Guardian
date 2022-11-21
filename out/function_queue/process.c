@@ -20,8 +20,6 @@
 #include <type/generate_free_func.h>
 #include <type/generate_free_forward.h>
 
-#include <type/list/generate_index_func.h>
-
 #include <type/list/generate_append_func.h>
 #include <type/list/generate_append_forward.h>
 
@@ -78,10 +76,6 @@ void function_queue_process(
 				
 				case fk_print:
 					subtext = type_generate_print_forward(fdata->type, fdata->id);
-					break;
-				
-				case fk_index:
-					TODO;
 					break;
 				
 				case fk_append:
@@ -145,12 +139,6 @@ void function_queue_process(
 				case fk_inc:
 					dputs("fk_inc");
 					subtext = type_generate_inc_func(fdata->type, fdata->id);
-					break;
-				
-				case fk_index:
-					dputs("fk_index");
-					assert(fdata->type->kind == tk_list);
-					subtext = list_type_generate_index_func((void*) fdata->type, fdata->id, shared);
 					break;
 				
 				case fk_append:

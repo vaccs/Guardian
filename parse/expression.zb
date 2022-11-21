@@ -66,9 +66,17 @@ primary_expression
 
 postfix_expression
 	: primary_expression #base
+	
 	| postfix_expression #sub '[' expression #index ']'
+	
+	| postfix_expression #sub '[' expression #startindex ':' #sublist ']'
+	| postfix_expression #sub '['                        ':' #sublist expression #endindex ']'
+	| postfix_expression #sub '[' expression #startindex ':' #sublist expression #endindex ']'
+	
 	| postfix_expression #sub '.' `int` #tupleindex
+	
 	| postfix_expression #sub '.' `identifier` #field
+	
 	| postfix_expression #sub '(' #call (expression #args[] (',' expression #args[])*)? ')'
 	;
 

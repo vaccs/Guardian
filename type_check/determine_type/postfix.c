@@ -30,7 +30,12 @@ struct type* determine_type_of_postfix_expression(
 	}
 	else if (expression->sub)
 	{
-		if (expression->index)
+		if (expression->sublist)
+		{
+			// creating sublist
+			TODO;
+		}
+		else if (expression->index)
 		{
 			struct type* ltype_generic = determine_type_of_postfix_expression(expression->sub, tcache, scope);
 			

@@ -14,7 +14,7 @@
 
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
-#include <out/function_queue/submit_index.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
 
 #include "../print_source.h"
@@ -57,11 +57,21 @@ struct stringtree* list_index_expression_print_source(
 	stringtree_append_printf(tree, ";");
 	free_stringtree(index_tree);
 	
-	unsigned index_id = function_queue_submit_index(shared->fqueue, list_type);
+	stringtree_append_printf(tree, "unsigned native_index;");
+		
+	stringtree_append_printf(tree, ""
+		"if (mpz_fits_uint_p(index->value) && (native_index = mpz_get_ui(index->value)) > list->n)"
+		"{"
+			"fprintf(stderr, \"%%s: attempt to access element at index %%u in list %%u elements long!\", argv0, native_index, list->n);"
+			"exit(1);"
+		"}"
+	"");
+	
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);
 	
 	stringtree_append_printf(tree, ""
-		"struct type_%u* element = func_%u(list, index);"
-	"", super->type->id, index_id);
+		"struct type_%u* element = func_%u(list->data[native_index]);"
+	"", super->type->id, inc_id);
 	
 	unsigned free_list_id = function_queue_submit_free(shared->fqueue, list_type);
 	

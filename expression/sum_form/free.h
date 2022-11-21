@@ -1,3 +1,3 @@
 
-void free_sum_expression(
+void free_sum_form_expression(
 	struct expression* super);

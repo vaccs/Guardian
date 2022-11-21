@@ -318,9 +318,12 @@ struct zebu_postfix_expression
 	} args;
 	struct zebu_primary_expression* base;
 	struct zebu_token* call;
+	struct zebu_expression* endindex;
 	struct zebu_token* field;
 	struct zebu_expression* index;
+	struct zebu_expression* startindex;
 	struct zebu_postfix_expression* sub;
+	struct zebu_token* sublist;
 	struct zebu_token* tupleindex;
 	unsigned refcount, startline, endline;
 };

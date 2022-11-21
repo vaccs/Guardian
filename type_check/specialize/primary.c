@@ -69,16 +69,18 @@
 #include <expression/variable/new.h>
 #include <expression/parenthesis/new.h>
 #include <expression/float_form/new.h>
+#include <expression/all_form/new.h>
+#include <expression/all_form/run.h>
+#include <expression/any_form/new.h>
+#include <expression/any_form/run.h>
 #include <expression/int_form/new.h>
 #include <expression/len_form/new.h>
 #include <expression/map_form/new.h>
 #include <expression/map_form/run.h>
 #include <expression/crossmap_form/new.h>
 #include <expression/crossmap_form/run.h>
-#include <expression/all_form/new.h>
-#include <expression/all_form/run.h>
-#include <expression/any_form/new.h>
-#include <expression/any_form/run.h>
+#include <expression/sum_form/new.h>
+#include <expression/range_form/new.h>
 #include <expression/set/run.h>
 #include <expression/dict/new.h>
 #include <expression/set/new.h>
@@ -967,55 +969,6 @@ static struct expression* specialize_primary_int_form_expression(
 	return retval;
 }
 
-#if 0
-static struct expression* specialize_primary_sum_expression(
-	struct type_cache* tcache,
-	struct zebu_expression** raw_arguments, unsigned raw_len)
-{
-	struct expression* retval;
-	ENTER;
-	
-	if (raw_len != 1)
-	{
-		TODO;
-		exit(1);
-	}
-	
-	bool all_literals = true;
-	
-	struct expression* list_exp = specialize_expression(tcache, raw_arguments[0]);
-	
-	if (list_exp->kind != ek_literal)
-		all_literals = false;
-	
-	if (list_exp->type->kind != tk_list)
-	{
-		TODO;
-		exit(1);
-	}
-	
-	struct type* type = ((struct list_type*) list_exp->type)->element_type;
-	
-	if (type->kind != tk_int && type->kind != tk_float)
-	{
-		TODO;
-	}
-	else if (all_literals)
-	{
-		TODO;
-	}
-	else
-	{
-		retval = new_sum_expression(type, list_exp);
-	}
-	
-	free_expression(list_exp);
-	
-	EXIT;
-	return retval;
-}
-#endif
-
 static struct expression* specialize_primary_crossmap_form_expression(
 	struct type_cache* tcache,
 	struct type_check_scope* scope,
@@ -1224,6 +1177,104 @@ static struct expression* specialize_primary_map_form_expression(
 	return retval;
 }
 
+static struct expression* specialize_primary_sum_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression* raw_argument)
+{
+	struct expression* retval;
+	ENTER;
+	
+	bool all_literals = true;
+	
+	struct expression* list_exp = specialize_expression(tcache, scope, raw_argument);
+	
+	if (list_exp->kind != ek_literal)
+		all_literals = false;
+	
+	if (list_exp->type->kind != tk_list)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = ((struct list_type*) list_exp->type)->element_type;
+	
+	if (type->kind != tk_int && type->kind != tk_float)
+	{
+		TODO;
+	}
+	else if (all_literals)
+	{
+		TODO;
+	}
+	else
+	{
+		retval = new_sum_form_expression(type, list_exp);
+	}
+	
+	free_expression(list_exp);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_range_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
+	
+	struct expression* start = NULL;
+	
+	struct expression* end = NULL;
+	
+	switch (raw_len)
+	{
+		case 1:
+			end = specialize_expression(tcache, scope, raw_arguments[0]);
+			break;
+		
+		case 2:
+			TODO;
+			break;
+		
+		default:
+			TODO;
+			exit(1);
+	}
+	
+	if (false
+		|| (start && start->type->kind != tk_int)
+		|| (  end &&   end->type->kind != tk_int))
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* etype = type_cache_get_int_type(tcache);
+	struct type* ltype = type_cache_get_list_type(tcache, etype);
+	
+	if (true
+		&& (!start || start->kind == ek_literal)
+		&& (!  end ||   end->kind == ek_literal))
+	{
+		TODO;
+	}
+	else
+	{
+		retval = new_range_form_expression(ltype, start, end);
+	}
+	
+	free_expression(start);
+	free_expression(end);
+	
+	EXIT;
+	return retval;
+}
+
 struct expression* specialize_primary_expression(
 	struct type_cache* tcache,
 	struct type_check_scope* scope,
@@ -1404,20 +1455,16 @@ struct expression* specialize_primary_expression(
 		retval = specialize_primary_any_form_expression(tcache,
 			scope, zexpression->arg);
 	}
-	#if 0
-	else if (zexpression->sum)
+	else if (zexpression->sum_form)
 	{
-		retval = specialize_primary_sum_expression(tcache,
-			sshared,
-			zexpression->args.data, zexpression->args.n);
+		retval = specialize_primary_sum_form_expression(tcache,
+			scope, zexpression->arg);
 	}
-	else if (zexpression->product)
+	else if (zexpression->range_form)
 	{
-		retval = specialize_primary_product_expression(tcache,
-			sshared,
-			zexpression->args.data, zexpression->args.n);
+		retval = specialize_primary_range_form_expression(tcache,
+			scope, zexpression->args.data, zexpression->args.n);
 	}
-	#endif
 	else
 	{
 		TODO;

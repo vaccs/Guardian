@@ -3,8 +3,8 @@
 
 #include <debug.h>
 
-#include <value/struct.h>
-#include <value/int/new.h>
+/*#include <value/struct.h>*/
+/*#include <value/int/new.h>*/
 /*#include <value/free.h>*/
 
 /*#include <mpz/add.h>*/
@@ -17,7 +17,7 @@
 #include "struct.h"
 #include "evaluate.h"
 
-struct value* sum_expression_evaluate(
+struct value* sum_form_expression_evaluate(
 	struct expression* super,
 	struct scope* scope)
 {
@@ -32,23 +32,6 @@ struct value* sum_expression_evaluate(
 	assert(list->kind == vk_list);
 	
 	struct list_value* spef_list = (void*) spef_list;
-	
-	struct mpz* number;
-	
-	switch (this->kind)
-	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
-	}
 	
 	struct value* value = new_int_value(super->type, number);
 	
