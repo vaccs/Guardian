@@ -9,6 +9,8 @@
 
 #include <parse/parse.h>
 
+// #include <gegex/free.h>
+
 #include "struct.h"
 #include "free.h"
 
@@ -34,6 +36,12 @@ void free_raw_statement(
 				free_zebu_expression(this->expression);
 				break;
 			
+			case rsk_parse:
+				free_string(this->name);
+				free_zebu_expression(this->expression);
+				// free_gegex(this->grammar);
+				break;
+			
 			default:
 				TODO;
 				break;
@@ -44,4 +52,18 @@ void free_raw_statement(
 	
 	EXIT;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

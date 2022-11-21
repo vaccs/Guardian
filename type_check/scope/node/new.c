@@ -9,7 +9,8 @@
 #include "new.h"
 
 struct type_check_scope_node* new_type_check_scope_node(
-	struct string* name)
+	struct string* name,
+	struct type* type)
 {
 	ENTER;
 	
@@ -17,7 +18,7 @@ struct type_check_scope_node* new_type_check_scope_node(
 	
 	this->name = inc_string(name);
 	
-	this->type = NULL;
+	this->type = type;
 	
 	this->value = NULL;
 	

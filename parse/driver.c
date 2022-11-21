@@ -22,12 +22,15 @@
 
 #include <lex/add_EOF_token.h>
 
-#include "skip.h"
-#include "start.h"
+#include "process_skip.h"
+#include "process_assert.h"
+#include "process_print.h"
+#include "process_parse.h"
+#include "process_declare.h"
+#include "process_grammar.h"
+
 #include "parse.h"
 #include "driver.h"
-#include "grammar.h"
-#include "statement.h"
 
 struct file_descriptor
 {
@@ -149,29 +152,42 @@ void parse_driver(
 		
 		struct zebu_$start* start = zebu_parse(stream);
 		
-		for (unsigned i = 0, n = start->usings.n; i < n; i++)
-		{
-			TODO;
-		}
-		
-		for (unsigned i = 0, n = start->skips.n; i < n; i++)
-		{
-			process_skip(lex, start->skips.data[i]);
-		}
-		
-		for (unsigned i = 0, n = start->starts.n; i < n; i++)
-		{
-			process_start(lex, grammar, types, start->starts.data[i]);
-		}
-		
-		for (unsigned i = 0, n = start->grammars.n; i < n; i++)
-		{
-			process_grammar(lex, grammar, types, start->grammars.data[i]);
-		}
-		
 		for (unsigned i = 0, n = start->statements.n; i < n; i++)
 		{
-			process_statement(grammar, statements, start->statements.data[i]);
+			struct zebu_statement* statement = start->statements.data[i];
+			
+			if (statement->using)
+			{
+				TODO;
+			}
+			else  if (statement->skip)
+			{
+				process_skip(lex, statement->skip);
+			}
+			else if (statement->assert)
+			{
+				process_assert(statements, statement->assert);
+			}
+			else if (statement->print)
+			{
+				process_print(statements, statement->print);
+			}
+			else if (statement->parse)
+			{
+				process_parse(lex, grammar, types, statements, statement->parse);
+			}
+			else if (statement->declare)
+			{
+				process_declare(statements, statement->declare);
+			}
+			else if (statement->grammar)
+			{
+				process_grammar(lex, grammar, types, statement->grammar);
+			}
+			else
+			{
+				TODO;
+			}
 		}
 		
 		free_zebu_$start(start);

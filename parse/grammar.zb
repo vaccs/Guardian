@@ -34,5 +34,4 @@ grammar_juxtaposition: grammar_postfix #base (grammar_postfix #juxtapositions[])
 
 grammar: grammar_juxtaposition #base ('|' grammar_juxtaposition #ors[])*;
 
-grammar_rule: `identifier` #name ':' grammar #grammar ';';
 

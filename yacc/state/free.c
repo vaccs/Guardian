@@ -26,19 +26,12 @@
 #include "struct.h"
 #include "free.h"
 
-void free_yacc_state(struct yacc_state* start)
+void free_yacc_state_loop(
+	struct ptrset* yacc_queued,
+	struct ptrset* lex_queued,
+	struct quack* todo)
 {
 	ENTER;
-	
-	struct ptrset* yacc_queued = new_ptrset();
-	
-	struct ptrset* lex_queued = new_ptrset();
-	
-	struct quack* todo = new_quack();
-	
-	ptrset_add(yacc_queued, start);
-	
-	quack_append(todo, start);
 	
 	while (quack_is_nonempty(todo))
 	{
@@ -96,6 +89,25 @@ void free_yacc_state(struct yacc_state* start)
 		free(state);
 	}
 	
+	EXIT;
+}
+
+void free_yacc_state(struct yacc_state* start)
+{
+	ENTER;
+	
+	struct ptrset* yacc_queued = new_ptrset();
+	
+	struct ptrset* lex_queued = new_ptrset();
+	
+	struct quack* todo = new_quack();
+	
+	ptrset_add(yacc_queued, start);
+	
+	quack_append(todo, start);
+	
+	free_yacc_state_loop(yacc_queued, lex_queued, todo);
+	
 	free_ptrset(yacc_queued);
 	
 	free_ptrset(lex_queued);
@@ -104,6 +116,20 @@ void free_yacc_state(struct yacc_state* start)
 	
 	EXIT;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

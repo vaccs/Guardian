@@ -41,6 +41,8 @@ struct type* determine_type_of_let_expression(
 	{
 		type_check_scope_push(scope);
 		
+		TODO;
+		#if 0
 		for (unsigned i = 0, n = expression->parameters.n; i < n; i++)
 		{
 			struct string* name = new_string_from_token(expression->parameters.data[i]->name);
@@ -85,6 +87,7 @@ struct type* determine_type_of_let_expression(
 		
 		retval = determine_type_of_let_expression(
 			expression->body, tcache, scope);
+		#endif
 		
 		type_check_scope_pop(scope);
 	}

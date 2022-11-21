@@ -19,7 +19,7 @@ struct stringtree* char_type_generate_typedef(
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
-			"unsigned code;"
+			"unsigned value;"
 			"unsigned refcount;"
 		"} ;"
 	"", super->id);

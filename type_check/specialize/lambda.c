@@ -116,9 +116,7 @@ struct expression* specialize_lambda_expression(
 			
 			parameter_list_append(parameters, parameter);
 			
-			type_check_scope_declare(scope, name);
-			
-			type_check_scope_declare_type(scope, name, type);
+			type_check_scope_declare(scope, name, type);
 			
 			free_parameter(parameter);
 			
@@ -143,9 +141,7 @@ struct expression* specialize_lambda_expression(
 				
 				parameter_list_append(parameters, parameter);
 				
-				type_check_scope_declare(scope, name);
-				
-				type_check_scope_declare_type(scope, name, type);
+				type_check_scope_declare(scope, name, type);
 				
 				free_parameter(parameter);
 				

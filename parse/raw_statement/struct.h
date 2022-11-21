@@ -13,6 +13,8 @@ struct raw_statement
 	
 	struct zebu_expression* expression;
 	
+	struct gegex* grammar;
+	
 	unsigned refcount, line;
 };
 

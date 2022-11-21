@@ -1,4 +1,14 @@
 
+#include "kind.h"
+
+struct statement_inheritance;
+
+struct statement* new_statement(
+	enum statement_kind kind,
+	struct statement_inheritance* inheritance,
+	unsigned alloc_size);
+
+#if 0
 #include <enums/assertion_kind.h>
 
 struct string;
@@ -13,5 +23,4 @@ struct statement* new_declare_statement(
 	struct string* name,
 	struct expression* expression);
 	
-struct statement* new_print_statement(
-	struct expression* expression);
+#endif

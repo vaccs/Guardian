@@ -23,7 +23,7 @@ struct stringtree* char_type_generate_print_func(
 	stringtree_append_printf(text, ""
 		"void func_%u(const struct type_%u* this)"
 		"{"
-			"printf(\"'%%c'\", this->code);"
+			"printf(\"'%%c'\", this->value);"
 		"}"
 	"", func_id, super->id);
 	

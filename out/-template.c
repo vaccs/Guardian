@@ -123,6 +123,7 @@ int main(int argc, char* const* argv)
 		}
 	}
 	
+	#if 0
 	const char* const input_path = argv[optind++];
 	
 	if (!input_path)
@@ -135,6 +136,7 @@ int main(int argc, char* const* argv)
 		fprintf(stderr, "%s: fopen(\"%s\"): %m\n", argv0, input_path);
 		exit(1);
 	}
+	#endif
 	
 	// declare root environment:
 	{{DECLARE_ENVIRONMENT}}
@@ -148,299 +150,300 @@ int main(int argc, char* const* argv)
 	// assign sets:
 	{{ASSIGN_SETS}}
 	
-	struct { unsigned* data, n, cap; } yacc = {};
-	struct { void** data; unsigned n, cap; } data = {};
-	struct { unsigned char* data; unsigned n, cap; unsigned line; } lexer = {
-		.line = 1,
-	};
-	
-	void push_state(unsigned y)
+	void* parse(
+		FILE* stream,
+		unsigned start_state_id,
+		unsigned start_grammar_id)
 	{
-		if (yacc.n + 1 >= yacc.cap)
+		void* start = NULL;
+		
+		struct { unsigned* data, n, cap; } yacc = {};
+		struct { void** data; unsigned n, cap; } data = {};
+		struct { unsigned char* data; unsigned n, cap; unsigned line; } lexer = {};
+		
+		void push_state(unsigned y)
 		{
-			yacc.cap = yacc.cap << 1 ?: 1;
-			yacc.data = realloc(yacc.data, sizeof(*yacc.data) * yacc.cap);
-		}
-		yacc.data[yacc.n++] = y;
-	}
-	
-	void push_data(void* d)
-	{
-		if (data.n + 1 >= data.cap)
-		{
-			data.cap = data.cap << 1 ?: 1;
-			data.data = realloc(data.data, sizeof(*data.data) * data.cap);
-		}
-		data.data[data.n++] = d;
-	}
-	
-	void push_char(unsigned char c)
-	{
-		while (lexer.n + 1 >= lexer.cap)
-		{
-			lexer.cap = lexer.cap << 1 ?: 1;
-			lexer.data = realloc(lexer.data, lexer.cap);
+			if (yacc.n + 1 >= yacc.cap)
+			{
+				yacc.cap = yacc.cap << 1 ?: 1;
+				yacc.data = realloc(yacc.data, sizeof(*yacc.data) * yacc.cap);
+			}
+			yacc.data[yacc.n++] = y;
 		}
 		
-		lexer.data[lexer.n++] = c;
-	}
-	
-	#ifdef MAIA_DEBUG
-	void ddprintf(const char* fmt, ...)
-	{
-		for (unsigned i = 0, n = yacc.n; i < n; i++)
-			printf("%u ", yacc.data[i]);
+		void push_data(void* d)
+		{
+			if (data.n + 1 >= data.cap)
+			{
+				data.cap = data.cap << 1 ?: 1;
+				data.data = realloc(data.data, sizeof(*data.data) * data.cap);
+			}
+			data.data[data.n++] = d;
+		}
 		
-		printf("| ");
-		
-		va_list va;
-		va_start(va, fmt);
-		vprintf(fmt, va);
-		va_end(va);
-	}
-	#endif
-	
-	unsigned t;
-	void* td;
-	
-	void read_token(unsigned l)
-	{
-		unsigned original_l = l, i = 0, a, b, c, f = 0;
-		
-		unsigned line = lexer.line;
-		
-		t = 0, td = NULL;
+		void push_char(unsigned char c)
+		{
+			while (lexer.n + 1 >= lexer.cap)
+			{
+				lexer.cap = lexer.cap << 1 ?: 1;
+				lexer.data = realloc(lexer.data, lexer.cap);
+			}
+			
+			lexer.data[lexer.n++] = c;
+		}
 		
 		#ifdef MAIA_DEBUG
-		ddprintf("lexer: \"%.*s\": l = %u\n", lexer.n, lexer.data, l);
+		void ddprintf(const char* fmt, ...)
+		{
+			for (unsigned i = 0, n = yacc.n; i < n; i++)
+				printf("%u ", yacc.data[i]);
+			
+			printf("| ");
+			
+			va_list va;
+			va_start(va, fmt);
+			vprintf(fmt, va);
+			va_end(va);
+		}
 		#endif
 		
-		while (1)
+		unsigned t;
+		void* td;
+		
+		void read_token(unsigned l)
 		{
-			if (i < lexer.n)
+			unsigned original_l = l, i = 0, a, b, c, f = 0;
+			
+			unsigned line = lexer.line;
+			
+			t = 0, td = NULL;
+			
+			#ifdef MAIA_DEBUG
+			ddprintf("lexer: \"%.*s\": l = %u\n", lexer.n, lexer.data, l);
+			#endif
+			
+			while (1)
 			{
-				c = lexer.data[i];
+				if (i < lexer.n)
+				{
+					c = lexer.data[i];
+					
+					#ifdef MAIA_DEBUG
+					char escaped[10];
+					
+					escape(escaped, c);
+					
+					ddprintf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);
+					#endif
+					
+					a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
+				}
+				else if ((c = getc(stream)) != EOF)
+				{
+					push_char(c);
+					
+					#ifdef MAIA_DEBUG
+					char escaped[10];
+					
+					escape(escaped, c);
+					
+					ddprintf("lexer: c = '%s' (0x%02hhX)\n", escaped, c);
+					#endif
+					
+					a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
+				}
+				else
+				{
+					c = EOF;
+					
+					#ifdef MAIA_DEBUG
+					ddprintf("lexer: c = <EOF>\n");
+					#endif
+					
+					a = l < N(lexer_EOFs) ? lexer_EOFs[l] : 0;
+				}
+				
+				b = l < N(lexer_accepts) ? lexer_accepts[l] : 0;
 				
 				#ifdef MAIA_DEBUG
-				char escaped[10];
-				
-				escape(escaped, c);
-				
-				ddprintf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);
+				ddprintf("lexer: \"%.*s\" (%u): a = %u, b = %u\n", lexer.n, lexer.data, i, a, b);
 				#endif
 				
-				a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
+				if (a)
+				{
+					if (b)
+					{
+						l = a, t = b, t = i++;
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: l = %u\n", l);
+						#endif
+					}
+					else
+					{
+						l = a, i++;
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: l = %u\n", l);
+						#endif
+					}
+					
+					if (c == '\n')
+					{
+						line++;
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: line: %u\n", line);
+						#endif
+					}
+				}
+				else if (b)
+				{
+					#ifdef MAIA_DEBUG
+					ddprintf("lexer: token: \"%.*s\"\n", i, lexer.data);
+					#endif
+					
+					if (!lexer.n)
+					{
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: EOF.\n");
+						#endif
+						t = b, td = NULL;
+						break;
+					}
+					else if (b == 1)
+					{
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: whitespace\n");
+						#endif
+						
+						l = original_l, t = 0, lexer.line = line;
+						memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i, i = 0;
+					}
+					else
+					{
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: i = %u\n", i);
+						#endif
+						
+						struct token* token = malloc(sizeof(*token));
+						token->data = memcpy(malloc(i + 1), lexer.data, i);
+						token->data[i] = 0;
+						token->len = i;
+						t = b, td = token;
+						
+						lexer.line = line;
+						memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i;
+						break;
+					}
+				}
+				else if (t)
+				{
+					if (t == 1)
+					{
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
+						#endif
+						
+						l = original_l, t = 0, line = lexer.line;
+						memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0, i = 0;
+					}
+					else
+					{
+						#ifdef MAIA_DEBUG
+						ddprintf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
+						#endif
+						
+						struct token* token = malloc(sizeof(*token));
+						token->data = memcpy(malloc(f + 1), lexer.data, f);
+						token->data[f] = 0;
+						token->len = f;
+						td = token;
+						
+						memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0;
+						break;
+					}
+				}
+				else
+				{
+					if (c == (unsigned) EOF)
+						fprintf(stderr, "%s: unexpected '<EOF>' when reading '%.*s' on line %u!\n", argv0, i, lexer.data, line);
+					else
+						fprintf(stderr, "%s: unexpected '%c' when reading '%.*s' on line %u!\n", argv0, c, i, lexer.data, line);
+					
+					exit(1);
+				}
 			}
-			else if ((c = getc(stream)) != EOF)
+		}
+		
+		unsigned y = start_state_id, s, r;
+		push_state(y), read_token(lexer_starts[y]);
+		
+		while (yacc.n)
+		{
+			if (y < N(shifts) && t < N(*shifts) && (s = shifts[y][t]))
 			{
-				push_char(c);
-				
 				#ifdef MAIA_DEBUG
-				char escaped[10];
-				
-				escape(escaped, c);
-				
-				ddprintf("lexer: c = '%s' (0x%02hhX)\n", escaped, c);
+				ddprintf("s == %u\n", s);
 				#endif
 				
-				a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
+				y = s, push_state(y), push_data(td);
+				
+				read_token(lexer_starts[y]);
+				
+				#ifdef MAIA_DEBUG
+				ddprintf("t = %u\n", t);
+				#endif
+			}
+			else if (y < N(reduces) && t < N(*reduces) && (r = reduces[y][t]))
+			{
+				#ifdef MAIA_DEBUG
+				ddprintf("r == %u\n", r);
+				#endif
+				
+				unsigned g;
+				void* d;
+				
+				{{REDUCTION_RULE_SWITCH}}
+				
+				if (g == start_grammar_id)
+				{
+					yacc.n = 0, start = d;
+				}
+				else
+				{
+					y = yacc.data[yacc.n - 1];
+					
+					#ifdef MAIA_DEBUG
+					ddprintf("y = %u\n", y);
+					#endif
+					
+					assert(y < N(gotos) && g < N(*gotos));
+					
+					s = gotos[y][g];
+					
+					#ifdef MAIA_DEBUG
+					ddprintf("s = %u\n", s);
+					#endif
+					
+					y = s, push_state(y), push_data(d);
+				}
 			}
 			else
 			{
-				c = EOF;
-				
-				#ifdef MAIA_DEBUG
-				ddprintf("lexer: c = <EOF>\n");
-				#endif
-				
-				a = l < N(lexer_EOFs) ? lexer_EOFs[l] : 0;
-			}
-			
-			b = l < N(lexer_accepts) ? lexer_accepts[l] : 0;
-			
-			#ifdef MAIA_DEBUG
-			ddprintf("lexer: \"%.*s\" (%u): a = %u, b = %u\n", lexer.n, lexer.data, i, a, b);
-			#endif
-			
-			if (a)
-			{
-				if (b)
-				{
-					l = a, t = b, t = i++;
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: l = %u\n", l);
-					#endif
-				}
-				else
-				{
-					l = a, i++;
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: l = %u\n", l);
-					#endif
-				}
-				
-				if (c == '\n')
-				{
-					line++;
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: line: %u\n", line);
-					#endif
-				}
-			}
-			else if (b)
-			{
-				#ifdef MAIA_DEBUG
-				ddprintf("lexer: token: \"%.*s\"\n", i, lexer.data);
-				#endif
-				
-				if (!lexer.n)
-				{
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: EOF.\n");
-					#endif
-					t = b, td = NULL;
-					break;
-				}
-				else if (b == 1)
-				{
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: whitespace\n");
-					#endif
-					
-					l = original_l, t = 0, lexer.line = line;
-					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i, i = 0;
-				}
-				else
-				{
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: i = %u\n", i);
-					#endif
-					
-					struct token* token = malloc(sizeof(*token));
-					token->data = memcpy(malloc(i + 1), lexer.data, i);
-					token->data[i] = 0;
-					token->len = i;
-					t = b, td = token;
-					
-					lexer.line = line;
-					memmove(lexer.data, lexer.data + i, lexer.n - i), lexer.n -= i;
-					break;
-				}
-			}
-			else if (t)
-			{
-				if (t == 1)
-				{
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
-					#endif
-					
-					l = original_l, t = 0, line = lexer.line;
-					memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0, i = 0;
-				}
-				else
-				{
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
-					#endif
-					
-					struct token* token = malloc(sizeof(*token));
-					token->data = memcpy(malloc(f + 1), lexer.data, f);
-					token->data[f] = 0;
-					token->len = f;
-					td = token;
-					
-					memmove(lexer.data, lexer.data + f, lexer.n - f), lexer.n -= f, f = 0;
-					break;
-				}
-			}
-			else
-			{
-				if (c == (unsigned) EOF)
-					fprintf(stderr, "%s: unexpected '<EOF>' when reading '%.*s' on line %u!\n", argv0, i, lexer.data, line);
-				else
-					fprintf(stderr, "%s: unexpected '%c' when reading '%.*s' on line %u!\n", argv0, c, i, lexer.data, line);
-				
-				exit(1);
+				assert(!"266");
 			}
 		}
-	}
-	
-	{{START_TYPE}}* start = NULL;
-	
-	unsigned y = 1, s, r;
-	push_state(y), read_token(1);
-	
-	while (yacc.n)
-	{
-		if (y < N(shifts) && t < N(*shifts) && (s = shifts[y][t]))
-		{
-			#ifdef MAIA_DEBUG
-			ddprintf("s == %u\n", s);
-			#endif
-			
-			y = s, push_state(y), push_data(td);
-			
-			read_token(lexer_starts[y]);
-			
-			#ifdef MAIA_DEBUG
-			ddprintf("t = %u\n", t);
-			#endif
-		}
-		else if (y < N(reduces) && t < N(*reduces) && (r = reduces[y][t]))
-		{
-			#ifdef MAIA_DEBUG
-			ddprintf("r == %u\n", r);
-			#endif
-			
-			unsigned g;
-			void* d;
-			
-			{{REDUCTION_RULE_SWITCH}}
-			
-			if (g == {{START_GRAMMAR_ID}})
-			{
-				yacc.n = 0, start = d;
-			}
-			else
-			{
-				y = yacc.data[yacc.n - 1];
-				
-				#ifdef MAIA_DEBUG
-				ddprintf("y = %u\n", y);
-				#endif
-				
-				assert(y < N(gotos) && g < N(*gotos));
-				
-				s = gotos[y][g];
-				
-				#ifdef MAIA_DEBUG
-				ddprintf("s = %u\n", s);
-				#endif
-				
-				y = s, push_state(y), push_data(d);
-			}
-		}
-		else	
-		{
-			assert(!"266");
-		}
+		
+		free(yacc.data);
+		free(data.data);
+		free(lexer.data);
+		
+		return start;
 	}
 	
 	// statements:
 	{{STATEMENTS}}
 	
-	// free parse-tree:
-	{{FREE_START}}(start);
-	
 	// clean up declarations:
 	{{FREE_ENVIRONMENT}}
-	
-	free(yacc.data);
-	free(data.data);
-	free(lexer.data);
-	
-	fclose(stream);
 	
 	return 0;
 }

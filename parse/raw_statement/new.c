@@ -71,6 +71,32 @@ struct raw_statement* new_raw_print(
 	return this;
 }
 
+struct raw_statement* new_raw_parse(
+	unsigned line,
+	struct zebu_expression* expression,
+	struct string* grammar_name,
+	struct gegex* grammar)
+{
+	ENTER;
+	
+	struct raw_statement* this = smalloc(sizeof(*this));
+	
+	this->kind = rsk_parse;
+	
+	this->line = line;
+	
+	this->expression = inc_zebu_expression(expression);
+	
+	this->name = inc_string(grammar_name);
+	
+	this->grammar = grammar;
+	
+	this->refcount = 1;
+	
+	EXIT;
+	return this;
+}
+
 
 
 

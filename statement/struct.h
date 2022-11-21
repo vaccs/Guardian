@@ -1,5 +1,6 @@
 
-#include <enums/assertion_kind.h>
+#ifndef STRUCT_STATEMENT
+#define STRUCT_STATEMENT
 
 #include "kind.h"
 
@@ -7,14 +8,9 @@ struct statement
 {
 	enum statement_kind kind;
 	
-	enum assertion_kind assertion_kind;
-	
-	struct string* name;
-	
-	struct expression* expression;
+	struct statement_inheritance* inheritance;
 	
 	unsigned refcount;
-	
-	unsigned line;
 };
 
+#endif

@@ -1,0 +1,77 @@
+
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"word: /['a'-'z']+/ #value;",
+			
+			"%parse: \"test1.txt\" with word;",
+			"%parse: \"test2.txt\" with word;",
+			
+			"%error: len!(word) == 2;",
+			
+			"%warning: word[0].value == word[1].value;",
+		],
+		
+		"./test1.txt": [
+			"abc"
+		],
+		
+		"./test2.txt": [
+			"abc"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out"
+	]
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"boolean: /bool: \"true\" | \"false\"/ #value;",
+			
+			"%parse: \"conditional.txt\" as boolean;",
+			
+			"integer: /int: ['0'-'9']+/ #value;",
+			
+			"conditional = boolean[0].value",
+			
+			"%parse: (conditional ? \"true_case.txt\" : \"false_case.txt\") as integer;",
+			
+			"%print: integer[0].value;",
+		],
+		
+		"./conditional.txt": [
+			"true"
+		],
+		
+		"./true_case.txt": [
+			"7"
+		],
+		
+		"./false_case.txt": [
+			"12"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out"
+	]
+}]
+
+
+
+
+
+
+
+

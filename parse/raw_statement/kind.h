@@ -6,6 +6,8 @@ enum raw_statement_kind
 	rsk_assertion,
 	
 	rsk_print,
+	
+	rsk_parse,
 };
 
 

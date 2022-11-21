@@ -169,8 +169,12 @@
 #include <list/raw_statement/foreach.h>
 
 #include <type_cache/get_type/list.h>
+#include <type_cache/get_type/charlist.h>
 
-#include <statement/new.h>
+#include <statement/assert/new.h>
+#include <statement/declare/new.h>
+#include <statement/print/new.h>
+#include <statement/parse/new.h>
 #include <statement/free.h>
 
 #include <stringtree/new.h>
@@ -213,35 +217,7 @@ void type_check(
 			
 			struct type* ltype = type_cache_get_list_type(tcache, ntype->type);
 			
-			type_check_scope_declare(scope, ntype->name);
-			
-			type_check_scope_declare_type(scope, ntype->name, ltype);
-		}
-		runme;
-	}));
-	
-	raw_statement_list_foreach(raw_statements, ({
-		void runme(struct raw_statement* raw_statement)
-		{
-			switch (raw_statement->kind)
-			{
-				case rsk_assertion:
-					break;
-				
-				case rsk_declaration:
-				{
-					struct string* name = raw_statement->name;
-					type_check_scope_declare(scope, name);
-					break;
-				}
-				
-				case rsk_print:
-					break;
-				
-				default:
-					TODO;
-					break;
-			}
+			type_check_scope_declare(scope, ntype->name, ltype);
 		}
 		runme;
 	}));
@@ -279,11 +255,14 @@ void type_check(
 					free_stringtree(tree);
 					#endif
 					
-					type_check_scope_declare_type(scope, name, type);
+					type_check_scope_declare(scope, name, type);
 					break;
 				}
 				
 				case rsk_print:
+					break;
+				
+				case rsk_parse:
 					break;
 				
 				default:
@@ -432,6 +411,51 @@ void type_check(
 					#endif
 					
 					struct statement* statement = new_print_statement(specialized);
+					
+					statement_list_append(statements, statement);
+					
+					free_statement(statement);
+					
+					free_expression(specialized);
+					break;
+				}
+				
+				case rsk_parse:
+				{
+					struct expression* specialized = specialize_expression(
+						tcache, scope, raw_statement->expression);
+					
+					#ifdef VERBOSE
+					{
+						struct stringtree* tree = new_stringtree();
+						
+						stringtree_append_printf(tree,
+							"%s: specialized parse statement on line %u: ",
+							argv0, raw_statement->line);
+						
+						struct stringtree* subtree = expression_print2(specialized);
+						
+						stringtree_append_tree(tree, subtree);
+						
+						stringtree_append_printf(tree, "\n");
+						
+						stringtree_stream(tree, stdout);
+						
+						free_stringtree(tree);
+						free_stringtree(subtree);
+					}
+					#endif
+					
+					struct type* charlist = type_cache_get_charlist_type(tcache);
+					
+					if (specialized->type != charlist)
+					{
+						TODO;
+						exit(1);
+					}
+					
+					struct statement* statement = new_parse_statement(
+						raw_statement->line, specialized, raw_statement->name, raw_statement->grammar);
 					
 					statement_list_append(statements, statement);
 					

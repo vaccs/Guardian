@@ -1,14 +1,14 @@
 
 #include <assert.h>
-
 #include <stdlib.h>
 
 #include <debug.h>
 
-#include <string/free.h>
+/*#include <string/free.h>*/
 
-#include <expression/free.h>
+/*#include <expression/free.h>*/
 
+#include "inheritance.h"
 #include "struct.h"
 #include "free.h"
 
@@ -19,25 +19,10 @@ void free_statement(
 	
 	if (this && !--this->refcount)
 	{
-		switch (this->kind)
-		{
-			case sk_assertion:
-				free_expression(this->expression);
-				break;
-			
-			case sk_declaration:
-				free_string(this->name);
-				free_expression(this->expression);
-				break;
-			
-			case sk_print:
-				free_expression(this->expression);
-				break;
-			
-			default:
-				TODO;
-				break;
-		}
+		assert(this->inheritance);
+		assert(this->inheritance->free);
+		
+		(this->inheritance->free)(this);
 		
 		free(this);
 	}

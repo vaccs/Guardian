@@ -10,9 +10,11 @@ bin/release-build/yes-verbose/no-dotout/./type_check/type_check.o: \
  expression/literal/../struct.h expression/literal/../kind.h \
  expression/struct.h expression/print.h expression/free.h \
  list/statement/append.h statement/free.h list/raw_statement/foreach.h \
- type_cache/get_type/list.h statement/new.h stringtree/new.h \
- stringtree/append_printf.h stringtree/append_tree.h stringtree/stream.h \
- stringtree/free.h type_check/scope/layer.h type_check/scope/struct.h \
+ type_cache/get_type/list.h type_cache/get_type/charlist.h \
+ statement/assert/new.h statement/declare/new.h statement/print/new.h \
+ statement/parse/new.h stringtree/new.h stringtree/append_printf.h \
+ stringtree/append_tree.h stringtree/stream.h stringtree/free.h \
+ type_check/scope/layer.h type_check/scope/struct.h \
  type_check/scope/new.h type_check/scope/push.h \
  type_check/scope/declare.h type_check/scope/lookup.h \
  type_check/scope/pop.h type_check/scope/free.h \

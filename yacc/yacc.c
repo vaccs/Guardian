@@ -17,7 +17,7 @@
 #include <avl/foreach.h>
 #include <avl/free_tree.h>
 
-#include <string/new.h>
+/*#include <string/new.h>*/
 #include <string/inc.h>
 #include <string/are_equal.h>
 #include <string/compare.h>
@@ -54,6 +54,11 @@
 #include <named/structinfo/struct.h>
 
 #include <named/trie/struct.h>
+
+#include <list/statement/foreach.h>
+
+#include <statement/struct.h>
+#include <statement/parse/struct.h>
 
 #include "trie/struct.h"
 
@@ -400,10 +405,11 @@ static void shift_reduce_error(
 	#endif
 }
 
-struct yacc_state* yacc(
+void yacc(
 	struct lex* lex,
 	struct avl_tree_t* structinfos,
-	struct avl_tree_t* grammar)
+	struct avl_tree_t* grammar,
+	struct statement_list* statements)
 {
 	ENTER;
 	
@@ -435,44 +441,48 @@ struct yacc_state* yacc(
 	
 	struct avl_tree_t* mappings = avl_alloc_tree(compare_mappings, free_mapping);
 	
-	struct yacc_state* start = new_yacc_state();
-	
-	// setup:
-	{
-		struct stateinfo* stateinfo = new_stateinfo();
-		
-		struct string* start_string = new_string("$start", 6);
-		
-		struct avl_node_t* node = avl_search(named_tries, &start_string);
-		
-		if (!node)
+	statement_list_foreach(statements, ({
+		void runme(struct statement* statement)
 		{
-			fprintf(stderr, "%s: the '%%start' directive must be used to specify which grammar starts the parse!\n", argv0);
-			exit(e_bad_input_file);
+			if (statement->kind == sk_parse)
+			{
+				struct parse_statement* pstatement = (void*) statement;
+				
+				struct stateinfo* stateinfo = new_stateinfo();
+				
+				struct avl_node_t* node = avl_search(named_tries, &pstatement->grammar_name);
+				
+				assert(node);
+				
+				struct named_trie* start_trie = node->item;
+				
+				dpv(start_trie);
+				
+				struct unsignedset* lookahead_tokens = new_unsignedset();
+				
+				unsignedset_add(lookahead_tokens, lex->EOF_token_id);
+				
+				stateinfo_add(stateinfo, start_trie->trie, lookahead_tokens);
+				
+				expand_stateinfo(stateinfo, named_tries, named_firsts);
+				
+				struct yacc_state* state = new_yacc_state();
+				
+				struct mapping* mapping = new_mapping(stateinfo, state);
+				
+				pstatement->ystate = state;
+				
+				avl_insert(mappings, mapping);
+				
+				quack_append(todo, mapping);
+				
+				free_unsignedset(lookahead_tokens);
+				
+				free_stateinfo(stateinfo);
+			}
 		}
-		
-		struct named_trie* start_trie = node->item;
-		
-		struct unsignedset* lookahead_tokens = new_unsignedset();
-		
-		unsignedset_add(lookahead_tokens, lex->EOF_token_id);
-		
-		stateinfo_add(stateinfo, start_trie->trie, lookahead_tokens);
-		
-		expand_stateinfo(stateinfo, named_tries, named_firsts);
-		
-		struct mapping* mapping = new_mapping(stateinfo, start);
-		
-		quack_append(todo, mapping);
-		
-		avl_insert(mappings, mapping);
-		
-		free_unsignedset(lookahead_tokens);
-		
-		free_stateinfo(stateinfo);
-		
-		free_string(start_string);
-	}
+		runme;
+	}));
 	
 	while (quack_is_nonempty(todo))
 	{
@@ -719,7 +729,10 @@ struct yacc_state* yacc(
 	
 	if (minimize_lexer)
 	{
+		TODO;
+		#if 0
 		lex_minimize_lexer(lex, start);
+		#endif
 	}
 	
 	free_quack(todo);
@@ -731,7 +744,6 @@ struct yacc_state* yacc(
 	avl_free_tree(named_tries);
 	
 	EXIT;
-	return start;
 }
 
 

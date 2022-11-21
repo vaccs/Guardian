@@ -65,15 +65,6 @@ struct expression* specialize_let_expression(
 		{
 			struct string* name = new_string_from_token(zexpression->parameters.data[i]->name);
 			
-			type_check_scope_declare(scope, name);
-			
-			free_string(name);
-		}
-		
-		for (unsigned i = 0, n = zexpression->parameters.n; i < n; i++)
-		{
-			struct string* name = new_string_from_token(zexpression->parameters.data[i]->name);
-			
 			#ifdef VERBOSE
 			printf("%s: determining type of '%.*s': ", argv0, name->len, name->chars);
 			#endif
@@ -93,7 +84,7 @@ struct expression* specialize_let_expression(
 			}
 			#endif
 			
-			type_check_scope_declare_type(scope, name, type);
+			type_check_scope_declare(scope, name, type);
 			
 			free_string(name);
 		}
