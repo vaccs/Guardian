@@ -22,7 +22,7 @@
 
 %include "grammar.zb"
 
-using_directive: "%" "using" `string` #path ';';
+using_directive: "%" "using" ":" `string` #path ';';
 
 skip_directive: "%" "skip" ":" regex #regex ';';
 

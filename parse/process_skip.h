@@ -1,4 +1,5 @@
 
+struct lex;
 struct zebu_skip_directive;
 
 void process_skip(

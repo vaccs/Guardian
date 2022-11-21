@@ -9,8 +9,9 @@ glibc_crypt:
 	"$" /['a'-'z', 'A'-'Z', '0'-'9', '.', '/']+/ #encrypted
 	 ;
 
-//glibcCrypt: id == "1" implies length(encrypted) == 22 ;
-//glibcCrypt: id == "5" implies length(encrypted) == 43 ;
-//glibcCrypt: id == "6" implies length(encrypted) == 86 ;
+%error: all!(map!($glibc_crypt gc -> bool: gc.id == "1" implies len!(gc.encrypted) == 22, glibc_crypt));
+%error: all!(map!($glibc_crypt gc -> bool: gc.id == "5" implies len!(gc.encrypted) == 43, glibc_crypt));
+%error: all!(map!($glibc_crypt gc -> bool: gc.id == "6" implies len!(gc.encrypted) == 86, glibc_crypt));
+
 
 

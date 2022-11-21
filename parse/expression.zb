@@ -20,9 +20,7 @@ primary_expression
 	| `identifier` #identifier
 	
 	| "all!"          #all_form '(' expression #arg ')'
-	| "allmap!"       #andmap_form '(' expression #args[]  (',' expression #args[])+ ')'
 	| "any!"          #any_form '(' expression #arg ')'
-	| "anymap!"       #ormap_form '(' expression #args[]  (',' expression #args[])+ ')'
 	| "bool!"         #bool_form '(' expression #arg ')'
 //	| "call!"         #call_form '(' expression #arg ')'
 	| "char!"         #char_form '(' expression #arg ')'

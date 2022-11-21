@@ -17,14 +17,8 @@
 
 #include <avl/alloc_tree.h>
 #include <avl/insert.h>
-#include <avl/search.h>
+/*#include <avl/search.h>*/
 #include <avl/free_tree.h>
-
-#include <quack/new.h>
-#include <quack/append.h>
-#include <quack/pop.h>
-#include <quack/is_nonempty.h>
-#include <quack/free.h>
 
 #include <misc/break_and_open_path.h>
 
@@ -42,32 +36,18 @@
 
 struct file_info
 {
-	int fd;
-	
 	dev_t st_dev;
 	ino_t st_ino;
 };
 
-static struct file_info* new_file_info(int fd)
+static struct file_info* new_file_info(dev_t st_dev, ino_t st_ino)
 {
 	ENTER;
 	
 	struct file_info* this = smalloc(sizeof(*this));
 	
-	dpv(fd);
-	
-	struct stat statbuf;
-	
-	if (fstat(fd, &statbuf) < 0)
-	{
-		TODO;
-		exit(1);
-	}
-	
-	this->fd = fd;
-	
-	this->st_dev = statbuf.st_dev;
-	this->st_ino = statbuf.st_ino;
+	this->st_dev = st_dev;
+	this->st_ino = st_ino;
 	
 	EXIT;
 	return this;
@@ -87,13 +67,6 @@ static int compare(const void* a, const void* b)
 	return +0;
 }
 
-static void free_file_info(void* ptr)
-{
-	struct file_info* this = ptr;
-	
-	free(this);
-}
-
 void parse_driver(
 	struct lex* lex,
 	struct avl_tree_t* grammar,
@@ -105,116 +78,103 @@ void parse_driver(
 	
 	dpvs(input_path);
 	
-	struct quack* todo = new_quack();
+	struct avl_tree_t* seen = avl_alloc_tree(compare, free);
 	
-	struct avl_tree_t* queued = avl_alloc_tree(compare, free_file_info);
-	
-	// setup:
+	void helper(int dirfd, const char* path)
 	{
-		int fd = open(input_path, O_RDONLY);
+		struct stat statbuf;
+		ENTER;
 		
-		if (fd < 0)
+		struct br_rettype brt = break_and_open_path(dirfd, path);
+		
+		if (fstat(brt.fd, &statbuf) < 0)
 		{
-			fprintf(stderr, "%s: cannot open input file '%s': %m!\n", argv0, input_path);
+			TODO;
 			exit(1);
 		}
 		
-		struct file_info* info = new_file_info(fd);
+		struct file_info* finfo = new_file_info(statbuf.st_dev, statbuf.st_ino);
 		
-		avl_insert(queued, info);
-		
-		quack_append(todo, info);
-	}
-	
-	while (quack_is_nonempty(todo))
-	{
-		struct file_info* info = quack_pop(todo);
-		
-		dpv(info->fd);
-		
-		FILE* stream = fdopen(info->fd, "r");
-		
-		struct zebu_$start* start = zebu_parse(stream);
-		
-		for (unsigned i = 0, n = start->statements.n; i < n; i++)
+		if (avl_insert(seen, finfo))
 		{
-			struct zebu_statement* statement = start->statements.data[i];
+			FILE* stream = fdopen(brt.fd, "r");
 			
-			if (statement->using)
+			if (!stream)
 			{
-				char* path = (void*) statement->using->path->data;
+				TODO;
+				exit(1);
+			}
+			
+			struct zebu_$start* start = zebu_parse(stream);
+			
+			for (unsigned i = 0, n = start->statements.n; i < n; i++)
+			{
+				struct zebu_statement* statement = start->statements.data[i];
 				
-				dpvs(path);
-				
-				memmove(path, path + 1, strlen(path) - 1);
-				path[strlen(path) - 2] = 0;
-				
-				dpvs(path);
-				
-				int fd = open(path, O_RDONLY);
-				
-				if (fd < 0)
+				if (statement->using)
 				{
-					fprintf(stderr, "%s: cannot open %%using-ed file '%s': %m!\n", argv0, path);
-					exit(1);
+					char* path = (void*) statement->using->path->data;
+					
+					path++, path[strlen(path) - 1] = 0;
+					
+					helper(brt.dirfd, path);
 				}
-				
-				struct file_info* info = new_file_info(fd);
-				
-				if (errno = 0, avl_insert(queued, info))
+				else  if (statement->skip)
 				{
-					quack_append(todo, info);
+					process_skip(lex, statement->skip);
 				}
-				else if (errno = EEXIST)
+				else if (statement->assert)
 				{
-					free_file_info(info);
+					process_assert(statements, statement->assert);
+				}
+				else if (statement->print)
+				{
+					process_print(statements, statement->print);
+				}
+				else if (statement->parse)
+				{
+					process_parse(lex, grammar, types, statements, statement->parse);
+				}
+				else if (statement->declare)
+				{
+					process_declare(statements, statement->declare);
+				}
+				else if (statement->grammar)
+				{
+					process_grammar(lex, grammar, types, statement->grammar);
 				}
 				else
 				{
 					TODO;
-					exit(1);
 				}
 			}
-			else  if (statement->skip)
-			{
-				process_skip(lex, statement->skip);
-			}
-			else if (statement->assert)
-			{
-				process_assert(statements, statement->assert);
-			}
-			else if (statement->print)
-			{
-				process_print(statements, statement->print);
-			}
-			else if (statement->parse)
-			{
-				process_parse(lex, grammar, types, statements, statement->parse);
-			}
-			else if (statement->declare)
-			{
-				process_declare(statements, statement->declare);
-			}
-			else if (statement->grammar)
-			{
-				process_grammar(lex, grammar, types, statement->grammar);
-			}
-			else
-			{
-				TODO;
-			}
+			
+			free_zebu_$start(start);
+			
+			fclose(stream);
+		}
+		else if (errno == EEXIST)
+		{
+			TODO;
+		}
+		else
+		{
+			TODO;
 		}
 		
-		free_zebu_$start(start);
+		close(brt.fd);
 		
-		fclose(stream);
+		if (dirfd != brt.dirfd && brt.dirfd > 0)
+			close(brt.dirfd);
+		
+		EXIT;
 	}
+	
+	helper(AT_FDCWD, input_path);
 	
 	lex_add_EOF_token(lex);
 	
-	avl_free_tree(queued);
-	
-	free_quack(todo);
+	avl_free_tree(seen);
 	
 	EXIT;
 }

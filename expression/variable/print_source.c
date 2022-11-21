@@ -55,8 +55,10 @@ struct stringtree* variable_expression_print_source(
 	while (depth--) stringtree_append_printf(tree, "->prev");
 	stringtree_append_printf(tree, "->$%.*s;", this->name->len, this->name->chars);
 	
-	stringtree_append_printf(tree, "if (!value) {");
-	stringtree_append_printf(tree, "	assert(!\"TODO: use of unset variable!\");");
+	stringtree_append_printf(tree, "if (!value)");
+	stringtree_append_printf(tree, "{");
+	stringtree_append_printf(tree, "	fprintf(stderr, \"%%s: use of variable '%.*s' before assignment!\\n\", argv0);", this->name->len, this->name->chars);
+	stringtree_append_printf(tree, "	exit(1);");
 	stringtree_append_printf(tree, "}");
 	
 	unsigned inc_id = function_queue_submit_inc(shared->fqueue, super->type);

@@ -111,11 +111,9 @@ struct stringtree* crossmap_form_expression_print_source(
 	stringtree_append_printf(tree, ");");
 	
 	unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
-	
 	stringtree_append_printf(tree, "func_%u(result, subresult);", append_id);
 	
 	unsigned free_id = function_queue_submit_free(shared->fqueue, subresult_type);
-	
 	stringtree_append_printf(tree, "func_%u(subresult);", free_id);
 	
 	expression_list_foreach(this->arguments, ({

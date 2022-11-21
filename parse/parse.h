@@ -331,7 +331,6 @@ struct zebu_postfix_expression
 struct zebu_primary_expression
 {
 	struct zebu_token* all_form;
-	struct zebu_token* andmap_form;
 	struct zebu_token* any_form;
 	struct zebu_expression* arg;
 	struct {
@@ -369,7 +368,6 @@ struct zebu_primary_expression
 	struct zebu_token* map_form;
 	struct zebu_token* max_form;
 	struct zebu_token* min_form;
-	struct zebu_token* ormap_form;
 	struct zebu_token* paren;
 	struct zebu_token* range_form;
 	struct zebu_token* reduce_form;

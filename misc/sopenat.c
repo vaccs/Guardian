@@ -16,7 +16,7 @@ int sopenat(int dirfd, const char* path, int flags)
 	
 	if (fd < 0)
 	{
-		fprintf(stderr, "zebu: open(): %m\n"),
+		fprintf(stderr, "zebu: open(\"%s\"): %m\n", path),
 		exit(e_syscall_failed);
 	}
 	

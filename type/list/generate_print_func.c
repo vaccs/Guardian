@@ -65,6 +65,7 @@ struct stringtree* list_type_generate_print_func(
 						"case '}':"
 						"case ':':"
 						"case ';':"
+						"case '/':"
 						"case '0' ... '9':"
 						"case 'a' ... 'z':"
 						"case 'A' ... 'Z':"

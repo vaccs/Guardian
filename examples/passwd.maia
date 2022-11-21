@@ -1,46 +1,92 @@
 
-%using "./examples/crypt.maia";
+%parse: "/etc/passwd" as passwd_file;
 
-//$using "file_system.maia";
-//$using "set_templates.maia";
+passwd_file: (passwd_record '\n')+;
 
-//PasswdFile -> (passwdRecord Newline)+;
+passwd_record:
+	name      #name ":"
+	password  #password ":"
+	uid       #uid ":"
+	gid       #gid ":"
+	gecos     #gecos ":"
+	directory #directory ":"
+	shell     #shell;
 
-//passwdRecord -> name ":" password ":" uid ":" gid ":" gecos ":" directory ":" shell;
+name: /['a'-'z', 'A'-'Z', '_'] ['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0, 31}/ #value;
 
-//name -> /[a-zA-Z_][-a-zA-Z0-9_]{0,31}/;
+password: "*" | "x" | crypt_password;
 
-//password => "*" | "x" | CryptPassword ;
+uid: /int: ['0'-'9']+ / #value;
 
-//uid = /[0-9]+:u/;
+gid: /int: ['0'-'9']+ / #value;
 
-//gid = /StringPosDec+/;
+gecos: /[!(':', '\n')]* /;
 
-//gecos = /[^:\n]*/;
+directory: /[!(':', '\n')]* / #path;
 
-//directory= /[^:\n]+/;
+shell: /[!(':', '\n')]* /;
 
-//shell = /[^:\n]*/;
+%using: "./crypt.maia";
 
-//Newline = "\n";
+%using: "./set-functions.maia";
 
-//name isUnique();
+// map!($name n -> char[]: n.value, name);
 
-//exists name : name == "root";
+%error: is_unique(map!($name n -> char[]: n.value, name));
+
+%error: any!(map!($name n -> bool: n.value == "root", name));
 
 //(warn) name : name ~ /[A-Z]/;
 
-//uid:uid <= 65535;
+// %warning: any!(map!($name n -> bool: n.value ~= /['A'-'Z']+/, name));
 
-//gid:gid <= 65535;
+%error: all!(map!($uid u -> bool: u.value <= 65535, uid));
+
+%error: all!(map!($gid g -> bool: g.value <= 65535, gid));
 
 //directory : directory isAbsPath() and directory isDirectory();
 
-//passwdRecord : name == "root" implies uid == 0;
+// %error: all!(map!(
+	// $directory d -> bool:
+		// isabspath!(d.path) and isdir!(d.path),
+	// directory));
+
+%error: all!(map!(
+	$passwd_record pr -> bool:
+		pr.name.value == "root" implies pr.uid.value == 0,
+	passwd_record));
 
 //passwdRecord : directory isAccessibleTo(name);
 
+// %error: all!(map!(
+	// $passwd_record pr -> bool:
+		// isaccessibleto!(pr.name, d.path),
+	// passwd_record));
+
 //passwdRecord : shell != "" implies (shell is AbsPath() and shell is ExecutableBy(user));
+
+// %error: all!(map!(
+	// $passwd_record pr -> bool:
+		// pr.shell != "" implies
+			// isabspath!(pr.shell) && isexecutableby!(pr.user, pr.shell),
+	// passwd_record));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

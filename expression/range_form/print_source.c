@@ -11,6 +11,7 @@
 #include <type/struct.h>
 
 #include <out/shared.h>
+#include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
 #include <out/function_queue/submit_append.h>
 #include <out/function_queue/submit_free.h>
@@ -32,6 +33,8 @@ struct stringtree* range_form_expression_print_source(
 	struct stringtree* tree = new_stringtree();
 	
 	struct range_form_expression* this = (void*) super;
+	
+	type_queue_submit(shared->tqueue, super->type);
 	
 	stringtree_append_printf(tree, "({");
 	
