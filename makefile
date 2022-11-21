@@ -80,9 +80,10 @@ ARGS += -v
 
 #ARGS += -m
 
-#ARGS += -i ./examples/json.maia
-#ARGS += -i ./examples/math.maia
-ARGS += -i ./examples/zest.maia
+# ARGS += -i ./examples/json.maia
+# ARGS += -i ./examples/math.maia
+ARGS += -i ./examples/passwd.maia
+# ARGS += -i ./examples/zest.maia
 
 ARGS += -o /tmp/out.c
 

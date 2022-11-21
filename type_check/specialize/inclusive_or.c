@@ -11,6 +11,13 @@
 
 #include <value/free.h>
 
+#include <defines/argv0.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/free.h>
+
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
@@ -44,18 +51,27 @@ struct expression* specialize_inclusive_or_expression(
 		
 		if (left->type != right->type)
 		{
-			TODO;
-			#if 0
-			puts("");
+			struct stringtree* tree = new_stringtree();
 			
-			printf("maia: incompatiable types for '|' operator: ");
-			type_print(left->type);
-			printf(" with ");
-			type_print(right->type);
-			puts("");
+			stringtree_append_printf(tree, "%s: incompatiable types for '|' operator: '", argv0);
+			
+			{
+				struct stringtree* subtree = type_print2(left->type);
+				stringtree_append_tree(tree, subtree);
+				free_stringtree(subtree);
+			}
+			
+			printf("' and '");
+			
+			{
+				struct stringtree* subtree = type_print2(right->type);
+				stringtree_append_tree(tree, subtree);
+				free_stringtree(subtree);
+			}
+			
+			printf("'!\n");
 			
 			exit(1);
-			#endif
 		}
 		
 		switch (left->type->kind)

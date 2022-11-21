@@ -1,4 +1,9 @@
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #include <fcntl.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -6,10 +11,13 @@
 
 #include <debug.h>
 
+#include <defines/argv0.h>
+
 #include <memory/smalloc.h>
 
 #include <avl/alloc_tree.h>
 #include <avl/insert.h>
+#include <avl/search.h>
 #include <avl/free_tree.h>
 
 #include <quack/new.h>
@@ -32,65 +40,15 @@
 #include "parse.h"
 #include "driver.h"
 
-struct file_descriptor
-{
-	int fd;
-	unsigned refcount;
-};
-
-static struct file_descriptor* new_file_descriptor(int fd)
-{
-	ENTER;
-	
-	dpv(fd);
-	
-	struct file_descriptor* this = smalloc(sizeof(*this));
-	
-	this->fd = fd;
-	this->refcount = 1;
-	
-	EXIT;
-	return this;
-}
-
-static struct file_descriptor* inc_file_descriptor(struct file_descriptor* this)
-{
-	this->refcount++;
-	return this;
-}
-
-static void free_file_descriptor(struct file_descriptor* this)
-{
-	ENTER;
-	
-	if (!--this->refcount)
-	{
-		if (this->fd > 0)
-			close(this->fd);
-		free(this);
-	}
-	else
-	{
-		dpv(this->refcount);
-	}
-	
-	EXIT;
-}
-
 struct file_info
 {
 	int fd;
 	
 	dev_t st_dev;
 	ino_t st_ino;
-	
-	struct file_descriptor *abs_dirfd, *rel_dirfd;
 };
 
-static struct file_info* new_file_info(
-	int fd,
-	struct file_descriptor *abs_dirfd,
-	struct file_descriptor *rel_dirfd)
+static struct file_info* new_file_info(int fd)
 {
 	ENTER;
 	
@@ -98,10 +56,18 @@ static struct file_info* new_file_info(
 	
 	dpv(fd);
 	
+	struct stat statbuf;
+	
+	if (fstat(fd, &statbuf) < 0)
+	{
+		TODO;
+		exit(1);
+	}
+	
 	this->fd = fd;
 	
-	this->abs_dirfd = inc_file_descriptor(abs_dirfd);
-	this->rel_dirfd = inc_file_descriptor(rel_dirfd);
+	this->st_dev = statbuf.st_dev;
+	this->st_ino = statbuf.st_ino;
 	
 	EXIT;
 	return this;
@@ -109,7 +75,23 @@ static struct file_info* new_file_info(
 
 static int compare(const void* a, const void* b)
 {
-	TODO;
+	const struct file_info *A = a, *B = b;
+	if (A->st_dev > B->st_dev)
+		return +1;
+	if (A->st_dev < B->st_dev)
+		return -1;
+	if (A->st_ino > B->st_ino)
+		return +1;
+	if (A->st_ino < B->st_ino)
+		return -1;
+	return +0;
+}
+
+static void free_file_info(void* ptr)
+{
+	struct file_info* this = ptr;
+	
+	free(this);
 }
 
 void parse_driver(
@@ -125,21 +107,23 @@ void parse_driver(
 	
 	struct quack* todo = new_quack();
 	
-	struct avl_tree_t* queued = avl_alloc_tree(compare, free);
+	struct avl_tree_t* queued = avl_alloc_tree(compare, free_file_info);
 	
 	// setup:
 	{
-		struct br_rettype bun = break_and_open_path(AT_FDCWD, input_path);
+		int fd = open(input_path, O_RDONLY);
 		
-		struct file_descriptor* des = new_file_descriptor(bun.dirfd);
+		if (fd < 0)
+		{
+			fprintf(stderr, "%s: cannot open input file '%s': %m!\n", argv0, input_path);
+			exit(1);
+		}
 		
-		struct file_info* info = new_file_info(bun.fd, des, des);
+		struct file_info* info = new_file_info(fd);
 		
 		avl_insert(queued, info);
 		
 		quack_append(todo, info);
-		
-		free_file_descriptor(des);
 	}
 	
 	while (quack_is_nonempty(todo))
@@ -158,7 +142,38 @@ void parse_driver(
 			
 			if (statement->using)
 			{
-				TODO;
+				char* path = (void*) statement->using->path->data;
+				
+				dpvs(path);
+				
+				memmove(path, path + 1, strlen(path) - 1);
+				path[strlen(path) - 2] = 0;
+				
+				dpvs(path);
+				
+				int fd = open(path, O_RDONLY);
+				
+				if (fd < 0)
+				{
+					fprintf(stderr, "%s: cannot open %%using-ed file '%s': %m!\n", argv0, path);
+					exit(1);
+				}
+				
+				struct file_info* info = new_file_info(fd);
+				
+				if (errno = 0, avl_insert(queued, info))
+				{
+					quack_append(todo, info);
+				}
+				else if (errno = EEXIST)
+				{
+					free_file_info(info);
+				}
+				else
+				{
+					TODO;
+					exit(1);
+				}
 			}
 			else  if (statement->skip)
 			{
@@ -193,9 +208,6 @@ void parse_driver(
 		free_zebu_$start(start);
 		
 		fclose(stream);
-		
-		free_file_descriptor(info->abs_dirfd);
-		free_file_descriptor(info->rel_dirfd);
 	}
 	
 	lex_add_EOF_token(lex);
