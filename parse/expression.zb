@@ -31,7 +31,7 @@ primary_expression
 //	| "intersectmap!" #intersectmap_form '(' expression #arg ')'
 	| "int!"          #int_form '(' expression #arg ')'
 	| "len!"          #len_form '(' expression #arg ')'
-//	| "map!"          #map_form '(' expression #args[] (',' expression #args[])+ ')'
+	| "map!"          #map_form '(' expression #args[] (',' expression #args[])+ ')'
 //	| "max!"          #max_form '(' expression #args[] (',' expression #args[])? ')'
 //	| "min!"          #min_form '(' expression #args[] (',' expression #args[])? ')'
 	| "range!"        #range_form '(' expression #args[] (',' expression #args[])? ')'
@@ -131,8 +131,7 @@ equality_expression
 
 match_expression
 	: equality_expression #base
-	| equality_expression #left "=~" #e equality_expression #right
-	| equality_expression #left "!~" #n equality_expression #right
+	| equality_expression #base "=~" '/' regex #pattern '/'
 	;
 
 and_expression

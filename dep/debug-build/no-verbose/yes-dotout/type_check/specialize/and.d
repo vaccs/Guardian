@@ -7,5 +7,5 @@ bin/debug-build/no-verbose/yes-dotout/./type_check/specialize/and.o: \
  expression/dict_math/new.h expression/dict_math/kind.h \
  expression/dict_math/run.h expression/set_math/new.h \
  expression/set_math/kind.h expression/set_math/run.h expression/free.h \
- type/struct.h type/kind.h type_check/specialize/equality.h \
+ type/struct.h type/kind.h type_check/specialize/match.h \
  type_check/specialize/and.h

@@ -21,7 +21,7 @@
 
 #include <type/struct.h>
 
-#include "equality.h"
+#include "match.h"
 #include "and.h"
 
 struct expression* specialize_and_expression(
@@ -34,10 +34,12 @@ struct expression* specialize_and_expression(
 	
 	if (zexpression->base)
 	{
-		retval = specialize_equality_expression(tcache, scope, zexpression->base);
+		retval = specialize_match_expression(tcache, scope, zexpression->base);
 	}
 	else if (zexpression->left)
 	{
+		TODO;
+		#if 0
 		struct expression* left = specialize_and_expression(tcache, scope, zexpression->left);
 		struct expression* right = specialize_equality_expression(tcache, scope, zexpression->right);
 		
@@ -125,6 +127,7 @@ struct expression* specialize_and_expression(
 		
 		free_expression(left);
 		free_expression(right);
+		#endif
 	}
 	else
 	{
@@ -134,6 +137,7 @@ struct expression* specialize_and_expression(
 	EXIT;
 	return retval;
 }
+
 
 
 

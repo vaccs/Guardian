@@ -81,10 +81,18 @@ struct expression* specialize_equality_expression(
 		{
 			struct literal_expression* spef_left = (void*) left, *spef_right = (void*) right;
 			
-			bool is_equal = !compare_values(spef_left->value, spef_right->value);
+			int cmp = compare_values(spef_left->value, spef_right->value);
 			
-			if (zexpression->not)
-				is_equal = !is_equal;
+			bool is_equal;
+			
+			if (zexpression->e)
+				is_equal = cmp == 0;
+			else if (zexpression->n)
+				is_equal = cmp != 0;
+			else
+			{
+				TODO;
+			}
 			
 			dpvb(is_equal);
 			
@@ -98,7 +106,7 @@ struct expression* specialize_equality_expression(
 		}
 		else
 		{
-			retval = new_comparison_expression(tcache, zexpression->not ? cek_not_equal_to : cek_equal_to, left, right);
+			retval = new_comparison_expression(tcache, zexpression->n ? cek_not_equal_to : cek_equal_to, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

@@ -1,5 +1,5 @@
 
-%parse: argv as passwd_file;
+%parse: "/etc/passwd" as passwd_file;
 
 passwd_file: (passwd_record '\n')+;
 
@@ -34,7 +34,7 @@ shell: /[!(':', '\n')]* /;
 
 %error: any!(map!($name n -> bool: n.value == "root", name));
 
-%warning: any!(map!($name n -> bool: n.value =~ /['A'-'Z']+/, name));
+%warning: all!(map!($name n -> bool: n.value =~ /['a'-'z']+/, name));
 
 %error: all!(map!($uid u -> bool: u.value <= 65535, uid));
 

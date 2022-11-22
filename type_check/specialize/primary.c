@@ -81,10 +81,14 @@
 #include <expression/crossmap_form/run.h>
 #include <expression/sum_form/new.h>
 #include <expression/range_form/new.h>
+#include <expression/isabspath_form/new.h>
+#include <expression/isdir_form/new.h>
 #include <expression/set/run.h>
 #include <expression/dict/new.h>
 #include <expression/set/new.h>
 #include <expression/list/new.h>
+#include <expression/isaccessibleto_form/new.h>
+#include <expression/isexecutableby_form/new.h>
 #include <expression/inc.h>
 #include <expression/free.h>
 
@@ -1275,6 +1279,130 @@ static struct expression* specialize_primary_range_form_expression(
 	return retval;
 }
 
+static struct expression* specialize_primary_isabspath_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression* raw_argument)
+{
+	struct expression* retval;
+	ENTER;
+	
+	struct expression* path = specialize_expression(tcache, scope, raw_argument);
+	
+	struct type* path_type = type_cache_get_charlist_type(tcache);
+	
+	if (path->type != path_type)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = type_cache_get_bool_type(tcache);
+	
+	retval = new_isabspath_form_expression(type, path);
+	
+	free_expression(path);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_isdir_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression* raw_argument)
+{
+	struct expression* retval;
+	ENTER;
+	
+	struct expression* path = specialize_expression(tcache, scope, raw_argument);
+	
+	struct type* path_type = type_cache_get_charlist_type(tcache);
+	
+	if (path->type != path_type)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = type_cache_get_bool_type(tcache);
+	
+	retval = new_isdir_form_expression(type, path);
+	
+	free_expression(path);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_isaccessibleto_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
+	
+	assert(raw_len == 2);
+	
+	struct expression* path = specialize_expression(tcache, scope, raw_arguments[0]);
+	
+	struct expression* user = specialize_expression(tcache, scope, raw_arguments[1]);
+	
+	struct type* path_type = type_cache_get_charlist_type(tcache);
+	
+	if (path->type != path_type || user->type != path_type)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = type_cache_get_bool_type(tcache);
+	
+	retval = new_isaccessibleto_form_expression(type, path, user);
+	
+	free_expression(path);
+	
+	free_expression(user);
+	
+	EXIT;
+	return retval;
+}
+
+static struct expression* specialize_primary_isexecutableby_form_expression(
+	struct type_cache* tcache,
+	struct type_check_scope* scope,
+	struct zebu_expression** raw_arguments, unsigned raw_len)
+{
+	struct expression* retval;
+	ENTER;
+	
+	assert(raw_len == 2);
+	
+	struct expression* path = specialize_expression(tcache, scope, raw_arguments[0]);
+	
+	struct expression* user = specialize_expression(tcache, scope, raw_arguments[1]);
+	
+	struct type* path_type = type_cache_get_charlist_type(tcache);
+	
+	if (path->type != path_type || user->type != path_type)
+	{
+		TODO;
+		exit(1);
+	}
+	
+	struct type* type = type_cache_get_bool_type(tcache);
+	
+	retval = new_isexecutableby_form_expression(type, path, user);
+	
+	free_expression(path);
+	
+	free_expression(user);
+	
+	EXIT;
+	return retval;
+}
+
 struct expression* specialize_primary_expression(
 	struct type_cache* tcache,
 	struct type_check_scope* scope,
@@ -1463,6 +1591,26 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->range_form)
 	{
 		retval = specialize_primary_range_form_expression(tcache,
+			scope, zexpression->args.data, zexpression->args.n);
+	}
+	else if (zexpression->isabspath_form)
+	{
+		retval = specialize_primary_isabspath_form_expression(tcache,
+			scope, zexpression->arg);
+	}
+	else if (zexpression->isdir_form)
+	{
+		retval = specialize_primary_isdir_form_expression(tcache,
+			scope, zexpression->arg);
+	}
+	else if (zexpression->isaccessibleto_form)
+	{
+		retval = specialize_primary_isaccessibleto_form_expression(tcache,
+			scope, zexpression->args.data, zexpression->args.n);
+	}
+	else if (zexpression->isexecutableby_form)
+	{
+		retval = specialize_primary_isexecutableby_form_expression(tcache,
 			scope, zexpression->args.data, zexpression->args.n);
 	}
 	else

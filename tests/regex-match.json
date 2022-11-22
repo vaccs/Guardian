@@ -1,0 +1,13 @@
+
+%skip: ' ' | '\n';
+
+word: /['a'-'z']+/ #value;
+
+%parse: argv as word;
+
+%warning: word[0].value =~ /['a'-'c']+/;
+
+
+
+
+

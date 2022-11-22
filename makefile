@@ -82,8 +82,8 @@ ARGS += -v
 
 # ARGS += -i ./examples/json.maia
 # ARGS += -i ./examples/math.maia
-ARGS += -i ./examples/passwd.maia
-# ARGS += -i ./examples/zest.maia
+#ARGS += -i ./examples/passwd.maia
+ARGS += -i ./examples/zest.maia
 
 ARGS += -o /tmp/out.c
 
@@ -136,7 +136,7 @@ bin/escape: ./-escape.c | bin/
 	@ $^ -v template -o $@
 
 parse/parse.c parse/parse.h dep/parse/parse.d: parse/parse.zb | dep/parse/
-	zebu -v -m --template=fileio -i $< -o parse/parse -MF dep/parse/parse.d
+	zebu -v --template=fileio -i $< -o parse/parse -MF dep/parse/parse.d
 
 $(buildprefix)/%.o $(depprefix)/%.d: %.c | $(buildprefix)/%/ $(depprefix)/%/
 	@ echo "compiling $<"

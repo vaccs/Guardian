@@ -18,6 +18,8 @@ struct type* determine_type_of_and_expression(
 	struct type* type;
 	ENTER;
 	
+	TODO;
+	#if 0
 	if (expression->base)
 	{
 		type = determine_type_of_equality_expression(expression->base, tcache, scope);
@@ -30,6 +32,7 @@ struct type* determine_type_of_and_expression(
 	{
 		TODO;
 	}
+	#endif
 	
 	EXIT;
 	return type;

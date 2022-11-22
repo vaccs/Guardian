@@ -18,14 +18,18 @@ enum expression_kind
 	ek_len_form,
 	ek_int_form,
 	ek_any_form,
+	ek_map_form,
+	ek_sum_form,
 	ek_list_form,
 	ek_dict_form,
 	ek_tuple_form,
 	ek_float_form,
-	ek_map_form,
-	ek_crossmap_form,
-	ek_sum_form,
 	ek_range_form,
+	ek_isdir_form,
+	ek_crossmap_form,
+	ek_isabspath_form,
+	ek_isaccessibleto_form,
+	ek_isexecutableby_form,
 	
 	ek_funccall,
 	ek_dict_index,
@@ -44,6 +48,8 @@ enum expression_kind
 	ek_tuple_concat,
 	
 	ek_comparison,
+	
+	ek_regex_match,
 	
 	ek_logical_or,
 	
