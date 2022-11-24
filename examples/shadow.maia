@@ -1,29 +1,48 @@
 
 %parse: "/etc/shadow" as (shadow_record '\n')+;
 
-%using: "crypt.maia";
-
-%using: "set-functions.maia";
-
 shadow_record:
-	name #name ":"
-	password #password ":"
-	lastPasswordChange ":"
-	minimumPasswordAge ":"
-	maximumPasswordAge " : "
-	passwordWarningPeriod ":"
-	passwordInactivityPeriod " : "
-	accountExpirationDate ":"
+	shadow_name #name ":"
+	shadow_password ":"
+	last_password_change ":"
+	minimum_password_age ":"
+	maximum_password_age " : "
+	password_warning_period ":"
+	password_inactivity_period " : "
+	account_expiration_date ":"
 	reserved;
 
-name = [ a−zA−Z_][ − a−zA−Z0−9_] { 0 , 3 1 } ;
-password = CryptPassword ;
-lastPasswordChange = S t r i n g P o s D e c ∗ ;
-minimumPasswordAge = S t r i n g P o s D e c ∗ ;
-maximumPasswordAge = S t r i n g P o s D e c ∗ ;
-passwordWarningPeriod = S t r i n g P o s D e c ∗ ;
-p a s s w o r d I n a c t i v i t y P e r i o d = StringPosDec ∗ ;
-accountExpirationDate = StringPosDec ∗ ;
-reserved = [^:\n] ∗ ;
-name i s U n i q u e ( ) ;
-Newline = "\n" ;
+shadow_name: /['a'-'z', 'A'-'Z', '_']['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0,31}/ #value;
+
+%include: "crypt.maia";
+
+shadow_password: crypt_password #password;
+
+last_password_change: /['0'-'9']* /;
+
+minimum_password_age: /['0'-'9']* /;
+
+maximum_password_age: /['0'-'9']* /;
+
+password_warning_period: /['0'-'9']* /;
+
+password_inactivity_period: /['0'-'9']* /;
+
+account_expiration_date: /['0'-'9']* /;
+
+reserved: /[!(':', '\n')]* /;
+
+%include: "set-functions.maia";
+
+%error: is_unique(map!($shadow_name n -> char[]: n.value, shadow_name));
+
+
+
+
+
+
+
+
+
+
+

@@ -1,14 +1,18 @@
-2
-3
-u s i n g " P a s s w d F i l e . maia " on "/ e t c / passwd " ;
-u s i n g " ShadowFile . maia " on "/ e t c / shadow " ;
-u s i n g " GroupFile . maia " on "/ e t c / group " ;
-4
-5
-passwdRecord : password == ' x ' i m p l i e s name i n shadowRecord . name ;
-6
-7
-P a s s w d F i l e . g i d : g i d i n GroupFile . g i d ;
-8
-9
-GroupFile . userName : userName i n P a s s w d F i l e . name ;
+
+%include: "passwd.maia";
+%include: "shadow.maia";
+%include: "group.maia";
+
+shadow_names = map!($shadow_record sr -> char[]: shadow_record.name.value, shadow_record);
+
+%error: all!(map!($passwd_record pr -> bool:
+	pr.password has x implies pr.name.value in shadow_names, passwd_record));
+
+group_gids = map!($group_gid gg -> int: gg.value, group_gid);
+
+%error: all!(map!($gid g -> bool: g.value in group_gids, gid));
+
+names = map!($name n -> char[]: n.value, name);
+
+%error: all!(map!($user_name un -> bool: un.value in names, user_name));
+

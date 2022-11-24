@@ -103,6 +103,14 @@
 
 #include <list/value_pair/struct.h>
 
+#include <type/print.h>
+
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
+
 #include <value/int/new.h>
 #include <value/bool/new.h>
 #include <value/list/struct.h>
@@ -297,20 +305,19 @@ static struct expression* specialize_primary_identifier_expression(
 	struct type* type = NULL;
 	struct value* value = NULL;
 	
-	if (type_check_scope_lookup(scope, name, &type, &value))
+	if (!type_check_scope_lookup(scope, name, &type, &value))
 	{
-		if (value)
-		{
-			retval = new_literal_expression(value);
-		}
-		else
-		{
-			retval = new_variable_expression(type, name);
-		}
+		fprintf(stderr, "%s: use of undefined variable '%s'!\n",
+			argv0, (char*) zexpression->identifier->data);
+		exit(1);
+	}
+	else if (value)
+	{
+		retval = new_literal_expression(value);
 	}
 	else
 	{
-		TODO;
+		retval = new_variable_expression(type, name);
 	}
 	
 	free_string(name);
@@ -1353,7 +1360,29 @@ static struct expression* specialize_primary_isaccessibleto_form_expression(
 	
 	if (path->type != path_type || user->type != path_type)
 	{
-		TODO;
+		struct stringtree* tree = new_stringtree();
+		
+		stringtree_append_printf(tree, "%s: bad types for builtin isaccessibleto!(): '", argv0);
+		
+		{
+			struct stringtree* subtree = type_print2(path->type);
+			stringtree_append_tree(tree, subtree);
+			free_stringtree(subtree);
+		}
+		
+		stringtree_append_printf(tree, "' and '");
+		
+		
+		{
+			struct stringtree* subtree = type_print2(user->type);
+			stringtree_append_tree(tree, subtree);
+			free_stringtree(subtree);
+		}
+		
+		stringtree_append_printf(tree, "'!\n");
+		
+		stringtree_stream(tree, stderr);
+		
 		exit(1);
 	}
 	

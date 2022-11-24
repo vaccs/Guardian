@@ -14,7 +14,7 @@ passwd_record:
 
 name: /['a'-'z', 'A'-'Z', '_'] ['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0, 31}/ #value;
 
-password: "*" | "x" | crypt_password;
+password: "*" | "x" #x | crypt_password;
 
 uid: /int: ['0'-'9']+ / #value;
 
@@ -24,7 +24,7 @@ gecos: /[!(':', '\n')]* /;
 
 directory: /[!(':', '\n')]* / #path;
 
-shell: /[!(':', '\n')]* /;
+shell: /[!(':', '\n')]* / #path;
 
 %include: "./crypt.maia";
 
@@ -48,13 +48,13 @@ shell: /[!(':', '\n')]* /;
 		pr.name.value == "root" implies pr.uid.value == 0,
 	passwd_record));
 
-%error: all!(map!(
-	$passwd_record pr -> bool: isaccessibleto!(pr.name, d.path), passwd_record));
+%warning: all!(map!(
+	$passwd_record pr -> bool: isaccessibleto!(pr.directory.path, pr.name.value), passwd_record));
 
 %error: all!(map!(
 	$passwd_record pr -> bool:
-		pr.shell != "" implies
-			isabspath!(pr.shell) && isexecutableby!(pr.user, pr.shell),
+		pr.shell.path != "" implies
+			isabspath!(pr.shell.path) && isexecutableby!(pr.shell.path, pr.name.value),
 	passwd_record));
 
 

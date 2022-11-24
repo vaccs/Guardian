@@ -1,33 +1,24 @@
-2
-u s i n g " CryptPassword . maia " ;
-u s i n g " SetTemplates . maia " ;
-3
-4
-GroupFile = ( groupRecord Newline )+ ;
-5
-6
-groupRecord = groupName " : " password " : " g i d " : " u s e r L i s t ? ;
-7
-8
-groupName = [ a−zA−Z_][ − a−zA−Z0−9_] { 0 , 3 1 } ;
-9
-10
-password = CryptPassword | x ;
-11
-12
-g i d = S t r i n g P o s D e c+ ;
-13
-14
-u s e r L i s t = userName ( " , " userName ) ∗ ;
-15
-16
-userName = [ a−zA−Z_][ − a−zA−Z0−9_] { 0 , 3 1 } ;
-17
-18
-Newline = "\n" ;
-19
-20
-groupName i s U n i q u e ( ) ;
-21
-22
-gid isUnique ( ) ;
+
+
+%parse: "/etc/group" as (group_record '\n')+;
+
+group_record: group_name ":" group_password ":" group_gid ":" user_list?;
+
+group_name: /['a'-'z', 'A'-'Z', '_'] ['-', 'a'-'z', 'A'-'Z', '0'-'9', '_'] {0,31}/ #name;
+
+%include: "crypt.maia";
+
+group_password: crypt_password | 'x';
+
+group_gid: /int: ['0'-'9']+/ #value;
+
+user_list: user_name ("," user_name)*;
+
+user_name: /['a'-'z', 'A'-'Z', '_']['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0,31}/ #value;
+
+%include: "set-functions.maia";
+
+%error: is_unique(map!($group_name gn -> char[]: gn.name, group_name));
+
+//%error: is_unique(map!(gid g -> char[]: gn.value, gid));
+

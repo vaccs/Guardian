@@ -14,6 +14,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include <math.h>
 #include <gmp.h>
@@ -159,6 +161,8 @@ int main(int argc, char* const* argv)
 		struct { unsigned* data, n, cap; } yacc = {};
 		struct { void** data; unsigned n, cap; } data = {};
 		struct { unsigned char* data; unsigned n, cap; unsigned line; } lexer = {};
+		
+		lexer.line = 1;
 		
 		void push_state(unsigned y)
 		{

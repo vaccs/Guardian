@@ -75,12 +75,11 @@ struct gbundle read_grammar_highest_regex(
 		
 		if (token->data[token->len - 1] == ']')
 		{
-			TODO;
-			#if 0
-			struct string* tag = new_string_from_token(token);
-			structinfo_add_field(structinfo, tag, NULL, snt_token_array);
+			struct string* tag = new_string((char*) token->data + 1, token->len - 3);
+			
+			structinfo_add_field(structinfo, snt_token_array, tag, NULL, highest->tokentype);
+			
 			free_string(tag);
-			#endif
 		}
 		else
 		{

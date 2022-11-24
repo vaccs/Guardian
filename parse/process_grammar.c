@@ -4,6 +4,8 @@
 
 #include <debug.h>
 
+#include <defines/argv0.h>
+
 #include <string/new.h>
 #include <string/free.h>
 
@@ -46,7 +48,9 @@ void process_grammar(
 	
 	if (avl_search(grammar, &name))
 	{
-		TODO;
+		fprintf(stderr,
+			"%s: duplicate grammar rule '%s'!\n", argv0, (char*) rule->name->data);
+		
 		exit(1);
 	}
 	

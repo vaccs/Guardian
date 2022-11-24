@@ -32,12 +32,13 @@ bin/test-build/no-verbose/no-dotout/./type_check/specialize/primary.o: \
  type/struct.h type/kind.h type/list/struct.h type/list/../struct.h \
  type/tuple/struct.h type/tuple/../struct.h type/lambda/struct.h \
  type/lambda/../struct.h list/type/struct.h list/value/struct.h \
- list/value_pair/struct.h value/int/new.h value/bool/new.h \
- value/list/struct.h value/list/../struct.h value/list/../kind.h \
- value/list/new.h value/char/new.h value/tuple/new.h value/float/new.h \
- value/set/struct.h value/set/../struct.h value/set/new.h \
- value/dict/struct.h value/dict/../struct.h value/dict/new.h \
- value/compare.h value/free.h mpz/new.h mpz/free.h \
- type_check/specialize/../scope/lookup.h \
+ list/value_pair/struct.h type/print.h stringtree/new.h \
+ stringtree/append_printf.h stringtree/append_tree.h stringtree/stream.h \
+ stringtree/free.h value/int/new.h value/bool/new.h value/list/struct.h \
+ value/list/../struct.h value/list/../kind.h value/list/new.h \
+ value/char/new.h value/tuple/new.h value/float/new.h value/set/struct.h \
+ value/set/../struct.h value/set/new.h value/dict/struct.h \
+ value/dict/../struct.h value/dict/new.h value/compare.h value/free.h \
+ mpz/new.h mpz/free.h type_check/specialize/../scope/lookup.h \
  type_check/specialize/../build_type.h type_check/specialize/expression.h \
  type_check/specialize/primary.h

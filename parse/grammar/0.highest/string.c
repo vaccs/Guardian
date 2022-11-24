@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <debug.h>
 
+#include <string/new.h>
+#include <string/free.h>
 
 #include <lex/struct.h>
 #include <lex/add_token.h>
@@ -75,21 +77,26 @@ struct gbundle read_grammar_highest_string(
 	
 	for (unsigned i = 0, n = highest->tags.n; i < n; i++)
 	{
-		TODO;
-		#if 0
 		struct zebu_token* token = highest->tags.data[i];
 		
 		dpvsn(token->data, token->len);
 		
-		struct string* tag = new_string_from_token(token);
-		
 		if (token->data[token->len - 1] == ']')
-			structinfo_add_field(structinfo, tag, NULL, snt_token_array);
+		{
+			struct string* tag = new_string((char*) token->data + 1, token->len - 3);
+			
+			structinfo_add_field(structinfo, snt_token_array, tag, NULL, NULL);
+			
+			free_string(tag);
+		}
 		else
-			structinfo_add_field(structinfo, tag, NULL, snt_token_scalar);
-		
-		free_string(tag);
-		#endif
+		{
+			struct string* tag = new_string((char*) token->data + 1, token->len - 1);
+			
+			structinfo_add_field(structinfo, snt_token_scalar, tag, NULL, NULL);
+			
+			free_string(tag);
+		}
 	}
 	
 	gegex_add_transition(start, token_id, structinfo, end);
