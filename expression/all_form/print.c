@@ -32,9 +32,9 @@ struct stringtree* all_form_expression_print(
 	
 	stringtree_append_tree(tree, sub);
 	
-	free_stringtree(sub);
-	
 	stringtree_append_printf(tree, ")");
+	
+	free_stringtree(sub);
 	
 	EXIT;
 	return tree;

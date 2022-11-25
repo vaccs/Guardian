@@ -3,7 +3,7 @@
 %include: "shadow.maia";
 %include: "group.maia";
 
-shadow_names = map!($shadow_record sr -> char[]: shadow_record.name.value, shadow_record);
+shadow_names = map!($shadow_record sr -> char[]: sr.name.value, shadow_record);
 
 %error: all!(map!($passwd_record pr -> bool:
 	pr.password has x implies pr.name.value in shadow_names, passwd_record));

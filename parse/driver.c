@@ -155,11 +155,12 @@ void parse_driver(
 		}
 		else if (errno == EEXIST)
 		{
-			TODO;
+			free(finfo);
 		}
 		else
 		{
 			TODO;
+			exit(1);
 		}
 		
 		close(brt.fd);

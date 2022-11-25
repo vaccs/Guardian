@@ -182,7 +182,29 @@ struct expression* specialize_postfix_expression(
 					
 					if (dtype->key != index->type)
 					{
-						TODO;
+						struct stringtree* tree = new_stringtree();
+						
+						stringtree_append_printf(tree,
+							"%s: incompatible type for index in dict-index "
+							"expression: '", argv0);
+						
+						{
+							struct stringtree* subtree = type_print2(index->type);
+							stringtree_append_tree(tree, subtree);
+							free_stringtree(subtree);
+						}
+						
+						stringtree_append_printf(tree, "' on a dict of type '");
+							
+						{
+							struct stringtree* subtree = type_print2(sub->type);
+							stringtree_append_tree(tree, subtree);
+							free_stringtree(subtree);
+						}
+						
+						stringtree_append_printf(tree, "'!\n");
+						
+						stringtree_stream(tree, stderr);
 						exit(1);
 					}
 					
@@ -217,7 +239,20 @@ struct expression* specialize_postfix_expression(
 		{
 			if (sub->type->kind != tk_grammar)
 			{
-				TODO;
+				struct stringtree* tree = new_stringtree();
+				
+				stringtree_append_printf(tree,
+					"%s: incompatible type for field-index expression: '", argv0);
+				
+				{
+					struct stringtree* subtree = type_print2(sub->type);
+					stringtree_append_tree(tree, subtree);
+					free_stringtree(subtree);
+				}
+				
+				stringtree_append_printf(tree, "'!\n");
+				
+				stringtree_stream(tree, stderr);
 				exit(1);
 			}
 			

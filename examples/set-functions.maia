@@ -5,25 +5,30 @@ is_unique = $char[][] array -> bool:
 		$int a, b -> bool: a != b implies array[a] != array[b],
 		range!(len!(array)), range!(len!(array))));
 
-//template nonrepeating(T[] list):
-//	all($int i, j: i != j implies list[i] != list[j],
-//		0 to len(list), 0 to len(list)
-//	);
+
+is_ascending = $char[][] array -> bool:
+	all!(crossmap!(
+		$int a, b -> bool: a != b implies array[a] < array[b],
+		range!(len!(array)), range!(len!(array))));
 
 
-// (template set isUnique())*/
-// 	forEvery set: set[i] != set[j];*/
+is_nondescending = $char[][] array -> bool:
+	all!(crossmap!(
+		$int a, b -> bool: a != b implies array[a] <= array[b],
+		range!(len!(array)), range!(len!(array))));
 
-// (template set isAscending())*/
-// 	forEvery set: i < j implies set[i] < set[j];*/
 
-// (template set isNonDescending())*/
-// 	forEvery set: i < j implies set[i] <= set[j];*/
+is_nonascending = $char[][] array -> bool:
+	all!(crossmap!(
+		$int a, b -> bool: a != b implies array[a] >= array[b],
+		range!(len!(array)), range!(len!(array))));
 
-// (template set isNonAscending())*/
-// 	forEvery set: i < j implies set[i] >= set[j];*/
 
-// (template set isDescending())*/
-//	forEvery set: i < j implies set[i] > set[j];*/
+is_descending = $char[][] array -> bool:
+	all!(crossmap!(
+		$int a, b -> bool: a != b implies array[a] > array[b],
+		range!(len!(array)), range!(len!(array))));
+
+
 
 

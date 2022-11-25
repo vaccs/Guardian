@@ -67,7 +67,7 @@ struct stringtree* parse_statement_print_source(
 		
 		stringtree_append_printf(tree, "if (verbose)");
 		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "	printf(\"reading '%%s':\\n\", (char*) buffer);\n");
+		stringtree_append_printf(tree, "	printf(\"parsing '%%s':\\n\", (char*) buffer);\n");
 		stringtree_append_printf(tree, "}");
 		
 		struct type* type = type_cache_get_grammar_type(shared->tcache, this->grammar_name);

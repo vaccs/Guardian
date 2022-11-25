@@ -28,7 +28,7 @@ struct stringtree* map_form_expression_print(
 	
 	struct map_form_expression* this = (void*) super;
 	
-	stringtree_append_printf(tree, "crossmap!(");
+	stringtree_append_printf(tree, "map!(");
 	
 	{
 		struct stringtree* sub = expression_print2(this->lambda);
@@ -36,15 +36,10 @@ struct stringtree* map_form_expression_print(
 		free_stringtree(sub);
 	}
 	
-	bool first = true;
-	
 	expression_list_foreach(this->arguments, ({
 		void runme(struct expression* expression)
 		{
-			if (first)
-				first = false;
-			else
-				stringtree_append_printf(tree, ", ");
+			stringtree_append_printf(tree, ", ");
 			
 			struct stringtree* sub = expression_print2(expression);
 			
@@ -55,9 +50,20 @@ struct stringtree* map_form_expression_print(
 		runme;
 	}));
 	
-	stringtree_append_printf(tree, ", ");
+	stringtree_append_printf(tree, ")");
 	
 	EXIT;
 	return tree;
 }
+
+
+
+
+
+
+
+
+
+
+
 

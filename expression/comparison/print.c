@@ -4,6 +4,7 @@
 
 #include <debug.h>
 
+#include <stringtree/new.h>
 #include <stringtree/append_tree.h>
 #include <stringtree/append_printf.h>
 #include <stringtree/free.h>
@@ -31,7 +32,15 @@ struct stringtree* comparison_expression_print(
 	
 	struct comparison_expression* this = (void*) super;
 	
-	struct stringtree* tree = expression_print2(this->left);
+	struct stringtree* tree = new_stringtree();
+	
+	{
+		struct stringtree* sub = expression_print2(this->left);
+		
+		stringtree_append_tree(tree, sub);
+		
+		free_stringtree(sub);
+	}
 	
 	if (!lookup[this->kind])
 	{
@@ -40,11 +49,13 @@ struct stringtree* comparison_expression_print(
 	
 	stringtree_append_printf(tree, " %s ", lookup[this->kind]);
 	
-	struct stringtree* sub = expression_print2(this->right);
-	
-	stringtree_append_tree(tree, sub);
-	
-	free_stringtree(sub);
+	{
+		struct stringtree* sub = expression_print2(this->right);
+		
+		stringtree_append_tree(tree, sub);
+		
+		free_stringtree(sub);
+	}
 	
 	EXIT;
 	return tree;

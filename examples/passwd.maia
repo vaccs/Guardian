@@ -14,7 +14,7 @@ passwd_record:
 
 name: /['a'-'z', 'A'-'Z', '_'] ['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0, 31}/ #value;
 
-password: "*" | "x" #x | crypt_password;
+password: "x" #x | crypt_password;
 
 uid: /int: ['0'-'9']+ / #value;
 

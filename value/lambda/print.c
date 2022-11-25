@@ -15,6 +15,7 @@
 
 #include <type/print.h>
 
+#include <expression/struct.h>
 #include <expression/print.h>
 
 #include "../print.h"
@@ -60,13 +61,25 @@ struct stringtree* lambda_value_print(
 		runme;
 	}));
 	
+	stringtree_append_printf(tree, " -> ");
+	
+	{
+		struct stringtree* sub = type_print2(this->body->type);
+		
+		stringtree_append_tree(tree, sub);
+		
+		free_stringtree(sub);
+	}
+	
 	stringtree_append_printf(tree, ": ");
 	
-	struct stringtree* sub = expression_print2(this->body);
-	
-	stringtree_append_tree(tree, sub);
-	
-	free_stringtree(sub);
+	{
+		struct stringtree* sub = expression_print2(this->body);
+		
+		stringtree_append_tree(tree, sub);
+		
+		free_stringtree(sub);
+	}
 	
 	EXIT;
 	return tree;

@@ -1,5 +1,5 @@
 
-crypt_password: posix_crypt | glibc_crypt;
+crypt_password: "*" | ("!"* (posix_crypt | glibc_crypt)?);
 
 posix_crypt: /['a'-'z', 'A'-'Z', '0'-'9', '.', '/']{13}/;
 

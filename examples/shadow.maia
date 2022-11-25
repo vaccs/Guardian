@@ -6,9 +6,9 @@ shadow_record:
 	shadow_password ":"
 	last_password_change ":"
 	minimum_password_age ":"
-	maximum_password_age " : "
+	maximum_password_age ":"
 	password_warning_period ":"
-	password_inactivity_period " : "
+	password_inactivity_period ":"
 	account_expiration_date ":"
 	reserved;
 

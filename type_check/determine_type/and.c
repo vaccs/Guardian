@@ -7,7 +7,7 @@
 
 #include <type_cache/get_type/int.h>
 
-#include "equality.h"
+#include "match.h"
 #include "and.h"
 
 struct type* determine_type_of_and_expression(
@@ -18,11 +18,9 @@ struct type* determine_type_of_and_expression(
 	struct type* type;
 	ENTER;
 	
-	TODO;
-	#if 0
 	if (expression->base)
 	{
-		type = determine_type_of_equality_expression(expression->base, tcache, scope);
+		type = determine_type_of_match_expression(expression->base, tcache, scope);
 	}
 	else if (expression->left)
 	{
@@ -32,7 +30,6 @@ struct type* determine_type_of_and_expression(
 	{
 		TODO;
 	}
-	#endif
 	
 	EXIT;
 	return type;
