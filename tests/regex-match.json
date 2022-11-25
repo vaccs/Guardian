@@ -1,11 +1,56 @@
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"word: /['a'-'z']+/ #value;",
+			
+			"%parse: argv as word;",
+			
+			"%warning: word[0].value =~ /['a'-'c']+/;",
+		],
+		
+		"./test.txt": [
+			"acababcbccbac"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"word: /['a'-'z']+/ #value;",
+			
+			"%parse: argv as word;",
+			
+			"%warning: word[0].value =~ /['a'-'c']+/;",
+		],
+		
+		"./test.txt": [
+			"abcdjklaswefjawidfj"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]
 
-%skip: ' ' | '\n';
 
-word: /['a'-'z']+/ #value;
 
-%parse: argv as word;
 
-%warning: word[0].value =~ /['a'-'c']+/;
+
+
 
 
 

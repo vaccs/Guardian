@@ -38,10 +38,8 @@ struct expression* specialize_and_expression(
 	}
 	else if (zexpression->left)
 	{
-		TODO;
-		#if 0
 		struct expression* left = specialize_and_expression(tcache, scope, zexpression->left);
-		struct expression* right = specialize_equality_expression(tcache, scope, zexpression->right);
+		struct expression* right = specialize_match_expression(tcache, scope, zexpression->right);
 		
 		if (left->type != right->type)
 		{
@@ -127,7 +125,6 @@ struct expression* specialize_and_expression(
 		
 		free_expression(left);
 		free_expression(right);
-		#endif
 	}
 	else
 	{

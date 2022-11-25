@@ -85,8 +85,8 @@ ARGS += -v
 #ARGS += -i ./examples/passwd.maia
 #ARGS += -i ./examples/shadow.maia
 #ARGS += -i ./examples/group.maia
-ARGS += -i ./examples/login.maia
-#ARGS += -i ./examples/zest.maia
+#ARGS += -i ./examples/login.maia
+ARGS += -i ./examples/zest.maia
 
 ARGS += -o /tmp/out.c
 

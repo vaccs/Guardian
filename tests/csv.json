@@ -1,12 +1,14 @@
 [{
 	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
 		"./input.maia": [
 			
 			"cell: /int: ['0'-'9']+/ #value;",
 			
 			"row: cell #cells[] (',' cell #cells[])+;",
 			
-			"%parse: argv as (row '\n'){2,};",
+			"%parse: argv as (row '\\n'){2,};",
 			
 			"%print: row;",
 			
@@ -22,7 +24,7 @@
 			"	  len!(array) == 0 ? array",
 			"	:      index  == 0 ? array[1:]",
 			"	: [array[0]] + remove_element(array[1:], index - 1)",
-			"	;
+			"	;",
 			
 			"determinant = $int[][] matrix, int n -> int:",
 			"	n == 2",
@@ -51,9 +53,19 @@
 			"%print: d;",
 			
 			"%error: d == 1;",
-			
 		],
-	}
+		
+		"./test.txt": [
+			"1,2,3",
+			"0,1,4",
+			"5,6,0",
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
 }]
 
 
