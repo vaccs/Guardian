@@ -214,11 +214,6 @@ static struct expression* specialize_primary_character_expression(
 	{
 		code = c, i++;
 	}
-	else if (i + 1 == n)
-	{
-		TODO;
-		exit(1);
-	}
 	else switch ((c = character_literal->data[++i]))
 	{
 		case 't': code = 't', i++; break;
@@ -231,11 +226,6 @@ static struct expression* specialize_primary_character_expression(
 			fprintf(stderr, "%s: invalid character-escape '\\%c'!\n", argv0, c);
 			exit(1);
 			break;
-	}
-	
-	if (i != n)
-	{
-		TODO;
 	}
 	
 	struct value* value = new_char_value(chartype, code);
@@ -957,6 +947,7 @@ static struct expression* specialize_primary_int_form_expression(
 			else
 			{
 				TODO;
+				exit(1);
 			}
 			break;
 		}

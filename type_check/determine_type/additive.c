@@ -57,19 +57,6 @@ struct type* determine_type_of_additive_expression(
 		}
 		else
 		{
-			if (left != right)
-			{
-				TODO;
-				#if 0
-				puts(""), fflush(stdout);
-				fprintf(stderr, ""
-					"%s: incompatible types for '+' operator: ' ' and ' '!\n"
-				"", argv0);
-				type_print(left), printf(" + "), type_print(right), puts(")");
-				exit(1);
-				#endif
-			}
-			
 			type = left;
 		}
 	}
