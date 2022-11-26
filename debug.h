@@ -25,10 +25,6 @@
 		printf("%*s""TODO: File: %s: Line: %i\n", debug_depth, "", \
 			__FILE__, __LINE__);\
 		fflush(stdout); \
-		char buffer[100];\
-		sprintf(buffer, "+%i", __LINE__);\
-		if (!fork()) \
-			execlp("gedit", "gedit", __FILE__, buffer, NULL);\
 		assert(!"TODO"); \
 	}
 	
@@ -38,10 +34,6 @@
 		printf("%*s""CHECK: File: %s: Line: %i\n", debug_depth, "", \
 			__FILE__, __LINE__);\
 		fflush(stdout); \
-		char buffer[100];\
-		sprintf(buffer, "+%i", __LINE__);\
-		if (!fork()) \
-			execlp("gedit", "gedit", __FILE__, buffer, NULL);\
 		assert(!"CHECK"); \
 	}
 	
@@ -51,10 +43,6 @@
 		printf("%*s""NOPE: File: %s: Line: %i\n", debug_depth, "", \
 			__FILE__, __LINE__);\
 		fflush(stdout); \
-		char buffer[100];\
-		sprintf(buffer, "+%i", __LINE__);\
-		if (!fork()) \
-			execlp("gedit", "gedit", __FILE__, buffer, NULL);\
 		assert(!"NOPE"); \
 	}
 	
