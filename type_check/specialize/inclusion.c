@@ -1,4 +1,6 @@
 
+#include <type/list/struct.h>
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -14,6 +16,8 @@
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
+#include <expression/string_contains/new.h>
+#include <expression/string_contains/run.h>
 #include <expression/list_contains/new.h>
 #include <expression/list_contains/run.h>
 #include <expression/dict_contains/new.h>
@@ -24,11 +28,11 @@
 #include <expression/free.h>
 
 #include <type/dict/struct.h>
-#include <type/list/struct.h>
+/*#include <type/list/struct.h>*/
 #include <type/set/struct.h>
 #include <type/struct.h>
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include "logical_or.h"
 #include "inclusion.h"
@@ -52,6 +56,34 @@ struct expression* specialize_inclusion_expression(
 		
 		switch (container->type->kind)
 		{
+			case tk_string:
+			{
+				if (element->type != container->type)
+				{
+					TODO;
+					exit(1);
+				}
+				
+				if (all_literals)
+				{
+					struct literal_expression* elelit = (void*) element;
+					struct literal_expression* conlit = (void*) container;
+					
+					struct value* value = string_contains_run(
+						type, (struct string_value*) elelit->value, (struct string_value*) conlit->value);
+					
+					retval = new_literal_expression(value);
+					
+					free_value(value);
+				}
+				else
+				{
+					retval = new_string_contains_expression(type, element, container);
+				}
+				
+				break;
+			}
+			
 			case tk_list:
 			{
 				struct list_type* ltype = (void*) container->type;

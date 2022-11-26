@@ -21,6 +21,7 @@
 #include <out/type_queue/submit.h>
 
 #include <out/function_queue/submit_free.h>
+#include <out/function_queue/submit_inc.h>
 
 #include <value/print_source.h>
 
@@ -29,23 +30,22 @@
 /*#include <mpz/struct.h>*/
 
 #include <misc/value_to_id/add.h>
-#include <misc/value_to_id/discard.h>
+/*#include <misc/value_to_id/discard.h>*/
 
 #include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
 
-struct stringtree* tuple_value_print_source(
+unsigned tuple_value_print_source(
+	struct stringtree* tree,
 	struct value* super,
 	struct out_shared* shared,
 	struct value_to_id* vtoi)
 {
 	ENTER;
 	
-	struct stringtree* tree = new_stringtree();
-	
-	stringtree_append_printf(tree, "({");
+	assert(super->kind == vk_tuple);
 	
 	unsigned value_id;
 	if (value_to_id_add(vtoi, &value_id, super))
@@ -63,34 +63,21 @@ struct stringtree* tuple_value_print_source(
 		value_list_foreach(this->subvalues, ({
 			void runme(struct value* value)
 			{
-				stringtree_append_printf(tree, "value_%u->$%u = ", value_id, argcounter);
+				unsigned subvalue_id = value_print_source(tree, value, shared, vtoi);
 				
-				struct stringtree* subtree = value_print_source(value, shared, vtoi);
+				unsigned inc_id = function_queue_submit_inc(shared->fqueue, value->type);
 				
-				stringtree_append_tree(tree, subtree);
-				
-				stringtree_append_printf(tree, ";");
+				stringtree_append_printf(tree, "value_%u->$%u = func_%u(value_%u);",
+					value_id, argcounter, inc_id, subvalue_id);
 				
 				argcounter++;
-				
-				free_stringtree(subtree);
 			}
 			runme;
 		}));
-		
-		stringtree_append_printf(tree, "value_%u;",value_id);
-		
-		value_to_id_discard(vtoi, super);
 	}
-	else
-	{
-		TODO;
-	}
-	
-	stringtree_append_printf(tree, "})");
 	
 	EXIT;
-	return tree;
+	return value_id;
 }
 
 

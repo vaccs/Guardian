@@ -21,7 +21,7 @@
 struct stringtree* isdir_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -42,14 +42,11 @@ struct stringtree* isdir_form_expression_print_source(
 	}
 	
 	{
-		stringtree_append_printf(tree, "unsigned char* buffer = malloc(path->n + 1);");
+		stringtree_append_printf(tree, "unsigned char* buffer = malloc(path->len + 1);");
 		
-		stringtree_append_printf(tree, "for (unsigned i = 0; i < path->n; i++)");
-		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "	buffer[i] = path->data[i]->value;");
-		stringtree_append_printf(tree, "}");
+		stringtree_append_printf(tree, "memcpy(buffer, path->chars, path->len);");
 		
-		stringtree_append_printf(tree, "buffer[path->n] = 0;");
+		stringtree_append_printf(tree, "buffer[path->len] = 0;");
 		
 		stringtree_append_printf(tree, "struct stat statbuf;");
 		

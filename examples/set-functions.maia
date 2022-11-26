@@ -1,30 +1,30 @@
 
 
-is_unique = $char[][] array -> bool:
+is_unique = $string[] array -> bool:
 	all!(crossmap!(
 		$int a, b -> bool: a != b implies array[a] != array[b],
 		range!(len!(array)), range!(len!(array))));
 
 
-is_ascending = $char[][] array -> bool:
+is_ascending = $string[] array -> bool:
 	all!(crossmap!(
 		$int a, b -> bool: a != b implies array[a] < array[b],
 		range!(len!(array)), range!(len!(array))));
 
 
-is_nondescending = $char[][] array -> bool:
+is_nondescending = $string[] array -> bool:
 	all!(crossmap!(
 		$int a, b -> bool: a != b implies array[a] <= array[b],
 		range!(len!(array)), range!(len!(array))));
 
 
-is_nonascending = $char[][] array -> bool:
+is_nonascending = $string[] array -> bool:
 	all!(crossmap!(
 		$int a, b -> bool: a != b implies array[a] >= array[b],
 		range!(len!(array)), range!(len!(array))));
 
 
-is_descending = $char[][] array -> bool:
+is_descending = $string[] array -> bool:
 	all!(crossmap!(
 		$int a, b -> bool: a != b implies array[a] > array[b],
 		range!(len!(array)), range!(len!(array))));

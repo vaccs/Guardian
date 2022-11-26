@@ -2,11 +2,11 @@
 primitive_type
 	: "int" #int_type
 	
-	| "char" #char_type
-	
 	| "bool" #bool_type
 	
 	| "float" #float_type
+	
+	| "string" #string_type
 	
 	| `identifier` #grammar
 	

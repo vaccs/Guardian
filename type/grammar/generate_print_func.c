@@ -9,7 +9,9 @@
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
 
-#include <list/parameter/foreach.h>
+#include <list/named_type/foreach.h>
+
+#include <named/type/struct.h>
 
 #include <out/shared.h>
 #include <out/function_queue/submit_print.h>
@@ -40,8 +42,8 @@ struct stringtree* grammar_type_generate_print_func(
 	
 	bool first = true;
 	
-	parameter_list_foreach(this->fields, ({
-		void runme(struct string* name, struct type* type)
+	named_type_list_foreach(this->fields, ({
+		void runme(struct named_type* field)
 		{
 			if (first)
 			{
@@ -49,7 +51,9 @@ struct stringtree* grammar_type_generate_print_func(
 				first = false;
 			}
 			
-			unsigned print_id = function_queue_submit_print(flookup, type);
+			unsigned print_id = function_queue_submit_print(flookup, field->type);
+			
+			struct string* name = field->name;
 			
 			stringtree_append_printf(text, ""
 				"if (this->$%.*s)"

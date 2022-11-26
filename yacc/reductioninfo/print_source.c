@@ -9,13 +9,12 @@
 
 #include <type/struct.h>
 
-#include <type_cache/get_type/grammar.h>
-#include <type_cache/get_type/int.h>
-#include <type_cache/get_type/bool.h>
-#include <type_cache/get_type/float.h>
-#include <type_cache/get_type/char.h>
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/charlist.h>
+#include <type_cache/get_grammar_type.h>
+#include <type_cache/get_int_type.h>
+#include <type_cache/get_bool_type.h>
+#include <type_cache/get_string_type.h>
+#include <type_cache/get_float_type.h>
+#include <type_cache/get_list_type.h>
 
 #include <parse/parse.h>
 
@@ -41,6 +40,7 @@ void reductioninfo_print_source(
 {
 	ENTER;
 	
+	
 	switch (this->kind)
 	{
 		case rik_token:
@@ -63,31 +63,20 @@ void reductioninfo_print_source(
 						{
 							if (!node->tokentype)
 							{
-								struct type* stype = type_cache_get_charlist_type(shared->tcache);
-								struct type* ctype = type_cache_get_char_type(shared->tcache);
+								struct type* stype = type_cache_get_string_type(shared->tcache);
 								
 								unsigned new_string_id = function_queue_submit_new(shared->fqueue, stype);
-								unsigned new_char_id = function_queue_submit_new(shared->fqueue, ctype);
-								
-								unsigned append_id = function_queue_submit_append(shared->fqueue, stype);
-								
-								unsigned free_char_id = function_queue_submit_free(shared->fqueue, ctype);
 								
 								stringtree_append_printf(tree, ""
 									"{"
-										"struct type_%u* string = func_%u();"
+										"unsigned char* chars = malloc(token->len);"
 										"for (unsigned i = 0, n = token->len; i < n; i++)"
-										"{"
-											"struct type_%u* character = func_%u(token->data[i]);"
-											"func_%u(string, character);"
-											"func_%u(character);"
-										"}"
+											"chars[i] = token->data[i];"
+										"struct type_%u* string = func_%u(chars, token->len);"
 										"value->$%.*s = string;"
 									"}"
-								"", stype->id, new_string_id,
-								ctype->id, new_char_id,
-								append_id,
-								free_char_id,
+								"",
+								stype->id, new_string_id,
 								name->len, name->chars);
 							}
 							else if (node->tokentype->bool_)
@@ -114,22 +103,6 @@ void reductioninfo_print_source(
 								"",
 								name->len, name->chars, new_id,
 								name->len, name->chars, new_id);
-							}
-							else if (node->tokentype->char_)
-							{
-								struct type* type = type_cache_get_char_type(shared->tcache);
-								
-								unsigned new_id = function_queue_submit_new(shared->fqueue, type);
-								
-								stringtree_append_printf(tree, ""
-									"{"
-										"if (token->len != 1)"
-										"{"
-											"assert(!\"TODO: bad char token!\");"
-										"}"
-										"value->$%.*s = func_%u(token->data[0]);"
-									"}"
-								"", name->len, name->chars, new_id);
 							}
 							else if (node->tokentype->int_)
 							{

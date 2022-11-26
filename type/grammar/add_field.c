@@ -1,10 +1,10 @@
 
 #include <debug.h>
 
-#include <parameter/new.h>
-#include <parameter/free.h>
+#include <named/type/new.h>
+#include <named/type/free.h>
 
-#include <list/parameter/append.h>
+#include <list/named_type/append.h>
 
 #include "struct.h"
 #include "add_field.h"
@@ -16,11 +16,11 @@ void grammar_type_add_field(
 {
 	ENTER;
 	
-	struct parameter* field = new_parameter(name, type);
+	struct named_type* field = new_named_type(name, type);
 	
-	parameter_list_append(this->fields, field);
+	named_type_list_append(this->fields, field);
 	
-	free_parameter(field);
+	free_named_type(field);
 	
 	EXIT;
 }

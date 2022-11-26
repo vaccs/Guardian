@@ -7,7 +7,7 @@
 
 #include <type/struct.h>
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include "postfix.h"
 #include "unary.h"

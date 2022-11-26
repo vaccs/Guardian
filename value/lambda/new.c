@@ -3,9 +3,9 @@
 
 #include <expression/inc.h>
 
-#include <list/parameter/inc.h>
+#include <list/named_type/inc.h>
 
-#include <scope/inc.h>
+#include <value/inc.h>
 
 #include "../new.h"
 
@@ -15,8 +15,8 @@
 
 struct value* new_lambda_value(
 	struct type* type,
-	struct parameter_list* parameters,
-	struct scope* captured,
+	struct named_type_list* parameters,
+	struct value* captured,
 	struct expression* body)
 {
 	ENTER;
@@ -27,9 +27,9 @@ struct value* new_lambda_value(
 		&lambda_value_inheritance,
 		sizeof(*this));
 	
-	this->parameters = inc_parameter_list(parameters);
+	this->parameters = inc_named_type_list(parameters);
 	
-	this->captured = inc_scope(captured);
+	this->captured = inc_value(captured);
 	
 	this->body = inc_expression(body);
 	
@@ -38,4 +38,13 @@ struct value* new_lambda_value(
 	EXIT;
 	return (void*) this;
 }
+
+
+
+
+
+
+
+
+
 

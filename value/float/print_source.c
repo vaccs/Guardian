@@ -3,11 +3,11 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
+/*#include <stringtree/new.h>*/
 /*#include <stringtree/append_tree.h>*/
 #include <stringtree/append_printf.h>
 
-/*#include <type/struct.h>*/
+#include <type/struct.h>
 
 #include <out/shared.h>
 /*#include <out/type_lookup/lookup.h>*/
@@ -18,12 +18,11 @@
 
 #include <misc/value_to_id/add.h>
 
-#include <misc/value_to_id/discard.h>
-
 #include "struct.h"
 #include "print_source.h"
 
-struct stringtree* float_value_print_source(
+unsigned float_value_print_source(
+	struct stringtree* tree,
 	struct value* super,
 	struct out_shared* shared,
 	struct value_to_id* vtoi)
@@ -32,10 +31,8 @@ struct stringtree* float_value_print_source(
 	
 	assert(super->kind == vk_float);
 	
-	struct stringtree* tree = new_stringtree();
-	
-	unsigned valid;
-	if (value_to_id_add(vtoi, &valid, super))
+	unsigned value_id;
+	if (value_to_id_add(vtoi, &value_id, super))
 	{
 		struct float_value* this = (void*) super;
 		
@@ -43,17 +40,13 @@ struct stringtree* float_value_print_source(
 		
 		unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 		
-		stringtree_append_printf(tree, "func_%u(%Lg)", new_id, this->value);
-		
-		value_to_id_discard(vtoi, super);
-	}
-	else
-	{
-		TODO;
+		stringtree_append_printf(tree,
+			"struct type_%u* value_%u = func_%u(%Lg);",
+				super->type->id, value_id, new_id, this->value);
 	}
 	
 	EXIT;
-	return tree;
+	return value_id;
 }
 
 

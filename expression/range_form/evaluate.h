@@ -2,5 +2,6 @@
 struct scope;
 
 struct value* range_form_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope);
+	struct value* environment);

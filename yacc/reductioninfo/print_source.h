@@ -1,4 +1,5 @@
 
+struct structinfo;
 struct reductioninfo;
 struct out_shared;
 struct stringtree;

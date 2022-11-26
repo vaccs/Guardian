@@ -21,7 +21,7 @@
 struct stringtree* isabspath_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -46,7 +46,7 @@ struct stringtree* isabspath_form_expression_print_source(
 		
 		stringtree_append_printf(tree, ""
 			"struct type_%u* result = func_%u("
-				"path->n > 0 && path->data[0]->value == '/');",
+				"path->len > 0 && path->chars[0] == '/');",
 			super->type->id, new_id);
 	}
 	

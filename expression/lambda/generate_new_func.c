@@ -41,9 +41,11 @@ struct stringtree* lambda_expression_generate_new_func(
 	
 	unsigned type_id = this->super.type->id;
 	
+	struct type* prev = ((struct environment_type*) this->environment)->prev;
+	
 	stringtree_append_printf(tree, ""
 		"struct type_%u* func_%u(struct type_%u* prev)"
-	"", type_id, func_id, this->environment->prev->super.id);
+	"", type_id, func_id, prev->id);
 	
 	stringtree_append_printf(tree, "{");
 	
@@ -57,7 +59,8 @@ struct stringtree* lambda_expression_generate_new_func(
 	
 	stringtree_append_printf(tree, "this->super.refcount = 1;");
 	
-	unsigned inc_id = function_queue_submit_inc(shared->fqueue, (struct type*) this->environment->prev);
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue, prev);
+	
 	stringtree_append_printf(tree, "this->prev = func_%u(prev);", inc_id);
 	
 	stringtree_append_printf(tree, "return &this->super;");

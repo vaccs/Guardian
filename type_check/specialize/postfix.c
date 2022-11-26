@@ -6,42 +6,32 @@
 
 #include <debug.h>
 
+#include <defines/argv0.h>
+
 #include <parse/parse.h>
 
 #include <type/struct.h>
-
-#include <defines/argv0.h>
+#include <type/lambda/struct.h>
+#include <type/print.h>
 
 #include <string/new.h>
 #include <string/free.h>
+
+#include <type/grammar/get_field.h>
+
+#include <list/type/struct.h>
 
 #include <list/expression/new.h>
 #include <list/expression/append.h>
 #include <list/expression/free.h>
 
-#include <expression/literal/struct.h>
-#include <expression/literal/new.h>
-#include <expression/funccall/new.h>
-#include <expression/funccall/run.h>
-#include <expression/list_index/new.h>
-#include <expression/list_index/run.h>
-#include <expression/list_sublist/new.h>
-#include <expression/dict_index/new.h>
-#include <expression/dict_index/run.h>
-#include <expression/tuple_index/new.h>
-#include <expression/fieldaccess/new.h>
-#include <expression/free.h>
+#include <type/list/struct.h>
 
-#include <type/tuple/struct.h>
+#include <type/dict/struct.h>
 
-#include <value/tuple/struct.h>
 #include <list/expression/struct.h>
 
-#include <list/type/struct.h>
-
-#include <value/inc.h>
-
-/*#include <parameter/struct.h>*/
+#include <list/value/append.h>
 
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
@@ -49,28 +39,43 @@
 #include <stringtree/stream.h>
 #include <stringtree/free.h>
 
-#include <mpz/struct.h>
-
-#include <list/value/struct.h>
 #include <list/value/new.h>
-#include <list/value/append.h>
+
+#include <value/struct.h>
+
+#include <expression/literal/new.h>
+
 #include <list/value/free.h>
 
-#include <type/lambda/struct.h>
-
-#include <type/print.h>
-#include <type/list/struct.h>
-#include <type/dict/struct.h>
-#include <type/grammar/get_field.h>
-
-#include <value/int/struct.h>
-#include <value/list/struct.h>
-/*#include <value/lambda/call.h>*/
-/*#include <value/inc.h>*/
 #include <value/free.h>
 
+#include <expression/struct.h>
+#include <expression/literal/struct.h>
+#include <expression/funccall/run.h>
+#include <expression/funccall/new.h>
+#include <expression/fieldaccess/new.h>
+#include <expression/dict_index/run.h>
+#include <expression/dict_index/new.h>
+#include <expression/list_index/run.h>
+#include <expression/list_index/new.h>
+#include <expression/dict_index/new.h>
+#include <expression/list_slice/new.h>
+#include <expression/string_slice/run.h>
+#include <expression/string_slice/new.h>
+#include <expression/string_index/new.h>
+#include <expression/string_index/run.h>
+#include <expression/free.h>
+
+#include <type/tuple/struct.h>
+
+#include <value/inc.h>
+#include <value/tuple/struct.h>
+#include <list/value/struct.h>
+
+#include <expression/tuple_index/new.h>
+
 #include "expression.h"
-#include "primary.h"
+#include "primary/primary.h"
 #include "postfix.h"
 
 struct expression* specialize_postfix_expression(
@@ -89,16 +94,8 @@ struct expression* specialize_postfix_expression(
 	{
 		struct expression* sub = specialize_postfix_expression(tcache, scope, zexpression->sub);
 		
-		assert(sub);
-		
-		if (zexpression->sublist)
+		if (zexpression->slice)
 		{
-			if (sub->type->kind != tk_list)
-			{
-				TODO;
-				exit(1);
-			}
-			
 			struct expression* startindex = NULL;
 			struct expression* endindex = NULL;
 			
@@ -124,16 +121,66 @@ struct expression* specialize_postfix_expression(
 				}
 			}
 			
-			if (true
-				&& sub->kind == ek_literal
-				&& (!startindex || startindex->kind == ek_literal)
-				&& (!  endindex ||   endindex->kind == ek_literal))
+			switch (sub->type->kind)
 			{
-				TODO;
-			}
-			else
-			{
-				retval = new_list_sublist_expression(sub->type, sub, startindex, endindex);
+				case tk_string:
+				{
+					if (true
+						&& sub->kind == ek_literal
+						&& (!startindex || startindex->kind == ek_literal)
+						&& (!  endindex ||   endindex->kind == ek_literal))
+					{
+						struct literal_expression* sublit = (void*) sub;
+						
+						struct string_value* string = (void*) sublit->value;
+						
+						struct int_value* startindex_int = NULL;
+						struct int_value*   endindex_int = NULL;
+						
+						if (startindex)
+						{
+							startindex_int = (void*) ((struct literal_expression*) startindex)->value;
+						}
+						
+						if (endindex)
+						{
+							endindex_int = (void*) ((struct literal_expression*) endindex)->value;
+						}
+						
+						struct value* value = string_slice_run(sub->type, string, startindex_int, endindex_int);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_string_slice_expression(sub->type, sub, startindex, endindex);
+					}
+					break;
+				}
+				
+				case tk_list:
+				{
+					if (true
+						&& sub->kind == ek_literal
+						&& (!startindex || startindex->kind == ek_literal)
+						&& (!  endindex ||   endindex->kind == ek_literal))
+					{
+						TODO;
+					}
+					else
+					{
+						retval = new_list_slice_expression(sub->type, sub, startindex, endindex);
+					}
+					break;
+				}
+				
+				default:
+				{
+					TODO;
+					exit(1);
+				}
 			}
 			
 			free_expression(startindex);
@@ -145,6 +192,35 @@ struct expression* specialize_postfix_expression(
 			
 			switch (sub->type->kind)
 			{
+				case tk_string:
+				{
+					if (index->type->kind != tk_int)
+					{
+						TODO;
+						exit(1);
+					}
+					
+					if (sub->kind == ek_literal && index->kind == ek_literal)
+					{
+						struct literal_expression* sublit = (void*) sub;
+						struct literal_expression* idxlit = (void*) index;
+						
+						struct string_value* string = (void*) sublit->value;
+						struct int_value* index = (void*) idxlit->value;
+						
+						struct value* value = string_index_run(sub->type, string, index);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_string_index_expression(sub->type, sub, index);
+					}
+					break;
+				}
+				
 				case tk_list:
 				{
 					struct list_type* ltype = (void*) sub->type;
@@ -182,6 +258,8 @@ struct expression* specialize_postfix_expression(
 					
 					if (dtype->key != index->type)
 					{
+						TODO;
+						#if 0
 						struct stringtree* tree = new_stringtree();
 						
 						stringtree_append_printf(tree,
@@ -206,6 +284,7 @@ struct expression* specialize_postfix_expression(
 						
 						stringtree_stream(tree, stderr);
 						exit(1);
+						#endif
 					}
 					
 					if (sub->kind == ek_literal && index->kind == ek_literal)
@@ -327,6 +406,8 @@ struct expression* specialize_postfix_expression(
 			
 			if (sub->type->kind != tk_lambda)
 			{
+				TODO;
+				#if 0
 				struct stringtree* tree = new_stringtree();
 				
 				stringtree_append_printf(tree,
@@ -345,12 +426,15 @@ struct expression* specialize_postfix_expression(
 				exit(1);
 				
 				free_stringtree(tree);
+				#endif
 			}
 			
 			struct lambda_type* lambda_type = (void*) sub->type;
 			
 			if (lambda_type->parameters->n != zexpression->args.n)
 			{
+				TODO;
+				#if 0
 				struct stringtree* tree = new_stringtree();
 				
 				stringtree_append_printf(tree,
@@ -369,6 +453,7 @@ struct expression* specialize_postfix_expression(
 				exit(1);
 				
 				free_stringtree(tree);
+				#endif
 			}
 			
 			struct expression_list* arguments = new_expression_list();
@@ -413,9 +498,9 @@ struct expression* specialize_postfix_expression(
 					
 					stringtree_stream(tree, stderr);
 					
-					exit(1);
-					
 					free_stringtree(tree);
+					
+					exit(1);
 				}
 				
 				expression_list_append(arguments, arg);
@@ -442,15 +527,15 @@ struct expression* specialize_postfix_expression(
 					value_list_append(valargs, le->value);
 				}
 				
-				struct value* result = funccall_run(lambda, valargs);
+				struct value* result = funccall_run(tcache, lambda, valargs);
 				
 				assert(lambda_type->rettype == result->type);
 				
 				retval = new_literal_expression(result);
 				
-				free_value(result);
-				
 				free_value_list(valargs);
+				
+				free_value(result);
 			}
 			else
 			{

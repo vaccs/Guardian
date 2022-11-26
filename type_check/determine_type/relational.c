@@ -5,7 +5,7 @@
 
 #include <parse/parse.h>
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include "shift.h"
 #include "relational.h"

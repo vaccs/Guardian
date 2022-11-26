@@ -1,4 +1,5 @@
 
+struct type;
 struct type_cache;
 struct mpz;
 

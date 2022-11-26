@@ -30,7 +30,7 @@ shell: /[!(':', '\n')]* / #path;
 
 %include: "./set-functions.maia";
 
-%error: is_unique(map!($name n -> char[]: n.value, name));
+%error: is_unique(map!($name n -> string: n.value, name));
 
 %error: any!(map!($name n -> bool: n.value == "root", name));
 

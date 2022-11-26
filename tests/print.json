@@ -11,12 +11,15 @@
 			
 			"%print: 3.14;",
 			
-			"%print: 'a';",
-			"%print: 'b';",
-			"%print: 'c';",
-			"%print: '\\t';",
-			"%print: '\\n';",
-			"%print: '\\\\';",
+			"%print: \"a\";",
+			"%print: \"b\";",
+			"%print: \"c\";",
+			"%print: \"\\t\";",
+			"%print: \"\\n\";",
+			"%print: \"\\\\\";",
+			
+			"%print: \"\";",
+			"%print: \"abc\";",
 			
 			"%print: ();",
 			"%print: (1, );",
@@ -31,9 +34,6 @@
 			"%print: [<(bool, char)>];",
 			"%print: [<bool -> char>];",
 			"%print: [<$bool -> char>];",
-			
-			"%print: \"\";",
-			"%print: \"abc\";",
 			
 			"%print: {<int>};",
 			"%print: {1, 2, 3};",

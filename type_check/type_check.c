@@ -168,8 +168,8 @@
 
 #include <list/raw_statement/foreach.h>
 
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/charlist.h>
+#include <type_cache/get_list_type.h>
+#include <type_cache/get_string_type.h>
 
 #include <statement/assert/new.h>
 #include <statement/declare/new.h>
@@ -450,9 +450,9 @@ void type_check(
 						}
 						#endif
 						
-						struct type* charlist = type_cache_get_charlist_type(tcache);
+						struct type* type = type_cache_get_string_type(tcache);
 						
-						if (specialized->type != charlist)
+						if (specialized->type != type)
 						{
 							TODO;
 							exit(1);

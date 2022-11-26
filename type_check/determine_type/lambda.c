@@ -9,7 +9,7 @@
 #include <list/type/append.h>
 #include <list/type/free.h>
 
-#include <type_cache/get_type/lambda.h>
+#include <type_cache/get_lambda_type.h>
 
 #include "../build_type.h"
 

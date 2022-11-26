@@ -26,12 +26,12 @@
 			
 			"%parse: argv as start;",
 			
-			"hightostr = $highest h -> char[]:",
+			"hightostr = $highest h -> string:",
 			"	h has literal",
 			"		? h.literal",
 			"		: \"(\" + addtostr(h.subexp) + \")\";",
 			
-			"multostr = $multiply m -> char[]:",
+			"multostr = $multiply m -> string:",
 			"	m has base",
 			"		? hightostr(m.base)",
 			"		: (multostr(m.sub) +",
@@ -39,7 +39,7 @@
 			"				? \" * \" + hightostr(m.mutme)",
 			"				: \" / \" + hightostr(m.divme)));",
 			
-			"addtostr = $add a -> char[]:",
+			"addtostr = $add a -> string:",
 			"	a has base",
 			"		? multostr(a.base)",
 			"		: (addtostr(a.sub) +",

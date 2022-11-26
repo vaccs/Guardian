@@ -5,20 +5,21 @@
 
 #include <debug.h>
 
-#include <scope/lookup.h>
+#include <value/environment/lookup.h>
 
 #include "struct.h"
 #include "evaluate.h"
 
 struct value* variable_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
 	struct variable_expression* this = (void*) super;
 	
-	struct value* value = scope_lookup(scope, this->name);
+	struct value* value = environment_value_lookup(environment, this->name);
 	
 	if (!value)
 	{

@@ -6,29 +6,24 @@
 %include "type.zb"
 
 primary_expression
-	: `int` #integer_literal
+	: "true" #true_literal
+	| "false" #false_literal
+	
+	| `int` #integer_literal
 	
 	| `float` #float_literal
 	
-	| `char` #character_literal
-	
 	| `string` #string_literal
-	
-	| "true" #true_literal
-	| "false" #false_literal
 	
 	| `identifier` #identifier
 	
 	| "all!"          #all_form '(' expression #arg ')'
 	| "any!"          #any_form '(' expression #arg ')'
 	| "bool!"         #bool_form '(' expression #arg ')'
-//	| "call!"         #call_form '(' expression #arg ')'
-//	| "char!"         #char_form '(' expression #arg ')'
 	| "crossmap!"     #crossmap_form '(' expression #args[]  (',' expression #args[])+ ')'
 //	| "dictmap!"      #dictmap_form '(' expression #arg ')'
-//	| "filter!"       #filter_form '(' expression #arg ')'
+	| "filter!"       #filter_form '(' expression #args[] ',' expression #args[] ')'
 	| "float!"        #float_form '(' expression #arg ')'
-//	| "intersectmap!" #intersectmap_form '(' expression #arg ')'
 	| "int!"          #int_form '(' expression #arg ')'
 	| "len!"          #len_form '(' expression #arg ')'
 	| "map!"          #map_form '(' expression #args[] (',' expression #args[])+ ')'
@@ -37,9 +32,9 @@ primary_expression
 	| "range!"        #range_form '(' expression #args[] (',' expression #args[])? ')'
 	| "reduce!"       #reduce_form '('expression #args[] ',' expression #args[] ')'
 	| "set!"          #set_form '(' expression #arg ')'
+//	| "setmap!"       #dictmap_form '(' expression #arg ')'
 //	| "sort!"         #sort_form '(' expression #arg ')'
 	| "sum!"          #sum_form '(' expression #arg ')'
-//	| "unionmap!"     #unionmap_form '(' expression #arg ')'
 //	| "zip!"          #zip_form '(' expression #args[]  (',' expression #args[])* ')'
 
 	| "isabspath!"      #isabspath_form '(' expression #arg ')'
@@ -72,9 +67,9 @@ postfix_expression
 	
 	| postfix_expression #sub '[' expression #index ']'
 	
-	| postfix_expression #sub '[' expression #startindex ':' #sublist ']'
-	| postfix_expression #sub '['                        ':' #sublist expression #endindex ']'
-	| postfix_expression #sub '[' expression #startindex ':' #sublist expression #endindex ']'
+	| postfix_expression #sub '[' expression #startindex ':' #slice ']'
+	| postfix_expression #sub '['                        ':' #slice expression #endindex ']'
+	| postfix_expression #sub '[' expression #startindex ':' #slice expression #endindex ']'
 	
 	| postfix_expression #sub '.' `int` #tupleindex
 	

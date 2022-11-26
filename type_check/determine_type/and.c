@@ -5,7 +5,7 @@
 
 #include <parse/parse.h>
 
-#include <type_cache/get_type/int.h>
+#include <type_cache/get_int_type.h>
 
 #include "match.h"
 #include "and.h"

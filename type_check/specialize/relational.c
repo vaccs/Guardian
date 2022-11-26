@@ -17,7 +17,7 @@
 #include <value/bool/new.h>
 #include <value/free.h>
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
@@ -73,7 +73,7 @@ struct expression* specialize_relational_expression(
 			}
 			else
 			{
-				retval = new_comparison_expression(tcache, cek_less_than, left, right);
+				retval = new_comparison_expression(type, cek_less_than, left, right);
 			}
 		}
 		else if (zexpression->gt)
@@ -93,7 +93,7 @@ struct expression* specialize_relational_expression(
 			}
 			else
 			{
-				retval = new_comparison_expression(tcache, cek_greater_than, left, right);
+				retval = new_comparison_expression(type, cek_greater_than, left, right);
 			}
 		}
 		else if (zexpression->lte)
@@ -113,7 +113,7 @@ struct expression* specialize_relational_expression(
 			}
 			else
 			{
-				retval = new_comparison_expression(tcache, cek_less_than_equal_to, left, right);
+				retval = new_comparison_expression(type, cek_less_than_equal_to, left, right);
 			}
 		}
 		else if (zexpression->gte)
@@ -133,7 +133,7 @@ struct expression* specialize_relational_expression(
 			}
 			else
 			{
-				retval = new_comparison_expression(tcache, cek_greater_than_equal_to, left, right);
+				retval = new_comparison_expression(type, cek_greater_than_equal_to, left, right);
 			}
 		}
 		else

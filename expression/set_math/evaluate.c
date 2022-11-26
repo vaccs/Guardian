@@ -3,14 +3,15 @@
 
 #include <debug.h>
 
-#include <scope/lookup.h>
+/*#include <scope/lookup.h>*/
 
 #include "struct.h"
 #include "evaluate.h"
 
 struct value* set_math_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	

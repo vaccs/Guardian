@@ -3,13 +3,14 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
-#include <stringtree/append_tree.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_tree.h>*/
 #include <stringtree/append_printf.h>
-#include <stringtree/free.h>
+/*#include <stringtree/free.h>*/
 
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_new.h>
 
 #include <type/struct.h>
@@ -19,23 +20,21 @@
 #include <list/value_pair/struct.h>
 
 #include <misc/value_to_id/add.h>
-#include <misc/value_to_id/discard.h>
 
 #include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
 
-struct stringtree* dict_value_print_source(
+unsigned dict_value_print_source(
+	struct stringtree* tree,
 	struct value* super,
 	struct out_shared* shared,
 	struct value_to_id* vtoi)
 {
 	ENTER;
 	
-	struct stringtree* tree = new_stringtree();
-	
-	stringtree_append_printf(tree, "({");
+	assert(super->kind == vk_dict);
 	
 	unsigned value_id;
 	if (value_to_id_add(vtoi, &value_id, super))
@@ -57,36 +56,26 @@ struct stringtree* dict_value_print_source(
 		{
 			struct value_pair* element = this->elements->data[i];
 			
-			struct stringtree* key = value_print_source(element->key, shared, vtoi);
+			{
+				unsigned key_id = value_print_source(tree, element->key, shared, vtoi);
+				
+				unsigned inc_id = function_queue_submit_inc(shared->fqueue, element->key->type);
+				
+				stringtree_append_printf(tree, "data[%u].key = func_%u(value_%u);\n", i, inc_id, key_id);
+			}
 			
-			stringtree_append_printf(tree, "data[%u].key = ", i);
-			stringtree_append_tree(tree, key);
-			stringtree_append_printf(tree, ";");
-			
-			free_stringtree(key);
-			
-			struct stringtree* value = value_print_source(element->value, shared, vtoi);
-			
-			stringtree_append_printf(tree, "data[%u].value = ", i);
-			stringtree_append_tree(tree, value);
-			stringtree_append_printf(tree, ";");
-			
-			free_stringtree(value);
+			{
+				unsigned val_id = value_print_source(tree, element->value, shared, vtoi);
+				
+				unsigned inc_id = function_queue_submit_inc(shared->fqueue, element->value->type);
+				
+				stringtree_append_printf(tree, "data[%u].value = func_%u(value_%u);\n", i, inc_id, val_id);
+			}
 		}
-		
-		stringtree_append_printf(tree, "value_%u;", value_id);
-		
-		value_to_id_discard(vtoi, super);
 	}
-	else
-	{
-		TODO;
-	}
-	
-	stringtree_append_printf(tree, "})");
 	
 	EXIT;
-	return tree;
+	return value_id;
 }
 
 

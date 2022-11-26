@@ -21,6 +21,7 @@
 #include "run.h"
 
 struct value* crossmap_form_run(
+	struct type_cache* tcache,
 	struct type* type,
 	struct lambda_value* lambda,
 	struct value_list* args)
@@ -60,7 +61,7 @@ struct value* crossmap_form_run(
 		}
 		else
 		{
-			struct value* result = funccall_run(lambda, lambda_args);
+			struct value* result = funccall_run(tcache, lambda, lambda_args);
 			
 			value_list_append(elements, result);
 			

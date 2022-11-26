@@ -3,8 +3,6 @@
 
 #include <debug.h>
 
-#include <type_cache/get_type/bool.h>
-
 #include "../new.h"
 #include "../inc.h"
 
@@ -13,7 +11,7 @@
 #include "new.h"
 
 struct expression* new_logical_or_expression(
-	struct type_cache* tcache,
+	struct type* type,
 	struct expression* left,
 	struct expression* right)
 {
@@ -22,7 +20,7 @@ struct expression* new_logical_or_expression(
 	struct logical_or_expression* this = (void*) new_expression(
 		ek_logical_or,
 		&logical_or_expression_inheritance,
-		type_cache_get_bool_type(tcache),
+		type,
 		sizeof(struct logical_or_expression));
 	
 	this->left = inc_expression(left);

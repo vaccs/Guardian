@@ -1,4 +1,7 @@
 
+#define _GNU_SOURCE
+
+#include <string.h>
 #include <errno.h>
 #include <string.h>
 #include <assert.h>

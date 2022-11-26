@@ -8,8 +8,9 @@
 #include "evaluate.h"
 
 struct value* expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* this,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
@@ -17,7 +18,7 @@ struct value* expression_evaluate(
 	assert(this->inheritance);
 	assert(this->inheritance->evaluate);
 	
-	struct value* result = (this->inheritance->evaluate)(this, scope);
+	struct value* result = (this->inheritance->evaluate)(tcache, this, environment);
 	
 	EXIT;
 	return result;

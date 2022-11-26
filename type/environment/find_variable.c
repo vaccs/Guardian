@@ -11,14 +11,16 @@
 #include "find_variable.h"
 
 unsigned environment_type_find_variable(
-	struct environment_type* this,
+	struct type* super,
 	struct string* name,
 	struct type* type)
 {
 	unsigned depth = 0;
 	ENTER;
 	
-	struct environment_type* moving = this;
+	assert(super->kind == tk_environment);
+	
+	struct environment_type* moving = (void*) super;
 	
 	while (moving)
 	{
@@ -46,7 +48,7 @@ unsigned environment_type_find_variable(
 		}
 		else
 		{
-			moving = moving->prev, depth++;
+			moving = (void*) moving->prev, depth++;
 		}
 	}
 	

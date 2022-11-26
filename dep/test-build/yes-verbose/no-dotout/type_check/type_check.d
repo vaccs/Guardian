@@ -10,7 +10,7 @@ bin/test-build/yes-verbose/no-dotout/./type_check/type_check.o: \
  expression/literal/../struct.h expression/literal/../kind.h \
  expression/struct.h expression/print.h expression/free.h \
  list/statement/append.h statement/free.h list/raw_statement/foreach.h \
- type_cache/get_type/list.h type_cache/get_type/charlist.h \
+ type_cache/get_list_type.h type_cache/get_string_type.h \
  statement/assert/new.h statement/declare/new.h statement/print/new.h \
  statement/parse/new.h stringtree/new.h stringtree/append_printf.h \
  stringtree/append_tree.h stringtree/stream.h stringtree/free.h \

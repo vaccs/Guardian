@@ -16,7 +16,7 @@
 
 /*#include <quack/append.h>*/
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include <out/shared.h>
 /*#include <out/function_lookup/lookup_inc.h>*/
@@ -35,7 +35,7 @@
 struct stringtree* logical_and_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	

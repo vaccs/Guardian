@@ -21,7 +21,7 @@
 struct stringtree* isexecutableby_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -50,22 +50,17 @@ struct stringtree* isexecutableby_form_expression_print_source(
 	}
 	
 	{
-		stringtree_append_printf(tree, "unsigned char* native_user = malloc(user->n + 1);");
-		stringtree_append_printf(tree, "unsigned char* native_path = malloc(path->n + 1);");
+		stringtree_append_printf(tree, "unsigned char* native_user = malloc(user->len + 1);");
 		
-		stringtree_append_printf(tree, "for (unsigned i = 0; i < user->n; i++)");
-		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "	native_user[i] = user->data[i]->value;");
-		stringtree_append_printf(tree, "}");
+		stringtree_append_printf(tree, "unsigned char* native_path = malloc(path->len + 1);");
 		
-		stringtree_append_printf(tree, "for (unsigned i = 0; i < path->n; i++)");
-		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "	native_path[i] = path->data[i]->value;");
-		stringtree_append_printf(tree, "}");
+		stringtree_append_printf(tree, "memcpy(native_user, user->chars, user->len);");
 		
-		stringtree_append_printf(tree, "native_user[user->n] = 0;");
+		stringtree_append_printf(tree, "memcpy(native_path, path->chars, path->len);");
 		
-		stringtree_append_printf(tree, "native_path[path->n] = 0;");
+		stringtree_append_printf(tree, "native_user[user->len] = 0;");
+		
+		stringtree_append_printf(tree, "native_path[path->len] = 0;");
 		
 		stringtree_append_printf(tree, "bool error = false;");
 		

@@ -3,5 +3,6 @@ struct expression;
 struct scope;
 
 struct value* dict_index_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope);
+	struct value* environment);

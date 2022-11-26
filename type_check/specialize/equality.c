@@ -8,6 +8,7 @@
 
 #include <defines/argv0.h>
 
+#include <expression/struct.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
 #include <expression/comparison/new.h>
@@ -23,7 +24,7 @@
 #include <value/compare.h>
 #include <value/free.h>
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include <type/print.h>
 
@@ -77,6 +78,8 @@ struct expression* specialize_equality_expression(
 			free_stringtree(tree);
 		}
 		
+		struct type* type = type_cache_get_bool_type(tcache);
+		
 		if (left->kind == ek_literal && right->kind == ek_literal)
 		{
 			struct literal_expression* spef_left = (void*) left, *spef_right = (void*) right;
@@ -96,8 +99,6 @@ struct expression* specialize_equality_expression(
 			
 			dpvb(is_equal);
 			
-			struct type* type = type_cache_get_bool_type(tcache);
-			
 			struct value* value = new_bool_value(type, is_equal);
 			
 			retval = new_literal_expression(value);
@@ -106,7 +107,7 @@ struct expression* specialize_equality_expression(
 		}
 		else
 		{
-			retval = new_comparison_expression(tcache, zexpression->n ? cek_not_equal_to : cek_equal_to, left, right);
+			retval = new_comparison_expression(type, zexpression->n ? cek_not_equal_to : cek_equal_to, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

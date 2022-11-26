@@ -28,11 +28,9 @@ struct stringtree* lambda_value_generate_generate_typedef(
 	
 	stringtree_append_printf(tree, "struct type_%u super;", type_id);
 	
-	if (this->captured_type)
+	if (this->captured)
 	{
-		unsigned captured_id = this->captured_type->super.id;
-		
-		stringtree_append_printf(tree, "struct type_%u* captured;", captured_id);
+		stringtree_append_printf(tree, "struct type_%u* captured;", this->captured->type->id);
 	}
 	
 	stringtree_append_printf(tree, "};");

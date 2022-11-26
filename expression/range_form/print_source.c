@@ -24,7 +24,7 @@
 struct stringtree* range_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -40,7 +40,28 @@ struct stringtree* range_form_expression_print_source(
 	
 	if (this->start)
 	{
-		TODO;
+		struct stringtree* subtree = expression_print_source(this->start, shared, environment);
+		stringtree_append_printf(tree, "struct type_%u* start = ", this->start->type->id);
+		stringtree_append_tree(tree, subtree);
+		stringtree_append_printf(tree, ";");
+		
+		stringtree_append_printf(tree, ""
+			"unsigned native_start;"
+			""
+			"if (mpz_fits_uint_p(start->value))"
+			"{"
+				"native_start = mpz_get_ui(start->value);"
+			"}"
+			"else"
+			"{"
+				"assert(!\"range!(): start bound too high or to low!\");"
+			"}"
+		"");
+		
+		unsigned free_id = function_queue_submit_free(shared->fqueue, this->start->type);
+		stringtree_append_printf(tree, "func_%u(start);", free_id);
+		
+		free_stringtree(subtree);
 	}
 	else
 	{
@@ -88,7 +109,7 @@ struct stringtree* range_form_expression_print_source(
 	unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
 	stringtree_append_printf(tree, "func_%u(result, element);", append_id);
 	
-	unsigned free_id = function_queue_submit_new(shared->fqueue, this->end->type);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, this->end->type);
 	stringtree_append_printf(tree, "func_%u(element);", free_id);
 	
 	stringtree_append_printf(tree, "}");

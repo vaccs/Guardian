@@ -1,0 +1,36 @@
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"path: /['a'-'z', '/']+/ #value;",
+			
+			"%parse: argv as path path;",
+			
+			"t = isabspath!(\"/abc/def\");",
+			
+			"%error: t == true;",
+			
+			"%error: isabspath!(\"abc\") == false;",
+			
+			"%error: isabspath!(\"\") == false;",
+			"%error: isabspath!(\"///\") == true;",
+			
+			"%error: isabspath!(path[0].value) == true;",
+			
+			"%error: isabspath!(path[1].value) == false;",
+		],
+		
+		"./test.txt": [
+			"/abc/def def"
+		]
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]

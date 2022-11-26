@@ -21,14 +21,15 @@
 #include "evaluate.h"
 
 struct value* funccall_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
 	struct funccall_expression* this = (void*) super;
 	
-	struct value* lambda = expression_evaluate(this->lambda, scope);
+	struct value* lambda = expression_evaluate(tcache, this->lambda, environment);
 	
 	assert(lambda->kind == vk_lambda);
 	
@@ -36,14 +37,14 @@ struct value* funccall_expression_evaluate(
 	
 	for (unsigned i = 0, n = this->arguments->n; i < n; i++)
 	{
-		struct value* argument = expression_evaluate(this->arguments->data[i], scope);
+		struct value* argument = expression_evaluate(tcache, this->arguments->data[i], environment);
 		
 		value_list_append(arguments, argument);
 		
 		free_value(argument);
 	}
 	
-	struct value* result = funccall_run((void*) lambda, arguments);
+	struct value* result = funccall_run(tcache, (void*) lambda, arguments);
 	
 	free_value(lambda);
 	

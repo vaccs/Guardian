@@ -37,7 +37,8 @@ struct stringtree* lambda_expression_generate_free_func(
 		"struct subtype_%u* this = (void*) super;"
 	"",  this->id);
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, (struct type*) this->environment->prev);
+	unsigned free_id = function_queue_submit_free(shared->fqueue,
+		((struct environment_type*) this->environment)->prev);
 	
 	stringtree_append_printf(tree, ""
 		"func_%u(this->prev);"

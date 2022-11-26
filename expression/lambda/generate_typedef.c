@@ -35,7 +35,8 @@ struct stringtree* lambda_expression_generate_generate_typedef(
 			"struct type_%u super;"
 			"struct type_%u* prev;"
 		"};"
-	"", this->id, this->super.type->id, this->environment->prev->super.id);
+	"", this->id, this->super.type->id,
+		((struct environment_type*) this->environment)->prev->id);
 	
 	EXIT;
 	return tree;

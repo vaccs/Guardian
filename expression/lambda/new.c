@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <list/parameter/inc.h>
+#include <list/named_type/inc.h>
 
 #include "../new.h"
 #include "../inc.h"
@@ -12,7 +12,7 @@
 
 struct expression* new_lambda_expression(
 	struct type* type,
-	struct parameter_list* parameters,
+	struct named_type_list* parameters,
 	struct expression* body)
 {
 	ENTER;
@@ -23,7 +23,7 @@ struct expression* new_lambda_expression(
 		type,
 		sizeof(*this));
 	
-	this->parameters = inc_parameter_list(parameters);
+	this->parameters = inc_named_type_list(parameters);
 	
 	this->body = inc_expression(body);
 	

@@ -14,6 +14,10 @@
 			
 			"_ = len!([1, 2, 3]);",
 			
+			"%error: 3 == len!(\"abc\");",
+			
+			"%error: 3 == len!(b ? \"one\" : \"three\");",
+			
 			"%error: 3 == len!([1, 2, 3]);",
 			"%error: 2 == len!([b, b]);",
 			

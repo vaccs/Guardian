@@ -21,6 +21,7 @@
 #include "run.h"
 
 struct value* map_form_run(
+	struct type_cache* tcache,
 	struct type* type,
 	struct lambda_value* lambda,
 	struct value_list* args)
@@ -58,7 +59,7 @@ struct value* map_form_run(
 			value_list_append(call_args, list->elements->data[j]);
 		}
 		
-		struct value* result = funccall_run(lambda, call_args);
+		struct value* result = funccall_run(tcache, lambda, call_args);
 		
 		value_list_append(elements, result);
 		

@@ -23,7 +23,7 @@
 struct stringtree* int_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -57,27 +57,13 @@ struct stringtree* int_form_expression_print_source(
 	
 	switch (stype->kind)
 	{
-		case tk_int:
+		case tk_string:
 		{
-			TODO;
-			break;
-		}
-		
-		case tk_list:
-		{
-			struct list_type* ltype = (void*) stype;
-			assert(ltype->element_type->kind == tk_char);
+			stringtree_append_printf(tree, "char* buffer = malloc(sub->len + 1);");
 			
-			stringtree_append_printf(tree, "unsigned n = sub->n;");
+			stringtree_append_printf(tree, "memcpy(buffer, sub->chars, sub->len);");
 			
-			stringtree_append_printf(tree, "char* buffer = malloc(n + 1);");
-			
-			stringtree_append_printf(tree, "for (unsigned i = 0; i < n; i++)");
-			stringtree_append_printf(tree, "{");
-			stringtree_append_printf(tree, "	buffer[i] = sub->data[i]->value;");
-			stringtree_append_printf(tree, "}");
-			
-			stringtree_append_printf(tree, "buffer[n] = 0;");
+			stringtree_append_printf(tree, "buffer[sub->len] = 0;");
 			
 			stringtree_append_printf(tree, "if (mpz_set_str(result->value, buffer, 0))");
 			stringtree_append_printf(tree, "{");

@@ -2,8 +2,6 @@
 #include <assert.h>
 #include <debug.h>
 
-#include <type_cache/get_type/bool.h>
-
 #include "../new.h"
 #include "../inc.h"
 
@@ -12,7 +10,7 @@
 #include "new.h"
 
 struct expression* new_comparison_expression(
-	struct type_cache *tcache,
+	struct type* type,
 	enum comparison_expression_kind kind,
 	struct expression* left,
 	struct expression* right)
@@ -20,8 +18,6 @@ struct expression* new_comparison_expression(
 	ENTER;
 	
 	assert(left->type == right->type);
-	
-	struct type* type = type_cache_get_bool_type(tcache);
 	
 	struct comparison_expression* this = (void*) new_expression(
 		ek_comparison,

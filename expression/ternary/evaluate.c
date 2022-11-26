@@ -14,8 +14,9 @@
 #include "evaluate.h"
 
 struct value* ternary_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
@@ -23,14 +24,14 @@ struct value* ternary_expression_evaluate(
 	
 	struct ternary_expression* this = (void*) super;
 	
-	struct value* conditional = expression_evaluate(this->conditional, scope);
+	struct value* conditional = expression_evaluate(tcache, this->conditional, environment);
 	
 	assert(conditional->kind == vk_bool);
 	
 	struct bool_value* spef = (void*) conditional;
 	
 	struct value* result =
-		expression_evaluate(spef->value ? this->true_case : this->false_case, scope);
+		expression_evaluate(tcache, spef->value ? this->true_case : this->false_case, environment);
 	
 	free_value(conditional);
 	

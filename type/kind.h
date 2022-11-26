@@ -6,8 +6,8 @@ enum type_kind
 {
 	tk_int,
 	tk_bool,
-	tk_char,
 	tk_float,
+	tk_string,
 	
 	tk_set,
 	tk_dict,

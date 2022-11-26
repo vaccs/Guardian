@@ -15,15 +15,17 @@
 #include "evaluate.h"
 
 struct value* comparison_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
 	struct comparison_expression* this = (void*) super;
 	
-	struct value* left = expression_evaluate(this->left, scope);
-	struct value* right = expression_evaluate(this->right, scope);
+	struct value* left = expression_evaluate(tcache, this->left, environment);
+	
+	struct value* right = expression_evaluate(tcache, this->right, environment);
 	
 	assert(left->type == right->type);
 	

@@ -1,5 +1,8 @@
 const char* template = ""
 	"" "\n"
+	"#define _GNU_SOURCE" "\n"
+	"" "\n"
+	"#include <string.h>" "\n"
 	"#include <errno.h>" "\n"
 	"#include <string.h>" "\n"
 	"#include <assert.h>" "\n"

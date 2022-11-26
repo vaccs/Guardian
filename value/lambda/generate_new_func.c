@@ -20,7 +20,7 @@
 
 #include <type/struct.h>
 
-#include <scope/foreach.h>
+/*#include <scope/foreach.h>*/
 
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
@@ -61,9 +61,11 @@ struct stringtree* lambda_value_generate_new_func(
 	stringtree_append_printf(tree, "struct subtype_%u* this = malloc(sizeof(*this));", subtype_id);
 
 	unsigned evaluate_id = function_queue_submit_lambda_value_evaluate(shared->fqueue, this);
-	unsigned free_id = function_queue_submit_lambda_value_free(shared->fqueue, this);
 	stringtree_append_printf(tree, "this->super.evaluate = func_%u;", evaluate_id);
+	
+	unsigned free_id = function_queue_submit_lambda_value_free(shared->fqueue, this);
 	stringtree_append_printf(tree, "this->super.free = func_%u;", free_id);
+	
 	stringtree_append_printf(tree, "this->super.refcount = 1;");
 	
 	stringtree_append_printf(tree, "return &this->super;");

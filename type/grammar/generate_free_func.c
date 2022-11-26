@@ -10,9 +10,9 @@
 
 /*#include <out/function_lookup/lookup_free.h>*/
 
-#include <list/parameter/struct.h>
+#include <list/named_type/struct.h>
 
-#include <parameter/struct.h>
+#include <named/type/struct.h>
 
 #include <out/function_queue/submit_free.h>
 
@@ -41,7 +41,7 @@ struct stringtree* grammar_type_generate_free_func(
 	
 	for (unsigned i = 0, n = this->fields->n; i < n; i++)
 	{
-		struct parameter* p = this->fields->data[i];
+		struct named_type* p = this->fields->data[i];
 		
 		unsigned free_id = function_queue_submit_free(flookup, p->type);
 		

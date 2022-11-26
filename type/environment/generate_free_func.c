@@ -39,7 +39,7 @@ struct stringtree* environment_type_generate_free_func(
 	
 	if (this->prev)
 	{
-		unsigned free_id = function_queue_submit_free(flookup, &this->prev->super);
+		unsigned free_id = function_queue_submit_free(flookup, this->prev);
 		
 		stringtree_append_printf(text, "func_%u(this->prev);", free_id);
 	}

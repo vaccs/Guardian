@@ -82,7 +82,7 @@ struct expression* specialize_logical_or_expression(
 		}
 		else
 		{
-			retval = new_logical_or_expression(tcache, left, right);
+			retval = new_logical_or_expression(left->type, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

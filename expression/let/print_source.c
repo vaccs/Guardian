@@ -8,6 +8,7 @@
 #include <avl/alloc_tree.h>
 #include <avl/insert.h>
 #include <avl/free_tree.h>
+
 /*#include <string/struct.h>*/
 
 #include <stringtree/new.h>
@@ -24,15 +25,18 @@
 
 #include <list/named_expression/foreach.h>
 
-#include <type_cache/get_type/environment.h>
+#include <type_cache/get_environment_type.h>
+
+#include <type/struct.h>
 
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
 
-#include <type/struct.h>
-#include <type/environment/struct.h>
+/*#include <type/struct.h>*/
+/*#include <type/environment/struct.h>*/
 
 /*#include <parameter/struct.h>*/
 
@@ -44,6 +48,8 @@
 
 /*#include <list/capture/foreach.h>*/
 
+#include <type/environment/struct.h>
+
 #include "../print_source.h"
 
 #include "struct.h"
@@ -52,7 +58,7 @@
 struct stringtree* let_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* outer_environment)
+	struct type* outer_environment)
 {
 	ENTER;
 	
@@ -80,23 +86,24 @@ struct stringtree* let_expression_print_source(
 	
 	stringtree_append_printf(tree, "({");
 	
-	struct environment_type* environment = 
+	struct type* environment = 
 		type_cache_get_environment_type2(
-		shared->tcache, outer_environment, environment_tree);
+			shared->tcache, outer_environment, environment_tree);
 	
-	type_queue_submit(shared->tqueue, (struct type*) environment);
+	type_queue_submit(shared->tqueue, environment);
 	
 	stringtree_append_printf(tree,
 		"struct type_%u* prev = environment;",
-		outer_environment->super.id);
+		outer_environment->id);
 	
-	unsigned new_id = function_queue_submit_new(
-		shared->fqueue, &environment->super);
-	stringtree_append_printf(tree,
-		"struct type_%u* environment = func_%u(prev);",
-		environment->super.id, new_id);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, environment);
 	
-	// evaluate each one, adding to environment
+	stringtree_append_printf(tree, "struct type_%u* environment = func_%u();",environment->id, new_id);
+	
+	unsigned inc_id = function_queue_submit_inc(shared->fqueue,
+		((struct environment_type*) environment)->prev);
+	
+	stringtree_append_printf(tree, "environment->prev = func_%u(prev);", inc_id);
 	
 	named_expression_list_foreach(this->parameters, ({
 		void runme(struct named_expression* parameter)
@@ -127,6 +134,7 @@ struct stringtree* let_expression_print_source(
 	
 	unsigned free_id = function_queue_submit_free(
 		shared->fqueue, (struct type*) environment);
+	
 	stringtree_append_printf(tree, "func_%u(environment);", free_id);
 	
 	stringtree_append_printf(tree, "result;");
@@ -134,6 +142,7 @@ struct stringtree* let_expression_print_source(
 	stringtree_append_printf(tree, "})");
 	
 	free_stringtree(subtree);
+	
 	avl_free_tree(environment_tree);
 	
 	EXIT;

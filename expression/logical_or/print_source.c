@@ -3,7 +3,7 @@
 
 #include <debug.h>
 
-/*#include <type/struct.h>*/
+#include <type/struct.h>
 
 /*#include <string/struct.h>*/
 
@@ -16,16 +16,13 @@
 
 /*#include <quack/append.h>*/
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include <out/shared.h>
-/*#include <out/function_lookup/lookup_inc.h>*/
-/*#include <out/declare_queue/submit.h>*/
-/*#include <out/set_queue/submit.h>*/
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_free.h>
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
 #include "../print_source.h"
 
@@ -35,7 +32,7 @@
 struct stringtree* logical_or_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	

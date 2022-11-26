@@ -6,6 +6,7 @@
 #include <string/struct.h>
 
 #include <stringtree/new.h>
+#include <stringtree/append_string.h>
 #include <stringtree/append_printf.h>
 #include <stringtree/append_tree.h>
 #include <stringtree/free.h>
@@ -18,7 +19,7 @@
 struct stringtree* declare_statement_print_source(
 	struct statement* super,
 	struct out_shared* shared,
-	struct environment_type* environment_type)
+	struct type* environment_type)
 {
 	ENTER;
 	
@@ -32,7 +33,11 @@ struct stringtree* declare_statement_print_source(
 
 	struct string* name = this->name;
 
-	stringtree_append_printf(tree, "environment->$%.*s = ", name->len, name->chars);
+	stringtree_append_printf(tree, "environment->$");
+
+	stringtree_append_string(tree, name);
+
+	stringtree_append_printf(tree, " = ");
 
 	struct stringtree* subtext =
 		expression_print_source(this->expression, shared, environment_type);

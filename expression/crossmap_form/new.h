@@ -1,4 +1,6 @@
 
+struct expression_list;
+
 struct expression* new_crossmap_form_expression(
 	struct type* type,
 	struct expression* lambda,

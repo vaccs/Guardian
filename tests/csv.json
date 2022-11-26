@@ -40,9 +40,9 @@
 			"		range!(n)))",
 			"	;",
 			
-			"// const1 = determinant([[4, 3], [1, 2]], 2);",
-			"// %print: const1;",
-			"// %error: const1 == 5;",
+			"const1 = determinant([[4, 3], [1, 2]], 2);",
+			"%print: const1;",
+			"%error: const1 == 5;",
 			
 			"// const2 = determinant([[1, 2, 3], [0, 1, 4], [5, 6, 0]], 3);",
 			"// %print: const2;",

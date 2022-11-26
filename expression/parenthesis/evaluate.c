@@ -9,8 +9,9 @@
 #include "evaluate.h"
 
 struct value* parenthesis_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
@@ -18,7 +19,7 @@ struct value* parenthesis_expression_evaluate(
 	
 	struct parenthesis_expression* this = (void*) super;
 	
-	struct value* result = expression_evaluate(this->expression, scope);
+	struct value* result = expression_evaluate(tcache, this->expression, environment);
 	
 	EXIT;
 	return result;

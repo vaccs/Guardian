@@ -9,8 +9,9 @@
 #include "evaluate.h"
 
 struct value* lambda_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
@@ -21,7 +22,7 @@ struct value* lambda_expression_evaluate(
 	struct value* lambda = new_lambda_value(
 		/* type: */ super->type,
 		/* parameters: */ this->parameters,
-		/* captured: */ scope,
+		/* captured: */ environment,
 		/* body: */ this->body);
 	
 	EXIT;

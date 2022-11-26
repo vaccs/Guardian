@@ -1,4 +1,5 @@
 
+struct type_cache;
 struct zebu_match_expression;
 struct type_check;
 struct type_check_scope;

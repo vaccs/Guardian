@@ -56,9 +56,8 @@
 
 #include <type/environment/struct.h>
 
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/environment.h>
-#include <type_cache/get_type/grammar.h>
+#include <type_cache/get_environment_type.h>
+#include <type_cache/get_list_type.h>
 
 #include <expression/print_source.h>
 
@@ -330,7 +329,7 @@ struct stringtree* out(
 	
 	shared.fqueue = new_function_queue();
 	
-	struct environment_type* environment_type;
+	struct type* environment_type;
 	struct stringtree* declare_environment_text = new_stringtree();
 	struct stringtree* assign_environment_text = new_stringtree();
 	struct stringtree* free_environment_text = new_stringtree();
@@ -375,15 +374,15 @@ struct stringtree* out(
 		
 		stringtree_append_printf(declare_environment_text, ""
 			"struct type_%u* environment = NULL;"
-		"", environment_type->super.id);
+		"", environment_type->id);
 		
-		unsigned new_id = function_queue_submit_new(shared.fqueue, (struct type*) environment_type);
+		unsigned new_id = function_queue_submit_new(shared.fqueue, environment_type);
 		
 		stringtree_append_printf(assign_environment_text, ""
 			"environment = func_%u();"
 		"", new_id);
 		
-		unsigned free_id = function_queue_submit_free(shared.fqueue, (struct type*) environment_type);
+		unsigned free_id = function_queue_submit_free(shared.fqueue, environment_type);
 		
 		stringtree_append_printf(free_environment_text, ""
 			"func_%u(environment);"
@@ -391,7 +390,7 @@ struct stringtree* out(
 		
 		avl_free_tree(environment_tree);
 	}
-	type_queue_submit(shared.tqueue, (struct type*) environment_type);
+	type_queue_submit(shared.tqueue, environment_type);
 	
 	struct stringtree* assign_sets_text = new_stringtree();
 	{
@@ -430,23 +429,6 @@ struct stringtree* out(
 	
 	struct stringtree* reductionrules_text =
 		reducerule_to_id_print_source(rrtoi, stoi, &shared);
-	
-	#if 0
-	struct stringtree* start_type_text = new_stringtree();
-	struct stringtree* free_start_text = new_stringtree();
-	struct stringtree* start_grammar_id_text = new_stringtree();
-	struct string* start_string = new_string("$start", 6);
-	struct type* start_type = type_cache_get_grammar_type(tcache, start_string);
-	{
-		stringtree_append_printf(start_type_text, "struct type_%u", start_type->id);
-		
-		unsigned free_id = function_queue_submit_free(shared.fqueue, start_type);
-		stringtree_append_printf(free_start_text, "func_%u", free_id);
-		
-		unsigned id = string_to_id(stoi, start_string);
-		stringtree_append_printf(start_grammar_id_text, "%u", id);
-	}
-	#endif
 	
 	function_queue_process(shared.fqueue, &shared);
 	

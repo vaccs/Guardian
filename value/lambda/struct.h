@@ -5,13 +5,11 @@ struct lambda_value
 {
 	struct value super;
 	
-	struct parameter_list* parameters;
+	struct named_type_list* parameters;
 	
-	struct scope* captured;
+	struct value* captured;
 	
 	struct expression* body;
-	
-	struct environment_type* captured_type;
 	
 	unsigned id; // gotten from function_queue
 };

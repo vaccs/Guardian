@@ -1,4 +1,5 @@
 
+struct named_type_list;
 struct named_type;
 
 void named_type_list_append(

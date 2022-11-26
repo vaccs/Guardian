@@ -1,4 +1,7 @@
 
+struct type;
+struct expression;
+
 struct expression* new_isaccessibleto_form_expression(
 	struct type* type,
 	struct expression* path,

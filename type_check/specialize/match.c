@@ -5,8 +5,8 @@
 
 #include <debug.h>
 
-#include <type_cache/get_type/charlist.h>
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_string_type.h>
+#include <type_cache/get_bool_type.h>
 
 #include <regex/nfa_to_dfa.h>
 #include <regex/simplify_dfa.h>
@@ -34,7 +34,7 @@ struct expression* specialize_match_expression(
 	{
 		struct expression* base = specialize_equality_expression(tcache, scope, zexpression->base);
 		
-		struct type* type = type_cache_get_charlist_type(tcache);
+		struct type* type = type_cache_get_string_type(tcache);
 		
 		if (base->type != type)
 		{
@@ -63,9 +63,9 @@ struct expression* specialize_match_expression(
 		
 		free_regex(nfa.start);
 		
-		free_regex(dfa);
-		
 		free_expression(base);
+		
+		free_regex(dfa);
 	}
 	else if (zexpression->base)
 	{

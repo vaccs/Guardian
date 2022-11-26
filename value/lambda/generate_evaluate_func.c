@@ -1,4 +1,6 @@
 
+#include <stddef.h>
+
 #include <assert.h>
 
 #include <debug.h>
@@ -18,9 +20,9 @@
 
 /*#include <type/environment/struct.h>*/
 
-#include <list/parameter/foreach.h>
+/*#include <list/parameter/foreach.h>*/
 
-#include <type_cache/get_type/environment.h>
+#include <type_cache/get_environment_type.h>
 
 /*#include <parameter/struct.h>*/
 
@@ -40,6 +42,13 @@
 #include <out/function_queue/submit_new.h>
 #include <out/function_queue/submit_inc.h>
 #include <out/function_queue/submit_free.h>
+
+#include <list/named_type/foreach.h>
+
+#include <stringtree/append_string.h>
+
+#include <named/type/struct.h>
+#include <named/type/inc.h>
 
 /*#include "../print_source.h"*/
 
@@ -65,14 +74,14 @@ struct stringtree* lambda_value_generate_evaluate_func(
 		"struct type_%u* func_%u(struct type_%u* super"
 	"", ltype->rettype->id, func_id, this->super.type->id);
 	
-	parameter_list_foreach(this->parameters, ({
-		void runme(struct string* name, struct type* type)
+	named_type_list_foreach(this->parameters, ({
+		void runme(struct named_type* ntype)
 		{
-			type_queue_submit(shared->tqueue, type);
+			type_queue_submit(shared->tqueue, ntype->type);
 			
-			stringtree_append_printf(tree, ""
-				", struct type_%u* $%.*s"
-			"", type->id, name->len, name->chars);
+			stringtree_append_printf(tree, ", struct type_%u* $", ntype->type->id);
+			
+			stringtree_append_string(tree, ntype->name);
 		}
 		runme;
 	}));
@@ -81,46 +90,51 @@ struct stringtree* lambda_value_generate_evaluate_func(
 	
 	stringtree_append_printf(tree, "{");
 	
-	
 	struct avl_tree_t* environment_tree = avl_alloc_tree(compare_named_types, free_named_type);
 	
-	parameter_list_foreach(this->parameters, ({
-		void runme(struct string* name, struct type* type)
+	named_type_list_foreach(this->parameters, ({
+		void runme(struct named_type* ntype)
 		{
-			struct named_type* ntype = new_named_type(name, type);
-			void* ptr222 = avl_insert(environment_tree, ntype);
+			void* ptr222 = avl_insert(environment_tree, inc_named_type(ntype));
 			assert(ptr222);
 		}
 		runme;
 	}));
 	
-	struct environment_type* environment = type_cache_get_environment_type2(shared->tcache, this->captured_type, environment_tree);
+	struct type* environment = type_cache_get_environment_type2(
+		shared->tcache, this->captured ? this->captured->type : NULL, environment_tree);
 	
-	type_queue_submit(shared->tqueue, (struct type*) environment);
+	type_queue_submit(shared->tqueue, environment);
 	
-	unsigned etid = ((struct type*) environment)->id;
+	unsigned etid = environment->id;
 	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, (struct type*) environment);
+	unsigned new_id = function_queue_submit_new(shared->fqueue, environment);
 	
-	if (this->captured_type)
+	stringtree_append_printf(tree, "struct type_%u* environment = func_%u();", etid, new_id);
+	
+	if (this->captured)
 	{
 		stringtree_append_printf(tree, "struct subtype_%u* this = (void*) super;", this->id);
 		
-		stringtree_append_printf(tree, "struct type_%u* environment = func_%u(this->captured);", etid, new_id);
-	}
-	else
-	{
-		stringtree_append_printf(tree, "struct type_%u* environment = func_%u();", etid, new_id);
+		unsigned inc_id = function_queue_submit_inc(shared->fqueue, this->captured->type);
+		
+		stringtree_append_printf(tree, "environment->prev = func_%u(this->captured);", inc_id);
 	}
 	
-	parameter_list_foreach(this->parameters, ({
-		void runme(struct string* name, struct type* type)
+	named_type_list_foreach(this->parameters, ({
+		void runme(struct named_type* ntype)
 		{
-			unsigned inc_id = function_queue_submit_inc(shared->fqueue, type);
+			unsigned inc_id = function_queue_submit_inc(shared->fqueue, ntype->type);
 			
-			stringtree_append_printf(tree, ""
-				"environment->$%.*s = func_%u($%.*s);"
-			"", name->len, name->chars, inc_id, name->len, name->chars);
+			stringtree_append_printf(tree, "environment->$");
+			
+			stringtree_append_string(tree, ntype->name);
+			
+			stringtree_append_printf(tree, " = func_%u($", inc_id);
+			
+			stringtree_append_string(tree, ntype->name);
+			
+			stringtree_append_printf(tree, ");");
 		}
 		runme;
 	}));
@@ -130,16 +144,16 @@ struct stringtree* lambda_value_generate_evaluate_func(
 	stringtree_append_tree(tree, subtree);
 	stringtree_append_printf(tree, ";");
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, (struct type*) environment);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, environment);
 	stringtree_append_printf(tree, "func_%u(environment);", free_id);
 	
 	stringtree_append_printf(tree, "return result;");
 	
 	stringtree_append_printf(tree, "}");
 	
-	free_stringtree(subtree);
-	
 	avl_free_tree(environment_tree);
+	
+	free_stringtree(subtree);
 	
 	EXIT;
 	return tree;

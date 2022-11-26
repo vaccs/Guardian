@@ -1,6 +1,8 @@
 
 #include <stdlib.h>
 
+#include <debug.h>
+
 #include "free_nodes.h"
 #include "free_tree.h"
 

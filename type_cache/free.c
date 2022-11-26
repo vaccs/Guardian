@@ -31,11 +31,9 @@ void free_type_cache(struct type_cache* this)
 	
 	free_type2(this->float_type);
 	
-	free_type2(this->char_type);
+	free_type2(this->string_type);
 	
 	free_type2(this->bool_type);
-	
-	// free_type2(this->charlist_type);
 	
 	free(this);
 	

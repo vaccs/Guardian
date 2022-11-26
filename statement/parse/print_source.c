@@ -13,7 +13,7 @@
 
 #include <type/struct.h>
 
-#include <type_cache/get_type/grammar.h>
+#include <type_cache/get_grammar_type.h>
 
 #include <out/shared.h>
 #include <out/function_queue/submit_free.h>
@@ -24,7 +24,7 @@
 struct stringtree* parse_statement_print_source(
 	struct statement* super,
 	struct out_shared* shared,
-	struct environment_type* environment_type)
+	struct type* environment_type)
 {
 	ENTER;
 	
@@ -46,14 +46,11 @@ struct stringtree* parse_statement_print_source(
 		
 		stringtree_append_printf(tree, ";");
 		
-		stringtree_append_printf(tree, "unsigned n = parseme->n;");
+		stringtree_append_printf(tree, "unsigned n = parseme->len;");
 		
 		stringtree_append_printf(tree, "unsigned char* buffer = malloc(sizeof(*buffer) * (n + 1));");
 		
-		stringtree_append_printf(tree, "for (unsigned i = 0; i < n; i++)");
-		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "	buffer[i] = parseme->data[i]->value;");
-		stringtree_append_printf(tree, "}");
+		stringtree_append_printf(tree, "memcpy(buffer, parseme->chars, n);");
 		
 		stringtree_append_printf(tree, "buffer[n] = 0;");
 		

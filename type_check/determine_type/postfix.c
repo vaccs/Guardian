@@ -30,9 +30,9 @@ struct type* determine_type_of_postfix_expression(
 	}
 	else if (expression->sub)
 	{
-		if (expression->sublist)
+		if (expression->slice)
 		{
-			// creating sublist
+			// creating slice
 			TODO;
 		}
 		else if (expression->index)

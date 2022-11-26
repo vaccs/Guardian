@@ -139,7 +139,7 @@ bin/escape: ./-escape.c | bin/
 	@ $^ -v template -o $@
 
 parse/parse.c parse/parse.h dep/parse/parse.d: parse/parse.zb | dep/parse/
-	zebu -v --template=fileio -i $< -o parse/parse -MF dep/parse/parse.d
+	zebu -v -m --template=fileio -i $< -o parse/parse -MF dep/parse/parse.d
 
 $(buildprefix)/%.o $(depprefix)/%.d: %.c | $(buildprefix)/%/ $(depprefix)/%/
 	@ echo "compiling $<"

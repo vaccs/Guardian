@@ -1,1 +1,39 @@
-[]
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"integer: /int: ['0'-'9']+/ #value;",
+			
+			"%parse: argv as integer integer;",
+			
+			"t = reduce!($int x, y -> int: x + y, [1, 2, 3]);",
+			
+			"s = reduce!($int x, y -> int: x + y: false, [1]);",
+			
+			"%error: t == 6;",
+			
+			"%error: s == [1];",
+			
+			"a = integer[0].value;",
+			
+			"b = integer[1].value;",
+			
+			"%error: reduce!($int[] x, int y -> int[]: x + [y], [a, b], [1, 2, 3]) == [1, 2, 3, 4, 5];",
+			
+			"%error: reduce!($int x, y -> int: x > y ? x : y, [a, b]) == 5;",
+		],
+		
+		"./test.txt": [
+			"4 5"
+		]
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]

@@ -1,4 +1,5 @@
 
+struct zebu_inclusion_expression;
 struct specialize_shared;
 struct type_check_scope;
 

@@ -5,9 +5,9 @@
 
 #include <string/are_equal.h>
 
-#include <parameter/struct.h>
+#include <named/type/struct.h>
 
-#include <list/parameter/struct.h>
+#include <list/named_type/struct.h>
 
 #include "struct.h"
 #include "get_field.h"

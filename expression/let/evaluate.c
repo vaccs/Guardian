@@ -5,16 +5,32 @@
 
 #include <debug.h>
 
-#include <scope/new.h>
-#include <scope/declare.h>
-#include <scope/assign.h>
-#include <scope/free.h>
+#include <avl/alloc_tree.h>
+
+#include <named/type/compare.h>
+#include <named/type/free.h>
 
 #include <named/expression/struct.h>
 
 #include <list/named_expression/foreach.h>
 
+#include <avl/insert.h>
+
+#include <named/type/new.h>
+
 #include <value/free.h>
+
+#include <type_cache/get_environment_type.h>
+
+#include <value/struct.h>
+
+#include <value/environment/new.h>
+
+#include <value/environment/declare.h>
+
+#include <value/environment/assign.h>
+
+#include <avl/free_tree.h>
 
 #include "../evaluate.h"
 
@@ -22,8 +38,9 @@
 #include "evaluate.h"
 
 struct value* let_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* outside)
+	struct value* outside)
 {
 	ENTER;
 	
@@ -31,12 +48,28 @@ struct value* let_expression_evaluate(
 	
 	struct let_expression* this = (void*) super;
 	
-	struct scope* scope = new_scope(outside);
+	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	
 	named_expression_list_foreach(this->parameters, ({
 		void runme(struct named_expression* nexpression)
 		{
-			scope_declare(scope, nexpression->name, NULL);
+			struct named_type* ntype = new_named_type(nexpression->name, nexpression->expression->type);
+			
+			void* ptr = avl_insert(types, ntype);
+			
+			assert(ptr);
+		}
+		runme;
+	}));
+	
+	struct type* type = type_cache_get_environment_type2(tcache, outside->type, types);
+	
+	struct value* environment = new_environment_value(type, outside);
+	
+	named_expression_list_foreach(this->parameters, ({
+		void runme(struct named_expression* nexpression)
+		{
+			environment_value_declare(environment, nexpression->name, NULL);
 		}
 		runme;
 	}));
@@ -45,21 +78,24 @@ struct value* let_expression_evaluate(
 		void runme(struct named_expression* nexpression)
 		{
 			struct value* value = expression_evaluate(
-				nexpression->expression, scope);
+				tcache, nexpression->expression, environment);
 			
-			scope_assign(scope, nexpression->name, value);
+			environment_value_assign(environment, nexpression->name, value);
 			
 			free_value(value);
 		}
 		runme;
 	}));
 	
-	struct value* result = expression_evaluate(this->body, scope);
+	struct value* result = expression_evaluate(tcache, this->body, environment);
 	
-	free_scope(scope);
+	free_value(environment);
+	
+	avl_free_tree(types);
 	
 	EXIT;
 	return result;
+	
 }
 
 

@@ -34,7 +34,7 @@ reserved: /[!(':', '\n')]* /;
 
 %include: "set-functions.maia";
 
-%error: is_unique(map!($shadow_name n -> char[]: n.value, shadow_name));
+%error: is_unique(map!($shadow_name n -> string: n.value, shadow_name));
 
 
 

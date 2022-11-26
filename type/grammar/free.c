@@ -3,7 +3,7 @@
 
 #include <string/free.h>
 
-#include <list/parameter/free.h>
+#include <list/named_type/free.h>
 
 #include <yacc/structinfo/free.h>
 
@@ -19,7 +19,7 @@ void free_grammar_type(
 	
 	free_string(this->name);
 	
-	free_parameter_list(this->fields);
+	free_named_type_list(this->fields);
 	
 	EXIT;
 }

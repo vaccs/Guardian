@@ -7,10 +7,11 @@
 #include <defines/argv0.h>
 
 #include <string/struct.h>
-#include <string/new.h>
-#include <string/free.h>
 
 #include <parse/parse.h>
+
+#include <string/new.h>
+#include <string/free.h>
 
 #include <named/expression/new.h>
 #include <named/expression/free.h>
@@ -23,13 +24,13 @@
 #include <stringtree/stream.h>
 #include <stringtree/append_printf.h>
 
-#include <type_check/scope/struct.h>
-#include <type_check/scope/layer.h>
+/*#include <type_check/scope/struct.h>*/
+/*#include <type_check/scope/layer.h>*/
 #include <type_check/scope/push.h>
 #include <type_check/scope/pop.h>
 #include <type_check/scope/declare.h>
 
-#include <type_cache/get_type/environment.h>
+/*#include <type_cache/get_type/environment.h>*/
 
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
@@ -40,6 +41,8 @@
 #include <type_check/determine_type/expression.h>
 
 #include <type/print.h>
+
+#include <list/named_expression/new.h>
 
 #include "expression.h"
 #include "lambda.h"
@@ -129,7 +132,9 @@ struct expression* specialize_let_expression(
 			retval = new_let_expression(body->type, parameters, body);
 		
 		free_named_expression_list(parameters);
+		
 		type_check_scope_pop(scope);
+		
 		free_expression(body);
 	}
 	else

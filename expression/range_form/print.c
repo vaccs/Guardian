@@ -37,7 +37,9 @@ struct stringtree* range_form_expression_print(
 		else
 			stringtree_append_printf(tree, ", ");
 		
-		TODO;
+		struct stringtree* sub = expression_print2(this->start);
+		stringtree_append_tree(tree, sub);
+		free_stringtree(sub);
 	}
 	
 	if (this->end)

@@ -7,6 +7,6 @@ struct grammar_type
 	
 	struct string* name;
 	
-	struct parameter_list* fields;
+	struct named_type_list* fields;
 };
 

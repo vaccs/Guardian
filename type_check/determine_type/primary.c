@@ -22,15 +22,13 @@
 #include <type/struct.h>
 #include <type/lambda/struct.h>
 
-#include <type_cache/get_type/int.h>
-#include <type_cache/get_type/bool.h>
-#include <type_cache/get_type/dict.h>
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/charlist.h>
-#include <type_cache/get_type/char.h>
-#include <type_cache/get_type/set.h>
-#include <type_cache/get_type/float.h>
-#include <type_cache/get_type/tuple.h>
+#include <type_cache/get_int_type.h>
+#include <type_cache/get_bool_type.h>
+#include <type_cache/get_dict_type.h>
+#include <type_cache/get_list_type.h>
+#include <type_cache/get_set_type.h>
+#include <type_cache/get_float_type.h>
+#include <type_cache/get_tuple_type.h>
 
 #include <type_check/scope/lookup.h>
 
@@ -55,13 +53,12 @@ struct type* determine_type_of_primary_expression(
 	{
 		type = type_cache_get_float_type(tcache);
 	}
-	else if (expression->character_literal)
-	{
-		type = type_cache_get_char_type(tcache);
-	}
 	else if (expression->string_literal)
 	{
+		TODO;
+		#if 0
 		type = type_cache_get_charlist_type(tcache);
+		#endif
 	}
 	else if (expression->true_literal)
 	{
@@ -95,16 +92,22 @@ struct type* determine_type_of_primary_expression(
 		}
 		else if (expression->emptyset)
 		{
+			TODO;
+			#if 0
 			struct type* element = build_type(tcache, expression->emptyset);
 			
 			type = type_cache_get_set_type(tcache, element);
+			#endif
 		}
 		else if (expression->emptykey)
 		{
+			TODO;
+			#if 0
 			struct type* key = build_type(tcache, expression->emptykey);
 			struct type* value = build_type(tcache, expression->emptyvalue);
 			
 			type = type_cache_get_dict_type(tcache, key, value);
+			#endif
 		}
 		else if (expression->keyvalues.n >= 1)
 		{
@@ -162,9 +165,12 @@ struct type* determine_type_of_primary_expression(
 	{
 		if (expression->emptytype)
 		{
+			TODO;
+			#if 0
 			struct type* element_type = build_type(tcache, expression->emptytype);
 			
 			type = type_cache_get_list_type(tcache, element_type);
+			#endif
 		}
 		else
 		{
@@ -199,6 +205,9 @@ struct type* determine_type_of_primary_expression(
 	else if (expression->int_form)
 	{
 		TODO;
+		#if 0
+		TODO;
+		#endif
 	}
 	else if (expression->crossmap_form || expression->map_form)
 	{
@@ -221,6 +230,23 @@ struct type* determine_type_of_primary_expression(
 	else if (expression->any_form)
 	{
 		type = type_cache_get_bool_type(tcache);
+	}
+	else if (expression->isabspath_form)
+	{
+		type = type_cache_get_bool_type(tcache);
+	}
+	else if (expression->range_form)
+	{
+		type = type_cache_get_list_type(tcache, type_cache_get_int_type(tcache));
+	}
+	else if (expression->filter_form)
+	{
+		assert(expression->args.n == 2);
+		type = determine_type_of_expression(expression->args.data[1], tcache, scope);
+	}
+	else if (expression->reduce_form)
+	{
+		TODO;
 	}
 	else
 	{

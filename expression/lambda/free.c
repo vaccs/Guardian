@@ -1,7 +1,7 @@
 
 #include <debug.h>
 
-#include <list/parameter/free.h>
+#include <list/named_type/free.h>
 
 #include "../free.h"
 
@@ -15,7 +15,7 @@ void free_lambda_expression(
 	
 	struct lambda_expression* this = (void*) super;
 	
-	free_parameter_list(this->parameters);
+	free_named_type_list(this->parameters);
 	
 	free_expression(this->body);
 	

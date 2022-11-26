@@ -2,6 +2,7 @@
 struct type_check_scope;
 struct type_cache;
 struct specialize_shared;
+struct zebu_logical_or_expression;
 
 struct expression* specialize_logical_or_expression(
 	struct type_cache* tcache,

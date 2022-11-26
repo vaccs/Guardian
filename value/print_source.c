@@ -7,7 +7,8 @@
 #include "struct.h"
 #include "print_source.h"
 
-struct stringtree* value_print_source(
+unsigned value_print_source(
+	struct stringtree* tree,
 	struct value* this,
 	struct out_shared* shared,
 	struct value_to_id* vtoi)
@@ -22,9 +23,9 @@ struct stringtree* value_print_source(
 	
 	assert(this->inheritance->print_source);
 	
-	struct stringtree* tree = (this->inheritance->print_source)(this, shared, vtoi);
+	unsigned value_id = (this->inheritance->print_source)(tree, this, shared, vtoi);
 	
 	EXIT;
-	return tree;
+	return value_id;
 }
 

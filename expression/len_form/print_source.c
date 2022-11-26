@@ -23,7 +23,7 @@
 struct stringtree* len_form_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -49,6 +49,10 @@ struct stringtree* len_form_expression_print_source(
 	
 	switch (this->object->type->kind)
 	{
+		case tk_string:
+			stringtree_append_printf(tree, "mpz_set_ui(len->value, object->len);");
+			break;
+		
 		case tk_list:
 			stringtree_append_printf(tree, "mpz_set_ui(len->value, object->n);");
 			break;

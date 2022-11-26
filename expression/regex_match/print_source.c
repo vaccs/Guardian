@@ -57,7 +57,7 @@ static int compare_nodes(const void* a, const void* b)
 struct stringtree* regex_match_expression_print_source(
 	struct expression* super,
 	struct out_shared* shared,
-	struct environment_type* environment)
+	struct type* environment)
 {
 	ENTER;
 	
@@ -80,7 +80,7 @@ struct stringtree* regex_match_expression_print_source(
 	}
 	
 	stringtree_append_printf(tree, "bool is_accepted = false;");
-	stringtree_append_printf(tree, "unsigned i = 0, n = string->n;");
+	stringtree_append_printf(tree, "unsigned i = 0, n = string->len;");
 	
 	stringtree_append_printf(tree, "goto state_0;");
 	
@@ -114,7 +114,7 @@ struct stringtree* regex_match_expression_print_source(
 			
 			stringtree_append_printf(tree, "goto %s;", regex->accepts ? "accepts" : "rejects");
 			
-			stringtree_append_printf(tree, "} else switch (string->data[i++]->value) {");
+			stringtree_append_printf(tree, "} else switch (string->chars[i++]) {");
 			
 			for (unsigned i = 0; i < 256; i++)
 			{

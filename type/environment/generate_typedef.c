@@ -9,6 +9,7 @@
 
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
+#include <stringtree/append_string.h>
 
 #include <named/type/struct.h>
 
@@ -43,16 +44,18 @@ struct stringtree* environment_type_generate_typedef(
 			
 			type_queue_submit(tlookup, ntype->type);
 			
-			stringtree_append_printf(tree, ""
-				"struct type_%u* $%.*s;"
-			"", ntype->type->id, ntype->name->len, ntype->name->chars);
+			stringtree_append_printf(tree, "struct type_%u* $", ntype->type->id);
+			
+			stringtree_append_string(tree, ntype->name);
+			
+			stringtree_append_printf(tree, ";");
 		}
 		runme;
 	}));
 	
 	if (this->prev)
 	{
-		stringtree_append_printf(tree, "struct type_%u* prev; ", this->prev->super.id);
+		stringtree_append_printf(tree, "struct type_%u* prev; ", this->prev->id);
 	}
 	
 	stringtree_append_printf(tree, ""

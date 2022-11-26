@@ -1,4 +1,5 @@
 
+struct value_list;
 struct value;
 
 void value_list_append(

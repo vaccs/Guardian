@@ -5,9 +5,9 @@
 
 #include <debug.h>
 
-#include <parse/parse.h>
+#include <defines/argv0.h>
 
-#include <type/struct.h>
+/*#include <type/struct.h>*/
 
 /*#include <list/value/new.h>*/
 /*#include <list/value/extend.h>*/
@@ -17,32 +17,40 @@
 #include <expression/int_math/run.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
-#include <expression/tuple_concat/new.h>
-#include <expression/tuple_concat/run.h>
+/*#include <expression/tuple_concat/new.h>*/
+/*#include <expression/tuple_concat/run.h>*/
 #include <expression/dict_math/new.h>
 #include <expression/dict_math/run.h>
 #include <expression/set_math/new.h>
 #include <expression/set_math/run.h>
 #include <expression/list_concat/new.h>
 #include <expression/list_concat/run.h>
+#include <expression/string_concat/new.h>
+#include <expression/string_concat/run.h>
 #include <expression/float_math/new.h>
-#include <expression/struct.h>
-#include <expression/free.h>
+/*#include <expression/free.h>*/
 
-#include <value/float/struct.h>
-#include <value/float/new.h>
+/*#include <value/float/struct.h>*/
+/*#include <value/float/new.h>*/
 
 /*#include <mpz/add.h>*/
 /*#include <mpz/free.h>*/
 
-#include <type/tuple/struct.h>
+/*#include <type/tuple/struct.h>*/
 
-#include <type_cache/get_type/int.h>
-#include <type_cache/get_type/tuple.h>
+#include <type_cache/get_int_type.h>
+/*#include <type_cache/get_type/tuple.h>*/
 
 #include <list/type/new.h>
 #include <list/type/extend.h>
 #include <list/type/free.h>
+
+#include <type/tuple/struct.h>
+
+#include <type_cache/get_tuple_type.h>
+
+#include <expression/tuple_concat/run.h>
+#include <expression/tuple_concat/new.h>
 
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
@@ -52,18 +60,18 @@
 
 #include <type/print.h>
 
-#include <defines/argv0.h>
+#include <value/float/new.h>
+#include <value/float/struct.h>
 
-/*#include <value/tuple/struct.h>*/
-/*#include <value/tuple/new.h>*/
-/*#include <value/int/struct.h>*/
-/*#include <value/int/new.h>*/
-/*#include <value/list/struct.h>*/
-/*#include <value/list/new.h>*/
-/*#include <value/dict/new.h>*/
-/*#include <value/dict/assign.h>*/
-/*#include <value/dict/foreach.h>*/
 #include <value/free.h>
+
+#include <parse/parse.h>
+
+#include <type/struct.h>
+
+#include <expression/struct.h>
+#include <expression/int_math/new.h>
+#include <expression/free.h>
 
 #include "multiplicative.h"
 #include "additive.h"
@@ -100,19 +108,22 @@ struct expression* specialize_additive_expression(
 				stringtree_append_tree(tree, subtree);
 				free_stringtree(subtree);
 			}
+			
 			stringtree_append_printf(tree, "' and '");
+			
 			{
 				struct stringtree* subtree = type_print2(right->type);
 				stringtree_append_tree(tree, subtree);
 				free_stringtree(subtree);
 			}
+			
 			stringtree_append_printf(tree, "'!\n");
 			
 			stringtree_stream(tree, stderr);
 			
-			exit(1);
-			
 			free_stringtree(tree);
+			
+			exit(1);
 		}
 		else switch (left->type->kind)
 		{
@@ -194,6 +205,36 @@ struct expression* specialize_additive_expression(
 					{
 						TODO;
 					}
+				}
+				break;
+			}
+			
+			case tk_string:
+			{
+				if (zexpression->add)
+				{
+					if (all_literals)
+					{
+						struct literal_expression* leftlit = (void*) left;
+						struct literal_expression* rightlit = (void*) right;
+						
+						struct string_value*  leftstring = (void*) leftlit->value;
+						struct string_value* rightstring = (void*) rightlit->value;
+						
+						struct value* value = string_concat_run(left->type, leftstring, rightstring);
+						
+						retval = new_literal_expression(value);
+						
+						free_value(value);
+					}
+					else
+					{
+						retval = new_string_concat_expression(left->type, left, right);
+					}
+				}
+				else
+				{
+					TODO;
 				}
 				break;
 			}
@@ -412,7 +453,7 @@ struct expression* specialize_additive_expression(
 					
 					free_stringtree(tree);
 				}
-			
+				
 				if (zexpression->add)
 				{
 					if (all_literals)

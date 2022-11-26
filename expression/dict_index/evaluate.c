@@ -19,8 +19,9 @@
 #include "evaluate.h"
 
 struct value* dict_index_expression_evaluate(
+	struct type_cache* tcache,
 	struct expression* super,
-	struct scope* scope)
+	struct value* environment)
 {
 	ENTER;
 	
@@ -28,9 +29,9 @@ struct value* dict_index_expression_evaluate(
 	
 	struct dict_index_expression* this = (void*) super;
 	
-	struct value* dict = expression_evaluate(this->dict, scope);
+	struct value* dict = expression_evaluate(tcache, this->dict, environment);
 	
-	struct value* index = expression_evaluate(this->index, scope);
+	struct value* index = expression_evaluate(tcache, this->index, environment);
 	
 	assert(dict->type->kind == tk_dict);
 	

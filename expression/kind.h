@@ -7,11 +7,11 @@ enum expression_kind
 	ek_parenthesis,
 	
 	ek_variable,
-	ek_set,
-	ek_list,
-	ek_dict,
-	ek_tuple,
 	ek_literal,
+	ek_set_init,
+	ek_list_init,
+	ek_dict_init,
+	ek_tuple_init,
 	
 	ek_all_form,
 	ek_set_form,
@@ -34,8 +34,10 @@ enum expression_kind
 	ek_funccall,
 	ek_dict_index,
 	ek_list_index,
-	ek_list_sublist,
+	ek_list_slice,
 	ek_tuple_index,
+	ek_string_index,
+	ek_string_slice,
 	ek_fieldaccess,
 	
 	ek_bool_not,
@@ -46,6 +48,7 @@ enum expression_kind
 	ek_float_math,
 	ek_list_concat,
 	ek_tuple_concat,
+	ek_string_concat,
 	
 	ek_comparison,
 	
@@ -60,6 +63,7 @@ enum expression_kind
 	ek_set_contains,
 	ek_list_contains,
 	ek_dict_contains,
+	ek_string_contains,
 	
 	ek_has,
 	

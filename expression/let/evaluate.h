@@ -3,5 +3,6 @@ struct scope;
 struct expression;
 
 struct value* let_expression_evaluate(
-	struct expression* this,
-	struct scope* scope);
+	struct type_cache* tcache,
+	struct expression* super,
+	struct value* outside);

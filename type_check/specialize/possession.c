@@ -4,7 +4,7 @@
 #include <string/new.h>
 #include <string/free.h>
 
-#include <type_cache/get_type/bool.h>
+#include <type_cache/get_bool_type.h>
 
 #include <expression/has/new.h>
 #include <expression/free.h>

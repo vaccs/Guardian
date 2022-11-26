@@ -18,7 +18,7 @@ user_name: /['a'-'z', 'A'-'Z', '_']['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0,31}/ 
 
 %include: "set-functions.maia";
 
-%error: is_unique(map!($group_name gn -> char[]: gn.name, group_name));
+%error: is_unique(map!($group_name gn -> string: gn.name, group_name));
 
-//%error: is_unique(map!(gid g -> char[]: gn.value, gid));
+//%error: is_unique(map!(gid g -> int: gn.value, gid));
 

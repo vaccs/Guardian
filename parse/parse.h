@@ -335,9 +335,9 @@ struct zebu_postfix_expression
 	struct zebu_expression* endindex;
 	struct zebu_token* field;
 	struct zebu_expression* index;
+	struct zebu_token* slice;
 	struct zebu_expression* startindex;
 	struct zebu_postfix_expression* sub;
-	struct zebu_token* sublist;
 	struct zebu_token* tupleindex;
 	unsigned refcount, startline, endline;
 };
@@ -352,7 +352,6 @@ struct zebu_primary_expression
 		unsigned n, cap;
 	} args;
 	struct zebu_token* bool_form;
-	struct zebu_token* character_literal;
 	struct zebu_token* comma;
 	struct zebu_token* crossmap_form;
 	struct zebu_token* curly;
@@ -365,6 +364,7 @@ struct zebu_primary_expression
 	struct zebu_type* emptytype;
 	struct zebu_type* emptyvalue;
 	struct zebu_token* false_literal;
+	struct zebu_token* filter_form;
 	struct zebu_token* float_form;
 	struct zebu_token* float_literal;
 	struct zebu_token* identifier;
@@ -395,7 +395,6 @@ struct zebu_primitive_type
 {
 	struct zebu_token* array;
 	struct zebu_token* bool_type;
-	struct zebu_token* char_type;
 	struct zebu_token* comma;
 	struct {
 		struct zebu_type** data;
@@ -407,6 +406,7 @@ struct zebu_primitive_type
 	struct zebu_token* int_type;
 	struct zebu_token* paren;
 	struct zebu_token* set;
+	struct zebu_token* string_type;
 	unsigned refcount, startline, endline;
 };
 

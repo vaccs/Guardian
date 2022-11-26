@@ -12,16 +12,16 @@
 #include <list/type/append.h>
 #include <list/type/free.h>
 
-#include <type_cache/get_type/int.h>
-#include <type_cache/get_type/bool.h>
-#include <type_cache/get_type/dict.h>
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/float.h>
-#include <type_cache/get_type/lambda.h>
-#include <type_cache/get_type/set.h>
-#include <type_cache/get_type/char.h>
-#include <type_cache/get_type/tuple.h>
-#include <type_cache/get_type/grammar.h>
+#include <type_cache/get_int_type.h>
+#include <type_cache/get_bool_type.h>
+#include <type_cache/get_dict_type.h>
+#include <type_cache/get_list_type.h>
+#include <type_cache/get_float_type.h>
+#include <type_cache/get_lambda_type.h>
+#include <type_cache/get_string_type.h>
+#include <type_cache/get_set_type.h>
+#include <type_cache/get_tuple_type.h>
+#include <type_cache/get_grammar_type.h>
 
 #include "build_type.h"
 
@@ -33,10 +33,6 @@ struct type* build_primitive_type(
 	{
 		return type_cache_get_int_type(tcache);
 	}
-	else if (type->char_type)
-	{
-		return type_cache_get_char_type(tcache);
-	}
 	else if (type->bool_type)
 	{
 		return type_cache_get_bool_type(tcache);
@@ -44,6 +40,10 @@ struct type* build_primitive_type(
 	else if (type->float_type)
 	{
 		return type_cache_get_float_type(tcache);
+	}
+	else if (type->string_type)
+	{
+		return type_cache_get_string_type(tcache);
 	}
 	else if (type->grammar)
 	{
@@ -60,6 +60,7 @@ struct type* build_primitive_type(
 	else if (type->array)
 	{
 		struct type* eletype = build_primitive_type(tcache, type->eletype);
+		
 		return type_cache_get_list_type(tcache, eletype);
 	}
 	else if (type->set)

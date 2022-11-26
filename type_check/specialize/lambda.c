@@ -46,22 +46,31 @@
 #include <string/new.h>
 #include <string/free.h>
 
-#include <parameter/new.h>
+/*#include <parameter/new.h>*/
 
-#include <list/parameter/new.h>
-#include <list/parameter/append.h>
-#include <list/parameter/free.h>
+#include <list/named_type/new.h>
+#include <list/named_type/append.h>
+#include <list/named_type/free.h>
 
 #include <list/type/new.h>
 #include <list/type/append.h>
 #include <list/type/free.h>
 
-#include <parameter/free.h>
+#include <stringtree/new.h>
+#include <stringtree/append_printf.h>
+#include <stringtree/append_tree.h>
+#include <stringtree/stream.h>
+#include <stringtree/free.h>
 
-#include <type_cache/get_type/environment.h>
-#include <type_cache/get_type/lambda.h>
+/*#include <parameter/free.h>*/
+
+/*#include <type_cache/get_type/environment.h>*/
+#include <type_cache/get_lambda_type.h>
 
 #include <type/print.h>
+
+#include <named/type/new.h>
+#include <named/type/free.h>
 
 #include <expression/struct.h>
 #include <expression/lambda/new.h>
@@ -98,9 +107,9 @@ struct expression* specialize_lambda_expression(
 	}
 	else if (zexpression->lambda)
 	{
-		struct type_list* parameter_types = new_type_list();
+		struct type_list* types = new_type_list();
 		
-		struct parameter_list* parameters = new_parameter_list();
+		struct named_type_list* named_types = new_named_type_list();
 		
 		type_check_scope_push(scope);
 		
@@ -110,40 +119,40 @@ struct expression* specialize_lambda_expression(
 			
 			struct string* name = new_string_from_token(zexpression->name);
 			
-			struct parameter* parameter = new_parameter(name, type);
+			struct named_type* named_type = new_named_type(name, type);
 			
-			type_list_append(parameter_types, type);
+			type_list_append(types, type);
 			
-			parameter_list_append(parameters, parameter);
+			named_type_list_append(named_types, named_type);
 			
 			type_check_scope_declare(scope, name, type);
 			
-			free_parameter(parameter);
+			free_named_type(named_type);
 			
 			free_string(name);
 			
 			for (unsigned i = 0, n = zexpression->parameters.n; i < n; i++)
 			{
-				struct zebu_1$parameter* raw_parameter = zexpression->parameters.data[i];
+				struct zebu_1$parameter* raw_named_type = zexpression->parameters.data[i];
 				
-				if (raw_parameter->type)
+				if (raw_named_type->type)
 				{
-					struct type* new = build_primitive_type(tcache, raw_parameter->type);
+					struct type* new = build_primitive_type(tcache, raw_named_type->type);
 					
 					type = new;
 				}
 				
-				struct string* name = new_string_from_token(raw_parameter->name);
+				struct string* name = new_string_from_token(raw_named_type->name);
 				
-				struct parameter* parameter = new_parameter(name, type);
+				struct named_type* named_type = new_named_type(name, type);
 				
-				type_list_append(parameter_types, type);
+				type_list_append(types, type);
 				
-				parameter_list_append(parameters, parameter);
+				named_type_list_append(named_types, named_type);
 				
 				type_check_scope_declare(scope, name, type);
 				
-				free_parameter(parameter);
+				free_named_type(named_type);
 				
 				free_string(name);
 			}
@@ -153,34 +162,54 @@ struct expression* specialize_lambda_expression(
 		
 		struct type* rettype = build_type(tcache, zexpression->rettype);
 		
-		struct type* type = type_cache_get_lambda_type(tcache, parameter_types, rettype);
+		struct type* type = type_cache_get_lambda_type(tcache, types, rettype);
 		
 		if (rettype != body->type)
 		{
-			TODO;
-			#if 0
-			puts(""), fflush(stdout);
+			struct stringtree* tree = new_stringtree();
 			
-			fprintf(stderr, ""
+			stringtree_append_printf(tree, ""
 				"%s: incompatiable types: lambda return type does not match "
 					"type returned by lambda body!\n"
 			"", argv0);
 			
-			printf(""
-				"%s: lambda return type: "
-			"", argv0), type_print(rettype), puts("");
+			{
+				stringtree_append_printf(tree, ""
+					"%s: lambda return type: "
+				"", argv0);
+				
+				struct stringtree* sub = type_print2(rettype);
+				
+				stringtree_append_tree(tree, sub);
+				
+				stringtree_append_printf(tree, "\n");
+				
+				free_stringtree(sub);
+			}
 			
-			printf(""
-				"%s: lambda body type: "
-			"", argv0), type_print(body->type), puts("");
+			{
+				stringtree_append_printf(tree, ""
+					"%s: lambda body type: "
+				"", argv0);
+				
+				struct stringtree* sub = type_print2(body->type);
+				
+				stringtree_append_tree(tree, sub);
+				
+				stringtree_append_printf(tree, "\n");
+				
+				free_stringtree(sub);
+			}
 			
+			stringtree_stream(tree, stderr);
+			
+			free_stringtree(tree);
 			exit(1);
-			#endif
 		}
 		
 		if (type_check_scope_is_head_pure(scope))
 		{
-			struct value* new = new_lambda_value(type, parameters, NULL, body);
+			struct value* new = new_lambda_value(type, named_types, NULL, body);
 			
 			retval = new_literal_expression(new);
 			
@@ -188,12 +217,12 @@ struct expression* specialize_lambda_expression(
 		}
 		else
 		{
-			retval = new_lambda_expression(type, parameters, body);
+			retval = new_lambda_expression(type, named_types, body);
 		}
 		
-		free_type_list(parameter_types);
+		free_type_list(types);
 		
-		free_parameter_list(parameters);
+		free_named_type_list(named_types);
 		
 		free_expression(body);
 		
@@ -206,7 +235,6 @@ struct expression* specialize_lambda_expression(
 	
 	EXIT;
 	return retval;
-	
 }
 
 

@@ -3,10 +3,10 @@
 
 #include <debug.h>
 
-#include <stringtree/new.h>
-#include <stringtree/append_tree.h>
+/*#include <stringtree/new.h>*/
+/*#include <stringtree/append_tree.h>*/
 #include <stringtree/append_printf.h>
-#include <stringtree/free.h>
+/*#include <stringtree/free.h>*/
 
 /*#include <set/value/foreach.h>*/
 #include <list/value/struct.h>
@@ -17,25 +17,24 @@
 #include <out/shared.h>
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
+#include <out/function_queue/submit_inc.h>
 /*#include <out/function_queue/submit_append.h>*/
 /*#include <out/function_queue/submit_free.h>*/
 
 #include <misc/value_to_id/add.h>
-#include <misc/value_to_id/discard.h>
 
 #include "../print_source.h"
 
 #include "struct.h"
 #include "print_source.h"
 
-struct stringtree* set_value_print_source(
+unsigned set_value_print_source(
+	struct stringtree* tree,
 	struct value* super,
 	struct out_shared* shared,
 	struct value_to_id* vtoi)
 {
 	ENTER;
-	
-	struct stringtree* tree = new_stringtree();
 	
 	unsigned value_id;
 	if (value_to_id_add(vtoi, &value_id, super))
@@ -45,8 +44,6 @@ struct stringtree* set_value_print_source(
 		type_queue_submit(shared->tqueue, super->type);
 		
 		struct set_type* stype = (void*) super->type;
-		
-		stringtree_append_printf(tree, "({");
 		
 		unsigned n = this->elements->n;
 		
@@ -60,28 +57,18 @@ struct stringtree* set_value_print_source(
 		
 		for (unsigned i = 0; i < n; i++)
 		{
-			struct stringtree* subtree = value_print_source(this->elements->data[i], shared, vtoi);
+			unsigned element_id = value_print_source(tree, this->elements->data[i], shared, vtoi);
 			
-			stringtree_append_printf(tree, "elements[%u] = ", i);
-			stringtree_append_tree(tree, subtree);
-			stringtree_append_printf(tree, ";");
+			unsigned inc_id = function_queue_submit_inc(
+				shared->fqueue, stype->element_type);
 			
-			free_stringtree(subtree);
+			stringtree_append_printf(tree,
+				"elements[%u] = func_%u(value_%u);", i, inc_id, element_id);
 		}
-		
-		stringtree_append_printf(tree, "value_%u;", value_id);
-		
-		value_to_id_discard(vtoi, super);
 	}
-	else
-	{
-		TODO;
-	}
-	
-	stringtree_append_printf(tree, "})");
 	
 	EXIT;
-	return tree;
+	return value_id;
 }
 
 

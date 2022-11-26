@@ -9,16 +9,16 @@ bin/debug-build/yes-verbose/yes-dotout/./out/out.o: out/out.c debug.h \
  stringtree/append_printf.h stringtree/free.h set/ptr/free.h \
  lex/state/struct.h enums/token_kind.h yacc/state/struct.h \
  named/type/struct.h type/struct.h type/kind.h type/environment/struct.h \
- type/environment/../struct.h type_cache/get_type/list.h \
- type_cache/get_type/environment.h type_cache/get_type/grammar.h \
- expression/print_source.h named/type/new.h named/type/compare.h \
- named/type/free.h out/ystate_to_id/new.h out/ystate_to_id/ystate_to_id.h \
- out/ystate_to_id/free.h out/lstate_to_id/new.h \
- out/lstate_to_id/lstate_to_id.h out/lstate_to_id/free.h \
- out/unsignedset_to_id/new.h out/unsignedset_to_id/unsignedset_to_id.h \
- out/unsignedset_to_id/free.h out/string_to_id/new.h \
- out/string_to_id/string_to_id.h out/string_to_id/free.h \
- out/reducerule_to_id/new.h out/reducerule_to_id/reducerule_to_id.h \
+ type/environment/../struct.h type_cache/get_environment_type.h \
+ type_cache/get_list_type.h expression/print_source.h named/type/new.h \
+ named/type/compare.h named/type/free.h out/ystate_to_id/new.h \
+ out/ystate_to_id/ystate_to_id.h out/ystate_to_id/free.h \
+ out/lstate_to_id/new.h out/lstate_to_id/lstate_to_id.h \
+ out/lstate_to_id/free.h out/unsignedset_to_id/new.h \
+ out/unsignedset_to_id/unsignedset_to_id.h out/unsignedset_to_id/free.h \
+ out/string_to_id/new.h out/string_to_id/string_to_id.h \
+ out/string_to_id/free.h out/reducerule_to_id/new.h \
+ out/reducerule_to_id/reducerule_to_id.h \
  out/reducerule_to_id/print_source.h out/reducerule_to_id/free.h \
  statement/print_source.h out/dynvector/new.h \
  out/dynvector/print_source.h out/dynvector/set.h out/dynvector/free.h \

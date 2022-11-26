@@ -10,13 +10,13 @@
 
 #include <type/struct.h>
 #include <type/tuple/struct.h>
-#include <type/print.h>
+/*#include <type/print.h>*/
 
 #include <list/type/new.h>
 #include <list/type/extend.h>
 #include <list/type/free.h>
 
-#include <type_cache/get_type/tuple.h>
+#include <type_cache/get_tuple_type.h>
 
 #include "multiplicative.h"
 #include "additive.h"

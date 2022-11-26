@@ -8,14 +8,14 @@
 #include <stringtree/new.h>
 #include <stringtree/append_printf.h>
 
-#include <set/string/contains.h>
+/*#include <set/string/contains.h>*/
 
 #include <type/struct.h>
 
-#include <type_cache/get_type/grammar.h>
-#include <type_cache/get_type/list.h>
+#include <type_cache/get_grammar_type.h>
+#include <type_cache/get_list_type.h>
 
-#include <yacc/structinfo/struct.h>
+/*#include <yacc/structinfo/struct.h>*/
 
 /*#include <yacc/reductioninfo/struct.h>*/
 #include <yacc/reductioninfo/print_source.h>

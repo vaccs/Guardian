@@ -41,8 +41,8 @@
 			"%error: false == (\"a\" >= \"b\");",
 			"%error: false == (\"a\" >  \"b\");",
 			
-			"%error: false == (\"abc\"[1] == 'c');",
-			"%error: true  == (\"abc\"[1] == 'b');",
+			"%error: false == (\"abc\"[1] == \"c\");",
+			"%error: true  == (\"abc\"[1] == \"b\");",
 			
 			"_ = 2 in [1, 2, 3];",
 			
@@ -51,8 +51,8 @@
 			"%error: false == (2 in [1, u, 3]);",
 			"%error: false == (u in [1, 2, 3]);",
 			
-			"%error: true  == ('a' in \"abc\");",
-			"%error: false == ('d' in \"abc\");",
+			"%error: true  == (\"a\" in \"abc\");",
+			"%error: false == (\"d\" in \"abc\");",
 			
 			"f = $int a, b -> int[]: [a, b];",
 			

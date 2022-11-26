@@ -2,6 +2,7 @@
 #include "kind.h"
 
 struct type_cache;
+struct type;
 
 struct expression* new_int_math_expression(
 	struct type* type,

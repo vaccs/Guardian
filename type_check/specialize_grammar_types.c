@@ -11,13 +11,12 @@
 
 #include <parse/parse.h>
 
-#include <type_cache/get_type/grammar.h>
-#include <type_cache/get_type/charlist.h>
-#include <type_cache/get_type/list.h>
-#include <type_cache/get_type/bool.h>
-#include <type_cache/get_type/int.h>
-#include <type_cache/get_type/char.h>
-#include <type_cache/get_type/float.h>
+#include <type_cache/get_bool_type.h>
+#include <type_cache/get_int_type.h>
+#include <type_cache/get_float_type.h>
+#include <type_cache/get_string_type.h>
+#include <type_cache/get_list_type.h>
+#include <type_cache/get_grammar_type.h>
 
 #include <yacc/structinfo/node/struct.h>
 #include <yacc/structinfo/foreach.h>
@@ -59,17 +58,12 @@ void specialize_grammar_types(
 						{
 							if (!ele->tokentype)
 							{
-								struct type* subtype = type_cache_get_charlist_type(tcache);
+								struct type* subtype = type_cache_get_string_type(tcache);
 								grammar_type_add_field(gtype, ele->name, subtype);
 							}
 							else if (ele->tokentype->bool_)
 							{
 								struct type* subtype = type_cache_get_bool_type(tcache);
-								grammar_type_add_field(gtype, ele->name, subtype);
-							}
-							else if (ele->tokentype->char_)
-							{
-								struct type* subtype = type_cache_get_char_type(tcache);
 								grammar_type_add_field(gtype, ele->name, subtype);
 							}
 							else if (ele->tokentype->int_)

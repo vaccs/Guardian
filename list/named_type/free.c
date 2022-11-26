@@ -5,6 +5,8 @@
 
 #include <debug.h>
 
+#include <named/type/free.h>
+
 #include "struct.h"
 #include "free.h"
 
@@ -13,7 +15,8 @@ void free_named_type_list(
 {
 	if (this && !--this->refcount)
 	{
-		TODO;
+		for (unsigned i = 0, n = this->n; i < n; i++)
+			free_named_type(this->data[i]);
 		
 		free(this->data);
 		free(this);

@@ -29,99 +29,39 @@ struct stringtree* list_type_generate_print_func(
 	
 	struct list_type* this = (void*) super;
 	
-	if (this->element_type->kind == tk_char)
-	{
-		stringtree_append_printf(text, ""
-			"void func_%u(const struct type_%u* this)"
+	unsigned print_id = function_queue_submit_print(flookup, this->element_type);
+	
+	struct stringtree* subtree = type_print2(this->element_type);
+	
+	stringtree_append_printf(text, ""
+		"void func_%u(const struct type_%u* this)"
+		"{"
+			"printf(\"[\");"
+			
+			"unsigned n = this->n;"
+			
+			"for (unsigned i = 0; i < n; i++)"
 			"{"
-				"printf(\"\\\"\");"
-				""
-				"for (unsigned i = 0, n = this->n; i < n; i++)"
-				"{"
-					"unsigned value = this->data[i]->value;"
-					""
-					"switch (value)"
-					"{"
-						"case ' ':"
-						"case '~':"
-						"case '`':"
-						"case '!':"
-						"case '@':"
-						"case '#':"
-						"case '$':"
-						"case '%%':"
-						"case '^':"
-						"case '&':"
-						"case '*':"
-						"case '(':"
-						"case ')':"
-						"case '_':"
-						"case '-':"
-						"case '+':"
-						"case '=':"
-						"case '[':"
-						"case ']':"
-						"case '{':"
-						"case '}':"
-						"case ':':"
-						"case ';':"
-						"case '/':"
-						"case '0' ... '9':"
-						"case 'a' ... 'z':"
-						"case 'A' ... 'Z':"
-						"{"
-							"printf(\"%%c\", value);"
-							"break;"
-						"}"
-						""
-						"default:"
-						"{"
-							"printf(\"\\\\x%%02hhX\", value);"
-							"break;"
-						"}"
-					"}"
-				"}"
-				""
-				"printf(\"\\\"\");"
+				"if (i) printf(\", \");"
+				"func_%u(this->data[i]);"
 			"}"
-		"", func_id, super->id);
-	}
-	else
-	{
-		unsigned print_id = function_queue_submit_print(flookup, this->element_type);
-		
-		struct stringtree* subtree = type_print2(this->element_type);
-		
-		stringtree_append_printf(text, ""
-			"void func_%u(const struct type_%u* this)"
+			
+			"if (!n)"
 			"{"
-				"printf(\"[\");"
-				
-				"unsigned n = this->n;"
-				
-				"for (unsigned i = 0; i < n; i++)"
-				"{"
-					"if (i) printf(\", \");"
-					"func_%u(this->data[i]);"
-				"}"
-				
-				"if (!n)"
-				"{"
-		"", func_id, super->id, print_id);
-		
-		stringtree_append_printf(text, "printf(\"<%%s>\", \"");
-		stringtree_append_tree(text, subtree);
-		stringtree_append_printf(text, "\");");
-		
-		stringtree_append_printf(text, ""
-				"}"
-				
-				"printf(\"]\");"
+	"", func_id, super->id, print_id);
+	
+	stringtree_append_printf(text, "printf(\"<%%s>\", \"");
+	stringtree_append_tree(text, subtree);
+	stringtree_append_printf(text, "\");");
+	
+	stringtree_append_printf(text, ""
 			"}"
-		"");
-		
-		free_stringtree(subtree);
-	}
+			
+			"printf(\"]\");"
+		"}"
+	"");
+	
+	free_stringtree(subtree);
 	
 	EXIT;
 	return text;
