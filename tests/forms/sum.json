@@ -19,6 +19,8 @@
 			
 			"%error: s == 6.0;",
 			
+			"%error: ($int[] x -> int: sum!(x))([1, 2, 3]) == 1 + 2 + 3;",
+			
 			"%error: sum!([<int>]) == 0;",
 			
 			"%error: sum!([<float>]) == 0.0;",

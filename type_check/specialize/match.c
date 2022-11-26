@@ -15,7 +15,12 @@
 #include <parse/parse.h>
 #include <parse/regex.h>
 
+#include <value/free.h>
+
+#include <expression/literal/struct.h>
+#include <expression/literal/new.h>
 #include <expression/struct.h>
+#include <expression/regex_match/run.h>
 #include <expression/regex_match/new.h>
 #include <expression/free.h>
 
@@ -52,7 +57,14 @@ struct expression* specialize_match_expression(
 		
 		if (base->kind == ek_literal)
 		{
-			TODO;
+			struct literal_expression* lit = (void*) base;
+			
+			struct value* value = regex_match_run(boolean,
+				(struct string_value*) lit->value, simp);
+			
+			retval = new_literal_expression(value);
+			
+			free_value(value);
 			
 			free_regex(simp);
 		}

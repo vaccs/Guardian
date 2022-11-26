@@ -1,8 +1,11 @@
 
+#include <string.h>
 #include <assert.h>
 #include <stdbool.h>
 
 #include <debug.h>
+
+#include <pair/value/free.h>
 
 #include <value/dict/new.h>
 
@@ -40,7 +43,12 @@ struct value* dict_init_run(
 			}
 			else if (cmp == 0)
 			{
-				TODO;
+				free_value_pair(this);
+				memmove(
+					elements->data + i,
+					elements->data + i + 1,
+					sizeof(*elements->data) * (n - i));
+				elements->n--, n--;
 			}
 		}
 	}

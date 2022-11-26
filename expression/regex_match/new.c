@@ -12,7 +12,7 @@
 
 struct expression* new_regex_match_expression(
 	struct type* type,
-	struct expression* expression,
+	struct expression* string,
 	struct regex* regex)
 {
 	ENTER;
@@ -23,7 +23,7 @@ struct expression* new_regex_match_expression(
 		type,
 		sizeof(*this));
 	
-	this->expression = inc_expression(expression);
+	this->string = inc_expression(string);
 	
 	this->regex = regex;
 	

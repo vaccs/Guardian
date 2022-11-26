@@ -9,6 +9,10 @@
 			
 			"%parse: argv as word;",
 			
+			"%error: \"abc\" =~ /['a'-'c']+/;",
+			
+			"%error: ($string x -> bool: x =~ /['a'-'c']+/)(\"abc\");",
+			
 			"%warning: word[0].value =~ /['a'-'c']+/;",
 		],
 		

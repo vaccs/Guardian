@@ -16,6 +16,12 @@
 
 #include <list/type/struct.h>
 
+#include <value/free.h>
+
+#include <expression/literal/new.h>
+#include <expression/literal/struct.h>
+
+#include <expression/filter_form/run.h>
 #include <expression/filter_form/new.h>
 
 #include <expression/free.h>
@@ -62,33 +68,19 @@ struct expression* specialize_primary_filter_form_expression(
 	
 	if (all_literals)
 	{
-		TODO;
-		#if 0
-		struct literal_expression* le = (void*) lambda_exp;
+		struct literal_expression* fe = (void*) lambda_exp;
 		
-		struct lambda_value* lambda = (void*) le->value;
+		struct lambda_value* lambda = (void*) fe->value;
 		
-		struct value_list* valargs = new_value_list();
+		struct literal_expression* le = (void*) list_exp;
 		
-		for (unsigned i = 0, n = arguments->n; i < n; i++)
-		{
-			struct expression* element = arguments->data[i];
-			
-			assert(element->kind == ek_literal);
-			
-			struct literal_expression* le = (void*) element;
-			
-			value_list_append(valargs, le->value);
-		}
+		struct list_value* list = (void*) le->value;
 		
-		struct value* result = map_form_run(tcache, type, lambda, valargs);
+		struct value* result = filter_form_run(tcache, list_exp->type, lambda, list);
 		
 		retval = new_literal_expression(result);
 		
 		free_value(result);
-		
-		free_value_list(valargs);
-		#endif
 	}
 	else
 	{
@@ -102,4 +94,11 @@ struct expression* specialize_primary_filter_form_expression(
 	EXIT;
 	return retval;
 }
+
+
+
+
+
+
+
 

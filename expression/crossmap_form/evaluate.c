@@ -4,16 +4,17 @@
 #include <debug.h>
 
 #include <value/struct.h>
-#include <value/int/new.h>
-/*#include <value/free.h>*/
+#include <value/free.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <list/value/new.h>
+#include <list/value/append.h>
+#include <list/value/free.h>
+
+#include <list/expression/foreach.h>
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -24,42 +25,35 @@ struct value* crossmap_form_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct map_expression* this = (void*) super;
+	struct crossmap_form_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value* lambda = expression_evaluate(tcache, this->lambda, environment);
 	
-	assert(list->kind == vk_map);
+	assert(lambda->kind == vk_lambda);
 	
-	struct list_value* spef_list = (void*) spef_list;
+	struct value_list* arguments = new_value_list();
 	
-	struct mpz* number;
+	expression_list_foreach(this->arguments, ({
+		void runme(struct expression* expression)
+		{
+			struct value* value = expression_evaluate(tcache, expression, environment);
+			
+			value_list_append(arguments, value);
+			
+			free_value(value);
+		}
+		runme;
+	}));
 	
-	switch (this->kind)
-	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
-	}
+	struct value* value = crossmap_form_run(tcache, super->type,
+		(struct lambda_value*) lambda, arguments);
 	
-	struct value* value = new_int_value(super->type, number);
+	free_value(lambda);
 	
-	free_value(left), free_value(right);
-	
-	free_mpz(number);
+	free_value_list(arguments);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

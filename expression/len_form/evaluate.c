@@ -4,13 +4,22 @@
 #include <debug.h>
 
 #include <value/struct.h>
-#include <value/int/new.h>
-/*#include <value/free.h>*/
+#include <value/free.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <mpz/struct.h>
+#include <mpz/new.h>
+#include <mpz/free.h>
+
+#include <value/string/struct.h>
+#include <value/list/struct.h>
+#include <value/dict/struct.h>
+#include <value/set/struct.h>
+
+#include <list/value/struct.h>
+
+#include <list/value_pair/struct.h>
+
+#include <value/int/new.h>
 
 #include "../evaluate.h"
 
@@ -24,38 +33,43 @@ struct value* len_form_expression_evaluate(
 {
 	ENTER;
 	
-/*	struct len_form_expression* this = (void*) super;*/
+	struct len_form_expression* this = (void*) super;
 	
-/*	struct value* object = expression_evaluate(this->object, scope);*/
+	struct value* object = expression_evaluate(tcache, this->object, environment);
 	
-	TODO;
-	#if 0
-	struct mpz* number;
+	struct mpz* mpz = new_mpz();
 	
-	switch (this->kind)
+	switch (object->kind)
 	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
+		case vk_string:
+			mpz_set_ui(mpz->mpz, ((struct string_value*) object)->len);
 			break;
 		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
+		case vk_list:
+			mpz_set_ui(mpz->mpz, ((struct list_value*) object)->elements->n);
 			break;
 		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
+		case vk_dict:
+			mpz_set_ui(mpz->mpz, ((struct dict_value*) object)->elements->n);
+			break;
+		
+		case vk_set:
+			mpz_set_ui(mpz->mpz, ((struct set_value*) object)->elements->n);
+			break;
+		
+		default:
+			TODO;
 			break;
 	}
 	
-	struct value* value = new_int_value(super->type, number);
+	struct value* value = new_int_value(super->type, mpz);
 	
-	free_value(left), free_value(right);
+	free_value(object);
 	
-	free_mpz(number);
+	free_mpz(mpz);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

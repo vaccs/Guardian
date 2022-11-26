@@ -1,4 +1,6 @@
 
+struct list_value;
+
 struct type;
 
 struct type_cache;
@@ -11,4 +13,4 @@ struct value* filter_form_run(
 	struct type_cache* tcache,
 	struct type* type,
 	struct lambda_value* lambda,
-	struct value_list* args);
+	struct list_value* list);

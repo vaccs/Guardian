@@ -50,6 +50,7 @@
 #include <lex/struct.h>
 #include <lex/build_tokenizer/build_tokenizer.h>
 #include <lex/minimize_lexer.h>
+#include <lex/find_shortest_accepting.h>
 
 #include <named/structinfo/struct.h>
 
@@ -392,8 +393,6 @@ static void shift_reduce_error(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct fsa_rettype string = lex_find_shortest_accepting(start, tokenset);
 	
 	dpvsn(string.data, string.len);
@@ -402,7 +401,6 @@ static void shift_reduce_error(
 	
 	EXIT;
 	exit(e_shift_reduce_error);
-	#endif
 }
 
 void yacc(

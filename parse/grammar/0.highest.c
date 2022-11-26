@@ -9,6 +9,7 @@
 
 #include "0.highest/character.h"
 #include "0.highest/string.h"
+#include "0.highest/integer.h"
 #include "0.highest/regex.h"
 #include "0.highest/name.h"
 #include "0.highest.h"
@@ -23,9 +24,7 @@ struct gbundle read_grammar_highest(
 	if (highest->character)
 		retval = read_grammar_highest_character(lex, highest);
 	else if (highest->integer)
-	{
-		TODO;
-	}
+		retval = read_grammar_highest_integer(lex, highest);
 	else if (highest->string)
 		retval = read_grammar_highest_string(lex, highest);
 	else if (highest->name)

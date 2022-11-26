@@ -3,17 +3,12 @@
 
 #include <debug.h>
 
-/*#include <value/struct.h>*/
-/*#include <value/integer/new.h>*/
-/*#include <value/free.h>*/
-
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/struct.h>
+#include <value/free.h>
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -24,42 +19,25 @@ struct value* list_index_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct list_index_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value* list = expression_evaluate(tcache, this->list, environment);
 	
 	assert(list->kind == vk_list);
 	
-	struct list_value* spef_list = (void*) spef_list;
+	struct value* index = expression_evaluate(tcache, this->index, environment);
 	
-	struct mpz* number;
+	assert(index->kind == vk_int);
 	
-	switch (this->kind)
-	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
-	}
+	struct value* value = list_index_run(super->type,
+		(struct list_value*) list,
+		(struct int_value*) index);
 	
-	struct value* value = new_integer_value(super->type, number);
-	
-	free_value(left), free_value(right);
-	
-	free_mpz(number);
+	free_value(list);
+	free_value(index);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

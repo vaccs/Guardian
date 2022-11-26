@@ -30,7 +30,7 @@ primary_expression
 //	| "max!"          #max_form '(' expression #args[] (',' expression #args[])? ')'
 //	| "min!"          #min_form '(' expression #args[] (',' expression #args[])? ')'
 	| "range!"        #range_form '(' expression #args[] (',' expression #args[])? ')'
-	| "reduce!"       #reduce_form '('expression #args[] ',' expression #args[] ')'
+	| "reduce!"       #reduce_form '('expression #args[] ',' expression #args[] ',' expression #args[]')'
 	| "set!"          #set_form '(' expression #arg ')'
 //	| "setmap!"       #dictmap_form '(' expression #arg ')'
 //	| "sort!"         #sort_form '(' expression #arg ')'

@@ -3,7 +3,13 @@
 
 #include <debug.h>
 
-/*#include <scope/lookup.h>*/
+#include <value/struct.h>
+
+#include <expression/evaluate.h>
+
+#include <value/bool/struct.h>
+
+#include <value/free.h>
 
 #include "struct.h"
 #include "evaluate.h"
@@ -15,13 +21,24 @@ struct value* logical_or_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct logical_or_expression* this = (void*) super;
 	
-	struct value* value = scope_lookup(scope, this->name);
+	struct value* left = expression_evaluate(tcache, this->left, environment);
+	
+	assert(left->kind == vk_bool);
+	
+	if (!((struct bool_value*) left)->value)
+	{
+		free_value(left);
+		
+		struct value* right = expression_evaluate(tcache, this->right, environment);
+		
+		assert(right->kind == vk_bool);
+		
+		EXIT;
+		return right;
+	}
 	
 	EXIT;
-	return value;
-	#endif
+	return left;
 }

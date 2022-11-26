@@ -14,7 +14,7 @@ void free_regex_match_expression(
 	struct regex_match_expression* const this = (void*) super;
 	ENTER;
 	
-	free_expression(this->expression);
+	free_expression(this->string);
 	
 	free_regex(this->regex);
 	

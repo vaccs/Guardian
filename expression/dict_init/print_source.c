@@ -19,6 +19,7 @@
 #include <out/type_queue/submit.h>
 #include <out/function_queue/submit_new.h>
 #include <out/function_queue/submit_compare.h>
+#include <out/function_queue/submit_free.h>
 
 #include "../print_source.h"
 
@@ -73,6 +74,10 @@ struct stringtree* dict_init_expression_print_source(
 	
 	unsigned compare_id = function_queue_submit_compare(shared->fqueue, dtype->key);
 	
+	unsigned free_key_id = function_queue_submit_free(shared->fqueue, dtype->key);
+	
+	unsigned free_val_id = function_queue_submit_free(shared->fqueue, dtype->value);
+	
 	stringtree_append_printf(tree, "for (bool changed = true; changed; )");
 	stringtree_append_printf(tree, "{");
 	stringtree_append_printf(tree, "	changed = false;");
@@ -88,7 +93,10 @@ struct stringtree* dict_init_expression_print_source(
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "		else if (cmp == 0)");
 	stringtree_append_printf(tree, "		{");
-	stringtree_append_printf(tree, "			assert(!\"TODO: dict_init expression\");");
+	stringtree_append_printf(tree, "			func_%u(elements[i].key);", free_key_id);
+	stringtree_append_printf(tree, "			func_%u(elements[i].value);", free_val_id);
+	stringtree_append_printf(tree, "			memmove(elements + i, elements + i + 1, sizeof(*elements) * (n - i));");
+	stringtree_append_printf(tree, "			num_elements--, n--;");
 	stringtree_append_printf(tree, "		}");
 	stringtree_append_printf(tree, "	}");
 	stringtree_append_printf(tree, "}");

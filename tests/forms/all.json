@@ -15,6 +15,8 @@
 			
 			"%error: all!([true, true, true, true]) == true;",
 			
+			"%error: ($bool x -> bool: all!([x, x, x]))(true) == true;",
+			
 			"%error: all!([<bool>]) == true;",
 			
 			"x = integer[0].value;",

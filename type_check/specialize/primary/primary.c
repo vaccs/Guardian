@@ -57,6 +57,7 @@
 #include "range_form.h"
 #include "isdir_form.h"
 #include "filter_form.h"
+#include "reduce_form.h"
 #include "crossmap_form.h"
 #include "isabspath_form.h"
 #include "isaccessibleto_form.h"
@@ -273,6 +274,11 @@ struct expression* specialize_primary_expression(
 	else if (zexpression->filter_form)
 	{
 		retval = specialize_primary_filter_form_expression(tcache,
+			scope, zexpression->args.data, zexpression->args.n);
+	}
+	else if (zexpression->reduce_form)
+	{
+		retval = specialize_primary_reduce_form_expression(tcache,
 			scope, zexpression->args.data, zexpression->args.n);
 	}
 	else

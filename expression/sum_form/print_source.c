@@ -44,10 +44,10 @@ struct stringtree* sum_form_expression_print_source(
 		
 		stringtree_append_tree(tree, subtree);
 		
+		stringtree_append_printf(tree, ";");
+		
 		free_stringtree(subtree);
 	}
-	
-	stringtree_append_printf(tree, ";");
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
@@ -60,17 +60,17 @@ struct stringtree* sum_form_expression_print_source(
 			stringtree_append_printf(tree, "{");
 			stringtree_append_printf(tree, "	mpz_add(result->value, result->value, list->data[i]->value);");
 			stringtree_append_printf(tree, "}");
-			
 			break;
 		
 		case tk_float:
-			TODO;
+			stringtree_append_printf(tree, "long double sum = 0;");
 			
 			stringtree_append_printf(tree, "for (unsigned i = 0, n = list->n; i < n; i++)");
 			stringtree_append_printf(tree, "{");
-			stringtree_append_printf(tree, "	result->value += list->data[i]->value;");
+			stringtree_append_printf(tree, "	sum += list->data[i]->value;");
 			stringtree_append_printf(tree, "}");
 			
+			stringtree_append_printf(tree, "struct type_%u* result = func_%u(sum);", super->type->id, new_id);
 			break;
 		
 		default:

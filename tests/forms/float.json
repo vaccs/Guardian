@@ -13,9 +13,11 @@
 			
 			"t = float!(3);",
 			
-			"s = float(\"3.5\";",
+			"s = float!(\"3.5\");",
 			
-			"%error: t == 3;",
+			"%error: ($int x -> float: float!(x))(3) == 3.0;",
+			
+			"%error: t == 3.0;",
 			
 			"%error: s == 3.5;",
 			

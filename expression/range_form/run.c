@@ -9,6 +9,8 @@
 
 #include <value/list/new.h>
 
+#include <type/list/struct.h>
+
 #include <list/value/free.h>
 #include <list/value/append.h>
 
@@ -24,8 +26,7 @@
 #include "run.h"
 
 struct value* range_form_run(
-	struct type* ltype,
-	struct type* etype,
+	struct list_type* ltype,
 	struct int_value* start,
 	struct int_value* end)
 {
@@ -65,7 +66,7 @@ struct value* range_form_run(
 		
 		struct mpz* mpz = new_mpz_from_unsigned(moving);
 		
-		struct value* element = new_int_value(etype, mpz);
+		struct value* element = new_int_value(ltype->element_type, mpz);
 		
 		value_list_append(elements, element);
 		
@@ -74,7 +75,7 @@ struct value* range_form_run(
 		free_mpz(mpz);
 	}
 	
-	struct value* result = new_list_value(ltype, elements);
+	struct value* result = new_list_value((struct type*) ltype, elements);
 	
 	free_value_list(elements);
 	

@@ -1,4 +1,6 @@
 
+struct type;
+
 struct type_cache;
 
 struct lambda_value;

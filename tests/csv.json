@@ -12,6 +12,8 @@
 			
 			"%print: row;",
 			
+			"_ = cell[0] has value;",
+			
 			"matrix = map!($row r -> int[]: map!($cell c -> int: c.value, r.cells), row);",
 			
 			"%print: matrix;",

@@ -20,6 +20,7 @@
 #include <list/type/free.h>
 
 #include <type/struct.h>
+#include <type/list/struct.h>
 #include <type/lambda/struct.h>
 
 #include <type_cache/get_int_type.h>
@@ -27,6 +28,7 @@
 #include <type_cache/get_dict_type.h>
 #include <type_cache/get_list_type.h>
 #include <type_cache/get_set_type.h>
+#include <type_cache/get_string_type.h>
 #include <type_cache/get_float_type.h>
 #include <type_cache/get_tuple_type.h>
 
@@ -55,10 +57,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->string_literal)
 	{
-		TODO;
-		#if 0
-		type = type_cache_get_charlist_type(tcache);
-		#endif
+		type = type_cache_get_string_type(tcache);
 	}
 	else if (expression->true_literal)
 	{
@@ -76,7 +75,9 @@ struct type* determine_type_of_primary_expression(
 		
 		if (!type_check_scope_lookup_type(scope, name, &type))
 		{
-			TODO;
+			fprintf(stderr, "%s: use of undeclared variable '%s'!\n",
+				argv0, (char*) expression->identifier->data);
+			exit(1);
 		}
 		
 		free_string(name);
@@ -204,10 +205,7 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->int_form)
 	{
-		TODO;
-		#if 0
-		TODO;
-		#endif
+		type = type_cache_get_int_type(tcache);
 	}
 	else if (expression->crossmap_form || expression->map_form)
 	{
@@ -246,7 +244,22 @@ struct type* determine_type_of_primary_expression(
 	}
 	else if (expression->reduce_form)
 	{
-		TODO;
+		assert(expression->args.n == 3);
+		type = determine_type_of_expression(expression->args.data[2], tcache, scope);
+	}
+	else if (expression->sum_form)
+	{
+		struct type* generic = determine_type_of_expression(expression->arg, tcache, scope);
+		
+		if (generic->kind != tk_list)
+		{
+			TODO;
+			exit(1);
+		}
+		
+		struct list_type* list = (void*) generic;
+		
+		type = list->element_type;
 	}
 	else
 	{

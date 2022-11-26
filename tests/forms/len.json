@@ -14,6 +14,8 @@
 			
 			"_ = len!([1, 2, 3]);",
 			
+			"%error: ($int[] x -> int: len!(x))([1, 2, 3]) == 3;",
+			
 			"%error: 3 == len!(\"abc\");",
 			
 			"%error: 3 == len!(b ? \"one\" : \"three\");",

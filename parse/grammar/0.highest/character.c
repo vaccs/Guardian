@@ -32,7 +32,7 @@
 #include "../../parse.h"
 #include "../../misc/escapes.h"
 
-#include "string.h"
+#include "character.h"
 
 struct gbundle read_grammar_highest_character(
 	struct lex* lex,

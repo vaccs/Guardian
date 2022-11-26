@@ -3,17 +3,15 @@
 
 #include <debug.h>
 
-/*#include <value/struct.h>*/
-/*#include <value/int/new.h>*/
-/*#include <value/free.h>*/
+#include <value/struct.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <type/list/struct.h>
+
+#include <value/free.h>
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -24,25 +22,31 @@ struct value* sum_form_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct sum_expression* this = (void*) super;
+	struct sum_form_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value* list = expression_evaluate(tcache, this->list, environment);
 	
-	assert(list->kind == vk_list);
+	struct value* value;
 	
-	struct list_value* spef_list = (void*) spef_list;
+	switch (((struct list_type*) list->type)->element_type->kind)
+	{
+		case tk_int:
+			value = sum_form_run_on_ints(super->type, (struct list_value*) list);
+			break;
+		
+		case tk_float:
+			value = sum_form_run_on_floats(super->type, (struct list_value*) list);
+			break;
+		
+		default:
+			TODO;
+			break;
+	}
 	
-	struct value* value = new_int_value(super->type, number);
-	
-	free_value(left), free_value(right);
-	
-	free_mpz(number);
+	free_value(list);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

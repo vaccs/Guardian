@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <assert.h>
 
 #include <debug.h>
@@ -8,8 +9,11 @@
 
 #include <parse/parse.h>
 
+#include <list/type/struct.h>
+
 #include <type/struct.h>
 #include <type/list/struct.h>
+#include <type/tuple/struct.h>
 #include <type/lambda/struct.h>
 #include <type/grammar/get_field.h>
 
@@ -32,8 +36,7 @@ struct type* determine_type_of_postfix_expression(
 	{
 		if (expression->slice)
 		{
-			// creating slice
-			TODO;
+			type =determine_type_of_postfix_expression(expression->sub, tcache, scope);
 		}
 		else if (expression->index)
 		{
@@ -50,7 +53,27 @@ struct type* determine_type_of_postfix_expression(
 		}
 		else if (expression->tupleindex)
 		{
-			TODO;
+			char* m;
+			
+			unsigned long index = strtoul((char*) expression->tupleindex->data, &m, 10);
+			
+			struct type* ttype_generic = determine_type_of_postfix_expression(expression->sub, tcache, scope);
+			
+			if (ttype_generic->kind != tk_tuple)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			struct tuple_type* ttype = (void*) ttype_generic;
+			
+			if (index >= ttype->subtypes->n)
+			{
+				TODO;
+				exit(1);
+			}
+			
+			type = ttype->subtypes->data[index];
 		}
 		else if (expression->field)
 		{

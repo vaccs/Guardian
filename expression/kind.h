@@ -26,6 +26,8 @@ enum expression_kind
 	ek_float_form,
 	ek_range_form,
 	ek_isdir_form,
+	ek_reduce_form,
+	ek_filter_form,
 	ek_crossmap_form,
 	ek_isabspath_form,
 	ek_isaccessibleto_form,

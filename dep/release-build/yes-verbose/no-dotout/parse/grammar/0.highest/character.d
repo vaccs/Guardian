@@ -7,4 +7,4 @@ bin/release-build/yes-verbose/no-dotout/./parse/grammar/0.highest/character.o: \
  regex/new_from_string.h regex/rbundle.h regex/nfa_to_dfa.h \
  regex/simplify_dfa.h regex/free.h parse/grammar/0.highest/../../parse.h \
  parse/grammar/0.highest/../../misc/escapes.h \
- parse/grammar/0.highest/string.h gegex/gbundle.h
+ parse/grammar/0.highest/character.h gegex/gbundle.h

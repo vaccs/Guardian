@@ -13,6 +13,8 @@
 			
 			"%error: t == [2, 3, 4, 5];",
 			
+			"%error: ($int s, e -> int[]: range!(s, e))(3, 6) == [3, 4, 5];",
+			
 			"%error: range!(integer[0].value, integer[1].value) == [3, 4, 5];",
 			
 			"%error: range!(integer[1].value) == [0, 1, 2, 3, 4, 5];",

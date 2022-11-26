@@ -8,4 +8,4 @@ bin/test-build/no-verbose/no-dotout/./parse/grammar/0.highest/character.o: \
  regex/nfa_to_dfa.h regex/simplify_dfa.h regex/free.h \
  parse/grammar/0.highest/../../parse.h \
  parse/grammar/0.highest/../../misc/escapes.h \
- parse/grammar/0.highest/string.h gegex/gbundle.h
+ parse/grammar/0.highest/character.h gegex/gbundle.h

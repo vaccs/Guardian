@@ -39,24 +39,32 @@ struct stringtree* int_form_expression_print_source(
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
-	stringtree_append_printf(tree, ""
-		"({"
-			"struct type_%u* sub = "
-	"", stype->id);
+	stringtree_append_printf(tree, "({");
 	
-	struct stringtree* expression = expression_print_source(object, shared, environment);
-	
-	stringtree_append_tree(tree, expression);
+	{
+		stringtree_append_printf(tree, "struct type_%u* sub = ", stype->id);
+		
+		struct stringtree* sub = expression_print_source(object, shared, environment);
+		
+		stringtree_append_tree(tree, sub);
+		
+		stringtree_append_printf(tree, ";");
+		
+		free_stringtree(sub);
+	}
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 	
-	stringtree_append_printf(tree, ""
-			";"
-			"struct type_%u* result = func_%u();"
-	"", super->type->id, new_id);
+	stringtree_append_printf(tree, "struct type_%u* result = func_%u();", super->type->id, new_id);
 	
 	switch (stype->kind)
 	{
+		case tk_float:
+		{
+			stringtree_append_printf(tree, "mpz_set_d(result->value, sub->value);");
+			break;
+		}
+		
 		case tk_string:
 		{
 			stringtree_append_printf(tree, "char* buffer = malloc(sub->len + 1);");
@@ -87,8 +95,6 @@ struct stringtree* int_form_expression_print_source(
 			"result;"
 		"})"
 	"", free_id);
-	
-	free_stringtree(expression);
 	
 	EXIT;
 	return tree;

@@ -10,7 +10,7 @@
 #include <stringtree/append_tree.h>
 #include <stringtree/free.h>
 
-#include <list/expression/foreach.h>
+/*#include <list/expression/foreach.h>*/
 
 #include "../print.h"
 
@@ -22,15 +22,13 @@ struct stringtree* filter_form_expression_print(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_filter_form);
 	
 	struct stringtree* tree = new_stringtree();
 	
 	struct filter_form_expression* this = (void*) super;
 	
-	stringtree_append_printf(tree, "map!(");
+	stringtree_append_printf(tree, "filter!(");
 	
 	{
 		struct stringtree* sub = expression_print2(this->lambda);
@@ -38,25 +36,18 @@ struct stringtree* filter_form_expression_print(
 		free_stringtree(sub);
 	}
 	
-	expression_list_foreach(this->arguments, ({
-		void runme(struct expression* expression)
-		{
-			stringtree_append_printf(tree, ", ");
-			
-			struct stringtree* sub = expression_print2(expression);
-			
-			stringtree_append_tree(tree, sub);
-			
-			free_stringtree(sub);
-		}
-		runme;
-	}));
+	stringtree_append_printf(tree, ", ");
+	
+	{
+		struct stringtree* sub = expression_print2(this->list);
+		stringtree_append_tree(tree, sub);
+		free_stringtree(sub);
+	}
 	
 	stringtree_append_printf(tree, ")");
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

@@ -15,7 +15,13 @@
 
 #include <expression/inc.h>
 
+#include <expression/literal/struct.h>
+#include <expression/literal/new.h>
+
+#include <value/free.h>
+
 #include <expression/int_form/new.h>
+#include <expression/int_form/run.h>
 
 #include "../expression.h"
 
@@ -47,10 +53,7 @@ struct expression* specialize_primary_int_form_expression(
 			}
 			else
 			{
-				TODO;
-				#if 0
-				retval = new_float_form_expression(type, object);
-				#endif
+				retval = new_int_form_expression(type, object);
 			}
 			break;
 		}
@@ -59,7 +62,14 @@ struct expression* specialize_primary_int_form_expression(
 		{
 			if (object->kind == ek_literal)
 			{
-				TODO;
+				struct literal_expression* lit = (void*) object;
+				
+				struct value* value = int_form_run_on_string(
+					type, (struct string_value*) lit->value);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
 			}
 			else
 			{
@@ -86,4 +96,10 @@ struct expression* specialize_primary_int_form_expression(
 	EXIT;
 	return retval;
 }
+
+
+
+
+
+
 

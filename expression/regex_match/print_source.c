@@ -72,8 +72,8 @@ struct stringtree* regex_match_expression_print_source(
 	stringtree_append_printf(tree, "({");
 	
 	{
-		stringtree_append_printf(tree, "struct type_%u* string = ", this->expression->type->id);
-		struct stringtree* subtree = expression_print_source(this->expression, shared, environment);
+		stringtree_append_printf(tree, "struct type_%u* string = ", this->string->type->id);
+		struct stringtree* subtree = expression_print_source(this->string, shared, environment);
 		stringtree_append_tree(tree, subtree);
 		free_stringtree(subtree);
 		stringtree_append_printf(tree, ";");
@@ -163,7 +163,7 @@ struct stringtree* regex_match_expression_print_source(
 	
 	stringtree_append_printf(tree, "rejects:");
 	
-	unsigned free_id = function_queue_submit_free(shared->fqueue, this->expression->type);
+	unsigned free_id = function_queue_submit_free(shared->fqueue, this->string->type);
 	stringtree_append_printf(tree, "func_%u(string);", free_id);
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);

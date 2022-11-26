@@ -10,12 +10,13 @@ bin/release-build/no-verbose/no-dotout/./yacc/yacc.o: yacc/yacc.c debug.h \
  set/unsigned/clone.h set/unsigned/head.h set/unsignedset/foreach.h \
  set/unsignedset/free.h lex/struct.h \
  lex/build_tokenizer/build_tokenizer.h lex/minimize_lexer.h \
- named/structinfo/struct.h named/trie/struct.h list/statement/foreach.h \
- statement/struct.h statement/kind.h statement/parse/struct.h \
- statement/parse/../struct.h yacc/trie/struct.h yacc/stateinfo/new.h \
- yacc/stateinfo/add.h yacc/stateinfo/compare.h yacc/stateinfo/inc.h \
- yacc/stateinfo/free.h yacc/stateinfo/foreach.h yacc/structinfo/free.h \
- yacc/state/struct.h yacc/state/new.h yacc/state/add_transition.h \
+ lex/find_shortest_accepting.h named/structinfo/struct.h \
+ named/trie/struct.h list/statement/foreach.h statement/struct.h \
+ statement/kind.h statement/parse/struct.h statement/parse/../struct.h \
+ yacc/trie/struct.h yacc/stateinfo/new.h yacc/stateinfo/add.h \
+ yacc/stateinfo/compare.h yacc/stateinfo/inc.h yacc/stateinfo/free.h \
+ yacc/stateinfo/foreach.h yacc/structinfo/free.h yacc/state/struct.h \
+ yacc/state/new.h yacc/state/add_transition.h \
  yacc/state/add_reduce_transition.h yacc/state/add_grammar_transition.h \
  yacc/build_tries.h yacc/expand_stateinfo.h yacc/calc_firsts.h \
  yacc/yacc.h

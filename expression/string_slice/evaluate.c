@@ -1,19 +1,17 @@
 
+#include <stddef.h>
+
 #include <assert.h>
 
 #include <debug.h>
 
-/*#include <value/struct.h>*/
-/*#include <value/integer/new.h>*/
-/*#include <value/free.h>*/
+#include <value/struct.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/free.h>
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -24,42 +22,36 @@ struct value* string_slice_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct string_slice_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value* string = expression_evaluate(tcache, this->string, environment);
 	
-	assert(list->kind == vk_list);
+	assert(string->kind == vk_string);
 	
-	struct list_value* spef_list = (void*) spef_list;
+	struct value* startindex = NULL;
+	struct value* endindex = NULL;
 	
-	struct mpz* number;
-	
-	switch (this->kind)
+	if (this->startindex)
 	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
+		startindex = expression_evaluate(tcache, this->startindex, environment);
 	}
 	
-	struct value* value = new_integer_value(super->type, number);
+	if (this->endindex)
+	{
+		endindex = expression_evaluate(tcache, this->endindex, environment);
+	}
 	
-	free_value(left), free_value(right);
+	struct value* value = string_slice_run(super->type,
+		(struct string_value*) string,
+		(struct int_value*) startindex,
+		(struct int_value*)   endindex);
 	
-	free_mpz(number);
+	free_value(string);
+	free_value(startindex);
+	free_value(endindex);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

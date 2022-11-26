@@ -23,7 +23,7 @@ struct stringtree* regex_match_expression_print(
 	
 	struct regex_match_expression* this = (void*) super;
 	
-	struct stringtree* tree = expression_print2(this->expression);
+	struct stringtree* tree = expression_print2(this->string);
 	
 	stringtree_append_printf(tree, " =~ /regex/");
 	

@@ -22,7 +22,7 @@ struct stringtree* dict_contains_expression_print(
 	
 	struct dict_contains_expression* this = (void*) super;
 	
-	struct stringtree* tree = expression_print2(this->index);
+	struct stringtree* tree = expression_print2(this->key);
 	
 	stringtree_append_printf(tree, " in ");
 	

@@ -43,8 +43,8 @@ struct stringtree* dict_contains_expression_print_source(
 	stringtree_append_tree(tree, dict);
 	stringtree_append_printf(tree, ";");
 	
-	struct stringtree* key = expression_print_source(this->index, shared, environment);
-	stringtree_append_printf(tree, "struct type_%u* key = ", this->index->type->id);
+	struct stringtree* key = expression_print_source(this->key, shared, environment);
+	stringtree_append_printf(tree, "struct type_%u* key = ", this->key->type->id);
 	stringtree_append_tree(tree, key);
 	stringtree_append_printf(tree, ";");
 	
@@ -70,7 +70,7 @@ struct stringtree* dict_contains_expression_print_source(
 	unsigned free_dict_id = function_queue_submit_free(shared->fqueue, this->dict->type);
 	stringtree_append_printf(tree, "	func_%u(dict);", free_dict_id);
 	
-	unsigned free_key_id = function_queue_submit_free(shared->fqueue, this->index->type);
+	unsigned free_key_id = function_queue_submit_free(shared->fqueue, this->key->type);
 	stringtree_append_printf(tree, "	func_%u(key);", free_key_id);
 	
 	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);

@@ -13,6 +13,8 @@
 			
 			"s = filter!($int x -> bool: false, [1, 2, 3]);",
 			
+			"%error: ($int x -> int[]: filter!($int y -> bool: x == y, [1, 2, 3, 4, 5]))(3) == [3];",
+			
 			"%error: t == [1, 2, 3];",
 			
 			"%error: s == [<int>];",

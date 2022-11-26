@@ -4,16 +4,11 @@
 #include <debug.h>
 
 #include <value/struct.h>
-#include <value/int/new.h>
-/*#include <value/free.h>*/
-
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/free.h>
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -24,38 +19,19 @@ struct value* all_form_expression_evaluate(
 {
 	ENTER;
 	
-/*	struct all_form_expression* this = (void*) super;*/
+	struct all_form_expression* this = (void*) super;
 	
-/*	struct value* object = expression_evaluate(this->object, scope);*/
+	struct value* list = expression_evaluate(tcache, this->list, environment);
 	
-	TODO;
-	#if 0
-	struct mpz* number;
+	assert(list->kind == vk_list);
 	
-	switch (this->kind)
-	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
-	}
+	struct value* value = all_form_run(super->type,
+		(struct list_value*) list);
 	
-	struct value* value = new_int_value(super->type, number);
-	
-	free_value(left), free_value(right);
-	
-	free_mpz(number);
+	free_value(list);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

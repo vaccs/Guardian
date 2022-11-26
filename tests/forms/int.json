@@ -1,1 +1,41 @@
-[]
+[{
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"integer: /['0'-'9']+/ #value;",
+			
+			"decimal: /float: ['0'-'9']+ '.' ['0'-'9']+/ #value;",
+			
+			"%parse: argv as decimal integer;",
+			
+			"t = int!(3);",
+			
+			"s = int!(\"12\");",
+			
+			"%error: ($float x -> int: int!(x))(3.5) == 3;",
+			
+			"%error: t == 3;",
+			
+			"%error: s == 12;",
+			
+			"a = decimal[0].value;",
+			
+			"%error: int!(a + 0.5) == 5;",
+			
+			"%error: int!(integer[0].value) == 2;",
+		],
+		
+		"./test.txt": [
+			"4.5 2"
+		]
+	},
+	
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}]

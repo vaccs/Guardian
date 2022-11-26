@@ -1,16 +1,16 @@
 
+#include <math.h>
+
 #include <assert.h>
 
 #include <debug.h>
 
-/*#include <value/int/struct.h>*/
-/*#include <value/int/new.h>*/
-/*#include <value/free.h>*/
+#include <value/struct.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/free.h>
+
+#include <value/float/struct.h>
+#include <value/float/new.h>
 
 #include "../evaluate.h"
 
@@ -24,45 +24,60 @@ struct value* float_math_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct float_math_expression* this = (void*) super;
 	
-	struct value* left = expression_evaluate(this->left, scope);
-	struct value* right = expression_evaluate(this->right, scope);
+	struct value* left = expression_evaluate(tcache, this->left, environment);
+	struct value* right = expression_evaluate(tcache, this->right, environment);
 	
-	assert(left->kind == vk_int);
-	assert(right->kind == vk_int);
+	assert(left->kind == vk_float);
+	assert(right->kind == vk_float);
 	
-	struct int_value* spef_left = (void*) left;
-	struct int_value* spef_right = (void*) right;
+	struct float_value* spef_left = (void*) left;
+	struct float_value* spef_right = (void*) right;
 	
-	struct mpz* number;
+	long double number;
 	
 	switch (this->kind)
 	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
+		case fmek_negate:
+			TODO;
 			break;
 		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
+		case fmek_add:
+			number = spef_left->value + spef_right->value;
 			break;
 		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
+		case fmek_subtract:
+			number = spef_left->value - spef_right->value;
+			break;
+		
+		case fmek_multiply:
+			number = spef_left->value * spef_right->value;
+			break;
+		
+		case fmek_qdivide:
+			number = spef_left->value / spef_right->value;
+			break;
+		
+		case fmek_rdivide:
+			number = fmodl(spef_left->value, spef_right->value);
+			break;
+		
+		case fmek_expo:
+			number = powl(spef_left->value, spef_right->value);
+			break;
+		
+		default:
+			TODO;
 			break;
 	}
 	
-	struct value* value = new_int_value(super->type, number);
+	struct value* value = new_float_value(super->type, number);
 	
 	free_value(left), free_value(right);
 	
-	free_mpz(number);
-	
 	EXIT;
 	return value;
-	#endif
 }
 
 

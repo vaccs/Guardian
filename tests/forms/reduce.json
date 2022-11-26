@@ -9,13 +9,15 @@
 			
 			"%parse: argv as integer integer;",
 			
-			"t = reduce!($int x, y -> int: x + y, [1, 2, 3]);",
+			"t = reduce!($int x, y -> int: x + y, [1, 2, 3], 0);",
 			
-			"s = reduce!($int x, y -> int: x + y: false, [1]);",
+			"s = reduce!($int x, y -> int: x + y, [<int>], 3);",
 			
 			"%error: t == 6;",
 			
-			"%error: s == [1];",
+			"%error: s == 3;",
+			
+			"%error: ($($int, int -> int) f -> int: reduce!(f, [1, 2, 3, 4], 0))($int x, y -> int: x + y) == 1 + 2 + 3 + 4;",
 			
 			"a = integer[0].value;",
 			
@@ -23,7 +25,7 @@
 			
 			"%error: reduce!($int[] x, int y -> int[]: x + [y], [a, b], [1, 2, 3]) == [1, 2, 3, 4, 5];",
 			
-			"%error: reduce!($int x, y -> int: x > y ? x : y, [a, b]) == 5;",
+			"%error: reduce!($int x, y -> int: x > y ? x : y, [a, b], 0) == 5;",
 		],
 		
 		"./test.txt": [

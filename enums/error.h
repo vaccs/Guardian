@@ -8,6 +8,7 @@ enum error
 	e_syscall_failed,
 	e_syntax_error,
 	e_bad_input_file,
+	e_shift_reduce_error,
 };
 
 #endif

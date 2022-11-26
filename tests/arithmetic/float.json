@@ -20,6 +20,13 @@
 			"test05 = (3.5  % 2.5); %error:  1.0  == (3.5  % 2.5);",
 			"test06 = (3.5 ** 2.0); %error: 12.25 == (3.5 ** 2.0);",
 			
+			"%error: 5.0 == ($float x, y -> float: x  + y)(3.0, 2.0);",
+			"%error: 1.0 == ($float x, y -> float: x  - y)(3.0, 2.0);",
+			"%error: 6.0 == ($float x, y -> float: x  * y)(3.0, 2.0);",
+			"%error: 1.5 == ($float x, y -> float: x  / y)(3.0, 2.0);",
+			"%error: 1.0 == ($float x, y -> float: x  % y)(3.0, 2.0);",
+			"%error: 9.0 == ($float x, y -> float: x ** y)(3.0, 2.0);",
+			
 			"test07 = +5.5;",
 			"test08 = -5.5;",
 			

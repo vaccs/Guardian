@@ -3,6 +3,11 @@
 
 #include <debug.h>
 
+#include <value/bool/struct.h>
+#include <value/struct.h>
+#include <value/bool/new.h>
+#include <value/free.h>
+
 #include "../evaluate.h"
 
 #include "struct.h"
@@ -15,15 +20,18 @@ struct value* bool_not_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_bool_not);
 	
 	struct bool_not_expression* this = (void*) super;
 	
-	struct value* result = expression_evaluate(this->expression, scope);
+	struct value* subvalue = expression_evaluate(tcache, this->subexpression, environment);
+	
+	assert(subvalue->kind == vk_bool);
+	
+	struct value* value = new_bool_value(super->type, !((struct bool_value*) subvalue)->value);
+	
+	free_value(subvalue);
 	
 	EXIT;
-	return result;
-	#endif
+	return value;
 }

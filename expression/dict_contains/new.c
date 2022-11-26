@@ -10,7 +10,7 @@
 
 struct expression* new_dict_contains_expression(
 	struct type* type,
-	struct expression* index,
+	struct expression* key,
 	struct expression* dict)
 {
 	ENTER;
@@ -21,7 +21,7 @@ struct expression* new_dict_contains_expression(
 		type,
 		sizeof(*this));
 	
-	this->index = inc_expression(index);
+	this->key = inc_expression(key);
 	
 	this->dict = inc_expression(dict);
 	

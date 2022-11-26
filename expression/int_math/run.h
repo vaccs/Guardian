@@ -41,7 +41,7 @@ struct value* int_math_bitand_run(
 	struct int_value* left,
 	struct int_value* right);
 	
-struct value* int_math_bitor_run(
+struct value* int_math_bitior_run(
 	struct type* type,
 	struct int_value* left,
 	struct int_value* right);

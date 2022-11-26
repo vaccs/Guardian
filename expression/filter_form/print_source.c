@@ -14,6 +14,8 @@
 #include <out/function_queue/submit_append.h>
 #include <out/function_queue/submit_free.h>
 
+#include <type_cache/get_bool_type.h>
+
 #include <list/expression/foreach.h>
 
 #include <type/struct.h>
@@ -31,8 +33,6 @@ struct stringtree* filter_form_expression_print_source(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct filter_form_expression* this = (void*) super;
 	
 	struct stringtree* tree = new_stringtree();
@@ -41,106 +41,68 @@ struct stringtree* filter_form_expression_print_source(
 	
 	type_queue_submit(shared->tqueue, super->type);
 	
-	// lambda:
+	// evaluate lambda:
 	{
 		struct stringtree* subtree = expression_print_source(
 			this->lambda, shared, environment);
 		
-		stringtree_append_printf(tree, ""
-			"struct type_%u* lambda = "
-		"", this->lambda->type->id);
+		stringtree_append_printf(tree, "struct type_%u* lambda = ", this->lambda->type->id);
 		stringtree_append_tree(tree, subtree);
 		stringtree_append_printf(tree, ";");
 		
 		free_stringtree(subtree);
 	}
 	
-	stringtree_append_printf(tree, "unsigned n = -1;");
-	
-	unsigned counter = 0;
-	
-	expression_list_foreach(this->arguments, ({
-		void runme(struct expression* expression)
-		{
-			struct stringtree* subtree = expression_print_source(
-				expression, shared, environment);
-			
-			stringtree_append_printf(tree, ""
-				"struct type_%u* list_%u = "
-			"", expression->type->id, counter);
-			stringtree_append_tree(tree, subtree);
-			stringtree_append_printf(tree, ";");
-			
-			stringtree_append_printf(tree,
-				"if (list_%u->n < n) n = list_%u->n;",
-				counter, counter);
-			
-			free_stringtree(subtree);
-			
-			counter++;
-		}
-		runme;
-	}));
-	
-	unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
-	
-	stringtree_append_printf(tree,
-		"struct type_%u* result = func_%u();",
-		super->type->id, new_id);
-	
-	stringtree_append_printf(tree, "for (unsigned i = 0; i < n; i++)");
-	stringtree_append_printf(tree, "{");
-	
-	struct type* subresult_type = ((struct lambda_type*) this->lambda->type)->rettype;
-	
-	stringtree_append_printf(tree, ""
-		"struct type_%u* subresult = (lambda->evaluate)(lambda"
-	"", subresult_type->id);
-	
-	counter = 0;
-	expression_list_foreach(this->arguments, ({
-		void runme(struct expression* expression)
-		{
-			stringtree_append_printf(tree, ", list_%u->data[i]", counter);
-			counter++;
-		}
-		runme;
-	}));
-	
-	stringtree_append_printf(tree, ");");
-	
+	// evaluate list:
 	{
+		struct stringtree* subtree = expression_print_source(
+			this->list, shared, environment);
+		
+		stringtree_append_printf(tree, "struct type_%u* list = ", this->list->type->id);
+		stringtree_append_tree(tree, subtree);
+		stringtree_append_printf(tree, ";");
+		
+		free_stringtree(subtree);
+	}
+	
+	// result:
+	{
+		unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
+		
+		stringtree_append_printf(tree, "struct type_%u* result = func_%u();", super->type->id, new_id);
+	}
+	
+	// build result:
+	{
+		struct type* btype = type_cache_get_bool_type(shared->tcache);
+		
 		unsigned append_id = function_queue_submit_append(shared->fqueue, super->type);
 		
-		stringtree_append_printf(tree, "func_%u(result, subresult);", append_id);
-	}
-	
-	{
-		unsigned free_id = function_queue_submit_free(shared->fqueue, subresult_type);
+		unsigned free_id = function_queue_submit_free(shared->fqueue, btype);
 		
-		stringtree_append_printf(tree, "func_%u(subresult);", free_id);
+		stringtree_append_printf(tree, "for (unsigned i = 0, n = list->n; i < n; i++)");
+		stringtree_append_printf(tree, "{");
+		stringtree_append_printf(tree, "	struct type_%u* conditional = (lambda->evaluate)(lambda, list->data[i]);", btype->id);
+		stringtree_append_printf(tree, "	if (conditional->value)");
+		stringtree_append_printf(tree, "	{");
+		stringtree_append_printf(tree, "		func_%u(result, list->data[i]);", append_id);
+		stringtree_append_printf(tree, "	}");
+		stringtree_append_printf(tree, "	func_%u(conditional);", free_id);
+		stringtree_append_printf(tree, "}");
 	}
 	
-	stringtree_append_printf(tree, "}");
-	
-	counter = 0;
-	expression_list_foreach(this->arguments, ({
-		void runme(struct expression* expression)
-		{
-			unsigned free_id = function_queue_submit_free(
-				shared->fqueue, expression->type);
-			
-			stringtree_append_printf(tree, ""
-				"func_%u(list_%u);"
-			"", free_id, counter++);
-		}
-		runme;
-	}));
-	
+	// free lambda:
 	{
 		unsigned free_id = function_queue_submit_free(shared->fqueue, this->lambda->type);
 		
 		stringtree_append_printf(tree, "func_%u(lambda);", free_id);
+	}
+	
+	// free list:
+	{
+		unsigned free_id = function_queue_submit_free(shared->fqueue, this->list->type);
+		
+		stringtree_append_printf(tree, "func_%u(list);", free_id);
 	}
 	
 	stringtree_append_printf(tree, "result;");
@@ -149,7 +111,6 @@ struct stringtree* filter_form_expression_print_source(
 	
 	EXIT;
 	return tree;
-	#endif
 }
 
 

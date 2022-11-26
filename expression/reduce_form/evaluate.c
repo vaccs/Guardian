@@ -3,17 +3,13 @@
 
 #include <debug.h>
 
-/*#include <value/struct.h>*/
-/*#include <value/int/new.h>*/
-/*#include <value/free.h>*/
+#include <value/struct.h>
 
-/*#include <mpz/add.h>*/
-/*#include <mpz/subtract.h>*/
-/*#include <mpz/multiply.h>*/
-/*#include <mpz/free.h>*/
+#include <value/free.h>
 
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -24,42 +20,33 @@ struct value* reduce_form_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
-	struct map_expression* this = (void*) super;
+	struct reduce_form_expression* this = (void*) super;
 	
-	struct value* list = expression_evaluate(this->list, scope);
+	struct value* lambda = expression_evaluate(tcache, this->lambda, environment);
 	
-	assert(list->kind == vk_map);
+	assert(lambda->kind == vk_lambda);
 	
-	struct list_value* spef_list = (void*) spef_list;
+	struct value* list = expression_evaluate(tcache, this->list, environment);
 	
-	struct mpz* number;
+	assert(list->kind == vk_list);
 	
-	switch (this->kind)
-	{
-		case imek_add:
-			number = new_mpz_from_add(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_subtract:
-			number = new_mpz_from_subtract(spef_left->integer, spef_right->integer);
-			break;
-		
-		case imek_multiply:
-			number = new_mpz_from_multiply(spef_left->integer, spef_right->integer);
-			break;
-	}
+	struct value* initial = expression_evaluate(tcache, this->initial, environment);
 	
-	struct value* value = new_int_value(super->type, number);
+	struct value* value = reduce_form_run(
+		tcache,
+		super->type,
+		(struct lambda_value*) lambda,
+		(struct list_value*) list,
+		initial);
 	
-	free_value(left), free_value(right);
+	free_value(lambda);
 	
-	free_mpz(number);
+	free_value(list);
+	
+	free_value(initial);
 	
 	EXIT;
 	return value;
-	#endif
 }
 
 

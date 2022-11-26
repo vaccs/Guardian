@@ -5,11 +5,49 @@
 		"./input.maia": [
 			"%skip: ' ' | '\\n';",
 			
-			"%parse: argv as /['a', 'b', 'c']+/;",
+			"%parse: argv as \"a\" | \"b\" | \"c\";",
 		],
 		
 		"./test.txt": [
-			"abc"
+			"a"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"%parse: argv as \"a\" | \"b\" | \"c\";",
+		],
+		
+		"./test.txt": [
+			"b"
+		]
+	},
+	"commands": [
+		"./maia -i ./input.maia -o out.c",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"./out ./test.txt"
+	],
+}, {
+	"files": {
+		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		
+		"./input.maia": [
+			"%skip: ' ' | '\\n';",
+			
+			"%parse: argv as \"a\" | \"b\" | \"c\";",
+		],
+		
+		"./test.txt": [
+			"c"
 		]
 	},
 	"commands": [

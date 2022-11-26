@@ -37,25 +37,19 @@ struct value* comparison_expression_evaluate(
 	
 	switch (this->kind)
 	{
-		case cek_equal_to:
-			TODO;
-			break;
+		case cek_equal_to: result = cmp == 0; break;
+		
 		case cek_less_than: result = cmp < 0; break;
-		case cek_greater_than:
-			TODO;
-			break;
-		case cek_not_equal_to:
-			TODO;
-			break;
-		case cek_less_than_equal_to:
-			TODO;
-			break;
-		case cek_greater_than_equal_to:
-			TODO;
-			break;
-		default:
-			TODO;
-			break;
+		
+		case cek_greater_than: result = cmp > 0; break;
+		
+		case cek_not_equal_to: result = cmp != 0; break;
+		
+		case cek_less_than_equal_to: result = cmp <= 0; break;
+		
+		case cek_greater_than_equal_to: result = cmp >= 0; break;
+		
+		default: TODO; break;
 	}
 	
 	dpvb(result);

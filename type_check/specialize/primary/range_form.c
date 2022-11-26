@@ -74,7 +74,8 @@ struct expression* specialize_primary_range_form_expression(
 		struct literal_expression* startlit = (void*) start;
 		struct literal_expression* endlit = (void*) end;
 		
-		struct value* value = range_form_run(ltype, etype,
+		struct value* value = range_form_run(
+			(struct list_type*) ltype,
 			(struct int_value*) startlit->value,
 			(struct int_value*) endlit->value);
 		

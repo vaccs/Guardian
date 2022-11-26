@@ -3,8 +3,12 @@
 
 #include <debug.h>
 
+#include <value/struct.h>
+#include <value/free.h>
+
 #include "../evaluate.h"
 
+#include "run.h"
 #include "struct.h"
 #include "evaluate.h"
 
@@ -15,15 +19,25 @@ struct value* dict_contains_expression_evaluate(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	assert(super->kind == ek_dict_contains);
 	
 	struct dict_contains_expression* this = (void*) super;
 	
-	struct value* result = expression_evaluate(this->expression, scope);
+	struct value* key = expression_evaluate(tcache, this->key, environment);
+	
+	struct value* dict = expression_evaluate(tcache, this->dict, environment);
+	
+	assert(dict->kind == vk_dict);
+	
+	struct value* value = dict_contains_run(
+		super->type,
+		(struct value*) key,
+		(struct dict_value*) dict);
+	
+	free_value(key);
+	
+	free_value(dict);
 	
 	EXIT;
-	return result;
-	#endif
+	return value;
 }

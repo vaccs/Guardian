@@ -2,14 +2,6 @@
 #include <assert.h>
 #include <debug.h>
 
-/*#include <expression/inc.h>*/
-
-/*#include <type_cache/get_type/int.h>*/
-
-/*#include <type/free.h>*/
-
-#include <list/expression/inc.h>
-
 #include "../new.h"
 #include "../inc.h"
 
@@ -25,8 +17,6 @@ struct expression* new_reduce_form_expression(
 {
 	ENTER;
 	
-	TODO;
-	#if 0
 	struct reduce_form_expression* this = (void*) new_expression(
 		ek_reduce_form,
 		&reduce_form_expression_inheritance,
@@ -35,10 +25,11 @@ struct expression* new_reduce_form_expression(
 	
 	this->lambda = inc_expression(lambda);
 	
-	this->arguments = inc_expression_list(arguments);
+	this->list = inc_expression(list);
+	
+	this->initial = inc_expression(initial);
 	
 	EXIT;
 	return (void*) this;
-	#endif
 }
 

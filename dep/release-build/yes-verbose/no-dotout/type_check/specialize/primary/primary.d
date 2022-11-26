@@ -26,6 +26,7 @@ bin/release-build/yes-verbose/no-dotout/./type_check/specialize/primary/primary.
  type_check/specialize/primary/range_form.h \
  type_check/specialize/primary/isdir_form.h \
  type_check/specialize/primary/filter_form.h \
+ type_check/specialize/primary/reduce_form.h \
  type_check/specialize/primary/crossmap_form.h \
  type_check/specialize/primary/isabspath_form.h \
  type_check/specialize/primary/isaccessibleto_form.h \

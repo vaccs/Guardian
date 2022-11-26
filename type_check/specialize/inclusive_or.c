@@ -86,7 +86,7 @@ struct expression* specialize_inclusive_or_expression(
 					struct int_value*  leftint = (void*)  leftlit->value;
 					struct int_value* rightint = (void*) rightlit->value;
 					
-					struct value* value = int_math_bitor_run(left->type, leftint, rightint);
+					struct value* value = int_math_bitior_run(left->type, leftint, rightint);
 					
 					retval = new_literal_expression(value);
 					

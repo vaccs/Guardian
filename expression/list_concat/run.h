@@ -1,4 +1,5 @@
 
+struct type;
 struct list_value;
 
 struct value* list_concat_run(
