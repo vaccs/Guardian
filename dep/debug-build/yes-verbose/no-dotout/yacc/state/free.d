@@ -3,4 +3,6 @@ bin/debug-build/yes-verbose/no-dotout/./yacc/state/free.o: \
  quack/append.h quack/is_nonempty.h quack/pop.h quack/free.h \
  set/ptr/new.h set/ptr/add.h set/ptr/free.h lex/state/free.h \
  set/unsigned/free.h yacc/reductioninfo/free.h yacc/structinfo/free.h \
- yacc/state/struct.h yacc/state/free.h
+ statement/parse/struct.h statement/parse/../struct.h \
+ statement/parse/../kind.h list/statement/foreach.h yacc/state/struct.h \
+ yacc/state/free.h

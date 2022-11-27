@@ -23,10 +23,14 @@
 
 #include <yacc/structinfo/free.h>
 
+#include <statement/parse/struct.h>
+
+#include <list/statement/foreach.h>
+
 #include "struct.h"
 #include "free.h"
 
-void free_yacc_state_loop(
+static void free_yacc_state_loop(
 	struct ptrset* yacc_queued,
 	struct ptrset* lex_queued,
 	struct quack* todo)
@@ -117,7 +121,38 @@ void free_yacc_state(struct yacc_state* start)
 	EXIT;
 }
 
-
+void free_all_yacc_states(struct statement_list* statements)
+{
+	struct ptrset* yacc_queued = new_ptrset();
+	
+	struct ptrset* lex_queued = new_ptrset();
+	
+	struct quack* todo = new_quack();
+	
+	statement_list_foreach(statements, ({
+		void runme(struct statement* statement)
+		{
+			if (statement->kind == sk_parse)
+			{
+				struct parse_statement* pstatement = (void*) statement;
+				
+				struct yacc_state* state = pstatement->ystate;
+				
+				if (ptrset_add(yacc_queued, state))
+					quack_append(todo, state);
+			}
+		}
+		runme;
+	}));
+	
+	free_yacc_state_loop(yacc_queued, lex_queued, todo);
+	
+	free_ptrset(yacc_queued);
+	
+	free_ptrset(lex_queued);
+	
+	free_quack(todo);
+}
 
 
 

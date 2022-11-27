@@ -5,11 +5,10 @@ bin/debug-build/yes-verbose/yes-dotout/./yacc/yacc.o: yacc/yacc.c debug.h \
  string/are_equal.h string/compare.h string/free.h quack/new.h \
  quack/pop.h quack/append.h quack/is_nonempty.h quack/free.h \
  named/trie/compare.h named/trie/free.h named/grammar/struct.h \
- cmdln/minimize_lexer.h set/unsigned/new.h set/unsigned/add.h \
- set/unsigned/free.h set/unsigned/foreach.h set/unsigned/update.h \
- set/unsigned/clone.h set/unsigned/head.h set/unsignedset/foreach.h \
- set/unsignedset/free.h lex/struct.h \
- lex/build_tokenizer/build_tokenizer.h lex/minimize_lexer.h \
+ set/unsigned/new.h set/unsigned/add.h set/unsigned/free.h \
+ set/unsigned/foreach.h set/unsigned/update.h set/unsigned/clone.h \
+ set/unsigned/head.h set/unsignedset/foreach.h set/unsignedset/free.h \
+ lex/struct.h lex/build_tokenizer/build_tokenizer.h \
  lex/find_shortest_accepting.h named/structinfo/struct.h \
  named/trie/struct.h list/statement/foreach.h statement/struct.h \
  statement/kind.h statement/parse/struct.h statement/parse/../struct.h \

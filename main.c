@@ -12,6 +12,7 @@
 #include <cmdln/free.h>
 
 #include <lex/new.h>
+#include <lex/minimize_lexer.h>
 #include <lex/free.h>
 
 #include <avl/alloc_tree.h>
@@ -26,45 +27,21 @@
 #include <list/raw_statement/new.h>
 #include <list/raw_statement/free.h>
 
+#include <list/statement/new.h>
+#include <list/statement/free.h>
+
 #include <parse/driver.h>
 
 #include <type_cache/new.h>
 #include <type_cache/free.h>
+#include <type_check/specialize_grammar_types.h>
+#include <type_check/type_check.h>
 
 #include <named/type/compare.h>
 #include <named/type/free.h>
 
-#include <yacc/state/free.h>
-
-#include <type_check/specialize_grammar_types.h>
-
-#include <statement/struct.h>
-
-#include <set/ptr/add.h>
-
-#include <quack/append.h>
-
-#include <statement/parse/struct.h>
-
-#include <list/statement/foreach.h>
-
-#include <quack/new.h>
-#include <quack/free.h>
-
-#include <set/ptr/new.h>
-#include <set/ptr/free.h>
-
-#include <set/string/new.h>
-#include <set/string/free.h>
-
-#include <list/statement/new.h>
-#include <list/statement/free.h>
-
-#include <type_check/type_check.h>
-
 #include <yacc/yacc.h>
-
-/*#include <yacc/state/free.h>*/
+#include <yacc/state/free.h>
 
 #include <out/out.h>
 
@@ -103,6 +80,12 @@ int main(int argc, char* const* argv)
 	yacc(lex, structinfos, grammar, statements);
 	
 	
+	if (flags->minimize_lexer)
+	{
+		lex_minimize_lexer(lex, statements);
+	}
+	
+	
 	struct stringtree* content = out(tcache, types, statements);
 	
 	FILE* stream = fopen(flags->output_path, "w");
@@ -115,41 +98,16 @@ int main(int argc, char* const* argv)
 	
 	stringtree_stream(content, stream);
 	
-	struct ptrset* yacc_queued = new_ptrset();
-	
-	struct ptrset* lex_queued = new_ptrset();
-	
-	struct quack* todo = new_quack();
-	
-	statement_list_foreach(statements, ({
-		void runme(struct statement* statement)
-		{
-			if (statement->kind == sk_parse)
-			{
-				struct parse_statement* pstatement = (void*) statement;
-				
-				struct yacc_state* state = pstatement->ystate;
-				
-				if (ptrset_add(yacc_queued, state))
-					quack_append(todo, state);
-			}
-		}
-		runme;
-	}));
-	
-	free_yacc_state_loop(yacc_queued, lex_queued, todo);
 	
 	free_raw_statement_list(raw_statements);
+	
+	free_all_yacc_states(statements);
 	
 	free_statement_list(statements);
 	
 	avl_free_tree(structinfos);
 	
 	free_stringtree(content);
-	
-	free_ptrset(yacc_queued);
-	
-	free_ptrset(lex_queued);
 	
 	free_type_cache(tcache);
 	
@@ -158,8 +116,6 @@ int main(int argc, char* const* argv)
 	avl_free_tree(types);
 	
 	free_cmdln(flags);
-	
-	free_quack(todo);
 	
 	fclose(stream);
 	

@@ -20,7 +20,6 @@ srcs += ./avl/search.c
 srcs += ./avl/search_closest.c
 srcs += ./avl/unlink_node.c
 srcs += ./cmdln/free.c
-srcs += ./cmdln/minimize_lexer.c
 srcs += ./cmdln/process.c
 srcs += ./cmdln/usage.c
 srcs += ./cmdln/verbose.c

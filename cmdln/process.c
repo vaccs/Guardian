@@ -12,7 +12,6 @@
 #include "usage.h"
 #include "flags.h"
 #include "process.h"
-#include "minimize_lexer.h"
 
 struct cmdln* cmdln_process(int argc, char* const* argv)
 {
@@ -20,6 +19,8 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 	
 	const char* input_path = NULL;
 	const char* output_path = NULL;
+	
+	bool minimize_lexer = false;
 	
 	int opt;
 	while ((opt = getopt(argc, argv, "hvmi:o:")) != -1)
@@ -63,9 +64,11 @@ struct cmdln* cmdln_process(int argc, char* const* argv)
 	
 	flags->input_path = input_path;
 	flags->output_path = output_path;
+	flags->minimize_lexer = minimize_lexer;
 	
 	dpvs(flags->input_path);
 	dpvs(flags->output_path);
+	dpvb(flags->minimize_lexer);
 	
 	#ifdef VERBOSE
 	dpvb(verbose);
