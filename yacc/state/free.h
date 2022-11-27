@@ -2,10 +2,8 @@
 struct ptrset;
 struct quack;
 struct yacc_state;
-
-void free_yacc_state_loop(
-	struct ptrset* yacc_queued,
-	struct ptrset* lex_queued,
-	struct quack* todo);
+struct statement_list;
 
 void free_yacc_state(struct yacc_state* this);
+
+void free_all_yacc_states(struct statement_list* statements);

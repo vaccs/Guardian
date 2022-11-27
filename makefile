@@ -78,7 +78,7 @@ default: $(buildprefix)/maia
 
 ARGS += -v
 
-#ARGS += -m
+ARGS += -m
 
 # ARGS += -i ./examples/json.maia
 # ARGS += -i ./examples/math.maia

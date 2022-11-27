@@ -1,4 +1,5 @@
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
 
@@ -6,10 +7,10 @@
 
 #include <memory/smalloc.h>
 
+#include <avl/alloc_tree.h>
 #include <avl/foreach.h>
 #include <avl/search.h>
 #include <avl/insert.h>
-#include <avl/alloc_tree.h>
 #include <avl/free_tree.h>
 
 #include <quack/new.h>
@@ -37,6 +38,10 @@
 #include <set/unsigned/inc.h>
 
 #include <yacc/state/struct.h>
+
+#include <statement/struct.h>
+#include <statement/parse/struct.h>
+#include <list/statement/foreach.h>
 
 #include "struct.h"
 #include "minimize_lexer.h"
@@ -388,7 +393,7 @@ static struct lex_state* find(struct avl_tree_t* connections, struct lex_state* 
 
 static void traverse_and_clone(
 	struct avl_tree_t* connections,
-	struct yacc_state* start)
+	struct statement_list* statements)
 {
 	ENTER;
 	
@@ -396,13 +401,26 @@ static void traverse_and_clone(
 	
 	struct quack* lex_todo = new_quack();
 	
-	struct ptrset* queued = new_ptrset();
+	struct ptrset* yacc_queued = new_ptrset();
 	
 	struct avl_tree_t* mappings = avl_alloc_tree(compare_mappings, free);
 	
-	ptrset_add(queued, start);
 	
-	quack_append(yacc_todo, start);
+	statement_list_foreach(statements, ({
+		void runme(struct statement* statement)
+		{
+			if (statement->kind == sk_parse)
+			{
+				struct parse_statement* pstatement = (void*) statement;
+				
+				struct yacc_state* state = pstatement->ystate;
+				
+				if (ptrset_add(yacc_queued, state))
+					quack_append(yacc_todo, state);
+			}
+		}
+		runme;
+	}));
 	
 	while (quack_is_nonempty(yacc_todo))
 	{
@@ -433,7 +451,7 @@ static void traverse_and_clone(
 		{
 			struct yacc_state* const to = state->transitions.data[i]->to;
 			
-			if (ptrset_add(queued, to))
+			if (ptrset_add(yacc_queued, to))
 				quack_append(yacc_todo, to);
 		}
 		
@@ -441,7 +459,7 @@ static void traverse_and_clone(
 		{
 			struct yacc_state* const to = state->grammar_transitions.data[i]->to;
 			
-			if (ptrset_add(queued, to))
+			if (ptrset_add(yacc_queued, to))
 				quack_append(yacc_todo, to);
 		}
 	}
@@ -517,7 +535,7 @@ static void traverse_and_clone(
 		}
 	}
 	
-	free_ptrset(queued);
+	free_ptrset(yacc_queued);
 	
 	avl_free_tree(mappings);
 	
@@ -530,7 +548,7 @@ static void traverse_and_clone(
 
 void lex_minimize_lexer(
 	struct lex* this,
-	struct yacc_state* ystart)
+	struct statement_list* statements)
 {
 	ENTER;
 	
@@ -632,7 +650,7 @@ void lex_minimize_lexer(
 		free(task);
 	}
 	
-	traverse_and_clone(connections, ystart);
+	traverse_and_clone(connections, statements);
 	
 	struct ptrset* freed = new_ptrset();
 	

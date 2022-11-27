@@ -34,8 +34,6 @@
 
 #include <named/grammar/struct.h>
 
-#include <cmdln/minimize_lexer.h>
-
 #include <set/unsigned/new.h>
 #include <set/unsigned/add.h>
 #include <set/unsigned/free.h>
@@ -49,7 +47,6 @@
 
 #include <lex/struct.h>
 #include <lex/build_tokenizer/build_tokenizer.h>
-#include <lex/minimize_lexer.h>
 #include <lex/find_shortest_accepting.h>
 
 #include <named/structinfo/struct.h>
@@ -340,7 +337,9 @@ static void add_reduce(
 		dpvs(old->reduce_as);
 		#endif
 		
+		// reduce-reduce error
 		TODO;
+		exit(1);
 	}
 	else
 	{
@@ -723,14 +722,6 @@ void yacc(
 		avl_free_tree(subgrammars);
 		
 		free_unsignedset(all_tokens);
-	}
-	
-	if (minimize_lexer)
-	{
-		TODO;
-		#if 0
-		lex_minimize_lexer(lex, start);
-		#endif
 	}
 	
 	free_quack(todo);
