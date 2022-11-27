@@ -6,7 +6,7 @@ struct scope;
 struct value;
 struct shared;
 struct out_shared;
-struct type_cache* tcache;
+struct type_cache;
 
 struct expression_inheritance
 {
