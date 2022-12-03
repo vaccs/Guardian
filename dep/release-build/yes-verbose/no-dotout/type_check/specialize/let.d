@@ -8,6 +8,6 @@ bin/release-build/yes-verbose/no-dotout/./type_check/specialize/let.o: \
  type_check/scope/declare.h expression/struct.h expression/kind.h \
  expression/literal/struct.h expression/literal/../struct.h \
  expression/let/new.h expression/inc.h expression/free.h \
- type_check/determine_type/expression.h type/print.h \
+ type_check/determine_type/expression.h type/print.h cmdln/verbose.h \
  type_check/specialize/expression.h type_check/specialize/lambda.h \
  type_check/specialize/let.h

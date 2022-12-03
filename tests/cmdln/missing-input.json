@@ -1,15 +1,15 @@
 
 [{
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/no-dotout/maia"
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guard"
 	},
 	
 	"commands": [
-		"./maia -i ./missing/path.maia"
+		"./guard -i ./missing/path.guard"
 	],
 	
 	"output": [
-		"maia: cannot open './missing/path.maia'!"
+		"guard: cannot open './missing/path.guard'!"
 	],
 	
 	"exit-code": 1,

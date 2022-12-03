@@ -1,8 +1,8 @@
 [{
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
 		
-		"./input.maia": [
+		"./input.guard": [
 			"%skip: ' ' | '\\n';",
 			
 			"number: /int: ['0'-'9']+/ #value;",
@@ -24,16 +24,16 @@
 		]
 	},
 	"commands": [
-		"./maia -i ./input.maia -o out.c",
+		"./guard -i ./input.guard -o out.c",
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./input.txt"
 	],
 	"exit-code": 1,
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
 		
-		"./input.maia": [
+		"./input.guard": [
 			"%skip: ' ' | '\\n';",
 			
 			"number: /int: ['0'-'9']+/ #value;",
@@ -55,15 +55,15 @@
 		]
 	},
 	"commands": [
-		"./maia -i ./input.maia -o out.c",
+		"./guard -i ./input.guard -o out.c",
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./input.txt"
 	],
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/no-dotout/maia",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
 		
-		"./input.maia": [
+		"./input.guard": [
 			"%skip: ' ' | '\\n';",
 			
 			"number: /int: ['0'-'9']+/ #value;",
@@ -85,7 +85,7 @@
 		]
 	},
 	"commands": [
-		"./maia -i ./input.maia -o out.c",
+		"./guard -i ./input.guard -o out.c",
 		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
 		"./out ./input.txt"
 	],

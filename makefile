@@ -74,40 +74,40 @@ endif
 buildprefix = bin/$(buildtype)-build/$(verbose)-verbose/$(dotout)-dotout
 depprefix   = dep/$(buildtype)-build/$(verbose)-verbose/$(dotout)-dotout
 
-default: $(buildprefix)/maia
+default: $(buildprefix)/guardian
 
 ARGS += -v
 
 ARGS += -m
 
-# ARGS += -i ./examples/json.maia
-# ARGS += -i ./examples/math.maia
-#ARGS += -i ./examples/passwd.maia
-#ARGS += -i ./examples/shadow.maia
-#ARGS += -i ./examples/group.maia
-#ARGS += -i ./examples/login.maia
-ARGS += -i ./examples/zest.maia
+# ARGS += -i ./examples/json.guard
+# ARGS += -i ./examples/math.guard
+#ARGS += -i ./examples/passwd.guard
+#ARGS += -i ./examples/shadow.guard
+#ARGS += -i ./examples/group.guard
+#ARGS += -i ./examples/login.guard
+ARGS += -i ./examples/zest.guard
 
 ARGS += -o /tmp/out.c
 
-run: $(buildprefix)/maia
+run: $(buildprefix)/guardian
 	$< $(ARGS)
 
-valrun: $(buildprefix)/maia
+valrun: $(buildprefix)/guardian
 	valgrind $< $(ARGS)
 
-valrun-stop: $(buildprefix)/maia
+valrun-stop: $(buildprefix)/guardian
 	valgrind --gen-suppressions=yes -- $< ${ARGS}
 
-valrun-leak: $(buildprefix)/maia
+valrun-leak: $(buildprefix)/guardian
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 -- $< ${ARGS}
 
-tracerun: $(buildprefix)/maia
+tracerun: $(buildprefix)/guardian
 	strace $< $(ARGS)
 
-install: $(buildprefix)/maia
+install: $(buildprefix)/guardian
 	@ mkdir -vp ~/bin/
-	@ cp -vau $(buildprefix)/maia ~/bin/maia
+	@ cp -vau $(buildprefix)/guardian ~/bin/guardian
 
 .PRECIOUS: %/
 
@@ -145,7 +145,7 @@ $(buildprefix)/%.o $(depprefix)/%.d: %.c | $(buildprefix)/%/ $(depprefix)/%/
 	@ echo "compiling $<"
 	@ $(CC) -c $(CPPFLAGS) $(CFLAGS) $< -MMD -o $(buildprefix)/$*.o -MF $(depprefix)/$*.d $(ON_ERROR)
 
-$(buildprefix)/maia: $(objs)
+$(buildprefix)/guardian: $(objs)
 	@ echo "linking $@"
 	@ $(CC) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@
 

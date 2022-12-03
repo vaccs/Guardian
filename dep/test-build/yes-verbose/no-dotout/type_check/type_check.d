@@ -14,7 +14,7 @@ bin/test-build/yes-verbose/no-dotout/./type_check/type_check.o: \
  statement/assert/new.h statement/declare/new.h statement/print/new.h \
  statement/parse/new.h stringtree/new.h stringtree/append_printf.h \
  stringtree/append_tree.h stringtree/stream.h stringtree/free.h \
- type_check/scope/layer.h type_check/scope/struct.h \
+ cmdln/verbose.h type_check/scope/layer.h type_check/scope/struct.h \
  type_check/scope/new.h type_check/scope/push.h \
  type_check/scope/declare.h type_check/scope/lookup.h \
  type_check/scope/pop.h type_check/scope/free.h \

@@ -1,21 +1,21 @@
 
 [{
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/no-dotout/maia"
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guard"
 	},
 	
 	"commands": [
-		"./maia --help"
+		"./guard --help"
 	],
 	
 	"exit-code": 1
 }, {
 	"files": {
-		"./maia": "bin/test-build/yes-verbose/no-dotout/maia"
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guard"
 	},
 	
 	"commands": [
-		"./maia -h"
+		"./guard -h"
 	]
 }]
 
