@@ -1,0 +1,58 @@
+
+\documentclass[a4paper,11pt]{book}
+
+\usepackage{import}
+\usepackage{lipsum}
+\usepackage[bookmarks=true]{hyperref} 
+\usepackage{bookmark}
+\usepackage{graphicx}
+%\usepackage{svg}
+%\usepackage{titletoc}
+%\usepackage{makeidx}
+%\makeindex
+
+\usepackage{titletoc}% http://ctan.org/pkg/titletoc
+\titlecontents*{chapter}% <section-type>
+	[0pt]% <left>
+	{}% <above-code>
+	{\bfseries\chaptername\ \thecontentslabel\quad}% <numbered-entry-format>
+	{}% <numberless-entry-format>
+	{\bfseries\hfill\contentspage}% <filler-page-format>
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+{
+	\frontmatter
+	\import{./}{title.tex}
+	
+	\thispagestyle{empty}
+
+	\tableofcontents
+	
+	\mainmatter
+	\subimport{1.introduction/}{1.main.tex}
+	
+	\subimport{2.chapter/}{2.main.tex}
+	
+	\subimport{3.chapter/}{3.main.tex}
+}
+\end{document}
+
+
+% grammar syntax
+
+% regular expression syntax
+
+% 
+
+% assertion language:
+	% operators
+	% datatypes
+	% special forms
+		% lambdas
+
+% glossary:
+	% builtin functions
+	
+	
