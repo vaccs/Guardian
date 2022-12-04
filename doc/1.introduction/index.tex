@@ -3,8 +3,45 @@
 {
 	\section{Introduction}
 	{
-		\lipsum[1]
+		The integrity of systems files is necessary for a operating system to
+		function securely.  Integrity is not generally discussed in terms of
+		complete computer systems. Instead, integrity issues tend to be either
+		tightly coupled to a particular domain (e.g. database constraints), or
+		so broad as to be useless except after the fact (e.g. backups).
+		Often, file integrity is determined by who modifies the file or by a
+		checksum. Our appoarch is to focus on a general model for representing
+		the internal integrity of a file. Even if a file is modified by a
+		subject with trust or whose modification has a valid checksum, it may
+		not meet the specification of a valid file. An example would be a
+		\texttt{/etc/passwd} file with no user assigned a user id of 0. This
+		repository stores the source code of a program called Guardian that
+		provides a means to specify and enforce what the contents of a valid
+		file should be.
+		Guardian can be used to specify the format and valid properties of
+		system configuration files, SSH-key files and others.
+		
+		Guardian generates the C source code for a program that will determine
+		if the content of a given file matches the specification of a valid
+		file. Guardian is given the file specification to generate a checker for
+		on its command-line invocation.
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

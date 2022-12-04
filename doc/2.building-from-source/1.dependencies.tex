@@ -1,6 +1,54 @@
 
 \section{Dependencies}
 {
-	\lipsum[1]
+	Guardian needs several programs to be installed before it can be built.
+	Guardian requires \texttt{gcc}, (GNU) \texttt{make}, \texttt{find},
+	\texttt{sed}, the GMP library and \texttt{zebu}. If building on Ubuntu OS, all
+	of the programs but the last can be installed with the command:
+	
+	\begin{lstlisting}
+sudo apt install gcc make findutils sed make libgmp-dev
+	\end{lstlisting}
+	
+	Zebu is a parser generator used to generate Guardian's parser. It can be
+	built from source from its
+	\href{https://github.com/ZanderThannhauser/zebu}{repository} without any
+	additional dependencies. Running the command \texttt{make} will build zebu.
+	\texttt{make install} will install zebu into \texttt{\${HOME}/bin},
+	the installation path can be changed with
+	\texttt{make install PREFIX=\${PREFIX}}. \texttt{zebu} needs to be installed
+	into a directory listed in the \texttt{\${PATH}} environment variable.
+	
+	Zest is a testing framework used to verify Guardian. \texttt{zest} also must
+	be built from source from its
+	\href{https://github.com/ZanderThannhauser/zebu}{repository}.
+	Complication and installation steps mirror Zebu. Once \texttt{zest} is
+	installed, Guardian can be tested run with the script \texttt{./run-tests.sh}.
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

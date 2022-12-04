@@ -1,6 +1,69 @@
 
 \section{Building}
 {
-	\lipsum[1]
+	Once all of the dependencies are installed. Guardian can be built. The
+	makefile that builds Guardian has several build options discribed below.
+	For most users though the default build options are sufficient.
+	
+	\begin{itemize}
+	{
+		\item {\texttt{\$ export buildtype=release} (default)}\\
+		{
+			\lipsum[1]
+		}
+		
+		\item {\texttt{\$ export buildtype=test}}\\
+		{
+			\lipsum[1]
+		}
+		
+		\item {\texttt{\$ export buildtype=debug}}\\
+		{
+			\lipsum[1]
+		}
+		
+		\item {\texttt{\$ export verbose=yes} (default)}\\
+		{
+			\lipsum[1]
+		}
+		
+		\item {\texttt{\$ export verbose=no}}\\
+		{
+			\lipsum[1]
+		}
+		
+		\item {\texttt{\$ export dotout=no} (default)}\\
+		{
+			\lipsum[1]
+		}
+		
+		\item {\texttt{\$ export dotout=yes}}\\
+		{
+			\lipsum[1]
+		}
+	}
+	\end{itemize}
+	
+	Once the build options have been set, Guardian can be built with the
+	\texttt{make} command.
+	
+	The \texttt{make install} command will install Guardian into
+	\texttt{\${HOME}/bin}, the installation path can be changed with
+	\texttt{make install PREFIX=\${PREFIX}}.
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

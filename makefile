@@ -105,6 +105,12 @@ valrun-leak: $(buildprefix)/maia
 tracerun: $(buildprefix)/maia
 	strace $< $(ARGS)
 
+doc: guardian.pdf
+
+guardian.pdf:
+	cd ./doc; pdflatex -halt-on-error -output-directory=/tmp/ guardian.tex
+	@ cp -v /tmp/guardian.pdf ./
+
 install: $(buildprefix)/maia
 	@ mkdir -vp ~/bin/
 	@ cp -vau $(buildprefix)/maia ~/bin/maia
