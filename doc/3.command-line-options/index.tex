@@ -9,31 +9,53 @@
 		{
 			\item [\texttt{-i <path>}]
 			{
-				\lipsum[1]
+				Gives Guardian the path to the initial file containing the
+				file specification for Guardian to generate a checker for.
+				If the file specification spans multiple
+				files the additional files would need to be
+				directly or indirectly \texttt{\%include}-d by the initial file.
 			}
 			
 			\item [\texttt{-o <path>}]
 			{
-				\lipsum[1]
+				Gives Guardian the path to where to write the generated source
+				code to. After Guardian is complete, the generated souce code
+				would have to be compiled into an executable as a seperate step.
+				Remember to link that executable with '\texttt{-lgmp}' and
+				'\texttt{-lm}'!
 			}
 			
 			\item [\texttt{-m}]
 			{
-				\lipsum[1]
+				Tells Guardian to "minimize" the generated tokenizer. The
+				particular appoarch Guardian uses to generate its tokenizer's
+				state machine can sometimes yield very large transition tables.
+				This flag tells Guardian to run another pass over the generated
+				state machine merging states that it can prove to be redundant
+				or unneeded. The result is a state machine that functions the
+				same way, but has the fewest number of transitions and states.
+				This additional pass can sometimes take a long time, so it is
+				disabled by default.
 			}
 			
 			\item [\texttt{-v}]
 			{
-				\lipsum[1]
+				Tells Guardian to be more \textit{verbose} about the work that it
+				is doing to convert the file specification read from the input
+				file(s) to C source code.
 			}
 			
 			\item [\texttt{-h}]
 			{
-				\lipsum[1]
+				Tells Guardian to print out a usage message similar to the
+				content in this section.
 			}
 		}
 		\end{itemize}
 	}
 }
+
+
+
 
 

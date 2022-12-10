@@ -8,6 +8,8 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
 %\usepackage{svg}
 %\usepackage{titletoc}
 %\usepackage{makeidx}
@@ -23,6 +25,27 @@
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
+\lstdefinelanguage{MAIA}{
+	sensitive = true,
+	keywords={include, parse, error, warning, note, print, as, skip, argv},
+	keywords=[2]{all, any, map, filter, reduce, let, lambda},
+	otherkeywords={},
+	keywordstyle=\color{blue},
+	keywordstyle=[2]\color{green},
+	numbers=left,
+	numberstyle=\scriptsize,
+	stepnumber=1,
+	numbersep=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	frame=top,
+	comment=[l]{//},
+	commentstyle=\color{gray}\ttfamily,
+	stringstyle=\color{magenta}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
 \begin{document}
 {
 	\frontmatter
@@ -30,7 +53,7 @@
 	
 	\clearpage
 	\thispagestyle{empty}
-
+	
 	\tableofcontents
 	
 	\mainmatter
@@ -54,11 +77,17 @@
 	{
 		\subimport{8.appendix/}{index.tex}
 	}
+	
+	
+	\begin{lstlisting}[texcl = true, language = MAIA]
+		// comment
+		"string"
+		%include abc
+		lambda + all!
+	\end{lstlisting}
+	
 }
 \end{document}
-
-
-
 
 
 

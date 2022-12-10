@@ -22,8 +22,13 @@
 		
 		Guardian generates the C source code for a program that will determine
 		if the content of a given file matches the specification of a valid
-		file. Guardian is given the file specification to generate a checker for
-		on its command-line invocation.
+		file. The file specification itself is
+		described through grammar rules and assertions made in Guardian's
+		programming language. The file that contains these grammar rules and
+		assertions is expected to be given to Guardian on its command-line
+		invocation.
+		For ease of organization the entire file specification may span multiple
+		files.
 	}
 }
 

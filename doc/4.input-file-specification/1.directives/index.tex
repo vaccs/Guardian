@@ -1,18 +1,23 @@
 
-\section{Directives}
+\section{Directives and Statements}
 {
-	\lipsum[1]
+	This section is for discussing all of the directives and statements that can
+	exist at the root-level of a Guardian input file.
+	Statements are read by Guardian and translated into C for the checker to
+	execute, while directives are read by Guardian to be executed \textit{by}
+	Guardian and do not have any C code generated for them.
 	
-	\subimport{./}{1.assertions.tex}
+	\subimport{./}{1.parse.tex}
 	
-	\subimport{./}{2.declarations.tex}
+	\subimport{./}{2.skip.tex}
 	
-	\subimport{./}{3.include.tex}
+	\subimport{./}{3.declarations.tex}
 	
-	\subimport{./}{4.parse.tex}
+	\subimport{./}{4.assertions.tex}
 	
-	\subimport{./}{5.print.tex}
+	\subimport{./}{5.include.tex}
 	
-	\subimport{./}{6.skip.tex}
+	\subimport{./}{6.print.tex}
+	
 }
 

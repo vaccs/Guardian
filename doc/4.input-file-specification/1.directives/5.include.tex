@@ -1,0 +1,17 @@
+
+\subsection{Include Directive}
+{
+	The include directive is used to tell Guardian to read the content of
+	a file refered to by the given path for more directives and statements.
+	The path is resolved
+	relative to the directory containing the file currently being read.
+	The directives and statements read from the included file will be considered
+	to before all of the remaining directives and statements after the
+	include statements.
+	A file may be included more than once, but it will be only read once.
+	
+	The syntax for a include directive is:
+	\begin{lstlisting}[numbers = none, texcl = true, language = MAIA]
+%include: "path/to/file.guard";
+	\end{lstlisting}
+}

@@ -1,16 +1,48 @@
 
 \chapter{Input File Specification}
 {
-	The input file for Guardian specifies the makeup of a valid file.
-	Syntactic requirements are given in the form of grammar rules.
-	Semantic requirements are given through assertion statements.
+	A high-level description of the \textit{functionality} of Guardian, separate
+	from its intended application, is that Guardian generates programs that
+	parse data out of files, manipulate the parsed data, and checks/asserts whether
+	certain properties about that data are true. As such, Guardian input files
+	consist of: parse statements, skip directives and grammar rules, (for
+	parsing data out of files, and for describing the syntactic structure of
+	the file to be parsed); expressions and variable declarations; (for data
+	manipulation); and assertion statements. (for --you guessed it-- making
+	assertions about the data).
+	
+	Guardian input files can also include other files. Guardian treats this as
+	if the content of the referred file was pasted directly in place of where
+	the include directive has occurred. An included file is only read
+	once\footnote{Determining wether a given path refers to a file that has
+	already been read is done by using st\_dev and st\_ino}.
+	
+	For sake of making debugging the checkers (and Guardian) easier, print
+	statements can be used to print the value of variables or
+	results of expressions. Print statements are by default disabled and can be
+	enabled by invoking the generated checker with the '-v' command-line flag.
+	
+	The sequence that these statements and directives are listed in an input
+	file will match the
+	order they are executed in the generated checker program.
 	
 	\subimport{./1.directives/}{index.tex}
 	
-	\subimport{./2.grammar-rule-syntax/}{index.tex}
+	\subimport{./2.grammar-rules/}{index.tex}
 	
-	\subimport{./3.token-syntax/}{index.tex}
+	\subimport{./3.regular-expressions/}{index.tex}
 	
-	\subimport{./4.expressions/}{index.tex}
+	\subimport{./4.character-sets/}{index.tex}
+	
+	\subimport{./5.expressions/}{index.tex}
 }
+
+
+
+
+
+
+
+
+
 

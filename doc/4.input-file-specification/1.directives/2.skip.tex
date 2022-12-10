@@ -1,0 +1,18 @@
+
+\subsection{Skip Directive}
+{
+	The skip directive works to complement the parse statement and the
+	grammar rules it refers to: it describes the characters/strings that
+	should be \textbf{ignored} when parsing a file. The set of strings to
+	ignore is communicated through a \hyperref[sec:regex]{regular expression}.
+	A typical application is to use \texttt{\%skip} to skip the whitespace
+	or comments in the file.
+	
+	If the skip directive is used more than once, the regular expression of
+	the last instance has effect.
+	
+	The syntax for a skip directive is:
+	\begin{lstlisting}[numbers = none, texcl = true, language = MAIA]
+%skip: <regular-expression>;
+	\end{lstlisting}
+}

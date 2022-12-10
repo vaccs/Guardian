@@ -4,7 +4,6 @@
 
 tokentype
 	: "int" #int_
-	| "char" #char_
 	| "bool" #bool_
 	| "float" #float_
 	;
