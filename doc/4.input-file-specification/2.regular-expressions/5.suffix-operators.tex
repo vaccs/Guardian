@@ -1,0 +1,50 @@
+
+\subsection{Repetition Operators}
+{
+	Guardian supports several operators for indicating
+	repetition for regular expressions:
+	
+	\begin{itemize}
+	{
+		\item[\texttt{(...)?}] Indicates that the given subpattern is optional
+			and may occur zero or once. 
+			
+			Example: \texttt{"a"?} would match \texttt{""} or \texttt{"a"}.
+		\item[\texttt{(...)+}] Indicates that the given subpattern may occur
+			more than once.
+			
+			Example: \texttt{"a"+} would match \texttt{"a"},
+				\texttt{"aa"}, \texttt{"aaa"}, etc..
+		\item[\texttt{(...)*}] Indicates that the given subpattern may occur
+			zero or more times.
+			
+			Example: \texttt{"a"+} would match \texttt{""}, \texttt{"a"},
+				\texttt{"aa"}, \texttt{"aaa"}, etc..
+		\item[\texttt{(...)\{n\}}] Indicates that the given subpattern will
+			repeat \textit{exactly} \texttt{n} number of times.
+			\texttt{n} must be an integer
+			literal.
+			
+			Example: \texttt{"a"\{3\}} matches \texttt{"aaa"}.
+		\item[\texttt{(...)\{n,\}}] Indicates that the given subpattern will
+			repeat at \textit{least} \texttt{n} number of
+			times. \texttt{n} must be an integer
+			literal.
+			
+			Example: \texttt{"a"\{3,\}} matches \texttt{"aaa"}, \texttt{"aaaa"},
+			\texttt{"aaaaa"}, etc.
+		\item[\texttt{(...)\{,m\}}] Indicates that the given subpattern will
+			repeat at \textit{most} \texttt{m} number of
+			times. \texttt{m} must be an integer literal.
+			
+			Example: \texttt{"a"\{,3\}} matches \texttt{""}, \texttt{"a"},
+			\texttt{"aa"}, \texttt{"aaa"}.
+		\item[\texttt{(...)\{n,m\}}] Indicates that the given subpattern will
+			repeat \textit{between} \texttt{n} and \texttt{m} number of
+			times. \texttt{n} and \texttt{m} must be integer literals.
+			
+			Example: \texttt{"a"\{2,4\}} matches \texttt{"aa"}, \texttt{"aaa"},
+			and \texttt{"aaaa"}.
+	}
+	\end{itemize}
+}

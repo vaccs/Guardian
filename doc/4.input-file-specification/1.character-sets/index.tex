@@ -1,0 +1,33 @@
+
+\section{Character Sets}
+\label{subsec:charset}
+{
+	Character sets represent a set of characters. There are
+	256 possible characters.
+	Character sets are used either in regular
+	expressions or grammar rules.
+	
+	To improve readability and convenience of using Guardian, the user does not
+	have to enumerate all of the characters they would want in their sets.
+	Instead, Guardian can calculate the character set from the character-set
+	\textit{expression}. This section discusses the supported operators and
+	syntax for such expressions.
+	
+	These sections are listed in descending operator precedence. Parenthesis
+	can be used to raise the precedence of character-set expressions.
+	
+	\subimport{./}{1.character-literals.tex}
+	
+	\subimport{./}{2.integer-literals.tex}
+	
+	\subimport{./}{3.complement.tex}
+	
+	\subimport{./}{4.range.tex}
+	
+	\subimport{./}{5.intersection.tex}
+	
+	\subimport{./}{6.symmetric-difference.tex}
+	
+	\subimport{./}{7.union.tex}
+}
+

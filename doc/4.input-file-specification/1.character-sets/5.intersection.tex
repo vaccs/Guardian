@@ -1,0 +1,20 @@
+
+\subsection{Intersection}
+{
+	The `\texttt{\&}' binary operator can be used to quickly take the
+	intersection between two character sets, each described through
+	the left and right subexpressions. The intersection of two sets is
+	a set containing all the elements \textbf{both} sets have in common.
+	
+	The complement and intersection operator can be used together to calculate
+	the difference of two character sets quickly. See second example.
+	
+	\begin{itemize}
+	{
+		\item[\texttt{`a'-`o' \& `m'-`z'}] Set containing `m', `n' and `o'.
+		
+		\item[\texttt{`a'-`z' \& !{}`e'}] Set containing all lowercase letters
+			of the English alphabet besides `e'.
+	}
+	\end{itemize}
+}

@@ -1,0 +1,32 @@
+
+\subsection{Examples}
+{
+	\begin{itemize}
+	{
+		\item \texttt{[!'b']* 'b' [!'b']* 'b' [!'b']*}
+		
+			Matches any string containing exactly two 'b's.
+		
+		\item \texttt{['0'-'9']+ ('.' ['0'-'9']*)?}
+		
+			Matches any decimal number with or without digits
+			past the decimal point.
+		
+		\item \texttt{'a'? 'b'? 'c'?}
+		
+			Describes all the alphabetically-sorted strings made only
+			from 'a', 'b' and 'c' where no letter can be repeated.
+		
+		\item
+\begin{lstlisting}
+ [0x00-0x7F]
+|[0xC0-0xDF][0x80-0xBF]{1}
+|[0xE0-0xEF][0x80-0xBF]{2}
+|[0xF0-0xF7][0x80-0xBF]{3}
+|[0xF8-0xFB][0x80-0xBF]{4}
+|[0xFC-0xFD][0x80-0xBF]{5}
+\end{lstlisting}
+			Describes all UTF8-encoded multi-byte characters.
+	}
+	\end{itemize}
+}

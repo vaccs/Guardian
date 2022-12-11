@@ -5,26 +5,26 @@
 	The regular expression describes the set of strings that the token
 	that should be
 	expected
-	to be read at this point in the the grammar-rule pattern can consist of.
+	to be read at this point in the grammar-rule pattern can consist of.
 	
 	The syntax for using a regular expression to describe the desired token
 	in the grammar-rule pattern is: \texttt{/<regular-expression>/}.
 	
-	This component of a grammar-rule pattern can be named and would by default
+	This component of a grammar-rule pattern can be named and would (by default)
 	appear to
 	the programming language as a string consisting of the characters matched
-	by the given regular expression. This can be changed to the string
-	instead being
-	parsed as a number and appearing
+	by the given regular expression when parsing.
+	The string can instead be
+	parsed as a number and appear
 	as an integer or as a float to the programming language
 	by using the syntax:
 	\texttt{/int: <regular-expression>/} or
 	\texttt{/float: <regular-expression>/} respectively.
-	The string could also be converted to a boolean value (either the string must
-	be exactly \texttt{"true"} or \texttt{"false"}, anything else is an error)
+	The string could also be converted to a boolean value (either the string
+	must match \texttt{"true"} exactly or \texttt{"false"} exactly,
+	anything else is an error)
 	with the \texttt{/bool: <regular-expression>/} syntax.
 	
 	The exact syntax of regular expressions is covered in
 	\hyperref[sec:regex]{its own section}.
-	
 }
