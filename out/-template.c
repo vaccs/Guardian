@@ -111,7 +111,7 @@ static void escape(char *out, unsigned char in)
 int main(int argc, char* const* argv)
 {
 	const char* const argv0 = argv[0];
-	bool verbose = false;
+	bool quiet = false;
 	
 	void usage(int code)
 	{
@@ -120,7 +120,7 @@ int main(int argc, char* const* argv)
 	}
 	
 	int opt;
-	while ((opt = getopt(argc, argv, "hv")) != -1)
+	while ((opt = getopt(argc, argv, "hq")) != -1)
 	{
 		switch (opt)
 		{
@@ -128,14 +128,19 @@ int main(int argc, char* const* argv)
 				usage(0);
 				break;
 			
-			case 'v':
-				verbose = true;
+			case 'q':
+				quiet = true;
 				break;
 			
 			default:
 				usage(1);
 				break;
 		}
+	}
+	
+	if (quiet)
+	{
+		printf("print statements are suppressed.\n");
 	}
 	
 	argv += optind;

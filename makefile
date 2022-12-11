@@ -136,7 +136,7 @@ bin/escape: ./-escape.c | bin/
 	@ gcc -Wall -Werror ./$< -o $@
 
 ./out/escaped.c: bin/escape ./out/-template.c
-	@ echo "escaping $*"
+	@ echo "escaping ./out/-template.c"
 	@ $^ -v template -o $@
 
 parse/parse.c parse/parse.h dep/parse/parse.d: parse/parse.zb | dep/parse/

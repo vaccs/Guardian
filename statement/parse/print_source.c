@@ -62,11 +62,6 @@ struct stringtree* parse_statement_print_source(
 		stringtree_append_printf(tree, "	exit(1);");
 		stringtree_append_printf(tree, "}");
 		
-		stringtree_append_printf(tree, "if (verbose)");
-		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "	printf(\"parsing '%%s':\\n\", (char*) buffer);\n");
-		stringtree_append_printf(tree, "}");
-		
 		struct type* type = type_cache_get_grammar_type(shared->tcache, this->grammar_name);
 		
 		stringtree_append_printf(tree, "struct type_%u* start = parse(stream, %u, %u);", type->id, this->start_id, this->grammar_id);
@@ -103,11 +98,6 @@ struct stringtree* parse_statement_print_source(
 		stringtree_append_printf(tree, "	fprintf(stderr, \"\\e[1m%%s:\\e[m error when attemping to "
 			"open '%%s' in %%%%parse directive on line %u: %%m\\n\", argv0, path); ", this->line);
 		stringtree_append_printf(tree, "	exit(1);");
-		stringtree_append_printf(tree, "}\n");
-		
-		stringtree_append_printf(tree, "if (verbose)");
-		stringtree_append_printf(tree, "{");
-		stringtree_append_printf(tree, "printf(\"reading '%%s':\\n\", path);\n");
 		stringtree_append_printf(tree, "}\n");
 		
 		struct type* type = type_cache_get_grammar_type(shared->tcache, this->grammar_name);
