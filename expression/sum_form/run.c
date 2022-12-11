@@ -53,7 +53,7 @@ struct value* sum_form_run_on_floats(
 {
 	ENTER;
 	
-	long double val = 0;
+	__float128 val = 0;
 	
 	value_list_foreach(list->elements, ({
 		void runme(struct value* element)

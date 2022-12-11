@@ -1,6 +1,6 @@
 [{
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -38,7 +38,7 @@
 	
 	"commands": [
 		"./guard -i ./input.guard -o out.c",
-		"gcc -Wall -Werror ./out.c -o ./out -lgmp",
+		"gcc -Wall -Werror ./out.c -o ./out -lgmp -lquadmath",
 		"./out ./test.txt"
 	],
 }]

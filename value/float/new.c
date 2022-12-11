@@ -11,7 +11,7 @@
 
 struct value* new_float_value(
 	struct type* type,
-	long double value)
+	__float128 value)
 {
 	ENTER;
 	

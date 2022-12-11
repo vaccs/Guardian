@@ -10,16 +10,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <pwd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include <quadmath.h>
 #include <math.h>
 #include <gmp.h>
 

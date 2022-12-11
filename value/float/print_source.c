@@ -1,5 +1,6 @@
 
 #include <assert.h>
+#include <quadmath.h>
 
 #include <debug.h>
 
@@ -40,9 +41,15 @@ unsigned float_value_print_source(
 		
 		unsigned new_id = function_queue_submit_new(shared->fqueue, super->type);
 		
+		char buffer[256] = {};
+		
+		int len = quadmath_snprintf(buffer, sizeof(buffer), "%Qa", this->value);
+		
+		assert(len < sizeof(buffer));
+		
 		stringtree_append_printf(tree,
-			"struct type_%u* value_%u = func_%u(%Lg);",
-				super->type->id, value_id, new_id, this->value);
+			"struct type_%u* value_%u = func_%u(%sQ);",
+				super->type->id, value_id, new_id, buffer);
 	}
 	
 	EXIT;

@@ -21,7 +21,7 @@ struct stringtree* float_type_generate_new_func(
 	struct stringtree* text = new_stringtree();
 	
 	stringtree_append_printf(text, ""
-		"struct type_%u* func_%u(long double value) {"
+		"struct type_%u* func_%u(__float128 value) {"
 			"struct type_%u* this = malloc(sizeof(*this));"
 			"this->value = value;"
 			"this->refcount = 1;"

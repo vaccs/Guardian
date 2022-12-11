@@ -63,7 +63,8 @@ struct stringtree* sum_form_expression_print_source(
 			break;
 		
 		case tk_float:
-			stringtree_append_printf(tree, "long double sum = 0;");
+		{
+			stringtree_append_printf(tree, "__float128 sum = 0;");
 			
 			stringtree_append_printf(tree, "for (unsigned i = 0, n = list->n; i < n; i++)");
 			stringtree_append_printf(tree, "{");
@@ -72,6 +73,7 @@ struct stringtree* sum_form_expression_print_source(
 			
 			stringtree_append_printf(tree, "struct type_%u* result = func_%u(sum);", super->type->id, new_id);
 			break;
+		}
 		
 		default:
 			TODO;

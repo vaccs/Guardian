@@ -4,6 +4,6 @@
 struct float_value
 {
 	struct value super;
-	long double value;
+	__float128 value;
 };
 

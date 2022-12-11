@@ -1,7 +1,7 @@
 
 [{
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -31,7 +31,7 @@
 	]
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -61,7 +61,7 @@
 	]
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -91,7 +91,7 @@
 	]
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",

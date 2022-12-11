@@ -8,6 +8,7 @@ CFLAGS += -Wall -Werror -Wfatal-errors
 
 LDLIBS += -lgmp
 LDLIBS += -lm
+LDLIBS += -lquadmath
 
 buildtype ?= release
 

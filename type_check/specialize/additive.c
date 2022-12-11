@@ -178,7 +178,7 @@ struct expression* specialize_additive_expression(
 					struct float_value* leftfloat = (void*) leftlit->value;
 					struct float_value* rightfloat = (void*) rightlit->value;
 					
-					long double result;
+					__float128 result;
 					
 					if (zexpression->add)
 						result = leftfloat->value + rightfloat->value;

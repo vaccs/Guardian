@@ -184,7 +184,7 @@ struct stringtree* float_math_expression_print_source(
 			stringtree_append_printf(tree, ";");
 			
 			stringtree_append_printf(tree, ""
-				"struct type_%u* result = func_%u(fmodl(left->value, right->value));"
+				"struct type_%u* result = func_%u(fmodq(left->value, right->value));"
 			"", tid, new_id);
 			
 			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);
@@ -210,7 +210,7 @@ struct stringtree* float_math_expression_print_source(
 			stringtree_append_printf(tree, ";");
 			
 			stringtree_append_printf(tree, ""
-				"struct type_%u* result = func_%u(powl(left->value, right->value));"
+				"struct type_%u* result = func_%u(powq(left->value, right->value));"
 			"", tid, new_id);
 			
 			unsigned free_id = function_queue_submit_free(shared->fqueue, super->type);

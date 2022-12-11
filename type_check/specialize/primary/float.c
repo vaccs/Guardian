@@ -1,5 +1,6 @@
 
 #include <assert.h>
+#include <quadmath.h>
 
 #include <errno.h>
 #include <stdlib.h>
@@ -30,15 +31,13 @@ struct expression* specialize_primary_float_expression(
 	
 	char* m;
 	
-	long double number = strtold((char*) float_literal->data, &m);
+	__float128 number = strtoflt128((char*) float_literal->data, &m);
 	
 	if (errno || *m)
 	{
 		TODO;
 		exit(1);
 	}
-	
-	dpv(number);
 	
 	struct type* type = type_cache_get_float_type(tcache);
 	
@@ -51,5 +50,9 @@ struct expression* specialize_primary_float_expression(
 	EXIT;
 	return retval;
 }
+
+
+
+
 
 

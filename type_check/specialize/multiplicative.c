@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <quadmath.h>
 
 #include <assert.h>
 
@@ -140,7 +141,7 @@ struct expression* specialize_multiplicative_expression(
 						struct float_value*  leftfloat = (void*)  leftlit->value;
 						struct float_value* rightfloat = (void*) rightlit->value;
 						
-						struct value* value = new_float_value(left->type, fmodl(leftfloat->value, rightfloat->value));
+						struct value* value = new_float_value(left->type, fmodq(leftfloat->value, rightfloat->value));
 						
 						retval = new_literal_expression(value);
 						

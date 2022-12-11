@@ -56,7 +56,7 @@ struct stringtree* float_form_expression_print_source(
 	{
 		case tk_int:
 		{
-			stringtree_append_printf(tree, "long double val = mpz_get_d(sub->value);");
+			stringtree_append_printf(tree, "__float128 val = mpz_get_d(sub->value);");
 			break;
 		}
 		
@@ -68,7 +68,7 @@ struct stringtree* float_form_expression_print_source(
 			
 			stringtree_append_printf(tree, "char* m;");
 			stringtree_append_printf(tree, "errno = 0;");
-			stringtree_append_printf(tree, "long double val = strtold(buffer, &m);");
+			stringtree_append_printf(tree, "__float128 val = strtoflt128(buffer, &m);");
 			
 			stringtree_append_printf(tree, "if (errno || *m)");
 			stringtree_append_printf(tree, "{");

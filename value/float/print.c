@@ -1,11 +1,12 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <quadmath.h>
 
 #include <debug.h>
 
 #include <stringtree/new.h>
-#include <stringtree/append_printf.h>
+#include <stringtree/append_strndup.h>
 #include <stringtree/free.h>
 
 #include "struct.h"
@@ -22,7 +23,13 @@ struct stringtree* float_value_print(
 	
 	struct float_value* spef = (void*) super;
 	
-	stringtree_append_printf(tree, "%Lg", spef->value);
+	char buffer[256];
+	
+	int len = quadmath_snprintf(buffer, sizeof(buffer), "%Qg", spef->value);
+	
+	assert(len < sizeof(buffer));
+	
+	stringtree_append_strndup(tree, buffer, len);
 	
 	EXIT;
 	return tree;

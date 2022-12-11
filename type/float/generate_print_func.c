@@ -23,7 +23,11 @@ struct stringtree* float_type_generate_print_func(
 	stringtree_append_printf(text, ""
 		"void func_%u(const struct type_%u* this)"
 		"{"
-			"printf(\"%%Lg\", this->value);"
+			"char buffer[256] = {};"
+			"int len = quadmath_snprintf(buffer, sizeof(buffer),"
+				"\"%%Qg\", this->value);"
+			"assert(len < sizeof(buffer));"
+			"printf(\"%%s\", buffer);"
 		"}"
 	"", func_id, super->id);
 	

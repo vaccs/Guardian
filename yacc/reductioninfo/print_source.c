@@ -131,7 +131,7 @@ void reductioninfo_print_source(
 									"{"
 										"errno = 0;"
 										"char* m;"
-										"long double number = strtold((char*) token->data, &m);"
+										"__float128 number = strtoflt128((char*) token->data, &m);"
 										"if (errno || *m) {"
 											"assert(!\"TODO: bad float input\");"
 											"exit(1);"

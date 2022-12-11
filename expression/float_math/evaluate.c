@@ -1,5 +1,6 @@
 
 #include <math.h>
+#include <quadmath.h>
 
 #include <assert.h>
 
@@ -35,7 +36,7 @@ struct value* float_math_expression_evaluate(
 	struct float_value* spef_left = (void*) left;
 	struct float_value* spef_right = (void*) right;
 	
-	long double number;
+	__float128 number;
 	
 	switch (this->kind)
 	{
@@ -60,11 +61,11 @@ struct value* float_math_expression_evaluate(
 			break;
 		
 		case fmek_rdivide:
-			number = fmodl(spef_left->value, spef_right->value);
+			number = fmodq(spef_left->value, spef_right->value);
 			break;
 		
 		case fmek_expo:
-			number = powl(spef_left->value, spef_right->value);
+			number = powq(spef_left->value, spef_right->value);
 			break;
 		
 		default:

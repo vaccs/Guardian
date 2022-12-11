@@ -1,6 +1,6 @@
 [{
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%parse: argv as \"abc\";"
@@ -14,7 +14,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -42,7 +42,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -68,7 +68,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -99,7 +99,7 @@
 	]
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -131,7 +131,7 @@
 	"exit-code": 1
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -160,7 +160,7 @@
 	],
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -200,7 +200,7 @@
 	],
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",
@@ -232,7 +232,7 @@
 	],
 }, {
 	"files": {
-		"./guard": "bin/test-build/yes-verbose/no-dotout/guard",
+		"./guard": "bin/test-build/yes-verbose/no-dotout/guardian",
 		
 		"./input.guard": [
 			"%skip: ' ' | '\\n';",

@@ -17,7 +17,7 @@ struct stringtree* float_type_generate_typedef(
 	
 	stringtree_append_printf(tree, ""
 		"struct type_%u {"
-			"long double value;"
+			"__float128 value;"
 			"unsigned refcount;"
 		"};"
 	"", super->id);

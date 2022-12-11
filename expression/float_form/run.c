@@ -1,9 +1,9 @@
 
 #include <assert.h>
-
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <quadmath.h>
 
 #include <debug.h>
 
@@ -23,9 +23,7 @@ struct value* float_form_run_on_int(
 {
 	ENTER;
 	
-	long double val = mpz_get_d(value->value->mpz);
-	
-	dpv(val);
+	__float128 val = mpz_get_d(value->value->mpz);
 	
 	struct value* result = new_float_value(type, val);
 	
@@ -51,7 +49,7 @@ struct value* float_form_run_on_string(
 	errno = 0;
 	
 	char* m;
-	long double val = strtold(buffer, &m);
+	__float128 val = strtoflt128(buffer, &m);
 	
 	if (errno || *m)
 	{

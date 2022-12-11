@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <quadmath.h>
 
 #include <assert.h>
 
@@ -118,7 +119,7 @@ struct expression* specialize_exponentiation_expression(
 					struct float_value* leftfloat = (void*) leftlit->value;
 					struct float_value* rightfloat = (void*) rightlit->value;
 					
-					struct value* value = new_float_value(left->type, powl(leftfloat->value, rightfloat->value));
+					struct value* value = new_float_value(left->type, powq(leftfloat->value, rightfloat->value));
 					
 					retval = new_literal_expression(value);
 					
