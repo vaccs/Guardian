@@ -1,7 +1,23 @@
 
 \section{Expressions}
 {
-	Guardian's expressions are very important
+	Expressions are the way Guardian operates on data and is where the meat
+	of the programming language lies.
+	Guardian's programming language is functional, meaning that instead of
+	for loops and if statements etc. controling execution, programs are
+	instead constructed by applying and composing functions. Function
+	definitions are trees of expressions that map values to other values,
+	rather than a sequence of imperative statements which update
+	the running state of the program. One way to think of it is that
+	a functional program runs like how a math equation is
+	calculated: different operators have rules about which ones run before
+	other ones, and where data dependency has a stronger control over which
+	operations execute next then the line number.
+	
+	Guardian's programming language is statically-typed, meaning that the
+	datatypes
+	must be known at the time Guardian reads the language and is
+	converting it to C.
 	
 	\subimport{./1.types/}{index.tex}
 	
