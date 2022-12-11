@@ -1,0 +1,33 @@
+
+\subsubsection{Set}
+{
+	The set type is used to store
+	multiple values of the same data type with no
+	particular order.
+	Set types are specialized to the type of their elements.
+	The syntax for referring to a set type
+	is \texttt{<element-type>\{\}}.
+	
+	The syntax for a set value is to comma separate the elements/fields
+	of the tuple, enclosed in
+	curly-brackets: \texttt{\{<0th-element>, <1th-element>, ... <nth-element>\}}.
+	
+	The syntax for an empty set value is: \texttt{\{<<element-type>>\}}.
+	
+	Set values cannot indexed.
+	Set values support the union operation from set-mathematics using
+	either the '\texttt{|}' or '\texttt{+}' operator.
+	Difference can be done with the '\texttt{-}' operator.
+	Intersection can be done with the '\texttt{\&}' operator.
+	Symmetric difference can be done with the '\texttt{\^}' operator.
+	
+	Any type that is \textit{comparable} can be the element type of a set.
+	(Currently \texttt{int}s, floats, strings, lists, tuples,
+		sets, and \texttt{dict}s. Not lambdas.)
+	
+	Lexicographical equal-to, not-equal-to, greater-than, greater-than-equal-to,
+	less-than, less-than-equal-to comparisons can be done on set values with
+	the '\texttt{==}', '\texttt{!=}',
+	'\texttt{>}', '\texttt{>=}', '\texttt{<}', '\texttt{<=}' respectively.
+	
+}
