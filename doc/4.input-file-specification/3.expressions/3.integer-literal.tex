@@ -1,0 +1,20 @@
+
+\subsection{Integer Literal Expression}
+{
+	A C-style integer literal can be given as an expression.
+	Base 8, 10, and 16 and their prefixes are supported.
+	There is no theoretical limit as to the upper or lower bound of the value,
+	as the internal representation Guardian and the checkers it generates
+	use to store the value
+	is the GMP's library's \texttt{mpz} datatype (an implementation of BigInts).
+	
+	\begin{itemize}
+	{
+		\item[\texttt{3}] The integer value 3.
+		
+		\item[\texttt{0127}] The integer value 87.
+		
+		\item[\texttt{0xDE}] The integer value 222.
+	}
+	\end{itemize}
+}

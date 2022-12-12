@@ -1,0 +1,31 @@
+
+\subsection{\texttt{map!} Special Form}
+{
+	A call to the \texttt{map!} special form can be used as an expression.
+	The special form expects a lambda value as its
+	first parameter and expects the remaining parameters to be list values.
+	This special form results in the list value consisting
+	of all of the return values of the given lambda value called on all of the
+	first elements from the given lists, second elements from the given
+	lists, up to the length of the shortest list.
+	\texttt{map!} requires at least one list and that
+	the element type of each list is equal to the corresponding parameter type
+	of the given lambda.
+	If Guardian can determine the exact lambda values and lists all call to
+	\texttt{map!}, Guardian will replace the call with a list
+	construction with the appropriate elements.
+	
+	\begin{itemize}
+	{
+		\item \texttt{map!(\$int x -> int: x + 3, [1, 2, 3])}
+		
+			The result of this call to \texttt{map!} would be a list of
+			integer elements 1, 2 and 3.
+		
+		\item \texttt{map!(\$bool x, y -> (bool, bool): (x, y), [true, false], [true, false])}
+		
+			The result of this call to \texttt{map!} would be list of
+			(boolean, boolean) tuples: \texttt{[(true, true), (false, false)]}.
+	}
+	\end{itemize}
+}

@@ -1,0 +1,112 @@
+
+
+\section{Grammar Rules}
+{
+	Grammar rules function as a kind of building-block to connect to one
+	other in order to describe the syntactic structure of a file to be parsed.
+	Due to Guardian's amount of grammar-rule options, an entire file
+	may be able to be described by only one grammar rule and still be quite
+	complex.
+	The entire content of the file must be covered (or perhaps "explained") by
+	the structure described by the grammar rules.
+	
+	Different parser generators sometimes have different interpretations of
+	what exactly is a grammar rule. In Guardian's case, the user can think
+	of a grammar rule as a regular expression of tokens. A token is a series of
+	consecutive characters read from the file.
+	In a sense, a grammar rule is a regular expression of regular expressions.
+	
+	Grammar rules can build off of each other by including one another in their
+	patterns.
+	Grammar rules can be associated with a name, and that name can be used in
+	other grammar rules. Grammar rules can refer to their own name.
+	
+	The initial grammar rule that begins the parse is referred to as the
+	"start" rule, and is given in the \texttt{\%parse} directive.
+	
+	Remember that if the \texttt{\%skip} directive was used, there can be
+	any number of silently-ignored sequences of characters in the file matching
+	the \texttt{\%skip} pattern between
+	(but not inside of) the strings matched as tokens.
+	
+	Once the parser has completed parsing the file, the parsed data is available
+	to Guardian's programming language. This data takes the form of
+	interconnected grammar-rule \textit{objects}, each instance mapping to a
+	specific moment the parser completed parsing a grammar rule.
+	Certain components of a grammar rule pattern can be named, these names
+	are used as the field names of the created object to refer to the data of
+	that component. In the case of a named token, the data of the field typically
+	refers to the consecutive characters that make up that token in the form
+	of a string value.
+	In the case of a named reference to another grammar rule, the data of the
+	field is the instance of the referred grammar rule's object.
+	
+	For each named grammar rule, a global variable is automatically created
+	that is assigned the list value consisting of all of the grammar values
+	for that rule.
+	
+	If the pattern of a grammar-rule can have more than one way of matching
+	the same file content, where one possible way would result in a named
+	component getting parsed (and therefore the corresponding object-value
+	instance gaining a new field) and another possible way would result in the
+	named component \textit{not} getting parsed, Guardian would prefer the
+	way that would yield the most amount of named fields being parsed.
+	In this sense, Guardian's file parser is "greedy".
+	
+	Depending on the grammar-rule pattern, the same component may be read
+	multiple times in the same grammar-pattern parsing instance. If the
+	component is named, the user can specify that either all of the values
+	of that component for all the times it was read or if
+	only the value for the \textit{first} time the component was read
+	should be kept.
+	
+	Grammar rules can be named by inserting a name and a colon before the pattern:
+	\begin{lstlisting}[numbers = none, texcl = true, language = MAIA]
+<name>: <grammar-rule-pattern>;
+	\end{lstlisting}
+	
+	The syntax for naming a component of a grammar-rule pattern is
+	\texttt{\#<name>}.
+	It should be inserted directly after the component in the pattern.
+	If, due to the structure of the pattern, the component is read more than
+	once, the default behavior is to keep only the first value. Insert open
+	and close square brackets after the name (\texttt{\#<name>[]}) to indicate
+	that all of the values should be kept. This field would then appear to the
+	programming language a list where the value of each time the component was
+	read is an element.
+	
+	A more detailed explanation of the syntax of grammar rule patterns follow.
+	Parenthesis can be used to raise the precedence of a regular expression.
+	
+	\subimport{./}{1.character-literals.tex}
+	
+	\subimport{./}{2.integer-literals.tex}
+	
+	\subimport{./}{3.string-literals.tex}
+	
+	\subimport{./}{4.character-sets.tex}
+	
+	\subimport{./}{5.regular-expressions.tex}
+	
+	\subimport{./}{6.suffix-operators.tex}
+	
+	\subimport{./}{7.or-operator.tex}
+	
+	\subimport{./}{8.examples.tex}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

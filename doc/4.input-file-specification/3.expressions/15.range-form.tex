@@ -1,0 +1,28 @@
+
+\subsection{\texttt{range!} Special Form}
+{
+	A call to the \texttt{range!} special form can be used as a expression.
+	The special form expects one or two parameters, both integer values.
+	The form results in a list of integer values up-to-but-not-including
+	the last value, starting from the other value or 0 if called with only
+	one value.
+	If Guardian can determine the exact values a call to \texttt{range!}
+	was made with, it will substitute the call with a list construction
+	with the appropriate elements.
+	
+	\begin{itemize}
+	{
+		\item \texttt{range!(10)}
+		
+			Results in \texttt{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}.
+		
+		\item \texttt{range!(2, 6)}
+		
+			Results in \texttt{[2, 3, 4, 5]}.
+			
+		\item \texttt{range!(-3, 3)}
+		
+			Results in \texttt{[-3, -2, -1, 0, 1, 2]}.
+	}
+	\end{itemize}
+}

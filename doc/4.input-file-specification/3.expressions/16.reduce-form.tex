@@ -1,0 +1,70 @@
+
+\subsection{\texttt{reduce!} Special Form}
+{
+	A call to the \texttt{reduce!} special form can be used as an expression.
+	The special form expects three parameters.
+	The first parameter must be a lambda value, and the
+	second parameter must be a list value.
+	The lambda value's first parameter's type
+	must match the element type of the list value and the type of the third
+	parameter. The lambda value's
+	second parameter's type must match the lambda value's return type.
+	
+	The lambda value is called repeatedly, once for each element of the list.
+	The lambda is called with the result of the last time it was
+	called (initially the third parameter), and
+	the current element.
+	
+	If Guardian can determine the exact lambda and list value used in a call to
+	\texttt{reduce!}, Guardian will replace the call with a literal of
+	the appropriate value.
+	
+	\begin{itemize}
+	{
+		\item \texttt{reduce!(\$int x, y -> int: x + y, [1, 2, 3], 0)}]
+		
+			First the lambda is called with 0 and 1 yielding 1.
+			Then the lambda is called with 1 and 2 yielding 3.
+			Then the lambda is called with 3 and 3 yielding 6.
+		
+		\item \texttt{reduce!(\$int x, y -> int: x > y ? x : y, [2, 3, 1, 4], 0)}]
+		
+			First the lambda is called with 0 and 2 yielding 2.
+			Then the lambda is called with 2 and 3 yielding 3.
+			Then the lambda is called with 3 and 1 yielding 3.
+			Then the lambda is called with 3 and 4 yielding 4.
+		
+		\item \texttt{reduce!(\$int x, y -> int: x < y ? x : y, [2, 3, 1, 4], 5)}]
+		
+			First the lambda is called with 5 and 2 yielding 2.
+			Then the lambda is called with 2 and 3 yielding 2.
+			Then the lambda is called with 2 and 1 yielding 1.
+			Then the lambda is called with 1 and 4 yielding 1.
+			
+		\item \texttt{reduce!(\$int x, int[] y -> int[]: x \% 2 == 0 ? y + [x] : y, [2, 3, 1, 4], [<int>])}]
+		
+			First the lambda is called with \texttt{[<int>]} and 2 yielding \texttt{[2]}.
+			Then the lambda is called with \texttt{[2]} and 3 yielding \texttt{[2]}.
+			Then the lambda is called with \texttt{[2]} and 1 yielding \texttt{[2]}.
+			Then the lambda is called with \texttt{[2]} and 4 yielding \texttt{[2, 4]}.
+			
+		\item \texttt{reduce!(\$int x, y -> int: 1, [<int>], 3)}]
+		
+			Due to the list consisting of no elements, the third parameter
+			is returned.
+	}
+	\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

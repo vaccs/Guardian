@@ -1,0 +1,28 @@
+
+\subsection{\texttt{all!} Special Form}
+{
+	A call to the \texttt{all!} special form can be used as an expression.
+	The special form expects a list of boolean values as its
+	single argument and returns a boolean value of true if all the elements
+	were true, false otherwise. An empty list of boolean values returns true.
+	The intuition there is that there isn't any element that isn't true.
+	If Guardian can determine all of the boolean values given to a call to an
+	\texttt{all!} special form, it will substitute the call with the
+	appropriate \texttt{true} or \texttt{false} expression.
+	
+	\begin{itemize}
+	{
+		\item \texttt{all!([true, true, true])}
+		
+			Results in a true boolean value.
+		
+		\item \texttt{all!([true, false])}
+		
+			Results in a false boolean value.
+		
+		\item \texttt{all!([<bool>])}
+		
+			Results in a true boolean value.
+	}
+	\end{itemize}
+}

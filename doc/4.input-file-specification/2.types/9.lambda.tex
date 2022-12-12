@@ -1,0 +1,20 @@
+
+\subsection{Lambda}
+{
+	The \texttt{lambda} type is used to encapsulate a reference to
+	a function as a value that can be passed in as a parameter, passed out as a
+	return value, stored in lists and even called. (Think function pointers from C).
+	
+	The \texttt{lambda} type are specialized to the number of their their
+	parameters, their parameter's types, and their return type.
+	The syntax for referring to the type of a lambda
+	is: \texttt{\$<0th-parameter-type>, <1th-parameter-type>, ... <nth-parameter-type> -> <return-type>}.
+	
+	Special forms are not lambda values.
+	
+	The \texttt{lambda} type cannot be used as elements of a set or
+	as a key of \texttt{dict}. \texttt{lambda}s can be used in a 
+	tuple, but the tuple
+	would lose its support for comparison functions and therefore would
+	also not be able to be an element of a set or a key of a \texttt{dict}.
+}

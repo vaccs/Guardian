@@ -1,0 +1,38 @@
+
+\subsection{Dict}
+{
+	The \texttt{dict} type (short for dictionary) is used to store
+	a series of associations from a value to another value.
+	The intuition behind the name comes from how one uses a dictionary or a
+	thesaurus: a value (a word) is being used to access data that's been
+	associated with it (a definition --or, in the case of a thesaurus: synonyms).
+	A value used to perform the lookup on a \texttt{dict} (a word in our
+	previous example) is called a "key." A \texttt{dict}'s "values" are the
+	values that are retrieved from a dictionary.
+	The keys of a dictionary are unique and can only map to one value.
+	\texttt{dict} types are specialized to the type of their keys and values.
+	The syntax for referring to a set type
+	is \texttt{<key-type> -> <value-type>}.
+	
+	The syntax for a \texttt{dict} value is to comma
+	separate the associations (key, colon, value), enclosed in
+	curly-brackets: \texttt{\{<0th-key>: <0th-value>, <1th-key>: <1th-value>, ... <nth-key>: <nth-value>\}}.
+	
+	The syntax for indexing or "looking up" a \texttt{dict} value
+	is: \texttt{<dict-value>[<key-value>]}.
+	
+	\texttt{dict} values support the union operation from set-mathematics using
+	either the '\texttt{|}' or '\texttt{+}' operator. 
+	Difference can be done with the '\texttt{-}' operator.
+	Intersection can be done with the '\texttt{\&}' operator.
+	Symmetric difference can be done with the '\texttt{\^}' operator.
+	
+	Lexicographical equal-to, not-equal-to, greater-than, greater-than-equal-to,
+	less-than, less-than-equal-to comparisons can be done on dictionary values with
+	the '\texttt{==}', '\texttt{!=}',
+	'\texttt{>}', '\texttt{>=}', '\texttt{<}', '\texttt{<=}' respectively.
+	
+	Any type that is \textit{comparable} can be the key type of a \texttt{dict}.
+	(Currently \texttt{bool}s, \texttt{int}s, floats, strings, lists, tuples,
+		sets, and \texttt{dict}s. Not lambdas.)
+}
