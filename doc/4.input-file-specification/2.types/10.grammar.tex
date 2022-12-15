@@ -1,5 +1,20 @@
 
 \subsection{Grammar}
 {
-	Grammar.
+	The grammar type is used to store the values
+	gathered when reading a grammar rule while processing a \texttt{\%parse}
+	directive.
+	
+	Fields can be accessed with \texttt{<grammar-value>.<fieldname>} notation.
+	Depending on the structure of the grammar-rule pattern, some fields
+	may be optional. Use the \texttt{has} operator to determine if a field
+	is present or not.
+	
+	A token can have the type of either string, integer, float or boolean.
+	A field can either capture the first value of a token or all the values
+	of a token by saving the values in a list.
+	Fields can also capture the grammar values from references to other
+	grammar rules. Like tokens, either the first value or an array of all
+	of them.
+	Grammar values do not support comparision.
 }

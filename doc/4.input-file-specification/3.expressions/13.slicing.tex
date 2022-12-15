@@ -1,0 +1,80 @@
+
+\subsection{Slicing Expression}
+{
+	Slicing is a kind of expression that can be used for creating sublists
+	and substrings. The syntax follows the
+	form: \texttt{<list-or-string>[<start-index>:<end-index>]}.
+	The start index is optional: if missing, the sublist/substring starts at
+	the beginning of the given list/string.
+	The end index is optional: if missing, the sublist/substring ends at
+	the end of the given list/string.
+	The start and end index if present must be a subexpression that results
+	in an integer value.
+	A list getting sliced results in the list value consisting of the elements
+	ranging from the start index value up-to-but-not-including the end index.
+	A string getting indexed results in a string value consisting of the
+	characters ranging from the start index up-to-but-not-including the end
+	index.
+	
+	If Guardian can determine the exact value of given list/string,
+	start index and end index, Guardian
+	will replace the call with the appropriate list/string construction.
+	
+	\begin{itemize}
+	{
+		\item \texttt{[1, 2, 3, 4, 5, 6][1:4]}
+		
+			Results in the integer list value [2, 3, 4].
+		
+		\item \texttt{[1, 2, 3, 4, 5, 6][3:6]}
+		
+			Results in the integer list value [4, 5, 6].
+		
+		\item \texttt{[1, 2, 3, 4, 5, 6][0:2]}
+		
+			Results in the integer list value [1, 2].
+		
+		\item \texttt{[1, 2, 3, 4, 5, 6][3:]}
+		
+			Results in the integer list value [4, 5, 6].
+		
+		\item \texttt{[1, 2, 3, 4, 5, 6][:2]}
+		
+			Results in the integer list value [1, 2].
+		
+		\item \texttt{"abcdef"[1:4]}
+		
+			Results in the string value "bcd".
+		
+		\item \texttt{"abcdef"[3:6]}
+		
+			Results in the string value "def".
+		
+		\item \texttt{"abcdef"[0:2]}
+		
+			Results in the string value "ab".
+			
+		\item \texttt{"abcdef"[3:]}
+		
+			Results in the string value "def".
+		
+		\item \texttt{"abcdef"[:2]}
+		
+			Results in the string value "ab".
+	}
+	\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

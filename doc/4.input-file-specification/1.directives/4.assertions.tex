@@ -1,15 +1,15 @@
 
-\subsection{Assertion Directive}
+\subsection{Assertion Statement}
 {
-	Assertions checks that a given condition is true, and fails if it is not true.
+	An assertion checks that a given
+	condition is true and fails if it is not true.
 	The condition must return a boolean type.
-	Any assertion Guardian can prove has a condition that will always return
-	true is silently removed.
+	Any assertion whose condition will always return
+	true is silently ignored.
 	There are three levels of severity: note, warning and error.
 	A failing error-level assertion causes the checker to abort execution.
 	
-	The syntax for an error, warning and note assertion statement is
-	respectively:
+	The syntax for error, warning and note assertion statements is:
 	\begin{lstlisting}[texcl = true, language = MAIA]
 %error: <expression>;
 %warning: <expression>;

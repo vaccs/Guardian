@@ -3,19 +3,19 @@
 {
 	\begin{itemize}
 	{
-		\item \texttt{[!'b']* 'b' [!'b']* 'b' [!'b']*}
+		\item \texttt{[!{}`b']* `b' [!{}`b']* `b' [!{}`b']*}
 		
-			Matches any string containing exactly two 'b's.
+			Matches any string containing exactly two b's.
 		
-		\item \texttt{['0'-'9']+ ('.' ['0'-'9']*)?}
+		\item \texttt{[`0'-`9']+ (`.' [`0'-`9']*)?}
 		
 			Matches any decimal number with or without digits
 			past the decimal point.
 		
-		\item \texttt{'a'? 'b'? 'c'?}
+		\item \texttt{`a'? `b'? `c'?}
 		
 			Describes all the alphabetically-sorted strings made only
-			from 'a', 'b' and 'c' where no letter can be repeated.
+			from `a', `b' and `c' where no letter can be repeated.
 		
 		\item
 \begin{lstlisting}

@@ -14,27 +14,23 @@
 	statements (for---you guessed it---making assertions about the data).
 	
 	Guardian input files can include other files. Guardian treats the
-	include directive as if the content of the referred file was pasted
-	directly in the file doing the including. A file that is included is
-	only read
-	once\footnote{Determining whether a given path refers to a file that has
-	already been read is done by using the \texttt{stat} system
-	call's \texttt{st\_dev} and \texttt{st\_ino} fields.}.
+	include directive as if the content of the referred file were pasted
+	directly in the file doing the including.
 	
 	To aid in debugging the checkers (and Guardian), print
-	statements can be used to print the value of variables or
+	statements can be used to print the values of variables or
 	results of expressions. To suppress print statements when running
 	checkers use
 	the \texttt{-q} command-line flag.
 	
 	The sequence in which these statements
 	are listed in the input file determines the
-	order they are executed in in the generated checker program.
+	order they are executed in the generated checker program.
 	
 	Guardian's programming language is statically-typed, meaning that the
 	datatypes
 	must be known at the time Guardian reads the language and is
-	converting it to C.
+	converting it into C.
 	
 	\subimport{./1.directives/}{index.tex}
 	

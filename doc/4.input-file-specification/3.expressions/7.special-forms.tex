@@ -1,0 +1,430 @@
+
+\subsection{Special Forms}
+{
+	All special forms have equal operator precedence.
+	
+	\subsubsection{\texttt{all!} Special Form}
+	{
+		A call to the \texttt{all!} special form is a kind of an expression.
+		The special form expects a list of boolean values as its
+		single argument and returns a boolean value of true if all the elements
+		were true, false otherwise. An empty list of boolean values returns true.
+		The intuition there is that there isn't any element that isn't true.
+		If Guardian can determine all of the boolean values given to a call to an
+		\texttt{all!} special form, it will substitute the call with the
+		appropriate \texttt{true} or \texttt{false} expression.
+		
+		\begin{itemize}
+		{
+			\item \texttt{all!([true, true, true])}
+			
+				Results in a true boolean value.
+			
+			\item \texttt{all!([true, false])}
+			
+				Results in a false boolean value.
+			
+			\item \texttt{all!([<bool>])}
+			
+				Results in a true boolean value.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{any!} Special Form}
+	{
+		A call to the \texttt{any!} special form is a kind of an expression.
+		The special form expects a list of boolean values as its
+		single argument and returns a boolean value of true if any the elements
+		were true, false otherwise. An empty list of boolean values returns false.
+		The intuition there is that there isn't any element that isn't false.
+		If Guardian can determine all of the boolean values given to a call to an
+		\texttt{any!} special form, it will substitute the call with the
+		appropriate \texttt{true} or \texttt{false} expression.
+		
+		\begin{itemize}
+		{
+			\item \texttt{any!([true, true, true])}
+			
+				Results in a true boolean value.
+			
+			\item \texttt{any!([true, false])}
+			
+				Results in a true boolean value.
+			
+			\item \texttt{any!([false])}
+			
+				Results in a false boolean value.
+			
+			\item \texttt{any!([<bool>])}
+			
+				Results in a false boolean value.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{crossmap!} Special Form}
+	{
+		A call to the \texttt{crossmap!} special form is a kind of expression.
+		The special form expects a lambda value as its
+		first parameter and expects the remaining parameters to be list values.
+		This special form results in the list value consisting
+		of all of the return values of the given lambda value called on each of
+		the combinations of elements from the given lists.
+		\texttt{crossmap!} requires at least one list and that
+		the element type of each list is equal to the corresponding parameter type
+		of the given lambda.
+		If Guardian can determine the exact lambda values and lists all call to
+		\texttt{crossmap!}, Guardian will replace the call with a list
+		construction with the appropriate elements.
+		
+		\begin{itemize}
+		{
+			\item \texttt{crossmap!(\$int x -> int: x + 3, [1, 2, 3])}
+			
+				The result of this call to \texttt{crossmap!} would be a list of
+				integer elements 1, 2 and 3.
+			
+			\item \texttt{crossmap!(\$bool x, y -> (bool, bool): (x, y), [true, false], [true, false])}
+			
+				The result of this call to \texttt{crossmap!} would be list of
+				(boolean, boolean)
+				tuples: \texttt{[(true, true), (true, false), (false, true), (false, false)]}.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{filter!} Special Form}
+	{
+		A call to the \texttt{filter!} special form is a kind of expression.
+		The \texttt{filter!} special form requires the first parameter to be
+		a lambda value and second parameter to be a list value.
+		The lambda value must require one parameter, the parameter's type must
+		be the list value's element type, and the lambda value must return a
+		boolean type.
+		The special form results in a list value consisting of all the elements
+		of the given list that resulted in a true when called on the lambda
+		value.
+		If Guardian can determine the exact lambda value and the exact
+		values for the elements in the list, Guardian will replace the call
+		to \texttt{filter!} with a list construction with the appropriate
+		remaining elements.
+		
+		\begin{itemize}
+		{
+			\item \texttt{filter!(\$int x -> bool: true, [1, 2, 3])}
+			
+				Results in the list of integer values 1, 2 and 3.
+			
+			\item \texttt{filter!(\$string s -> bool: "ium" in s, ["hydrogen", "helium", "lithium"])}
+			
+				Results in the list of string values: "helium" and "lithium".
+			
+			\item \texttt{filter!(\$int[] x -> bool: sum!(x) > 5, [[2, 10, 3], [1, 1, 1], [3, 2, 5])}
+				
+				Results in the list of lists of integers: [[2, 10, 3] and [3, 2, 5]].
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{float!} Special Form}
+	{
+		A call to the \texttt{float!} special form is a kind of expression.
+		The \texttt{float!} special form expects one parameter and can convert it
+		into a float value. Currently only converting from an integer or string
+		value is supported.
+		If Guardian can determine the exact integer or string value given to
+		\texttt{float!} Guardian will replace the call with the appropriate
+		float literal.
+		
+		\begin{itemize}
+		{
+			\item \texttt{float!(2)}
+			
+				Equalivent to the float value 2.0.
+			
+			\item \texttt{float!("12")}
+			
+				Equalivent to the float value 12.0.
+			
+			\item \texttt{float!("2e3")}
+			
+				Equalivent to the float value 2000.0.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{isaccessibleto!} Special Form}
+	{
+		A call to the \texttt{isaccessibleto!} special form
+		is a kind of expression.
+		The special form expects two string parameters and returns a true boolean
+		value if the given path (the first parameter) is accessible (readable) to
+		the given user (the second parameter), false
+		otherwise.
+		Even if Guardian can determine the exact string values the form was
+		called with, no substitution is done.
+	}
+	
+	\subsubsection{\texttt{isdir!} Special Form}
+	{
+		A call to the \texttt{isdir!} special form is a kind of expression.
+		The special form expects one string parameter and returns a true boolean
+		value if the given path refers to a directory, false
+		otherwise.
+		Even if Guardian can determine the exact string value the form was
+		called with, no substitution is done.
+	}
+	
+	\subsubsection{\texttt{isexecutableby!} Special Form}
+	{
+		A call to the \texttt{isexecutableby!} special form
+		is a kind of expression.
+		The special form expects two string parameters and returns a true boolean
+		value if the given path (the first parameter) is executable by
+		the given user (the second parameter), false
+		otherwise.
+		Even if Guardian can determine the exact string values the form was
+		called with, no substitution is done.
+	}
+
+	\subsubsection{\texttt{int!} Special Form}
+	{
+		A call to the \texttt{int!} special form is a kind of expression.
+		The \texttt{int!} special form expects one parameter and can convert it
+		into a integer value. Currently only converting from an float or string
+		value is supported.
+		If Guardian can determine the exact float or string value given to
+		\texttt{int!} Guardian will replace the call with the appropriate
+		integer literal.
+		
+		\begin{itemize}
+		{
+			\item \texttt{int!(2.0)}
+			
+				Equalivent to the integer value 2.
+			
+			\item \texttt{int!("12")}
+			
+				Equalivent to the integer value 12.
+			
+			\item \texttt{int!(3.5)}
+			
+				Equalivent to the integer value 3.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{isabspath!} Special Form}
+	{
+		A call to the \texttt{isabspath!} special form is a kind of expression.
+		The special form expects one string parameter and returns a true boolean
+		value if the given string matches the form of an absolute path, false
+		otherwise.
+		Even if Guardian can determine the exact string value the form was
+		called with, no substitution is done.
+		
+		\begin{itemize}
+		{
+			\item \texttt{isabspath!("/abc/dev/")}
+			
+				On a unix filesystem, the form would return true.
+			
+			\item \texttt{isabspath!("../abc/dev")}
+			
+				On a unix filesystem, the form would return false.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{len!} Special Form}
+	{
+		A call to the \texttt{len!} special form is a kind of expression.
+		The \texttt{len!} special form will return an integer value signifying
+		the length of the given value. Currently string, tuple, set
+		and \texttt{dict} values are supported.
+		If Guardian can determine the exact string, tuple, set or \texttt{dict}
+		value the form is being called with, Guardian will replace the call with
+		the appropriate integer literal.
+		
+		\begin{itemize}
+		{
+			\item \texttt{len!((1, true, 3.0))}
+			
+				Equalivent to the integer value 3.
+			
+			\item \texttt{len!([<bool>])}
+			
+				Equalivent to the integer value 0.
+			
+			\item \texttt{len!(\{1, 2, 3\} | \{2, 3, 4\})}
+			
+				Equalivent to the integer value 4.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{map!} Special Form}
+	{
+		A call to the \texttt{map!} special form is a kind of expression.
+		The special form expects a lambda value as its
+		first parameter and expects the remaining parameters to be list values.
+		This special form results in the list value consisting
+		of all of the return values of the given lambda value called on all of the
+		first elements from the given lists, second elements from the given
+		lists, up to the length of the shortest list.
+		\texttt{map!} requires at least one list and that
+		the element type of each list is equal to the corresponding parameter type
+		of the given lambda.
+		If Guardian can determine the exact lambda values and lists all call to
+		\texttt{map!}, Guardian will replace the call with a list
+		construction with the appropriate elements.
+		
+		\begin{itemize}
+		{
+			\item \texttt{map!(\$int x -> int: x + 3, [1, 2, 3])}
+			
+				The result of this call to \texttt{map!} would be a list of
+				integer elements 1, 2 and 3.
+			
+			\item \texttt{map!(\$bool x, y -> (bool, bool): (x, y), [true, false], [true, false])}
+			
+				The result of this call to \texttt{map!} would be list of
+				(boolean, boolean) tuples: \texttt{[(true, true), (false, false)]}.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{range!} Special Form}
+	{
+		A call to the \texttt{range!} special form is a kind of expression.
+		The special form expects one or two parameters, both integer values.
+		The form results in a list of integer values up-to-but-not-including
+		the last value, starting from the other value or 0 if called with only
+		one value.
+		If Guardian can determine the exact values a call to \texttt{range!}
+		was made with, it will substitute the call with a list construction
+		with the appropriate elements.
+		
+		\begin{itemize}
+		{
+			\item \texttt{range!(10)}
+			
+				Results in \texttt{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}.
+			
+			\item \texttt{range!(2, 6)}
+			
+				Results in \texttt{[2, 3, 4, 5]}.
+				
+			\item \texttt{range!(-3, 3)}
+			
+				Results in \texttt{[-3, -2, -1, 0, 1, 2]}.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{reduce!} Special Form}
+	{
+		A call to the \texttt{reduce!} special form is a kind of expression.
+		The special form expects three parameters.
+		The first parameter must be a lambda value, and the
+		second parameter must be a list value.
+		The lambda value's first parameter's type
+		must match the element type of the list value and the type of the third
+		parameter. The lambda value's
+		second parameter's type must match the lambda value's return type.
+		
+		The lambda value is called repeatedly, once for each element of the list.
+		The lambda is called with the result of the last time it was
+		called (initially the third parameter), and
+		the current element.
+		
+		If Guardian can determine the exact lambda and list value used in a call to
+		\texttt{reduce!}, Guardian will replace the call with a literal of
+		the appropriate value.
+		
+		\begin{itemize}
+		{
+			\item \texttt{reduce!(\$int x, y -> int: x + y, [1, 2, 3], 0)}]
+			
+				First the lambda is called with 0 and 1 yielding 1.
+				Then the lambda is called with 1 and 2 yielding 3.
+				Then the lambda is called with 3 and 3 yielding 6.
+			
+			\item \texttt{reduce!(\$int x, y -> int: x > y ? x : y, [2, 3, 1, 4], 0)}]
+			
+				First the lambda is called with 0 and 2 yielding 2.
+				Then the lambda is called with 2 and 3 yielding 3.
+				Then the lambda is called with 3 and 1 yielding 3.
+				Then the lambda is called with 3 and 4 yielding 4.
+			
+			\item \texttt{reduce!(\$int x, y -> int: x < y ? x : y, [2, 3, 1, 4], 5)}]
+			
+				First the lambda is called with 5 and 2 yielding 2.
+				Then the lambda is called with 2 and 3 yielding 2.
+				Then the lambda is called with 2 and 1 yielding 1.
+				Then the lambda is called with 1 and 4 yielding 1.
+				
+			\item \texttt{reduce!(\$int x, int[] y -> int[]: x \% 2 == 0 ? y + [x] : y, [2, 3, 1, 4], [<int>])}]
+			
+				First the lambda is called with \texttt{[<int>]} and 2 yielding \texttt{[2]}.
+				Then the lambda is called with \texttt{[2]} and 3 yielding \texttt{[2]}.
+				Then the lambda is called with \texttt{[2]} and 1 yielding \texttt{[2]}.
+				Then the lambda is called with \texttt{[2]} and 4 yielding \texttt{[2, 4]}.
+				
+			\item \texttt{reduce!(\$int x, y -> int: 1, [<int>], 3)}]
+			
+				Due to the list consisting of no elements, the third parameter
+				is returned.
+		}
+		\end{itemize}
+	}
+	
+	\subsubsection{\texttt{sum!} Special Form}
+	{
+		A call to the \texttt{sum!} special form is a kind of expression.
+		The special form expects one single parameter, either a list of integer
+		or float values. An empty integer list results in 0. An empty float list
+		results in a 0.0.
+		If Guardian can determine the exact values in the given list, Guardian
+		will replace the call with the appropriate integer or float value.
+		
+		\begin{itemize}
+		{
+			\item \texttt{sum!([1, 2, 3])}
+			
+				Equalivent to the integer value 6.
+			
+			\item \texttt{sum!([1.0, 2.0, 3.0])}
+			
+				Equalivent to the float value 6.0
+			
+			\item \texttt{sum!([<int>])}
+			
+				Equalivent to the integer value 0.
+		}
+		\end{itemize}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

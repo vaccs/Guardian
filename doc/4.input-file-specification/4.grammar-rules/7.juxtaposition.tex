@@ -1,0 +1,19 @@
+
+\subsection{Juxtaposition}
+{
+	Juxtaposition can be used between two grammar-rule patterns to
+	"concatenate" their patterns.
+	
+	\begin{itemize}
+	{
+		\item \texttt{"a" ("b" | "c") "d"}
+		
+			The token ``a", either the token ``b" or the token ``c",
+			then the token ``d".
+		
+		\item \texttt{"a"* "b"+}
+		
+			Zero or more ``a" tokens, then then one or more ``b" tokens.
+	}
+	\end{itemize}
+}

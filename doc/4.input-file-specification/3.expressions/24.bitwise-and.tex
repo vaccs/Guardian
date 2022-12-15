@@ -1,0 +1,33 @@
+
+\subsection{Bitwise-and Expression}
+{
+	Bitwise-and is a kind of expression that typically performs
+	a bitwise-and operation on two given integer values.
+	The expression can also be used to take the set-intersection of two given
+	set values, resulting in a set of the elements that are
+	common in \textbf{both}
+	given sets.
+	The expression can also be used to take the
+	dictionary-intersection of two given
+	\texttt{dict} values, resulting in a dictionary of all of the key-value
+	associations that \textbf{both} of the given dictionaries had in common.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item \texttt{6 \& 3}
+		
+			Results in the integer value 2.
+		
+		\item \texttt{\{1, 2, 3\} \& \{5, 2, 4, 3\}}
+		
+			Results in the integer set value \{2, 3\}.
+		
+		\item \texttt{\{1: 1, 2: 2, 3: 3\} \& \{5: 4, 2: 5, 4: 6, 3: 7\}}
+		
+			Results in the integer-to-integer \texttt{dict} value \{2: 5, 3: 7\}.
+	}
+	\end{itemize}
+}

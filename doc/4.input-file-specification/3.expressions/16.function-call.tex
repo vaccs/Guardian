@@ -1,0 +1,30 @@
+
+\subsection{Function-call Expression}
+{
+	A function call is a kind of expression that can be used to call
+	lambda values with parameters. In addition to the parameters,
+	the function itself can also be the result of an expression.
+	The number of parameter expressions must match the number of parameters
+	the lambda expects. The parameter expressions must result in the
+	exact same as the lambda's corresponding parameter.
+	
+	If Guardian can determine the exact value of given lambda and parameters,
+	Guardian
+	will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item \texttt{(\$int x, y -> int: x + y)(3, 7)}
+		
+			Results in the integer value 10.
+		
+		\item \texttt{(\$->int: 2)()}
+		
+			Results in the inter value 2.
+		
+		\item \texttt{(\$(\$int -> int) f, int x -> int: f(x))(\$int x -> int: x + 3, 7)}
+		
+			Results in the integer value 10.
+	}
+	\end{itemize}
+}

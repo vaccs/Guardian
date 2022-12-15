@@ -1,0 +1,34 @@
+
+\subsection{Logical-Or Expression}
+{
+	Logical-or is a kind of expression that expects two subexpressions that
+	both yield a boolean value. The expression results in a true boolean value
+	if \textbf{either} of the subexpressions resulted in true, false otherwise.
+	
+	The logical-or expression supports short-circuiting: if the first
+	subexpression produces true, the logical-or expression returns true
+	without evaluating the second expression.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate boolean literal.
+	
+	\begin{itemize}
+	{
+		\item \texttt{true || true}
+		
+			Results in the true boolean value.
+			
+		\item \texttt{true || false}
+		
+			Results in the true boolean value.
+			
+		\item \texttt{false || true}
+		
+			Results in the true boolean value.
+			
+		\item \texttt{false || false}
+		
+			Results in the false boolean value.
+	}
+	\end{itemize}
+}

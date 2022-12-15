@@ -1,0 +1,35 @@
+
+\subsection{Implication Expression}
+{
+	Implication is a kind of expression that expects two subexpressions that
+	both yield a boolean value. The expression results in a true boolean value
+	if the first subexpression resulted in a false, otherwise it returns
+	the result of the second subexpression.
+	
+	The implication expression supports short-circuiting: if the first
+	subexpression produces false, the implication expression returns true
+	without evaluating the second expression.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item \texttt{true implies true}
+		
+			Results in the true boolean value.
+			
+		\item \texttt{true implies false}
+		
+			Results in the false boolean value.
+			
+		\item \texttt{false implies true}
+		
+			Results in the true boolean value.
+			
+		\item \texttt{false implies false}
+		
+			Results in the true boolean value.
+	}
+	\end{itemize}
+}
