@@ -1,17 +1,17 @@
 
-\subsection{Dict}
+\subsection{Dictionary Type}
 {
 	The \texttt{dict} type (short for dictionary) is used to store
 	a series of associations from a value to another value.
 	The intuition behind the name comes from how one uses a dictionary or a
 	thesaurus: a value (a word) is being used to access data that's been
-	associated with it (a definition --or, in the case of a thesaurus: synonyms).
+	associated with it (a definition ---or, in the case of a thesaurus: synonyms).
 	A value used to perform the lookup on a \texttt{dict} (a word in our
 	previous example) is called a "key." A \texttt{dict}'s "values" are the
 	values that are retrieved from a dictionary.
 	The keys of a dictionary are unique and can only map to one value.
 	\texttt{dict} types are specialized to the type of their keys and values.
-	The syntax for referring to a set type
+	The syntax for referring to a \texttt{dict} type
 	is \texttt{<key-type> -> <value-type>}.
 	
 	The syntax for a \texttt{dict} value is to comma
@@ -22,17 +22,31 @@
 	is: \texttt{<dict-value>[<key-value>]}.
 	
 	\texttt{dict} values support the union operation from set-mathematics using
-	either the '\texttt{|}' or '\texttt{+}' operator. 
-	Difference can be done with the '\texttt{-}' operator.
-	Intersection can be done with the '\texttt{\&}' operator.
-	Symmetric difference can be done with the '\texttt{\^}' operator.
+	either the \texttt{|} or \texttt{+} operator. 
+	Difference can be done with the \texttt{-} operator.
+	Intersection can be done with the \texttt{\&} operator.
+	Symmetric difference can be done with the \texttt{\^} operator.
 	
 	Lexicographical equal-to, not-equal-to, greater-than, greater-than-equal-to,
-	less-than, less-than-equal-to comparisons can be done on dictionary values with
-	the '\texttt{==}', '\texttt{!=}',
-	'\texttt{>}', '\texttt{>=}', '\texttt{<}', '\texttt{<=}' respectively.
+	less-than, and less-than-equal-to comparisons
+	can be done on dictionary values with
+	the \texttt{==}, \texttt{!=},
+	\texttt{>}, \texttt{>=}, \texttt{<}, and \texttt{<=} respectively.
 	
-	Any type that is \textit{comparable} can be the key type of a \texttt{dict}.
-	(Currently \texttt{bool}s, \texttt{int}s, floats, strings, lists, tuples,
-		sets, and \texttt{dict}s. Not lambdas.)
+	Any type that is \textit{comparable} can be the key type of a dictionary.
+	(Currently booleans, integers, floats, strings, lists, tuples,
+		sets, and dictionaries. Not lambdas nor grammar types)
+		
+	The length of a list value can be found with the \texttt{len!} special form.
 }
+
+
+
+
+
+
+
+
+
+
+

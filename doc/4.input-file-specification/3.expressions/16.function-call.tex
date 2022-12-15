@@ -14,15 +14,15 @@
 	
 	\begin{itemize}
 	{
-		\item \texttt{(\$int x, y -> int: x + y)(3, 7)}
+		\item[] \texttt{(\$int x, y -> int: x + y)(3, 7)}
 		
 			Results in the integer value 10.
 		
-		\item \texttt{(\$->int: 2)()}
+		\item[] \texttt{(\$->int: 2)()}
 		
 			Results in the inter value 2.
 		
-		\item \texttt{(\$(\$int -> int) f, int x -> int: f(x))(\$int x -> int: x + 3, 7)}
+		\item[] \texttt{(\$(\$int -> int) f, int x -> int: f(x))(\$int x -> int: x + 3, 7)}
 		
 			Results in the integer value 10.
 	}

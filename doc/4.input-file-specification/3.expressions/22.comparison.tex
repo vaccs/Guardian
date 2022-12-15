@@ -6,9 +6,9 @@
 	less-than, less-than-equal-to,
 	greater-than, and greater-than-equal-to,
 	whose operator syntax
-	'\texttt{==}', '\texttt{!=}',
-	'\texttt{<}', '\texttt{<=}',
-	'\texttt{>}', and '\texttt{>=}'.
+	\texttt{==}, \texttt{!=},
+	\texttt{<}, \texttt{<=},
+	\texttt{>}, and \texttt{>=}.
 	
 	Boolean, integer, float, string, list, tuple, set and dictionary values
 	can be compared, not lambda values nor grammar values.
@@ -18,91 +18,91 @@
 	
 	\begin{itemize}
 	{
-		\item \texttt{[true > false, true < false, true == false]}
+		\item[] \texttt{[true > false, true < false, true == false]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[3 > 2, 3 < 2, 3 == 2]}
+		\item[] \texttt{[3 > 2, 3 < 2, 3 == 2]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[3 > 4, 3 < 4, 3 == 4]}
+		\item[] \texttt{[3 > 4, 3 < 4, 3 == 4]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{[5 > 5, 5 < 5, 5 == 5]}
+		\item[] \texttt{[5 > 5, 5 < 5, 5 == 5]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 			
-		\item \texttt{[3.0 > 2.0, 3.0 < 2.0, 3.0 == 2.0]}
+		\item[] \texttt{[3.0 > 2.0, 3.0 < 2.0, 3.0 == 2.0]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[3.0 > 4.0, 3.0 < 4.0, 3.0 == 4.0]}
+		\item[] \texttt{[3.0 > 4.0, 3.0 < 4.0, 3.0 == 4.0]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{[5.0 > 5.0, 5.0 < 5.0, 5.0 == 5.0]}
+		\item[] \texttt{[5.0 > 5.0, 5.0 < 5.0, 5.0 == 5.0]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 			
-		\item \texttt{["b" > "a", "b" < "a", "b" == "a"]}
+		\item[] \texttt{["b" > "a", "b" < "a", "b" == "a"]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{["ab" > "ac", "ab" < "ac", "ab" == "ac"]}
+		\item[] \texttt{["ab" > "ac", "ab" < "ac", "ab" == "ac"]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{["d" > "d", "d" < "d", "d" == "d"]}
+		\item[] \texttt{["d" > "d", "d" < "d", "d" == "d"]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 			
-		\item \texttt{[[1, 2] > [1, 1], [1, 2] < [1, 1], [1, 2] == [1, 1]]}
+		\item[] \texttt{[[1, 2] > [1, 1], [1, 2] < [1, 1], [1, 2] == [1, 1]]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[[2, 3] > [2, 4], [2, 3] < [2, 4], [2, 3] == [2, 4]]}
+		\item[] \texttt{[[2, 3] > [2, 4], [2, 3] < [2, 4], [2, 3] == [2, 4]]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{[[3, 1] > [3, 1], [3, 1] < [3, 1], [3, 1] == [3, 1]]}
+		\item[] \texttt{[[3, 1] > [3, 1], [3, 1] < [3, 1], [3, 1] == [3, 1]]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 			
-		\item \texttt{[(1, 2) > (1, 1), (1, 2) < (1, 1), (1, 2) == (1, 1)]}
+		\item[] \texttt{[(1, 2) > (1, 1), (1, 2) < (1, 1), (1, 2) == (1, 1)]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[(2, 3) > (2, 4), (2, 3) < (2, 4), (2, 3) == (2, 4)]}
+		\item[] \texttt{[(2, 3) > (2, 4), (2, 3) < (2, 4), (2, 3) == (2, 4)]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{[(3, 1) > (3, 1), (3, 1) < (3, 1), (3, 1) == (3, 1)]}
+		\item[] \texttt{[(3, 1) > (3, 1), (3, 1) < (3, 1), (3, 1) == (3, 1)]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 			
-		\item \texttt{[\{2, 1\} > \{1, 1\}, \{2, 1\} < \{1, 1\}, \{2, 1\} == \{1, 1\}]}
+		\item[] \texttt{[\{2, 1\} > \{1, 1\}, \{2, 1\} < \{1, 1\}, \{2, 1\} == \{1, 1\}]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[\{3, 2\} > \{4, 2\}, \{2, 3\} < \{4, 2\}, \{2, 3\} == \{4, 2\}]}
+		\item[] \texttt{[\{3, 2\} > \{4, 2\}, \{2, 3\} < \{4, 2\}, \{2, 3\} == \{4, 2\}]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{[\{1, 3\} > \{3, 1\}, \{3, 1\} < \{1, 3\}, \{3, 1\} == \{1, 3\}]}
+		\item[] \texttt{[\{1, 3\} > \{3, 1\}, \{3, 1\} < \{1, 3\}, \{3, 1\} == \{1, 3\}]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 			
-		\item \texttt{[\{2: 7, 1: 7\} > \{1: 7, 1: 7\}, \{2: 7, 1: 7\} < \{1: 7, 1: 7\}, \{2: 7, 1: 7\} == \{1: 7, 1: 7\}]}
+		\item[] \texttt{[\{2: 7, 1: 7\} > \{1: 7, 1: 7\}, \{2: 7, 1: 7\} < \{1: 7, 1: 7\}, \{2: 7, 1: 7\} == \{1: 7, 1: 7\}]}
 		
 			Results in the boolean list value \texttt{[true, false, false]}.
 			
-		\item \texttt{[\{3: 7, 2: 7\} > \{4: 7, 2: 7\}, \{2: 7, 3: 7\} < \{4: 7, 2: 7\}, \{2: 7, 3: 7\} == \{4: 7, 2: 7\}]}
+		\item[] \texttt{[\{3: 7, 2: 7\} > \{4: 7, 2: 7\}, \{2: 7, 3: 7\} < \{4: 7, 2: 7\}, \{2: 7, 3: 7\} == \{4: 7, 2: 7\}]}
 		
 			Results in the boolean list value \texttt{[false, true, false]}.
 			
-		\item \texttt{[\{1: 7, 3: 7\} > \{3: 7, 1: 7\}, \{3: 7, 1: 7\} < \{1: 7, 3: 7\}, \{3: 7, 1: 7\} == \{1: 7, 3: 7\}]}
+		\item[] \texttt{[\{1: 7, 3: 7\} > \{3: 7, 1: 7\}, \{3: 7, 1: 7\} < \{1: 7, 3: 7\}, \{3: 7, 1: 7\} == \{1: 7, 3: 7\}]}
 		
 			Results in the boolean list value \texttt{[false, false, true]}.
 	}
