@@ -1,15 +1,17 @@
 
-\documentclass[a4paper,11pt]{book}
+\documentclass[a4paper,12pt]{book}
 
 \usepackage{import}
 \usepackage{lipsum}
-\usepackage[bookmarks=true]{hyperref} 
+\usepackage[bookmarks=true]{hyperref}
 \usepackage{bookmark}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{fullpage}
+%\usepackage{enumitem}
 %\usepackage{svg}
 %\usepackage{titletoc}
 %\usepackage{makeidx}
@@ -28,15 +30,18 @@
 
 \lstdefinelanguage{MAIA}{
 	sensitive = true,
-	keywords={include, parse, error, warning, note, print, as, skip, argv},
-	keywords=[2]{all, any, map, filter, reduce, let, lambda},
+	keywords={include, parse, error, warning, note, has, print, as, skip, argv},
+	keywords=[2]{all, any, map, filter, reduce, let, len, range, sum},
+	keywords=[3]{bool, int, int, float, string},
 	otherkeywords={},
 	keywordstyle=\color{blue},
-	keywordstyle=[2]\color{green},
+	keywordstyle=[2]\color{orange},
+	keywordstyle=[3]\color{purple},
 	numbers=left,
 	numberstyle=\scriptsize,
 	stepnumber=1,
 	numbersep=8pt,
+	tabsize=2,
 	showstringspaces=false,
 	breaklines=true,
 	frame=top,

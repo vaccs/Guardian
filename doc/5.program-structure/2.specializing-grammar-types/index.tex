@@ -1,0 +1,28 @@
+
+\section{Specialization of Grammar Types}
+{
+	For the sake of the type checking phase
+	a grammar type needs to be generated for each named grammar-rule pattern.
+	Each field in a pattern can either be a token or a reference to
+	another grammar rule. The component that the value of a field
+	originates from can be parsed multiple times (e.g. \texttt{("a" \#foo)*)}),
+	so a field can be set to either capture all of the values for each
+	parse (making a list) or just the first.
+	The content of a token can be made to be
+	automatically converted to an integer, float or
+	boolean datatype after it is parsed and before it is assigned to the
+	grammar value. If this is not done, the type of a token defaults to a string.
+	For each grammar-rule pattern, a new grammar type is created with the
+	same name, and fields. Each field's type is derived by the rules above.
+	For example:
+	
+	\begin{lstlisting}[numbers=none, numbers = none, texcl = true, language = MAIA]
+A: "foo" /float: ['0'-'9']+/ #bar | "har" #har;
+B: "(" (A #a | B #b) ")" | (/"c" | "C"/ #c[])+;
+	\end{lstlisting}
+	
+	The `A' grammar has a `bar` field of float type, and a `har` field of
+	string type. The `B' grammar has an `a' field of the type of grammar `A',
+	a `b' field of the type of grammar `B', and a `C' field of a
+	string list type.
+}

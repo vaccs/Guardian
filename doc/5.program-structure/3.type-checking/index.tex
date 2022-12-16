@@ -1,0 +1,97 @@
+
+\section{Type Checking and Specialization}
+{
+	Type checking and specialization happen at the same time and is done
+	through one pass.
+	
+	Type checking checks that the datatype that each expression would return
+	matches with the expectations of the larger expression or statement it
+	is within. For instance: the ternary expression's conditional subexpression
+	must return a boolean value, so there is an \texttt{if} statement that will
+	abort Guardian's execution and print a message if that
+	is \textit{not} a boolean value.
+	Guardian's programming language is statically-typed, meaning
+	that the datatype an expression would return can always be correctly
+	speculated before execution.
+	
+	Specializing expressions refers to the process
+	of interpreting the expressions
+	against the types of their subexpressions, and allocating new expressions
+	to represent more accurately the work that needs to be done.
+	For instance, Zebu's parse-tree may
+	indicate that there is an addition expression, and---through specializing
+	its subexpressions---it is determined they would both return
+	list values. After checking that the element types of both lists are the
+	same, a new list-concatenation expression is created.
+	If all subexpressions are literals, meaning that their result is a known
+	constant, the expression is evaluated immediately\footnote{Even if
+	the subexpressions would result in known constant values, the
+	\texttt{!isabspath}, \texttt{!isdir}, \texttt{!isaccessibleto}
+	and \texttt{!isexecutableby} special forms will not be evaluated and
+	substituted.} and replaced with a literal expression storing the result.
+	A function has been written for type-checking and specializing every
+	type of expression and statement.
+	
+	The steps for specializing a let expression mirror the steps for
+	evaluating them: the temporary variables are all declared, then sequentially
+	specialized, then the body is specialized.
+	
+	When specializing a variable-use expression, Guardian checks if the
+	variable being used was declared using a literal expression. If that
+	is the case, the variable usage is replaced with a new literal expression
+	of the same value. This effectively eliminates variables to constants.
+	
+	An expression can refer to a variable before the variables declaration,
+	this is very useful for recursive functions, but it also means that
+	Guardian has to have knowledge of what variables exist and what
+	types they have before it
+	specializes their declaration statements. An initial pass over
+	the declaration statements
+	must be made to determine the types of the variables and to introduce them
+	into Guardian's scope before the main
+	statement-specialization pass. Some variables's type may be derived from
+	grammar types, so the grammar-rule names and their specialized type must
+	be introduced into the type-checking scope before either of the two
+	mentioned passes.
+	
+	Statements do specialize, but not much changes. The
+	references to zebu's expression trees are replaced with references
+	to specialized expressions. Parse statements check that their
+	specialized expression for their path results in a string type, error
+	otherwise. Assertions check that their specialized expression results
+	in a boolean value, error otherwise. If the conditional is a literal
+	true boolean value the assertion is removed.
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

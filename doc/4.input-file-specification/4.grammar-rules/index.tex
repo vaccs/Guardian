@@ -4,10 +4,10 @@
 {
 	Grammar rules function as a kind of building-block to connect to one
 	other in order to describe the syntactic structure of a file to be parsed.
-	Due to Guardian's amount of grammar-rule options, an entire file
-	may be able to be described by only one grammar rule and still be quite
+	Due to Guardian's numerous grammar-rule options, an entire file
+	may described by only one grammar rule and still be quite
 	complex.
-	The entire content of the file must be covered (or perhaps "explained") by
+	The entire content of the file must be parseable by
 	the structure described by the grammar rules.
 	
 	Different parser generators sometimes have different interpretations of
@@ -22,7 +22,7 @@
 	other grammar rules. Grammar rules can refer to their own name.
 	
 	The initial grammar rule that begins the parse is referred to as the
-	"start" rule, and is given in the \texttt{\%parse} directive.
+	``start'' rule, and is given in the \texttt{\%parse} directive.
 	
 	Remember that if the \texttt{\%skip} directive was used, there can be
 	any number of silently-ignored sequences of characters in the file matching

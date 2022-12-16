@@ -12,7 +12,8 @@
 	\texttt{dict} values, resulting in a dictionary of
 	all of the key-value
 	associations that \textbf{either} one of the two given
-	dictionaries.
+	dictionaries contain. If there is a value in both dictionaries
+	associated with the same key, the value of the second dictionary is used.
 	
 	If Guardian can determine the exact value of the two given subexpressions,
 	Guardian will replace the call with the appropriate value literal.
@@ -21,7 +22,7 @@
 	{
 		\item[] \texttt{6 | 3}
 		
-			Results in the integer value 5.
+			Results in the integer value 7.
 		
 		\item[] \texttt{\{1, 2, 3, 6\} | \{5, 2, 4, 3\}}
 		
