@@ -2,7 +2,8 @@
 \subsection{Special Forms}
 {
 	All special forms have equal operator precedence.
-	Special forms are not true functions, they cannot passed like a lambda
+	Special forms are not true functions, they
+	cannot be passed like a lambda
 	value. A special form is closer to a kind of operator
 	that has a function call-like
 	syntax.
@@ -12,8 +13,8 @@
 		A call to the \texttt{all!} special form is a kind of an expression.
 		The special form expects a list of boolean values as its
 		single argument and returns a boolean value of true if all the elements
-		were true, false otherwise. An empty list of boolean values returns true.
-		The intuition there is that there isn't any element that isn't true.
+		are true, false otherwise. An empty list of boolean values returns true.
+		The intuition there is that there isn't an element that is not true.
 		If Guardian can determine all of the boolean values given to a call to an
 		\texttt{all!} special form, it will substitute the call with the
 		appropriate \texttt{true} or \texttt{false} expression.
@@ -41,7 +42,7 @@
 		The special form expects a list of boolean values as its
 		single argument and returns a boolean value of true if any the elements
 		were true, false otherwise. An empty list of boolean values returns false.
-		The intuition there is that there isn't any element that isn't false.
+		The intuition there is that there isn't an element that isn't false.
 		If Guardian can determine all of the boolean values given to a call to an
 		\texttt{any!} special form, it will substitute the call with the
 		appropriate \texttt{true} or \texttt{false} expression.
@@ -91,7 +92,7 @@
 			
 			\item[] \texttt{crossmap!(\$bool x, y -> (bool, bool): (x, y), [true, false], [true, false])}
 			
-				The result of this call to \texttt{crossmap!} would be list of
+				The result of this call to \texttt{crossmap!} would be a list of
 				(boolean, boolean)
 				tuples: \texttt{[(true, true), (true, false), (false, true), (false, false)]}.
 		}
@@ -102,7 +103,7 @@
 	{
 		A call to the \texttt{filter!} special form is a kind of expression.
 		The \texttt{filter!} special form requires the first parameter to be
-		a lambda value and second parameter to be a list value.
+		a lambda value and the second parameter to be a list value.
 		The lambda value must require one parameter, the parameter's type must
 		be the list value's element type, and the lambda value must return a
 		boolean type.
@@ -198,7 +199,7 @@
 	{
 		A call to the \texttt{int!} special form is a kind of expression.
 		The \texttt{int!} special form expects one parameter and can convert it
-		into a integer value. Currently only converting from an float or string
+		into an integer value. Currently only converting from a float or string
 		value is supported.
 		If Guardian can determine the exact float or string value given to
 		\texttt{int!} Guardian will replace the call with the appropriate
