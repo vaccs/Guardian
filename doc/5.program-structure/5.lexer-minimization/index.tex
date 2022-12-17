@@ -4,9 +4,9 @@
 	As discussed in the previous section,
 	multiple tokenizers are independently created for
 	each parser state to enable context-sensitive tokenization.
-	This feature enables a lot of flexibility in the design of the structure
+	This feature enables much flexibility in the design of the structure
 	of the language to be parsed, but greatly increases the memory demand
-	of the parser itself. This is especially bad because a lot
+	of the parser itself. This is especially bad because many
 	of the transitions
 	and states of these tokenizers overlap in behavior.
 	The tokenizer generator does ensure that it does not generate the

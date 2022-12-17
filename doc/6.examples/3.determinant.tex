@@ -12,7 +12,7 @@ cell: /int: ['0'-'9']+/ #value;
 
 row: cell #cells[] (',' cell #cells[])+;
 
-%parse: argv as (row '\\n'){2,};
+%parse: argv as (row '\n'){2,};
 
 matrix = map!($ row r -> int[]:
 	map!($ cell c -> int: c.value, r.cells), row);
