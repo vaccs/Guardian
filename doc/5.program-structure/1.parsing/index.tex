@@ -6,7 +6,7 @@
 	read, these data structures match almost perfectly with the behavior
 	Guardian has for creating grammar values from grammar rule patterns.
 	
-	Guardian maintains a list of the files is currently or has completed
+	Guardian maintains a list of the files it currently or has completed
 	reading (Internally stored as a \texttt{struct} with \texttt{stat(2)}'s
 	\texttt{st\_dev} and \texttt{st\_ino} fields).
 	Guardian starts with the first file,
@@ -16,16 +16,17 @@
 	order:
 	\begin{itemize}
 	{
-		\item If it is an \texttt{\%include} directive, the path is resolved,
+		\item If it is a \texttt{\%include} directive, the path is resolved,
 		added to the list of files, and immediately parsed. If the file
 		was already on the list: do nothing.
 		
 		\item If it is a \texttt{\%skip} directive, the regular expression
-		is converted to an nfa, then dfa, then simplified and saved as the
+		is converted to a Nondeterminstic Finite Automata (NFA), then to
+		a Deterministic Finite Automata (DFA), then simplified and saved as the
 		skip pattern. If there already is a skip pattern set, the previous
 		pattern is freed.
 		
-		\item If it is an \texttt{\%error}, \texttt{\%warning},
+		\item If it is a \texttt{\%error}, \texttt{\%warning},
 			or \texttt{\%note} statement, a preliminary assertion statement
 			structure
 			is created at the correct assertion-level, and a reference

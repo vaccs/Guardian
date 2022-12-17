@@ -4,15 +4,16 @@
 	Type checking and specialization happen at the same time and is done
 	through one pass.
 	
-	Type checking checks that the datatype that each expression would return
-	matches with the expectations of the larger expression or statement it
-	is within. For instance: the ternary expression's conditional subexpression
+	Type checking verifies that the datatype of the return value of each
+	expression matches the expected type of the larger
+	expression or statement it is within. For instance: the ternary
+	expression's conditional subexpression
 	must return a boolean value, so there is an \texttt{if} statement that will
-	abort Guardian's execution and print a message if that
+	abort Guardian's execution and print a message if the result
 	is \textit{not} a boolean value.
 	Guardian's programming language is statically-typed, meaning
 	that the datatype an expression would return can always be correctly
-	speculated before execution.
+	identified before execution.
 	
 	Specializing expressions refers to the process
 	of interpreting the expressions

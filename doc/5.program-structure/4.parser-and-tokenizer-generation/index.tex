@@ -1,267 +1,335 @@
 
 \section{Parser and Tokenizer Generation}
 {
-\begin{verbatim}
-The generation of the parser and tokenizer is the most
-algorithmically complex part of Guardian.
-This code took the longest amount of time write
-and to debug out of the entirely of Guardian.
-
-The approach for generating the parser is similar to GNU's Bison, and
-the approach for generating the tokenizer is similar to Flex.
-Modifications were made to both.
-
-Before introducing Guardian's parser generator, Bison's parser generator
-should be briefly discussed. Before introducing the overall approach
-to parser generators, how a regular expression pattern gets converted
-into a state machine should be reviewed.
-
-NFA to DFA...
-
-In a similar way parser generators need to maintain a mapping from
-the set of positions the parser can currently be to parser states.
-
-Traditional grammar rules are different from Guardian's, they are a series
-of ``production rules" that are a fixed series of either "terminals" or
-"nonterminals" (tokens or references to other grammar rules).
-
-Another position is added to set of positions whenever a position before
-a grammar rule is encountered...
-There's a while-changed loop that iterates over the set of positions
-looking for ones that are expecting a grammar rule next, then the initial
-positions of all of the production rules of the referenced grammar rule
-are added. Then you run the loop again.
-This is bad, why are we checking the same terminal positions in the set
-multiple times?! Instead, Guardian's implementation uses a todo list of
-the positions to consider. Initially the todo list contains all of the
-initial positions of the set, then for each position: they are checked
-if they come before a grammar rule, if not they are removed. If so,
-the new positions are added to the set and added to the todo list.
-Since the set contains only unique positions and a new position isn't
-added to the todo list unless it was new to the set, the same position
-is never considered twice! the results are the same of the while-changed
-implementation except this implementation is much faster!
-
-Transitions can then be added between these deterministic parser states.
-Parser states have token transitions and have grammar transitions.
-
-However, the parser will eventually reach the end of a grammar rule
-and will need to go back to the state that had a grammar transition for
-the grammar we reached the end of.
-
-Also: how can the parser tell when reached the end?
-For instance: `A: 1 2 3 | 1 2 3 4;` or `S: A 3 | B 4; A: 1 2; B: 1 2;`
-For each position we need to maintain a list of tokens that we read
-while at the end of the parser would indicate that the end was reached.
-
-In order to do that we need to know which tokens to expect after reading
-a grammar rule....
-
-In order to know that we need to know which tokens to expect to start
-a grammar rule...
-
-Before the main parser generation happens, we build the first sets of
-each of the grammar rules. Each first set is equal to the set of tokens
-that begin the production rules unioned with the first sets of the grammars
-that begin the production rules. This is done in a while-changed.
-This is bad! Why are we reconsidering first sets when they couldn't've
-possibly changed?! Instead, Guardian's implmentation uses a todo list.
-Initially consisting of all the grammar rules. For each grammar rule in
-the todo list: recalculate it's first set. If it has changed, add the
-grammar rules that depend on this grammar rule's first set to calculate
-their own to the todo list. Of course, before this loop can start,
-an initial pass has to go through the grammar rules and determine which
-one would depend on which other one's first sets. This appoarch
-achives the same result as the while-changed, but is much faster on
-large number of grammar rules!
-
-From there, we have first sets, and we can calculate what tokens to expect to come
-after a production rule is over, then we can know when we've reached the
-end of a production rule, and (from earlier) we know how to go back to
-the parser state to handle the completion of this grammar rule.
-
-Sometimes the set of tokens that there are reduction transitions can overlap
-bewteen grammar names. That would mean that the next token can make
-the parser reduce as more than one grammar rules. This is a reduce/reduce
-error.
-
-Similarly Sometimes the set of token there are shift transitions for can overlap with
-the set of tokens that there are reduction transitions for, in this case
-the parser generator has an shift/reduce error...
-
-.. and that's Bison!
-
-Guardian makes two main modifications to this appoarch:
-
-Guardian's grammar rules can function like regular expressions: repetitions
-and or operators, which result in a state machine, not a series
-of production rules. We cannot attempt to expand out each the paths
-of the state machine into a series (many) production rules, because
-of loops. All of the algorthims described above do not require
-that a production rule be linear, only that it knows what terminal or
-nonterminal to expect next, and where to go after it has been read.
-The first implmentation of this feature tried to change the algorthims
-described above to function on a state machine rather than a series
-of production rules, but this reached a dead end. In order for a
-grammar rule to be able to reduce and return back to the parser
-state that can handle the transition, the reduction needs to know
-how far back in history to reach. The state machine wouldn't be able
-to tell how many state transitions go to back because how many states
-it took to get from the beginning to the end of the machine is dynamic!
-Bision and the tranditional LL parser generation appoarch requires
-grammar rules to be a series of production rules with fixed number
-of states before their end.
-What Guardian now does for this is it converts the state machine
-graph into a series of interconnected trees, each tree having a fixed
-number of transitions from it's root.
-The way it does this is: iterate through the state machine, and when
-a state is encountered for a second time (meaning that there were two
-series of terminals and non-terminals that can reach the same state)
-that state becomes the start of a new grammar tree and all transitions
-to that state become invocations of that new grammar.
-This causes repetition loops to be converted into recursive grammars
-and it allows for any grammar-rule pattern to be able to be converted
-into tranditional grammar rules without introducing any new shift/reduce
-or reduce/reduce errors!
-
-Another change Guardian makes with the tranditional appoarch of parser
-generators is how the tokenizer is generated.
-
-Let me tell you first how a traditional tokenizer functions...
-	A tokenizer itself is a regular expression matcher, like grep
-	except it's looking for multiple patterns at the same time.
-	The tokenizer has to not only match the token, but know which
-	token that string is for.
-	Turns the regular expression patterns into NFAs
-	then runs the algorthim for converting NFAs into DFAs
-	but where the initial set of positions includes the start state of
-	each of the NFAs. Typically the algorthim generates states that
-	have a boolean value indicating if they are accepting or not.
-	The NFA-to-DFA algorthim needs to be modified to communicate
-	in each DFA state which NFA caused it to become accepting.
-	That would effectively communicate which token the string is matching.
-	If more than one NFA caused the DFA state to be accepting, then
-	convention is that the earliest regular expression in the input
-	take precedence.
-
-In Guardian's case, the tokenizer generation is delayed until
-the middle of parser generation: once the series of positions has been
-generated, the set of tokens there are token transitions for is
-generated and passed to the tokenizer generator. The generator
-looks up each token's NFA and generates a DFA with the algorthim
-described above. That tokenizer would be the tokenizer the parser
-would use for that specific state. A new tokenizer is generated
-for each parser state, this way, tokens that would not be valid in
-the current context would not be searched for.
-Guardian's tokenizer generator handles the overlap of
-multiple NFAs accepting
-the given string at the same time differently: Instead of giving the
-first one precedence, the tokenizer allows for multiple tokens to be matched
-at the same time. The tokenizer communicates which set of tokens overlap
-to the parser, and the parses uses a modified version of
-the LL parser generator, treating the set of tokens from the tokenizer
-in place of tokens.
-
-The final layout for the structure of Guardian's parser generator is
-this:
-
-- For each user-defined grammar rule:
-	- convert into a series of trees.
-
-- calculate the first sets for all of the trees
-
-- create a mapping from sets of grammar positions to parser states
-
-- for each parser statement:
-	- add the initial position to a set
+	The generation of the parser and tokenizer is the most
+	algorithmically complex part of Guardian.
+	This part took the most amount of time to write
+	and debug out of any of the of major components of Guardian.
 	
-	- expand the set of positions using the steps described above
+	Most (textual) (computer) languages have an hierarchical structure to
+	their content. An easy example of this is JSON files. JSON files
+	can articulate almost any structure of data through appropriately
+	nesting the constructs of the language. For example an
+	integer list of lists of lists can be
+	given as \texttt{[[[1, 2], [3, 4]]]} (The list syntax contains the list
+	syntax that contains two instances of the list syntax each containing two
+	integer value syntax). Any JSON parser would have to
+	keep track of the hierarchy of the syntaxes that it is reading
+	in order to fully
+	understand what it read. The rules for what possible structures the
+	parser may have to construct when parsing is communicated
+	through its grammar rules. A (simplified) grammar rule for
+	JSON is given below:
+\begin{lstlisting}[texcl=true, language=MAIA]
+json
+	: "true"
+	| "false"
+	| /['0'-'9']+/
+	| "[" (json ("," json)*)? "]";
+\end{lstlisting}
+	The structure of the `json' grammar rule implies that integer values
+	may be read inside of a list value, due to the `json' grammar rule
+	being referenced inside the fourth grammar-rule case.
+	Part of the responsibility of a parser generator is to deduce all of the
+	rules about all of the possible structures the parser will be expected
+	to produce, and to ensure the generated parser
+	makes the correct decisions about how to use and maintain the data
+	structures needed for keeping track of this hierarchy while parsing.
 	
-	- create new parser state,
+	Another key concept is the tokenizer. A tokenizer makes tokens out of
+	the characters read from a file or stream.
+	A token is an as indivisible ``atom'' of
+	the language. Most tokens span multiple characters.
+	To use the JSON example from earlier, \texttt{true}
+	and \texttt{false} are tokens, because the structure of the language
+	will accept either as a boolean value. Notice that even if
+	the space character is set to be \texttt{\%skip}-ped by the parser,
+	neither \texttt{tru e} or \texttt{fal se} would be accepted, because
+	the characters that make up a token cannot be separated. The job of the
+	tokenizer is to read characters and
+	attempt to match them against the rules it was given for what various
+	valid tokens can look like, and to communicate to the parser what
+	tokens were read.
+	Typically these rules are given as regular expression patterns rather
+	than strings, because there are some atoms of the language that
+	are more complex than a keyword, such as integer
+	literals (\texttt{[`0'-`9']+}) or variable
+	names (\texttt{[`a'-`z', `A'-`Z'][`a'-`z', `A'-`Z', `0'-`9']*}).
+	Flex and Lex are both commonly-used
+	tokenizer generators that read in their list of patterns from a file.
+	One way to think about it is that a
+	traditional tokenizer has a similar behavior
+	to that of \texttt{grep}, except instead of searching for one pattern, it
+	searches for many patterns at the same time.
+	If multiple patterns match a string, convention gives patterns listed
+	earlier in the pattern higher precedence.
+	The responsibility of
+	the tokenizer generator is to consider the tokens that
+	are expected to be read and the rules that each token has for being
+	recognized and to generate the code for processing the characters
+	and reporting to the parser the tokens that were found.
 	
-	- add to map assiiocation bewteen set of positions and new parser state.
+	Before discussing the approach
+	to tokenizer and parser generators, how a regular expression
+	pattern is converted into a state machine should be reviewed.
 	
-	- add new parser state and set of positions to todo list.
+	TODO;
+	
+	Traditional tokenizer generators...
+	
+	TODO;
+	
+	Traditional parser generators...
+	
+	TODO;
+	
+	\begin{verbatim}
+	NFA to DFA...
+	
+	In a similar way parser generators need to maintain a mapping from
+	the set of positions the parser can currently be to parser states.
+	
+	Traditional grammar rules are different from Guardian's, they are a series
+	of ``production rules" that are a fixed series of either "terminals" or
+	"nonterminals" (tokens or references to other grammar rules).
+	
+	Another position is added to set of positions whenever a position before
+	a grammar rule is encountered...
+	There's a while-changed loop that iterates over the set of positions
+	looking for ones that are expecting a grammar rule next, then the initial
+	positions of all of the production rules of the referenced grammar rule
+	are added. Then you run the loop again.
+	This is bad, why are we checking the same terminal positions in the set
+	multiple times?! Instead, Guardian's implementation uses a todo list of
+	the positions to consider. Initially the todo list contains all of the
+	initial positions of the set, then for each position: they are checked
+	if they come before a grammar rule, if not they are removed. If so,
+	the new positions are added to the set and added to the todo list.
+	Since the set contains only unique positions and a new position isn't
+	added to the todo list unless it was new to the set, the same position
+	is never considered twice! the results are the same of the while-changed
+	implementation except this implementation is much faster!
 
-- while todo list is not empty:
-	- take the current parser state and set of positions off the todo list
-	
-	- make a list of all the tokens used in all positions in the set
-	- make another list of all of the shift tokens used in all positions in the set
-	- make another list of all of the reduce tokens used in all positions in the set
-	- make another list of all of the grammar rules there are transitions
-		for in all the positions in the set.
-	
-	- invoke the tokenizer generator on that list.
-		// This will return
-		// a reference to the start state of the state machine,
-		// as well as a set of sets of tokens.
-		// Each set of tokens represents a token transition the parser needs
-		// to create a transition for. For instance, if the set of strings that
-		// would match as token 1 are disjoint to the set of the strings
-		// that would match as token 2, then the returned set would
-		// consist of a set of token 1, and a set of token 2.
-		// If there were some strings that overlapped bewteen the two
-		// tokens, but the tokens still had strings of their own, then
-		// the return set would consist of a set of token 1, a set of
-		// token 2 and a set of token 1 and 2.
-	
-	- for each set in the of the set of set of tokens:
-		- is the first token in the shift token set or the reduce token set?
-		- shift:
+	Transitions can then be added between these deterministic parser states.
+	Parser states have token transitions and have grammar transitions.
+
+	However, the parser will eventually reach the end of a grammar rule
+	and will need to go back to the state that had a grammar transition for
+	the grammar we reached the end of.
+
+	Also: how can the parser tell when reached the end?
+	For instance: `A: 1 2 3 | 1 2 3 4;` or `S: A 3 | B 4; A: 1 2; B: 1 2;`
+	For each position we need to maintain a list of tokens that we read
+	while at the end of the parser would indicate that the end was reached.
+
+	In order to do that we need to know which tokens to expect after reading
+	a grammar rule....
+
+	In order to know that we need to know which tokens to expect to start
+	a grammar rule...
+
+	Before the main parser generation happens, we build the first sets of
+	each of the grammar rules. Each first set is equal to the set of tokens
+	that begin the production rules unioned with the first sets of the grammars
+	that begin the production rules. This is done in a while-changed.
+	This is bad! Why are we reconsidering first sets when they couldn't've
+	possibly changed?! Instead, Guardian's implementation uses a todo list.
+	Initially consisting of all the grammar rules. For each grammar rule in
+	the todo list: recalculate it's first set. If it has changed, add the
+	grammar rules that depend on this grammar rule's first set to calculate
+	their own to the todo list. Of course, before this loop can start,
+	an initial pass has to go through the grammar rules and determine which
+	one would depend on which other one's first sets. This approach
+	achieves the same result as the while-changed, but is much faster on
+	large number of grammar rules!
+
+	From there, we have first sets, and we can calculate what tokens to expect to come
+	after a production rule is over, then we can know when we've reached the
+	end of a production rule, and (from earlier) we know how to go back to
+	the parser state to handle the completion of this grammar rule.
+
+	Sometimes the set of tokens that there are reduction transitions can overlap
+	between grammar names. That would mean that the next token can make
+	the parser reduce as more than one grammar rules. This is a reduce/reduce
+	error.
+
+	Similarly Sometimes the set of token there are shift transitions for can overlap with
+	the set of tokens that there are reduction transitions for, in this case
+	the parser generator has an shift/reduce error...
+
+	.. and that's Bison!
+
+	Guardian makes two main modifications to this approach:
+
+	Guardian's grammar rules can function like regular expressions: repetitions
+	and or operators, which result in a state machine, not a series
+	of production rules. We cannot attempt to expand out each the paths
+	of the state machine into a series (many) production rules, because
+	of loops. All of the algorithms described above do not require
+	that a production rule be linear, only that it knows what terminal or
+	nonterminal to expect next, and where to go after it has been read.
+	The first implementation of this feature tried to change the algorithms
+	described above to function on a state machine rather than a series
+	of production rules, but this reached a dead end. In order for a
+	grammar rule to be able to reduce and return back to the parser
+	state that can handle the transition, the reduction needs to know
+	how far back in history to reach. The state machine wouldn't be able
+	to tell how many state transitions go to back because how many states
+	it took to get from the beginning to the end of the machine is dynamic!
+	Bison and the traditional LL parser generation approach requires
+	grammar rules to be a series of production rules with fixed number
+	of states before their end.
+	What Guardian now does for this is it converts the state machine
+	graph into a series of interconnected trees, each tree having a fixed
+	number of transitions from it's root.
+	The way it does this is: iterate through the state machine, and when
+	a state is encountered for a second time (meaning that there were two
+	series of terminals and non-terminals that can reach the same state)
+	that state becomes the start of a new grammar tree and all transitions
+	to that state become invocations of that new grammar.
+	This causes repetition loops to be converted into recursive grammars
+	and it allows for any grammar-rule pattern to be able to be converted
+	into traditional grammar rules without introducing any new shift/reduce
+	or reduce/reduce errors!
+
+	Another change Guardian makes with the traditional approach of parser
+	generators is how the tokenizer is generated.
+
+	Let me tell you first how a traditional tokenizer functions...
+		A tokenizer itself is a regular expression matcher, like grep
+		except it's looking for multiple patterns at the same time.
+		The tokenizer has to not only match the token, but know which
+		token that string is for.
+		Turns the regular expression patterns into NFAs
+		then runs the algorithm for converting NFAs into DFAs
+		but where the initial set of positions includes the start state of
+		each of the NFAs. Typically the algorithm generates states that
+		have a boolean value indicating if they are accepting or not.
+		The NFA-to-DFA algorithm needs to be modified to communicate
+		in each DFA state which NFA caused it to become accepting.
+		That would effectively communicate which token the string is matching.
+		If more than one NFA caused the DFA state to be accepting, then
+		convention is that the earliest regular expression in the input
+		take precedence.
+
+	In Guardian's case, the tokenizer generation is delayed until
+	the middle of parser generation: once the series of positions has been
+	generated, the set of tokens there are token transitions for is
+	generated and passed to the tokenizer generator. The generator
+	looks up each token's NFA and generates a DFA with the algorithm
+	described above. That tokenizer would be the tokenizer the parser
+	would use for that specific state. A new tokenizer is generated
+	for each parser state, this way, tokens that would not be valid in
+	the current context would not be searched for.
+	Guardian's tokenizer generator handles the overlap of
+	multiple NFAs accepting
+	the given string at the same time differently: Instead of giving the
+	first one precedence, the tokenizer allows for multiple tokens to be matched
+	at the same time. The tokenizer communicates which set of tokens overlap
+	to the parser, and the parses uses a modified version of
+	the LL parser generator, treating the set of tokens from the tokenizer
+	in place of tokens.
+
+	The final layout for the structure of Guardian's parser generator is
+	this:
+
+	- For each user-defined grammar rule:
+		- convert into a series of trees.
+
+	- calculate the first sets for all of the trees
+
+	- create a mapping from sets of grammar positions to parser states
+
+	- for each parser statement:
+		- add the initial position to a set
+		
+		- expand the set of positions using the steps described above
+		
+		- create new parser state,
+		
+		- add to map assiiocation bewteen set of positions and new parser state.
+		
+		- add new parser state and set of positions to todo list.
+
+	- while todo list is not empty:
+		- take the current parser state and set of positions off the todo list
+		
+		- make a list of all the tokens used in all positions in the set
+		- make another list of all of the shift tokens used in all positions in the set
+		- make another list of all of the reduce tokens used in all positions in the set
+		- make another list of all of the grammar rules there are transitions
+			for in all the positions in the set.
+		
+		- invoke the tokenizer generator on that list.
+			// This will return
+			// a reference to the start state of the state machine,
+			// as well as a set of sets of tokens.
+			// Each set of tokens represents a token transition the parser needs
+			// to create a transition for. For instance, if the set of strings that
+			// would match as token 1 are disjoint to the set of the strings
+			// that would match as token 2, then the returned set would
+			// consist of a set of token 1, and a set of token 2.
+			// If there were some strings that overlapped bewteen the two
+			// tokens, but the tokens still had strings of their own, then
+			// the return set would consist of a set of token 1, a set of
+			// token 2 and a set of token 1 and 2.
+		
+		- for each set in the of the set of set of tokens:
+			- is the first token in the shift token set or the reduce token set?
+			- shift:
+				- create a new set of positions
+				- for each token in the token set:
+					- for each position in the current set:
+						- does this position have a shift transition for this token?
+						- if so: add destination of transition to set of new
+							positions
+				- expand new set of positions
+				- does this already exist in the mapping?
+				- if so:
+					- create a new transition from parser state to the parser
+						state in the mapping transitioning on this token set
+				- otherwise:
+					- create a new mapping form this new set of position
+						to a brand new parser state
+					- create a new transition from the current parser
+						state to the new one
+					- add new parser state and new position set to todo list
+			- reduce:
+				- for each token in the token set:
+					- for each position int the current set:
+						- does this position have a reduce transition for this
+							token?
+						- if so:
+							- is it the first one?
+								- save grammar rule name
+							- otherwise:
+								- check that the grammar rule matches
+									the saved grammar rule
+				- create a new reduction transition of the saved grammar
+					rule name on this set of tokens.
+		
+		- for each grammar in the set of grammars:
 			- create a new set of positions
-			- for each token in the token set:
-				- for each position in the current set:
-					- does this position have a shift transition for this token?
-					- if so: add destination of transition to set of new
-						positions
-			- expand new set of positions
-			- does this already exist in the mapping?
+			- iterate through the current set of positions:
+				- does this position have a grammar transition for this grammar?
+				- if so, add it to the new set of positions
+			- expand the set of positions has described earlier
+			- does the new set of positions already exist in the mapping?
 			- if so:
-				- create a new transition from parser state to the parser
-					state in the mapping transitioning on this token set
+				- add a grammar transition from the current parser state
+					to the parser state in the mapping on the grammar name
 			- otherwise:
-				- create a new mapping form this new set of position
-					to a brand new parser state
-				- create a new transition from the current parser
-					state to the new one
-				- add new parser state and new position set to todo list
-		- reduce:
-			- for each token in the token set:
-				- for each position int the current set:
-					- does this position have a reduce transition for this
-						token?
-					- if so:
-						- is it the first one?
-							- save grammar rule name
-						- otherwise:
-							- check that the grammar rule matches
-								the saved grammar rule
-			- create a new reduction transition of the saved grammar
-				rule name on this set of tokens.
-	
-	- for each grammar in the set of grammars:
-		- create a new set of positions
-		- iterate through the current set of positions:
-			- does this position have a grammar transition for this grammar?
-			- if so, add it to the new set of positions
-		- expand the set of positions has described earlier
-		- does the new set of positions already exist in the mapping?
-		- if so:
-			- add a grammar transition from the current parser state
-				to the parser state in the mapping on the grammar name
-		- otherwise:
-			- create a new parser state
-			- add a mapping from the new set of positions to the new
-				parser state
-			- add the parser state and it's positions to the todo list
+				- create a new parser state
+				- add a mapping from the new set of positions to the new
+					parser state
+				- add the parser state and it's positions to the todo list
 
-This will result in a state machine that is transitioning on sets of tokens.
-During source code generation, the sets of tokens will be replaced with
-ids, and Guardian will change the tokenizers to use those ids when
-communicating when they've read while they're getting turned into source
-code.
-\end{verbatim}
+	This will result in a state machine that is transitioning on sets of tokens.
+	During source code generation, the sets of tokens will be replaced with
+	ids, and Guardian will change the tokenizers to use those ids when
+	communicating when they've read while they're getting turned into source
+	code.
+	\end{verbatim}
 }
 
 
