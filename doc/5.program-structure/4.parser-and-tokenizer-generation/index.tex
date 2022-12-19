@@ -6,585 +6,257 @@
 		This part took the most amount of time to write
 		and debug out of any of the of major components of Guardian.
 	
-	Most (textual) (computer) languages have an hierarchical structure to
-		their content. An easy example of this is JSON files. JSON files
-		can articulate almost any structure of data through appropriately
-		nesting the constructs of the language. For example an
-		integer list of lists of lists can be
-		given as \texttt{[[[1, 2], [3, 4]]]} (The list syntax contains the list
-		syntax that contains two instances of the list syntax each containing two
-		integer value syntax). Any JSON parser would have to
-		keep track of the hierarchy of the syntaxes that it is reading
-		in order to fully
-		understand what it read. The rules for what possible structures the
-		parser may have to construct when parsing is communicated
-		through its grammar rules. A (simplified) grammar rule for
-		JSON is given below:
-\begin{lstlisting}[texcl=true, language=MAIA]
-json
-	: "true"
-	| "false"
-	| /['0'-'9']+/
-	| "[" (json ("," json)*)? "]";
-\end{lstlisting}
-		The structure of the `json' grammar rule implies that integer values
-		may be read inside of a list value, due to the `json' grammar rule
-		being referenced inside the fourth grammar-rule case.
-		Part of the responsibility of a parser generator is to deduce all of the
-		rules about all of the possible structures the parser will be expected
-		to produce, and to ensure the generated parser
-		makes the correct decisions about how to use and maintain the data
-		structures needed for keeping track of this hierarchy while parsing.
+	Guardian makes two major changes to the traditional way LL(1) parsers
+	and tokenizers are generated:
 	
-	Another key concept is the tokenizer. A tokenizer makes tokens out of
-		the characters read from a file or stream.
-		A token is an as indivisible ``atom'' of
-		the language. Most tokens span multiple characters.
-		To use the JSON example from earlier, \texttt{true}
-		and \texttt{false} are tokens, because the structure of the language
-		will accept either as a boolean value. Notice that even if
-		the space character is set to be \texttt{\%skip}-ped by the parser,
-		neither \texttt{tru e} or \texttt{fal se} would be accepted, because
-		the characters that make up a token cannot be separated. The job of the
-		tokenizer is to read characters and
-		attempt to match them against the rules it was given for what various
-		valid tokens can look like, and to communicate to the parser what
-		tokens were read.
-		Typically these rules are given as regular expression patterns rather
-		than strings, because there are some atoms of the language that
-		are more complex than a keyword, such as integer
-		literals (\texttt{[`0'-`9']+}) or variable
-		names (\texttt{[`a'-`z', `A'-`Z'][`a'-`z', `A'-`Z', `0'-`9']*}).
-		Flex and Lex are both commonly-used
-		tokenizer generators that read in their list of patterns from a file.
-		One way to think about it is that a
-		traditional tokenizer has a similar behavior
-		to that of \texttt{grep}, except instead of searching for one pattern, it
-		searches for many patterns at the same time.
-		If multiple patterns match a string, convention gives patterns listed
-		earlier in the pattern higher precedence.
-		The responsibility of
-		the tokenizer generator is to consider the tokens that
-		are expected to be read and the rules that each token has for being
-		recognized and to generate the code for processing the characters
-		and reporting to the parser the tokens that were found.
-	
-	Before discussing the design of traditional
-		tokenizer and parser generators, how a regular expression
-		pattern is converted into a state machine should be reviewed.
-	
-	\subsection{Regular Expression Pattern to State Machine}
+	\begin{enumerate}
 	{
-		A regular expression pattern is a way of notating or
-		describing an (typically very large or infinite)
-		\textit{language} succinctly. A \textit{language} (from computer theory)
-		refers to a set of strings. Regular expressions cannot articulate
-		any language, only \textit{regular} languages. A regular language
-		can be defined in many ways, one way is that a language
-		is "regular" if and only if there is a Deterministic Finite Automata (DFA)
-		that exists that would \textit{accept} all strings in the language,
-		and \textit{reject} all others.
-		A DFA is a flowchart
-		where the locations are called \textit{states},
-		where every state transitions on letters of the input string, and
-		where each state can be either \textit{accepting} or \textit{rejecting}.
-		The determination
-		of whether or not a string is accepted by a DFA is done by following
-		the transitions corresponding to each letter of the string,
-		and checking to see if the destination state is accepting or
-		rejecting. For example, the DFA in
-		figure 5.1 would accept the strings \textit{aaabbc}
-		($q_0 \to q_1 \to q_4 \to q_1 \to q_2 \to q_5 \to q_6$),
-		\textit{abcc} and \textit{aabbcc} and would reject the strings
-		\textit{abc}, \textit{abcabc} and \textit{aaabbbccc}. Every
-		regular expression can be converted into a DFA, and every DFA can be
-		converted into a regular expression pattern. The former will be
-		discussed now.
-		
-		\begin{figure}
-			\begin{center}
-				\begin{tikzpicture}[shorten >=1pt,node distance=2cm,auto]
-					\node[state,initial] (q_0) {$q_0$};
+		\item Grammar rules are not a series of production rules, as is
+			typical for parser generators. Guardian grammar rules are
+			described using a \textit{pattern}, having repetition
+			operators and or operators.
+			The pattern is converted into a NFA-like automata, where instead
+			of transitioning on characters of input, the automata transitions
+			on terminals or nonterminals. The automata is converted into a
+			DFA, and then simplified. From there, a process to create an
+			equivalent series of grammar rules that would be compatible
+			with traditional LL(1) parser generation is done. Notice
+			that traditional parser generation does not require each grammar
+			rule to be a set of linear production rules, all that is required
+			is that each state of the grammar rule has
+			deterministic transitions to other states,
+			and that reductions know how far back to reduce.
+			A trie data structure meets these needs and is used instead.
+			Any state of the graph that can be reached from the start state
+			using two or more different series of transitions becomes
+			the start of a
+			new trie,
+			and any other state that originally reached that state gains a
+			nonterminal transition to the new trie. An example of this
+			conversion is shown in figure 5.1 (before), and figure 5.2 (after).
+			
+			\begin{figure}
+				\begin{center}
+					\begin{tikzpicture}[
+						style={font=\vphantom{Ag}},
+						shorten >=1pt,
+						node distance=2cm,
+					]
+					
+					\node[state, initial] (q_0) [] {$q_0$};
 					
 					\node[state] (q_1) [right of=q_0] {$q_1$};
-					
+
 					\node[state] (q_2) [right of=q_1] {$q_2$};
-					
+
 					\node[state] (q_3) [right of=q_2] {$q_3$};
-					
+
 					\node[state] (q_4) [below of=q_1] {$q_4$};
-					
+
 					\node[state] (q_5) [right of=q_4] {$q_5$};
+
+					\node[state, accepting](q_6) [right of=q_5] {$q_6$};
+
+					\path[->]
+						(q_0)
+							edge node [above] {$a$} (q_1)
+
+						(q_1)
+							edge node [above] {$b$} (q_2)
+							edge [bend right=25] node [left] {$a$} (q_4)
+
+						(q_2)
+							edge node [above] {$c$} (q_3)
+							edge [bend right=25] node [left] {$b$} (q_5)
+
+						(q_3)
+							edge [bend right=25] node [left] {$c$} (q_6)
+
+						(q_4)
+							edge node [above] {$b$} (q_5)
+							edge [bend right=25] node [right] {$a$} (q_1)
+
+						(q_5)
+							edge node [above] {$c$} (q_6)
+							edge [bend right=25] node [right] {$b$} (q_2)
+
+						(q_6)
+							edge [bend right=25] node [right] {$c$} (q_3)
+					;
+				
+					\end{tikzpicture}
+				\end{center}
+
+				\caption{A grammar rule state machine that
+				accepts the inputs made up of one or more \textit{a} tokens,
+				one or more \textit{b} tokens, and one or more \textit{c}
+				tokens of even length.}
+			\end{figure}
+		
+			\begin{figure}
+				\begin{center}
+					\begin{tikzpicture}[
+						style={font=\vphantom{Ag}},
+						shorten >=1pt,
+						node distance=1.5cm,
+					]
 					
-					\node[state,accepting](q_6) [right of=q_5] {$q_6$};
+					\node[state, initial, initial text=start] (q_0) at (0, 0) [] {$q_0$};
+					
+					\node[state] (q_01) at (1.5, 0) {$q_{0_{1}}$};
+					
+					\node[state, accepting] (q_02) at (3, 0) {$q_{0_{2}}$};
+					
+					\node[state, initial, initial text=$q_1$] (q_1)
+						at (5, -2.5) {$q_1$};
+					
+					\node[state] (q_4) at (6.5, -1.5) {$q_4$};
+					
+					\node[state] (q_41) at (8, -0.5) {$q_{4_1}$};
+					
+					\node[state, accepting] (q_42) at (9.5, -0.5) {$q_{4_2}$};
+					
+					\node[state] (q_43) at (8, -2.5) {$q_{4_3}$};
+					
+					\node[state, accepting] (q_44) at (9.5, -2.5) {$q_{4_4}$};
+					
+					\node[state] (q_11) at (6.5, -3.5) {$q_{1_1}$};
+					
+					\node[state, accepting] (q_12) at (8.75, -3.5) {$q_{1_2}$};
+					
+					\node[state, initial, initial text=$q_2$] (q_2) at (0, -2.5) {$q_2$};
+					
+					\node[state] (q_21) at (1.5, -1.5) {$q_{2_1}$};
+					
+					\node[state, accepting] (q_22) at (3, -1.5) {$q_{2_2}$};
+					
+					\node[state] (q_23) at (1.5, -3.5) {$q_{2_3}$};
+					
+					\node[state, accepting] (q_24) at (3, -3.5) {$q_{2_4}$};
+					
+					\node[state, initial, initial text=$q_3$] (q_3) at (0, -5) {$q_3$};
+					
+					\node[state, accepting] (q_31) [right of=q_3] {$q_{3_1}$};
+					
+					\node[state, accepting] (q_32) [right of=q_31] {$q_{3_2}$};
+					
+					\node[state, initial, initial text=$q_5$] (q_5) at (5, -6) {$q_5$};
+					
+					\node[state] (q_51) at (6.5, -5) {$q_{5_1}$};
+					
+					\node[state, accepting] (q_52) [right of=q_51] {$q_{5_2}$};
+					
+					\node[state, accepting] (q_53) at (6.5, -7) {$q_{5_3}$};
+					
+					\node[state, accepting] (q_54) [right of=q_53] {$q_{5_4}$};
+					
+					\node[state, initial, initial text=$q_6$] (q_6) at (0, -7) {$q_6$};
+					
+					\node[state] (q_61) [right of=q_6] {$q_{6_1}$};
+					
+					\node[state, accepting] (q_62) [right of=q_61] {$q_{6_2}$};
 					
 					\path[->]
 						(q_0)
-							edge node {$a$} (q_1)
+							edge node [above] {$a$} (q_01)
+						
+						(q_01)
+							edge node [above] {$q_1$} (q_02)
 						
 						(q_1)
-							edge node {$b$} (q_2)
-							edge [bend right=25] node [swap] {$a$} (q_4)
+							edge node [above left] {$a$} (q_4)
+							edge node [above right] {$b$} (q_11)
+						
+						(q_4)
+							edge node [above left] {$a$} (q_41)
+							edge node [above right] {$b$} (q_43)
+							
+						(q_41)
+							edge node [above] {$q_1$} (q_42)
+						
+						(q_43)
+							edge node [above] {$q_5$} (q_44)
+						
+						(q_11)
+							edge node [above] {$q_2$} (q_12)
 						
 						(q_2)
-							edge node {$c$} (q_3)
-							edge [bend right=25] node [swap] {$b$} (q_5)
+							edge node [above left] {$b$} (q_21)
+							edge node [below left] {$c$} (q_23)
+							
+						(q_21)
+							edge node [above] {$q_5$} (q_22)
+							
+						(q_23)
+							edge node [above] {$q_3$} (q_24)
 							
 						(q_3)
-							edge [bend right=25] node [swap] {$c$} (q_6)
+							edge node [above] {$c$} (q_31)
 							
-						(q_4)
-							edge node {$b$} (q_5)
-							
-							edge [bend right=25] node [swap] {$a$} (q_1)
+						(q_31)
+							edge node [above] {$q_6$} (q_32)
 							
 						(q_5)
-							edge node {$c$} (q_6)
-							edge [bend right=25] node [swap] {$b$} (q_2)
+							edge node [above left] {$b$} (q_51)
+							edge node [below left] {$c$} (q_53)
+							
+						(q_51)
+							edge node [above] {$q_2$} (q_52)
+							
+						(q_53)
+							edge node [above] {$q_6$} (q_54)
 						
 						(q_6)
-							edge [bend right=25] node [swap] {$c$} (q_3)
+							edge node [above] {$c$} (q_61)
 							
-						;
+						(q_61)
+							edge node [above] {$q_3$} (q_62)
+					;
 					
-				\end{tikzpicture}
-			\end{center}
+					\end{tikzpicture}
+				\end{center}
+				
+				\caption{A set of interconnected tries that would accept
+					the same series of tokens of figure 5.1.}
+			\end{figure}
+		
+		\item Tokenizers are generated per parser state, each only scanning
+			of the tokens that would be valid to read next, thus
+			creating parser context-aware tokenization.
+			This (mostly) eliminates the concern of a token in one context never
+			getting recognized by the tokenizer due to another token that accepts
+			the same strings from another context. The misrecognized token would
+			lead to a erroneous syntax error being thrown by the parser.
 			
-			\caption{A Deterministic Finite Automata that
-				accepts the strings made up of one or more \textit{a}'s,
-				one or more \textit{b}'s, and one or more \textit{c}'s
-				of even length.}
-		\end{figure}
-		
-		Regular expression patterns are made up of character sets,
-		character literals, string literals, and zero or more uses of
-		repetition operators (\texttt{?} (zero or one),
-		\texttt{+} (one or more) and \texttt{*} (zero or more)),
-		the or operator (\texttt{|}), and concatenation. With these operators
-		laid out like this, conversion to a DFA may not seem so clear;
-		other than character literals, string literals and perhaps concatenation,
-		the behaviors that the operators have do not seem to be
-		ones that a DFA can possibly accommodate with only
-		one character of forethought.
-		How would a DFA created with the pattern \texttt{("abc")* "ab"} know which
-		\textit{a} should cause the DFA to break out of the loop?
-		Or how would the DFA from the
-		pattern \texttt{"xyz"|"xyw"} know which branch to take
-		at the \textit{x}?
-		
-		
-		
-		\begin{figure}
-			\begin{center}
-				\begin{tikzpicture}[
-					style={font=\vphantom{Ag}},
-%					shorten >=1pt,
-%					node distance=1cm,
-					inner sep=0pt,
-					minimum size=0.0cm
-					]
-					
-					\node[] at ( 0, 0) {\textit{a}};
-					\node[] at ( 1, 0) {(};
-					\node[] at ( 2, 0) {\textit{a}};
-					\node[] at ( 3, 0) {\textit{b}};
-					\node[] at ( 4, 0) {\textit{x}};
-					\node[] at ( 5, 0) {$|$};
-					\node[] at ( 6, 0) {\textit{a}};
-					\node[] at ( 7, 0) {\textit{b}};
-					\node[] at ( 8, 0) {\textit{y}};
-					\node[] at ( 9, 0) {)+};
-					\node[] at (10, 0) {\textit{a}};
-					\node[] at (11, 0) {\textit{b}};
-					\node[] at (12, 0) {\textit{z}};
-					
-					\node[state,initial] (q0) at (-0.5, -2) {$q_0$};
-					
-					\node[state] (q1) at (+0.5, -2) {$q_1$};
-					
-					\node[state] (q2) at (+1.5, -1.3) {$q_2$};
-					\node[state] (q3) at (+2.5, -1.3) {$q_3$};
-					\node[state] (q4) at (+3.5, -1.3) {$q_4$};
-					\node[state] (q5) at (+4.5, -1.3) {$q_5$};
-					
-					\node[state] (q6) at (+5.5, -2.7) {$q_6$};
-					\node[state] (q7) at (+6.5, -2.7) {$q_7$};
-					\node[state] (q8) at (+7.5, -2.7) {$q_8$};
-					\node[state] (q9) at (+8.5, -2.7) {$q_9$};
-					
-					\node[state] (q10) at ( +9.5, -2) {$q_{10}$};
-					\node[state] (q11) at (+10.5, -2) {$q_{11}$};
-					\node[state] (q12) at (+11.5, -2) {$q_{12}$};
-					\node[state,accepting] (q13) at (+12.5, -2) {$q_{13}$};
-					
-					\path[-latex]
-						(q0)
-							edge [bend right=65] node [below] {$a$} (q1)
-						
-						(q1)
-							edge [bend  left=65] node [above] {$\lambda$} (q2)
-							
-							edge [bend right=5] node [below] {$\lambda$} (q6)
-							
-						(q2) edge [bend left=65] node [above] {$a$} (q3)
-						
-						(q3) edge [bend left=65] node [above] {$b$} (q4)
-						
-						(q4) edge [bend left=65] node [above] {$x$} (q5)
-						
-						(q5) edge [bend left=5] node [above] {$\lambda$} (q10)
-						
-						(q6) edge [bend right=65] node [below] {$a$} (q7)
-						
-						(q7) edge [bend right=65] node [below] {$b$} (q8)
-						
-						(q8) edge [bend right=65] node [below] {$y$} (q9)
-						
-						(q9) edge [bend right=65] node [below] {$\lambda$} (q10)
-						
-						(q10)
-							edge [bend right=65] node [below] {$a$} (q11)
-							
-							edge node {$\lambda$} (q1)
-						
-						(q11) edge [bend right=65] node [below] {$b$} (q12)
-						
-						(q12) edge [bend right=65] node [below] {$z$} (q13)
-						
-						;
-					
-				\end{tikzpicture}
-			\end{center}
+			However, what if the strings that two tokens in the same context
+			would accept overlap? what about three tokens?
+			The tokenizer generator looks for these situations and attempts to
+			remedy it by effectively creating a new token that matches on
+			the overlapping strings, and communicating to the parser generator
+			the additional token. The parser generator will create a new
+			token transition to a new parser state representing reading either
+			of the overlapping tokens. The generator then considers any other
+			transition from the new parser state, and possibly creates even more
+			new parser states, etc. Keep in mind, due to overlaps
+			between tokens, the parser
+			generator may encounter a shift/reduce or reduce/reduce error
+			that it wouldn't otherwise. In such a case, the input file
+			should be improved!
 			
-			\caption{A visual comparison bewteen a regular expression pattern
-				and the NFA it produces}
-		\end{figure}
-		
-		
-		
-		Patterns are turned into nondeterministic finite automata
-		Like these:
-			...
-		
-		This string can be processed on them like this:
-			...
-		
-		
-		Psudecode for the alogrthim for handling this conversion can be given
-		like this:
-		{
-		}
-		
-		We need something deterministic, so we need to convert it.
-		Notice that not knowing where we are can be quanitified and catgorized.
-		notice that we at least know how we go from not knowing it's in a certain
-		set of positions to not knowing if it's in a differetn set of positions.
-		We can make a new state representing the the set of states it could
-		be in, and create transitions for those.
-		
-		Given the example above, we can do this:
-		
-		This string can be processed on this like this:
-			...
-		
-		Psudecode for the alogrthim for handling this conversion can be given
-		like this:
-		{
-		}
-		
-		Sometimes just using these two algorthims isn't always perfect.
-		The state machine works and accepts or rejects the strings it should,
-		but the state machine features more states than nessary.
-		
-		For instance, if this change was made, the state machine would function
-		the same way, but take less memory.
-		
-		To be clear this additional algorthim is optional: it does result in
-		a functioning state machine, but the regular expressions that
-		Guardian encounters are sometimes very, very large and require too much
-		on the checker's runtime.
-		
-		To determine which states can be removed, we need to find which states
-		it could replace. States are useful because of the transitions they
-		connects to, so two states are effectively equalivent if all possible
-		transitions that can be taken from those two states will always
-		reach to states that are also equalivent.
-		
-		The traditional algorthim goes like this:
-			...
-		
-		Here's an example of the traditional algorithm running on this state
-		machine:
-			...
-		
-		The order of complexity is...
-		
-		In real-world examples, this algorithm has been given state machines
-		that have consisted of tens of thousands
-		of states, and this at this complexity, Guardian has taken hours.
-		We don't have time for that, so need something that wastes less time.
-		So this is what we do: ...
-		
-		This digression on how regular expressions are processed is useful
-		to have in mind when reading about tokenizer and parser generators,
-		because both algorthims use these design elements.
+			The two methods above for handling overlaps between tokens
+			completely eliminates the concern for misrecognized tokens,
+			and offers a more flexible and capable parser with no additional
+			work on runtime.
 	}
+	\end{enumerate}
 	
-	\subsection{Traditional Tokenizer Generators}
-	{
-		Let me tell you first how a traditional tokenizer functions...
-		A tokenizer itself is a regular expression matcher, like grep
-		except it's looking for multiple patterns at the same time.
-		The tokenizer has to not only match the token, but know which
-		token that string is for.
-		Turns the regular expression patterns into NFAs
-		then runs the algorithm for converting NFAs into DFAs
-		but where the initial set of positions includes the start state of
-		each of the NFAs. Typically the algorithm generates states that
-		have a boolean value indicating if they are accepting or not.
-		The NFA-to-DFA algorithm needs to be modified to communicate
-		in each DFA state which NFA caused it to become accepting.
-		That would effectively communicate which token the string is matching.
-		If more than one NFA caused the DFA state to be accepting, then
-		convention is that the earliest regular expression in the input
-		take precedence.
-
-	}
-	
-	\subsection{Traditional LL(1) Parser Generators}
-	{
-		In a similar way parser generators need to maintain a mapping from
-		the set of positions the parser can currently be to parser states.
-		
-		Traditional grammar rules are different from Guardian's, they are a series
-		of ``production rules" that are a fixed series of either "terminals" or
-		"nonterminals" (tokens or references to other grammar rules).
-		
-		Another position is added to set of positions whenever a position before
-		a grammar rule is encountered...
-		There's a while-changed loop that iterates over the set of positions
-		looking for ones that are expecting a grammar rule next, then the initial
-		positions of all of the production rules of the referenced grammar rule
-		are added. Then you run the loop again.
-		This is bad, why are we checking the same terminal positions in the set
-		multiple times?! Instead, Guardian's implementation uses a todo list of
-		the positions to consider. Initially the todo list contains all of the
-		initial positions of the set, then for each position: they are checked
-		if they come before a grammar rule, if not they are removed. If so,
-		the new positions are added to the set and added to the todo list.
-		Since the set contains only unique positions and a new position isn't
-		added to the todo list unless it was new to the set, the same position
-		is never considered twice! the results are the same of the while-changed
-		implementation except this implementation is much faster!
-
-		Transitions can then be added between these deterministic parser states.
-		Parser states have token transitions and have grammar transitions.
-		
-		However, the parser will eventually reach the end of a grammar rule
-		and will need to go back to the state that had a grammar transition for
-		the grammar we reached the end of.
-		
-		Also: how can the parser tell when reached the end?
-		For instance: `A: 1 2 3 | 1 2 3 4;` or `S: A 3 | B 4; A: 1 2; B: 1 2;`
-		For each position we need to maintain a list of tokens that we read
-		while at the end of the parser would indicate that the end was reached.
-		
-		In order to do that we need to know which tokens to expect after reading
-		a grammar rule....
-		
-		In order to know that we need to know which tokens to expect to start
-		a grammar rule...
-		
-		Before the main parser generation happens, we build the first sets of
-		each of the grammar rules. Each first set is equal to the set of tokens
-		that begin the production rules unioned with the first sets of the grammars
-		that begin the production rules. This is done in a while-changed.
-		This is bad! Why are we reconsidering first sets when they couldn't've
-		possibly changed?! Instead, Guardian's implementation uses a todo list.
-		Initially consisting of all the grammar rules. For each grammar rule in
-		the todo list: recalculate it's first set. If it has changed, add the
-		grammar rules that depend on this grammar rule's first set to calculate
-		their own to the todo list. Of course, before this loop can start,
-		an initial pass has to go through the grammar rules and determine which
-		one would depend on which other one's first sets. This approach
-		achieves the same result as the while-changed, but is much faster on
-		large number of grammar rules!
-
-		From there, we have first sets, and we can calculate what tokens to expect to come
-		after a production rule is over, then we can know when we've reached the
-		end of a production rule, and (from earlier) we know how to go back to
-		the parser state to handle the completion of this grammar rule.
-
-		Sometimes the set of tokens that there are reduction transitions can overlap
-		between grammar names. That would mean that the next token can make
-		the parser reduce as more than one grammar rules. This is a reduce/reduce
-		error.
-
-		Similarly Sometimes the set of token there are shift transitions for can overlap with
-		the set of tokens that there are reduction transitions for, in this case
-		the parser generator has an shift/reduce error...
-
-		.. and that's Bison!
-	
-	}
-	
-	\subsection{Modifications to Tradition}
-	{
-		Guardian makes two main modifications to this approach:
-		
-		Guardian's grammar rules can function like regular expressions: repetitions
-		and or operators, which result in a state machine, not a series
-		of production rules. We cannot attempt to expand out each the paths
-		of the state machine into a series (many) production rules, because
-		of loops. All of the algorithms described above do not require
-		that a production rule be linear, only that it knows what terminal or
-		nonterminal to expect next, and where to go after it has been read.
-		The first implementation of this feature tried to change the algorithms
-		described above to function on a state machine rather than a series
-		of production rules, but this reached a dead end. In order for a
-		grammar rule to be able to reduce and return back to the parser
-		state that can handle the transition, the reduction needs to know
-		how far back in history to reach. The state machine wouldn't be able
-		to tell how many state transitions go to back because how many states
-		it took to get from the beginning to the end of the machine is dynamic!
-		Bison and the traditional LL parser generation approach requires
-		grammar rules to be a series of production rules with fixed number
-		of states before their end.
-		What Guardian now does for this is it converts the state machine
-		graph into a series of interconnected trees, each tree having a fixed
-		number of transitions from it's root.
-		The way it does this is: iterate through the state machine, and when
-		a state is encountered for a second time (meaning that there were two
-		series of terminals and non-terminals that can reach the same state)
-		that state becomes the start of a new grammar tree and all transitions
-		to that state become invocations of that new grammar.
-		This causes repetition loops to be converted into recursive grammars
-		and it allows for any grammar-rule pattern to be able to be converted
-		into traditional grammar rules without introducing any new shift/reduce
-		or reduce/reduce errors!
-
-		Another change Guardian makes with the traditional approach of parser
-		generators is how the tokenizer is generated.
-
-		In Guardian's case, the tokenizer generation is delayed until
-		the middle of parser generation: once the series of positions has been
-		generated, the set of tokens there are token transitions for is
-		generated and passed to the tokenizer generator. The generator
-		looks up each token's NFA and generates a DFA with the algorithm
-		described above. That tokenizer would be the tokenizer the parser
-		would use for that specific state. A new tokenizer is generated
-		for each parser state, this way, tokens that would not be valid in
-		the current context would not be searched for.
-		Guardian's tokenizer generator handles the overlap of
-		multiple NFAs accepting
-		the given string at the same time differently: Instead of giving the
-		first one precedence, the tokenizer allows for multiple tokens to be matched
-		at the same time. The tokenizer communicates which set of tokens overlap
-		to the parser, and the parses uses a modified version of
-		the LL parser generator, treating the set of tokens from the tokenizer
-		in place of tokens.
-
-		The final layout for the structure of Guardian's parser generator is
-		this:
-
-		- For each user-defined grammar rule:
-			- convert into a series of trees.
-
-		- calculate the first sets for all of the trees
-
-		- create a mapping from sets of grammar positions to parser states
-
-		- for each parser statement:
-			- add the initial position to a set
-			
-			- expand the set of positions using the steps described above
-			
-			- create new parser state,
-			
-			- add to map assiiocation bewteen set of positions and new parser state.
-			
-			- add new parser state and set of positions to todo list.
-
-		- while todo list is not empty:
-			- take the current parser state and set of positions off the todo list
-			
-			- make a list of all the tokens used in all positions in the set
-			- make another list of all of the shift tokens used in all positions in the set
-			- make another list of all of the reduce tokens used in all positions in the set
-			- make another list of all of the grammar rules there are transitions
-				for in all the positions in the set.
-			
-			- invoke the tokenizer generator on that list.
-				// This will return
-				// a reference to the start state of the state machine,
-				// as well as a set of sets of tokens.
-				// Each set of tokens represents a token transition the parser needs
-				// to create a transition for. For instance, if the set of strings that
-				// would match as token 1 are disjoint to the set of the strings
-				// that would match as token 2, then the returned set would
-				// consist of a set of token 1, and a set of token 2.
-				// If there were some strings that overlapped bewteen the two
-				// tokens, but the tokens still had strings of their own, then
-				// the return set would consist of a set of token 1, a set of
-				// token 2 and a set of token 1 and 2.
-			
-			- for each set in the of the set of set of tokens:
-				- is the first token in the shift token set or the reduce token set?
-				- shift:
-					- create a new set of positions
-					- for each token in the token set:
-						- for each position in the current set:
-							- does this position have a shift transition for this token?
-							- if so: add destination of transition to set of new
-								positions
-					- expand new set of positions
-					- does this already exist in the mapping?
-					- if so:
-						- create a new transition from parser state to the parser
-							state in the mapping transitioning on this token set
-					- otherwise:
-						- create a new mapping form this new set of position
-							to a brand new parser state
-						- create a new transition from the current parser
-							state to the new one
-						- add new parser state and new position set to todo list
-				- reduce:
-					- for each token in the token set:
-						- for each position int the current set:
-							- does this position have a reduce transition for this
-								token?
-							- if so:
-								- is it the first one?
-									- save grammar rule name
-								- otherwise:
-									- check that the grammar rule matches
-										the saved grammar rule
-					- create a new reduction transition of the saved grammar
-						rule name on this set of tokens.
-			
-			- for each grammar in the set of grammars:
-				- create a new set of positions
-				- iterate through the current set of positions:
-					- does this position have a grammar transition for this grammar?
-					- if so, add it to the new set of positions
-				- expand the set of positions has described earlier
-				- does the new set of positions already exist in the mapping?
-				- if so:
-					- add a grammar transition from the current parser state
-						to the parser state in the mapping on the grammar name
-				- otherwise:
-					- create a new parser state
-					- add a mapping from the new set of positions to the new
-						parser state
-					- add the parser state and it's positions to the todo list
-
-		This will result in a state machine that is transitioning on sets of tokens.
-		During source code generation, the sets of tokens will be replaced with
-		ids, and Guardian will change the tokenizers to use those ids when
-		communicating when they've read while they're getting turned into source
-		code.
-	}
 }
+
+
+
+
+
+
 
 
 
