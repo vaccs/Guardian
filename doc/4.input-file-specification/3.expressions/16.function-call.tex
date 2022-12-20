@@ -6,7 +6,7 @@
 	the function itself can also be the result of an expression.
 	The number of parameter expressions must match the number of parameters
 	the lambda expects. The parameter expressions must result in the
-	exact same as the lambda's corresponding parameter.
+	exact same type as the lambda's corresponding parameter.
 	
 	If Guardian can determine the exact value of given lambda and parameters,
 	Guardian
@@ -14,15 +14,15 @@
 	
 	\begin{itemize}
 	{
-		\item[] \texttt{(\$int x, y -> int: x + y)(3, 7)}
+		\item[] \lstinline[language=MAIA, columns=fixed]@($int x, y -> int: x + y)(3, 7)@
 		
 			Results in the integer value 10.
 		
-		\item[] \texttt{(\$->int: 2)()}
+		\item[] \lstinline[language=MAIA, columns=fixed]@($->int: 2)()@
 		
 			Results in the inter value 2.
 		
-		\item[] \texttt{(\$(\$int -> int) f, int x -> int: f(x))(\$int x -> int: x + 3, 7)}
+		\item[] \lstinline[language=MAIA, columns=fixed]@($($int -> int) f, int x -> int: f(x))($int x -> int: x + 3, 7)@
 		
 			Results in the integer value 10.
 	}

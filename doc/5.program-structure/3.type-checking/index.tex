@@ -2,13 +2,14 @@
 \section{Type Checking and Specialization}
 {
 	Type checking and specialization happen at the same time and is done
-	through one pass.
+	in one pass.
 	
 	Type checking verifies that the datatype of the return value of each
 	expression matches the expected type of the larger
 	expression or statement it is within. For instance: the ternary
 	expression's conditional subexpression
-	must return a boolean value, so there is an \texttt{if} statement that will
+	must return a boolean value, so there is an \texttt{if} statement in
+	the type checking code that will
 	abort Guardian's execution and print a message if the result
 	is \textit{not} a boolean value.
 	Guardian's programming language is statically-typed, meaning
@@ -19,9 +20,9 @@
 	of interpreting the expressions
 	against the types of their subexpressions, and allocating new expressions
 	to represent more accurately the work that needs to be done.
-	For instance, Zebu's parse-tree may
-	indicate that there is an addition expression, and---through specializing
-	its subexpressions---it is determined they would both return
+	For instance, the specialization traversal may encounter in
+	Zebu's parse-tree an addition expression and through specializing
+	the subexpressions it is determined they would both return
 	list values. After checking that the element types of both lists are the
 	same, a new list-concatenation expression is created.
 	If all subexpressions are literals, meaning that their result is a known
@@ -38,9 +39,10 @@
 	specialized, then the body is specialized.
 	
 	When specializing a variable-use expression, Guardian checks if the
-	variable being used was declared using a literal expression. If that
+	variable being used was declared with a literal expression. If that
 	is the case, the variable usage is replaced with a new literal expression
-	of the same value. This effectively eliminates variables to constants.
+	of the same value. This effectively eliminates variables that can be
+	constant folded. 
 	
 	An expression can refer to a variable before the variables declaration,
 	this is very useful for recursive functions, but it also means that
@@ -60,8 +62,8 @@
 	to specialized expressions. Parse statements check that their
 	specialized expression for their path results in a string type, error
 	otherwise. Assertions check that their specialized expression results
-	in a boolean value, error otherwise. If the conditional is a literal
-	true boolean value the assertion is removed.
+	in a boolean value, error otherwise. If the conditional can be
+	constant-folded to true then the assertion is removed.
 }
 
 

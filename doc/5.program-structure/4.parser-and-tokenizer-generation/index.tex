@@ -2,18 +2,20 @@
 \section{Parser and Tokenizer Generation}
 {
 	The generation of the parser and tokenizer is the most
-		algorithmically complex part of Guardian.
-		This part took the most amount of time to write
-		and debug out of any of the of major components of Guardian.
-	
-	Guardian makes two major changes to the traditional way LL(1) parsers
+	algorithmically complex part of Guardian.
+	This part took the most time to write
+	and debug of all of the components of Guardian.
+	Tokenizer generators are difficult to write, parser generators even more
+	so.
+	Guardian makes two major changes to the traditional
+	way \href{https://en.wikipedia.org/wiki/LL_parser}{LL(1) parsers}
 	and tokenizers are generated:
 	
 	\begin{enumerate}
 	{
 		\item Grammar rules are not a series of production rules, as is
 			typical for parser generators. Guardian grammar rules are
-			described using a \textit{pattern}, having repetition
+			described using a \textit{pattern}, having nested repetition
 			operators and or operators.
 			The pattern is converted into a NFA-like automata, where instead
 			of transitioning on characters of input, the automata transitions
@@ -33,7 +35,8 @@
 			new trie,
 			and any other state that originally reached that state gains a
 			nonterminal transition to the new trie. An example of this
-			conversion is shown in figure 5.1 (before), and figure 5.2 (after).
+			conversion is shown in figure 5.1 (before conversion), and
+			figure 5.2 (after conversion).
 			
 			\begin{figure}
 				\begin{center}
@@ -221,15 +224,16 @@
 			\end{figure}
 		
 		\item Tokenizers are generated per parser state, each only scanning
-			of the tokens that would be valid to read next, thus
+			for the tokens that would be valid to read next, thus
 			creating parser context-aware tokenization.
-			This (mostly) eliminates the concern of a token in one context never
-			getting recognized by the tokenizer due to another token that accepts
+			This eliminates the concern of a token in one context never
+			getting any matches by the tokenizer due to another token
+			that accepts
 			the same strings from another context. The misrecognized token would
 			lead to a erroneous syntax error being thrown by the parser.
 			
 			However, what if the strings that two tokens in the same context
-			would accept overlap? what about three tokens?
+			would accept overlap? What about three tokens?
 			The tokenizer generator looks for these situations and attempts to
 			remedy it by effectively creating a new token that matches on
 			the overlapping strings, and communicating to the parser generator
@@ -239,7 +243,7 @@
 			transition from the new parser state, and possibly creates even more
 			new parser states, etc. Keep in mind, due to overlaps
 			between tokens, the parser
-			generator may encounter a shift/reduce or reduce/reduce error
+			generator may encounter a shift/reduce or reduce/reduce errors
 			that it wouldn't otherwise. In such a case, the input file
 			should be improved!
 			

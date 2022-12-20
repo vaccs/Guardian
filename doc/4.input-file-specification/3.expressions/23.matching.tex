@@ -1,5 +1,5 @@
 
-\subsection{Matching Expression}
+\subsection{Regular-Expression Matching Expression}
 {
 	Regular-expression matching is a kind of expression that results in
 	a boolean value representing whether the given string matches
@@ -10,15 +10,15 @@
 	
 	\begin{itemize}
 	{
-		\item[] \texttt{"abc" =\~{} /"abc"/}
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc" =~ /"abc"/@
 		
 			Results in a true boolean value.
 		
-		\item[] \texttt{"abbccc" =\~{} /'a' 'b'+ 'c'{2,}/}
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abbccc" =~ /'a' 'b'+ 'c'{2,}/@
 		
 			Results in a true boolean value.
 		
-		\item[] \texttt{"abcbbbcbcc" =\~{} /'a' ('b' 'c'?)+/}
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abcbbbcbcc" =~ /'a' ('b' 'c'?)+/@
 		
 			Results in a false boolean value.
 	}

@@ -4,22 +4,22 @@
 	Tuple-Indexing is a kind of expression can be used for accessing elements
 	of a tuple. The index must be a constant integer
 	literal: \texttt{<tuple>.<index>}.
-	The index must be bewteen 0 and the length of the tuple minus 1.
+	The index must be between 0 and the length of the tuple minus 1.
 	
-	If Guardian can determine the exact value of given tuple, Guardian
+	If Guardian can determine the exact value of the given tuple, Guardian
 	will replace the call with the appropriate value literal.
 	
 	\begin{itemize}
 	{
-		\item[] \texttt{(1, 2.0, true).0}
+		\item[] \lstinline[language=MAIA, columns=fixed]@(1, 2.0, true).0@
 		
 			Results in the integer value 1.
 			
-		\item[] \texttt{(1, 2.0, true).1}
+		\item[] \lstinline[language=MAIA, columns=fixed]@(1, 2.0, true).1@
 		
 			Results in the float value 2.0.
 			
-		\item[] \texttt{(1, 2.0, true).2}
+		\item[] \lstinline[language=MAIA, columns=fixed]@(1, 2.0, true).2@
 		
 			Results in the boolean value true.
 	}

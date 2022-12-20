@@ -3,7 +3,7 @@
 {
 	As discussed in the previous section,
 	multiple tokenizers are independently created for
-	each parser state to enable context-sensitive tokenization.
+	each parser state to enable parser context-sensitive tokenization.
 	This feature enables much flexibility in the design of the structure
 	of the language to be parsed, but greatly increases the memory demand
 	of the parser itself. This is especially bad because many
@@ -22,10 +22,17 @@
 	The goal of tokenizer minimization is to ``minimize'' the number of
 	states needed for all of the tokenizers. This is done by running
 	the DFA simplification algorithm on all of the tokenizers of all of the
-	parser context's state machines together,
+	parser contexts' state machines together,
 	causing any redundant states to be combined. This would result
 	in the same behavior as before, but with significantly less memory demand.
 	Running the DFA simplification algorithm on such a large number
 	of state machines can take a long time, so this pass is disabled by
 	default.
 }
+
+
+
+
+
+
+

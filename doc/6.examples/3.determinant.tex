@@ -1,14 +1,13 @@
 
-\section{Calcuating Determinant}
+\section{Calculating Determinant}
 {
-
-This example reads a file consisting of two or more lines of comma-delimited
-integer values. The number of cells in reach row must be equal to the
-number of columns (the matrix must be square).
-The determinant of the matrix must be equal to 1.
+	This example reads a file consisting of two or more lines of comma-delimited
+	integer values. The number of cells in reach row must be equal to the
+	number of columns (the matrix must be square).
+	The determinant of the matrix must be equal to 1.
 
 \begin{lstlisting}[texcl=true, language=MAIA]
-cell: /int: ['0'-'9']+/ #value;
+cell: /int: ['+', '-']? ['0'-'9']+/ #value;
 
 row: cell #cells[] (',' cell #cells[])+;
 

@@ -1,7 +1,7 @@
 
 \subsection{Let Expression}
 {
-	Use of the \texttt{let} keyword can be used as an expression.
+	Use of the \lstinline[language=MAIA, columns=fixed]@let@ keyword can be used as an expression.
 	The let expression allows the creation and assignment
 	of short-lived variables
 	during the evaluation of another expression.
@@ -14,15 +14,15 @@
 	
 	\begin{itemize}
 	{
-		\item[] \texttt{let x = 2, y = x + 3: x + y}
+		\item[] \lstinline[language=MAIA, columns=fixed]@let x = 2, y = x + 3: x + y@
 		
-			Results the integer value 5.
+			Results the integer value 7.
 		
-		\item[] \texttt{let fib = \$int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2): fib(10)}
+		\item[] \lstinline[language=MAIA, columns=fixed]@let fib = $int x -> int: x < 2 ? x : fib(x - 1) + fib(x - 2): fib(10)@
 		
 			Results in the integer value 55.
 		
-		\item[] \texttt{let a = 3, b = \$int x -> int: x + a: b(5)}
+		\item[] \lstinline[language=MAIA, columns=fixed]@let a = 3, b = $int x -> int: x + a: b(5)@
 		
 			Results in the integer value 8.
 	}

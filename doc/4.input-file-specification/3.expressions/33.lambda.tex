@@ -17,26 +17,26 @@
 	
 	\begin{itemize}
 	{
-		\item[] \texttt{\$int x -> int: x + 3}
+		\item[] \lstinline[language=MAIA, columns=fixed]@$int x -> int: x + 3@
 		
 			Results in a lambda value that expects
 			one integer parameter and, when called, produces integer sum
 			of its parameter and 3.
 		
-		\item[] \texttt{\$int x, y, z -> int: x + y + z}
+		\item[] \lstinline[language=MAIA, columns=fixed]@$int x, y, z -> int: x + y + z@
 		
 			Results in a lambda value that expects
 			three integer parameters and, when called, produces the integer sum
 			of its three parameters.
 		
-		\item[] \texttt{\$(\$int -> int) f, int x -> (\$ -> int): \$->int: f(x)}
+		\item[] \lstinline[language=MAIA, columns=fixed]@$($int -> int) f, int x -> ($ -> int): $->int: f(x)@
 		
 			Results in a lambda that expects two parameters:
 			a lambda that expects an integer and produces an integer,
 			and an integer. The lambda results in a lambda that returns the
 			result of calling the given lambda on the given integer.
 		
-		\item[] \texttt{\$int x -> (\$int -> (\$->int)): \$int y -> (\$->int): \$->int: x + y}
+		\item[] \lstinline[language=MAIA, columns=fixed]@$int x -> ($int -> ($->int)): $int y -> ($->int): $->int: x + y@
 		
 			Results in a lambda that expects an integer parameter, and returns
 			a lambda than expects another integer parameter, and returns

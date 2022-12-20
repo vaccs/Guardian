@@ -12,7 +12,7 @@ and requires that the result be equal to 11.
 %skip: ' ' | '\n';
 
 highest
-	: /['0'-'9']+/ #literal
+	: /int: ['+', '-']? ['0'-'9']+/ #literal
 	| '(' add #subexp ')'
 	;
 
@@ -33,7 +33,7 @@ start: add #add;
 
 evalhigh = $highest h -> int:
 	h has literal
-		? int!(h.literal)
+		? h.literal
 		: evaladd(h.subexp);
 
 evalmult = $multiply m -> int:
