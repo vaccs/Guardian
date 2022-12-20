@@ -1,0 +1,280 @@
+
+\section{Parser and Tokenizer Generation}
+{
+	The generation of the parser and tokenizer is the most
+	algorithmically complex part of Guardian.
+	This part took the most time to write
+	and debug of all of the components of Guardian.
+	Tokenizer generators are difficult to write, parser generators even more
+	so.
+	Guardian makes two major changes to the traditional
+	way \href{https://en.wikipedia.org/wiki/LL_parser}{LL(1) parsers}
+	and tokenizers are generated:
+	
+	\begin{enumerate}
+	{
+		\item Grammar rules are not a series of production rules, as is
+			typical for parser generators. Guardian grammar rules are
+			described using a \textit{pattern}, having (possibly nested)
+			repetition
+			operators and or/union operators.
+			The pattern is converted into a NFA-like automata, where instead
+			of transitioning on characters of input, the automata transitions
+			on terminals or nonterminals. The automata is converted into a
+			DFA, and then simplified. From there, a process to create an
+			equivalent series of grammar rules that would be compatible
+			with traditional LL(1) parser generation is done. Notice
+			that traditional parser generation does not require each grammar
+			rule to be a set of linear production rules, all that is required
+			is that each state of the grammar rule has
+			deterministic transitions to other states,
+			and that reductions know how far back to reduce.
+			A \href{https://en.wikipedia.org/wiki/Trie}{trie} data structure meets these needs and is used instead.
+			Any state of the graph that can be reached from the start state
+			using two or more different series of transitions becomes
+			the start of a
+			new trie,
+			and any other state that originally reached that state gains a
+			nonterminal transition to the new trie. An example of this
+			conversion is shown in figure 5.1 (before conversion), and
+			figure 5.2 (after conversion).
+			
+			\begin{figure}
+				\begin{center}
+					\begin{tikzpicture}[
+						style={font=\vphantom{Ag}},
+						shorten >=1pt,
+						node distance=2cm,
+					]
+					
+					\node[state, initial] (q_0) [] {$q_0$};
+					
+					\node[state] (q_1) [right of=q_0] {$q_1$};
+
+					\node[state] (q_2) [right of=q_1] {$q_2$};
+
+					\node[state] (q_3) [right of=q_2] {$q_3$};
+
+					\node[state] (q_4) [below of=q_1] {$q_4$};
+
+					\node[state] (q_5) [right of=q_4] {$q_5$};
+
+					\node[state, accepting](q_6) [right of=q_5] {$q_6$};
+
+					\path[->]
+						(q_0)
+							edge node [above] {$a$} (q_1)
+
+						(q_1)
+							edge node [above] {$b$} (q_2)
+							edge [bend right=25] node [left] {$a$} (q_4)
+
+						(q_2)
+							edge node [above] {$c$} (q_3)
+							edge [bend right=25] node [left] {$b$} (q_5)
+
+						(q_3)
+							edge [bend right=25] node [left] {$c$} (q_6)
+
+						(q_4)
+							edge node [above] {$b$} (q_5)
+							edge [bend right=25] node [right] {$a$} (q_1)
+
+						(q_5)
+							edge node [above] {$c$} (q_6)
+							edge [bend right=25] node [right] {$b$} (q_2)
+
+						(q_6)
+							edge [bend right=25] node [right] {$c$} (q_3)
+					;
+				
+					\end{tikzpicture}
+				\end{center}
+
+				\caption{A grammar rule state machine that
+				accepts the inputs made up of one or more \textit{a} tokens,
+				one or more \textit{b} tokens, and one or more \textit{c}
+				tokens of even length.}
+			\end{figure}
+		
+			\begin{figure}
+				\begin{center}
+					\begin{tikzpicture}[
+						style={font=\vphantom{Ag}},
+						shorten >=1pt,
+						node distance=1.5cm,
+					]
+					
+					\node[state, initial, initial text=start] (q_0) at (0, 0) [] {$q_0$};
+					
+					\node[state] (q_01) at (1.5, 0) {$q_{0_{1}}$};
+					
+					\node[state, accepting] (q_02) at (3, 0) {$q_{0_{2}}$};
+					
+					\node[state, initial, initial text=$q_1$] (q_1)
+						at (5, -2.5) {$q_1$};
+					
+					\node[state] (q_4) at (6.5, -1.5) {$q_4$};
+					
+					\node[state] (q_41) at (8, -0.5) {$q_{4_1}$};
+					
+					\node[state, accepting] (q_42) at (9.5, -0.5) {$q_{4_2}$};
+					
+					\node[state] (q_43) at (8, -2.5) {$q_{4_3}$};
+					
+					\node[state, accepting] (q_44) at (9.5, -2.5) {$q_{4_4}$};
+					
+					\node[state] (q_11) at (6.5, -3.5) {$q_{1_1}$};
+					
+					\node[state, accepting] (q_12) at (8.75, -3.5) {$q_{1_2}$};
+					
+					\node[state, initial, initial text=$q_2$] (q_2) at (0, -2.5) {$q_2$};
+					
+					\node[state] (q_21) at (1.5, -1.5) {$q_{2_1}$};
+					
+					\node[state, accepting] (q_22) at (3, -1.5) {$q_{2_2}$};
+					
+					\node[state] (q_23) at (1.5, -3.5) {$q_{2_3}$};
+					
+					\node[state, accepting] (q_24) at (3, -3.5) {$q_{2_4}$};
+					
+					\node[state, initial, initial text=$q_3$] (q_3) at (0, -5) {$q_3$};
+					
+					\node[state, accepting] (q_31) [right of=q_3] {$q_{3_1}$};
+					
+					\node[state, accepting] (q_32) [right of=q_31] {$q_{3_2}$};
+					
+					\node[state, initial, initial text=$q_5$] (q_5) at (5, -6) {$q_5$};
+					
+					\node[state] (q_51) at (6.5, -5) {$q_{5_1}$};
+					
+					\node[state, accepting] (q_52) [right of=q_51] {$q_{5_2}$};
+					
+					\node[state, accepting] (q_53) at (6.5, -7) {$q_{5_3}$};
+					
+					\node[state, accepting] (q_54) [right of=q_53] {$q_{5_4}$};
+					
+					\node[state, initial, initial text=$q_6$] (q_6) at (0, -7) {$q_6$};
+					
+					\node[state] (q_61) [right of=q_6] {$q_{6_1}$};
+					
+					\node[state, accepting] (q_62) [right of=q_61] {$q_{6_2}$};
+					
+					\path[->]
+						(q_0)
+							edge node [above] {$a$} (q_01)
+						
+						(q_01)
+							edge node [above] {$q_1$} (q_02)
+						
+						(q_1)
+							edge node [above left] {$a$} (q_4)
+							edge node [above right] {$b$} (q_11)
+						
+						(q_4)
+							edge node [above left] {$a$} (q_41)
+							edge node [above right] {$b$} (q_43)
+							
+						(q_41)
+							edge node [above] {$q_1$} (q_42)
+						
+						(q_43)
+							edge node [above] {$q_5$} (q_44)
+						
+						(q_11)
+							edge node [above] {$q_2$} (q_12)
+						
+						(q_2)
+							edge node [above left] {$b$} (q_21)
+							edge node [below left] {$c$} (q_23)
+							
+						(q_21)
+							edge node [above] {$q_5$} (q_22)
+							
+						(q_23)
+							edge node [above] {$q_3$} (q_24)
+							
+						(q_3)
+							edge node [above] {$c$} (q_31)
+							
+						(q_31)
+							edge node [above] {$q_6$} (q_32)
+							
+						(q_5)
+							edge node [above left] {$b$} (q_51)
+							edge node [below left] {$c$} (q_53)
+							
+						(q_51)
+							edge node [above] {$q_2$} (q_52)
+							
+						(q_53)
+							edge node [above] {$q_6$} (q_54)
+						
+						(q_6)
+							edge node [above] {$c$} (q_61)
+							
+						(q_61)
+							edge node [above] {$q_3$} (q_62)
+					;
+					
+					\end{tikzpicture}
+				\end{center}
+				
+				\caption{A set of interconnected tries that would accept
+					the same series of tokens of figure 5.1.}
+			\end{figure}
+		
+		\item Tokenizers are generated per parser state, each only scanning
+			for the tokens that would be valid to read next, thus
+			creating parser context-aware tokenization.
+			This eliminates the concern of a token in one context never
+			getting any matches by the tokenizer due to another token
+			that accepts
+			the same strings from another context. The misrecognized token would
+			lead to a erroneous syntax error being thrown by the parser.
+			
+			However, what if the strings that two tokens in the same context
+			would accept overlap? What about three tokens?
+			The tokenizer generator looks for these situations and attempts to
+			remedy it by effectively creating a new token that matches on
+			the overlapping strings, and communicating to the parser generator
+			the additional token. The parser generator will create a new
+			token transition to a new parser state representing reading either
+			of the overlapping tokens. The generator then considers any other
+			transition from the new parser state, and possibly creates even more
+			new parser states, etc. Keep in mind, due to overlaps
+			between tokens, the parser
+			generator may encounter a shift/reduce or reduce/reduce errors
+			that it wouldn't otherwise. In such a case, the input file
+			should be improved!
+			
+			The two methods above for handling overlaps between tokens
+			completely eliminates the concern for misrecognized tokens,
+			and offers a more flexible and capable parser with no additional
+			work on runtime.
+	}
+	\end{enumerate}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

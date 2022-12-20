@@ -1,0 +1,18 @@
+
+\subsection{Assertion Statement}
+{
+	An assertion checks that a given
+	condition is true and fails if it is not true.
+	The condition must return a boolean type.
+	Any assertion whose condition will always return
+	true is silently ignored.
+	There are three levels of severity: note, warning and error.
+	A failing error-level assertion causes the checker to abort execution.
+	
+	The syntax for error, warning and note assertion statements is:
+	\begin{lstlisting}[numbers=none, texcl = true, language = MAIA]
+%error: <expression>;
+%warning: <expression>;
+%note: <expression>;
+	\end{lstlisting}
+}

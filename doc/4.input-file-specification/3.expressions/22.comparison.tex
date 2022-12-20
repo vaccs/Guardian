@@ -1,0 +1,129 @@
+
+\subsection{Comparison Expression}
+{
+	Comparison is a kind of expression. The comparisons that can be made
+	are equal-to, not-equal-to,
+	less-than, less-or-than-equal-to,
+	greater-than, and greater-or-than-equal-to,
+	whose operator syntax
+	\texttt{==}, \texttt{!=},
+	\texttt{<}, \texttt{<=},
+	\texttt{>}, and \texttt{>=}.
+	
+	Boolean, integer, float, string, list, tuple, set and dictionary values
+	can be compared, not lambda values nor grammar values.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate boolean literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@[true > false, true < false, true == false]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[3 > 2, 3 < 2, 3 == 2]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[3 > 4, 3 < 4, 3 == 4]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[5 > 5, 5 < 5, 5 == 5]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[3.0 > 2.0, 3.0 < 2.0, 3.0 == 2.0]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[3.0 > 4.0, 3.0 < 4.0, 3.0 == 4.0]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[5.0 > 5.0, 5.0 < 5.0, 5.0 == 5.0]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@["b" > "a", "b" < "a", "b" == "a"]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@["ab" > "ac", "ab" < "ac", "ab" == "ac"]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@["d" > "d", "d" < "d", "d" == "d"]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[[1, 2] > [1, 1], [1, 2] < [1, 1], [1, 2] == [1, 1]]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[[2, 3] > [2, 4], [2, 3] < [2, 4], [2, 3] == [2, 4]]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[[3, 1] > [3, 1], [3, 1] < [3, 1], [3, 1] == [3, 1]]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[(1, 2) > (1, 1), (1, 2) < (1, 1), (1, 2) == (1, 1)]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[(2, 3) > (2, 4), (2, 3) < (2, 4), (2, 3) == (2, 4)]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[(3, 1) > (3, 1), (3, 1) < (3, 1), (3, 1) == (3, 1)]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[{2, 1} > {1, 1}, {2, 1} < {1, 1}, {2, 1} == {1, 1}]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[{3, 2} > {4, 2}, {2, 3} < {4, 2}, {2, 3} == {4, 2}]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[{1, 3} > {3, 1}, {3, 1} < {1, 3}, {3, 1} == {1, 3}]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[{2: 7, 1: 7} > {1: 7, 1: 7}, {2: 7, 1: 7} < {1: 7, 1: 7}, {2: 7, 1: 7} == {1: 7, 1: 7}]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[true, false, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[{3: 7, 2: 7} > {4: 7, 2: 7}, {2: 7, 3: 7} < {4: 7, 2: 7}, {2: 7, 3: 7} == {4: 7, 2: 7}]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, true, false]@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@[{1: 7, 3: 7} > {3: 7, 1: 7}, {3: 7, 1: 7} < {1: 7, 3: 7}, {3: 7, 1: 7} == {1: 7, 3: 7}]@
+		
+			Results in the boolean list value \lstinline[language=MAIA, columns=fixed]@[false, false, true]@.
+	}
+	\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

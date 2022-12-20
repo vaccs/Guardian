@@ -1,0 +1,56 @@
+
+\chapter{Input File Specification}
+{
+	A high-level description of the \textit{functionality} of Guardian, separate
+	from its intended application, is that Guardian generates programs that
+	parse data out of files, manipulate that parsed data, and check
+	properties of the data to see whether certain assertions are true.
+	Accordingly, Guardian's input files
+	consist of parse statements, skip directives, grammar rules and regular
+	expressions (for
+	parsing data out of files, and for describing the syntactic structure of
+	the file to be parsed); expressions and variable declarations
+	(for manipulating data); and assertion
+	statements (for---you guessed it---making assertions about the data).
+	
+	Guardian input files can include other files. Guardian treats the
+	include directive as if the content of the referred file were pasted
+	directly in the file doing the including.
+	
+	To aid in debugging the checkers (and Guardian), print
+	statements can be used to print the values of variables or
+	results of expressions. To suppress print statements when running
+	checkers use
+	the \texttt{-q} command-line flag.
+	
+	The sequence in which these statements
+	are listed in the input file determines the
+	order they are executed in the generated checker program.
+	
+	Guardian's programming language is statically-typed, meaning that the
+	datatypes
+	must be known at the time Guardian reads the language and is
+	converting it into C.
+	
+	\subimport{./1.directives/}{index.tex}
+	
+	\subimport{./2.types/}{index.tex}
+	
+	\subimport{./3.expressions/}{index.tex}
+	
+	\subimport{./4.grammar-rules/}{index.tex}
+	
+	\subimport{./5.regular-expressions/}{index.tex}
+	
+	\subimport{./6.character-sets/}{index.tex}
+}
+
+
+
+
+
+
+
+
+
+

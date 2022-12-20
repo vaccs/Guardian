@@ -1,0 +1,36 @@
+
+\subsection{Tuple Type}
+{
+	The tuple type is used to store
+	multiple values of \textbf{mixed} data type,
+	it functions as a generic method for packaging multiple values
+	as one (Think \texttt{struct}s from C).
+	Tuple types are specialized to the number of elements and their element's
+	types. The syntax for referring to a tuple type
+	is \texttt{(<0th-elements-type>, <1th-elements-type>, ... <nth-elements-type>)}.
+	
+	The syntax for a tuple value is to comma separate the elements/fields
+	of the tuple, enclosed in
+	parentheses: \texttt{(<0th-element>, <1th-element>, ... <nth-element>)}.
+	
+	To avoid confusion between normal parentheses
+	and a tuple of one field, a tuple of one field must have an extra comma after
+	the element: \texttt{(<element>, )}.
+	
+	The syntax for an empty tuple is: \texttt{()}.
+	
+	Tuples can be indexed using the
+	syntax: \texttt{<list>.<index>}. The
+	index must be an integer \textbf{constant}.
+	
+	Tuples can be concatenated to each other using the \texttt{+} operator.
+	
+	A tuple is comparable only if all of its elements are comparable (not a lambda).
+	Lexicographical equal-to, not-equal-to, greater-than, greater-than-equal-to,
+	less-than, and less-than-equal-to comparisons
+	can be done on tuple values with
+	the \texttt{==}, \texttt{!=},
+	\texttt{>}, \texttt{>=}, \texttt{<}, and \texttt{<=} respectively.
+	
+	The length of a list value can be found with the \texttt{len!} special form.
+}

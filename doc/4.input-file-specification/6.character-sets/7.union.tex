@@ -1,0 +1,21 @@
+
+\subsection{Union}
+{
+	The `\texttt{|}' or `\texttt{,}' binary operator can be used to
+	quickly take the union between two character sets, each described through
+	the left and right subexpressions. The union of two sets is
+	a set containing all the elements contained in \textbf{either} one of the
+	two sets.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@'a', 'b', 'c', 'd'@
+		
+			The set of characters `a', `b', `c' and `d'.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@'a'-'o' | 'm'-'z'@
+		
+			Equalivent to \texttt{`a'-`z'}.
+	}
+	\end{itemize}
+}

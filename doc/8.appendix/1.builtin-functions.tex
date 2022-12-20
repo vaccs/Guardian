@@ -1,0 +1,115 @@
+
+\section{All Special Forms}
+{
+	The list below briefly describes all of the special forms in Guardian's
+	programming language, in alphabetical order.
+	
+	\begin{itemize}
+	{
+		\item[] \texttt{all!}
+			
+			This special form expects a boolean list, returns true if all of the values
+			are true.
+			
+		\item[] \texttt{any!}
+		
+			This special form expects a boolean list, returns true if any of the values
+			are true.
+		
+		\item[] \texttt{crossmap!}
+		
+			This special form expects a lambda and one or more lists, returns
+			the list of results of calling the lambda on each combination
+			of elements from each list.
+		
+		\item[] \texttt{filter!}
+		
+			This special form expects a lambda and a list, returns the list
+			of elements of the given list that caused the lambda to return true.
+		
+		\item[] \texttt{float!}
+		
+			This special form can take either an integer or a string, and
+			returns that value converted to a float.
+		
+		\item[] \texttt{int!}
+		
+			This special form can take either a float or a string, and
+			returns that value converted to an integer.
+		
+		\item[] \texttt{isabspath!}
+		
+			This special form expects a string path, and returns
+			a boolean value indicating if the given path is an absolute path.
+		
+		\item[] \texttt{isaccessibleto!}
+		
+			This special form expects two strings, a path and a user, and
+			returns a boolean value indicating if the given path is
+			accessible (readable) to the given user.
+		
+		\item[] \texttt{isdir!}
+		
+			This special form expects a string path, and returns
+			a boolean value indicating if the given path refers to a
+			directory.
+		
+		\item[] \texttt{isexecutableby!}
+		
+			This special form expects two strings, a path and a user, and
+			returns a boolean value indicating if the given path is
+			executable to the given user.
+		
+		\item[] \texttt{len!}
+			
+			This special form will accept either a string, a list, a dictionary,
+			a set or a tuple, and returns the integer number of elements in
+			the object.
+		
+		\item[] \texttt{map!}
+		
+			This special form expects a lambda and one or more lists,
+			and returns the list of results from calling the lambda on all
+			of the first parameters, all of the second parameters, all of the
+			third parameters, etc.
+		
+		\item[] \texttt{range!}
+		
+			This special form expects either 1 or 2 integer values,
+			and returns the integer list of values ranging from the first to
+			the second value. The second value is not included in the range.
+			If only one value is provided the range starts at 0 and ranges
+			to the given value.
+		
+		\item[] \texttt{reduce!}
+		
+			This special form expects a lambda value (\texttt{x}),
+			a list value (\texttt{y}) and an initial value (\texttt{z})
+			and behaves as described by this python code:
+\begin{lstlisting}[language=Python]
+	def reduce(x, y, z):
+		retval = z
+		for e in y:
+			retval = x(retval, e);
+		return retval;
+\end{lstlisting}
+		
+		\item[] \texttt{sum!}
+		
+			Expects either an integer list or a float list and returns
+			the sum of the values.
+	}
+	\end{itemize}
+	
+}
+
+
+
+
+
+
+
+
+
+
+

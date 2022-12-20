@@ -1,0 +1,37 @@
+
+\section{Regular Expressions}
+\label{sec:regex}
+{
+	A regular expression is used to describe a set of
+	strings quickly and conveniently. The set itself may be infinite.
+	Since computers cannot attempt to store the string-sets themselves in
+	memory, computers must rely on a kind of ``compressed" form of the set
+	to represent
+	these potentionally-infinite sets of strings. Determining if a given string
+	is in the set from its compressed form requires work and is known
+	as ``matching".
+	
+	For Guardian's application, regular expressions are almost always used
+	to describe what would be an acceptable string of characters to read in
+	a certain part of the content of a file being parsed.
+	
+	The operators are discussed in descending operator precedence. Parenthesis
+	can be used to raise the precedence of a regular expression.
+	
+	\subimport{./}{1.character-literals.tex}
+	
+	\subimport{./}{2.integer-literals.tex}
+	
+	\subimport{./}{3.string-literals.tex}
+	
+	\subimport{./}{4.character-sets.tex}
+	
+	\subimport{./}{5.suffix-operators.tex}
+	
+	\subimport{./}{6.juxtaposition.tex}
+	
+	\subimport{./}{7.or-operator.tex}
+	
+	\subimport{./}{8.examples.tex}
+}
+

@@ -1,0 +1,30 @@
+
+\subsection{Bitshift Expression}
+{
+	Left and right bitshifts are a kind of expression that operate on
+	integer values. The syntax for the operators
+	are \texttt{<<} and \texttt{>>} respectively.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@3 << 2@
+		
+			Results in the integer value 12.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@3 >> -2@
+		
+			Results in the integer value 12.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@64 >> 2@
+		
+			Results in the integer value 16.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@64 << -2@
+		
+			Results in the integer value 16.
+	}
+	\end{itemize}
+}

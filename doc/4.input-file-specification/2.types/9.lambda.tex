@@ -1,0 +1,21 @@
+
+\subsection{Lambda Type}
+{
+	The lambda type is used to encapsulate a reference to
+	a function as a value that can be passed in as a parameter, passed out as a
+	return value, stored in lists and even called. (Think function pointers from C).
+	
+	The lambda type are specialized to the number of their
+	parameters, their parameter's types, and their return type.
+	The syntax for referring to a lambda type
+	is: \texttt{\$<0th-parameter-type>, <1th-parameter-type>, ... <nth-parameter-type> -> <return-type>}.
+	
+	Special forms are not lambda values.
+	
+	Lists, tuples, sets and dictionaries all rely on their elements
+	to support comparison, but lambdas and grammar types do not support
+	comparison. Values of these types can be stored in these containers,
+	but the container would lose support for comparison. Sets and
+	dictionaries would not work outright because they rely on the ability
+	to compare their elements/keys to maintain their internal data structures.
+}

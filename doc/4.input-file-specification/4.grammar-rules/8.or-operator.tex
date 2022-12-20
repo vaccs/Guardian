@@ -1,0 +1,22 @@
+
+\subsection{Or Operator}
+{
+	The '\texttt{|}' operator can be used between two grammar-rule patterns
+	to indicate that the file content at this point in the pattern can either
+	follow the rules of one subpattern
+	or the other.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@"a" | "b" | "c" | "d"@
+		
+			Either the token ``a", the token ``b", the token ``c"
+			or the token "d".
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@"a"* | "b"+@
+		
+			Either zero or more a's
+			or one or more b's.
+	}
+	\end{itemize}
+}

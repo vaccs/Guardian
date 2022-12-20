@@ -1,0 +1,37 @@
+
+\subsection{Bitwise-or Expression}
+{
+	Bitwise-or is a kind of expression that typically performs
+	a bitwise-or operation on two given integer values.
+	The expression can also be used to take the set-union
+	of two given set values, resulting in a set of the
+	elements that are contained in
+	\textbf{either} one of the two given sets.
+	The expression can also be used to take the
+	dictionary-union of two given
+	dictionary values, resulting in a dictionary of
+	all of the key-value
+	associations that \textbf{either} one of the two given
+	dictionaries contain. If there is a value in both dictionaries
+	associated with the same key, the value of the second dictionary is used.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@6 | 3@
+		
+			Results in the integer value 7.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@{1, 2, 3, 6} | {5, 2, 4, 3}@
+		
+			Results in the integer set value \lstinline[language=MAIA, columns=fixed]@{1, 2, 3, 4, 5, 6}@.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@{1: 1, 2: 2, 3: 3, 6: 8} | {5: 4, 2: 5, 4: 6, 3: 7}@
+		
+			Results in the integer-to-integer dictionary
+			value \lstinline[language=MAIA, columns=fixed]@{1: 1, 2: 5, 3: 7, 4: 6, 6: 8}@.
+	}
+	\end{itemize}
+}

@@ -1,0 +1,35 @@
+
+\subsection{Unary Operators}
+{
+	Unary operators \texttt{-}, \texttt{!},
+	and \texttt{\~} can be used as expressions to
+	numerically negate (requires a integer or float value),
+	logically negate (requires a boolean value) and
+	bitwise negate (requires an integer value).
+	
+	To complement the \texttt{-} operator, the \texttt{+} is also supported
+	although only as syntatic decoration.
+	
+	If Guardian can determine the exact value of given subexpression,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@-3 + 5@
+		
+			Results in the integer value 2.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@!true@
+		
+			Results in the boolean value false.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@!false@
+		
+			Results in the boolean value true.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@~2 + 4@
+		
+			Results in the integer value 1.
+	}
+	\end{itemize}
+}

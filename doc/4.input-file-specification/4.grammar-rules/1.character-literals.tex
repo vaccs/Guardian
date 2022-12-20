@@ -1,0 +1,15 @@
+
+\subsection{Character Literal}
+{
+	C-style character literals can be used in a grammar-rule pattern.
+	Tab, newline, single-quote, double-quote and slash C-style character
+	escapes are supported.
+	The character describes the token (of length 1) that should be expected
+	to be read at this point in the the grammar-rule pattern.
+	This component of a grammar-rule pattern can be named and would appear to
+	the programming language as a string containing the given character.
+	
+	An example of the syntax: \lstinline[language=MAIA, columns=fixed]@'a'@
+	and \lstinline[language=MAIA, columns=fixed]@'\t'@
+	and \lstinline[language=MAIA, columns=fixed]@'\n'@.
+}

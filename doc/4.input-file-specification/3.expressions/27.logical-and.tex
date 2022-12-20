@@ -1,0 +1,34 @@
+
+\subsection{Logical-and Expression}
+{
+	Logical-and is a kind of expression that expects two subexpressions that
+	both yield a boolean value. The expression results in a true boolean value
+	if \textbf{both} of the subexpressions resulted in true, false otherwise.
+	
+	The logical-and expression supports short-circuiting: if the first
+	subexpression produces false, the logical-and expression returns false
+	without evaluating the second expression.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@true && true@
+		
+			Results in the true boolean value.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@true && false@
+		
+			Results in the false boolean value.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@false && true@
+		
+			Results in the false boolean value.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@false && false@
+		
+			Results in the false boolean value.
+	}
+	\end{itemize}
+}

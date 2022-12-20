@@ -1,0 +1,61 @@
+
+\subsection{Lambda Expression}
+{
+	A lambda expression results in a new lambda value.
+	A lambda value references a kind of
+	one-expression function that accepts parameters and produces a return value.
+	The syntax for a lambda expression follows the
+	form: \texttt{\$<0th-parameter-type> <0th-parameter-name>,
+	<1th-parameter-type> <1th-parameter-name>, ... <nth-parameter-type>
+	<nth-parameter-name> -> <return-type>: <body>}.
+	After the first parameter, all parameter types are optional; the
+	parameters that do not give their type explicitly will be assumed to
+	have the same type as the last explicit parameter type.
+	
+	Lambda body expressions can refer to variables in the larger scope of their
+	declarations.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@$int x -> int: x + 3@
+		
+			Results in a lambda value that expects
+			one integer parameter and, when called, produces integer sum
+			of its parameter and 3.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@$int x, y, z -> int: x + y + z@
+		
+			Results in a lambda value that expects
+			three integer parameters and, when called, produces the integer sum
+			of its three parameters.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@$($int -> int) f, int x -> ($ -> int): $->int: f(x)@
+		
+			Results in a lambda that expects two parameters:
+			a lambda that expects an integer and produces an integer,
+			and an integer. The lambda results in a lambda that returns the
+			result of calling the given lambda on the given integer.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@$int x -> ($int -> ($->int)): $int y -> ($->int): $->int: x + y@
+		
+			Results in a lambda that expects an integer parameter, and returns
+			a lambda than expects another integer parameter, and returns
+			a lambda that expects no parameters and returns the integer sum
+			of the two parameters.
+	}
+	\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+
+\subsection{String Literal Expression}
+{
+	C-style string literals is a kind of expressions.
+	C-style tab, newline, single-quote, double-quote and slash escape sequences
+	are supported. Internally string values are represented using an array of
+	bytes. There is no null terminator, length is stored explicitly.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc"@
+		
+			The letter a, b, then c.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@""@
+		
+			The empty string.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"hello\n"@
+		
+			The text ``hello'' with a newline
+			character after.
+	}
+	\end{itemize}
+}

@@ -1,0 +1,39 @@
+
+\subsection{Exponentiation Expression}
+{
+	Exponentiation is a kind of expression that only functions on
+	numerical values (integer or float values).
+	Exponentiation results in the first number being raised to the
+	second number.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@2 ** 4@
+		
+			Results in the integer value 16.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@0 ** 3@
+		
+			Results in the integer value 0.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@3 ** 0@
+		
+			Results in the integer value 1.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@2.0 ** 4.0@
+		
+			Results in the float value 16.0.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@0.5 ** 3.0@
+		
+			Results in the float value 0.125.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@4.0 ** 0.5@
+		
+			Results in the float value 2.0.
+	}
+	\end{itemize}
+}

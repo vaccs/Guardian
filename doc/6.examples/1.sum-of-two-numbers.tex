@@ -1,0 +1,19 @@
+
+\section{Sum of two Numbers}
+{
+	This example shows all the basics of a Guardian input
+	file: parsing, expressions and assertions.
+	This input file is expected to consist of two integers, space delimited.
+	The checker asserts that the sum of the two numbers must be equal to 7.
+	
+\begin{lstlisting}[texcl=true, language=MAIA]
+%skip: ' ';
+
+number: /int: ['0'-'9']+/ #value;
+
+%parse argv as number{2};
+
+%error: number[0].value + number[1].value == 7;
+\end{lstlisting}
+}
+

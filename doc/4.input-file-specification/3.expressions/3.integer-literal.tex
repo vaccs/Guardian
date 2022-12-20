@@ -1,0 +1,26 @@
+
+\subsection{Integer Literal Expression}
+{
+	A C-style integer literal is a kind of expression.
+	Base 8, 10, and 16 and their prefixes are supported.
+	There is no theoretical limit to the upper or lower bound of the value,
+	becuase the internal representation that Guardian and the generated checkers 
+	use to store the value
+	is the GMP's library's \texttt{mpz} datatype (an implementation of BigInts).
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@3@
+		
+			The integer value 3.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@0127@
+		
+			The integer value 87.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@0xDE@
+		
+			The integer value 222.
+	}
+	\end{itemize}
+}

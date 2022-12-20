@@ -1,0 +1,26 @@
+
+\subsection{Character-Set}
+{
+	Character sets can be used in a regular expression.
+	When being used in a regular expression, a character set must be enclosed in
+	\texttt{[} and \texttt{]} brackets.
+	The syntax for character sets is described in its
+	\hyperref[sec:charset]{its own section}.
+	When a character set is used in a regular expression,
+	it is interpreted as though any one of the characters could be read
+	next.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@['a', 'b', 'c']@
+		
+			Equivalent to the regular expression \lstinline[language=MAIA, columns=fixed]@'a' | 'b' | 'c'@.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@['a' - 'z']@
+		
+			Equivalent to the regular
+			expression \lstinline[language=MAIA, columns=fixed]@'a' | 'b' | ... 'x' | 'y' | 'z'@.
+	}
+	\end{itemize}
+	
+}

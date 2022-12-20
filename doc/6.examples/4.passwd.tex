@@ -1,0 +1,80 @@
+
+\section{passwd}
+{
+This example does preliminary checks on the \texttt{/etc/passwd} file.
+The \texttt{/etc/passwd} file consists of one or more lines,
+with colon-delimited fields: name, password, uid, gid, gecos, (home) directory,
+and shell. There must be a user called ``root''.
+All of the uid and gid must be integer values
+and must be less than or equal to 65,535.
+All home directories must be absolute and be a directory in the file system.
+The root user must have its uid equal to 0.
+For all users, their home directory \textit{should} be accessible to them, although
+this is not required (warning not error).
+For all users, the path to their shell must be absolute and must be executable
+by said user.
+
+\begin{lstlisting}[texcl=true, language=MAIA]
+%parse: "/etc/passwd" as passwd_file;
+
+passwd_file: (passwd_record '\n')+;
+
+passwd_record:
+	name      #name ":"
+	password  #password ":"
+	uid       #uid ":"
+	gid       #gid ":"
+	gecos     #gecos ":"
+	directory #directory ":"
+	shell     #shell;
+
+name: /['a'-'z', 'A'-'Z', '_']
+	['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0, 31}/ #value;
+
+password: "x" #x | crypt_password;
+
+crypt_password: "*" | ("!"* (posix_crypt | glibc_crypt)?);
+
+posix_crypt: /['a'-'z', 'A'-'Z', '0'-'9', '.', '/']{13}/;
+
+glibc_crypt:
+	"$" /"1" | "2a" | "5" | "6"/ #id
+	"$" /['a'-'z', 'A'-'Z', '0'-'9', '.', '/']{,16}/ #salt
+	"$" /['a'-'z', 'A'-'Z', '0'-'9', '.', '/']+/ #encrypted;
+
+uid: /int: ['0'-'9']+/ #value;
+
+gid: /int: ['0'-'9']+/ #value;
+
+gecos: /[!(':', '\n')]*/;
+
+directory: /[!(':', '\n')]*/ #path;
+
+shell: /[!(':', '\n')]*/ #path;
+
+%error: any!(map!($name n -> bool: n.value == "root", name));
+
+%error: all!(map!($uid u -> bool: u.value <= 65535, uid));
+
+%error: all!(map!($gid g -> bool: g.value <= 65535, gid));
+
+%error: all!(map!(
+	$directory d -> bool: isabspath!(d.path) && isdir!(d.path), directory));
+
+%error: all!(map!(
+	$passwd_record pr -> bool:
+		pr.name.value == "root" implies pr.uid.value == 0,
+	passwd_record));
+
+%warning: all!(map!(
+	$passwd_record pr -> bool: isaccessibleto!(pr.directory.path, pr.name.value), passwd_record));
+
+%error: all!(map!(
+	$passwd_record pr -> bool:
+		pr.shell.path != "" implies
+			isabspath!(pr.shell.path) && isexecutableby!(pr.shell.path, pr.name.value),
+	passwd_record));
+
+\end{lstlisting}
+}
+

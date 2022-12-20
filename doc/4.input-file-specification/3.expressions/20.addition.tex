@@ -1,0 +1,66 @@
+
+\subsection{Addition and Subtraction Expressions}
+{
+	Addition and subtraction are kinds of expressions that are typically
+	add and subtract numeric values (integer and float values).
+	The addition operator can also be used to concatenate string values,
+	merge dictionary values, union set values and concatenate tuple values.
+	
+	If Guardian can determine the exact value of the two given subexpressions,
+	Guardian will replace the call with the appropriate value literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@2 + 3@
+		
+			Results in the integer value 5.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@3.5 + 2.5@
+		
+			Results in the float value 6.0.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@3 - 2@
+		
+			Results in the integer value 1.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@3.5 - 2.5@
+		
+			Results in the float value 1.0.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc" + "def"@
+		
+			Results in the string value "abcdef".
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@{1: 2, 2: 3} + {2: 4, 3: 5}@
+		
+			Results in the integer-to-integer
+			dictionary value \lstinline[language=MAIA, columns=fixed]@{1: 2, 2: 4, 3: 5}@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@{1, 2} + {3, 2}@
+		
+			Results in the integer set value \lstinline[language=MAIA, columns=fixed]@{1, 2, 3}@.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@(1, 2) + (2.0, 3.0)@
+		
+			Results in the integer-integer-float-float
+			tuple value \lstinline[language=MAIA, columns=fixed]@(1, 2, 2.0, 3.0)@.
+			
+	}
+	\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

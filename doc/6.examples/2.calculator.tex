@@ -1,0 +1,67 @@
+
+\section{Simple Calculator}
+{
+
+This example demonstrates the more complex file structures the generated
+parser is able to handle. This checker expects the given file to follow
+the format of a simple arithmetic math expression: addition, subtraction,
+multiplication, division and parenthesis. The checker evaluates the expression
+and requires that the result be equal to 11.
+
+\begin{lstlisting}[texcl=true, language=MAIA]
+%skip: ' ' | '\n';
+
+highest
+	: /int: ['+', '-']? ['0'-'9']+/ #literal
+	| '(' add #subexp ')'
+	;
+
+multiply
+	: highest #base
+	| multiply #sub "*" highest #mutme
+	| multiply #sub "/" highest #divme
+	;
+
+add	: multiply #base
+	| add #sub "+" multiply #addme
+	| add #sub "-" multiply #subme
+	;
+
+start: add #add;
+
+%parse: argv as start;
+
+evalhigh = $highest h -> int:
+	h has literal
+		? h.literal
+		: evaladd(h.subexp);
+
+evalmult = $multiply m -> int:
+	m has base
+		? evalhigh(m.base)
+		: (m has mutme
+			? evalmult(m.sub) * evalhigh(m.mutme)
+			: evalmult(m.sub) / evalhigh(m.divme));
+
+evaladd = $add a -> int:
+	a has base
+		? evalmult(a.base)
+		: (a has addme
+			? evaladd(a.sub) + evalmult(a.addme)
+			: evaladd(a.sub) - evalmult(a.subme));
+
+result = evaladd(start[0].add);
+
+%error: result == 11;
+\end{lstlisting}
+}
+
+
+
+
+
+
+
+
+
+

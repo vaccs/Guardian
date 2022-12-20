@@ -1,0 +1,81 @@
+
+\subsection{Indexing Expression}
+{
+	Indexing is a kind of expression that can be used for accessing elements
+	in a value that supports indexing (lists, strings and dictionaries).
+	The syntax follows the
+	form: \texttt{<list-or-string-or-dict>[<index>]}.
+	A list getting indexed results in the value of the element at the given
+	index, expecting the expression enclosed in the square brackets to result
+	in an integer index value.
+	A string getting indexed results in a string one character long of
+	the character at that position indicated by the integer value expected
+	to result from the square-bracket-enclosed subexpression.
+	A dictionary getting indexed performs a lookup on the dictionary, expecting
+	the expression enclosed in the square brackets to result in the key value.
+	
+	If Guardian can determine the exact value of given list/string
+	and index, Guardian
+	will replace the call with the appropriate list/string construction.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@[1, 2, 3][0]@
+		
+			Results in the integer value 1.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@[1, 2, 3][1]@
+		
+			Results in the integer value 2.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@[1, 2, 3][2]@
+		
+			Results in the integer value 3.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc"[0]@
+		
+			Results in the string value "a".
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc"[1]@
+		
+			Results in the string value "b".
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc"[2]@
+		
+			Results in the string value "c".
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@{4: 5, 6: 7, 8: 9}[4]@
+		
+			Results in the integer value 4.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@{4: 5, 6: 7, 8: 9}[6]@
+		
+			Results in the integer value 7.
+			
+		\item[] \lstinline[language=MAIA, columns=fixed]@{4: 5, 6: 7, 8: 9}[8]@
+		
+			Results in the integer value 9.
+	}
+	\end{itemize}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+
+\section{Source Code Generation}
+{
+	Source code generation is where all of the work of Guardian comes together.
+	The state machines created for parsing and tokenization
+	are converted into lookup tables
+	in C. Statements and expressions are converted into their C equivalent.
+	Environment values (values used for storing the values of variables
+	in scope) and their types are created and printed.
+	
+	The main structure of the generated program is supplied to Guardian
+	through a file that can be found at \texttt{./out/-template.c}.
+	This file gives most of the code that the
+	generated checker should have, along with placeholders
+	at several locations where Guardian will
+	substitute snippets of code specific
+	to the current checker.
+	Most of the substitutions are self-explanatory.
+	The \texttt{REDUCTION\_RULE\_SWITCH} placeholder is replaced
+	with the source code for the generated switch statement
+	consisting of cases on each reduction rule id and the code that
+	should run to handle that reduction rule.
+	Typically this code involves removing
+	the appropriate number of
+	elements from the state and data stack,
+	creating a new grammar value,
+	and assigning that grammar value its fields from
+	the data stack. The data stack can
+	contain either the content
+	of tokens or processed grammar rules.
+	The new grammar value is pushed onto the data stack, and
+	the parser looks up the current state with the grammar rule that was reduced
+	in the goto table, and shifts on the lookup result.
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+
+\subsection{Float type}
+{
+	The \texttt{float} type is used to store decimal (real) numbers.
+	Guardian and the checkers it generates internally
+	use IEEE-754 floating point
+	128-bit values (GCC's \texttt{\_\_float128} type) to represent the number.
+	15 bits are used for the exponent, 113 bits are used for the mantissa.
+	The syntax for referring to the float type is: \texttt{float}.
+	
+	The syntax for a float value follows the syntax for C-style float literals.
+	Normal and exponential notation are supported.
+	
+	Float values can be added (\texttt{+}),
+	subtracted (\texttt{-}), multiplied (\texttt{*}), and
+	divided (\texttt{/}) into each
+	other. Exponentiation is also supported
+	with the \texttt{**} operator.
+	
+	Equal-to, not-equal-to, greater-than, greater-than-equal-to,
+	less-than, and less-than-equal-to comparisons can
+	be done on float values with
+	the \texttt{==}, \texttt{!=},
+	\texttt{>}, \texttt{>=}, \texttt{<}, and \texttt{<=} respectively.
+	
+	Floats can be converted into integers using
+	the \texttt{int!}
+	special form.
+}

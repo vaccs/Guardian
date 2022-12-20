@@ -1,0 +1,23 @@
+
+\subsection{Symmetric Difference}
+{
+	The `\texttt{\^}' binary operator can be used to quickly take the
+	symmetric difference between two character sets, each described through
+	the left and right subexpressions. The symmetric difference of two sets is
+	a set containing all the elements contained in \textbf{only} one of the
+	two sets.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@'a'-'o' ^ 'm'-'z'@
+		
+			Set containing the letters of `a'-`m'
+			and `o'-`z'.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@'a'-'z' ^ 'e'@
+		
+			Set containing all lowercase letters
+			of the English alphabet besides `e'.
+	}
+	\end{itemize}
+}

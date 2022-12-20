@@ -1,0 +1,20 @@
+
+\subsection{Parse Statement}
+{
+	The parse statement reads the content of
+	the file referred to by a given path
+	using the given grammar rule as the ``start" rule.
+	The path can be given as either a
+	string literal, an expression that results in a string, or the
+	keyword \texttt{argv}.
+	\texttt{argv} indicates that the parse statement should get the path from
+	the next unused command-line argument that the checker program was invoked
+	with.
+	
+	The syntax for a parse statement is:
+	\begin{lstlisting}[numbers = none, texcl = true, language = MAIA]
+%parse: "path/to/file" as <grammar-rule>;
+%parse: <path-expression> as <grammar-rule>;
+%parse: argv as <grammar-rule>;
+	\end{lstlisting}
+}

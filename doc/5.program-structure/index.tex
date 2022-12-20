@@ -1,0 +1,42 @@
+
+\chapter{Program Structure}
+{
+	This chapter is provides a more detailed explanation of the
+	internal structure and implementation of Guardian.
+	In a sense, Chapter 4 answers the question ``how to use it'',
+	while this chapter answers the question ``how it works.''
+	
+	Guardian's \texttt{main()} follows these steps:
+	\begin{enumerate}
+	{
+		\item Parse command-line arguments.
+		
+		\item Parse input file.
+		
+		\item Specialize grammar rules.
+		
+		\item Perform type checking and specialization on statements and expressions.
+		
+		\item Generate parser and tokenizer.
+		
+		\item If the \texttt{-m} flag was set, minimize tokenizer.
+		
+		\item Generate and write source code.
+			
+		\item Free all data structures.
+	}
+	\end{enumerate}
+	
+	\subimport{1.parsing/}{index.tex}
+	
+	\subimport{2.specializing-grammar-types/}{index.tex}
+	
+	\subimport{3.type-checking/}{index.tex}
+	
+	\subimport{4.parser-and-tokenizer-generation/}{index.tex}
+	
+	\subimport{5.lexer-minimization/}{index.tex}
+	
+	\subimport{6.source-code-generation/}{index.tex}
+}
+

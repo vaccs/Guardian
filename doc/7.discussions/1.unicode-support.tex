@@ -1,0 +1,24 @@
+
+\section{Unicode Support}
+{
+	Support for generating parsers that would
+	handle Unicode characters and automatically
+	converting to and from UTF-8 was originally in the
+	specification for this program.
+	At one time, this feature functioned, but it
+	is no longer supported.
+	The algorithms for operating on the regular expression
+	state machines ran slower and were
+	much more complex and difficult to maintain.
+	The generated parsers consider each
+	character as a byte, so if needed,
+	Guardian can generate tokenizers that scan
+	for UTF-8 strings while still internally representing them as a series
+	of bytes. The effect would still be the same, the only noticeable loss
+	between Guardian parsing multi-byte characters as strings rather than
+	as Unicode characters is the lack of support in character sets
+	for any codepoint higher than 255.
+	Proper support for Unicode support can be brought back in the
+	future if needed.
+}
+

@@ -1,0 +1,26 @@
+
+\subsection{Regular-Expression Matching Expression}
+{
+	Regular-expression matching is a kind of expression that results in
+	a boolean value representing whether the given string matches
+	the given \hyperref[sec:regex]{regular expression}.
+	
+	If Guardian can determine the exact value of the given string,
+	Guardian will replace the call with the appropriate boolean literal.
+	
+	\begin{itemize}
+	{
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abc" =~ /"abc"/@
+		
+			Results in a true boolean value.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abbccc" =~ /'a' 'b'+ 'c'{2,}/@
+		
+			Results in a true boolean value.
+		
+		\item[] \lstinline[language=MAIA, columns=fixed]@"abcbbbcbcc" =~ /'a' ('b' 'c'?)+/@
+		
+			Results in a false boolean value.
+	}
+	\end{itemize}
+}
