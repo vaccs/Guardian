@@ -83,14 +83,15 @@
 		
 		\item[] \texttt{reduce!}
 		
-			This special form expects a lambda value (\texttt{X}),
-			a list value (\texttt{Y}) and an initial value (\texttt{Z})
+			This special form expects a lambda value (\texttt{x}),
+			a list value (\texttt{y}) and an initial value (\texttt{z})
 			and behaves as described by this python code:
 \begin{lstlisting}[language=Python]
-	retval = Z
-	for e in Y:
-		retval = X(retval, e);
-	return retval;
+	def reduce(x, y, z):
+		retval = z
+		for e in y:
+			retval = x(retval, e);
+		return retval;
 \end{lstlisting}
 		
 		\item[] \texttt{sum!}

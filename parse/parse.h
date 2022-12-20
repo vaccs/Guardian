@@ -384,7 +384,6 @@ struct zebu_primary_expression
 	struct zebu_token* paren;
 	struct zebu_token* range_form;
 	struct zebu_token* reduce_form;
-	struct zebu_token* set_form;
 	struct zebu_token* string_literal;
 	struct zebu_token* sum_form;
 	struct zebu_token* true_literal;

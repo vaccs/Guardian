@@ -15,8 +15,9 @@
 	{
 		\item Grammar rules are not a series of production rules, as is
 			typical for parser generators. Guardian grammar rules are
-			described using a \textit{pattern}, having nested repetition
-			operators and or operators.
+			described using a \textit{pattern}, having (possibly nested)
+			repetition
+			operators and or/union operators.
 			The pattern is converted into a NFA-like automata, where instead
 			of transitioning on characters of input, the automata transitions
 			on terminals or nonterminals. The automata is converted into a
@@ -28,7 +29,7 @@
 			is that each state of the grammar rule has
 			deterministic transitions to other states,
 			and that reductions know how far back to reduce.
-			A trie data structure meets these needs and is used instead.
+			A \href{https://en.wikipedia.org/wiki/Trie}{trie} data structure meets these needs and is used instead.
 			Any state of the graph that can be reached from the start state
 			using two or more different series of transitions becomes
 			the start of a
