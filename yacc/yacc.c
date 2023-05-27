@@ -1,4 +1,6 @@
 
+#include <unistd.h>
+#include <signal.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -57,6 +59,10 @@
 
 #include <statement/struct.h>
 #include <statement/parse/struct.h>
+
+#ifdef VERBOSE
+#include <misc/default_sighandler.h>
+#endif
 
 #include "trie/struct.h"
 
@@ -410,6 +416,23 @@ void yacc(
 {
 	ENTER;
 	
+	#ifdef VERBOSE
+	void handler1(int _)
+	{
+		char buffer[1000] = {};
+		
+		size_t len = snprintf(buffer, sizeof(buffer),
+			"\e[K" "guardian: generating parser ...\r");
+		
+		if (write(1, buffer, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	signal(SIGALRM, handler1);
+	#endif
+	
 	struct avl_tree_t* named_tries = avl_alloc_tree(compare_named_tries, free_named_trie);
 	
 	avl_foreach(grammar, ({
@@ -723,6 +746,10 @@ void yacc(
 		
 		free_unsignedset(all_tokens);
 	}
+	
+	#ifdef VERBOSE
+	signal(SIGALRM, default_sighandler);
+	#endif
 	
 	free_quack(todo);
 	

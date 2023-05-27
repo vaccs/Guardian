@@ -12,12 +12,14 @@
 #include "new.h"
 
 struct statement* new_declare_statement(
+    unsigned line,
 	struct string* name,
 	struct expression* expression)
 {
 	ENTER;
 	
 	struct declare_statement* this = (void*) new_statement(
+	    line,
 		sk_declare,
 		&declare_statement_inheritance,
 		sizeof(*this));

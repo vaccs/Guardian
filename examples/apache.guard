@@ -1,0 +1,64 @@
+
+%skip: ('\t' | ' ' | "#" [!'\n']* '\n')+;
+
+onoff: "On" | "Off";
+
+number: /['0'-'9']+/;
+
+string: /(['a'-'z','-','A'-'Z','.','/'] | '\"' [!'\"']+ '\"' | "${" ['a'-'z','A'-'Z', '_']+ "}")+/;
+
+glob: /['a'-'z','-','A'-'Z','.','/', '*']+/;
+
+directory: "<Directory" string ">" '\n' directive+ "</Directory>";
+
+require: "Require"
+	( "all" ("granted" | "denied")
+	| "env" /['a'-'z','A'-'Z']/+
+	| "method"
+	| "expr" )
+	;
+
+filesmatch: "<FilesMatch" string ">" directive+ "</FilesMatch>";
+
+option: /['+','-']? ("All" | "ExecCGI" | "FollowSymLinks" | "Includes" | "IncludesNOEXEC" | "Indexes" | "MultiViews" | "SymLinksIfOwnerMatch") /;
+
+directive
+	: require '\n'+
+	| directory '\n'+
+	| filesmatch '\n'+
+	| "DefaultRuntimeDir" string '\n'+
+	| "PidFile" string '\n'+
+	| "Timeout" number '\n'+
+	| "KeepAlive" onoff '\n'+
+	| "MaxKeepAliveRequests" number '\n'+
+	| "KeepAliveTimeout" number '\n'+
+	| "User" string '\n'+
+	| "Group" string '\n'+
+	| "HostnameLookups" onoff '\n'+
+	| "ErrorLog" string '\n'+
+	| "LogLevel" ("info" | "warn" | "error") '\n'+
+	| "IncludeOptional" glob '\n'+
+	| "Include" string '\n'+
+	| "Options" option+ '\n'+
+	| "AllowOverride" "None" '\n'+
+	| "AccessFileName" string '\n'+
+	;
+
+root: '\n'+ directive+;
+
+%parse: "/etc/apache2/apache2.conf" as root;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

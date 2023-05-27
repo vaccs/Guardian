@@ -1,8 +1,0 @@
-bin/release-build/no-verbose/yes-dotout/./expression/string_contains/new.o: \
- expression/string_contains/new.c debug.h \
- expression/string_contains/../new.h expression/string_contains/../kind.h \
- expression/string_contains/../inc.h \
- expression/string_contains/inheritance.h \
- expression/string_contains/../inheritance.h \
- expression/string_contains/struct.h \
- expression/string_contains/../struct.h expression/string_contains/new.h

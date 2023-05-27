@@ -111,14 +111,17 @@ void reductioninfo_print_source(
 								unsigned new_id = function_queue_submit_new(shared->fqueue, type);
 								
 								stringtree_append_printf(tree, ""
-									"{"
-										"struct type_%u* integer = func_%u();"
-										"if (mpz_set_str(integer->value, (char*) token->data, 10) < 0)"
-										"{"
-											"assert(!\"TODO: mpz_set_str(): failed!\");"
-										"}"
-										"value->$%.*s = integer;"
-									"}"
+									"{" "\n"
+										"struct type_%u* integer = func_%u();" "\n"
+										
+										"if (mpz_set_str(integer->value, (char*) token->data, 10) < 0)" "\n"
+										"{" "\n"
+											"fprintf(stderr, \"%%s: invalid integer value \\\"%%s\\\"!\\n\", argv0, token->data);" "\n"
+											"exit(1);" "\n"
+										"}" "\n"
+										
+										"value->$%.*s = integer;" "\n"
+									"}" "\n"
 								"", type->id, new_id, name->len, name->chars);
 							}
 							else if (node->tokentype->float_)
@@ -279,12 +282,38 @@ void reductioninfo_print_source(
 					{
 						case snt_token_scalar:
 						{
-							TODO;
-							#if 0
-							fprintf(stream, ""
-								"if (trie->%s) { free_%s_token(value->%s); value->%s = inc_%s_token(trie->%s); }" "\n"
-							"", name, prefix, name, name, prefix, name);
-							#endif
+						    if (!node->tokentype)
+						    {
+								struct type* stype = type_cache_get_string_type(shared->tcache);
+								
+								unsigned inc_string_id = function_queue_submit_inc(shared->fqueue, stype);
+								
+								unsigned free_string_id = function_queue_submit_free(shared->fqueue, stype);
+								
+							    stringtree_append_printf(tree, "if (trie->$%.*s)", name->len, name->chars);
+							    stringtree_append_printf(tree, "{");
+							    stringtree_append_printf(tree,      "func_%u(value->$%.*s);", free_string_id, name->len, name->chars);
+							    
+							    stringtree_append_printf(tree,      "value->$%.*s = func_%u(trie->$%.*s);", name->len, name->chars, inc_string_id, name->len, name->chars);
+							    stringtree_append_printf(tree, "}");
+						    }
+							else if (node->tokentype->bool_)
+						    {
+						        assert(!"TODO");
+						    }
+							else if (node->tokentype->int_)
+						    {
+						        assert(!"TODO");
+						    }
+							else if (node->tokentype->float_)
+						    {
+						        assert(!"TODO");
+						    }
+						    else
+						    {
+						        assert(!"TODO");
+							    // stringtree_append_printf(tree, "value->$%.*s = trie->$%.*s;", name->len, name->chars, name->len, name->chars);
+						    }
 							break;
 						}
 						

@@ -13,8 +13,6 @@ struct parse_statement
 	
 	struct yacc_state* ystate;
 	
-	unsigned line;
-	
 	unsigned start_id, grammar_id;
 };
 

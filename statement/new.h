@@ -4,6 +4,7 @@
 struct statement_inheritance;
 
 struct statement* new_statement(
+	unsigned line,
 	enum statement_kind kind,
 	struct statement_inheritance* inheritance,
 	unsigned alloc_size);

@@ -1,0 +1,1151 @@
+
+// you can make these by saving a libreoffice/openoffice/word/... document
+// as a "flat" document file
+
+%skip: [' ', '\t', '\n']+;
+
+%parse: argv as root;
+
+root:
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+    "<office:document" "xmlns:officeooo=\"http://openoffice.org/2009/office\""
+                       "xmlns:css3t=\"http://www.w3.org/TR/css3-text/\""
+                       "xmlns:grddl=\"http://www.w3.org/2003/g/data-view#\""
+                       "xmlns:xhtml=\"http://www.w3.org/1999/xhtml\""
+                       "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                       "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
+                       "xmlns:chart=\"urn:oasis:names:tc:opendocument:xmlns:chart:1.0\""
+                       "xmlns:svg=\"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0\""
+                       "xmlns:draw=\"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0\""
+                       "xmlns:rpt=\"http://openoffice.org/2005/report\""
+                       "xmlns:text=\"urn:oasis:names:tc:opendocument:xmlns:text:1.0\""
+                       "xmlns:style=\"urn:oasis:names:tc:opendocument:xmlns:style:1.0\""
+                       "xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\""
+                       "xmlns:config=\"urn:oasis:names:tc:opendocument:xmlns:config:1.0\""
+                       "xmlns:xlink=\"http://www.w3.org/1999/xlink\""
+                       "xmlns:fo=\"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0\""
+                       "xmlns:of=\"urn:oasis:names:tc:opendocument:xmlns:of:1.2\""
+                       "xmlns:dc=\"http://purl.org/dc/elements/1.1/\""
+                       "xmlns:ooo=\"http://openoffice.org/2004/office\""
+                       "xmlns:dr3d=\"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0\""
+                       "xmlns:formx=\"urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0\""
+                       "xmlns:calcext=\"urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0\""
+                       "xmlns:drawooo=\"http://openoffice.org/2010/draw\""
+                       "xmlns:field=\"urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0\""
+                       "xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\""
+                       "xmlns:table=\"urn:oasis:names:tc:opendocument:xmlns:table:1.0\""
+                       "xmlns:number=\"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0\""
+                       "xmlns:ooow=\"http://openoffice.org/2004/writer\""
+                       "xmlns:oooc=\"http://openoffice.org/2004/calc\""
+                       "xmlns:tableooo=\"http://openoffice.org/2009/table\""
+                       "xmlns:loext=\"urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0\""
+                       "xmlns:math=\"http://www.w3.org/1998/Math/MathML\""
+                       "xmlns:form=\"urn:oasis:names:tc:opendocument:xmlns:form:1.0\""
+                       "xmlns:script=\"urn:oasis:names:tc:opendocument:xmlns:script:1.0\""
+                       "xmlns:dom=\"http://www.w3.org/2001/xml-events\""
+                       "xmlns:xforms=\"http://www.w3.org/2002/xforms\""
+                       "office:version=\"1.2\""
+                       "office:mimetype=\"application/vnd.oasis.opendocument.text\">"
+        "<office:meta>"
+            "<meta:creation-date>"
+                /"2023" // year
+                 '-' (['0'-'0'] ['1'-'9'] | '1' ['1'-'2']) // month (01, 02, ... 11, 12)
+                 '-' (['0'-'2'] ['1'-'9'] | '3' ['0'-'1']) // day (01, 02, ... 30, 31)
+                 'T' (['0'-'1'] ['0'-'9'] | '2' ['0'-'3']) // hour (01, 02, ... 22, 23)
+                 ':' (['0'-'5'] ['0'-'9']) // minute (00, 01, 59)
+                 ':' (['0'-'5'] ['0'-'9']) // seconds (00, 01, 59)
+                 '.' ['0'-'9']{9}/
+            "</meta:creation-date>"
+            "<dc:date>"
+                /"2023" // year
+                 '-' (['0'-'0'] ['1'-'9'] | '1' ['1'-'2']) // month (01, 02, ... 11, 12)
+                 '-' (['0'-'2'] ['1'-'9'] | '3' ['0'-'1']) // day (01, 02, ... 30, 31)
+                 'T' (['0'-'1'] ['0'-'9'] | '2' ['0'-'3']) // hour (01, 02, ... 22, 23)
+                 ':' (['0'-'5'] ['0'-'9']) // minute (00, 01, 59)
+                 ':' (['0'-'5'] ['0'-'9']) // seconds (00, 01, 59)
+                 '.' ['0'-'9']{9}/
+            "</dc:date>"
+            "<meta:editing-duration>"
+                /"PT" ['0'-'9']{,2} ("M" ['0'-'9']{,2})? "S"/
+            "</meta:editing-duration>"
+            "<meta:editing-cycles>"
+                "1"
+            "</meta:editing-cycles>"
+            "<meta:document-statistic"
+                "meta:table-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_tablecount
+                "meta:image-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_imagecount
+                "meta:object-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_objectcount
+                "meta:page-count=" /'\"' ['0'-'9']+ '\"'/ // no way to check this
+                "meta:paragraph-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_paragraphcount
+                "meta:word-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_wordcount
+                "meta:character-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_charactercount
+                "meta:non-whitespace-character-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_nonwhitespacecount
+                "/>"
+            "<meta:generator>LibreOffice/6.4.7.2$Linux_X86_64 LibreOffice_project/40$Build-2</meta:generator>"
+        "</office:meta>"
+        "<office:settings>"
+            "<config:config-item-set config:name=\"ooo:view-settings\">"
+                "<config:config-item config:name=\"ViewAreaTop\" config:type=\"long\">" /['0'-'9']{,6}/ "</config:config-item>"
+                "<config:config-item config:name=\"ViewAreaLeft\" config:type=\"long\">" /['0'-'9']{,5}/ "</config:config-item>"
+                "<config:config-item config:name=\"ViewAreaWidth\" config:type=\"long\">" /['0'-'9']{,5}/ "</config:config-item>"
+                "<config:config-item config:name=\"ViewAreaHeight\" config:type=\"long\">" /['0'-'9']{,5}/ "</config:config-item>"
+                "<config:config-item config:name=\"ShowRedlineChanges\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"InBrowseMode\" config:type=\"boolean\">" /("true" | "false")/ "</config:config-item>"
+                "<config:config-item-map-indexed config:name=\"Views\">"
+                "<config:config-item-map-entry>"
+                    "<config:config-item config:name=\"ViewId\" config:type=\"string\">view2</config:config-item>"
+                    "<config:config-item config:name=\"ViewLeft\" config:type=\"long\">" /['0'-'9']{,5}/ "</config:config-item>"
+                    "<config:config-item config:name=\"ViewTop\" config:type=\"long\">" /['0'-'9']{,6}/ "</config:config-item>"
+                    "<config:config-item config:name=\"VisibleLeft\" config:type=\"long\">" /['0'-'9']{,5}/ "</config:config-item>"
+                    "<config:config-item config:name=\"VisibleTop\" config:type=\"long\">" /['0'-'9']{,6}/ "</config:config-item>"
+                    "<config:config-item config:name=\"VisibleRight\" config:type=\"long\">" /['0'-'9']{,5}/ "</config:config-item>"
+                    "<config:config-item config:name=\"VisibleBottom\" config:type=\"long\">" /['0'-'9']{,6}/ "</config:config-item>"
+                    "<config:config-item config:name=\"ZoomType\" config:type=\"short\">0</config:config-item>"
+                    "<config:config-item config:name=\"ViewLayoutColumns\" config:type=\"short\">1</config:config-item>"
+                    "<config:config-item config:name=\"ViewLayoutBookMode\" config:type=\"boolean\">false</config:config-item>"
+                    "<config:config-item config:name=\"ZoomFactor\" config:type=\"short\">" /['0'-'9']{,3}/ "</config:config-item>"
+                    "<config:config-item config:name=\"IsSelectedFrame\" config:type=\"boolean\">false</config:config-item>"
+                    "<config:config-item config:name=\"AnchoredTextOverflowLegacy\" config:type=\"boolean\">false</config:config-item>"
+                "</config:config-item-map-entry>"
+                "</config:config-item-map-indexed>"
+            "</config:config-item-set>"
+            "<config:config-item-set config:name=\"ooo:configuration-settings\">"
+                "<config:config-item config:name=\"PrintProspect\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintReversed\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintSingleJobs\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintLeftPages\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrintTables\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrintControls\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrintPageBackground\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrintDrawings\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrintBlackFonts\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintAnnotationMode\" config:type=\"short\">0</config:config-item>"
+                "<config:config-item config:name=\"PrintTextPlaceholder\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"EmptyDbFieldHidesPara\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"DisableOffPagePositioning\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"SubtractFlysAnchoredAtFlys\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PropLineSpacingShrinksFirstLine\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"ApplyParagraphMarkFormatToNumbering\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"TreatSingleColumnBreakAsPageBreak\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"EmbedSystemFonts\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"EmbedComplexScriptFonts\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"EmbedAsianScriptFonts\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"EmbedLatinScriptFonts\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"EmbedOnlyUsedFonts\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"ContinuousEndnotes\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"EmbedFonts\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"ClippedPictures\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"FloattableNomargins\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"UnbreakableNumberings\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"HeaderSpacingBelowLastPara\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"AllowPrintJobCancel\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"UseOldPrinterMetrics\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"TabOverMargin\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"TabsRelativeToIndent\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"UseOldNumbering\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"InvertBorderSpacing\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintPaperFromSetup\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"UpdateFromTemplate\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"CurrentDatabaseCommandType\" config:type=\"int\">0</config:config-item>"
+                "<config:config-item config:name=\"LinkUpdateMode\" config:type=\"short\">1</config:config-item>"
+                "<config:config-item config:name=\"AddParaSpacingToTableCells\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"CurrentDatabaseCommand\" config:type=\"string\"/>"
+                "<config:config-item config:name=\"PrinterIndependentLayout\" config:type=\"string\">high-resolution</config:config-item>"
+                "<config:config-item config:name=\"ApplyUserData\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrintFaxName\" config:type=\"string\"/>"
+                "<config:config-item config:name=\"CurrentDatabaseDataSource\" config:type=\"string\"/>"
+                "<config:config-item config:name=\"ClipAsCharacterAnchoredWriterFlyFrames\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"IsKernAsianPunctuation\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"SaveThumbnail\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"UseFormerTextWrapping\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"AddExternalLeading\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"AddParaTableSpacing\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"StylesNoDefault\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"ChartAutoUpdate\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"PrinterSetup\" config:type=\"base64Binary\"/>"
+                "<config:config-item config:name=\"AddParaTableSpacingAtStart\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"Rsid\" config:type=\"int\">" /['1'-'9']['0'-'9']{,7}/ "</config:config-item>"
+                "<config:config-item config:name=\"EmbeddedDatabaseName\" config:type=\"string\"/>"
+                "<config:config-item config:name=\"FieldAutoUpdate\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"OutlineLevelYieldsNumbering\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"AlignTabStopPosition\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"CharacterCompressionType\" config:type=\"short\">0</config:config-item>"
+                "<config:config-item config:name=\"PrinterName\" config:type=\"string\"/>"
+                "<config:config-item config:name=\"SaveGlobalDocumentLinks\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrinterPaperFromSetup\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"UseFormerLineSpacing\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"AddParaLineSpacingToTableCells\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"UseFormerObjectPositioning\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintGraphics\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"SurroundTextWrapSmall\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"ConsiderTextWrapOnObjPos\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"MsWordCompTrailingBlanks\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"TabAtLeftIndentForParagraphsInList\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintRightPages\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"IgnoreFirstLineIndentInNumbering\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"RedlineProtectionKey\" config:type=\"base64Binary\"/>"
+                "<config:config-item config:name=\"DoNotJustifyLinesWithManualBreak\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintProspectRTL\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"PrintEmptyPages\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"DoNotResetParaAttrsForNumFont\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"AddFrameOffsets\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"IgnoreTabsAndBlanksForLineCalculation\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"LoadReadonly\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"DoNotCaptureDrawObjsOnPage\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"AddVerticalFrameOffsets\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"UnxForceZeroExtLeading\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"IsLabelDocument\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"TableRowKeep\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"RsidRoot\" config:type=\"int\">" /['1'-'9']['0'-'9']{,7}/ "</config:config-item>"
+                "<config:config-item config:name=\"PrintHiddenText\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"ProtectForm\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"MsWordCompMinLineHeightByFly\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"BackgroundParaOverDrawings\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"SaveVersionOnClose\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"MathBaselineAlignment\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"SmallCapsPercentage66\" config:type=\"boolean\">false</config:config-item>"
+                "<config:config-item config:name=\"CollapseEmptyCellPara\" config:type=\"boolean\">true</config:config-item>"
+                "<config:config-item config:name=\"TabOverflow\" config:type=\"boolean\">true</config:config-item>"
+            "</config:config-item-set>"
+        "</office:settings>"
+        
+        "<office:scripts>"
+            "<office:script script:language=\"ooo:Basic\">"
+                (
+                    "<ooo:libraries xmlns:ooo=\"http://openoffice.org/2004/office\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"/>"
+                    |
+                    "<ooo:libraries xmlns:ooo=\"http://openoffice.org/2004/office\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
+                        "<ooo:library-embedded ooo:name=\"Standard\"/>"
+                    "</ooo:libraries>"
+                )
+            "</office:script>"
+        "</office:scripts>"
+        
+        "<office:font-face-decls>"
+            
+            (
+                "<style:font-face"
+                    "style:name=" /'\"' ( "OpenSymbol"
+                                        | "monospace"
+                                        | "Noto Serif CJK SC"
+                                        | "Noto Sans CJK SC"
+                                        | "Noto Sans Mono CJK SC"
+                                        | "Lohit Devanagari"
+                                        | "Liberation Sans"
+                                        | "Liberation Serif"
+                                        | "Liberation Mono"
+                                        | "DejaVu Sans Mono"
+                                        | "Lohit Devanagari1"
+                                        | "Liberation Serif") '\"'/
+                    "svg:font-family=" /'\"' ( "OpenSymbol"
+                                             | "monospace"
+                                             | ("&apos;" ( "Noto Serif CJK SC"
+                                                         | "Noto Sans CJK SC"
+                                                         | "Noto Sans Mono CJK SC"
+                                                         | "Lohit Devanagari"
+                                                         | "Liberation Sans"
+                                                         | "Liberation Serif"
+                                                         | "Liberation Mono"
+                                                         | "DejaVu Sans Mono"
+                                                         | "Lohit Devanagari"
+                                                         | "Liberation Serif" )
+                                                "&apos;" ) ) '\"'/
+                   ("style:font-adornments=\"Book\"")?
+                   ("style:font-family-generic=" /'\"' ("roman" | "modern" | "swiss" | "system") '\"'/ )?
+                   ("style:font-charset=\"x-symbol\"")?
+                   ("style:font-pitch=" /'\"' ("variable" | "fixed") '\"'/)?
+                    "/>"
+            )+
+            
+        "</office:font-face-decls>"
+
+        "<office:styles>"
+            "<style:default-style"
+                "style:family=\"graphic\">"
+                
+                "<style:graphic-properties"
+                    "svg:stroke-color=\"#3465a4\""
+                    "draw:fill-color=\"#729fcf\""
+                    "fo:wrap-option=\"no-wrap\""
+                    "draw:shadow-offset-x=\"0.1181in\""
+                    "draw:shadow-offset-y=\"0.1181in\""
+                    "draw:start-line-spacing-horizontal=\"0.1114in\""
+                    "draw:start-line-spacing-vertical=\"0.1114in\""
+                    "draw:end-line-spacing-horizontal=\"0.1114in\""
+                    "draw:end-line-spacing-vertical=\"0.1114in\""
+                    "style:flow-with-text=\"false\"/>"
+                
+                "<style:paragraph-properties"
+                    "style:text-autospace=\"ideograph-alpha\""
+                    "style:line-break=\"strict\""
+                    "style:writing-mode=\"lr-tb\""
+                    "style:font-independent-line-spacing=\"false\">"
+                    "<style:tab-stops/>"
+                "</style:paragraph-properties>"
+                
+                "<style:text-properties"
+                    "style:use-window-font-color=\"true\""
+                    "style:font-name=\"Liberation Serif\""
+                    "fo:font-size=\"12pt\""
+                    "fo:language=\"en\""
+                    "fo:country=\"US\""
+                    "style:letter-kerning=\"true\""
+                    "style:font-name-asian=\"Noto Serif CJK SC\""
+                    "style:font-size-asian=\"10.5pt\""
+                    "style:language-asian=\"zh\""
+                    "style:country-asian=\"CN\""
+                    "style:font-name-complex=\"Lohit Devanagari\""
+                    "style:font-size-complex=\"12pt\""
+                    "style:language-complex=\"hi\""
+                    "style:country-complex=\"IN\"/>"
+            "</style:default-style>"
+            
+            "<style:default-style"
+                "style:family=\"paragraph\">"
+                
+                "<style:paragraph-properties"
+                    "fo:orphans=\"2\""
+                    "fo:widows=\"2\""
+                    "fo:hyphenation-ladder-count=\"no-limit\""
+                    "style:text-autospace=\"ideograph-alpha\""
+                    "style:punctuation-wrap=\"hanging\""
+                    "style:line-break=\"strict\""
+                    "style:tab-stop-distance=\"0.4925in\""
+                    "style:writing-mode=\"page\"/>"
+                
+                "<style:text-properties"
+                    "style:use-window-font-color=\"true\""
+                    "style:font-name=\"Liberation Serif\""
+                    "fo:font-size=\"12pt\""
+                    "fo:language=\"en\""
+                    "fo:country=\"US\""
+                    "style:letter-kerning=\"true\""
+                    "style:font-name-asian=\"Noto Serif CJK SC\""
+                    "style:font-size-asian=\"10.5pt\""
+                    "style:language-asian=\"zh\""
+                    "style:country-asian=\"CN\""
+                    "style:font-name-complex=\"Lohit Devanagari\""
+                    "style:font-size-complex=\"12pt\""
+                    "style:language-complex=\"hi\""
+                    "style:country-complex=\"IN\""
+                    "fo:hyphenate=\"false\""
+                    "fo:hyphenation-remain-char-count=\"2\""
+                    "fo:hyphenation-push-char-count=\"2\""
+                    "loext:hyphenation-no-caps=\"false\"/>"
+            "</style:default-style>"
+            
+            "<style:default-style style:family=\"table\">"
+                "<style:table-properties table:border-model=\"collapsing\"/>"
+            "</style:default-style>"
+            
+            "<style:default-style style:family=\"table-row\">"
+                "<style:table-row-properties fo:keep-together=\"auto\"/>"
+            "</style:default-style>"
+            
+           ("<style:style"
+                "style:name=" /'\"' ( "Heading" ("_20" ("_1" | "_2"))?
+                                    | "Header"
+                                    | "Footer"
+                                    | "Standard"
+                                    | "Text_20_body"
+                                    | "List" ("_20" ("_1" | "_2" | "_Indent" | "_Contents"))?
+                                    | "Bullet_20_Symbols"
+                                    | "Table_20_Contents"
+                                    | "Caption"
+                                    | "Quotations"
+                                    | "Figure"
+                                    | "Frame"
+                                    | "Graphics"
+                                    | "Header_20_and_20_Footer"
+                                    | "Preformatted_20_Text"
+                                    | "Numbering_20_Symbols"
+                                    | "Internet_20_link"
+                                    | "Index") '\"'/
+               ("style:display-name=" /'\"' ( "Heading 1"
+                                            | "Heading 2"
+                                            | "List 1"
+                                            | "List Indent"
+                                            | "List Contents"
+                                            | "Bullet Symbols"
+                                            | "Numbering Symbols"
+                                            | "Table Contents"
+                                            | "Preformatted Text"
+                                            | "Internet link"
+                                            | "Header and Footer"
+                                            | "Text body") '\"'/)?
+                "style:family=" /'\"' ( "text"
+                                      | "paragraph"
+                                      | "graphic") '\"'/
+               ("style:parent-style-name=" /'\"' ( "Standard"
+                                                 | "List"
+                                                 | "Heading"
+                                                 | "Caption"
+                                                 | "Header_20_and_20_Footer"
+                                                 | "Text_20_body") '\"'/)?
+                "style:next-style-name=\"Text_20_body\""?
+                "style:default-outline-level=\"2\""?
+                "style:auto-update=\"true\""?
+                "style:default-outline-level=\"1\""?
+               ("style:class=" /'\"' ("text" | "list" | "extra" | "index" | "html") '\"'/)?
+                "style:master-page-name=\"\""? ("/>" | ">"
+                
+               ("<style:paragraph-properties"
+                    "style:page-number=\"auto\""?
+                   ("fo:margin-left="   /'\"' '0' ('.' ['0'-'9']{,4})? "in" '\"'/)?
+                   ("fo:margin-right="  /'\"' '0' ('.' ['0'-'9']{,4})? "in" '\"'/)?
+                   ("fo:margin-top="    /'\"' '0' ('.' ['0'-'9']{,4})? "in" '\"'/)?
+                   ("fo:margin-bottom=" /'\"' '0' ('.' ['0'-'9']{,4})? "in" '\"'/)?
+                   ("loext:contextual-spacing=" /'\"' ("false" | "true") '\"'/)?
+                    "fo:text-align=\"start\""?
+                    "style:justify-single-word=\"false\""?
+                    "fo:line-height=\"100%\""?
+                    "text:number-lines=\"false\""?
+                    "text:line-number=\"0\""?
+                    "fo:line-height=\"115%\""?
+                   ("fo:text-indent=" /'\"' '-'? '0' ('.' ['0'-'9']{,2})? "in" '\"'/)?
+                    "style:auto-text-indent=\"false\""?
+                    "fo:keep-with-next=\"always\""?
+                    "style:page-number=\"auto\""?
+                   ("fo:padding=" /'\"' '0' '.' ['0'-'9']{,5} "in" '\"'/)?
+                    "fo:border=\"2.01pt solid #ffffff\""?
+                    "style:join-border=\"true\""? ("/>" | ">"
+                    
+                    "<style:tab-stops" ("/>" | ">"
+                       ("<style:tab-stop"
+                           ("style:position=" /'\"' ['0'-'9'] ('.' ['0'-'9']{,4})? "in" '\"'/)
+                           ("style:type=" /'\"' ("center" | "right") '\"'/)?
+                            "/>")+
+                
+                    "</style:tab-stops>")
+                    
+                "</style:paragraph-properties>"))?
+                
+               ("<style:text-properties"
+                    
+                    "fo:text-transform=\"uppercase\""?
+                   ("fo:color=" /'\"' '#' ['0'-'9','a'-'f']{6} '\"'/)?
+                   ("style:font-name=" /'\"' ( "Liberation Mono"
+                                             | "OpenSymbol"
+                                             | "DejaVu Sans Mono"
+                                             | "Liberation Sans") '\"'/)?
+                   ("fo:font-family=" /'\"' ( "OpenSymbol"
+                                            | ( "&apos;" ( "Liberation Mono"
+                                                         | "DejaVu Sans Mono"
+                                                         | "Liberation Sans") "&apos;" ) ) '\"'/)?
+                   "style:font-charset=\"x-symbol\""?
+                   ("style:font-style-name=\"Book\"")?
+                   ("style:font-family-generic=" /'\"' ("swiss" | "modern") '\"'/)?
+                   ("style:font-pitch=" /'\"' ("variable" | "fixed") '\"'/)?
+                   ("fo:font-size=" /'\"' ("10" | "12" | "14") "pt" '\"'/)?
+                    "fo:font-weight=\"bold\""?
+                    "fo:font-style=\"italic\""?
+                    "fo:background-color=\"transparent\""?
+                   
+                   ("style:font-name-asian=" /'\"' ( "Noto Sans CJK SC"
+                                                   | "OpenSymbol"
+                                                   | "Noto Sans Mono CJK SC") '\"'/)?
+                   ("style:font-family-asian=" /'\"' ( "OpenSymbol"
+                                                     | ( "&apos;" ( "Noto Sans Mono CJK SC"
+                                                                  | "Noto Sans CJK SC") "&apos;" ) ) '\"'/)?
+                   ("style:font-family-generic-asian=" /'\"' ("system" | "modern") '\"'/)?
+                   ("style:font-pitch-asian=" /'\"' ("fixed" | "variable") '\"'/)?
+                   ("style:font-size-asian=" /'\"' (("10" | "12" | "14") "pt" | ['0'-'9']{,3} "%") '\"'/)?
+                    "style:font-weight-asian=\"bold\""?
+                    "style:font-style-asian=\"italic\""?
+                    "style:font-charset-asian=\"x-symbol\""?
+                   
+                   ("style:font-name-complex=" /'\"' ( "OpenSymbol"
+                                                     | "Liberation Mono"
+                                                     | "Lohit Devanagari1"
+                                                     | "Lohit Devanagari") '\"'/)?
+                   ("style:font-family-complex=" /'\"' ( "OpenSymbol"
+                                                       | ( "&apos;" ( "Liberation Mono"
+                                                                    | "Lohit Devanagari") "&apos;" ) ) '\"'/)?
+                   ("style:font-family-generic-complex=" /'\"' ("modern" | "system") '\"'/)?
+                   ("style:font-pitch-complex=" /'\"' ("fixed" | "variable") '\"'/)?
+                   ("style:font-size-complex=" /'\"' (("10" | "12" | "14") "pt" | ['0'-'9']{,3} "%") '\"'/ )?
+                    "style:font-weight-complex=\"bold\""?
+                    "style:font-style-complex=\"italic\""?
+                    "style:font-charset-complex=\"x-symbol\""?
+                   
+                    "fo:language=\"zxx\""?
+                    "fo:country=\"none\""?
+                    
+                    "style:text-underline-style=\"solid\""?
+                    "style:text-underline-width=\"auto\""?
+                    "style:text-underline-color=\"font-color\""?
+                    
+                    "style:language-asian=\"zxx\""?
+                    "style:country-asian=\"none\""?
+                    "style:language-complex=\"zxx\""?
+                    "style:country-complex=\"none\""?
+                    
+                   ("officeooo:rsid=\"0009daf3\"")?
+                    "/>")?
+                
+               ("<style:graphic-properties"
+                    "text:anchor-type=\"paragraph\""
+                    "svg:x=\"0in\""
+                    "svg:y=\"0in\""
+                    "fo:margin-left=\"0.0791in\""?
+                    "fo:margin-right=\"0.0791in\""?
+                    "fo:margin-top=\"0.0791in\""?
+                    "fo:margin-bottom=\"0.0791in\""?
+                    "style:wrap=" /'\"' ("dynamic" | "parallel") '\"'/
+                    "style:number-wrapped-paragraphs=\"no-limit\""
+                    "style:wrap-contour=\"false\""
+                    "style:vertical-pos=\"top\""
+                    "style:vertical-rel=" /'\"' ("paragraph" | "paragraph-content") '\"'/
+                    "style:horizontal-pos=\"center\""
+                    "style:horizontal-rel=" /'\"' ("paragraph" | "paragraph-content") '\"'/
+                    "fo:padding=\"0.0591in\""?
+                    "fo:border=\"0.06pt solid #000000\""?
+                    "/>")?
+                
+            "</style:style>"))+
+            
+            "<text:outline-style style:name=\"Outline\">"
+                "<text:outline-level-style text:level=\"1\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"2\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"3\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"4\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"5\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"6\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"7\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+                
+                "<text:outline-level-style text:level=\"8\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+
+                "<text:outline-level-style text:level=\"9\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+
+                "<text:outline-level-style text:level=\"10\" style:num-format=\"\">"
+                    "<style:list-level-properties text:list-level-position-and-space-mode=\"label-alignment\">"
+                        "<style:list-level-label-alignment text:label-followed-by=\"listtab\"/>"
+                    "</style:list-level-properties>"
+                "</text:outline-level-style>"
+            "</text:outline-style>"
+
+            "<text:notes-configuration"
+                "text:note-class=\"footnote\""
+                "style:num-format=\"1\""
+                "text:start-value=\"0\""
+                "text:footnotes-position=\"page\""
+                "text:start-numbering-at=\"document\"/>"
+
+            "<text:notes-configuration"
+                "text:note-class=\"endnote\""
+                "style:num-format=\"i\""
+                "text:start-value=\"0\"/>"
+
+            "<text:linenumbering-configuration"
+                "text:number-lines=\"false\""
+                "text:offset=\"0.1965in\""
+                "style:num-format=\"1\""
+                "text:number-position=\"left\""
+                "text:increment=\"5\"/>"
+        "</office:styles>"
+        
+        "<office:automatic-styles>"
+            (   // paragraph styles:
+                "<style:style"
+                    "style:name=" /'\"' "P" ['1'-'9'] '\"'/
+                    "style:family=\"paragraph\""
+                    "style:parent-style-name=" /'\"' ( "Standard"
+                                                     | "Heading_20_1"
+                                                     | "Header"
+                                                     | "Footer"
+                                                     | "Text_20_body"
+                                                     | "Table_20_Contents" ) '\"'/
+                    ("style:list-style-name=" /'\"' "L" ("1" | "2") '\"'/)?
+                    "style:master-page-name=\"\""?
+                    ">"
+                    
+                   ("<loext:graphic-properties"
+                        "draw:fill=\"none\"/>")?
+                    
+                   ("<style:paragraph-properties"
+                        "fo:margin-left=\"-0.1252in\""?
+                        "fo:margin-left=\"0in\""?
+                        "fo:margin-right=\"0in\""?
+                        "fo:margin-right=\"0.5in\""?
+                        "fo:text-indent=\"0in\""?
+                       ("fo:text-align=" /'\"' ("center" | "end") '\"'/)?
+                        "style:auto-text-indent=\"false\""?
+                        "style:auto-text-indent=\"false\""?
+                        "style:page-number=\"auto\""?
+                        "fo:background-color=\"transparent\""?
+                        "fo:break-before=\"page\""?
+                        "style:justify-single-word=\"false\""?
+                        "/>")?
+                    
+                   ("<style:text-properties"
+                       ("officeooo:rsid=" /'\"' ['0'-'9','a'-'f']{8} '\"'/)?
+                        "officeooo:paragraph-rsid=" /'\"' ['0'-'9','a'-'f']{8} '\"'/
+                        "/>")?
+                
+                "</style:style>"
+            
+            | // text style?
+            
+                "<style:style"
+                    ("style:name=" /'\"' 'T' ['1'-'9'] '\"'/)
+                    "style:family=\"text\""
+                    ">"
+                    
+                    "<style:text-properties"
+                        "fo:color=\"#ffffff\""?
+                        "style:font-name=\"DejaVu Sans Mono\""?
+                        "fo:font-size=\"10pt\""?
+                       ("fo:color=" /'\"' '#' ['0'-'9','a'-'f']{6} '\"'/)?
+                       ("officeooo:rsid=" /'\"' ['0'-'9','a'-'f']{8} '\"'/)?
+                        "/>"
+                
+                "</style:style>"
+            
+            | // list styles
+            
+                "<text:list-style"
+                   ("style:name=" /'\"' 'L' ['1'-'9'] '\"'/)
+                    ">"
+                    
+                   (
+                       "<text:list-level-style-number"
+                           ("text:level=" /'\"' (['1'-'9'] | "10") '\"'/)
+                            "text:style-name=\"Numbering_20_Symbols\""
+                            "style:num-format=\"\""
+                            ">"
+                        
+                            "<style:list-level-properties"
+                                "text:list-level-position-and-space-mode=\"label-alignment\""
+                                ">"
+                                
+                                "<style:list-level-label-alignment"
+                                    "text:label-followed-by=\"listtab\""
+                                   ("text:list-tab-stop-position=" /'\"' ['0'-'9'] ('.' ['0'-'9']{,2})? "in" '\"'/)
+                                   ("fo:text-indent=" /'\"' '-'? ['0'-'9'] '.' ['0'-'9']{,4} "in" '\"'/)
+                                   ("fo:margin-left=" /'\"' ['0'-'9'] ('.' ['0'-'9']{,2})? "in" '\"'/)
+                                    "/>"
+                            
+                            "</style:list-level-properties>"
+                        
+                        "</text:list-level-style-number>"
+                    |
+                       "<text:list-level-style-bullet"
+                           ("text:level=" /'\"' (['2'-'9'] | "10") '\"'/)
+                            "text:style-name=\"Bullet_20_Symbols\""
+                           ("text:bullet-char=" /'\"' ("◦" | "▪" | "•" | "◦" | "▪" | "•" | "▪" | "•")? '\"'/)
+                            ">"
+                            
+                            "<style:list-level-properties"
+                                "text:list-level-position-and-space-mode=\"label-alignment\""
+                                ">"
+                            
+                                "<style:list-level-label-alignment"
+                                    "text:label-followed-by=\"listtab\""
+                                   ("text:list-tab-stop-position=" /'\"' ['0'-'9'] ('.' ['0'-'9']{,2})? "in" '\"'/)
+                                   ("fo:text-indent=" /'\"' '-'? ['0'-'9'] '.' ['0'-'9']{,4} "in" '\"'/)
+                                   ("fo:margin-left=" /'\"' ['0'-'9'] ('.' ['0'-'9']{,2})? "in" '\"'/)
+                                    "/>"
+                            
+                            "</style:list-level-properties>"
+                        
+                        "</text:list-level-style-bullet>"
+                    )+
+                    
+                "</text:list-style>"
+            
+            | // graphic styles:
+            
+                "<style:style"
+                    "style:name=" /'\"' "fr" ("1" | "2") '\"'/
+                    "style:family=\"graphic\""
+                    "style:parent-style-name=" /'\"' ("Graphics" | "Frame") '\"'/
+                    ">"
+                    
+                    "<style:graphic-properties"
+                        "fo:margin-left=\"0in\""
+                        "fo:margin-right=\"0in\""
+                        "fo:margin-top=\"0in\""
+                        "fo:margin-bottom=\"0in\""
+                        "style:run-through=\"foreground\""?
+                        "style:wrap=" /'\"' ("none" | "dynamic") '\"'/
+                        "style:number-wrapped-paragraphs=\"no-limit\""?
+                        "style:vertical-pos=" /'\"' ("from-top" | "top") '\"'/
+                        "style:vertical-rel=" /'\"' ("paragraph" | "paragraph-content") '\"'/
+                        "style:horizontal-pos=" /'\"' ("from-left" | "center") '\"'/
+                        "style:horizontal-rel=" /'\"' ("paragraph" | "paragraph-content") '\"'/
+                        "fo:padding=\"0in\""
+                        "fo:border=\"none\""
+                        "style:shadow=\"none\""?
+                        "draw:shadow-opacity=\"100%\""?
+                        "style:mirror=\"none\""?
+                        "fo:clip=\"rect(0in, 0in, 0in, 0in)\""?
+                        "draw:luminance=\"0%\""?
+                        "draw:contrast=\"0%\""?
+                        "draw:red=\"0%\""?
+                        "draw:green=\"0%\""?
+                        "draw:blue=\"0%\""?
+                        "draw:gamma=\"100%\""?
+                        "draw:color-inversion=\"false\""?
+                        "draw:image-opacity=\"100%\""?
+                        "draw:color-mode=\"standard\""?
+                        "draw:wrap-influence-on-position=\"once-concurrent\""?
+                        "loext:allow-overlap=\"true\""?
+                        "loext:rel-width-rel=\"paragraph\""?
+                        "/>"
+                
+                "</style:style>"
+            
+            | // table styles:
+                "<style:style"
+                        "style:name=" /'\"' "Table" ['1'-'9'] '\"'/
+                        "style:family=\"table\""
+                        ">"
+                    
+                    "<style:table-properties"
+                            "style:width=\"6.3771in\""
+                            "table:align=\"left\""
+                            "fo:background-color=\"transparent\">"
+                        
+                        "<style:background-image/>"
+                    
+                    "</style:table-properties>"
+                    
+                "</style:style>"
+                
+                // table column styles:
+                (
+                    "<style:style"
+                            "style:name=" /'\"' "Table" ['1'-'9'] '.' ['A'-'Z'] '\"'/
+                            "style:family=\"table-column\""
+                            ">"
+                        
+                        "<style:table-column-properties" "style:column-width=" /'\"' ['0'-'9']'.'['0'-'9']{4}"in" '\"'/ "/>"
+                    "</style:style>"
+                )+
+                
+                // per row:
+                (
+                    // optional table row styles:
+                    (
+                        "<style:style"
+                                "style:name=" /'\"' "Table" ['1'-'9'] '.' ['1'-'9'] '\"'/
+                                "style:family=\"table-row\">"
+                            
+                            "<style:table-row-properties" "style:min-row-height=" /'\"' ['0'-'9']'.'['0'-'9']{,4} "in" '\"'/ "/>"
+                        
+                        "</style:style>"
+                    )?
+                    
+                    // one or more cells:
+                    (
+                        "<style:style"
+                                "style:name=" /'\"' "Table" ['1'-'9'] '.' ['A'-'Z']['0'-'9']{,2} '\"'/
+                                "style:family=\"table-cell\">"
+                            
+                            "<style:table-cell-properties" ("style:vertical-align=" /'\"' ("middle" | "bottom") '\"'/)?
+                                                           ("fo:background-color=" /'\"' '#' ['0'-'9','a'-'z']{6} '\"'/)?
+                                                            "fo:padding=\"0.0382in\""?
+                                                           ( "fo:border=\"0.5pt solid #000000\""?
+                                                           | "fo:border-left=\"0.5pt solid #000000\""?
+                                                            ("fo:border-right=" /'\"' ("0.5pt solid #000000" | "none") '\"'/)?
+                                                            ("fo:border-top=" /'\"' ("0.5pt solid #000000" | "none") '\"'/)?
+                                                             "fo:border-bottom=\"0.5pt solid #000000\""? )
+                                                           "style:writing-mode=\"page\""?
+                                ( ">"
+                                    "<style:background-image/>"
+                                    "</style:table-cell-properties>"
+                                |
+                                "/>"
+                            )
+                            
+                        "</style:style>"
+                    )+
+                )+
+            )*
+            
+            "<style:page-layout style:name=\"pm1\">"
+                "<style:page-layout-properties"
+                    "fo:page-width=\"8.5in\""
+                    "fo:page-height=\"11in\""
+                    "style:num-format=\"1\""
+                    "style:print-orientation=\"portrait\""
+                   ("fo:margin-top="    /'\"' ['0'-'9'] ('.' ['0'-'9']{,4})? "in" '\"'/)
+                   ("fo:margin-bottom=" /'\"' ['0'-'9'] ('.' ['0'-'9']{,4})? "in" '\"'/)
+                   ("fo:margin-left="   /'\"' ['0'-'9'] ('.' ['0'-'9']{,4})? "in" '\"'/)
+                   ("fo:margin-right="  /'\"' ['0'-'9'] ('.' ['0'-'9']{,4})? "in" '\"'/)
+                    "fo:background-color=\"#000000\""?
+                    "style:writing-mode=\"lr-tb\""
+                    "draw:fill=\"solid\""?
+                    "draw:fill-color=\"#000000\""?
+                    "style:footnote-max-height=\"0in\""
+                    ">"
+
+                    "<style:footnote-sep"
+                        "style:width=\"0.0071in\""
+                        "style:distance-before-sep=\"0.0398in\""
+                        "style:distance-after-sep=\"0.0398in\""
+                        "style:line-style=\"solid\""
+                        "style:adjustment=\"left\""
+                        "style:rel-width=\"25%\""
+                        "style:color=\"#000000\"/>"
+
+                "</style:page-layout-properties>"
+
+                "<style:header-style" ( "/>" | ">"
+                    "<style:header-footer-properties"
+                        "fo:min-height=\"0in\""
+                        "fo:margin-bottom=\"0.1965in\""
+                        "/>"
+                    
+                "</style:header-style>" )
+
+                "<style:footer-style" ( "/>" | ">"
+                    "<style:header-footer-properties"
+                        "fo:min-height=\"0in\""
+                        "fo:margin-top=\"0.1965in\""
+                        "/>"
+                "</style:footer-style>" )
+                
+            "</style:page-layout>"
+
+        "</office:automatic-styles>"
+        
+        "<office:master-styles>"
+            "<style:master-page"
+                "style:name=\"Standard\""
+                "style:page-layout-name=\"pm1\"" ("/>" | ">"
+                
+                "<style:header>"
+                    content
+                "</style:header>"
+                
+                "<style:footer>"
+                    content
+                "</style:footer>"
+                
+            "</style:master-page>")
+        "</office:master-styles>"
+        
+        body
+        
+    "</office:document>"
+;
+
+body:
+    "<office:body>"
+        "<office:text"
+            "text:use-soft-page-breaks=\"true\""?
+            ">"
+            
+           ("<office:forms" "form:automatic-focus=\"false\""
+                            "form:apply-design-mode=\"false\"/>")?
+            
+            "<text:sequence-decls>"
+                "<text:sequence-decl text:display-outline-level=\"0\" text:name=\"Illustration\"/>"
+                "<text:sequence-decl text:display-outline-level=\"0\" text:name=\"Table\"/>"
+                "<text:sequence-decl text:display-outline-level=\"0\" text:name=\"Text\"/>"
+                "<text:sequence-decl text:display-outline-level=\"0\" text:name=\"Drawing\"/>"
+                "<text:sequence-decl text:display-outline-level=\"0\" text:name=\"Figure\"/>"
+            "</text:sequence-decls>"
+            
+            content+
+            
+        "</office:text>"
+    "</office:body>"
+    ;
+
+content: header | paragraph | list | table;
+
+text:
+    ("<text:s"
+        ("text:c=" /'\"' ['0'-'9']{,2} '\"'/)?
+        "/>")?
+    
+    (
+        / '-'? (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+
+         ('-'  (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+)* / #word
+    |
+        / [ ',' | '?' | '!' | ';' | ':' | '-', '%' | '|' | '*' | '_' | '=' ]/ #symbol
+    
+    | "&quot;"
+    | "&amp;"
+    | "&apos;"
+    | "<text:tab/>"
+    | "<text:line-break/>"
+    | "<text:soft-page-break/>"
+    |
+        "<text:sequence" #sequence
+            "text:ref-name=\"refFigure0\""
+            "text:name=\"Figure\""
+            "text:formula=\"ooow:Figure+1\""
+            "style:num-format=\"1\""
+            ">"
+            "1"
+        "</text:sequence>"
+    |
+        "<text:span" #span
+            ("text:style-name=" /'\"' "T" ['1'-'9'] '\"'/)
+            ">"
+            text+
+        "</text:span>"
+    |
+        "<text:page-number" #pagenumber
+            "text:select-page=\"current\""
+            ">"
+            "1"
+        "</text:page-number>"
+    |
+        "<text:a" #link
+            "xlink:type=\"simple\""
+            "xlink:href=\"mailto:zthannhauser@gmail.com\""
+            "text:style-name=\"Internet_20_link\""
+            "text:visited-style-name=\"Visited_20_Internet_20_Link\""
+            ">"
+            text
+        "</text:a>"
+    ) ;
+
+header:
+    "<text:h"
+        "text:style-name=" /'\"' ( ("Heading_20" ("_1" | "_2"))
+                                 | "P1") '\"'/
+        "text:outline-level=" /'\"' ['1'-'2'] '\"'/ ("/>" | ">"
+         
+         (text #text)+
+         
+    "</text:h>")
+    ;
+
+
+paragraph:
+    "<text:p"
+        "text:style-name=" /'\"' ( "Table_20_Contents"
+                                 | "Text_20_body"
+                                 | "Standard"
+                                 | "Figure"
+                                 | "Preformatted_20_Text"
+                                 | "P" ['1'-'9'] ) '\"'/ ("/>" | ">"
+         
+        ( text #text | image #image )+
+         
+    "</text:p>")
+    ;
+
+image:
+    "<draw:frame"
+        "draw:style-name=" /'\"' "fr" ("1" | "2") '\"'/
+        "draw:name=" /'\"' ("Frame1" | "my favorate image") '\"'/
+        "text:anchor-type=\"char\""
+        "svg:x=\"0.7862in\""?
+        "svg:y=\"0.1756in\""?
+        "svg:width=" /'\"' ['0'-'9'] '.' ['0'-'9']{,4} "in" '\"'/
+        "style:rel-width=\"36%\""?
+        "svg:height=\"2.3874in\""?
+        "style:rel-height=\"scale\""?
+        "draw:z-index=" /'\"' ("0" | "1") '\"'/
+        ">"
+        
+        (
+            "<draw:image" #data
+                "loext:mime-type=\"image/x-MS-bmp\""
+                ">"
+                
+                "<office:binary-data>"
+                    /['a'-'z','A'-'Z','/','0'-'9','=','+']{36}/+
+                "</office:binary-data>"
+            "</draw:image>"
+        |
+            "<draw:text-box" #caption
+                "fo:min-height=\"1.111in\""
+                ">"
+                paragraph
+            "</draw:text-box>"
+        )
+        
+    "</draw:frame>";
+
+list:
+    "<text:list"
+       ("xml:id=" /'\"' "list" ['0'-'9']{10}'\"'/)?
+       ("text:style-name=" /'\"' 'L' ['1'-'2'] '\"'/)?
+        ">"
+        
+       ("<text:list-item>" content+ "</text:list-item>")+
+   "</text:list>"
+    ;
+
+table:
+    "<table:table"
+        "table:name=\"Table1\""
+        "table:style-name=\"Table1\"" ">"
+
+        // one or more column declarations:
+        (
+            "<table:table-column"
+                "table:style-name=" /'\"' "Table" "1" "." ['A'-'Z']'\"'/
+                ("table:number-columns-repeated=\"2\"")?
+                "/>"
+        )+
+        
+        // one or more row descriptions:
+        (
+            "<table:table-row"
+                "table:style-name=" /'\"' "Table" ("Line94678479607056" | ['1'-'9'] '.' ['1'-'9']) '\"'/
+                ">"
+                
+                // one or more cell descriptions:
+                (
+                    "<table:table-cell"
+                        "table:style-name=" /'\"' "Table" "1" "." ['A'-'Z']['0'-'9']{,2} '\"'/
+                        ("table:number-columns-spanned=" /'\"' ['1'-'9'] '\"'/)?
+                        ("table:number-rows-spanned=" /'\"' ['1'-'9'] '\"'/)?
+                        "office:value-type=\"string\""
+                        ">"
+                        
+                        paragraph
+                    
+                    "</table:table-cell>"
+                    
+                    |
+                    
+                    "<table:covered-table-cell/>"
+                )+
+                
+            "</table:table-row>"
+        )+
+        
+    "</table:table>"
+    ;
+
+
+// number of tables in metadata must match the actual number of tables:
+raw_tablecount = root[0].metadata_tablecount;
+claimed_tablecount = int!(raw_tablecount[1:len!(raw_tablecount)-1]);
+//%print: claimed_tablecount;
+actual_tablecount = len!(table);
+//%print: actual_tablecount;
+%error: claimed_tablecount == actual_tablecount;
+
+// number of images in metadata must match the actual number of images:
+raw_imagecount = root[0].metadata_imagecount;
+claimed_imagecount = int!(raw_imagecount[1:len!(raw_imagecount)-1]);
+//%print: claimed_imagecount;
+actual_imagecount = len!(filter!($image i -> bool: i has data, image));
+//%print: actual_imagecount;
+%error: claimed_imagecount == actual_imagecount;
+
+raw_objectcount = root[0].metadata_objectcount;
+claimed_objectcount = int!(raw_objectcount[1:len!(raw_objectcount)-1]);
+//%print: claimed_objectcount;
+%error: claimed_objectcount == 0;
+
+text_has_content = $text t -> bool: false
+        || (t has word)
+        || (t has symbol)
+        || (t has sequence)
+        || (t has span)
+        || (t has pagenumber)
+        || (t has link);
+raw_paragraphcount = root[0].metadata_paragraphcount;
+claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
+//%print: claimed_paragraphcount;
+actual_paragraphcount = 0
+    + len!(filter!($paragraph p -> bool: (p has text) && text_has_content(p.text), paragraph))
+    + len!(filter!($header h -> bool: (h has text) && text_has_content(h.text), header));
+//%print: actual_paragraphcount;
+%error: claimed_paragraphcount == actual_paragraphcount;
+
+// raw_wordcount = root[0].metadata_wordcount;
+// claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
+// %print: claimed_wordcount;
+// %error: claimed_wordcount == 3;
+// word count claimed in the metadata must match the actual number of words
+// in the body of the document:
+// raw_wordcount = root[0].metadata_wordcount;
+// claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
+// %print: claimed_wordcount;
+// actual_wordcount = len!(filter!($text t -> bool: t has word, text));
+// %print: actual_wordcount;
+// %error: claimed_wordcount == actual_wordcount;
+
+//raw_charactercount = root[0].metadata_charactercount;
+//claimed_charactercount = int!(raw_charactercount[1:len!(raw_charactercount)-1]);
+//%print: claimed_charactercount;
+//%error: claimed_charactercount == 3;
+
+//raw_nonwhitespacecount = root[0].metadata_nonwhitespacecount;
+//claimed_nonwhitespacecount = int!(raw_nonwhitespacecount[1:len!(raw_nonwhitespacecount)-1]);
+//%print: claimed_nonwhitespacecount;
+//%error: claimed_nonwhitespacecount == 3;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

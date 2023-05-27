@@ -22,11 +22,10 @@ struct statement* new_parse_statement(
 	ENTER;
 	
 	struct parse_statement* this = (void*) new_statement(
+	    line,
 		sk_parse,
 		&parse_statement_inheritance,
 		sizeof(*this));
-	
-	this->line = line;
 	
 	this->expression = inc_expression(expression);
 	

@@ -1,7 +1,0 @@
-bin/debug-build/no-verbose/no-dotout/./expression/string_slice/inheritance.o: \
- expression/string_slice/inheritance.c debug.h string/struct.h \
- expression/string_slice/inheritance.h \
- expression/string_slice/../inheritance.h \
- expression/string_slice/print_source.h \
- expression/string_slice/evaluate.h expression/string_slice/print.h \
- expression/string_slice/free.h

@@ -22,7 +22,7 @@ value
 
 start: value #value;
 
-%start: start;
+%parse: argv as start;
 
 %error: start[0].value has list;
 
@@ -35,6 +35,8 @@ x = start[0].value.list.elements;
 
 %error: x[1] has integer;
 %error: x[1].integer == 2;
+
+%print: "test";
 
 %error: x[2] has decimal;
 %error: x[2].decimal == 3.4;

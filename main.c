@@ -1,7 +1,10 @@
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <signal.h>
+#include <sys/time.h>
 
 #include <debug.h>
 
@@ -10,6 +13,9 @@
 #include <cmdln/flags.h>
 #include <cmdln/process.h>
 #include <cmdln/free.h>
+#ifdef VERBOSE
+#include <cmdln/verbose.h>
+#endif
 
 #include <lex/new.h>
 #include <lex/minimize_lexer.h>
@@ -31,6 +37,10 @@
 #include <list/statement/free.h>
 
 #include <parse/driver.h>
+
+#ifdef VERBOSE
+#include <misc/default_sighandler.h>
+#endif
 
 #include <type_cache/new.h>
 #include <type_cache/free.h>
@@ -54,6 +64,18 @@ int main(int argc, char* const* argv)
 	
 	struct cmdln* flags = cmdln_process(argc, argv);
 	
+	#ifdef VERBOSE
+	if (verbose)
+	{
+		signal(SIGALRM, default_sighandler);
+		
+		setitimer(ITIMER_REAL, &(const struct itimerval) {
+			.it_interval = {.tv_sec = 0, .tv_usec = 250 * 1000},
+			.it_value = {.tv_sec = 1, .tv_usec = 0},
+		}, NULL);
+	}
+	#endif
+	
 	struct lex* lex = new_lex();
 	
 	struct avl_tree_t* grammar = avl_alloc_tree(compare_named_grammars, free_named_grammar);
@@ -64,27 +86,22 @@ int main(int argc, char* const* argv)
 	
 	parse_driver(lex, grammar, structinfos, raw_statements, flags->input_path);
 	
-	
 	struct type_cache* tcache = new_type_cache();
 	
 	struct avl_tree_t* types = avl_alloc_tree(compare_named_types, free_named_type);
 	
 	specialize_grammar_types(types, tcache, structinfos);
 	
-	
 	struct statement_list* statements = new_statement_list();
 	
 	type_check(tcache, types, raw_statements, statements);
 	
-	
 	yacc(lex, structinfos, grammar, statements);
-	
 	
 	if (flags->minimize_lexer)
 	{
 		lex_minimize_lexer(lex, statements);
 	}
-	
 	
 	struct stringtree* content = out(tcache, types, statements);
 	
@@ -97,7 +114,6 @@ int main(int argc, char* const* argv)
 	}
 	
 	stringtree_stream(content, stream);
-	
 	
 	free_raw_statement_list(raw_statements);
 	
@@ -120,6 +136,11 @@ int main(int argc, char* const* argv)
 	fclose(stream);
 	
 	free_lex(lex);
+	
+	#ifdef VERBOSE
+	if (verbose && write(1, "\e[K", 3) < 3)
+		abort();
+	#endif
 	
 	EXIT;
 	#ifdef DEBUGGING

@@ -20,6 +20,10 @@ bool ptrset_add(
 	
 	if (node)
 	{
+		#ifdef VERBOSE
+		set->n++;
+		#endif
+		
 		new = true;
 	}
 	else if (errno == EEXIST)

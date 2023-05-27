@@ -10,7 +10,5 @@ struct assert_statement
 	enum assertion_kind kind;
 	
 	struct expression* expression;
-	
-	unsigned line;
 };
 

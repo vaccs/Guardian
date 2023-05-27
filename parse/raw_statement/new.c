@@ -34,12 +34,15 @@ struct raw_statement* new_raw_assertion(
 }
 
 struct raw_statement* new_raw_declaration(
+	unsigned line,
 	struct string* name,
 	struct zebu_expression* expression)
 {
 	ENTER;
 	
 	struct raw_statement* this = smalloc(sizeof(*this));
+	
+	this->line = line;
 	
 	this->kind = rsk_declaration;
 	
@@ -55,11 +58,14 @@ struct raw_statement* new_raw_declaration(
 
 
 struct raw_statement* new_raw_print(
+	unsigned line,
 	struct zebu_expression* expression)
 {
 	ENTER;
 	
 	struct raw_statement* this = smalloc(sizeof(*this));
+	
+	this->line = line;
 	
 	this->kind = rsk_print;
 	

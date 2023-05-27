@@ -8,6 +8,8 @@
 
 #include <defines/argv0.h>
 
+#include <enums/error.h>
+
 #include <expression/struct.h>
 #include <expression/literal/struct.h>
 #include <expression/literal/new.h>
@@ -71,7 +73,7 @@ struct expression* specialize_equality_expression(
 			
 			stringtree_stream(tree, stderr);
 			
-			exit(1);
+			exit(e_bad_input_file);
 			
 			free_stringtree(lefttree);
 			free_stringtree(righttree);
@@ -86,16 +88,7 @@ struct expression* specialize_equality_expression(
 			
 			int cmp = compare_values(spef_left->value, spef_right->value);
 			
-			bool is_equal;
-			
-			if (zexpression->e)
-				is_equal = cmp == 0;
-			else if (zexpression->n)
-				is_equal = cmp != 0;
-			else
-			{
-				TODO;
-			}
+			bool is_equal = zexpression->e ? cmp == 0 : cmp != 0;
 			
 			dpvb(is_equal);
 			
@@ -107,7 +100,8 @@ struct expression* specialize_equality_expression(
 		}
 		else
 		{
-			retval = new_comparison_expression(type, zexpression->n ? cek_not_equal_to : cek_equal_to, left, right);
+			retval = new_comparison_expression(type, zexpression->n
+				? cek_not_equal_to : cek_equal_to, left, right);
 		}
 		
 		free_expression(left), free_expression(right);

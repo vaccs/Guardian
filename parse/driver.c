@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include <debug.h>
 
@@ -23,6 +24,10 @@
 #include <misc/break_and_open_path.h>
 
 #include <lex/add_EOF_token.h>
+
+#ifdef VERBOSE
+#include <misc/default_sighandler.h>
+#endif
 
 #include "process_skip.h"
 #include "process_assert.h"
@@ -77,6 +82,23 @@ void parse_driver(
 	ENTER;
 	
 	dpvs(input_path);
+	
+	#ifdef VERBOSE
+	void handler1(int _)
+	{
+		char buffer[1000] = {};
+		
+		size_t len = snprintf(buffer, sizeof(buffer),
+			"\e[K" "guardian: parsing '%s' ...\r", input_path);
+		
+		if (write(1, buffer, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	signal(SIGALRM, handler1);
+	#endif
 	
 	struct avl_tree_t* seen = avl_alloc_tree(compare, free);
 	
@@ -172,6 +194,10 @@ void parse_driver(
 	}
 	
 	helper(AT_FDCWD, input_path);
+	
+	#ifdef VERBOSE
+	signal(SIGALRM, default_sighandler);
+	#endif
 	
 	lex_add_EOF_token(lex);
 	

@@ -14,7 +14,7 @@ shadow_record:
 
 shadow_name: /['a'-'z', 'A'-'Z', '_']['-', 'a'-'z', 'A'-'Z', '0'-'9', '_']{0,31}/ #value;
 
-%include: "crypt.maia";
+%include: "crypt.guard";
 
 shadow_password: crypt_password #password;
 
@@ -32,7 +32,7 @@ account_expiration_date: /['0'-'9']* /;
 
 reserved: /[!(':', '\n')]* /;
 
-%include: "set-functions.maia";
+%include: "set-functions.guard";
 
 %error: is_unique(map!($shadow_name n -> string: n.value, shadow_name));
 

@@ -17,11 +17,10 @@ struct statement* new_assert_statement(
 	ENTER;
 	
 	struct assert_statement* this = (void*) new_statement(
+	    line,
 		sk_assert,
 		&assert_statement_inheritance,
 		sizeof(*this));
-	
-	this->line = line;
 	
 	this->kind = kind;
 	

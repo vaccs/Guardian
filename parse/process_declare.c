@@ -22,6 +22,7 @@ void process_declare(
 	struct string* name = new_string_from_token(zstatement->name);
 	
 	struct raw_statement* statement = new_raw_declaration(
+	    zstatement->startline,
 		name, zstatement->expression);
 	
 	raw_statement_list_append(statements, statement);

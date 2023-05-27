@@ -28,6 +28,10 @@ struct ptrset* new_ptrset()
 	
 	this->refcount = 1;
 	
+	#ifdef VERBOSE
+	this->n = 0;
+	#endif
+	
 	EXIT;
 	return this;
 }

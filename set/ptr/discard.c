@@ -12,7 +12,14 @@ void ptrset_discard(
 {
 	ENTER;
 	
+	#ifdef VERBOSE
+	if (avl_delete(this->tree, element))
+	{
+		this->n--;
+	}
+	#else
 	avl_delete(this->tree, element);
+	#endif
 	
 	EXIT;
 }

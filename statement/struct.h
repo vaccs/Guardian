@@ -11,6 +11,8 @@ struct statement
 	struct statement_inheritance* inheritance;
 	
 	unsigned refcount;
+	
+	unsigned line;
 };
 
 #endif

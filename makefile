@@ -79,15 +79,17 @@ default: $(buildprefix)/guardian
 
 ARGS += -v
 
-ARGS += -m
+#ARGS += -m
 
-# ARGS += -i ./examples/json.guard
+ARGS += -i ./examples/flat-odt.guard
+#ARGS += -i ./examples/json.guard
 # ARGS += -i ./examples/math.guard
 #ARGS += -i ./examples/passwd.guard
 #ARGS += -i ./examples/shadow.guard
 #ARGS += -i ./examples/group.guard
 #ARGS += -i ./examples/login.guard
-ARGS += -i ./examples/zest.guard
+#ARGS += -i ./examples/zest.guard
+#ARGS += -i ./examples/apache.guard
 
 ARGS += -o /tmp/out.c
 
