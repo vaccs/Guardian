@@ -19,7 +19,7 @@ struct regex* lex_lookup_token(
 	
 	dpv(token_id);
 	
-	struct avl_node_t* node = avl_search(this->id_to_token, &token_id);
+	struct avl_node_t* node = avl_search(this->id_to_token, &(struct id_to_token_node) {token_id});
 	
 	dpv(node);
 	

@@ -58,11 +58,26 @@ struct stringtree* tuple_type_generate_print_func(
 	}));
 	
 	stringtree_append_printf(text, ""
-			"printf(\")\");"
+			"printf(\", )\");"
 		"}"
 	"");
 	
 	EXIT;
 	return text;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

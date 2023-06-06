@@ -60,6 +60,8 @@ struct expression* specialize_primary_string_expression(
 			
 			case '\\': append('\\'); break;
 			
+			case 'e': append('\e'); break;
+			
 			case '\'':
 				TODO;
 				break;

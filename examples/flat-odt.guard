@@ -69,8 +69,9 @@ root:
                 /"PT" ['0'-'9']{,2} ("M" ['0'-'9']{,2})? "S"/
             "</meta:editing-duration>"
             "<meta:editing-cycles>"
-                "1"
+                / ['1'-'9']+ /
             "</meta:editing-cycles>"
+            // "<meta:generator>LibreOffice/6.4.7.2$Linux_X86_64 LibreOffice_project/40$Build-2</meta:generator>"
             "<meta:document-statistic"
                 "meta:table-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_tablecount
                 "meta:image-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_imagecount
@@ -78,10 +79,10 @@ root:
                 "meta:page-count=" /'\"' ['0'-'9']+ '\"'/ // no way to check this
                 "meta:paragraph-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_paragraphcount
                 "meta:word-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_wordcount
-                "meta:character-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_charactercount
-                "meta:non-whitespace-character-count=" /'\"' ['0'-'9']+ '\"'/ #metadata_nonwhitespacecount
+                "meta:character-count=" /'\"' ['0'-'9']+ '\"'/ // libreoffice is isconsistent with what this represents
+                "meta:non-whitespace-character-count=" /'\"' ['0'-'9']+ '\"'/ // libreoffice is isconsistent with what this represents
                 "/>"
-            "<meta:generator>LibreOffice/6.4.7.2$Linux_X86_64 LibreOffice_project/40$Build-2</meta:generator>"
+            "<meta:generator>LibreOffice/6.4.7.2$Linux_X86_64 LibreOffice_project/40$Build-2</meta:generator>"?
         "</office:meta>"
         "<office:settings>"
             "<config:config-item-set config:name=\"ooo:view-settings\">"
@@ -278,7 +279,7 @@ root:
                 "<style:paragraph-properties"
                     "style:text-autospace=\"ideograph-alpha\""
                     "style:line-break=\"strict\""
-                    "style:writing-mode=\"lr-tb\""
+                    "style:writing-mode=\"lr-tb\""?
                     "style:font-independent-line-spacing=\"false\">"
                     "<style:tab-stops/>"
                 "</style:paragraph-properties>"
@@ -589,7 +590,7 @@ root:
         "<office:automatic-styles>"
             (   // paragraph styles:
                 "<style:style"
-                    "style:name=" /'\"' "P" ['1'-'9'] '\"'/
+                    "style:name=" /'\"' "P" ['0'-'9']+ '\"'/
                     "style:family=\"paragraph\""
                     "style:parent-style-name=" /'\"' ( "Standard"
                                                      | "Heading_20_1"
@@ -817,8 +818,17 @@ root:
                    ("fo:margin-right="  /'\"' ['0'-'9'] ('.' ['0'-'9']{,4})? "in" '\"'/)
                     "fo:background-color=\"#000000\""?
                     "style:writing-mode=\"lr-tb\""
+                    "style:layout-grid-color=\"#c0c0c0\""?
+                    "style:layout-grid-lines=\"20"?
+                    "style:layout-grid-base-height=\"0.278in\""?
+                    "style:layout-grid-ruby-height=\"0.139in\""?
+                    "style:layout-grid-mode=\"none\""?
+                    "style:layout-grid-ruby-below=\"false\""?
+                    "style:layout-grid-print=\"false\""?
+                    "style:layout-grid-display=\"false\""?
                     "draw:fill=\"solid\""?
                     "draw:fill-color=\"#000000\""?
+                    ("draw:opacity=\"100%\"")?
                     "style:footnote-max-height=\"0in\""
                     ">"
 
@@ -898,54 +908,56 @@ body:
 
 content: header | paragraph | list | table;
 
-text:
-    ("<text:s"
-        ("text:c=" /'\"' ['0'-'9']{,2} '\"'/)?
-        "/>")?
-    
-    (
-        / '-'? (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+
-         ('-'  (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+)* / #word
-    |
-        / [ ',' | '?' | '!' | ';' | ':' | '-', '%' | '|' | '*' | '_' | '=' ]/ #symbol
-    
-    | "&quot;"
-    | "&amp;"
-    | "&apos;"
-    | "<text:tab/>"
-    | "<text:line-break/>"
-    | "<text:soft-page-break/>"
-    |
-        "<text:sequence" #sequence
-            "text:ref-name=\"refFigure0\""
-            "text:name=\"Figure\""
-            "text:formula=\"ooow:Figure+1\""
-            "style:num-format=\"1\""
-            ">"
-            "1"
-        "</text:sequence>"
-    |
-        "<text:span" #span
-            ("text:style-name=" /'\"' "T" ['1'-'9'] '\"'/)
-            ">"
-            text+
-        "</text:span>"
-    |
-        "<text:page-number" #pagenumber
-            "text:select-page=\"current\""
-            ">"
-            "1"
-        "</text:page-number>"
-    |
-        "<text:a" #link
-            "xlink:type=\"simple\""
-            "xlink:href=\"mailto:zthannhauser@gmail.com\""
-            "text:style-name=\"Internet_20_link\""
-            "text:visited-style-name=\"Visited_20_Internet_20_Link\""
-            ">"
-            text
-        "</text:a>"
-    ) ;
+text
+  : / '-'? (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+
+     ('-'  (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+)* / #word
+  
+  | / [ ',' | '?' | '!' | ';' | ':' | '-', '%' | '|' | '*' | '_' | '=' ] / #symbol
+  
+  | "<text:s" ("text:c=" /'\"' ['0'-'9']{,2} '\"'/ )? "/>" #spaces
+  
+  | "&quot;" #quote
+  
+  | "&amp;" #ampersand
+  
+  | "&apos;" #apostrophe
+  
+  | "<text:tab/>" #tab
+  
+  | "<text:line-break/>" #linebreak
+  
+  | "<text:soft-page-break/>" #softlinebreak
+  
+  | "<text:sequence" #sequence
+        "text:ref-name=\"refFigure0\""
+        "text:name=\"Figure\""
+        "text:formula=\"ooow:Figure+1\""
+        "style:num-format=\"1\""
+        ">"
+        "1"
+    "</text:sequence>"
+  
+  | "<text:span" #span
+        ("text:style-name=" /'\"' "T" ['1'-'9'] '\"'/)
+        ">"
+        text+
+    "</text:span>"
+  
+  | "<text:page-number" #pagenumber
+        "text:select-page=\"current\""
+        ">"
+        "1"
+    "</text:page-number>"
+  
+  | "<text:a" #link
+        "xlink:type=\"simple\""
+        "xlink:href=\"mailto:zthannhauser@gmail.com\""
+        "text:style-name=\"Internet_20_link\""
+        "text:visited-style-name=\"Visited_20_Internet_20_Link\""
+        ">"
+        text
+    "</text:a>"
+  ;
 
 header:
     "<text:h"
@@ -1081,21 +1093,21 @@ claimed_objectcount = int!(raw_objectcount[1:len!(raw_objectcount)-1]);
 //%print: claimed_objectcount;
 %error: claimed_objectcount == 0;
 
-text_has_content = $text t -> bool: false
-        || (t has word)
-        || (t has symbol)
-        || (t has sequence)
-        || (t has span)
-        || (t has pagenumber)
-        || (t has link);
-raw_paragraphcount = root[0].metadata_paragraphcount;
-claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
+// text_has_content = $text t -> bool: false
+//         || (t has word)
+//         || (t has symbol)
+//         || (t has sequence)
+//         || (t has span)
+//         || (t has pagenumber)
+//         || (t has link);
+// raw_paragraphcount = root[0].metadata_paragraphcount;
+// claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
 //%print: claimed_paragraphcount;
-actual_paragraphcount = 0
-    + len!(filter!($paragraph p -> bool: (p has text) && text_has_content(p.text), paragraph))
-    + len!(filter!($header h -> bool: (h has text) && text_has_content(h.text), header));
+// actual_paragraphcount = 0
+//     + len!(filter!($paragraph p -> bool: (p has text) && text_has_content(p.text), paragraph))
+//     + len!(filter!($header h -> bool: (h has text) && text_has_content(h.text), header));
 //%print: actual_paragraphcount;
-%error: claimed_paragraphcount == actual_paragraphcount;
+// %error: claimed_paragraphcount == actual_paragraphcount;
 
 // raw_wordcount = root[0].metadata_wordcount;
 // claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
@@ -1110,15 +1122,7 @@ actual_paragraphcount = 0
 // %print: actual_wordcount;
 // %error: claimed_wordcount == actual_wordcount;
 
-//raw_charactercount = root[0].metadata_charactercount;
-//claimed_charactercount = int!(raw_charactercount[1:len!(raw_charactercount)-1]);
-//%print: claimed_charactercount;
-//%error: claimed_charactercount == 3;
 
-//raw_nonwhitespacecount = root[0].metadata_nonwhitespacecount;
-//claimed_nonwhitespacecount = int!(raw_nonwhitespacecount[1:len!(raw_nonwhitespacecount)-1]);
-//%print: claimed_nonwhitespacecount;
-//%error: claimed_nonwhitespacecount == 3;
 
 
 

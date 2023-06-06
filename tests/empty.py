@@ -13,17 +13,15 @@ def run(command):
     print("\033[31m" " subcommand failed!");
     exit(1);
 
-with open("/tmp/abc.guard", "w") as stream: stream.write("""
-%parse: "/tmp/abc.txt" as "abc";
+with open("/tmp/empty.guard", "w") as stream: stream.write("""
+%note: 2 + 2 == 4;
 """);
 
 executable = argv[1];
 
-run([executable, "-i", "/tmp/abc.guard", "-o", "/tmp/abc.c"]);
+run([executable, "-i", "/tmp/empty.guard", "-o", "/tmp/empty.c"]);
 
-run(["gcc", "-Werror", "-Wall", "/tmp/abc.c", "-o", "/tmp/abc"]);
+run(["gcc", "-Werror", "-Wall", "/tmp/empty.c", "-o", "/tmp/empty"]);
 
-with open("/tmp/abc.txt", "w") as stream: stream.write("abc");
-
-run(["/tmp/abc"]);
+run(["/tmp/empty"]);
 

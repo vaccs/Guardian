@@ -8,7 +8,7 @@
 
 #include <defines/argv0.h>
 
-#include "misc/escapes.h"
+#include <misc/unescape.h>
 
 #include "parse.h"
 #include "charset.h"
@@ -59,7 +59,7 @@ charset_t process_charset(
 						{
 							struct zebu_token* token = highest->character;
 							
-							escapes(token->data, token->len);
+							unescape(token->data, token->len);
 							
 							unsigned char first = token->data[0];
 							

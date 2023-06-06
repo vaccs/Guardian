@@ -9,5 +9,9 @@ struct cmdln
 	bool minimize_lexer;
 	
 	bool verbose;
+	
+	#if (defined DEBUGGING) || (defined TESTING)
+	bool print_shortest_accepting;
+	#endif
 };
 

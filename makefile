@@ -15,7 +15,7 @@ buildtype ?= release
 ifeq ($(buildtype), release)
 CPPFLAGS += -D RELEASE
 
-CFLAGS += -O2
+CFLAGS += -O3
 CFLAGS += -flto
 
 LDFLAGS += -flto=auto
@@ -29,6 +29,11 @@ CFLAGS += -Wno-unused-variable
 CFLAGS += -Wno-unused-function
 CFLAGS += -Wno-unused-but-set-variable
 CFLAGS += -Wno-unused-label
+CFLAGS += -fsanitize=undefined
+
+LDFLAGS += -fsanitize=undefined
+
+PRECMD += UBSAN_OPTIONS="print_stacktrace=1:halt_on_error=1"
 
 else ifeq ($(buildtype), debug)
 CPPFLAGS += -D DEBUGGING
@@ -80,8 +85,9 @@ default: $(buildprefix)/guardian
 ARGS += -v
 
 #ARGS += -m
+#ARGS += --print-shortest-accepting
 
-ARGS += -i ./examples/flat-odt.guard
+#ARGS += -i ./examples/flat-odt.guard
 #ARGS += -i ./examples/json.guard
 # ARGS += -i ./examples/math.guard
 #ARGS += -i ./examples/passwd.guard
@@ -90,23 +96,24 @@ ARGS += -i ./examples/flat-odt.guard
 #ARGS += -i ./examples/login.guard
 #ARGS += -i ./examples/zest.guard
 #ARGS += -i ./examples/apache.guard
+ARGS += -i ./examples/sandbox.guard
 
 ARGS += -o /tmp/out.c
 
 run: $(buildprefix)/guardian
-	$< $(ARGS)
+	$(PRECMD) $< $(ARGS)
 
-valrun: $(buildprefix)/guardian
-	valgrind $< $(ARGS)
+#valrun: $(buildprefix)/guardian
+#	valgrind $< $(ARGS)
 
-valrun-stop: $(buildprefix)/guardian
-	valgrind --gen-suppressions=yes -- $< ${ARGS}
+#valrun-stop: $(buildprefix)/guardian
+#	valgrind --gen-suppressions=yes -- $< ${ARGS}
 
-valrun-leak: $(buildprefix)/guardian
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 -- $< ${ARGS}
+#valrun-leak: $(buildprefix)/guardian
+#	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 -- $< ${ARGS}
 
-tracerun: $(buildprefix)/guardian
-	strace $< $(ARGS)
+#tracerun: $(buildprefix)/guardian
+#	strace $< $(ARGS)
 
 install: $(buildprefix)/guardian
 	@ mkdir -vp ~/bin/

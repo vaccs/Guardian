@@ -5,8 +5,8 @@ bin/release-build/yes-verbose/no-dotout/./main.o: main.c debug.h \
  avl/free_tree.h named/grammar/compare.h named/grammar/free.h \
  named/structinfo/compare.h named/structinfo/free.h \
  list/raw_statement/new.h list/raw_statement/free.h list/statement/new.h \
- list/statement/free.h parse/driver.h misc/default_sighandler.h \
- type_cache/new.h type_cache/free.h type_check/specialize_grammar_types.h \
- type_check/type_check.h named/type/compare.h named/type/free.h \
- yacc/yacc.h yacc/state/free.h out/out.h stringtree/stream.h \
- stringtree/free.h
+ list/statement/free.h parse/driver.h type_cache/new.h type_cache/free.h \
+ type_check/specialize_grammar_types.h type_check/type_check.h \
+ named/type/compare.h named/type/free.h yacc/yacc.h yacc/state/free.h \
+ out/out.h stringtree/stream.h stringtree/free.h \
+ misc/default_sighandler.h

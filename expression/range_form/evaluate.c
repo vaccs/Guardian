@@ -35,7 +35,7 @@ struct value* range_form_expression_evaluate(
 	
 	struct value* end = expression_evaluate(tcache, this->end, environment);
 	
-	assert(start->kind == vk_int);
+	assert(!start || start->kind == vk_int);
 	assert(end->kind == vk_int);
 	
 	struct value* result = range_form_run(

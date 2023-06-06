@@ -29,11 +29,14 @@ struct token
 	unsigned len;
 };
 
+#pragma GCC diagnostic push 
+#pragma GCC diagnostic ignored "-Wunused-function"
 static void free_token(struct token* token)
 {
 	free(token->data);
 	free(token);
 }
+#pragma GCC diagnostic pop
 
 // integers, booleans, lambdas, lists, tuples, ...
 {{TYPES}}
@@ -56,57 +59,6 @@ static void free_token(struct token* token)
 {{REDUCE_TABLE}}
 
 {{GOTO_TABLE}}
-
-#if 0
-static void escape(char *out, unsigned char in)
-{
-	switch (in)
-	{
-		case ' ':
-		case '~':
-		case '!':
-		case '@':
-		case '#':
-		case '$':
-		case '%':
-		case '^':
-		case '&':
-		case '*':
-		case '-':
-		case '+':
-		case '=':
-		case '|':
-		case '/':
-		case '<': case '>':
-		case '(': case ')':
-		case '{': case '}':
-		case '[': case ']':
-		case ':': case ';':
-		case ',': case '.':
-		case '_':
-		case '0' ... '9':
-		case 'a' ... 'z':
-		case 'A' ... 'Z':
-			*out++ = in;
-			*out = 0;
-			break;
-		
-		case '\\': *out++ = '\\', *out++ = '\\', *out = 0; break;
-		
-		case '\'': *out++ = '\\', *out++ = '\'', *out = 0; break;
-		
-		case '\"': *out++ = '\\', *out++ = '\"', *out = 0; break;
-		
-		case '\t': *out++ = '\\', *out++ = 't', *out = 0; break;
-		
-		case '\n': *out++ = '\\', *out++ = 'n', *out = 0; break;
-		
-		default:
-			sprintf(out, "\\x%02hhX", in);
-			break;
-	}
-}
-#endif
 
 int main(int argc, char* const* argv)
 {
@@ -157,6 +109,8 @@ int main(int argc, char* const* argv)
 	// assign sets:
 	{{ASSIGN_SETS}}
 	
+	#pragma GCC diagnostic push 
+  #pragma GCC diagnostic ignored "-Wunused-function"
 	void* parse(
 		FILE* stream,
 		unsigned start_state_id,
@@ -383,6 +337,8 @@ int main(int argc, char* const* argv)
 				}
 			}
 		}
+    #pragma GCC diagnostic pop
+
 		
 		unsigned y = start_state_id, s, r;
 		push_state(y), read_token(lexer_starts[y]);

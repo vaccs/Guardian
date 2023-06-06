@@ -42,7 +42,17 @@ struct stringtree* string_value_print(
 			case '/':
 			case '.':
 			case '_':
+			case '<':
+			case '>':
+			case '&':
+			case ';':
+			case '[':
+			case ']':
 				stringtree_append_printf(tree, "%c", code);
+				break;
+			
+			case '\e':
+				stringtree_append_printf(tree, "\\e");
 				break;
 			
 			case '\t':
@@ -59,6 +69,7 @@ struct stringtree* string_value_print(
 			
 			default:
 			{
+			  printf("code == %u\n", code);
 				dpvc(code);
 				TODO;
 				break;

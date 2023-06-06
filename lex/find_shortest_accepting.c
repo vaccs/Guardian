@@ -162,11 +162,17 @@ static struct lex_state* get_prev(
 	return NULL;
 }
 
-struct fsa_rettype lex_find_shortest_accepting(
+unsigned char* lex_find_shortest_accepting(
 	struct lex_state* source,
 	struct unsignedset* acceptme)
 {
 	ENTER;
+	
+	dpv(acceptme);
+	
+	#if !((defined DEBUGGING) || (defined TESTING))
+	assert(acceptme);
+	#endif
 	
 	struct avl_tree_t* dist = avl_alloc_tree(compare_dist_nodes, free);
 	struct avl_tree_t* prev = avl_alloc_tree(compare_prev_nodes, free);
@@ -206,7 +212,11 @@ struct fsa_rettype lex_find_shortest_accepting(
 	{
 		struct lex_state* u = heap_pop(Q);
 		
+		dpv(u);
+		
 		unsigned const alt = get_dist(dist, u) + 1;
+		
+		dpv(alt);
 		
 		for (unsigned i = 0, n = 256; i < n; i++)
 		{
@@ -253,7 +263,11 @@ struct fsa_rettype lex_find_shortest_accepting(
 		{
 			struct lex_state* state = quack_pop(todo);
 			
+			#if (defined DEBUGGING) || (defined TESTING)
+			if (state->accepts && (!acceptme || state->accepts == acceptme))
+			#else
 			if (state->accepts == acceptme)
+			#endif
 			{
 				unsigned ele_dist = get_dist(dist, state);
 				
@@ -278,7 +292,7 @@ struct fsa_rettype lex_find_shortest_accepting(
 			
 			if (state->EOF_transition_to)
 			{
-				// TODO;
+				TODO;
 			}
 		}
 		
@@ -293,7 +307,7 @@ struct fsa_rettype lex_find_shortest_accepting(
 	
 	assert(target);
 	
-	unsigned char* data = smalloc(min_dist);
+	unsigned char* data = smalloc(min_dist + 1);
 	
 	{
 		unsigned char* moving = data;
@@ -315,6 +329,8 @@ struct fsa_rettype lex_find_shortest_accepting(
 		helper(target);
 		
 		assert(moving == data + min_dist);
+		
+		*moving = '\0';
 	}
 	
 	dpvsn(data, min_dist);
@@ -325,7 +341,7 @@ struct fsa_rettype lex_find_shortest_accepting(
 	avl_free_tree(prev);
 	
 	EXIT;
-	return (struct fsa_rettype){data, min_dist};
+	return data;
 }
 
 
