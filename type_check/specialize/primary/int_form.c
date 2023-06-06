@@ -41,6 +41,26 @@ struct expression* specialize_primary_int_form_expression(
 	
 	switch (object->type->kind)
 	{
+	  case tk_bool:
+	  {
+      if (object->kind == ek_literal)
+      {
+				struct literal_expression* lit = (void*) object;
+				
+				struct value* value = int_form_run_on_bool(
+					type, (struct bool_value*) lit->value);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
+      }
+      else
+      {
+				retval = new_int_form_expression(type, object);
+      }
+	  }
+	  break;
+	  
 		case tk_int:
 			retval = inc_expression(object);
 			break;
@@ -49,7 +69,14 @@ struct expression* specialize_primary_int_form_expression(
 		{
 			if (object->kind == ek_literal)
 			{
-				TODO;
+				struct literal_expression* lit = (void*) object;
+				
+				struct value* value = int_form_run_on_float(
+					type, (struct float_value*) lit->value);
+				
+				retval = new_literal_expression(value);
+				
+				free_value(value);
 			}
 			else
 			{
@@ -80,7 +107,7 @@ struct expression* specialize_primary_int_form_expression(
 		
 		case tk_lambda:
 		{
-			// "cannot cast lambda to float!"
+			// "cannot cast lambda to int!"
 			TODO;
 			exit(1);
 			break;

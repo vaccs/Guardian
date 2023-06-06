@@ -1096,25 +1096,22 @@ claimed_objectcount = int!(raw_objectcount[1:len!(raw_objectcount)-1]);
 // text_has_content = $text t -> bool: false
 //         || (t has word)
 //         || (t has symbol)
+//         || (t has quote)
+//         || (t has ampersand)
+//         || (t has apostrophe)
 //         || (t has sequence)
 //         || (t has span)
 //         || (t has pagenumber)
 //         || (t has link);
 // raw_paragraphcount = root[0].metadata_paragraphcount;
 // claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
-//%print: claimed_paragraphcount;
+// %print: claimed_paragraphcount;
 // actual_paragraphcount = 0
-//     + len!(filter!($paragraph p -> bool: (p has text) && text_has_content(p.text), paragraph))
-//     + len!(filter!($header h -> bool: (h has text) && text_has_content(h.text), header));
-//%print: actual_paragraphcount;
+//     + sum!(map!($paragraph p -> int: int!((p has text) && text_has_content(p.text)), paragraph))
+//     + sum!(map!($header    h -> int: int!((h has text) && text_has_content(h.text)), header));
+// %print: actual_paragraphcount;
 // %error: claimed_paragraphcount == actual_paragraphcount;
 
-// raw_wordcount = root[0].metadata_wordcount;
-// claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
-// %print: claimed_wordcount;
-// %error: claimed_wordcount == 3;
-// word count claimed in the metadata must match the actual number of words
-// in the body of the document:
 // raw_wordcount = root[0].metadata_wordcount;
 // claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
 // %print: claimed_wordcount;

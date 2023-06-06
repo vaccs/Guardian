@@ -82,12 +82,12 @@ depprefix   = dep/$(buildtype)-build/$(verbose)-verbose/$(dotout)-dotout
 
 default: $(buildprefix)/guardian
 
-ARGS += -v
+#ARGS += -v
 
 #ARGS += -m
 #ARGS += --print-shortest-accepting
 
-#ARGS += -i ./examples/flat-odt.guard
+ARGS += -i ./examples/flat-odt.guard
 #ARGS += -i ./examples/json.guard
 # ARGS += -i ./examples/math.guard
 #ARGS += -i ./examples/passwd.guard
@@ -96,7 +96,7 @@ ARGS += -v
 #ARGS += -i ./examples/login.guard
 #ARGS += -i ./examples/zest.guard
 #ARGS += -i ./examples/apache.guard
-ARGS += -i ./examples/sandbox.guard
+#ARGS += -i ./examples/sandbox.guard
 
 ARGS += -o /tmp/out.c
 

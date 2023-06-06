@@ -8,6 +8,8 @@
 #include <mpz/struct.h>
 #include <mpz/free.h>
 
+#include <value/bool/struct.h>
+
 #include <value/float/struct.h>
 
 #include <value/string/struct.h>
@@ -15,6 +17,24 @@
 #include <value/int/new.h>
 
 #include "run.h"
+
+struct value* int_form_run_on_bool(
+	struct type* type,
+	struct bool_value* value)
+{
+	ENTER;
+	
+	struct mpz* mpz = new_mpz();
+	
+	mpz_set_ui(mpz->mpz, value->value);
+	
+	struct value* result = new_int_value(type, mpz);
+	
+	free_mpz(mpz);
+	
+	EXIT;
+	return result;
+}
 
 struct value* int_form_run_on_float(
 	struct type* type,

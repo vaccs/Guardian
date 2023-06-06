@@ -59,6 +59,12 @@ struct stringtree* int_form_expression_print_source(
 	
 	switch (stype->kind)
 	{
+	  case tk_bool:
+	  {
+			stringtree_append_printf(tree, "mpz_set_ui(result->value, sub->value);");
+	    break;
+	  }
+	  
 		case tk_float:
 		{
 			stringtree_append_printf(tree, "mpz_set_d(result->value, sub->value);");
