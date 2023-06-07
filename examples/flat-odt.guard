@@ -1072,6 +1072,8 @@ table:
     ;
 
 
+// check table count:
+
 // number of tables in metadata must match the actual number of tables:
 raw_tablecount = root[0].metadata_tablecount;
 claimed_tablecount = int!(raw_tablecount[1:len!(raw_tablecount)-1]);
@@ -1079,6 +1081,8 @@ claimed_tablecount = int!(raw_tablecount[1:len!(raw_tablecount)-1]);
 actual_tablecount = len!(table);
 //%print: actual_tablecount;
 %error: claimed_tablecount == actual_tablecount;
+
+// check image count:
 
 // number of images in metadata must match the actual number of images:
 raw_imagecount = root[0].metadata_imagecount;
@@ -1088,29 +1092,40 @@ actual_imagecount = len!(filter!($image i -> bool: i has data, image));
 //%print: actual_imagecount;
 %error: claimed_imagecount == actual_imagecount;
 
+// check object count:
+
 raw_objectcount = root[0].metadata_objectcount;
 claimed_objectcount = int!(raw_objectcount[1:len!(raw_objectcount)-1]);
 //%print: claimed_objectcount;
 %error: claimed_objectcount == 0;
 
-// text_has_content = $text t -> bool: false
-//         || (t has word)
-//         || (t has symbol)
-//         || (t has quote)
-//         || (t has ampersand)
-//         || (t has apostrophe)
-//         || (t has sequence)
-//         || (t has span)
-//         || (t has pagenumber)
-//         || (t has link);
-// raw_paragraphcount = root[0].metadata_paragraphcount;
-// claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
-// %print: claimed_paragraphcount;
-// actual_paragraphcount = 0
-//     + sum!(map!($paragraph p -> int: int!((p has text) && text_has_content(p.text)), paragraph))
-//     + sum!(map!($header    h -> int: int!((h has text) && text_has_content(h.text)), header));
-// %print: actual_paragraphcount;
-// %error: claimed_paragraphcount == actual_paragraphcount;
+// check paragraph count:
+
+text_has_content = $text t -> bool: false
+        || (t has word)
+        || (t has symbol)
+        || (t has spaces)
+        || (t has quote)
+        || (t has ampersand)
+        || (t has apostrophe)
+        || (t has tab)
+        || (t has linebreak)
+        // || (t has softlinebreak)
+        || (t has sequence)
+        || (t has span)
+        || (t has pagenumber)
+        || (t has link);
+raw_paragraphcount = root[0].metadata_paragraphcount;
+claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
+%print: claimed_paragraphcount;
+actual_paragraphcount = 0
+    + sum!(map!($paragraph p -> int: int!((p has text) && text_has_content(p.text)), paragraph))
+    + sum!(map!($header    h -> int: int!((h has text) && text_has_content(h.text)), header));
+%print: actual_paragraphcount;
+
+// %print: sum!(map!($text t -> int: int!(text_has_content(t)), text));
+
+%error: claimed_paragraphcount == actual_paragraphcount;
 
 // raw_wordcount = root[0].metadata_wordcount;
 // claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
