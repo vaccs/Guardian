@@ -909,10 +909,10 @@ body:
 content: header | paragraph | list | table;
 
 text
-  : / '-'? (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+
-     ('-'  (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ']' | ')'] | "&apos;")+)* / #word
+  : / '-'? (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ';' | ']' | ')'] | "&apos;")+
+     ('-'  (['a'-'z', 'A'-'Z', '0'-'9' | '@', '.' | '+' | '$' | '/' | '(' | '[' | '{' | '}' | ';' | ']' | ')'] | "&apos;")+)* / #word
   
-  | / [ ',' | '?' | '!' | ';' | ':' | '-', '%' | '|' | '*' | '_' | '=' ] / #symbol
+  | / [ ',' | '?' | '!' | ':' | '-', '%' | '|' | '*' | '_' | '=' ] / #symbol
   
   | "<text:s" ("text:c=" /'\"' ['0'-'9']{,2} '\"'/ )? "/>" #spaces
   
@@ -1071,9 +1071,7 @@ table:
     "</table:table>"
     ;
 
-
 // check table count:
-
 // number of tables in metadata must match the actual number of tables:
 raw_tablecount = root[0].metadata_tablecount;
 claimed_tablecount = int!(raw_tablecount[1:len!(raw_tablecount)-1]);
@@ -1083,7 +1081,6 @@ actual_tablecount = len!(table);
 %error: claimed_tablecount == actual_tablecount;
 
 // check image count:
-
 // number of images in metadata must match the actual number of images:
 raw_imagecount = root[0].metadata_imagecount;
 claimed_imagecount = int!(raw_imagecount[1:len!(raw_imagecount)-1]);
@@ -1093,14 +1090,12 @@ actual_imagecount = len!(filter!($image i -> bool: i has data, image));
 %error: claimed_imagecount == actual_imagecount;
 
 // check object count:
-
 raw_objectcount = root[0].metadata_objectcount;
 claimed_objectcount = int!(raw_objectcount[1:len!(raw_objectcount)-1]);
 //%print: claimed_objectcount;
 %error: claimed_objectcount == 0;
 
 // check paragraph count:
-
 text_has_content = $text t -> bool: false
         || (t has word)
         || (t has symbol)
@@ -1117,25 +1112,20 @@ text_has_content = $text t -> bool: false
         || (t has link);
 raw_paragraphcount = root[0].metadata_paragraphcount;
 claimed_paragraphcount = int!(raw_paragraphcount[1:len!(raw_paragraphcount)-1]);
-%print: claimed_paragraphcount;
+// %print: claimed_paragraphcount;
 actual_paragraphcount = 0
     + sum!(map!($paragraph p -> int: int!((p has text) && text_has_content(p.text)), paragraph))
     + sum!(map!($header    h -> int: int!((h has text) && text_has_content(h.text)), header));
-%print: actual_paragraphcount;
-
-// %print: sum!(map!($text t -> int: int!(text_has_content(t)), text));
-
+// %print: actual_paragraphcount;
 %error: claimed_paragraphcount == actual_paragraphcount;
-
-// raw_wordcount = root[0].metadata_wordcount;
-// claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
-// %print: claimed_wordcount;
-// actual_wordcount = len!(filter!($text t -> bool: t has word, text));
-// %print: actual_wordcount;
-// %error: claimed_wordcount == actual_wordcount;
-
-
-
+ 
+raw_wordcount = root[0].metadata_wordcount;
+claimed_wordcount = int!(raw_wordcount[1:len!(raw_wordcount)-1]);
+%print: claimed_wordcount;
+actual_wordcount = sum!(map!($text t -> int: int!((t has word) || (t has pagenumber)), text));
+%print: actual_wordcount;
+// %print: map!($text t -> string: t.word, filter!($text t -> bool: (t has word), text));
+%error: claimed_wordcount == actual_wordcount;
 
 
 
