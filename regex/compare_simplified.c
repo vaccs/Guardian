@@ -119,19 +119,11 @@ int regex_compare_simplified(
 		}
 		else if (is_a_numbered)
 		{
-			TODO;
-			#if 0
-			// b is greater than a:
 			cmp = -1;
-			#endif
 		}
 		else if (is_b_numbered)
 		{
-			TODO;
-			#if 0
-			// a is greater than b:
 			cmp = +1;
-			#endif
 		}
 		else
 		{

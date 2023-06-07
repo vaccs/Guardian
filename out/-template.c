@@ -29,11 +29,14 @@ struct token
 	unsigned len;
 };
 
+#pragma GCC diagnostic push 
+#pragma GCC diagnostic ignored "-Wunused-function"
 static void free_token(struct token* token)
 {
 	free(token->data);
 	free(token);
 }
+#pragma GCC diagnostic pop
 
 // integers, booleans, lambdas, lists, tuples, ...
 {{TYPES}}
@@ -56,57 +59,6 @@ static void free_token(struct token* token)
 {{REDUCE_TABLE}}
 
 {{GOTO_TABLE}}
-
-#ifdef MAIA_DEBUG
-static void escape(char *out, unsigned char in)
-{
-	switch (in)
-	{
-		case ' ':
-		case '~':
-		case '!':
-		case '@':
-		case '#':
-		case '$':
-		case '%':
-		case '^':
-		case '&':
-		case '*':
-		case '-':
-		case '+':
-		case '=':
-		case '|':
-		case '/':
-		case '<': case '>':
-		case '(': case ')':
-		case '{': case '}':
-		case '[': case ']':
-		case ':': case ';':
-		case ',': case '.':
-		case '_':
-		case '0' ... '9':
-		case 'a' ... 'z':
-		case 'A' ... 'Z':
-			*out++ = in;
-			*out = 0;
-			break;
-		
-		case '\\': *out++ = '\\', *out++ = '\\', *out = 0; break;
-		
-		case '\'': *out++ = '\\', *out++ = '\'', *out = 0; break;
-		
-		case '\"': *out++ = '\\', *out++ = '\"', *out = 0; break;
-		
-		case '\t': *out++ = '\\', *out++ = 't', *out = 0; break;
-		
-		case '\n': *out++ = '\\', *out++ = 'n', *out = 0; break;
-		
-		default:
-			sprintf(out, "\\x%02hhX", in);
-			break;
-	}
-}
-#endif
 
 int main(int argc, char* const* argv)
 {
@@ -157,6 +109,8 @@ int main(int argc, char* const* argv)
 	// assign sets:
 	{{ASSIGN_SETS}}
 	
+	#pragma GCC diagnostic push 
+  #pragma GCC diagnostic ignored "-Wunused-function"
 	void* parse(
 		FILE* stream,
 		unsigned start_state_id,
@@ -201,13 +155,15 @@ int main(int argc, char* const* argv)
 			lexer.data[lexer.n++] = c;
 		}
 		
-		#ifdef MAIA_DEBUG
+		#if 0
 		void ddprintf(const char* fmt, ...)
 		{
+		    #ifdef PARSER_DEBUG
 			for (unsigned i = 0, n = yacc.n; i < n; i++)
 				printf("%u ", yacc.data[i]);
 			
 			printf("| ");
+		    #endif
 			
 			va_list va;
 			va_start(va, fmt);
@@ -227,8 +183,8 @@ int main(int argc, char* const* argv)
 			
 			t = 0, td = NULL;
 			
-			#ifdef MAIA_DEBUG
-			ddprintf("lexer: \"%.*s\": l = %u\n", lexer.n, lexer.data, l);
+			#ifdef LEXER_DEBUG
+			printf("lexer: \"%.*s\": l = %u\n", lexer.n, lexer.data, l);
 			#endif
 			
 			while (1)
@@ -237,13 +193,13 @@ int main(int argc, char* const* argv)
 				{
 					c = lexer.data[i];
 					
-					#ifdef MAIA_DEBUG
-					char escaped[10];
-					
-					escape(escaped, c);
-					
-					ddprintf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);
-					#endif
+/*					#ifdef LEXER_DEBUG*/
+/*					char escaped[10];*/
+/*					*/
+/*					escape(escaped, c);*/
+/*					*/
+/*					printf("lexer: c = '%s' (0x%X) (from cache)\n", escaped, c);*/
+/*					#endif*/
 					
 					a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
 				}
@@ -251,13 +207,13 @@ int main(int argc, char* const* argv)
 				{
 					push_char(c);
 					
-					#ifdef MAIA_DEBUG
-					char escaped[10];
-					
-					escape(escaped, c);
-					
-					ddprintf("lexer: c = '%s' (0x%02hhX)\n", escaped, c);
-					#endif
+/*					#ifdef LEXER_DEBUG*/
+/*					char escaped[10];*/
+/*					*/
+/*					escape(escaped, c);*/
+/*					*/
+/*					printf("lexer: c = '%s' (0x%02hhX)\n", escaped, c);*/
+/*					#endif*/
 					
 					a = l < N(lexer_transitions) && c < N(*lexer_transitions) ? lexer_transitions[l][c] : 0;
 				}
@@ -265,62 +221,62 @@ int main(int argc, char* const* argv)
 				{
 					c = EOF;
 					
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: c = <EOF>\n");
-					#endif
+/*					#ifdef LEXER_DEBUG*/
+/*					printf("lexer: c = <EOF>\n");*/
+/*					#endif*/
 					
 					a = l < N(lexer_EOFs) ? lexer_EOFs[l] : 0;
 				}
 				
 				b = l < N(lexer_accepts) ? lexer_accepts[l] : 0;
 				
-				#ifdef MAIA_DEBUG
-				ddprintf("lexer: \"%.*s\" (%u): a = %u, b = %u\n", lexer.n, lexer.data, i, a, b);
+				#ifdef LEXER_DEBUG
+				printf("lexer: \"%.*s\" | \"%.*s\": a = %u, b = %u, t = %u, f = %u\n", i, lexer.data, lexer.n - i, lexer.data + i, a, b, t, f);
 				#endif
 				
 				if (a)
 				{
 					if (b)
 					{
-						l = a, t = b, t = i++;
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: l = %u\n", l);
+						l = a, t = b, f = i++;
+						#ifdef LEXER_DEBUG
+						printf("lexer: l = %u\n", l);
 						#endif
 					}
 					else
 					{
 						l = a, i++;
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: l = %u\n", l);
+						#ifdef LEXER_DEBUG
+						printf("lexer: l = %u\n", l);
 						#endif
 					}
 					
 					if (c == '\n')
 					{
 						line++;
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: line: %u\n", line);
+						#ifdef LEXER_DEBUG
+						printf("lexer: line: %u\n", line);
 						#endif
 					}
 				}
 				else if (b)
 				{
-					#ifdef MAIA_DEBUG
-					ddprintf("lexer: token: \"%.*s\"\n", i, lexer.data);
+					#ifdef LEXER_DEBUG
+					printf("lexer: token: \"%.*s\"\n", i, lexer.data);
 					#endif
 					
 					if (!lexer.n)
 					{
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: EOF.\n");
+						#ifdef LEXER_DEBUG
+						printf("lexer: EOF.\n");
 						#endif
 						t = b, td = NULL;
 						break;
 					}
 					else if (b == 1)
 					{
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: whitespace\n");
+						#ifdef LEXER_DEBUG
+						printf("lexer: whitespace\n");
 						#endif
 						
 						l = original_l, t = 0, lexer.line = line;
@@ -328,8 +284,8 @@ int main(int argc, char* const* argv)
 					}
 					else
 					{
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: i = %u\n", i);
+						#ifdef LEXER_DEBUG
+						printf("lexer: i = %u\n", i);
 						#endif
 						
 						struct token* token = malloc(sizeof(*token));
@@ -347,8 +303,8 @@ int main(int argc, char* const* argv)
 				{
 					if (t == 1)
 					{
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
+						#ifdef LEXER_DEBUG
+						printf("lexer: falling back to whitespace: \"%.*s\"\n", f, lexer.data);
 						#endif
 						
 						l = original_l, t = 0, line = lexer.line;
@@ -356,8 +312,8 @@ int main(int argc, char* const* argv)
 					}
 					else
 					{
-						#ifdef MAIA_DEBUG
-						ddprintf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
+						#ifdef LEXER_DEBUG
+						printf("lexer: falling back to token: \"%.*s\"\n", f, lexer.data);
 						#endif
 						
 						struct token* token = malloc(sizeof(*token));
@@ -381,6 +337,8 @@ int main(int argc, char* const* argv)
 				}
 			}
 		}
+    #pragma GCC diagnostic pop
+
 		
 		unsigned y = start_state_id, s, r;
 		push_state(y), read_token(lexer_starts[y]);
@@ -389,22 +347,22 @@ int main(int argc, char* const* argv)
 		{
 			if (y < N(shifts) && t < N(*shifts) && (s = shifts[y][t]))
 			{
-				#ifdef MAIA_DEBUG
-				ddprintf("s == %u\n", s);
+				#ifdef PARSER_DEBUG
+				printf("s == %u\n", s);
 				#endif
 				
 				y = s, push_state(y), push_data(td);
 				
 				read_token(lexer_starts[y]);
 				
-				#ifdef MAIA_DEBUG
-				ddprintf("t = %u\n", t);
+				#ifdef PARSER_DEBUG
+				printf("t = %u\n", t);
 				#endif
 			}
 			else if (y < N(reduces) && t < N(*reduces) && (r = reduces[y][t]))
 			{
-				#ifdef MAIA_DEBUG
-				ddprintf("r == %u\n", r);
+				#ifdef PARSER_DEBUG
+				printf("r == %u\n", r);
 				#endif
 				
 				unsigned g;
@@ -420,16 +378,16 @@ int main(int argc, char* const* argv)
 				{
 					y = yacc.data[yacc.n - 1];
 					
-					#ifdef MAIA_DEBUG
-					ddprintf("y = %u\n", y);
+					#ifdef PARSER_DEBUG
+					printf("y = %u\n", y);
 					#endif
 					
 					assert(y < N(gotos) && g < N(*gotos));
 					
 					s = gotos[y][g];
 					
-					#ifdef MAIA_DEBUG
-					ddprintf("s = %u\n", s);
+					#ifdef PARSER_DEBUG
+					printf("s = %u\n", s);
 					#endif
 					
 					y = s, push_state(y), push_data(d);

@@ -24,12 +24,13 @@
 #include <regex/simplify_dfa.h>
 #include <regex/free.h>
 
+#include <misc/unescape.h>
+
 #ifdef DOTOUT
 #include <regex/dotout.h>
 #endif
 
 #include "../../parse.h"
-#include "../../misc/escapes.h"
 
 #include "string.h"
 
@@ -45,7 +46,7 @@ struct gbundle read_grammar_highest_string(
 	
 	dpvsn(string->data, string->len);
 	
-	string->len = escapes(string->data, string->len);
+	string->len = unescape(string->data, string->len);
 	
 	dpvsn(string->data, string->len);
 	

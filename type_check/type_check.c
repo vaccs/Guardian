@@ -255,7 +255,7 @@ void type_check(
 					}
 					
 					struct statement* statement = new_declare_statement(
-						name, specialized);
+						raw_statement->line, name, specialized);
 					
 					statement_list_append(statements, statement);
 					
@@ -276,8 +276,8 @@ void type_check(
 						struct stringtree* tree = new_stringtree();
 						
 						stringtree_append_printf(tree,
-							"%s: specialized print statement: ",
-							argv0);
+							"%s: specialized print statement: (line %u) ",
+							argv0, raw_statement->line);
 						
 						struct stringtree* subtree = expression_print2(specialized);
 						
@@ -292,7 +292,7 @@ void type_check(
 					}
 					#endif
 					
-					struct statement* statement = new_print_statement(specialized);
+					struct statement* statement = new_print_statement(raw_statement->line, specialized);
 					
 					statement_list_append(statements, statement);
 					

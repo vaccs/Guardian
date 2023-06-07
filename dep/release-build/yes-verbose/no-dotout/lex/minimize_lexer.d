@@ -8,6 +8,7 @@ bin/release-build/yes-verbose/no-dotout/./lex/minimize_lexer.o: \
  set/ptr/get_head.h set/ptr/discard.h set/ptr/free.h \
  set/unsigned/compare.h set/unsigned/inc.h yacc/state/struct.h \
  statement/struct.h statement/kind.h statement/parse/struct.h \
- statement/parse/../struct.h list/statement/foreach.h lex/struct.h \
+ statement/parse/../struct.h list/statement/foreach.h heap/len.h \
+ quack/len.h set/ptr/len.h misc/default_sighandler.h lex/struct.h \
  lex/minimize_lexer.h lex/state/struct.h enums/token_kind.h \
  lex/state/new.h lex/state/free.h lex/build_tokenizer/node/struct.h

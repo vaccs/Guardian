@@ -11,10 +11,12 @@ struct raw_statement* new_raw_assertion(
 	struct zebu_expression* expression);
 
 struct raw_statement* new_raw_declaration(
+	unsigned line,
 	struct string* name,
 	struct zebu_expression* expression);
 
 struct raw_statement* new_raw_print(
+	unsigned line,
 	struct zebu_expression* expression);
 
 struct raw_statement* new_raw_parse(

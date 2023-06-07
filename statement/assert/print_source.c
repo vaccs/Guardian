@@ -60,7 +60,7 @@ struct stringtree* assert_statement_print_source(
 					"\"assertion failed on line %u!\""
 					" \"\\e[m\" \"\\n\", argv0);"
 				"exit(1);"
-			"", this->line);
+			"", super->line);
 			break;
 		}
 		
@@ -72,7 +72,7 @@ struct stringtree* assert_statement_print_source(
 					"\"\\e[33m\" \"%%%%warning: \" \"\\e[m\""
 					"\"assertion failed on line %u!\""
 					"\"\\n\", argv0);"
-			"", this->line);
+			"", super->line);
 			break;
 		}
 		
@@ -84,7 +84,7 @@ struct stringtree* assert_statement_print_source(
 					"\"\\e[36m\" \"%%%%note: \" \"\\e[m\""
 					"\"assertion failed on line %u!\""
 					"\"\\n\", argv0);"
-			"", this->line);
+			"", super->line);
 			break;
 		}
 		

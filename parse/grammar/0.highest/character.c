@@ -25,12 +25,13 @@
 #include <regex/simplify_dfa.h>
 #include <regex/free.h>
 
+#include <misc/unescape.h>
+
 #ifdef DOTOUT
 #include <regex/dotout.h>
 #endif
 
 #include "../../parse.h"
-#include "../../misc/escapes.h"
 
 #include "character.h"
 
@@ -44,7 +45,7 @@ struct gbundle read_grammar_highest_character(
 	
 	assert(character);
 	
-	escapes(character->data, character->len);
+	unescape(character->data, character->len);
 	
 	unsigned char code = character->data[0];
 	

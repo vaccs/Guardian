@@ -1,6 +1,7 @@
 
 struct token_to_id_node
 {
-	struct regex* token;
+	struct regex* token; // must be the first
+	
 	unsigned id;
 };

@@ -1,4 +1,8 @@
-.zest.db
-bin/
-dot/
-highlight.css
+/.*.db
+/bin/
+/dot/
+/dep/
+/build/
+/highlight.css
+/test
+__pycache__

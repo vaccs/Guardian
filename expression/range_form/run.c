@@ -3,25 +3,20 @@
 
 #include <debug.h>
 
+#include <mpz/struct.h>
+#include <mpz/new.h>
+#include <mpz/free.h>
+
 #include <value/int/struct.h>
-
-#include <list/value/new.h>
-
+#include <value/int/new.h>
 #include <value/list/new.h>
+#include <value/free.h>
 
 #include <type/list/struct.h>
 
+#include <list/value/new.h>
 #include <list/value/free.h>
 #include <list/value/append.h>
-
-#include <mpz/struct.h>
-#include <mpz/new.h>
-
-#include <value/int/new.h>
-
-#include <value/free.h>
-
-#include <mpz/free.h>
 
 #include "run.h"
 

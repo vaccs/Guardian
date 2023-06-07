@@ -22,7 +22,7 @@ value
 
 start: value #value;
 
-%start: start;
+%parse: argv as start;
 
 %error: start[0].value has list;
 

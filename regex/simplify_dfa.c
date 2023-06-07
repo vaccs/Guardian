@@ -1,6 +1,10 @@
 
+#include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <inttypes.h>
 
 #include <debug.h>
 
@@ -29,12 +33,17 @@
 
 #include <set/ptr/new.h>
 #include <set/ptr/add.h>
+#include <set/ptr/len.h>
 #include <set/ptr/clone.h>
 #include <set/ptr/foreach.h>
 #include <set/ptr/get_head.h>
 #include <set/ptr/contains.h>
 #include <set/ptr/discard.h>
 #include <set/ptr/free.h>
+
+#ifdef VERBOSE
+#include <misc/default_sighandler.h>
+#endif
 
 #include "simplify_dfa.h"
 
@@ -474,6 +483,28 @@ struct regex* regex_simplify_dfa(struct regex* original)
 	
 	struct heap* todo = new_heap(compare_tasks);
 	
+	#ifdef VERBOSE
+	uintmax_t count = 0, n;
+	
+	void handler1(int _)
+	{
+		char buffer[1000] = {};
+		
+		size_t len = snprintf(buffer, sizeof(buffer),
+			"\e[K" "guardian: regex simplify (building dependencies): %ju of %ju (%.2f%%)\r",
+			count, n, (((double) count * 100) / n));
+		
+		if (write(1, buffer, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	n = (ptrset_len(universe) * (ptrset_len(universe) - 1)) / 2;
+	
+	signal(SIGALRM, handler1);
+	#endif
+	
 	ptrset_foreach(universe, ({
 		void runme(void* a_ptr) {
 			ptrset_foreach(universe, ({
@@ -558,6 +589,10 @@ struct regex* regex_simplify_dfa(struct regex* original)
 	}
 	
 	struct regex* new_start = clone(connections, original);
+	
+	#ifdef VERBOSE
+	signal(SIGALRM, default_sighandler);
+	#endif
 	
 	avl_free_tree(dependent_of);
 	

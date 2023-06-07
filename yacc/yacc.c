@@ -1,4 +1,6 @@
 
+#include <unistd.h>
+#include <signal.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -18,6 +20,7 @@
 #include <avl/free_tree.h>
 
 /*#include <string/new.h>*/
+#include <string/struct.h>
 #include <string/inc.h>
 #include <string/are_equal.h>
 #include <string/compare.h>
@@ -45,6 +48,8 @@
 #include <set/unsignedset/foreach.h>
 #include <set/unsignedset/free.h>
 
+#include <misc/escape.h>
+
 #include <lex/struct.h>
 #include <lex/build_tokenizer/build_tokenizer.h>
 #include <lex/find_shortest_accepting.h>
@@ -57,6 +62,10 @@
 
 #include <statement/struct.h>
 #include <statement/parse/struct.h>
+
+#ifdef VERBOSE
+#include <misc/default_sighandler.h>
+#endif
 
 #include "trie/struct.h"
 
@@ -289,7 +298,7 @@ static void add_shift(
 {
 	ENTER;
 	
-	struct avl_node_t* node = avl_search(shift_tokens, &token);
+	struct avl_node_t* node = avl_search(shift_tokens, &(struct shift_node) {token});
 	
 	struct unsignedset* tokens_dup = unsignedset_clone(tokens);
 	
@@ -325,21 +334,23 @@ static void add_reduce(
 	
 	dpv(token);
 	
-	struct avl_node_t* node = avl_search(reduce_tokens, &token);
+	struct avl_node_t* node = avl_search(reduce_tokens, &(struct reduce_node) {token});
 	
 	if (node)
 	{
-		#ifdef DEBUGGING
-		dpvs(reduce_as);
-		
 		struct reduce_node* old = node->item;
 		
-		dpvs(old->reduce_as);
-		#endif
+		struct string* a, *b;
 		
-		// reduce-reduce error
-		TODO;
-		exit(1);
+		if (compare_strings(old->reduce_as, reduce_as) < 0)
+		  a = old->reduce_as, b = reduce_as;
+		else
+		  a = reduce_as, b = old->reduce_as;
+		
+	  fprintf(stderr, "guardian: reduce/reduce error between grammar "
+	    "rule %.*s and %.*s!\n", a->len, a->chars, b->len, b->chars);
+    
+		exit(e_reduce_reduce_error);
 	}
 	else
 	{
@@ -392,11 +403,13 @@ static void shift_reduce_error(
 {
 	ENTER;
 	
-	struct fsa_rettype string = lex_find_shortest_accepting(start, tokenset);
+	unsigned char* string = lex_find_shortest_accepting(start, tokenset);
 	
-	dpvsn(string.data, string.len);
+	char* escaped = escape(string);
 	
-	fprintf(stderr, "zebu: shift/reduce error on token \"%.*s\"\n", string.len, string.data);
+	fprintf(stderr, "guardian: shift/reduce error on token %s\n", escaped);
+	
+	free(escaped), free(string);
 	
 	EXIT;
 	exit(e_shift_reduce_error);
@@ -409,6 +422,23 @@ void yacc(
 	struct statement_list* statements)
 {
 	ENTER;
+	
+	#ifdef VERBOSE
+	void handler1(int _)
+	{
+		char buffer[1000] = {};
+		
+		size_t len = snprintf(buffer, sizeof(buffer),
+			"\e[K" "guardian: generating parser ...\r");
+		
+		if (write(1, buffer, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	signal(SIGALRM, handler1);
+	#endif
 	
 	struct avl_tree_t* named_tries = avl_alloc_tree(compare_named_tries, free_named_trie);
 	
@@ -559,7 +589,7 @@ void yacc(
 				dpv(first);
 				
 				// is this a shift or a reduce transition?
-				if (avl_search(shift_tokens, &first))
+				if (avl_search(shift_tokens, &(struct shift_node) {first}))
 				{
 					struct stateinfo* subinfo = new_stateinfo();
 					
@@ -568,12 +598,12 @@ void yacc(
 						{
 							dpv(token);
 							
-							if (avl_search(reduce_tokens, &token))
+							if (avl_search(reduce_tokens, &(struct reduce_node){token}))
 							{
 								shift_reduce_error(tokenizer_start, ele);
 							}
 							
-							struct shift_node* shift = avl_search(shift_tokens, &token)->item;
+							struct shift_node* shift = avl_search(shift_tokens, &(struct shift_node) {token})->item;
 							
 							stateinfo_foreach(shift->stateinfo, ({
 								void runme(struct trie* subtrie, struct unsignedset* subtokens) {
@@ -623,11 +653,9 @@ void yacc(
 						void runme(unsigned token) {
 							dpv(token);
 							
-							if (avl_search(shift_tokens, &token))
+							if (avl_search(shift_tokens, &(struct reduce_node) {token}))
 							{
-								TODO;
-								// shift_reduce_error();
-								exit(1);
+								shift_reduce_error(tokenizer_start, ele);
 							}
 							
 							struct avl_node_t* node = avl_search(reduce_tokens, &first);
@@ -723,6 +751,10 @@ void yacc(
 		
 		free_unsignedset(all_tokens);
 	}
+	
+	#ifdef VERBOSE
+	signal(SIGALRM, default_sighandler);
+	#endif
 	
 	free_quack(todo);
 	

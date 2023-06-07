@@ -30,7 +30,7 @@ unsigned lex_add_token(
 	
 	struct avl_node_t* node;
 	
-	if ((node = avl_search(this->token_to_id, &token)))
+	if ((node = avl_search(this->token_to_id, &(struct token_to_id_node) {token})))
 	{
 		struct token_to_id_node* found = node->item;
 		

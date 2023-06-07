@@ -1,3 +1,0 @@
-bin/debug-build/yes-verbose/yes-dotout/./list/statement/append.o: \
- list/statement/append.c debug.h string/struct.h memory/srealloc.h \
- statement/inc.h list/statement/struct.h list/statement/append.h

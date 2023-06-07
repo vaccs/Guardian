@@ -1,4 +1,8 @@
 
+#include <unistd.h>
+#include <stdio.h>
+#include <inttypes.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -42,6 +46,16 @@
 #include <statement/struct.h>
 #include <statement/parse/struct.h>
 #include <list/statement/foreach.h>
+
+#ifdef VERBOSE
+#include <heap/len.h>
+
+#include <quack/len.h>
+
+#include <set/ptr/len.h>
+
+#include <misc/default_sighandler.h>
+#endif
 
 #include "struct.h"
 #include "minimize_lexer.h"
@@ -297,6 +311,28 @@ static struct ptrset* build_universe(struct lex* this)
 		runme;
 	}));
 	
+	#ifdef VERBOSE
+	unsigned completed = 0;
+	
+	void handler2(int _)
+	{
+		char buffer[1000] = {};
+		
+		unsigned total = completed + quack_len(todo);
+		
+		size_t len = snprintf(buffer, sizeof(buffer),
+			"\e[K" "guardian: minimizing tokenizer (build universe): %u of %u (%.2f%%)\r",
+				completed, total, (double) completed * 100 / total);
+		
+		if (write(1, buffer, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	signal(SIGALRM, handler2);
+	#endif
+	
 	while (quack_is_nonempty(todo))
 	{
 		struct lex_state* state = quack_pop(todo);
@@ -316,7 +352,15 @@ static struct ptrset* build_universe(struct lex* this)
 			if (ptrset_add(universe, to))
 				quack_append(todo, to);
 		}
+		
+		#ifdef VERBOSE
+		completed++;
+		#endif
 	}
+	
+	#ifdef VERBOSE
+	signal(SIGALRM, default_sighandler);
+	#endif
 	
 	free_quack(todo);
 	
@@ -558,6 +602,32 @@ void lex_minimize_lexer(
 	
 	struct heap* todo = new_heap(compare_tasks);
 	
+	#ifdef VERBOSE
+	uintmax_t count = 0, n = ptrset_len(universe);
+	
+	dpv(n);
+	
+	n = (n * (n - 1)) / 2;
+	
+	dpv(n);
+	
+	void handler1(int _)
+	{
+		char ptr[1000] = {};
+		
+		size_t len = snprintf(ptr, 1000,
+			"\e[K" "guardian: minimizing tokenizer (build dependencies): %ju of %ju (%.2f%%)\r",
+			count, n, (((double) count * 100) / n));
+		
+		if (write(1, ptr, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	signal(SIGALRM, handler1);
+	#endif
+	
 	ptrset_foreach(universe, ({
 		void runme(void* a_ptr) {
 			ptrset_foreach(universe, ({
@@ -594,6 +664,10 @@ void lex_minimize_lexer(
 						if (unequal)
 							heap_push(todo, new_task(a, b, 0));
 						
+						#ifdef VERBOSE
+						count++;
+						#endif
+						
 						EXIT;
 					}
 				}
@@ -602,6 +676,26 @@ void lex_minimize_lexer(
 		}
 		runme;
 	}));
+	
+	#ifdef VERBOSE
+	void handler12(int _)
+	{
+		char ptr[1000] = {};
+		
+		size_t len = snprintf(ptr, 1000,
+			"\e[K" "guardian: minimizing tokenizer (allocating dependency-trees): %ju of %ju (%.2f%%)\r",
+			count, n, (((double) count * 100) / n));
+		
+		if (write(1, ptr, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	count = 0, n = ptrset_len(universe);
+	
+	signal(SIGALRM, handler12);
+	#endif
 	
 	struct avl_tree_t* connections = avl_alloc_tree(compare_same_as_nodes, free_same_as_node);
 	
@@ -617,10 +711,36 @@ void lex_minimize_lexer(
 			
 			avl_insert(connections, sa);
 			
+			#ifdef VERBOSE
+			count++;
+			#endif
+			
 			EXIT;
 		}
 		runme;
 	}));
+	
+	#ifdef VERBOSE
+	unsigned completed = 0;
+	
+	void handler2(int _)
+	{
+		char buffer[1000] = {};
+		
+		unsigned total = completed + heap_len(todo);
+		
+		size_t len = snprintf(buffer, sizeof(buffer),
+			"\e[K" "guardian: minimizing tokenizer (percolate): %u of %u (%.2f%%)\r",
+				completed, total, (double) completed * 100 / total);
+		
+		if (write(1, buffer, len) != len)
+		{
+			abort();
+		}
+	}
+	
+	signal(SIGALRM, handler2);
+	#endif
 	
 	while (heap_is_nonempty(todo))
 	{
@@ -647,8 +767,16 @@ void lex_minimize_lexer(
 			}
 		}
 		
+	    #ifdef VERBOSE
+        completed++;
+        #endif
+		
 		free(task);
 	}
+	
+	#ifdef VERBOSE
+	signal(SIGALRM, default_sighandler);
+	#endif
 	
 	traverse_and_clone(connections, statements);
 	

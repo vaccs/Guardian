@@ -16,7 +16,8 @@ void process_print(
 {
 	ENTER;
 	
-	struct raw_statement* statement = new_raw_print(zstatement->expression);
+	struct raw_statement* statement = new_raw_print(
+	    zstatement->startline, zstatement->expression);
 	
 	raw_statement_list_append(statements, statement);
 	

@@ -18,11 +18,11 @@
 #include <regex/add_lambda_transition.h>
 #include <regex/free.h>
 
+#include <misc/unescape.h>
+
 #ifdef DOTOUT
 #include <regex/dotout.h>
 #endif
-
-#include "misc/escapes.h"
 
 #include "charset.h"
 #include "parse.h"
@@ -51,7 +51,7 @@ struct rbundle process_regex(struct zebu_regex* regex)
 					
 					dpvsn(token->data, token->len);
 					
-					escapes(token->data, token->len);
+					unescape(token->data, token->len);
 					
 					unsigned char code = token->data[0];
 					
@@ -86,7 +86,7 @@ struct rbundle process_regex(struct zebu_regex* regex)
 					
 					dpvsn(token->data, token->len);
 					
-					token->len = escapes(token->data, token->len);
+					token->len = unescape(token->data, token->len);
 					
 					dpvsn(token->data, token->len);
 					

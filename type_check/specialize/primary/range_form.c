@@ -76,7 +76,7 @@ struct expression* specialize_primary_range_form_expression(
 		
 		struct value* value = range_form_run(
 			(struct list_type*) ltype,
-			(struct int_value*) startlit->value,
+			startlit ? (struct int_value*) startlit->value : NULL,
 			(struct int_value*) endlit->value);
 		
 		retval = new_literal_expression(value);

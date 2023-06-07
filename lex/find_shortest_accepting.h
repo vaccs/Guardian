@@ -2,9 +2,6 @@
 struct lex_state;
 struct unsignedset;
 
-struct fsa_rettype {
-	unsigned char* data;
-	unsigned len;
-} lex_find_shortest_accepting(
+unsigned char* lex_find_shortest_accepting(
 	struct lex_state* source,
 	struct unsignedset* acceptme);

@@ -58,7 +58,7 @@ struct stringtree* parse_statement_print_source(
 		stringtree_append_printf(tree, "if (!stream)");
 		stringtree_append_printf(tree, "{");
 		stringtree_append_printf(tree, "	fprintf(stderr, \"%%s: error when attemping to "
-			"open '%%s' in %%%%parse directive on line %u!\\n\", argv0, (char*) buffer); ", this->line);
+			"open '%%s' in %%%%parse directive on line %u!\\n\", argv0, (char*) buffer); ", super->line);
 		stringtree_append_printf(tree, "	exit(1);");
 		stringtree_append_printf(tree, "}");
 		
@@ -87,7 +87,7 @@ struct stringtree* parse_statement_print_source(
 		stringtree_append_printf(tree, "if (!path)");
 		stringtree_append_printf(tree, "{");
 		stringtree_append_printf(tree, "	fprintf(stderr, \"\\e[1m%%s:\\e[m expected "
-			"path to be given on the command line for the %%%%parse directive on line %u!\\n\", argv0);", this->line);
+			"path to be given on the command line for the %%%%parse directive on line %u!\\n\", argv0);", super->line);
 		stringtree_append_printf(tree, "	exit(1);");
 		stringtree_append_printf(tree, "}");
 		
@@ -96,7 +96,7 @@ struct stringtree* parse_statement_print_source(
 		stringtree_append_printf(tree, "if (!stream)");
 		stringtree_append_printf(tree, "{");
 		stringtree_append_printf(tree, "	fprintf(stderr, \"\\e[1m%%s:\\e[m error when attemping to "
-			"open '%%s' in %%%%parse directive on line %u: %%m\\n\", argv0, path); ", this->line);
+			"open '%%s' in %%%%parse directive on line %u: %%m\\n\", argv0, path); ", super->line);
 		stringtree_append_printf(tree, "	exit(1);");
 		stringtree_append_printf(tree, "}\n");
 		

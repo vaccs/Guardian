@@ -1,6 +1,0 @@
-bin/release-build/no-verbose/yes-dotout/./expression/range_form/inheritance.o: \
- expression/range_form/inheritance.c debug.h \
- expression/range_form/inheritance.h \
- expression/range_form/../inheritance.h \
- expression/range_form/print_source.h expression/range_form/evaluate.h \
- expression/range_form/print.h expression/range_form/free.h

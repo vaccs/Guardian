@@ -44,7 +44,7 @@ struct stringtree* print_statement_print_source(
 	
 	stringtree_append_printf(tree, ";");
 	
-	stringtree_append_printf(tree, "printf(\"%%%%print: \");");
+	stringtree_append_printf(tree, "printf(\"%%%%print on line %u: \");", super->line);
 	
 	unsigned print_id = function_queue_submit_print(shared->fqueue, this->expression->type);
 	
